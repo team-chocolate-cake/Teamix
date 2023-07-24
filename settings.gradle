@@ -14,3 +14,11 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Teamix"
 include ':app'
+
+include ':domain:usecases'
+include ':domain:entities'
+include ':presentation:ui'
+include ':presentation:viewmodel'
+include ':data:local'
+include ':data:remote'
+include ':data:repository'

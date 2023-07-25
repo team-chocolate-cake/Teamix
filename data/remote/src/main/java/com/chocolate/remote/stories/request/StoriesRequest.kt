@@ -1,3 +1,3 @@
-package com.chocolate.remote.progress_task.request
+package com.chocolate.remote.stories.request
 
 data class StoriesRequest(val request: String = "")

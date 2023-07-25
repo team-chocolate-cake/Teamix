@@ -1,4 +1,4 @@
-package com.chocolate.remote.groups.service
+package com.chocolate.remote.notification.service
 
 interface NotificationService {
 }

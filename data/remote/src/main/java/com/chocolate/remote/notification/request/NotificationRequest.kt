@@ -1,3 +1,3 @@
-package com.chocolate.remote.groups.request
+package com.chocolate.remote.notification.request
 
 data class NotificationRequest(val request: String = "")

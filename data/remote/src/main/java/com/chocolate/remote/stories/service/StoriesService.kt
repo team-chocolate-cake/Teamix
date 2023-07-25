@@ -1,4 +1,4 @@
-package com.chocolate.remote.progress_task.service
+package com.chocolate.remote.stories.service
 
 interface StoriesService {
 }

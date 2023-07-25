@@ -1,3 +1,3 @@
-package com.chocolate.remote.progress_task.response
+package com.chocolate.remote.stories.response
 
 data class StoriesResponse(val response: String = "")

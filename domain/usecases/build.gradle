@@ -10,6 +10,6 @@ java {
 }
 
 dependencies {
-    api(project(Modules.DOMAIN_MODEL))
+    api(project(Modules.ENTITIES_MODEL))
     implementation(DependencyProject.dagger)
 }

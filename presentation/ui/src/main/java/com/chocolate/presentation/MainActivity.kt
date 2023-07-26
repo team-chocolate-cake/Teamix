@@ -1,4 +1,4 @@
-package com.chocolate.teamix
+package com.chocolate.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

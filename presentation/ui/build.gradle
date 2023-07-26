@@ -1,0 +1,65 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
+
+android {
+    namespace 'com.chocolate.presentation'
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 24
+        targetSdk 33
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+}
+
+dependencies {
+    implementation(project(Modules.PRESENTATION_VIEW_MODEL))
+
+    implementation(DependencyProject.androidxCore)
+    testImplementation(DependencyProject.junit)
+    androidTestImplementation(DependencyProject.junitExtension)
+    androidTestImplementation(DependencyProject.espresso)
+    implementation(DependencyProject.constraintLayout)
+
+    implementation(DependencyProject.composeMaterial3)
+    implementation(DependencyProject.activityCompose)
+    implementation(DependencyProject.navigationCompose)
+    implementation(DependencyProject.composeUiTooling)
+    implementation(DependencyProject.composeUi)
+    implementation(DependencyProject.composeJunit)
+    implementation(DependencyProject.composeUiGraphics)
+    implementation(DependencyProject.composeUiPreviewTool)
+    implementation(DependencyProject.composeBom)
+    implementation(DependencyProject.composeTestManifest)
+
+    implementation(DependencyProject.coroutines)
+    implementation(DependencyProject.lifecycleRuntime)
+    implementation(DependencyProject.lifecycleViewModel)
+    implementation(DependencyProject.lifecycleLiveData)
+
+    implementation(DependencyProject.hilt)
+    kapt(DependencyProject.hiltCompiler)
+
+    implementation(DependencyProject.coil)
+
+    implementation(DependencyProject.lottie)
+}

@@ -16,6 +16,7 @@ interface TrendDao {
     fun getTrendById(id: String): TrendsEntity?
 
 
+
     @Delete
     fun deleteSavedTrend(trend: TrendsEntity)
 

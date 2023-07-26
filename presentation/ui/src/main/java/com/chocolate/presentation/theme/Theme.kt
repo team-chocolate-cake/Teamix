@@ -1,4 +1,4 @@
-package com.chocolate.teamix.ui.theme
+package com.chocolate.presentation.theme
 
 import android.annotation.SuppressLint
 import android.app.Activity

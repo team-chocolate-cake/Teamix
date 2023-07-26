@@ -1,4 +1,4 @@
-package com.chocolate.teamix.ui.theme
+package com.chocolate.presentation.theme
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color

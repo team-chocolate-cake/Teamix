@@ -12,5 +12,4 @@ java {
 dependencies {
     api(project(Modules.ENTITIES_MODEL))
     implementation(DependencyProject.dagger)
-    implementation project(path: ':data:remote')
 }

@@ -1,23 +1,19 @@
 package com.chocolate.remote.messages.service
 
-import com.chocolate.remote.messages.request.EditMessageRequest
-import com.chocolate.remote.messages.request.MatchNarrowRequest
-import com.chocolate.remote.messages.request.SendMessageRequest
 import com.chocolate.remote.messages.response.dto.send_message.DefaultMessageRemoteDto
-import com.chocolate.remote.messages.response.dto.send_message.MessagesRemoteDto
-import com.chocolate.remote.messages.response.dto.send_message.SingleMessageRemoteDto
+import com.chocolate.remote.messages.response.dto.send_message.FileRemoteDto
 import com.chocolate.remote.messages.response.dto.send_message.MarkAsReadResponse
 import com.chocolate.remote.messages.response.dto.send_message.MatchNarrowRemoteDto
 import com.chocolate.remote.messages.response.dto.send_message.MessageEditHistoryRemoteDto
 import com.chocolate.remote.messages.response.dto.send_message.MessageReadReceiptsRemoteDto
+import com.chocolate.remote.messages.response.dto.send_message.MessagesRemoteDto
 import com.chocolate.remote.messages.response.dto.send_message.PersonalMessageFlags
 import com.chocolate.remote.messages.response.dto.send_message.PersonalMessageForNarrowRemoteDto
 import com.chocolate.remote.messages.response.dto.send_message.RenderMessageRemoteDto
 import com.chocolate.remote.messages.response.dto.send_message.SendMessageRemoteDto
-import com.chocolate.remote.messages.response.dto.send_message.FileRemoteDto
+import com.chocolate.remote.messages.response.dto.send_message.SingleMessageRemoteDto
 import okhttp3.MultipartBody
 import retrofit2.Response
-import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
@@ -29,17 +25,31 @@ import retrofit2.http.Query
 interface MessageService {
 
     @POST("messages")
-    suspend fun sendStreamMessage(@Body sendMessageRequest: SendMessageRequest): Response<SendMessageRemoteDto>
+    suspend fun sendStreamMessage(
+        @Query("type") type: String,
+        @Query("to") to: Any,
+        @Query("topic") topic: String,
+        @Query("content") content: String,
+        @Query("queue_id") queueId: String?,
+        @Query("local_id") localId: String?,
+    ): Response<SendMessageRemoteDto>
 
     @POST("messages")
-    suspend fun sendDirectMessage(@Body sendMessageRequest: SendMessageRequest): Response<SendMessageRemoteDto>
+    suspend fun sendDirectMessage(
+        @Query("type") type: String,
+        @Query("to") to: Any,
+        @Query("content") content: String,
+        @Query("queue_id") queueId: String?,
+        @Query("local_id") localId: String?,
+    ): Response<SendMessageRemoteDto>
 
     @POST("user_uploads")
     suspend fun uploadFile(@Part file: MultipartBody.Part): Response<FileRemoteDto>
 
     @PATCH("messages/{message_id}")
     suspend fun editMessage(
-        @Body editMessageRequest: EditMessageRequest,
+        @Path("message_id") messageId: Int,
+        @Query("content") content: String,
         @Query("topic") topic: String = "",
         @Query("propagate_mode") propagateMode: String = "change_one",
         @Query("send_notification_to_old_thread") sendNotificationToOldThread: Boolean = false,
@@ -90,7 +100,8 @@ interface MessageService {
 
     @GET("messages/matches_narrow")
     suspend fun checkIfMessagesMatchNarrow(
-        @Body matchNarrowRequest: MatchNarrowRequest
+        @Path("msg_ids") msg_ids: List<Int>,
+        @Path("narrow") narrow: List<Map<String, String>>
     ): Response<MatchNarrowRemoteDto>
 
     @GET("messages/{message_id}/history")

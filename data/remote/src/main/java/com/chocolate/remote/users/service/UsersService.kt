@@ -2,6 +2,7 @@ package com.chocolate.remote.users.service
 
 import com.chocolate.remote.users.request.CreateUserGroupSubgroupRequest
 import com.chocolate.remote.users.request.CreateUserRequest
+import com.chocolate.remote.users.request.SettingsRequest
 import com.chocolate.remote.users.request.StatusUpdate
 import com.chocolate.remote.users.request.StatusUpdateRequest
 import com.chocolate.remote.users.request.TypingStatusRequest
@@ -45,12 +46,17 @@ interface UserService {
 
     @GET("get-user/{id}")
     suspend fun getUserById(
-        @Path("id") id: Int,
-        @Query("include_custom_profile_fields") includeCustomProfileFields: Boolean
+        @Path("user_id") userId: Int,
+        @Query("client_gravatar") clientGravatar: Boolean? = null,
+        @Query("include_custom_profile_fields") includeCustomProfileFields: Boolean? = null
     ): Response<UserDTO>
 
-    @GET("get-user-by-email/{email}")
-    suspend fun getUserByEmail(@Path("email") email: String): Response<UserDTO>
+    @GET("users/{email}")
+    suspend fun getUserByEmail(
+        @Path("email") email: String,
+        @Query("client_gravatar") clientGravatar: Boolean? = null,
+        @Query("include_custom_profile_fields") includeCustomProfileFields: Boolean? = null
+    ): Response<UserDTO>
 
     @PATCH("users/{id}")
     suspend fun updateUserById(
@@ -92,7 +98,7 @@ interface UserService {
     suspend fun deleteAttachment(@Path("attachment_id") attachmentId: Int): Response<ResponseStateDTO>
 
     @PATCH("settings")
-    suspend fun updateSettings(@Body settings: UserSettingsDTO): Response<UserSettingsDTO>
+    suspend fun updateSettings(@Body settings: SettingsRequest): Response<UserSettingsDTO>
 
     @GET("user-groups")
     suspend fun getUserGroups(): Response<List<UserGroupsDTO>>

@@ -1,9 +1,9 @@
 package com.chocolate.remote.users.request
 
 data class UpdateInfo(
-    val full_name: String? = null,
+    val fullName: String? = null,
     val role: Int? = null,
-    val profile_data: List<ProfileData>? = null
+    val profileData: List<ProfileData>? = null
 )
 
 data class ProfileData(

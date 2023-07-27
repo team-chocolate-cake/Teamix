@@ -6,7 +6,7 @@ interface ServerAndOrganizationsRepository {
     suspend fun getServiceSettings()
     suspend fun getLinkifiers()
     suspend fun addLinkifiers(pattern: String, url: String)
-    suspend fun updateLinkifiers(filterId: Int, pattern: String, url: String)
+    suspend fun updateLinkifiers(pattern: String, url: String)
     suspend fun deleteLinkifier(filterId: Int)
     suspend fun addCodePlayGround(name: String, language: String, url: String)
     suspend fun deleteCodePlayGround(playGRound: Int)

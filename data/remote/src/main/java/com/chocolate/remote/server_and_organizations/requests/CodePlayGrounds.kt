@@ -1,4 +1,4 @@
-package com.chocolate.remote.server_and_organizations.service
+package com.chocolate.remote.server_and_organizations.requests
 
 import com.google.gson.annotations.SerializedName
 

@@ -60,11 +60,7 @@ interface UserService {
 
     @POST("users/me/status")
     suspend fun updateUserStatus(
-        @Body statusUpdate: StatusUpdate
-    ): Response<ResponseStateDTO>
-
-    @POST("users/me/status")
-    suspend fun updateUserStatus(@Body request: StatusUpdateRequest): Response<ResponseStateDTO>
+        @Body request: StatusUpdateRequest): Response<ResponseStateDTO>
 
     @POST("create-user")
     suspend fun createUser(@Body user: CreateUserRequest): Response<CreateUserDTO>

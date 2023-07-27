@@ -35,8 +35,8 @@ interface MessagesRepository {
     suspend fun getMessages(
         anchor: String?,
         includeAnchor: Boolean = true,
-        numBefore: Int,
-        numAfter: Int,
+        numberBefore: Int,
+        numberAfter: Int,
         narrow: List<String>?,
         clientGravatar: Boolean = true,
         applyMarkdown: Boolean = true
@@ -66,7 +66,7 @@ interface MessagesRepository {
     )
 
     suspend fun checkIfMessagesMatchNarrow(
-        msgIds: List<Int>,
+        messageIds: List<Int>,
         narrow: List<NarrowItemEntity>
     )
 

@@ -1,7 +1,5 @@
 package repositories.messages
 
-import com.chocolate.entities.messages.NarrowItemEntity
-
 interface MessagesRepository {
 
     suspend fun sendStreamMessage(
@@ -67,7 +65,7 @@ interface MessagesRepository {
 
     suspend fun checkIfMessagesMatchNarrow(
         messageIds: List<Int>,
-        narrow: List<NarrowItemEntity>
+        narrow: List<Map<String, String>>
     )
 
     suspend fun getMessagesEditHistory(

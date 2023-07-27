@@ -3,8 +3,6 @@ package com.chocolate.remote.messages.service
 import com.chocolate.remote.messages.request.EditMessageRequest
 import com.chocolate.remote.messages.request.MatchNarrowRequest
 import com.chocolate.remote.messages.request.SendMessageRequest
-import com.chocolate.remote.messages.request.UpdateMessageFlagsNarrowRequest
-import com.chocolate.remote.messages.request.UpdateMessageFlagsRequest
 import com.chocolate.remote.messages.response.dto.send_message.DefaultMessageRemoteDto
 import com.chocolate.remote.messages.response.dto.send_message.MessagesRemoteDto
 import com.chocolate.remote.messages.response.dto.send_message.SingleMessageRemoteDto
@@ -17,12 +15,14 @@ import com.chocolate.remote.messages.response.dto.send_message.PersonalMessageFo
 import com.chocolate.remote.messages.response.dto.send_message.RenderMessageRemoteDto
 import com.chocolate.remote.messages.response.dto.send_message.SendMessageRemoteDto
 import com.chocolate.remote.messages.response.dto.send_message.FileRemoteDto
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -35,7 +35,7 @@ interface MessageService {
     suspend fun sendDirectMessage(@Body sendMessageRequest: SendMessageRequest): Response<SendMessageRemoteDto>
 
     @POST("user_uploads")
-    suspend fun uploadFile(@Body sendMessageRequest: SendMessageRequest): Response<FileRemoteDto>
+    suspend fun uploadFile(@Part file: MultipartBody.Part): Response<FileRemoteDto>
 
     @PATCH("messages/{message_id}")
     suspend fun editMessage(
@@ -100,7 +100,9 @@ interface MessageService {
 
     @POST("messages/flags")
     suspend fun updateMessageFlags(
-        @Body updateMessageFlagsRequest: UpdateMessageFlagsRequest
+        @Query("messages") messages: List<Int>,
+        @Query("op") op: String,
+        @Query("flag") flag: String,
     ): Response<PersonalMessageFlags>
 
     @POST("messages/flags/narrow")
@@ -108,7 +110,10 @@ interface MessageService {
         @Query("anchor") anchor: String,
         @Query("num_before") numBefore: Int,
         @Query("num_after") numAfter: Int,
-        @Body updateMessageFlagsNarrowRequest: UpdateMessageFlagsNarrowRequest
+        @Query("include_anchor") includeAnchor: Boolean = true,
+        @Query("narrow") narrow: List<Map<String, String>>,
+        @Query("op") op: String,
+        @Query("flag") flag: String
     ): Response<PersonalMessageForNarrowRemoteDto>
 
     @POST("mark_all_as_read")

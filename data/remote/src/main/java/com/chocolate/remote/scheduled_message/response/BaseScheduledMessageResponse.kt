@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class BaseScheduledMessageResponse(
     @SerializedName("msg")
-    val msg: String,
+    val message: String,
     @SerializedName("result")
     val result: String,
     @SerializedName("code")

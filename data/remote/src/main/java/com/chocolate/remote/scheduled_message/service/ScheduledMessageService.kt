@@ -22,10 +22,10 @@ interface ScheduledMessageService {
         @Query("scheduled_delivery_timestamp") scheduledDeliveryTimestamp : Int,
     ): BaseScheduledMessageResponse
 
-    @PATCH("scheduled_messages")
+    @PATCH("scheduled_messages/{scheduled_message_id}")
     fun editScheduledMessage(@Path("scheduled_message_id ") id: Int): BaseScheduledMessageResponse
 
-    @DELETE("scheduled_messages")
+    @DELETE("scheduled_messages/{scheduled_message_id}")
     fun deleteScheduledMessage(@Path("scheduled_message_id ") id: Int): BaseScheduledMessageResponse
 
 }

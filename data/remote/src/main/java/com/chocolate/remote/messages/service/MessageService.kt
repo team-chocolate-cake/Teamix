@@ -67,7 +67,7 @@ interface MessageService {
         @Query("include_anchor") includeAnchor: Boolean = true,
         @Query("num_before") numBefore: Int,
         @Query("num_after") numAfter: Int,
-        @Query("narrow") narrow: List<String>?,
+        @Query("narrow") narrow: List<String>? = null,
         @Query("client_gravatar") clientGravatar: Boolean = true,
         @Query("apply_markdown") applyMarkdown: Boolean = true
     ): Response<MessagesRemoteDto>

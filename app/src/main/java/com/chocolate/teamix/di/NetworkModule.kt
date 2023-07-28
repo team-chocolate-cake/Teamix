@@ -6,7 +6,7 @@ import com.chocolate.remote.messages.service.MessageService
 import com.chocolate.remote.scheduled_message.service.ScheduledMessageService
 import com.chocolate.remote.server_and_organizations.service.OrganizationService
 import com.chocolate.remote.users.service.UserService
-import com.chocolate.repository.AuthInterceptor
+import com.chocolate.remote.AuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

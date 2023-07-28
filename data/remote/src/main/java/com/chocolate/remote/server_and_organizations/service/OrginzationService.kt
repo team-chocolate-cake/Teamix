@@ -5,7 +5,7 @@ import com.chocolate.remote.server_and_organizations.requests.CodePlayGrounds
 import com.chocolate.remote.server_and_organizations.requests.ProfileFieldOrder
 import com.chocolate.remote.server_and_organizations.requests.ProfileFieldRequest
 import com.chocolate.remote.server_and_organizations.response.AddLinkifiersOrCodePlayGroundDto
-import com.chocolate.remote.server_and_organizations.response.CustomEmoji
+import com.chocolate.remote.server_and_organizations.response.CustomEmojiDto
 import com.chocolate.remote.server_and_organizations.response.CustomProfileFieldsDto
 import com.chocolate.remote.server_and_organizations.response.LinkifiersDto
 import com.chocolate.remote.server_and_organizations.response.ServerSettingsDto
@@ -30,10 +30,10 @@ interface OrganizationService {
     suspend fun AddLinkifiers(@Body addLinkifiers: AddLinkifiers): AddLinkifiersOrCodePlayGroundDto
 
     @PATCH("realm/filters/{filter_id}")
-    suspend fun updateLinkifiers(filterId: Int, @Body updateLinkifiers: AddLinkifiers)
+    suspend fun updateLinkifiers(filterId: Int, @Body updateLinkifiers: AddLinkifiers):UpdateOrRemove
 
     @DELETE("filters/{filter_id}")
-    suspend fun deleteLinkifiers(@Path("filter_id") filterId: Int)
+    suspend fun deleteLinkifiers(@Path("filter_id") filterId: Int):UpdateOrRemove
 
     @POST("realm/playgrounds")
     suspend fun addCodePlayGround(@Body codePlayGrounds: CodePlayGrounds): AddLinkifiersOrCodePlayGroundDto
@@ -42,21 +42,21 @@ interface OrganizationService {
     suspend fun deleteCodePlayGround(@Path("playground_id") playGroundId: Int)
 
     @GET("realm/emoji")
-    suspend fun getAllCustomEmojis(): CustomEmoji
+    suspend fun getAllCustomEmojis(): CustomEmojiDto
 
     @POST("realm/emoji/{emoji_name}")
-    suspend fun addCustomEmoji(@Path("emoji_name") emojiName: String)
+    suspend fun addCustomEmoji(@Path("emoji_name") emojiName: String):UpdateOrRemove
 
-    @DELETE("emoji/{emoji_name}")
-    suspend fun deactivateCustomEmoji(emojiName: String)
+    @DELETE("realm/emoji/{emoji_name}")
+    suspend fun deactivateCustomEmoji(emojiName: String):UpdateOrRemove
 
-    @GET("profile_fields")
+    @GET("realm/profile_fields")
     suspend fun getAllCustomProfileFields(): CustomProfileFieldsDto
 
-    @PATCH("profile_fields")
+    @PATCH("realm/profile_fields")
     suspend fun reorderCustomProfileFields(@Body profileFieldOrder: ProfileFieldOrder): UpdateOrRemove
 
-    @POST("profile_fields")
+    @POST("realm/profile_fields")
     suspend fun createCustomProfileField(@Body profileFieldRequest: ProfileFieldRequest): AddLinkifiersOrCodePlayGroundDto
 
 

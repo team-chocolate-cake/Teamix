@@ -1,5 +1,6 @@
 package com.chocolate.remote.messages.service
 
+import com.chocolate.remote.messages.request.NarrowQuery
 import com.chocolate.remote.messages.response.dto.send_message.DefaultMessageRemoteDto
 import com.chocolate.remote.messages.response.dto.send_message.FileRemoteDto
 import com.chocolate.remote.messages.response.dto.send_message.MarkAsReadResponse
@@ -30,17 +31,18 @@ interface MessageService {
         @Query("to") to: Any,
         @Query("topic") topic: String,
         @Query("content") content: String,
-        @Query("queue_id") queueId: String?,
-        @Query("local_id") localId: String?,
+        @Query("queue_id") queueId: String? = null,
+        @Query("local_id") localId: String? = null,
     ): Response<SendMessageRemoteDto>
 
     @POST("messages")
     suspend fun sendDirectMessage(
         @Query("type") type: String,
         @Query("to") to: Any,
+        @Query("topic") topic: String? = null,
         @Query("content") content: String,
-        @Query("queue_id") queueId: String?,
-        @Query("local_id") localId: String?,
+        @Query("queue_id") queueId: String? = null,
+        @Query("local_id") localId: String? = null,
     ): Response<SendMessageRemoteDto>
 
     @POST("user_uploads")
@@ -50,7 +52,7 @@ interface MessageService {
     suspend fun editMessage(
         @Path("message_id") messageId: Int,
         @Query("content") content: String,
-        @Query("topic") topic: String = "",
+        @Query("topic") topic: String? = null,
         @Query("propagate_mode") propagateMode: String = "change_one",
         @Query("send_notification_to_old_thread") sendNotificationToOldThread: Boolean = false,
         @Query("send_notification_to_new_thread") sendNotificationToNewThread: Boolean = true
@@ -58,7 +60,7 @@ interface MessageService {
 
     @DELETE("messages/{message_id}")
     suspend fun deleteMessage(
-        @Query("message_id") message_id: Int
+        @Path("message_id") message_id: Int
     ): Response<DefaultMessageRemoteDto>
 
     @GET("messages")
@@ -76,16 +78,16 @@ interface MessageService {
     suspend fun addEmojiReaction(
         @Path("message_id") messageId: Int,
         @Query("emoji_name") emojiName: String,
-        @Query("emoji_code") emojiCode: String?,
-        @Query("reaction_type") reactionType: String?
+        @Query("emoji_code") emojiCode: String? = null,
+        @Query("reaction_type") reactionType: String = "unicode_emoji"
     ): Response<DefaultMessageRemoteDto>
 
     @DELETE("messages/{message_id}/reactions")
     suspend fun deleteEmojiReaction(
         @Path("message_id") messageId: Int,
         @Query("emoji_name") emojiName: String,
-        @Query("emoji_code") emojiCode: String?,
-        @Query("reaction_type") reactionType: String?
+        @Query("emoji_code") emojiCode: String? = null,
+        @Query("reaction_type") reactionType: String = "unicode_emoji"
     ): Response<DefaultMessageRemoteDto>
 
     @POST("messages/render")
@@ -95,13 +97,14 @@ interface MessageService {
 
     @GET("messages/{message_id}")
     suspend fun fetchSingleMessage(
-        @Path("message_id") messageId: Int
+        @Path("message_id") messageId: Int,
+        @Query("apply_markdown") applyMarkdown: Boolean = true
     ): Response<SingleMessageRemoteDto>
 
     @GET("messages/matches_narrow")
     suspend fun checkIfMessagesMatchNarrow(
-        @Path("msg_ids") msg_ids: List<Int>,
-        @Path("narrow") narrow: List<Map<String, String>>
+        @Query("msg_ids") msg_ids: List<Int>,
+        @Query("narrow") narrow: NarrowQuery
     ): Response<MatchNarrowRemoteDto>
 
     @GET("messages/{message_id}/history")

@@ -1,12 +1,12 @@
 package repositories.scheduled_message
 
 interface ScheduledMessageRepository {
-    fun getScheduledMessages()
+    suspend fun getScheduledMessages()
 
-    fun createScheduledMessage()
+    suspend fun createScheduledMessage()
 
-    fun editScheduledMessage()
+    suspend fun editScheduledMessage()
 
-    fun deleteScheduledMessage()
+    suspend fun deleteScheduledMessage()
 
 }

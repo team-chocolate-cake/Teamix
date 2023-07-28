@@ -1,11 +1,11 @@
 package repositories.draft
 
 interface DraftRepository {
-    fun getDrafts()
+    suspend fun getDrafts()
 
-    fun createDraft()
+    suspend fun createDraft()
 
-    fun editDraft()
+    suspend fun editDraft()
 
-    fun deleteDraft()
+    suspend fun deleteDraft()
 }

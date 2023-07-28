@@ -2,6 +2,7 @@ package com.chocolate.remote.drafts.service
 
 import com.chocolate.remote.drafts.dto.DraftsDto
 import com.chocolate.remote.drafts.response.BaseDraftResponse
+import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
@@ -12,7 +13,7 @@ import retrofit2.http.Query
 interface DraftService {
 
     @GET("drafts")
-    fun getDrafts(): DraftsDto
+    fun getDrafts(): Response<DraftsDto>
 
     @POST("drafts")
     fun createDraft(
@@ -20,7 +21,7 @@ interface DraftService {
         @Query("to") to: List<Int>,
         @Query("topic") topic: String,
         @Query("content") content: String
-    ) : BaseDraftResponse
+    ) : Response<BaseDraftResponse>
 
     @PATCH("drafts/{draft_id}")
     fun editDraft(
@@ -29,9 +30,9 @@ interface DraftService {
         @Query("to") to: List<Int>,
         @Query("topic") topic: String,
         @Query("content") content: String,
-    ): BaseDraftResponse
+    ): Response<BaseDraftResponse>
 
     @DELETE("drafts/{draft_id}")
-    fun deleteDraft(@Path("draft_id") id: Int): BaseDraftResponse
+    fun deleteDraft(@Path("draft_id") id: Int): Response<BaseDraftResponse>
 
 }

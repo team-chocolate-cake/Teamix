@@ -46,6 +46,4 @@ abstract class RepositoryModule {
     @ViewModelScoped
     abstract fun bindServerAndOrganizationsRepository(serverAndOrganizationsRepositoryImpl: ServerAndOrganizationsRepositoryImpl): ServerAndOrganizationsRepository
 
-
-
 }

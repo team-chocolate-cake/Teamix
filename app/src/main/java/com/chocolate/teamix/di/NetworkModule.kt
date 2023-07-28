@@ -78,6 +78,4 @@ object NetworkModule {
     fun provideOrganizationService(retrofit: Retrofit): OrganizationService =
         retrofit.create(OrganizationService::class.java)
 
-
-
 }

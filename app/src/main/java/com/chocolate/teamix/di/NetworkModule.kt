@@ -6,6 +6,7 @@ import com.chocolate.remote.messages.service.MessageService
 import com.chocolate.remote.scheduled_message.service.ScheduledMessageService
 import com.chocolate.remote.server_and_organizations.service.OrganizationService
 import com.chocolate.remote.users.service.UserService
+import com.chocolate.repository.AuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,11 +24,13 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor
+        loggingInterceptor: HttpLoggingInterceptor,
+        authInterceptor: AuthInterceptor
     ): OkHttpClient =
         OkHttpClient
             .Builder()
             .addInterceptor(loggingInterceptor)
+            .addInterceptor(authInterceptor)
             .build()
 
     @Provides

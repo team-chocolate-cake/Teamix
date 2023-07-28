@@ -86,4 +86,5 @@ dependencies {
     implementation (DependencyProject.roomRuntime)
     annotationProcessor (DependencyProject.roomCompiler)
     kapt (DependencyProject.room)
+    implementation(DependencyProject.dataStore)
 }

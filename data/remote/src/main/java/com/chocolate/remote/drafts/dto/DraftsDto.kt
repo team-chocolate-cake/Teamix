@@ -9,7 +9,7 @@ data class DraftsDto(
     @SerializedName("drafts")
     val drafts: List<DraftDto>,
     @SerializedName("msg")
-    val msg: String,
+    val message: String,
     @SerializedName("result")
     val result: String
 )

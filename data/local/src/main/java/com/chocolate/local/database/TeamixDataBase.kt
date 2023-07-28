@@ -22,8 +22,8 @@ import com.chocolate.local.entities.users.StoriesEntity
     GroupsEntity::class,
     ChatEntity::class], version = 1)
 abstract class TeamixDataBase : RoomDatabase() {
-    abstract fun draftDao(): DraftDao
-    abstract fun streamDao(): StreamDao
-    abstract fun trendDao(): TrendDao
-    abstract fun userDao(): UserDao
+    abstract val draftDao: DraftDao
+    abstract val streamDao: StreamDao
+    abstract val trendDao: TrendDao
+    abstract val userDao: UserDao
 }

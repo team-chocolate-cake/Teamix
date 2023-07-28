@@ -13,10 +13,10 @@ import retrofit2.http.Query
 interface ScheduledMessageService {
 
     @GET("scheduled_messages")
-    fun getScheduledMessages(): Response<ScheduledMessagesDto>
+    suspend fun getScheduledMessages(): Response<ScheduledMessagesDto>
 
     @POST("scheduled_messages")
-    fun createScheduledMessage(
+    suspend fun createScheduledMessage(
         @Query("type") type: String,
         @Query("to") to: List<Int>,
         @Query("content") content: String,
@@ -24,11 +24,11 @@ interface ScheduledMessageService {
     ): Response<BaseScheduledMessageResponse>
 
     @PATCH("scheduled_messages/{scheduled_message_id}")
-    fun editScheduledMessage(@Path("scheduled_message_id ") id: Int):
+    suspend fun editScheduledMessage(@Path("scheduled_message_id ") id: Int):
             Response<BaseScheduledMessageResponse>
 
     @DELETE("scheduled_messages/{scheduled_message_id}")
-    fun deleteScheduledMessage(@Path("scheduled_message_id ") id: Int):
+    suspend fun deleteScheduledMessage(@Path("scheduled_message_id ") id: Int):
             Response<BaseScheduledMessageResponse>
 
 }

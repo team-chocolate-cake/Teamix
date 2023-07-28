@@ -1,15 +1,6 @@
 package com.chocolate.teamix.di
 
-import com.chocolate.remote.call.service.CallService
 import com.chocolate.remote.channels.service.ChannelsService
-import com.chocolate.remote.chat.service.ChatService
-import com.chocolate.remote.groups.service.GroupsService
-import com.chocolate.remote.live_text.service.LiveTextService
-import com.chocolate.remote.meet.service.MeetService
-import com.chocolate.remote.notification.service.NotificationService
-import com.chocolate.remote.progress_task.service.ProgressTaskService
-import com.chocolate.remote.stories.service.StoriesService
-import com.chocolate.remote.trends.service.TrendsService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,11 +16,19 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(): OkHttpClient =
+    fun provideOkHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor
+    ): OkHttpClient =
         OkHttpClient
             .Builder()
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .addInterceptor(loggingInterceptor)
             .build()
+
+    @Provides
+    @Singleton
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor{
+        return HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
+    }
 
     @Singleton
     @Provides
@@ -46,8 +45,8 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideCallService(retrofit: Retrofit): CallService =
-        retrofit.create(CallService::class.java)
+    fun provideDraftService(retrofit: Retrofit): DraftService =
+        retrofit.create(DraftService::class.java)
 
     @Singleton
     @Provides
@@ -56,42 +55,24 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideChatService(retrofit: Retrofit): ChatService =
-        retrofit.create(ChatService::class.java)
+    fun provideMessageService(retrofit: Retrofit): MessageService =
+        retrofit.create(MessageService::class.java)
 
     @Singleton
     @Provides
-    fun provideGroupsService(retrofit: Retrofit): GroupsService =
-        retrofit.create(GroupsService::class.java)
+    fun provideScheduledMessageService(retrofit: Retrofit): ScheduledMessageService =
+        retrofit.create(ScheduledMessageService::class.java)
 
     @Singleton
     @Provides
-    fun provideLiveTextService(retrofit: Retrofit): LiveTextService =
-        retrofit.create(LiveTextService::class.java)
+    fun provideUserService(retrofit: Retrofit): UserService =
+        retrofit.create(UserService::class.java)
 
     @Singleton
     @Provides
-    fun provideMeetService(retrofit: Retrofit): MeetService =
-        retrofit.create(MeetService::class.java)
+    fun provideOrganizationService(retrofit: Retrofit): OrganizationService =
+        retrofit.create(OrganizationService::class.java)
 
-    @Singleton
-    @Provides
-    fun provideNotificationService(retrofit: Retrofit): NotificationService =
-        retrofit.create(NotificationService::class.java)
 
-    @Singleton
-    @Provides
-    fun provideProgressTaskService(retrofit: Retrofit): ProgressTaskService =
-        retrofit.create(ProgressTaskService::class.java)
-
-    @Singleton
-    @Provides
-    fun provideStoriesService(retrofit: Retrofit): StoriesService =
-        retrofit.create(StoriesService::class.java)
-
-    @Singleton
-    @Provides
-    fun provideTrendsService(retrofit: Retrofit): TrendsService =
-        retrofit.create(TrendsService::class.java)
 
 }

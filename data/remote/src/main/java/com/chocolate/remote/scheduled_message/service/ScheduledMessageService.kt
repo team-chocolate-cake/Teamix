@@ -2,7 +2,9 @@ package com.chocolate.remote.scheduled_message.service
 
 import com.chocolate.remote.scheduled_message.dto.ScheduledMessagesDto
 import com.chocolate.remote.scheduled_message.response.BaseScheduledMessageResponse
+import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -20,10 +22,10 @@ interface ScheduledMessageService {
         @Query("scheduled_delivery_timestamp") scheduledDeliveryTimestamp : Int,
     ): BaseScheduledMessageResponse
 
-    @POST("scheduled_messages")
+    @PATCH("scheduled_messages")
     fun editScheduledMessage(@Path("scheduled_message_id ") id: Int): BaseScheduledMessageResponse
 
-    @POST("scheduled_messages")
+    @DELETE("scheduled_messages")
     fun deleteScheduledMessage(@Path("scheduled_message_id ") id: Int): BaseScheduledMessageResponse
 
 }

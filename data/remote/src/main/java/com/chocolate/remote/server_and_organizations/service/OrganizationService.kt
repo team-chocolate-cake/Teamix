@@ -9,7 +9,7 @@ import com.chocolate.remote.server_and_organizations.response.CustomEmojiDto
 import com.chocolate.remote.server_and_organizations.response.CustomProfileFieldsDto
 import com.chocolate.remote.server_and_organizations.response.LinkifiersDto
 import com.chocolate.remote.server_and_organizations.response.ServerSettingsDto
-import com.chocolate.remote.server_and_organizations.response.UpdateOrRemove
+import com.chocolate.remote.server_and_organizations.response.UpdateOrRemoveDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -34,33 +34,33 @@ interface OrganizationService {
     suspend fun updateLinkifiers(
         filterId: Int,
         @Body updateLinkifiers: AddLinkifiers
-    ): Response<UpdateOrRemove>
+    ): Response<UpdateOrRemoveDto>
 
     @DELETE("filters/{filter_id}")
-    suspend fun deleteLinkifiers(@Path("filter_id") filterId: Int): Response<UpdateOrRemove>
+    suspend fun deleteLinkifiers(@Path("filter_id") filterId: Int): Response<UpdateOrRemoveDto>
 
     @POST("realm/playgrounds")
     suspend fun addCodePlayGround(@Body codePlayGrounds: CodePlayGrounds):
             Response<AddLinkifiersOrCodePlayGroundDto>
 
     @DELETE("realm/playgrounds/{playground_id}")
-    suspend fun deleteCodePlayground(@Path("playground_id") playGroundId: Int)
+    suspend fun deleteCodePlayground(@Path("playground_id") playGroundId: Int): Response<UpdateOrRemoveDto>
 
     @GET("realm/emoji")
     suspend fun getAllCustomEmojis(): Response<CustomEmojiDto>
 
     @POST("realm/emoji/{emoji_name}")
-    suspend fun addCustomEmoji(@Path("emoji_name") emojiName: String): Response<UpdateOrRemove>
+    suspend fun addCustomEmoji(@Path("emoji_name") emojiName: String): Response<UpdateOrRemoveDto>
 
     @DELETE("realm/emoji/{emoji_name}")
-    suspend fun deactivateCustomEmoji(emojiName: String): Response<UpdateOrRemove>
+    suspend fun deactivateCustomEmoji(emojiName: String): Response<UpdateOrRemoveDto>
 
     @GET("realm/profile_fields")
     suspend fun getAllCustomProfileFields(): Response<CustomProfileFieldsDto>
 
     @PATCH("realm/profile_fields")
     suspend fun reorderCustomProfileFields(@Body profileFieldOrder: ProfileFieldOrder):
-            Response<UpdateOrRemove>
+            Response<UpdateOrRemoveDto>
 
     @POST("realm/profile_fields")
     suspend fun createCustomProfileField(@Body profileFieldRequest: ProfileFieldRequest):

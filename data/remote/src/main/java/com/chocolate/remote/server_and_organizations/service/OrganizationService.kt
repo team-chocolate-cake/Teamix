@@ -1,15 +1,13 @@
 package com.chocolate.remote.server_and_organizations.service
 
-import com.chocolate.remote.server_and_organizations.requests.AddLinkifiers
-import com.chocolate.remote.server_and_organizations.requests.CodePlayGrounds
-import com.chocolate.remote.server_and_organizations.requests.ProfileFieldOrder
-import com.chocolate.remote.server_and_organizations.requests.ProfileFieldRequest
+import com.chocolate.remote.server_and_organizations.requests.UserSettingsDefaultsRequest
 import com.chocolate.remote.server_and_organizations.response.AddLinkifiersOrCodePlayGroundDto
 import com.chocolate.remote.server_and_organizations.response.CustomEmojiDto
 import com.chocolate.remote.server_and_organizations.response.CustomProfileFieldsDto
 import com.chocolate.remote.server_and_organizations.response.LinkifiersDto
 import com.chocolate.remote.server_and_organizations.response.ServerSettingsDto
 import com.chocolate.remote.server_and_organizations.response.UpdateOrRemoveDto
+import com.chocolate.remote.server_and_organizations.response.UserSettingsDefaultsDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -31,15 +29,13 @@ interface OrganizationService {
     suspend fun addLinkifiers(
         @Query("pattern") pattern: String,
         @Query("url_template") url: String
-    ):
-            Response<AddLinkifiersOrCodePlayGroundDto>
+    ): Response<AddLinkifiersOrCodePlayGroundDto>
 
     @PATCH("realm/filters/{filter_id}")
     suspend fun updateLinkifiers(
         @Path("filter_id") filterId: Int,
         @Query("pattern") pattern: String,
         @Query("url_template") url: String
-
     ): Response<UpdateOrRemoveDto>
 
     @DELETE("filters/{filter_id}")
@@ -62,14 +58,14 @@ interface OrganizationService {
     suspend fun addCustomEmoji(@Path("emoji_name") emojiName: String): Response<UpdateOrRemoveDto>
 
     @DELETE("realm/emoji/{emoji_name}")
-    suspend fun deactivateCustomEmoji(emojiName: String): Response<UpdateOrRemoveDto>
+    suspend fun deactivateCustomEmoji(@Path("emoji_name") emojiName: String): Response<UpdateOrRemoveDto>
 
     @GET("realm/profile_fields")
     suspend fun getAllCustomProfileFields(): Response<CustomProfileFieldsDto>
 
     @PATCH("realm/profile_fields")
     suspend fun reorderCustomProfileFields(
-        @Query("order") order: List<Int>
+        @Query("order") order: String
     ): Response<UpdateOrRemoveDto>
 
     @POST("realm/profile_fields")
@@ -78,5 +74,10 @@ interface OrganizationService {
         @Query("hint") hint: String = "",
         @Query("field_type") fieldType: Int,
     ): Response<AddLinkifiersOrCodePlayGroundDto>
+
+    @PATCH("realm/user_settings_defaults")
+    suspend fun updateUserSettingsDefaults(
+        @Body request: UserSettingsDefaultsRequest
+    ): Response<UserSettingsDefaultsDto>
 
 }

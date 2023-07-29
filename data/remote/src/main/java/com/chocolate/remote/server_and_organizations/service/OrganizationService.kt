@@ -1,11 +1,11 @@
 package com.chocolate.remote.server_and_organizations.service
 
-import com.chocolate.remote.server_and_organizations.response.AddLinkifiersOrCodePlayGroundDto
-import com.chocolate.remote.server_and_organizations.response.CustomEmojiDto
-import com.chocolate.remote.server_and_organizations.response.CustomProfileFieldsDto
-import com.chocolate.remote.server_and_organizations.response.LinkifiersDto
-import com.chocolate.remote.server_and_organizations.response.ServerSettingsDto
-import com.chocolate.remote.server_and_organizations.response.UpdateOrRemoveDto
+import com.chocolate.repository.dto.server_and_organizations.response.AddLinkifiersOrCodePlayGroundDto
+import com.chocolate.repository.dto.server_and_organizations.response.CustomEmojiDto
+import com.chocolate.repository.dto.server_and_organizations.response.CustomProfileFieldsDto
+import com.chocolate.repository.dto.server_and_organizations.response.LinkifiersDto
+import com.chocolate.repository.dto.server_and_organizations.response.ServerSettingsDto
+import com.chocolate.repository.dto.server_and_organizations.response.UpdateOrRemoveDto
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET

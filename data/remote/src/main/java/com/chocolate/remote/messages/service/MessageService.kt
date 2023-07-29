@@ -100,8 +100,8 @@ interface MessageService {
 
     @GET("messages/matches_narrow")
     suspend fun checkIfMessagesMatchNarrow(
-        @Path("msg_ids") msg_ids: List<Int>,
-        @Path("narrow") narrow: List<Map<String, String>>
+        @Query("msg_ids") msg_ids: String,
+        @Query("narrow") narrow: String
     ): Response<MatchNarrowRemoteDto>
 
     @GET("messages/{message_id}/history")
@@ -122,7 +122,7 @@ interface MessageService {
         @Query("num_before") numBefore: Int,
         @Query("num_after") numAfter: Int,
         @Query("include_anchor") includeAnchor: Boolean = true,
-        @Query("narrow") narrow: List<Map<String, String>>,
+        @Query("narrow") narrow: String,
         @Query("op") op: String,
         @Query("flag") flag: String
     ): Response<PersonalMessageForNarrowRemoteDto>

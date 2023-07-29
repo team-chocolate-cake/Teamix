@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class ScheduledMessagesDto(
     @SerializedName("msg")
-    val message: String,
+    val message: String?,
     @SerializedName("result")
-    val result: String,
+    val result: String?,
     @SerializedName("scheduled_messages")
-    val scheduledMessages: List<ScheduledMessageDto>
+    val scheduledMessages: List<ScheduledMessageContentDto?>?
 )

@@ -1,37 +1,24 @@
 package com.chocolate.remote.users.service
 
 
-
-import com.chocolate.remote.users.request.AlertWordsRequestDTO
-import com.chocolate.remote.users.request.CreateUserGroupSubgroupRequest
-import com.chocolate.remote.users.request.CreateUserRequest
-import com.chocolate.remote.users.request.ProfileData
-import com.chocolate.remote.users.request.SettingsRequest
-import com.chocolate.remote.users.request.StatusUpdate
-import com.chocolate.remote.users.request.StatusUpdateRequest
-import com.chocolate.remote.users.request.TypingStatusRequest
-import com.chocolate.remote.users.request.UpdateInfo
-import com.chocolate.remote.users.request.UpdateUserGroupMembersRequest
-import com.chocolate.remote.users.request.UserGroupCreationRequest
-import com.chocolate.remote.users.request.UserGroupUpdateRequest
-import com.chocolate.remote.users.response.AlertWordsDTO
-import com.chocolate.remote.users.response.CreateUserDTO
-import com.chocolate.remote.users.response.MuteUserResponseDTO
-import com.chocolate.remote.users.response.OwnerUserDTO
-import com.chocolate.remote.users.response.ResponseStateDTO
-import com.chocolate.remote.users.response.SubgroupsOfUserGroupDTO
-import com.chocolate.remote.users.response.UserAttachmentsDTO
-import com.chocolate.remote.users.response.UserGroupMembersDTO
-import com.chocolate.remote.users.response.UserGroupsDTO
-import com.chocolate.remote.users.response.UserMembershipStateDTO
-import com.chocolate.remote.users.response.UserDTO
-import com.chocolate.remote.users.response.UserGroupMembershipsDTO
-import com.chocolate.remote.users.response.UserSettingsDTO
-import com.chocolate.remote.users.response.UserStateDTO
-import com.chocolate.remote.users.response.UsersDTO
-import com.chocolate.remote.users.response.UsersStateDTO
+import com.chocolate.repository.dto.users.request.ProfileData
+import com.chocolate.repository.dto.users.request.SettingsRequest
+import com.chocolate.repository.dto.users.response.AlertWordsDTO
+import com.chocolate.repository.dto.users.response.CreateUserDTO
+import com.chocolate.repository.dto.users.response.MuteUserResponseDTO
+import com.chocolate.repository.dto.users.response.OwnerUserDTO
+import com.chocolate.repository.dto.users.response.ResponseStateDTO
+import com.chocolate.repository.dto.users.response.SubgroupsOfUserGroupDTO
+import com.chocolate.repository.dto.users.response.UserAttachmentsDTO
+import com.chocolate.repository.dto.users.response.UserDTO
+import com.chocolate.repository.dto.users.response.UserGroupMembershipsDTO
+import com.chocolate.repository.dto.users.response.UserGroupsDTO
+import com.chocolate.repository.dto.users.response.UserMembershipStateDTO
+import com.chocolate.repository.dto.users.response.UserSettingsDTO
+import com.chocolate.repository.dto.users.response.UserStateDTO
+import com.chocolate.repository.dto.users.response.UsersDTO
+import com.chocolate.repository.dto.users.response.UsersStateDTO
 import retrofit2.Response
-import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
@@ -39,7 +26,6 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
-
 
 interface UserService {
     @GET("users")

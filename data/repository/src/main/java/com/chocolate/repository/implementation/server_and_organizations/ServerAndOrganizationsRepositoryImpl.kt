@@ -1,8 +1,12 @@
-package com.chocolate.repository.server_and_organizations
+package com.chocolate.repository.implementation.server_and_organizations
 
+import com.chocolate.repository.service.IOrganizationService
 import repositories.server_and_organizations.ServerAndOrganizationsRepository
+import javax.inject.Inject
 
-class ServerAndOrganizationsRepositoryImpl: ServerAndOrganizationsRepository {
+class ServerAndOrganizationsRepositoryImpl @Inject constructor(
+    private val organizationService: IOrganizationService
+): ServerAndOrganizationsRepository {
     override suspend fun getServiceSettings() {
         TODO("Not yet implemented")
     }

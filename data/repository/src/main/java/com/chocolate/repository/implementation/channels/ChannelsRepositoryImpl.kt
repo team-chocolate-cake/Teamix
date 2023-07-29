@@ -1,11 +1,11 @@
-package com.chocolate.repository.channels
+package com.chocolate.repository.implementation.channels
 
-import com.chocolate.remote.channels.service.ChannelsService
+import com.chocolate.repository.service.IChannelsService
 import repositories.channels.ChannelsRepository
 import javax.inject.Inject
 
 class ChannelsRepositoryImpl @Inject constructor(
-    private val apiService: ChannelsService,
+    private val apiService: IChannelsService,
 ) : ChannelsRepository {
     override suspend fun getSubscribed() {}
 

@@ -13,7 +13,7 @@ data class Message(
     @SerializedName("content_type")
     val contentType: String?,
     @SerializedName("display_recipient")
-    val displayRecipient: List<DisplayRecipient?>?,
+    val displayRecipient: Any?,
     @SerializedName("flags")
     val flags: List<String?>?,
     @SerializedName("id")

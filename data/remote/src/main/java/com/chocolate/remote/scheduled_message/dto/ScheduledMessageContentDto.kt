@@ -3,21 +3,21 @@ package com.chocolate.remote.scheduled_message.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class ScheduledMessageDto(
+data class ScheduledMessageContentDto(
     @SerializedName("content")
-    val content: String,
+    val content: String?,
     @SerializedName("failed")
-    val failed: Boolean,
+    val failed: Boolean?,
     @SerializedName("rendered_content")
-    val renderedContent: String,
+    val renderedContent: String?,
     @SerializedName("scheduled_delivery_timestamp")
-    val scheduledDeliveryTimestamp: Int,
+    val scheduledDeliveryTimestamp: Int?,
     @SerializedName("scheduled_message_id")
-    val scheduledMessageId: Int,
+    val scheduledMessageId: Int?,
     @SerializedName("to")
-    val to: Int,
+    val to: List<Int>?,
     @SerializedName("topic")
-    val topic: String,
+    val topic: String?,
     @SerializedName("type")
-    val type: String
+    val type: String?
 )

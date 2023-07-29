@@ -1,4 +1,4 @@
-package com.chocolate.remote.messages.response.dto.send_message
+package com.chocolate.repository.dto.message.response
 
 
 import com.google.gson.annotations.SerializedName

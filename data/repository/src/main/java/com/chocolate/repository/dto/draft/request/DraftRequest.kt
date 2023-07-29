@@ -1,4 +1,4 @@
-package com.chocolate.remote.drafts.request
+package com.chocolate.repository.dto.draft.request
 
 data class DraftRequest(
     val id: Int? = null,

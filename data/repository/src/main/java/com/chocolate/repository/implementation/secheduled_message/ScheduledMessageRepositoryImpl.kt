@@ -1,8 +1,12 @@
-package com.chocolate.repository.secheduled_message
+package com.chocolate.repository.implementation.secheduled_message
 
+import com.chocolate.repository.service.IScheduledMessageService
 import repositories.scheduled_message.ScheduledMessageRepository
+import javax.inject.Inject
 
-class ScheduledMessageRepositoryImpl: ScheduledMessageRepository {
+class ScheduledMessageRepositoryImpl @Inject constructor(
+    private val scheduledMessageService: IScheduledMessageService
+): ScheduledMessageRepository {
     override suspend fun getScheduledMessages() {
         TODO("Not yet implemented")
     }

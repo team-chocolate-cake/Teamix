@@ -20,7 +20,7 @@ object DataBaseModule {
 
     @Singleton
     @Provides
-    fun providesMovieDatabase(
+    fun providesTeamixDatabase(
         @ApplicationContext context: Context,
     ): TeamixDataBase {
         return Room.databaseBuilder(

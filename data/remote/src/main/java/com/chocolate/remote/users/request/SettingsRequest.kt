@@ -3,10 +3,10 @@ package com.chocolate.remote.users.request
 import com.google.gson.annotations.SerializedName
 
 data class SettingsRequest(
-    @SerializedName("offline_notifications")
+    @SerializedName("enable_offline_push_notifications")
     val offlineNotifications: Boolean,
-    @SerializedName("online_notifications")
+    @SerializedName("enable_online_push_notifications")
     val onlineNotifications: Boolean,
-    @SerializedName("emoji_set")
+    @SerializedName("emojiset")
     val emojiSet: String
 )

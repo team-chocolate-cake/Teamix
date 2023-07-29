@@ -28,7 +28,7 @@ interface ChannelsService {
 
     @POST("users/me/subscriptions")
     suspend fun addSubscribesToStream(
-        @Body subscribeToStream: List<SubscribeToStream>,
+        @Query("subscriptions") subscribeToStream: String,
         @Query("principals") principals: List<String>? = null,
         @Query("authorization_errors_fatal") authorizationErrorsFatal: Boolean? = null,
         @Query("announce") announce: Boolean? = null,
@@ -42,7 +42,7 @@ interface ChannelsService {
 
     @DELETE("users/me/subscriptions")
     suspend fun deleteSubscriberFromStream(
-        @Query("subscriptions") subscriptions: List<String>,
+        @Query("subscriptions") subscriptions: String,
         @Query("principals") principals: List<String>? = null,
     ): Response<UnsubscribeFromStreamDto>
 
@@ -59,7 +59,7 @@ interface ChannelsService {
 
     @POST("users/me/subscriptions/properties")
     suspend fun updateSubscriptionSettings(
-        @Body subscriptionData: List<SubscriptionSettings>
+        @Query("subscription_data") subscriptionData: String
     ): Response<SubscriptionSettingsDto>
 
     @GET("streams")

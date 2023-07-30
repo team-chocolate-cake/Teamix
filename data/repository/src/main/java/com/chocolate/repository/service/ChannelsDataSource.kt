@@ -13,7 +13,7 @@ import com.chocolate.repository.dto.channels.response.TopicsInStreamDto
 import com.chocolate.repository.dto.channels.response.UnsubscribeFromStreamDto
 import retrofit2.Response
 
-interface IChannelsService {
+interface ChannelsDataSource {
     suspend fun getSubscribedStreams(includeSubscribers: Boolean? = null): Response<SubscribedStreamDto>
 
     suspend fun addSubscribesToStream(

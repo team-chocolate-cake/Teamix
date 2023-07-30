@@ -12,12 +12,12 @@ import com.chocolate.repository.dto.channels.response.SubscriptionSettingsDto
 import com.chocolate.repository.dto.channels.response.SubscriptionStatusDto
 import com.chocolate.repository.dto.channels.response.TopicsInStreamDto
 import com.chocolate.repository.dto.channels.response.UnsubscribeFromStreamDto
-import com.chocolate.repository.service.IChannelsService
+import com.chocolate.repository.service.ChannelsDataSource
 import retrofit2.Response
 
 class ChannelsImpl(
     private val channelsService: ChannelsService
-): IChannelsService {
+): ChannelsDataSource {
     override suspend fun getSubscribedStreams(includeSubscribers: Boolean?): Response<SubscribedStreamDto> {
         TODO("Not yet implemented")
     }

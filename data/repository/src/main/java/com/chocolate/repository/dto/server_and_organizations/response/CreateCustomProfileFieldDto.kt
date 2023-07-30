@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class CreateCustomProfileFieldDto(
     @SerializedName("id")
-    val id: Int,
+    val id: Int?,
     @SerializedName("msg")
-    val msg: String,
+    val msg: String?,
     @SerializedName("result")
-    val result: String
+    val result: String?
 )

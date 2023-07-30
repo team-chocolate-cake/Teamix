@@ -4,7 +4,7 @@ import com.chocolate.repository.dto.draft.response.BaseDraftResponse
 import com.chocolate.repository.dto.draft.response.DraftsDto
 import retrofit2.Response
 
-interface IDraftService {
+interface DraftMessageDataSource {
 
     suspend fun getDrafts(): Response<DraftsDto>
 

@@ -3,12 +3,12 @@ package com.chocolate.remote.drafts
 import com.chocolate.remote.drafts.service.DraftService
 import com.chocolate.repository.dto.draft.response.BaseDraftResponse
 import com.chocolate.repository.dto.draft.response.DraftsDto
-import com.chocolate.repository.service.IDraftService
+import com.chocolate.repository.service.DraftMessageDataSource
 import retrofit2.Response
 
 class DraftsMessagesImpl(
     private val draftService: DraftService
-): IDraftService {
+): DraftMessageDataSource {
     override suspend fun getDrafts(): Response<DraftsDto> {
         TODO("Not yet implemented")
     }

@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class UpdateRealmLevelDefaultsOfUserSettingsDto(
     @SerializedName("ignored_parameters_unsupported")
-    val ignoredParametersUnsupported: List<String>,
+    val ignoredParametersUnsupported: List<String>?,
     @SerializedName("msg")
-    val msg: String,
+    val msg: String?,
     @SerializedName("result")
-    val result: String
+    val result: String?
 )

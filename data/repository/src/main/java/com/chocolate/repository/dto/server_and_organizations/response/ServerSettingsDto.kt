@@ -5,55 +5,55 @@ import com.google.gson.annotations.SerializedName
 
 data class ServerSettingsDto(
     @SerializedName("authentication_methods")
-    val authenticationMethods: AuthenticationMethods,
+    val authenticationMethods: AuthenticationMethods?,
     @SerializedName("email_auth_enabled")
-    val emailAuthEnabled: Boolean,
+    val emailAuthEnabled: Boolean?,
     @SerializedName("external_authentication_methods")
-    val externalAuthenticationMethods: List<ExternalAuthenticationMethod>,
+    val externalAuthenticationMethods: List<ExternalAuthenticationMethod>?,
     @SerializedName("is_incompatible")
-    val isIncompatible: Boolean,
+    val isIncompatible: Boolean?,
     @SerializedName("msg")
-    val msg: String,
+    val msg: String?,
     @SerializedName("push_notifications_enabled")
-    val pushNotificationsEnabled: Boolean,
+    val pushNotificationsEnabled: Boolean?,
     @SerializedName("realm_description")
-    val realmDescription: String,
+    val realmDescription: String?,
     @SerializedName("realm_icon")
-    val realmIcon: String,
+    val realmIcon: String?,
     @SerializedName("realm_name")
-    val realmName: String,
+    val realmName: String?,
     @SerializedName("realm_uri")
-    val realmUri: String,
+    val realmUri: String?,
     @SerializedName("realm_web_public_access_enabled")
-    val realmWebPublicAccessEnabled: Boolean,
+    val realmWebPublicAccessEnabled: Boolean?,
     @SerializedName("require_email_format_usernames")
-    val requireEmailFormatUsernames: Boolean,
+    val requireEmailFormatUsernames: Boolean?,
     @SerializedName("result")
-    val result: String,
+    val result: String?,
     @SerializedName("zulip_merge_base")
-    val zulipMergeBase: String,
+    val zulipMergeBase: String?,
     @SerializedName("zulip_version")
-    val zulipVersion: String
+    val zulipVersion: String?
 ) {
     data class AuthenticationMethods(
         @SerializedName("azuread")
-        val azuread: Boolean,
+        val azuread: Boolean?,
         @SerializedName("dev")
-        val dev: Boolean,
+        val dev: Boolean?,
         @SerializedName("email")
-        val email: Boolean,
+        val email: Boolean?,
         @SerializedName("github")
-        val github: Boolean,
+        val github: Boolean?,
         @SerializedName("google")
-        val google: Boolean,
+        val google: Boolean?,
         @SerializedName("ldap")
-        val ldap: Boolean,
+        val ldap: Boolean?,
         @SerializedName("password")
-        val password: Boolean,
+        val password: Boolean?,
         @SerializedName("remoteuser")
-        val remoteuser: Boolean,
+        val remoteuser: Boolean?,
         @SerializedName("saml")
-        val saml: Boolean
+        val saml: Boolean?
     )
 
     data class ExternalAuthenticationMethod(

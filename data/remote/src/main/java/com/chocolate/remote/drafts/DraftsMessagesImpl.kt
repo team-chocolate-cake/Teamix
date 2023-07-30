@@ -6,7 +6,7 @@ import com.chocolate.repository.dto.draft.response.DraftsDto
 import com.chocolate.repository.service.IDraftService
 import retrofit2.Response
 
-class DraftsImpl(
+class DraftsMessagesImpl(
     private val draftService: DraftService
 ): IDraftService {
     override suspend fun getDrafts(): Response<DraftsDto> {

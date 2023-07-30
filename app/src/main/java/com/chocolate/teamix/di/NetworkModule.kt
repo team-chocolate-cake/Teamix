@@ -3,7 +3,7 @@ package com.chocolate.teamix.di
 import com.chocolate.remote.AuthInterceptor
 import com.chocolate.remote.channels.ChannelsImpl
 import com.chocolate.remote.channels.service.ChannelsService
-import com.chocolate.remote.drafts.DraftsImpl
+import com.chocolate.remote.drafts.DraftsMessagesImpl
 import com.chocolate.remote.drafts.service.DraftService
 import com.chocolate.remote.messages.MessagesImpl
 import com.chocolate.remote.messages.service.MessageService
@@ -111,7 +111,7 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideDraftsMessage(draftService: DraftService): IDraftService {
-        return DraftsImpl(draftService)
+        return DraftsMessagesImpl(draftService)
     }
 
 

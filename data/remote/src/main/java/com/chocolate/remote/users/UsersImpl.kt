@@ -26,8 +26,8 @@ class UsersImpl @Inject constructor(
     private val userService: UsersService
 ): UsersDataSource {
     override suspend fun getAllUsers(
-        clientGravatar: Boolean?,
-        includeCustomProfileFields: Boolean?
+        clientGravatar: Boolean,
+        includeCustomProfileFields: Boolean
     ): Response<UsersDTO> {
         TODO("Not yet implemented")
     }
@@ -38,16 +38,16 @@ class UsersImpl @Inject constructor(
 
     override suspend fun getUserById(
         userId: Int,
-        clientGravatar: Boolean?,
-        includeCustomProfileFields: Boolean?
+        clientGravatar: Boolean,
+        includeCustomProfileFields: Boolean
     ): Response<UserDTO> {
         TODO("Not yet implemented")
     }
 
     override suspend fun getUserByEmail(
         email: String,
-        clientGravatar: Boolean?,
-        includeCustomProfileFields: Boolean?
+        clientGravatar: Boolean,
+        includeCustomProfileFields: Boolean
     ): Response<UserDTO> {
         TODO("Not yet implemented")
     }

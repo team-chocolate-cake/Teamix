@@ -30,8 +30,8 @@ import retrofit2.http.Query
 interface UsersService {
     @GET("users")
     suspend fun getAllUsers(
-        @Query("client_gravatar") clientGravatar: Boolean? = null,
-        @Query("include_custom_profile_fields") includeCustomProfileFields: Boolean? = null
+        @Query("client_gravatar") clientGravatar: Boolean = true,
+        @Query("include_custom_profile_fields") includeCustomProfileFields: Boolean = false
     ): Response<UsersDTO>
 
 
@@ -41,15 +41,15 @@ interface UsersService {
     @GET("users/{id}")
     suspend fun getUserById(
         @Path("id") userId: Int,
-        @Query("client_gravatar") clientGravatar: Boolean? = null,
-        @Query("include_custom_profile_fields") includeCustomProfileFields: Boolean? = null
+        @Query("client_gravatar") clientGravatar: Boolean = true,
+        @Query("include_custom_profile_fields") includeCustomProfileFields: Boolean = false
     ): Response<UserDTO>
 
     @GET("users/{email}")
     suspend fun getUserByEmail(
         @Path("email") email: String,
-        @Query("client_gravatar") clientGravatar: Boolean? = null,
-        @Query("include_custom_profile_fields") includeCustomProfileFields: Boolean? = null
+        @Query("client_gravatar") clientGravatar: Boolean = true,
+        @Query("include_custom_profile_fields") includeCustomProfileFields: Boolean = false
     ): Response<UserDTO>
 
     @PATCH("users/{id}")

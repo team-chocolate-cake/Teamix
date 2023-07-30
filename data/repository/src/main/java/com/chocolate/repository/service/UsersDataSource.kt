@@ -22,22 +22,22 @@ import retrofit2.Response
 
 interface UsersDataSource {
     suspend fun getAllUsers(
-        clientGravatar: Boolean? = null,
-        includeCustomProfileFields: Boolean? = null
+        clientGravatar: Boolean = true,
+        includeCustomProfileFields: Boolean = false
     ): Response<UsersDTO>
 
     suspend fun getOwnUser(): Response<OwnerUserDTO>
 
     suspend fun getUserById(
         userId: Int,
-        clientGravatar: Boolean? = null,
-        includeCustomProfileFields: Boolean? = null
+        clientGravatar: Boolean = true,
+        includeCustomProfileFields: Boolean = false
     ): Response<UserDTO>
 
     suspend fun getUserByEmail(
         email: String,
-        clientGravatar: Boolean? = null,
-        includeCustomProfileFields: Boolean? = null
+        clientGravatar: Boolean = true,
+        includeCustomProfileFields: Boolean = false
     ): Response<UserDTO>
 
     suspend fun updateUserById(

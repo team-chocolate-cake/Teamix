@@ -5,18 +5,18 @@ import com.google.gson.annotations.SerializedName
 
 data class LinkifiersDto(
     @SerializedName("linkifiers")
-    val linkifiers: List<Linkifier>,
+    val linkifiers: List<Linkifier>?,
     @SerializedName("msg")
-    val msg: String,
+    val msg: String?,
     @SerializedName("result")
-    val result: String
+    val result: String?
 ) {
     data class Linkifier(
         @SerializedName("id")
-        val id: Int,
+        val id: Int?,
         @SerializedName("pattern")
-        val pattern: String,
+        val pattern: String?,
         @SerializedName("url_template")
-        val urlTemplate: String
+        val urlTemplate: String?
     )
 }

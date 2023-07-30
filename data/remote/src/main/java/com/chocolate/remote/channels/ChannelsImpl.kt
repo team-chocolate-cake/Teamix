@@ -19,7 +19,7 @@ import javax.inject.Inject
 class ChannelsImpl @Inject constructor(
     private val channelsService: ChannelsService
 ): ChannelsDataSource {
-    override suspend fun getSubscribedStreams(includeSubscribers: Boolean): Response<SubscribedStreamDto> {
+    override suspend fun getUserSubscriptions(includeSubscribers: Boolean): Response<SubscribedStreamDto> {
         TODO("Not yet implemented")
     }
 

@@ -1,7 +1,7 @@
 package repositories.channels
 
 interface ChannelsRepository {
-    suspend fun getSubscribed()
+    suspend fun getUserSubscriptions()
     suspend fun addSubscribes()
     suspend fun deleteSubscriber()
     suspend fun getSubscriptionStatus()

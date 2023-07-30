@@ -12,13 +12,13 @@ import com.chocolate.remote.scheduled_message.service.ScheduledMessageService
 import com.chocolate.remote.server_and_organizations.OrganizationsImpl
 import com.chocolate.remote.server_and_organizations.service.OrganizationService
 import com.chocolate.remote.users.UsersImpl
-import com.chocolate.remote.users.service.UserService
+import com.chocolate.remote.users.service.UsersService
 import com.chocolate.repository.service.IChannelsService
 import com.chocolate.repository.service.IDraftService
 import com.chocolate.repository.service.IMessageService
 import com.chocolate.repository.service.IOrganizationService
 import com.chocolate.repository.service.IScheduledMessageService
-import com.chocolate.repository.service.IUserService
+import com.chocolate.repository.service.IUsersService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -86,8 +86,8 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideUserService(retrofit: Retrofit): UserService =
-        retrofit.create(UserService::class.java)
+    fun provideUserService(retrofit: Retrofit): UsersService =
+        retrofit.create(UsersService::class.java)
 
     @Singleton
     @Provides
@@ -131,8 +131,8 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideUsers(userService: UserService): IUserService {
-        return UsersImpl(userService)
+    fun provideUsers(usersService: UsersService): IUsersService {
+        return UsersImpl(usersService)
     }
 
 }

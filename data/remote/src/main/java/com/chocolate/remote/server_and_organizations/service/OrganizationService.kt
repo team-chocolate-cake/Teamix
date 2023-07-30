@@ -17,7 +17,7 @@ import retrofit2.http.Query
 interface OrganizationService {
 
     @GET("server_settings")
-    suspend fun getServiceSettings(): Response<ServerSettingsDto>
+    suspend fun getServerSettings(): Response<ServerSettingsDto>
 
     @GET("realm/linkifiers")
     suspend fun getLinkifiers(): Response<LinkifiersDto>

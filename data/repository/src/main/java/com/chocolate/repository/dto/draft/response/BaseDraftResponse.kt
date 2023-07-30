@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName
 
 data class BaseDraftResponse(
     @SerializedName("ids")
-    val ids: List<Int>,
+    val ids: List<Int>?,
     @SerializedName("code")
-    val code: String,
+    val code: String?,
     @SerializedName("msg")
-    val message: String,
+    val message: String?,
     @SerializedName("result")
-    val result: String
+    val result: String?
 )

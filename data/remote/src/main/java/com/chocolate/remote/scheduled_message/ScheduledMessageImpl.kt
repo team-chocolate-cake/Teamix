@@ -3,12 +3,12 @@ package com.chocolate.remote.scheduled_message
 import com.chocolate.remote.scheduled_message.service.ScheduledMessageService
 import com.chocolate.repository.dto.scheduled_message.response.BaseScheduledMessageResponse
 import com.chocolate.repository.dto.scheduled_message.response.ScheduledMessagesDto
-import com.chocolate.repository.service.IScheduledMessageService
+import com.chocolate.repository.service.ScheduledMessageDataSource
 import retrofit2.Response
 
 class ScheduledMessageImpl(
     private val scheduledMessageService: ScheduledMessageService
-): IScheduledMessageService {
+): ScheduledMessageDataSource {
     override suspend fun getScheduledMessages(): Response<ScheduledMessagesDto> {
         TODO("Not yet implemented")
     }

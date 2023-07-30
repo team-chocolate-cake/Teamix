@@ -4,7 +4,7 @@ import com.chocolate.repository.dto.scheduled_message.response.BaseScheduledMess
 import com.chocolate.repository.dto.scheduled_message.response.ScheduledMessagesDto
 import retrofit2.Response
 
-interface IScheduledMessageService {
+interface ScheduledMessageDataSource {
 
     suspend fun getScheduledMessages(): Response<ScheduledMessagesDto>
 

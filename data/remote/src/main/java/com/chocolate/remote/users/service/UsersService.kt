@@ -16,7 +16,7 @@ import com.chocolate.repository.dto.users.response.UserGroupsDTO
 import com.chocolate.repository.dto.users.response.UserMembershipStateDTO
 import com.chocolate.repository.dto.users.response.UserSettingsDTO
 import com.chocolate.repository.dto.users.response.UserStateDTO
-import com.chocolate.repository.dto.users.response.UsersDTO
+import com.chocolate.repository.dto.users.response.UsersDto
 import com.chocolate.repository.dto.users.response.UsersStateDTO
 import retrofit2.Response
 import retrofit2.http.DELETE
@@ -32,7 +32,7 @@ interface UsersService {
     suspend fun getAllUsers(
         @Query("client_gravatar") clientGravatar: Boolean = true,
         @Query("include_custom_profile_fields") includeCustomProfileFields: Boolean = false
-    ): Response<UsersDTO>
+    ): Response<UsersDto>
 
 
     @GET("users/me")

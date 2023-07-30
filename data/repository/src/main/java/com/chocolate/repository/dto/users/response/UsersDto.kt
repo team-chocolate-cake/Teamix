@@ -2,16 +2,16 @@ package com.chocolate.repository.dto.users.response
 
 import com.google.gson.annotations.SerializedName
 
-data class UsersDTO(
+data class UsersDto(
     @SerializedName("members")
-    val members: List<UserDTO>,
+    val members: List<UserDto>,
     @SerializedName("msg")
     val msg: String,
     @SerializedName("result")
     val result: String
 ){
 
-    data class UserDTO(
+    data class UserDto(
         @SerializedName("avatar_url")
         val avatarUrl: String,
         @SerializedName("avatar_version")

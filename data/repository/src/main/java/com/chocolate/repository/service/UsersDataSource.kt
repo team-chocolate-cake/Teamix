@@ -16,7 +16,7 @@ import com.chocolate.repository.dto.users.response.UserGroupsDTO
 import com.chocolate.repository.dto.users.response.UserMembershipStateDTO
 import com.chocolate.repository.dto.users.response.UserSettingsDTO
 import com.chocolate.repository.dto.users.response.UserStateDTO
-import com.chocolate.repository.dto.users.response.UsersDTO
+import com.chocolate.repository.dto.users.response.UsersDto
 import com.chocolate.repository.dto.users.response.UsersStateDTO
 import retrofit2.Response
 
@@ -24,7 +24,7 @@ interface UsersDataSource {
     suspend fun getAllUsers(
         clientGravatar: Boolean = true,
         includeCustomProfileFields: Boolean = false
-    ): Response<UsersDTO>
+    ): Response<UsersDto>
 
     suspend fun getOwnUser(): Response<OwnerUserDTO>
 

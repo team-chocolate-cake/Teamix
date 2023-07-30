@@ -19,24 +19,25 @@ import javax.inject.Inject
 class ChannelsImpl @Inject constructor(
     private val channelsService: ChannelsService
 ): ChannelsDataSource {
-    override suspend fun getSubscribedStreams(includeSubscribers: Boolean?): Response<SubscribedStreamDto> {
+    override suspend fun getSubscribedStreams(includeSubscribers: Boolean): Response<SubscribedStreamDto> {
         TODO("Not yet implemented")
     }
 
     override suspend fun addSubscribesToStream(
         subscribeToStream: String,
         principals: List<String>?,
-        authorizationErrorsFatal: Boolean?,
-        announce: Boolean?,
-        inviteOnly: Boolean?,
-        isWebPublic: Boolean?,
-        historyPublicToSubscribers: Boolean?,
+        authorizationErrorsFatal: Boolean,
+        announce: Boolean,
+        inviteOnly: Boolean,
+        isWebPublic: Boolean,
+        historyPublicToSubscribers: Boolean,
         streamPostPolicy: Int?,
         messageRetentionDays: String?,
         canRemoveSubscribersGroupId: Int?
     ): Response<SubscribeToStreamDto> {
         TODO("Not yet implemented")
     }
+
 
     override suspend fun deleteSubscriberFromStream(
         subscriptions: String,
@@ -61,12 +62,12 @@ class ChannelsImpl @Inject constructor(
     }
 
     override suspend fun getAllStreams(
-        includePublic: Boolean?,
-        includeWebPublic: Boolean?,
-        includeSubscribed: Boolean?,
-        includeAllActive: Boolean?,
-        includeDefault: Boolean?,
-        includeOwnerSubscribed: Boolean?
+        includePublic: Boolean,
+        includeWebPublic: Boolean,
+        includeSubscribed: Boolean,
+        includeAllActive: Boolean,
+        includeDefault: Boolean,
+        includeOwnerSubscribed: Boolean
     ): Response<AllStreamsDto> {
         TODO("Not yet implemented")
     }

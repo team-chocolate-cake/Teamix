@@ -14,16 +14,16 @@ import com.chocolate.repository.dto.channels.response.UnsubscribeFromStreamDto
 import retrofit2.Response
 
 interface ChannelsDataSource {
-    suspend fun getSubscribedStreams(includeSubscribers: Boolean? = null): Response<SubscribedStreamDto>
+    suspend fun getSubscribedStreams(includeSubscribers: Boolean = false): Response<SubscribedStreamDto>
 
     suspend fun addSubscribesToStream(
         subscribeToStream: String,
         principals: List<String>? = null,
-        authorizationErrorsFatal: Boolean? = null,
-        announce: Boolean? = null,
-        inviteOnly: Boolean? = null,
-        isWebPublic: Boolean? = null,
-        historyPublicToSubscribers: Boolean? = null,
+        authorizationErrorsFatal: Boolean = true,
+        announce: Boolean = false,
+        inviteOnly: Boolean = false,
+        isWebPublic: Boolean = false,
+        historyPublicToSubscribers: Boolean = false,
         streamPostPolicy: Int? = null,
         messageRetentionDays: String? = null,
         canRemoveSubscribersGroupId: Int? = null,
@@ -46,12 +46,12 @@ interface ChannelsDataSource {
     ): Response<SubscriptionSettingsDto>
 
     suspend fun getAllStreams(
-        includePublic: Boolean? = null,
-        includeWebPublic: Boolean? = null,
-        includeSubscribed: Boolean? = null,
-        includeAllActive: Boolean? = null,
-        includeDefault: Boolean? = null,
-        includeOwnerSubscribed: Boolean? = null,
+        includePublic: Boolean = true,
+        includeWebPublic: Boolean = false,
+        includeSubscribed: Boolean = true,
+        includeAllActive: Boolean = false,
+        includeDefault: Boolean = false,
+        includeOwnerSubscribed: Boolean = false,
     ): Response<AllStreamsDto>
 
     suspend fun getStreamById(

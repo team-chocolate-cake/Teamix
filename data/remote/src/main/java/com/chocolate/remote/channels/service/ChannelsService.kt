@@ -21,17 +21,17 @@ import retrofit2.http.Query
 
 interface ChannelsService {
     @GET("users/me/subscriptions")
-    suspend fun getSubscribedStreams(@Query("include_subscribers") includeSubscribers: Boolean? = false): Response<SubscribedStreamDto>
+    suspend fun getSubscribedStreams(@Query("include_subscribers") includeSubscribers: Boolean = false): Response<SubscribedStreamDto>
 
     @POST("users/me/subscriptions")
     suspend fun addSubscribesToStream(
         @Query("subscriptions") subscribeToStream: String,
         @Query("principals") principals: List<String>? = null,
-        @Query("authorization_errors_fatal") authorizationErrorsFatal: Boolean? = null,
-        @Query("announce") announce: Boolean? = false,
-        @Query("invite_only") inviteOnly: Boolean? = false,
-        @Query("is_web_public") isWebPublic: Boolean? = false,
-        @Query("history_public_to_subscribers") historyPublicToSubscribers: Boolean? = false,
+        @Query("authorization_errors_fatal") authorizationErrorsFatal: Boolean = true,
+        @Query("announce") announce: Boolean = false,
+        @Query("invite_only") inviteOnly: Boolean = false,
+        @Query("is_web_public") isWebPublic: Boolean = false,
+        @Query("history_public_to_subscribers") historyPublicToSubscribers: Boolean = false,
         @Query("stream_post_policy") streamPostPolicy: Int? = null,
         @Query("message_retention_days") messageRetentionDays: String? = null,
         @Query("can_remove_subscribers_group_id") canRemoveSubscribersGroupId: Int? = null,
@@ -61,12 +61,12 @@ interface ChannelsService {
 
     @GET("streams")
     suspend fun getAllStreams(
-        @Query("include_public") includePublic: Boolean? = true,
-        @Query("include_web_public") includeWebPublic: Boolean? = false,
-        @Query("include_subscribed") includeSubscribed: Boolean? = true,
-        @Query("include_all_active") includeAllActive: Boolean? = false,
-        @Query("include_default") includeDefault: Boolean? = false,
-        @Query("include_owner_subscribed") includeOwnerSubscribed: Boolean? = false,
+        @Query("include_public") includePublic: Boolean = true,
+        @Query("include_web_public") includeWebPublic: Boolean = false,
+        @Query("include_subscribed") includeSubscribed: Boolean = true,
+        @Query("include_all_active") includeAllActive: Boolean = false,
+        @Query("include_default") includeDefault: Boolean = false,
+        @Query("include_owner_subscribed") includeOwnerSubscribed: Boolean = false,
     ): Response<AllStreamsDto>
 
     @GET("streams/{stream_id}")

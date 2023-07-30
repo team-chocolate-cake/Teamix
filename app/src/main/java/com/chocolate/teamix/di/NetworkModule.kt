@@ -110,7 +110,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideDrafts(draftService: DraftService): IDraftService {
+    fun provideDraftsMessage(draftService: DraftService): IDraftService {
         return DraftsImpl(draftService)
     }
 

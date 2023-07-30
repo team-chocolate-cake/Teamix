@@ -18,12 +18,12 @@ import com.chocolate.repository.dto.users.response.UserSettingsDTO
 import com.chocolate.repository.dto.users.response.UserStateDTO
 import com.chocolate.repository.dto.users.response.UsersDTO
 import com.chocolate.repository.dto.users.response.UsersStateDTO
-import com.chocolate.repository.service.IUsersService
+import com.chocolate.repository.service.UsersDataSource
 import retrofit2.Response
 
 class UsersImpl(
     private val userService: UsersService
-): IUsersService {
+): UsersDataSource {
     override suspend fun getAllUsers(
         clientGravatar: Boolean?,
         includeCustomProfileFields: Boolean?

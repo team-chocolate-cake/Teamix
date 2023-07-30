@@ -1,11 +1,11 @@
 package com.chocolate.repository.implementation.messages
 
-import com.chocolate.repository.service.IMessageService
+import com.chocolate.repository.service.MessagesDataSource
 import repositories.messages.MessagesRepository
 import javax.inject.Inject
 
 class MessagesRepositoryImpl @Inject constructor(
-    private val messageService: IMessageService
+    private val messageService: MessagesDataSource
 ): MessagesRepository{
     override suspend fun sendStreamMessage(
         type: String,

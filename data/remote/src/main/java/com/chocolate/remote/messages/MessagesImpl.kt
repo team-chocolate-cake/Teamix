@@ -13,13 +13,13 @@ import com.chocolate.repository.dto.message.response.PersonalMessageForNarrowRem
 import com.chocolate.repository.dto.message.response.RenderMessageRemoteDto
 import com.chocolate.repository.dto.message.response.SendMessageRemoteDto
 import com.chocolate.repository.dto.message.response.SingleMessageRemoteDto
-import com.chocolate.repository.service.IMessageService
+import com.chocolate.repository.service.MessagesDataSource
 import okhttp3.MultipartBody
 import retrofit2.Response
 
 class MessagesImpl(
     private val messageService: MessageService
-): IMessageService {
+): MessagesDataSource {
     override suspend fun sendStreamMessage(
         type: String,
         to: Any,

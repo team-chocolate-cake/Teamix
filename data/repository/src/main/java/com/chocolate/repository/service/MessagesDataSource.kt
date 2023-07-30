@@ -15,7 +15,7 @@ import com.chocolate.repository.dto.message.response.SingleMessageRemoteDto
 import okhttp3.MultipartBody
 import retrofit2.Response
 
-interface IMessageService {
+interface MessagesDataSource {
 
     suspend fun sendStreamMessage(
         type: String,

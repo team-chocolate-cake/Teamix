@@ -39,7 +39,7 @@ interface IChannelsService {
         streamId: Int,
     ): Response<SubscriptionStatusDto>
 
-    suspend fun getAllSubscriber(streamId: Int): Response<AllSubscribersDto>
+    suspend fun getAllSubscribers(streamId: Int): Response<AllSubscribersDto>
 
     suspend fun updateSubscriptionSettings(
         subscriptionData: String

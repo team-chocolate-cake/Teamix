@@ -51,7 +51,7 @@ class ChannelsImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getAllSubscriber(streamId: Int): Response<AllSubscribersDto> {
+    override suspend fun getAllSubscribers(streamId: Int): Response<AllSubscribersDto> {
         TODO("Not yet implemented")
     }
 

@@ -8,7 +8,7 @@ import com.chocolate.repository.dto.server_and_organizations.response.ServerSett
 import com.chocolate.repository.dto.server_and_organizations.response.UpdateOrRemoveDto
 import retrofit2.Response
 
-interface IOrganizationService {
+interface OrganizationDataSource {
 
     suspend fun getServiceSettings(): Response<ServerSettingsDto>
 

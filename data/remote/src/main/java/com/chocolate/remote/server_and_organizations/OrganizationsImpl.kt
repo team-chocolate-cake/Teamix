@@ -7,12 +7,12 @@ import com.chocolate.repository.dto.server_and_organizations.response.CustomProf
 import com.chocolate.repository.dto.server_and_organizations.response.LinkifiersDto
 import com.chocolate.repository.dto.server_and_organizations.response.ServerSettingsDto
 import com.chocolate.repository.dto.server_and_organizations.response.UpdateOrRemoveDto
-import com.chocolate.repository.service.IOrganizationService
+import com.chocolate.repository.service.OrganizationDataSource
 import retrofit2.Response
 
 class OrganizationsImpl(
     private val organizationService: OrganizationService
-): IOrganizationService {
+): OrganizationDataSource {
     override suspend fun getServiceSettings(): Response<ServerSettingsDto> {
         TODO("Not yet implemented")
     }

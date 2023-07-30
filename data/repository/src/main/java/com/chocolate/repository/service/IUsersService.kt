@@ -20,7 +20,7 @@ import com.chocolate.repository.dto.users.response.UsersDTO
 import com.chocolate.repository.dto.users.response.UsersStateDTO
 import retrofit2.Response
 
-interface IUserService {
+interface IUsersService {
     suspend fun getAllUsers(
         clientGravatar: Boolean? = null,
         includeCustomProfileFields: Boolean? = null

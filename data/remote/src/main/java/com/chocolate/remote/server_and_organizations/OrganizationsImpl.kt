@@ -1,12 +1,11 @@
 package com.chocolate.remote.server_and_organizations
 
 import com.chocolate.remote.server_and_organizations.service.OrganizationService
-import com.chocolate.repository.dto.server_and_organizations.response.AddLinkifiersOrCodePlayGroundDto
 import com.chocolate.repository.dto.server_and_organizations.response.CustomEmojiDto
 import com.chocolate.repository.dto.server_and_organizations.response.CustomProfileFieldsDto
+import com.chocolate.repository.dto.server_and_organizations.response.DefaultOrganizationDto
 import com.chocolate.repository.dto.server_and_organizations.response.LinkifiersDto
 import com.chocolate.repository.dto.server_and_organizations.response.ServerSettingsDto
-import com.chocolate.repository.dto.server_and_organizations.response.UpdateOrRemoveDto
 import com.chocolate.repository.service.OrganizationDataSource
 import retrofit2.Response
 import javax.inject.Inject
@@ -14,7 +13,7 @@ import javax.inject.Inject
 class OrganizationsImpl @Inject constructor(
     private val organizationService: OrganizationService
 ): OrganizationDataSource {
-    override suspend fun getServiceSettings(): Response<ServerSettingsDto> {
+    override suspend fun getServerSettings(): Response<ServerSettingsDto> {
         TODO("Not yet implemented")
     }
 
@@ -25,7 +24,7 @@ class OrganizationsImpl @Inject constructor(
     override suspend fun addLinkifiers(
         pattern: String,
         url: String
-    ): Response<AddLinkifiersOrCodePlayGroundDto> {
+    ): Response<DefaultOrganizationDto> {
         TODO("Not yet implemented")
     }
 
@@ -33,11 +32,11 @@ class OrganizationsImpl @Inject constructor(
         filterId: Int,
         pattern: String,
         url: String
-    ): Response<UpdateOrRemoveDto> {
+    ): Response<DefaultOrganizationDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteLinkifiers(filterId: Int): Response<UpdateOrRemoveDto> {
+    override suspend fun deleteLinkifiers(filterId: Int): Response<DefaultOrganizationDto> {
         TODO("Not yet implemented")
     }
 
@@ -45,11 +44,11 @@ class OrganizationsImpl @Inject constructor(
         name: String,
         language: String,
         url: String
-    ): Response<AddLinkifiersOrCodePlayGroundDto> {
+    ): Response<DefaultOrganizationDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteCodePlayground(playGroundId: Int): Response<UpdateOrRemoveDto> {
+    override suspend fun deleteCodePlayground(playGroundId: Int): Response<DefaultOrganizationDto> {
         TODO("Not yet implemented")
     }
 
@@ -57,11 +56,11 @@ class OrganizationsImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun addCustomEmoji(emojiName: String): Response<UpdateOrRemoveDto> {
+    override suspend fun addCustomEmoji(emojiName: String): Response<DefaultOrganizationDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deactivateCustomEmoji(emojiName: String): Response<UpdateOrRemoveDto> {
+    override suspend fun deactivateCustomEmoji(emojiName: String): Response<DefaultOrganizationDto> {
         TODO("Not yet implemented")
     }
 
@@ -69,7 +68,7 @@ class OrganizationsImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun reorderCustomProfileFields(order: String): Response<UpdateOrRemoveDto> {
+    override suspend fun reorderCustomProfileFields(order: String): Response<DefaultOrganizationDto> {
         TODO("Not yet implemented")
     }
 
@@ -77,7 +76,7 @@ class OrganizationsImpl @Inject constructor(
         name: String,
         hint: String,
         fieldType: Int
-    ): Response<AddLinkifiersOrCodePlayGroundDto> {
+    ): Response<DefaultOrganizationDto> {
         TODO("Not yet implemented")
     }
 }

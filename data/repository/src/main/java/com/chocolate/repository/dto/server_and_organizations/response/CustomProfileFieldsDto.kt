@@ -5,26 +5,26 @@ import com.google.gson.annotations.SerializedName
 
 data class CustomProfileFieldsDto(
     @SerializedName("custom_fields")
-    val customFields: List<CustomField>,
+    val customFields: List<CustomField?>?,
     @SerializedName("msg")
-    val msg: String,
+    val msg: String?,
     @SerializedName("result")
-    val result: String
+    val result: String?
 ) {
     data class CustomField(
         @SerializedName("display_in_profile_summary")
-        val displayInProfileSummary: Boolean,
+        val displayInProfileSummary: Boolean?,
         @SerializedName("field_data")
-        val fieldData: String,
+        val fieldData: String?,
         @SerializedName("hint")
-        val hint: String,
+        val hint: String?,
         @SerializedName("id")
-        val id: Int,
+        val id: Int?,
         @SerializedName("name")
-        val name: String,
+        val name: String?,
         @SerializedName("order")
-        val order: Int,
+        val order: Int?,
         @SerializedName("type")
-        val type: Int
+        val type: Int?
     )
 }

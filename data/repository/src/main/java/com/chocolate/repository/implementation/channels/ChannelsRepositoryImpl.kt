@@ -5,7 +5,7 @@ import repositories.channels.ChannelsRepository
 import javax.inject.Inject
 
 class ChannelsRepositoryImpl @Inject constructor(
-    private val apiService: ChannelsDataSource,
+    private val channelsDataSource: ChannelsDataSource,
 ) : ChannelsRepository {
     override suspend fun getSubscribed() {}
 

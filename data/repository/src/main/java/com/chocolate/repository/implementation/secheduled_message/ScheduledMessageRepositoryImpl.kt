@@ -5,7 +5,7 @@ import repositories.scheduled_message.ScheduledMessageRepository
 import javax.inject.Inject
 
 class ScheduledMessageRepositoryImpl @Inject constructor(
-    private val scheduledMessageService: ScheduledMessageDataSource
+    private val scheduledMessageDataSource: ScheduledMessageDataSource
 ): ScheduledMessageRepository {
     override suspend fun getScheduledMessages() {
         TODO("Not yet implemented")

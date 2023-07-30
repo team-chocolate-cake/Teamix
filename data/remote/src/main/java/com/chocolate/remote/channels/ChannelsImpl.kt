@@ -14,8 +14,9 @@ import com.chocolate.repository.dto.channels.response.TopicsInStreamDto
 import com.chocolate.repository.dto.channels.response.UnsubscribeFromStreamDto
 import com.chocolate.repository.service.ChannelsDataSource
 import retrofit2.Response
+import javax.inject.Inject
 
-class ChannelsImpl(
+class ChannelsImpl @Inject constructor(
     private val channelsService: ChannelsService
 ): ChannelsDataSource {
     override suspend fun getSubscribedStreams(includeSubscribers: Boolean?): Response<SubscribedStreamDto> {

@@ -20,8 +20,9 @@ import com.chocolate.repository.dto.users.response.UsersDTO
 import com.chocolate.repository.dto.users.response.UsersStateDTO
 import com.chocolate.repository.service.UsersDataSource
 import retrofit2.Response
+import javax.inject.Inject
 
-class UsersImpl(
+class UsersImpl @Inject constructor(
     private val userService: UsersService
 ): UsersDataSource {
     override suspend fun getAllUsers(

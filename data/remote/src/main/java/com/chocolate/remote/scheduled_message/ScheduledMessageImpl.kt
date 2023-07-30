@@ -5,8 +5,9 @@ import com.chocolate.repository.dto.scheduled_message.response.BaseScheduledMess
 import com.chocolate.repository.dto.scheduled_message.response.ScheduledMessagesDto
 import com.chocolate.repository.service.ScheduledMessageDataSource
 import retrofit2.Response
+import javax.inject.Inject
 
-class ScheduledMessageImpl(
+class ScheduledMessageImpl @Inject constructor(
     private val scheduledMessageService: ScheduledMessageService
 ): ScheduledMessageDataSource {
     override suspend fun getScheduledMessages(): Response<ScheduledMessagesDto> {

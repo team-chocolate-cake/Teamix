@@ -5,8 +5,9 @@ import com.chocolate.repository.dto.draft.response.BaseDraftResponse
 import com.chocolate.repository.dto.draft.response.DraftsDto
 import com.chocolate.repository.service.DraftMessageDataSource
 import retrofit2.Response
+import javax.inject.Inject
 
-class DraftsMessagesImpl(
+class DraftsMessagesImpl @Inject constructor(
     private val draftService: DraftService
 ): DraftMessageDataSource {
     override suspend fun getDrafts(): Response<DraftsDto> {

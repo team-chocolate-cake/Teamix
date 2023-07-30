@@ -9,8 +9,9 @@ import com.chocolate.repository.dto.server_and_organizations.response.ServerSett
 import com.chocolate.repository.dto.server_and_organizations.response.UpdateOrRemoveDto
 import com.chocolate.repository.service.OrganizationDataSource
 import retrofit2.Response
+import javax.inject.Inject
 
-class OrganizationsImpl(
+class OrganizationsImpl @Inject constructor(
     private val organizationService: OrganizationService
 ): OrganizationDataSource {
     override suspend fun getServiceSettings(): Response<ServerSettingsDto> {

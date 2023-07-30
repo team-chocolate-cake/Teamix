@@ -16,8 +16,9 @@ import com.chocolate.repository.dto.message.response.SingleMessageRemoteDto
 import com.chocolate.repository.service.MessagesDataSource
 import okhttp3.MultipartBody
 import retrofit2.Response
+import javax.inject.Inject
 
-class MessagesImpl(
+class MessagesImpl @Inject constructor(
     private val messageService: MessageService
 ): MessagesDataSource {
     override suspend fun sendStreamMessage(

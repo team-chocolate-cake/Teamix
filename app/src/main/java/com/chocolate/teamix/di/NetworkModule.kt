@@ -13,12 +13,12 @@ import com.chocolate.remote.server_and_organizations.OrganizationsImpl
 import com.chocolate.remote.server_and_organizations.service.OrganizationService
 import com.chocolate.remote.users.UsersImpl
 import com.chocolate.remote.users.service.UsersService
-import com.chocolate.repository.service.IChannelsService
-import com.chocolate.repository.service.IDraftService
-import com.chocolate.repository.service.IMessageService
-import com.chocolate.repository.service.IOrganizationService
-import com.chocolate.repository.service.IScheduledMessageService
-import com.chocolate.repository.service.IUsersService
+import com.chocolate.repository.service.ChannelsDataSource
+import com.chocolate.repository.service.DraftMessageDataSource
+import com.chocolate.repository.service.MessagesDataSource
+import com.chocolate.repository.service.OrganizationDataSource
+import com.chocolate.repository.service.ScheduledMessageDataSource
+import com.chocolate.repository.service.UsersDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -96,42 +96,42 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideChannels(channelsService: ChannelsService): IChannelsService {
+    fun provideChannels(channelsService: ChannelsService): ChannelsDataSource {
         return ChannelsImpl(channelsService)
     }
 
 
     @Singleton
     @Provides
-    fun provideOrganization(organizationService: OrganizationService): IOrganizationService {
+    fun provideOrganization(organizationService: OrganizationService): OrganizationDataSource {
         return OrganizationsImpl(organizationService)
     }
 
 
     @Singleton
     @Provides
-    fun provideDraftsMessage(draftService: DraftService): IDraftService {
+    fun provideDraftsMessage(draftService: DraftService): DraftMessageDataSource {
         return DraftsMessagesImpl(draftService)
     }
 
 
     @Singleton
     @Provides
-    fun provideMessages(messageService: MessageService): IMessageService {
+    fun provideMessages(messageService: MessageService): MessagesDataSource {
         return MessagesImpl(messageService)
     }
 
 
     @Singleton
     @Provides
-    fun provideScheduledMessage(scheduledMessageService: ScheduledMessageService): IScheduledMessageService {
+    fun provideScheduledMessage(scheduledMessageService: ScheduledMessageService): ScheduledMessageDataSource {
         return ScheduledMessageImpl(scheduledMessageService)
     }
 
 
     @Singleton
     @Provides
-    fun provideUsers(usersService: UsersService): IUsersService {
+    fun provideUsers(usersService: UsersService): UsersDataSource {
         return UsersImpl(usersService)
     }
 

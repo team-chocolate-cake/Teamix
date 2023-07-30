@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName
 
 data class DraftsDto(
     @SerializedName("count")
-    val count: Int,
+    val count: Int?,
     @SerializedName("drafts")
-    val drafts: List<DraftDto>,
+    val drafts: List<DraftDto>?,
     @SerializedName("msg")
-    val message: String,
+    val message: String?,
     @SerializedName("result")
-    val result: String
+    val result: String?
 )

@@ -1,6 +1,6 @@
 package com.chocolate.remote.users
 
-import com.chocolate.remote.users.service.UserService
+import com.chocolate.remote.users.service.UsersService
 import com.chocolate.repository.dto.users.request.ProfileData
 import com.chocolate.repository.dto.users.request.SettingsRequest
 import com.chocolate.repository.dto.users.response.AlertWordsDTO
@@ -18,12 +18,12 @@ import com.chocolate.repository.dto.users.response.UserSettingsDTO
 import com.chocolate.repository.dto.users.response.UserStateDTO
 import com.chocolate.repository.dto.users.response.UsersDTO
 import com.chocolate.repository.dto.users.response.UsersStateDTO
-import com.chocolate.repository.service.IUserService
+import com.chocolate.repository.service.IUsersService
 import retrofit2.Response
 
 class UsersImpl(
-    private val userService: UserService
-): IUserService {
+    private val userService: UsersService
+): IUsersService {
     override suspend fun getAllUsers(
         clientGravatar: Boolean?,
         includeCustomProfileFields: Boolean?

@@ -1,10 +1,10 @@
 package com.chocolate.repository.implementation.users
 
-import com.chocolate.repository.service.IUserService
+import com.chocolate.repository.service.IUsersService
 import repositories.users.UsersRepositories
 import javax.inject.Inject
 
-class UserRepositoryImp @Inject constructor(userService: IUserService) : UsersRepositories {
+class UserRepositoryImp @Inject constructor(userService: IUsersService) : UsersRepositories {
     override suspend fun getAllUsers() {
 
     }

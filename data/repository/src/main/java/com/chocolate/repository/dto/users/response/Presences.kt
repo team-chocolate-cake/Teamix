@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class Presences(
     @SerializedName("iago@zulip.com")
-    val iagozulipCom: IagozulipCom?
+    val iagoZulipCom: IagoZulipCom?
 )

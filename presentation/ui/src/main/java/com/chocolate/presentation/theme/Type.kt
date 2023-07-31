@@ -66,13 +66,13 @@ val Typography = Typography(
         fontFamily = OpenSans,
         fontWeight = FontWeight.Normal,
         fontSize = textSize12,
-        lineHeight = textHeight16
+        lineHeight = textHeight14
     ),
 
     labelSmall = TextStyle(
         fontFamily = OpenSans,
         fontWeight = FontWeight.Normal,
-        fontSize = textSize10,
+        fontSize = textSize12,
         lineHeight = textHeight16
     )
 )

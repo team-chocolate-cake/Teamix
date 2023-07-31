@@ -16,12 +16,3 @@ data class TopicsInStreamDto(
 	@field:SerializedName("topics")
 	val topics: List<TopicsItem?>? = null
 )
-
-data class TopicsItem(
-
-	@field:SerializedName("name")
-	val name: String? = null,
-
-	@field:SerializedName("max_id")
-	val maxId: Int? = null
-)

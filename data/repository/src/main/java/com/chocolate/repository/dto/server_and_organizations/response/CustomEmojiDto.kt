@@ -10,18 +10,4 @@ data class CustomEmojiDto(
     val message: String,
     @SerializedName("result")
     val result: String
-) {
-    data class Emoji(
-        @SerializedName("author_id")
-        val authorId: Int?,
-        @SerializedName("deactivated")
-        val deactivated: Boolean?,
-        @SerializedName("id")
-        val id: String?,
-        @SerializedName("name")
-        val name: String?,
-        @SerializedName("source_url")
-        val sourceUrl: String?
-    )
-
-}
+)

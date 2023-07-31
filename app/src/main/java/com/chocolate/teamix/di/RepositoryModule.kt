@@ -1,11 +1,11 @@
 package com.chocolate.teamix.di
 
-import com.chocolate.repository.channels.ChannelsRepositoryImpl
-import com.chocolate.repository.draft.DraftRepositoryImpl
-import com.chocolate.repository.messages.MessagesRepositoryImpl
-import com.chocolate.repository.secheduled_message.ScheduledMessageRepositoryImpl
-import com.chocolate.repository.server_and_organizations.ServerAndOrganizationsRepositoryImpl
-import com.chocolate.repository.users.UserRepositoryImp
+import com.chocolate.repository.implementation.channels.ChannelsRepositoryImpl
+import com.chocolate.repository.implementation.draft.DraftRepositoryImpl
+import com.chocolate.repository.implementation.messages.MessagesRepositoryImpl
+import com.chocolate.repository.implementation.secheduled_message.ScheduledMessageRepositoryImpl
+import com.chocolate.repository.implementation.server_and_organizations.ServerAndOrganizationsRepositoryImpl
+import com.chocolate.repository.implementation.users.UserRepositoryImp
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

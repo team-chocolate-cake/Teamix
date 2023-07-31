@@ -1,37 +1,24 @@
 package com.chocolate.remote.users.service
 
 
-
-import com.chocolate.remote.users.request.AlertWordsRequestDTO
-import com.chocolate.remote.users.request.CreateUserGroupSubgroupRequest
-import com.chocolate.remote.users.request.CreateUserRequest
-import com.chocolate.remote.users.request.ProfileData
-import com.chocolate.remote.users.request.SettingsRequest
-import com.chocolate.remote.users.request.StatusUpdate
-import com.chocolate.remote.users.request.StatusUpdateRequest
-import com.chocolate.remote.users.request.TypingStatusRequest
-import com.chocolate.remote.users.request.UpdateInfo
-import com.chocolate.remote.users.request.UpdateUserGroupMembersRequest
-import com.chocolate.remote.users.request.UserGroupCreationRequest
-import com.chocolate.remote.users.request.UserGroupUpdateRequest
-import com.chocolate.remote.users.response.AlertWordsDTO
-import com.chocolate.remote.users.response.CreateUserDTO
-import com.chocolate.remote.users.response.MuteUserResponseDTO
-import com.chocolate.remote.users.response.OwnerUserDTO
-import com.chocolate.remote.users.response.ResponseStateDTO
-import com.chocolate.remote.users.response.SubgroupsOfUserGroupDTO
-import com.chocolate.remote.users.response.UserAttachmentsDTO
-import com.chocolate.remote.users.response.UserGroupMembersDTO
-import com.chocolate.remote.users.response.UserGroupsDTO
-import com.chocolate.remote.users.response.UserMembershipStateDTO
-import com.chocolate.remote.users.response.UserDTO
-import com.chocolate.remote.users.response.UserGroupMembershipsDTO
-import com.chocolate.remote.users.response.UserSettingsDTO
-import com.chocolate.remote.users.response.UserStateDTO
-import com.chocolate.remote.users.response.UsersDTO
-import com.chocolate.remote.users.response.UsersStateDTO
+import com.chocolate.repository.dto.users.request.ProfileData
+import com.chocolate.repository.dto.users.request.SettingsRequest
+import com.chocolate.repository.dto.users.response.AlertWordsDto
+import com.chocolate.repository.dto.users.response.CreateUserDto
+import com.chocolate.repository.dto.users.response.MuteUserResponseDto
+import com.chocolate.repository.dto.users.response.OwnerUserDto
+import com.chocolate.repository.dto.users.response.ResponseStateDto
+import com.chocolate.repository.dto.users.response.SubgroupsOfUserGroupDto
+import com.chocolate.repository.dto.users.response.UserAttachmentsDto
+import com.chocolate.repository.dto.users.response.UserDto
+import com.chocolate.repository.dto.users.response.UserGroupMembershipsDto
+import com.chocolate.repository.dto.users.response.UserGroupsDto
+import com.chocolate.repository.dto.users.response.UserMembershipStateDto
+import com.chocolate.repository.dto.users.response.UserSettingsDto
+import com.chocolate.repository.dto.users.response.UserStateDto
+import com.chocolate.repository.dto.users.response.UsersDto
+import com.chocolate.repository.dto.users.response.UsersStateDto
 import retrofit2.Response
-import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
@@ -40,31 +27,30 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-
-interface UserService {
+interface UsersService {
     @GET("users")
     suspend fun getAllUsers(
-        @Query("client_gravatar") clientGravatar: Boolean? = null,
-        @Query("include_custom_profile_fields") includeCustomProfileFields: Boolean? = null
-    ): Response<UsersDTO>
+        @Query("client_gravatar") clientGravatar: Boolean = true,
+        @Query("include_custom_profile_fields") includeCustomProfileFields: Boolean = false
+    ): Response<UsersDto>
 
 
     @GET("users/me")
-    suspend fun getOwnUser(): Response<OwnerUserDTO>
+    suspend fun getOwnUser(): Response<OwnerUserDto>
 
     @GET("users/{id}")
     suspend fun getUserById(
         @Path("id") userId: Int,
-        @Query("client_gravatar") clientGravatar: Boolean? = null,
-        @Query("include_custom_profile_fields") includeCustomProfileFields: Boolean? = null
-    ): Response<UserDTO>
+        @Query("client_gravatar") clientGravatar: Boolean = true,
+        @Query("include_custom_profile_fields") includeCustomProfileFields: Boolean = false
+    ): Response<UserDto>
 
     @GET("users/{email}")
     suspend fun getUserByEmail(
         @Path("email") email: String,
-        @Query("client_gravatar") clientGravatar: Boolean? = null,
-        @Query("include_custom_profile_fields") includeCustomProfileFields: Boolean? = null
-    ): Response<UserDTO>
+        @Query("client_gravatar") clientGravatar: Boolean = true,
+        @Query("include_custom_profile_fields") includeCustomProfileFields: Boolean = false
+    ): Response<UserDto>
 
     @PATCH("users/{id}")
     suspend fun updateUserById(
@@ -72,7 +58,7 @@ interface UserService {
         @Query("full_name") fullName: String? = null,
         @Query("role") role: Int? = null,
         @Query("profile_data") profileData: List<ProfileData>? = null
-    ): Response<ResponseStateDTO>
+    ): Response<ResponseStateDto>
 
     @POST("users/me/status")
     suspend fun updateUserStatus(
@@ -81,23 +67,23 @@ interface UserService {
         @Query("emoji_name") emojiName: String? = null,
         @Query("emoji_code") emojiCode: String? = null,
         @Query("reaction_type") reactionType: String? = null
-    ): Response<ResponseStateDTO>
+    ): Response<ResponseStateDto>
 
     @POST("users")
     suspend fun createUser(
         @Query("email") email: String,
         @Query("password") password: String,
         @Query("full_name") fullName: String
-    ): Response<CreateUserDTO>
+    ): Response<CreateUserDto>
 
     @DELETE("users/{id}")
-    suspend fun deactivateUser(@Path("id") id: Int): Response<ResponseStateDTO>
+    suspend fun deactivateUser(@Path("id") id: Int): Response<ResponseStateDto>
 
     @POST("users/{id}/reactivate")
-    suspend fun reactivateUser(@Path("id") id: Int): Response<ResponseStateDTO>
+    suspend fun reactivateUser(@Path("id") id: Int): Response<ResponseStateDto>
 
     @DELETE("users/me")
-    suspend fun deactivateOwnUser(): Response<ResponseStateDTO>
+    suspend fun deactivateOwnUser(): Response<ResponseStateDto>
 
     @POST("typing")
     suspend fun setTypingStatus(
@@ -105,46 +91,46 @@ interface UserService {
         @Query("to") to: String,
         @Query("type") type: String? = "direct",
         @Query("topic") topic: String? = null
-    ): Response<ResponseStateDTO>
+    ): Response<ResponseStateDto>
 
     @GET("users/{email}/presence")
-    suspend fun getUserPresence(@Path("email") email: String): Response<UserStateDTO>
+    suspend fun getUserPresence(@Path("email") email: String): Response<UserStateDto>
 
     @GET("realm/presence")
-    suspend fun getRealmPresence(): Response<UsersStateDTO>
+    suspend fun getRealmPresence(): Response<UsersStateDto>
 
 
     @GET("attachments")
-    suspend fun getAttachments(): Response<UserAttachmentsDTO>
+    suspend fun getAttachments(): Response<UserAttachmentsDto>
 
 
 
     @DELETE("attachments/{attachment_id}")
-    suspend fun deleteAttachment(@Path("attachment_id") attachmentId: Int): Response<ResponseStateDTO>
+    suspend fun deleteAttachment(@Path("attachment_id") attachmentId: Int): Response<ResponseStateDto>
 
     @PATCH("settings")
-    suspend fun updateSettings(@Query("settings") settings: SettingsRequest): Response<UserSettingsDTO>
+    suspend fun updateSettings(@Query("settings") settings: SettingsRequest): Response<UserSettingsDto>
 
 
     @GET("user_groups")
-    suspend fun getUserGroups(): Response<UserGroupsDTO>
+    suspend fun getUserGroups(): Response<UserGroupsDto>
 
     @POST("user_groups/create")
     suspend fun createUserGroup(
         @Query("name") name: String,
         @Query("description") description: String,
         @Query("members") members:String
-    ): Response<ResponseStateDTO>
+    ): Response<ResponseStateDto>
 
     @PATCH("user_groups/{user_group_id}")
     suspend fun updateUserGroup(
         @Path("user_group_id") userGroupId: Int,
         @Query("name") name: String,
         @Query("description") description: String
-    ): Response<ResponseStateDTO>
+    ): Response<ResponseStateDto>
 
     @DELETE("user_groups/{user_group_id}")
-    suspend fun removeUserGroup(@Path("user_group_id") userGroupId: Int): Response<ResponseStateDTO>
+    suspend fun removeUserGroup(@Path("user_group_id") userGroupId: Int): Response<ResponseStateDto>
 
 
     @PUT("user-groups/{id}/members")
@@ -152,14 +138,14 @@ interface UserService {
         @Path("id") id: Int,
         @Query("add") add: List<Int>,
         @Query("delete") delete: List<Int>
-    ): Response<ResponseStateDTO>
+    ): Response<ResponseStateDto>
 
     @POST("user_groups/{user_group_id}/subgroups")
     suspend fun updateUserGroupSubgroups(
         @Path("user_group_id") userGroupId: Int,
         @Query("add") add: List<Int>?,
         @Query("delete") delete: List<Int>?
-    ): Response<SubgroupsOfUserGroupDTO>
+    ): Response<SubgroupsOfUserGroupDto>
 
 
     @GET("user_groups/{groupId}/members/{userId}")
@@ -167,37 +153,37 @@ interface UserService {
         @Path("groupId") groupId: Int,
         @Path("userId") userId: Int,
         @Query("direct_member_only") directMemberOnly: Boolean
-    ): Response<UserMembershipStateDTO>
+    ): Response<UserMembershipStateDto>
 
     @GET("user_groups/{groupId}/memberships")
     suspend fun getUserGroupMemberships(
         @Path("groupId") groupId: Int,
         @Query("direct_member_only") directMemberOnly: Boolean
-    ): Response<UserGroupMembershipsDTO>
+    ): Response<UserGroupMembershipsDto>
     @GET("user_groups/{id}/subgroups")
     suspend fun getSubgroupsOfUserGroup(
         @Path("id") id: Int,
         @Query("direct_subgroup_only") directSubgroupOnly: Boolean
-    ): Response<SubgroupsOfUserGroupDTO>
+    ): Response<SubgroupsOfUserGroupDto>
 
     @GET("users/me/alert_words")
-    suspend fun getAlertWords(): Response<AlertWordsDTO>
+    suspend fun getAlertWords(): Response<AlertWordsDto>
 
     @POST("users/me/alert_words")
-    suspend fun addAlertWords(@Query("alert_words") alertWords: String): Response<AlertWordsDTO>
+    suspend fun addAlertWords(@Query("alert_words") alertWords: String): Response<AlertWordsDto>
 
 
     @DELETE("users/me/alert_words")
-    suspend fun removeAlertWords(@Query("alert_words") alertWords: String): Response<AlertWordsDTO>
+    suspend fun removeAlertWords(@Query("alert_words") alertWords: String): Response<AlertWordsDto>
 
     @POST("users/me/muted_users/{muted_user_id}")
     suspend fun muteUser(
         @Path("muted_user_id") mutedUserId: Int
-    ): Response<MuteUserResponseDTO>
+    ): Response<MuteUserResponseDto>
 
 
     @DELETE("users/me/muted_users/{muted_user_id}")
     suspend fun unmuteUser(
         @Path("muted_user_id") mutedUserId: Int
-    ): Response<MuteUserResponseDTO>
+    ): Response<MuteUserResponseDto>
 }

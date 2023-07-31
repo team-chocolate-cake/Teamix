@@ -1,20 +1,17 @@
 package com.chocolate.remote.channels.service
 
-import com.chocolate.remote.channels.request.SubscribeToStream
-import com.chocolate.remote.channels.request.SubscriptionSettings
-import com.chocolate.remote.channels.response.AllStreamsDto
-import com.chocolate.remote.channels.response.AllSubscribersDto
-import com.chocolate.remote.channels.response.DefaultStreamDto
-import com.chocolate.remote.channels.response.StreamsByIdDto
-import com.chocolate.remote.channels.response.StreamsIdDto
-import com.chocolate.remote.channels.response.SubscribeToStreamDto
-import com.chocolate.remote.channels.response.SubscribedStreamDto
-import com.chocolate.remote.channels.response.SubscriptionSettingsDto
-import com.chocolate.remote.channels.response.SubscriptionStatusDto
-import com.chocolate.remote.channels.response.TopicsInStreamDto
-import com.chocolate.remote.channels.response.UnsubscribeFromStreamDto
+import com.chocolate.repository.dto.channels.response.AllStreamsDto
+import com.chocolate.repository.dto.channels.response.AllSubscribersDto
+import com.chocolate.repository.dto.channels.response.DefaultStreamDto
+import com.chocolate.repository.dto.channels.response.StreamsByIdDto
+import com.chocolate.repository.dto.channels.response.StreamsIdDto
+import com.chocolate.repository.dto.channels.response.SubscribeToStreamDto
+import com.chocolate.repository.dto.channels.response.SubscribedStreamDto
+import com.chocolate.repository.dto.channels.response.SubscriptionSettingsDto
+import com.chocolate.repository.dto.channels.response.SubscriptionStatusDto
+import com.chocolate.repository.dto.channels.response.TopicsInStreamDto
+import com.chocolate.repository.dto.channels.response.UnsubscribeFromStreamDto
 import retrofit2.Response
-import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
@@ -24,17 +21,17 @@ import retrofit2.http.Query
 
 interface ChannelsService {
     @GET("users/me/subscriptions")
-    suspend fun getSubscribedStreams(@Query("include_subscribers") includeSubscribers: Boolean? = null): Response<SubscribedStreamDto>
+    suspend fun getUserSubscriptions(@Query("include_subscribers") includeSubscribers: Boolean = false): Response<SubscribedStreamDto>
 
     @POST("users/me/subscriptions")
     suspend fun addSubscribesToStream(
         @Query("subscriptions") subscribeToStream: String,
         @Query("principals") principals: List<String>? = null,
-        @Query("authorization_errors_fatal") authorizationErrorsFatal: Boolean? = null,
-        @Query("announce") announce: Boolean? = null,
-        @Query("invite_only") inviteOnly: Boolean? = null,
-        @Query("is_web_public") isWebPublic: Boolean? = null,
-        @Query("history_public_to_subscribers") historyPublicToSubscribers: Boolean? = null,
+        @Query("authorization_errors_fatal") authorizationErrorsFatal: Boolean = true,
+        @Query("announce") announce: Boolean = false,
+        @Query("invite_only") inviteOnly: Boolean = false,
+        @Query("is_web_public") isWebPublic: Boolean = false,
+        @Query("history_public_to_subscribers") historyPublicToSubscribers: Boolean = false,
         @Query("stream_post_policy") streamPostPolicy: Int? = null,
         @Query("message_retention_days") messageRetentionDays: String? = null,
         @Query("can_remove_subscribers_group_id") canRemoveSubscribersGroupId: Int? = null,
@@ -64,12 +61,12 @@ interface ChannelsService {
 
     @GET("streams")
     suspend fun getAllStreams(
-        @Query("include_public") includePublic: Boolean? = null,
-        @Query("include_web_public") includeWebPublic: Boolean? = null,
-        @Query("include_subscribed") includeSubscribed: Boolean? = null,
-        @Query("include_all_active") includeAllActive: Boolean? = null,
-        @Query("include_default") includeDefault: Boolean? = null,
-        @Query("include_owner_subscribed") includeOwnerSubscribed: Boolean? = null,
+        @Query("include_public") includePublic: Boolean = true,
+        @Query("include_web_public") includeWebPublic: Boolean = false,
+        @Query("include_subscribed") includeSubscribed: Boolean = true,
+        @Query("include_all_active") includeAllActive: Boolean = false,
+        @Query("include_default") includeDefault: Boolean = false,
+        @Query("include_owner_subscribed") includeOwnerSubscribed: Boolean = false,
     ): Response<AllStreamsDto>
 
     @GET("streams/{stream_id}")

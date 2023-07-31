@@ -34,8 +34,6 @@ android {
 dependencies {
 
     implementation(project(Modules.DOMAIN_USE_CASE))
-    implementation(project(Modules.DATA_REMOTE))
-    implementation(project(Modules.DATA_LOCAL))
 
     testImplementation(DependencyProject.junit)
     androidTestImplementation(DependencyProject.junitExtension)
@@ -43,4 +41,5 @@ dependencies {
     implementation(DependencyProject.retrofit)
 
     implementation(DependencyProject.hilt)
+    implementation(DependencyProject.gsonConverter)
 }

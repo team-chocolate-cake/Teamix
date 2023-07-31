@@ -33,6 +33,8 @@ android {
 
 dependencies {
 
+    implementation project(Modules.DATA_REPO)
+
     implementation(DependencyProject.androidxCore)
     testImplementation(DependencyProject.junit)
     androidTestImplementation(DependencyProject.junitExtension)

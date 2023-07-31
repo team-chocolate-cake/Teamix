@@ -1,21 +1,22 @@
 package com.chocolate.remote.messages.service
 
-import com.chocolate.remote.messages.response.dto.send_message.DefaultMessageRemoteDto
-import com.chocolate.remote.messages.response.dto.send_message.FileRemoteDto
-import com.chocolate.remote.messages.response.dto.send_message.MarkAsReadResponse
-import com.chocolate.remote.messages.response.dto.send_message.MatchNarrowRemoteDto
-import com.chocolate.remote.messages.response.dto.send_message.MessageEditHistoryRemoteDto
-import com.chocolate.remote.messages.response.dto.send_message.MessageReadReceiptsRemoteDto
-import com.chocolate.remote.messages.response.dto.send_message.MessagesRemoteDto
-import com.chocolate.remote.messages.response.dto.send_message.PersonalMessageFlags
-import com.chocolate.remote.messages.response.dto.send_message.PersonalMessageForNarrowRemoteDto
-import com.chocolate.remote.messages.response.dto.send_message.RenderMessageRemoteDto
-import com.chocolate.remote.messages.response.dto.send_message.SendMessageRemoteDto
-import com.chocolate.remote.messages.response.dto.send_message.SingleMessageRemoteDto
+import com.chocolate.repository.dto.message.response.DefaultMessageRemoteDto
+import com.chocolate.repository.dto.message.response.FileRemoteDto
+import com.chocolate.repository.dto.message.response.MarkAsReadResponse
+import com.chocolate.repository.dto.message.response.MatchNarrowRemoteDto
+import com.chocolate.repository.dto.message.response.MessageEditHistoryRemoteDto
+import com.chocolate.repository.dto.message.response.MessageReadReceiptsRemoteDto
+import com.chocolate.repository.dto.message.response.MessagesRemoteDto
+import com.chocolate.repository.dto.message.response.PersonalMessageFlags
+import com.chocolate.repository.dto.message.response.PersonalMessageForNarrowRemoteDto
+import com.chocolate.repository.dto.message.response.RenderMessageRemoteDto
+import com.chocolate.repository.dto.message.response.SendMessageRemoteDto
+import com.chocolate.repository.dto.message.response.SingleMessageRemoteDto
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Part
@@ -43,6 +44,7 @@ interface MessageService {
         @Query("local_id") localId: String?,
     ): Response<SendMessageRemoteDto>
 
+    @Multipart
     @POST("user_uploads")
     suspend fun uploadFile(@Part file: MultipartBody.Part): Response<FileRemoteDto>
 

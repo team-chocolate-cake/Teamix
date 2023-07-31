@@ -34,7 +34,6 @@ interface UsersService {
         @Query("include_custom_profile_fields") includeCustomProfileFields: Boolean = false
     ): Response<UsersDto>
 
-
     @GET("users/me")
     suspend fun getOwnUser(): Response<OwnerUserDto>
 
@@ -99,18 +98,14 @@ interface UsersService {
     @GET("realm/presence")
     suspend fun getRealmPresence(): Response<UsersStateDto>
 
-
     @GET("attachments")
     suspend fun getAttachments(): Response<UserAttachmentsDto>
-
-
 
     @DELETE("attachments/{attachment_id}")
     suspend fun deleteAttachment(@Path("attachment_id") attachmentId: Int): Response<ResponseStateDto>
 
     @PATCH("settings")
     suspend fun updateSettings(@Query("settings") settings: SettingsRequest): Response<UserSettingsDto>
-
 
     @GET("user_groups")
     suspend fun getUserGroups(): Response<UserGroupsDto>
@@ -132,7 +127,6 @@ interface UsersService {
     @DELETE("user_groups/{user_group_id}")
     suspend fun removeUserGroup(@Path("user_group_id") userGroupId: Int): Response<ResponseStateDto>
 
-
     @PUT("user-groups/{id}/members")
     suspend fun updateUserGroupMembers(
         @Path("id") id: Int,
@@ -146,7 +140,6 @@ interface UsersService {
         @Query("add") add: List<Int>?,
         @Query("delete") delete: List<Int>?
     ): Response<SubgroupsOfUserGroupDto>
-
 
     @GET("user_groups/{groupId}/members/{userId}")
     suspend fun getUserMembership(
@@ -172,7 +165,6 @@ interface UsersService {
     @POST("users/me/alert_words")
     suspend fun addAlertWords(@Query("alert_words") alertWords: String): Response<AlertWordsDto>
 
-
     @DELETE("users/me/alert_words")
     suspend fun removeAlertWords(@Query("alert_words") alertWords: String): Response<AlertWordsDto>
 
@@ -180,7 +172,6 @@ interface UsersService {
     suspend fun muteUser(
         @Path("muted_user_id") mutedUserId: Int
     ): Response<MuteUserResponseDto>
-
 
     @DELETE("users/me/muted_users/{muted_user_id}")
     suspend fun unmuteUser(

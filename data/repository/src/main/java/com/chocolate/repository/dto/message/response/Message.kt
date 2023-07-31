@@ -37,7 +37,7 @@ data class Message(
     @SerializedName("subject")
     val subject: String?,
     @SerializedName("submessages")
-    val submessages: List<Any?>?,
+    val subMessages: List<Any?>?,
     @SerializedName("timestamp")
     val timestamp: Int?,
     @SerializedName("topic_links")

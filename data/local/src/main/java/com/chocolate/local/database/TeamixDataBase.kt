@@ -2,7 +2,7 @@ package com.chocolate.local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.chocolate.local.dao.DraftDao
+import com.chocolate.local.dao.DraftMessagesDao
 import com.chocolate.local.dao.StreamDao
 import com.chocolate.local.dao.TrendDao
 import com.chocolate.local.dao.UserDao
@@ -22,7 +22,7 @@ import com.chocolate.local.entities.users.StoriesEntity
     GroupsEntity::class,
     ChatEntity::class], version = 1)
 abstract class TeamixDataBase : RoomDatabase() {
-    abstract val draftDao: DraftDao
+    abstract val draftMessagesDao: DraftMessagesDao
     abstract val streamDao: StreamDao
     abstract val trendDao: TrendDao
     abstract val userDao: UserDao

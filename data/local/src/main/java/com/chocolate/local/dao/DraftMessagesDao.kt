@@ -8,7 +8,7 @@ import androidx.room.Query
 import com.chocolate.local.entities.draft.DraftEntity
 
 @Dao
-interface DraftDao {
+interface DraftMessagesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertDraft(draft: DraftEntity)
 

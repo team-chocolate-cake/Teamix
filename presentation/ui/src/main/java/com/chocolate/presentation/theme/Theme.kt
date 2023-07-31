@@ -34,30 +34,40 @@ private val LightColorScheme = lightColorScheme(
 
 val onLightCustomColorsPalette = CustomColorsPalette(
     primary = onLightPrimary,
-    on_primary = onPrimary,
+    onPrimary = onPrimary,
     secondary = secondary,
-    on_secondary = onSecondary,
+    onSecondary = onSecondary,
     border = border,
     card = card,
     background = onLightBackground,
-    on_background_87 = onLightOnBackground87,
-    on_background_60 = onLightOnBackground60,
-    on_background_38 = onBackground38,
-    gray = onLightGray
+    onBackground87 = onLightOnBackground87,
+    onBackground60 = onLightOnBackground60,
+    onBackground38 = onBackground38,
+    gray= gray,
+    lightGray = onLightGray,
+    yellow= yellow,
+    green= green,
+    red60= red60,
+    red = red
 )
 
 val onDarkCustomColorsPalette = CustomColorsPalette(
     primary = onDarkPrimary,
-    on_primary = onPrimary,
+    onPrimary = onPrimary,
     secondary = secondary,
-    on_secondary = onSecondary,
+    onSecondary = onSecondary,
     border = border,
     card = card,
     background = onDarkBackground,
-    on_background_87 = onDarkOnBackground87,
-    on_background_60 = onDarkOnBackground60,
-    on_background_38 = onBackground38,
-    gray = onDarkGray
+    onBackground87 = onDarkOnBackground87,
+    onBackground60 = onDarkOnBackground60,
+    onBackground38 = onBackground38,
+    gray= gray,
+    darkGray = onDarkGray,
+    yellow= yellow,
+    green= green,
+    red60= red60,
+    red = red
 )
 
 @SuppressLint("CompositionLocalNaming")

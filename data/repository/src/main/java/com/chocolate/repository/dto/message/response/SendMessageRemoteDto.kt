@@ -14,5 +14,4 @@ data class SendMessageRemoteDto(
     val code: String?,
     @SerializedName("stream")
     val stream: String?
-
 )

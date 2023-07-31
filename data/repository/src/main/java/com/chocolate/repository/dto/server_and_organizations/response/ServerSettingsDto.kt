@@ -34,38 +34,4 @@ data class ServerSettingsDto(
     val zulipMergeBase: String?,
     @SerializedName("zulip_version")
     val zulipVersion: String?
-) {
-    data class AuthenticationMethods(
-        @SerializedName("azuread")
-        val azuread: Boolean?,
-        @SerializedName("dev")
-        val dev: Boolean?,
-        @SerializedName("email")
-        val email: Boolean?,
-        @SerializedName("github")
-        val github: Boolean?,
-        @SerializedName("google")
-        val google: Boolean?,
-        @SerializedName("ldap")
-        val ldap: Boolean?,
-        @SerializedName("password")
-        val password: Boolean?,
-        @SerializedName("remoteuser")
-        val remoteuser: Boolean?,
-        @SerializedName("saml")
-        val saml: Boolean?
-    )
-
-    data class ExternalAuthenticationMethod(
-        @SerializedName("display_icon")
-        val displayIcon: String,
-        @SerializedName("display_name")
-        val displayName: String,
-        @SerializedName("login_url")
-        val loginUrl: String,
-        @SerializedName("name")
-        val name: String,
-        @SerializedName("signup_url")
-        val signupUrl: String
-    )
-}
+)

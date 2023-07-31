@@ -25,9 +25,4 @@ data class OwnerUserDto(
     @SerializedName("role") val role: Int?,
     @SerializedName("timezone") val timezone: String?,
     @SerializedName("user_id") val userId: Int?
-) {
-    data class ProfileField(
-        @SerializedName("rendered_value") val renderedValue: String? = null,
-        @SerializedName("value") val value: String?
-    )
-}
+)

@@ -10,13 +10,13 @@ data class LinkifiersDto(
     val message: String?,
     @SerializedName("result")
     val result: String?
-) {
-    data class Linkifier(
-        @SerializedName("id")
-        val id: Int?,
-        @SerializedName("pattern")
-        val pattern: String?,
-        @SerializedName("url_template")
-        val urlTemplate: String?
-    )
-}
+)
+
+data class Linkifier(
+    @SerializedName("id")
+    val id: Int?,
+    @SerializedName("pattern")
+    val pattern: String?,
+    @SerializedName("url_template")
+    val urlTemplate: String?
+)

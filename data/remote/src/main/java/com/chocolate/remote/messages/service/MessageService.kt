@@ -101,7 +101,7 @@ interface MessageService {
 
     @GET("messages/matches_narrow")
     suspend fun checkIfMessagesMatchNarrow(
-        @Query("msg_ids") msg_ids: String,
+        @Query("msg_ids") messageIds: String,
         @Query("narrow") narrow: String
     ): Response<MatchNarrowRemoteDto>
 

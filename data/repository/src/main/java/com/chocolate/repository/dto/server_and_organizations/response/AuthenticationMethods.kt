@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class AuthenticationMethods(
     @SerializedName("azuread")
-    val azuread: Boolean?,
+    val azuRead: Boolean?,
     @SerializedName("dev")
     val dev: Boolean?,
     @SerializedName("email")
@@ -18,7 +18,7 @@ data class AuthenticationMethods(
     @SerializedName("password")
     val password: Boolean?,
     @SerializedName("remoteuser")
-    val remoteuser: Boolean?,
+    val remoteUser: Boolean?,
     @SerializedName("saml")
     val saml: Boolean?
 )

@@ -79,15 +79,15 @@ class UsersImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun deactivateUser(id: Int): Response<ResponseStateDto> {
+    override suspend fun deactivateUserAccount(id: Int): Response<ResponseStateDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun reactivateUser(id: Int): Response<ResponseStateDto> {
+    override suspend fun reactivateUserAccount(id: Int): Response<ResponseStateDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deactivateOwnUser(): Response<ResponseStateDto> {
+    override suspend fun deactivateOwnUserAccount(): Response<ResponseStateDto> {
         TODO("Not yet implemented")
     }
 

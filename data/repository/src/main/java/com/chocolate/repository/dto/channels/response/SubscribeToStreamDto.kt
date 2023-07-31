@@ -19,15 +19,3 @@ data class SubscribeToStreamDto(
     @field:SerializedName("unauthorized")
     val unauthorized:  List<String?>? = null
 )
-
-data class Subscribed(
-
-    @field:SerializedName("iago@zulip.com")
-    val iagoZulipCom: List<String?>? = null
-)
-
-data class AlreadySubscribed(
-
-    @field:SerializedName("newbie@zulip.com")
-    val newbieZulipCom: List<String?>? = null
-)

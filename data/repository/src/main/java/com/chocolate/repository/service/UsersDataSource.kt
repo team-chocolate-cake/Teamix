@@ -61,11 +61,11 @@ interface UsersDataSource {
         fullName: String
     ): Response<CreateUserDto>
 
-    suspend fun deactivateUser(id: Int): Response<ResponseStateDto>
+    suspend fun deactivateUserAccount(id: Int): Response<ResponseStateDto>
 
-    suspend fun reactivateUser(id: Int): Response<ResponseStateDto>
+    suspend fun reactivateUserAccount(id: Int): Response<ResponseStateDto>
 
-    suspend fun deactivateOwnUser(): Response<ResponseStateDto>
+    suspend fun deactivateOwnUserAccount(): Response<ResponseStateDto>
 
     suspend fun setTypingStatus(
         op: String,

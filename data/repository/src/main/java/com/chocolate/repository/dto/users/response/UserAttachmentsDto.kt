@@ -3,35 +3,35 @@ package com.chocolate.repository.dto.users.response
 
 import com.google.gson.annotations.SerializedName
 
-data class UserAttachmentsDTO(
+data class UserAttachmentsDto(
     @SerializedName("attachments")
-    val attachments: List<Attachment>,
+    val attachments: List<Attachment?>?,
     @SerializedName("msg")
-    val msg: String,
+    val msg: String?,
     @SerializedName("result")
-    val result: String,
+    val result: String?,
     @SerializedName("upload_space_used")
-    val uploadSpaceUsed: Int
+    val uploadSpaceUsed: Int?
 ) {
     data class Attachment(
         @SerializedName("create_time")
-        val createTime: Long,
+        val createTime: Long?,
         @SerializedName("id")
-        val id: Int,
+        val id: Int?,
         @SerializedName("messages")
-        val messages: List<Message>,
+        val messages: List<Message?>?,
         @SerializedName("name")
-        val name: String,
+        val name: String?,
         @SerializedName("path_id")
-        val pathId: String,
+        val pathId: String?,
         @SerializedName("size")
-        val size: Int
+        val size: Int?
     ) {
         data class Message(
             @SerializedName("date_sent")
-            val dateSent: Long,
+            val dateSent: Long?,
             @SerializedName("id")
-            val id: Int
+            val id: Int?
         )
     }
 }

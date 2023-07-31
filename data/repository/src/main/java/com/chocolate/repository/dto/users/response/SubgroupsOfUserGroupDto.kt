@@ -3,11 +3,11 @@ package com.chocolate.repository.dto.users.response
 
 import com.google.gson.annotations.SerializedName
 
-data class AlertWordsDTO(
-    @SerializedName("alert_words")
-    val alertWords: List<String>,
+data class SubgroupsOfUserGroupDto(
     @SerializedName("msg")
-    val msg: String,
+    val msg: String?,
     @SerializedName("result")
-    val result: String
+    val result: String?,
+    @SerializedName("subgroups")
+    val subgroups: List<Int>?
 )

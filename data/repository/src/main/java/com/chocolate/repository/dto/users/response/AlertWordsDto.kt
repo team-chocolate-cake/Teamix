@@ -1,10 +1,13 @@
 package com.chocolate.repository.dto.users.response
 
+
 import com.google.gson.annotations.SerializedName
 
-data class MuteUserResponseDTO(
+data class AlertWordsDto(
+    @SerializedName("alert_words")
+    val alertWords: List<String>?,
     @SerializedName("msg")
-    val msg: String,
+    val msg: String?,
     @SerializedName("result")
-    val result: String
+    val result: String?
 )

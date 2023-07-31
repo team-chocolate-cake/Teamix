@@ -3,32 +3,32 @@ package com.chocolate.repository.dto.users.response
 
 import com.google.gson.annotations.SerializedName
 
-data class UserStateDTO(
+data class UserStateDto(
     @SerializedName("msg")
-    val msg: String,
+    val msg: String?,
     @SerializedName("presence")
-    val presence: Presence,
+    val presence: Presence?,
     @SerializedName("result")
-    val result: String
+    val result: String?
 ) {
     data class Presence(
         @SerializedName("aggregated")
-        val aggregated: Aggregated,
+        val aggregated: Aggregated?,
         @SerializedName("website")
-        val website: Website
+        val website: Website?
     ) {
         data class Aggregated(
             @SerializedName("status")
-            val status: String,
+            val status: String?,
             @SerializedName("timestamp")
-            val timestamp: Int
+            val timestamp: Int?
         )
 
         data class Website(
             @SerializedName("status")
-            val status: String,
+            val status: String?,
             @SerializedName("timestamp")
-            val timestamp: Int
+            val timestamp: Int?
         )
     }
 }

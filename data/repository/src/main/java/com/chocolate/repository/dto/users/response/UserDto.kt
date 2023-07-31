@@ -3,44 +3,44 @@ package com.chocolate.repository.dto.users.response
 
 import com.google.gson.annotations.SerializedName
 
-data class UserDTO(
+data class UserDto(
     @SerializedName("msg")
-    val msg: String,
+    val msg: String?,
     @SerializedName("result")
-    val result: String,
+    val result: String?,
     @SerializedName("user")
-    val user: User
+    val user: User?
 ) {
     data class User(
         @SerializedName("avatar_url")
-        val avatarUrl: String,
+        val avatarUrl: String?,
         @SerializedName("avatar_version")
-        val avatarVersion: Int,
+        val avatarVersion: Int?,
         @SerializedName("date_joined")
-        val dateJoined: String,
+        val dateJoined: String?,
         @SerializedName("delivery_email")
-        val deliveryEmail: Any,
+        val deliveryEmail: Any?,
         @SerializedName("email")
-        val email: String,
+        val email: String?,
         @SerializedName("full_name")
-        val fullName: String,
+        val fullName: String?,
         @SerializedName("is_active")
-        val isActive: Boolean,
+        val isActive: Boolean?,
         @SerializedName("is_admin")
-        val isAdmin: Boolean,
+        val isAdmin: Boolean?,
         @SerializedName("is_billing_admin")
-        val isBillingAdmin: Boolean,
+        val isBillingAdmin: Boolean?,
         @SerializedName("is_bot")
-        val isBot: Boolean,
+        val isBot: Boolean?,
         @SerializedName("is_guest")
-        val isGuest: Boolean,
+        val isGuest: Boolean?,
         @SerializedName("is_owner")
-        val isOwner: Boolean,
+        val isOwner: Boolean?,
         @SerializedName("role")
-        val role: Int,
+        val role: Int?,
         @SerializedName("timezone")
-        val timezone: String,
+        val timezone: String?,
         @SerializedName("user_id")
-        val userId: Int
+        val userId: Int?
     )
 }

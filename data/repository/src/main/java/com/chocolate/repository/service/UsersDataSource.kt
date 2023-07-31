@@ -3,21 +3,21 @@ package com.chocolate.repository.service
 
 import com.chocolate.repository.dto.users.request.ProfileData
 import com.chocolate.repository.dto.users.request.SettingsRequest
-import com.chocolate.repository.dto.users.response.AlertWordsDTO
-import com.chocolate.repository.dto.users.response.CreateUserDTO
-import com.chocolate.repository.dto.users.response.MuteUserResponseDTO
-import com.chocolate.repository.dto.users.response.OwnerUserDTO
-import com.chocolate.repository.dto.users.response.ResponseStateDTO
-import com.chocolate.repository.dto.users.response.SubgroupsOfUserGroupDTO
-import com.chocolate.repository.dto.users.response.UserAttachmentsDTO
-import com.chocolate.repository.dto.users.response.UserDTO
-import com.chocolate.repository.dto.users.response.UserGroupMembershipsDTO
-import com.chocolate.repository.dto.users.response.UserGroupsDTO
-import com.chocolate.repository.dto.users.response.UserMembershipStateDTO
-import com.chocolate.repository.dto.users.response.UserSettingsDTO
-import com.chocolate.repository.dto.users.response.UserStateDTO
+import com.chocolate.repository.dto.users.response.AlertWordsDto
+import com.chocolate.repository.dto.users.response.CreateUserDto
+import com.chocolate.repository.dto.users.response.MuteUserResponseDto
+import com.chocolate.repository.dto.users.response.OwnerUserDto
+import com.chocolate.repository.dto.users.response.ResponseStateDto
+import com.chocolate.repository.dto.users.response.SubgroupsOfUserGroupDto
+import com.chocolate.repository.dto.users.response.UserAttachmentsDto
+import com.chocolate.repository.dto.users.response.UserDto
+import com.chocolate.repository.dto.users.response.UserGroupMembershipsDto
+import com.chocolate.repository.dto.users.response.UserGroupsDto
+import com.chocolate.repository.dto.users.response.UserMembershipStateDto
+import com.chocolate.repository.dto.users.response.UserSettingsDto
+import com.chocolate.repository.dto.users.response.UserStateDto
 import com.chocolate.repository.dto.users.response.UsersDto
-import com.chocolate.repository.dto.users.response.UsersStateDTO
+import com.chocolate.repository.dto.users.response.UsersStateDto
 import retrofit2.Response
 
 interface UsersDataSource {
@@ -26,26 +26,26 @@ interface UsersDataSource {
         includeCustomProfileFields: Boolean = false
     ): Response<UsersDto>
 
-    suspend fun getOwnUser(): Response<OwnerUserDTO>
+    suspend fun getOwnUser(): Response<OwnerUserDto>
 
     suspend fun getUserById(
         userId: Int,
         clientGravatar: Boolean = true,
         includeCustomProfileFields: Boolean = false
-    ): Response<UserDTO>
+    ): Response<UserDto>
 
     suspend fun getUserByEmail(
         email: String,
         clientGravatar: Boolean = true,
         includeCustomProfileFields: Boolean = false
-    ): Response<UserDTO>
+    ): Response<UserDto>
 
     suspend fun updateUserById(
         id: Int,
         fullName: String? = null,
         role: Int? = null,
         profileData: List<ProfileData>? = null
-    ): Response<ResponseStateDTO>
+    ): Response<ResponseStateDto>
 
     suspend fun updateUserStatus(
         statusText: String? = null,
@@ -53,88 +53,88 @@ interface UsersDataSource {
         emojiName: String? = null,
         emojiCode: String? = null,
         reactionType: String? = null
-    ): Response<ResponseStateDTO>
+    ): Response<ResponseStateDto>
 
     suspend fun createUser(
         email: String,
         password: String,
         fullName: String
-    ): Response<CreateUserDTO>
+    ): Response<CreateUserDto>
 
-    suspend fun deactivateUser(id: Int): Response<ResponseStateDTO>
+    suspend fun deactivateUser(id: Int): Response<ResponseStateDto>
 
-    suspend fun reactivateUser(id: Int): Response<ResponseStateDTO>
+    suspend fun reactivateUser(id: Int): Response<ResponseStateDto>
 
-    suspend fun deactivateOwnUser(): Response<ResponseStateDTO>
+    suspend fun deactivateOwnUser(): Response<ResponseStateDto>
 
     suspend fun setTypingStatus(
         op: String,
         to: String,
         type: String? = "direct",
         topic: String? = null
-    ): Response<ResponseStateDTO>
+    ): Response<ResponseStateDto>
 
-    suspend fun getUserPresence(email: String): Response<UserStateDTO>
+    suspend fun getUserPresence(email: String): Response<UserStateDto>
 
-    suspend fun getRealmPresence(): Response<UsersStateDTO>
+    suspend fun getRealmPresence(): Response<UsersStateDto>
 
-    suspend fun getAttachments(): Response<UserAttachmentsDTO>
+    suspend fun getAttachments(): Response<UserAttachmentsDto>
 
-    suspend fun deleteAttachment(attachmentId: Int): Response<ResponseStateDTO>
+    suspend fun deleteAttachment(attachmentId: Int): Response<ResponseStateDto>
 
-    suspend fun updateSettings(settings: SettingsRequest): Response<UserSettingsDTO>
+    suspend fun updateSettings(settings: SettingsRequest): Response<UserSettingsDto>
 
-    suspend fun getUserGroups(): Response<UserGroupsDTO>
+    suspend fun getUserGroups(): Response<UserGroupsDto>
 
     suspend fun createUserGroup(
         name: String,
         description: String,
         members: String
-    ): Response<ResponseStateDTO>
+    ): Response<ResponseStateDto>
 
     suspend fun updateUserGroup(
         userGroupId: Int,
         name: String,
         description: String
-    ): Response<ResponseStateDTO>
+    ): Response<ResponseStateDto>
 
-    suspend fun removeUserGroup(userGroupId: Int): Response<ResponseStateDTO>
+    suspend fun removeUserGroup(userGroupId: Int): Response<ResponseStateDto>
 
     suspend fun updateUserGroupMembers(
         id: Int,
         add: List<Int>,
         delete: List<Int>
-    ): Response<ResponseStateDTO>
+    ): Response<ResponseStateDto>
 
     suspend fun updateUserGroupSubgroups(
         userGroupId: Int,
         add: List<Int>?,
         delete: List<Int>?
-    ): Response<SubgroupsOfUserGroupDTO>
+    ): Response<SubgroupsOfUserGroupDto>
 
     suspend fun getUserMembership(
         groupId: Int,
         userId: Int,
         directMemberOnly: Boolean
-    ): Response<UserMembershipStateDTO>
+    ): Response<UserMembershipStateDto>
 
     suspend fun getUserGroupMemberships(
         groupId: Int,
         directMemberOnly: Boolean
-    ): Response<UserGroupMembershipsDTO>
+    ): Response<UserGroupMembershipsDto>
 
     suspend fun getSubgroupsOfUserGroup(
         id: Int,
         directSubgroupOnly: Boolean
-    ): Response<SubgroupsOfUserGroupDTO>
+    ): Response<SubgroupsOfUserGroupDto>
 
-    suspend fun getAlertWords(): Response<AlertWordsDTO>
+    suspend fun getAlertWords(): Response<AlertWordsDto>
 
-    suspend fun addAlertWords(alertWords: String): Response<AlertWordsDTO>
+    suspend fun addAlertWords(alertWords: String): Response<AlertWordsDto>
 
-    suspend fun removeAlertWords(alertWords: String): Response<AlertWordsDTO>
+    suspend fun removeAlertWords(alertWords: String): Response<AlertWordsDto>
 
-    suspend fun muteUser(mutedUserId: Int): Response<MuteUserResponseDTO>
+    suspend fun muteUser(mutedUserId: Int): Response<MuteUserResponseDto>
 
-    suspend fun unmuteUser(mutedUserId: Int): Response<MuteUserResponseDTO>
+    suspend fun unmuteUser(mutedUserId: Int): Response<MuteUserResponseDto>
 }

@@ -1,46 +1,45 @@
 package com.chocolate.repository.dto.users.response
 
-
 import com.google.gson.annotations.SerializedName
 
-data class UsersStateDTO(
+data class UsersStateDto(
     @SerializedName("msg")
-    val msg: String,
+    val msg: String?,
     @SerializedName("presences")
-    val presences: Presences,
+    val presences: Presences?,
     @SerializedName("result")
-    val result: String,
+    val result: String?,
     @SerializedName("server_timestamp")
-    val serverTimestamp: Double
+    val serverTimestamp: Double?
 ) {
     data class Presences(
         @SerializedName("iago@zulip.com")
-        val iagozulipCom: IagozulipCom
+        val iagozulipCom: IagozulipCom?
     ) {
         data class IagozulipCom(
             @SerializedName("aggregated")
-            val aggregated: Aggregated,
+            val aggregated: Aggregated?,
             @SerializedName("website")
-            val website: Website
+            val website: Website?
         ) {
             data class Aggregated(
                 @SerializedName("client")
-                val client: String,
+                val client: String?,
                 @SerializedName("status")
-                val status: String,
+                val status: String?,
                 @SerializedName("timestamp")
-                val timestamp: Int
+                val timestamp: Int?
             )
 
             data class Website(
                 @SerializedName("client")
-                val client: String,
+                val client: String?,
                 @SerializedName("pushable")
-                val pushable: Boolean,
+                val pushable: Boolean?,
                 @SerializedName("status")
-                val status: String,
+                val status: String?,
                 @SerializedName("timestamp")
-                val timestamp: Int
+                val timestamp: Int?
             )
         }
     }

@@ -3,21 +3,21 @@ package com.chocolate.remote.users
 import com.chocolate.remote.users.service.UsersService
 import com.chocolate.repository.dto.users.request.ProfileData
 import com.chocolate.repository.dto.users.request.SettingsRequest
-import com.chocolate.repository.dto.users.response.AlertWordsDTO
-import com.chocolate.repository.dto.users.response.CreateUserDTO
-import com.chocolate.repository.dto.users.response.MuteUserResponseDTO
-import com.chocolate.repository.dto.users.response.OwnerUserDTO
-import com.chocolate.repository.dto.users.response.ResponseStateDTO
-import com.chocolate.repository.dto.users.response.SubgroupsOfUserGroupDTO
-import com.chocolate.repository.dto.users.response.UserAttachmentsDTO
-import com.chocolate.repository.dto.users.response.UserDTO
-import com.chocolate.repository.dto.users.response.UserGroupMembershipsDTO
-import com.chocolate.repository.dto.users.response.UserGroupsDTO
-import com.chocolate.repository.dto.users.response.UserMembershipStateDTO
-import com.chocolate.repository.dto.users.response.UserSettingsDTO
-import com.chocolate.repository.dto.users.response.UserStateDTO
+import com.chocolate.repository.dto.users.response.AlertWordsDto
+import com.chocolate.repository.dto.users.response.CreateUserDto
+import com.chocolate.repository.dto.users.response.MuteUserResponseDto
+import com.chocolate.repository.dto.users.response.OwnerUserDto
+import com.chocolate.repository.dto.users.response.ResponseStateDto
+import com.chocolate.repository.dto.users.response.SubgroupsOfUserGroupDto
+import com.chocolate.repository.dto.users.response.UserAttachmentsDto
+import com.chocolate.repository.dto.users.response.UserDto
+import com.chocolate.repository.dto.users.response.UserGroupMembershipsDto
+import com.chocolate.repository.dto.users.response.UserGroupsDto
+import com.chocolate.repository.dto.users.response.UserMembershipStateDto
+import com.chocolate.repository.dto.users.response.UserSettingsDto
+import com.chocolate.repository.dto.users.response.UserStateDto
 import com.chocolate.repository.dto.users.response.UsersDto
-import com.chocolate.repository.dto.users.response.UsersStateDTO
+import com.chocolate.repository.dto.users.response.UsersStateDto
 import com.chocolate.repository.service.UsersDataSource
 import retrofit2.Response
 import javax.inject.Inject
@@ -32,7 +32,7 @@ class UsersImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getOwnUser(): Response<OwnerUserDTO> {
+    override suspend fun getOwnUser(): Response<OwnerUserDto> {
         TODO("Not yet implemented")
     }
 
@@ -40,7 +40,7 @@ class UsersImpl @Inject constructor(
         userId: Int,
         clientGravatar: Boolean,
         includeCustomProfileFields: Boolean
-    ): Response<UserDTO> {
+    ): Response<UserDto> {
         TODO("Not yet implemented")
     }
 
@@ -48,7 +48,7 @@ class UsersImpl @Inject constructor(
         email: String,
         clientGravatar: Boolean,
         includeCustomProfileFields: Boolean
-    ): Response<UserDTO> {
+    ): Response<UserDto> {
         TODO("Not yet implemented")
     }
 
@@ -57,7 +57,7 @@ class UsersImpl @Inject constructor(
         fullName: String?,
         role: Int?,
         profileData: List<ProfileData>?
-    ): Response<ResponseStateDTO> {
+    ): Response<ResponseStateDto> {
         TODO("Not yet implemented")
     }
 
@@ -67,7 +67,7 @@ class UsersImpl @Inject constructor(
         emojiName: String?,
         emojiCode: String?,
         reactionType: String?
-    ): Response<ResponseStateDTO> {
+    ): Response<ResponseStateDto> {
         TODO("Not yet implemented")
     }
 
@@ -75,19 +75,19 @@ class UsersImpl @Inject constructor(
         email: String,
         password: String,
         fullName: String
-    ): Response<CreateUserDTO> {
+    ): Response<CreateUserDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deactivateUser(id: Int): Response<ResponseStateDTO> {
+    override suspend fun deactivateUser(id: Int): Response<ResponseStateDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun reactivateUser(id: Int): Response<ResponseStateDTO> {
+    override suspend fun reactivateUser(id: Int): Response<ResponseStateDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deactivateOwnUser(): Response<ResponseStateDTO> {
+    override suspend fun deactivateOwnUser(): Response<ResponseStateDto> {
         TODO("Not yet implemented")
     }
 
@@ -96,31 +96,31 @@ class UsersImpl @Inject constructor(
         to: String,
         type: String?,
         topic: String?
-    ): Response<ResponseStateDTO> {
+    ): Response<ResponseStateDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getUserPresence(email: String): Response<UserStateDTO> {
+    override suspend fun getUserPresence(email: String): Response<UserStateDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getRealmPresence(): Response<UsersStateDTO> {
+    override suspend fun getRealmPresence(): Response<UsersStateDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getAttachments(): Response<UserAttachmentsDTO> {
+    override suspend fun getAttachments(): Response<UserAttachmentsDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteAttachment(attachmentId: Int): Response<ResponseStateDTO> {
+    override suspend fun deleteAttachment(attachmentId: Int): Response<ResponseStateDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun updateSettings(settings: SettingsRequest): Response<UserSettingsDTO> {
+    override suspend fun updateSettings(settings: SettingsRequest): Response<UserSettingsDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getUserGroups(): Response<UserGroupsDTO> {
+    override suspend fun getUserGroups(): Response<UserGroupsDto> {
         TODO("Not yet implemented")
     }
 
@@ -128,7 +128,7 @@ class UsersImpl @Inject constructor(
         name: String,
         description: String,
         members: String
-    ): Response<ResponseStateDTO> {
+    ): Response<ResponseStateDto> {
         TODO("Not yet implemented")
     }
 
@@ -136,11 +136,11 @@ class UsersImpl @Inject constructor(
         userGroupId: Int,
         name: String,
         description: String
-    ): Response<ResponseStateDTO> {
+    ): Response<ResponseStateDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun removeUserGroup(userGroupId: Int): Response<ResponseStateDTO> {
+    override suspend fun removeUserGroup(userGroupId: Int): Response<ResponseStateDto> {
         TODO("Not yet implemented")
     }
 
@@ -148,7 +148,7 @@ class UsersImpl @Inject constructor(
         id: Int,
         add: List<Int>,
         delete: List<Int>
-    ): Response<ResponseStateDTO> {
+    ): Response<ResponseStateDto> {
         TODO("Not yet implemented")
     }
 
@@ -156,7 +156,7 @@ class UsersImpl @Inject constructor(
         userGroupId: Int,
         add: List<Int>?,
         delete: List<Int>?
-    ): Response<SubgroupsOfUserGroupDTO> {
+    ): Response<SubgroupsOfUserGroupDto> {
         TODO("Not yet implemented")
     }
 
@@ -164,41 +164,41 @@ class UsersImpl @Inject constructor(
         groupId: Int,
         userId: Int,
         directMemberOnly: Boolean
-    ): Response<UserMembershipStateDTO> {
+    ): Response<UserMembershipStateDto> {
         TODO("Not yet implemented")
     }
 
     override suspend fun getUserGroupMemberships(
         groupId: Int,
         directMemberOnly: Boolean
-    ): Response<UserGroupMembershipsDTO> {
+    ): Response<UserGroupMembershipsDto> {
         TODO("Not yet implemented")
     }
 
     override suspend fun getSubgroupsOfUserGroup(
         id: Int,
         directSubgroupOnly: Boolean
-    ): Response<SubgroupsOfUserGroupDTO> {
+    ): Response<SubgroupsOfUserGroupDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getAlertWords(): Response<AlertWordsDTO> {
+    override suspend fun getAlertWords(): Response<AlertWordsDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun addAlertWords(alertWords: String): Response<AlertWordsDTO> {
+    override suspend fun addAlertWords(alertWords: String): Response<AlertWordsDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun removeAlertWords(alertWords: String): Response<AlertWordsDTO> {
+    override suspend fun removeAlertWords(alertWords: String): Response<AlertWordsDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun muteUser(mutedUserId: Int): Response<MuteUserResponseDTO> {
+    override suspend fun muteUser(mutedUserId: Int): Response<MuteUserResponseDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun unmuteUser(mutedUserId: Int): Response<MuteUserResponseDTO> {
+    override suspend fun unmuteUser(mutedUserId: Int): Response<MuteUserResponseDto> {
         TODO("Not yet implemented")
     }
 }

@@ -21,7 +21,9 @@ import retrofit2.http.Query
 
 interface ChannelsService {
     @GET("users/me/subscriptions")
-    suspend fun getUserSubscriptions(@Query("include_subscribers") includeSubscribers: Boolean = false): Response<SubscribedStreamDto>
+    suspend fun getUserSubscriptions(
+        @Query("include_subscribers") includeSubscribers: Boolean = false
+    ): Response<SubscribedStreamDto>
 
     @POST("users/me/subscriptions")
     suspend fun addSubscribesToStream(

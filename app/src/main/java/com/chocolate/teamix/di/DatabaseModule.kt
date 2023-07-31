@@ -6,7 +6,7 @@ import com.chocolate.local.dao.DraftMessagesDao
 import com.chocolate.local.dao.StreamDao
 import com.chocolate.local.dao.TrendDao
 import com.chocolate.local.dao.UserDao
-import com.chocolate.local.database.TeamixDataBase
+import com.chocolate.local.database.TeamixDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,41 +16,41 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DataBaseModule {
+object DatabaseModule {
 
     @Singleton
     @Provides
-    fun providesTeamixDatabase(
+    fun provideTeamixDatabase(
         @ApplicationContext context: Context,
-    ): TeamixDataBase {
+    ): TeamixDatabase {
         return Room.databaseBuilder(
             context,
-            TeamixDataBase::class.java,
-            "TeamixDataBase.db"
+            TeamixDatabase::class.java,
+            "TeamixDatabase.db"
         ).build()
     }
 
     @Singleton
     @Provides
-    fun provideDraftDao(teamixDataBase: TeamixDataBase): DraftMessagesDao {
-        return teamixDataBase.draftMessagesDao
+    fun provideDraftDao(teamixDatabase: TeamixDatabase): DraftMessagesDao {
+        return teamixDatabase.draftMessagesDao
     }
 
     @Singleton
     @Provides
-    fun provideStreamDao(teamixDataBase: TeamixDataBase): StreamDao {
-        return teamixDataBase.streamDao
+    fun provideStreamDao(teamixDatabase: TeamixDatabase): StreamDao {
+        return teamixDatabase.streamDao
     }
 
     @Singleton
     @Provides
-    fun provideTrendDao(teamixDataBase: TeamixDataBase): TrendDao {
-        return teamixDataBase.trendDao
+    fun provideTrendDao(teamixDatabase: TeamixDatabase): TrendDao {
+        return teamixDatabase.trendDao
     }
 
     @Singleton
     @Provides
-    fun provideUserDao(teamixDataBase: TeamixDataBase): UserDao {
-        return teamixDataBase.userDao
+    fun provideUserDao(teamixDatabase: TeamixDatabase): UserDao {
+        return teamixDatabase.userDao
     }
 }

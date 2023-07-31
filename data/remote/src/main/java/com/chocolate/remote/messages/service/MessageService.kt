@@ -59,7 +59,7 @@ interface MessageService {
 
     @DELETE("messages/{message_id}")
     suspend fun deleteMessage(
-        @Query("message_id") message_id: Int
+        @Query("message_id") messageId: Int
     ): Response<DefaultMessageRemoteDto>
 
     @GET("messages")
@@ -146,7 +146,5 @@ interface MessageService {
     suspend fun getMessageReadReceipts(
         @Path("message_id") messageId: Int
     ): Response<MessageReadReceiptsRemoteDto>
-
-
 
 }

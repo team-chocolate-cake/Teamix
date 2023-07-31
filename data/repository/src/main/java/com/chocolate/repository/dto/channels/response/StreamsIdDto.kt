@@ -8,7 +8,7 @@ data class StreamsIdDto(
 	val code: String? = null,
 
 	@field:SerializedName("msg")
-	val msg: String? = null,
+	val message: String? = null,
 
 	@field:SerializedName("result")
 	val result: String? = null,

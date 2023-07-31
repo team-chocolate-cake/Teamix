@@ -7,7 +7,7 @@ data class ResponseStateDto(
     @SerializedName("code")
     val code: String?,
     @SerializedName("msg")
-    val msg: String?,
+    val message: String?,
     @SerializedName("result")
     val result: String?
 )

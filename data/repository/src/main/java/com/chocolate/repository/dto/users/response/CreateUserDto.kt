@@ -7,7 +7,7 @@ data class CreateUserDto(
     @SerializedName("msg")
     val msg: String?,
     @SerializedName("result")
-    val result: String?,
+    val message: String?,
     @SerializedName("user_id")
     val userId: Int?
 )

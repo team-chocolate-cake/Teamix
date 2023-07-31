@@ -7,7 +7,7 @@ data class LinkifiersDto(
     @SerializedName("linkifiers")
     val linkifiers: List<Linkifier>?,
     @SerializedName("msg")
-    val msg: String?,
+    val message: String?,
     @SerializedName("result")
     val result: String?
 ) {

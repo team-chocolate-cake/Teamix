@@ -7,7 +7,7 @@ data class CreateCustomProfileFieldDto(
     @SerializedName("id")
     val id: Int?,
     @SerializedName("msg")
-    val msg: String?,
+    val message: String?,
     @SerializedName("result")
     val result: String?
 )

@@ -7,7 +7,7 @@ data class UserAttachmentsDto(
     @SerializedName("attachments")
     val attachments: List<Attachment?>?,
     @SerializedName("msg")
-    val msg: String?,
+    val message: String?,
     @SerializedName("result")
     val result: String?,
     @SerializedName("upload_space_used")

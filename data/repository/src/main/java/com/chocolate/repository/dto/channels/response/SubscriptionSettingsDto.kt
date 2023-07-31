@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class SubscriptionSettingsDto(
 
 	@field:SerializedName("msg")
-	val msg: String? = null,
+	val message: String? = null,
 
 	@field:SerializedName("result")
 	val result: String? = null,

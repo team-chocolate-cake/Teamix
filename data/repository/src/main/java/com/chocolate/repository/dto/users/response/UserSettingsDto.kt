@@ -7,7 +7,7 @@ data class UserSettingsDto(
     @SerializedName("ignored_parameters_unsupported")
     val ignoredParametersUnsupported: List<String>?,
     @SerializedName("msg")
-    val msg: String?,
+    val message: String?,
     @SerializedName("result")
     val result: String?
 )

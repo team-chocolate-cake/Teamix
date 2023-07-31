@@ -7,7 +7,7 @@ data class CustomProfileFieldsDto(
     @SerializedName("custom_fields")
     val customFields: List<CustomField?>?,
     @SerializedName("msg")
-    val msg: String?,
+    val message: String?,
     @SerializedName("result")
     val result: String?
 ) {

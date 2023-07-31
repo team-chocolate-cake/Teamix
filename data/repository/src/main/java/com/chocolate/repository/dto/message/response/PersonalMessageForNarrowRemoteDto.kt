@@ -13,7 +13,7 @@ data class PersonalMessageForNarrowRemoteDto(
     @SerializedName("last_processed_id")
     val lastProcessedId: Int?,
     @SerializedName("msg")
-    val msg: String?,
+    val message: String?,
     @SerializedName("processed_count")
     val processedCount: Int?,
     @SerializedName("result")

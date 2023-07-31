@@ -13,7 +13,7 @@ data class ServerSettingsDto(
     @SerializedName("is_incompatible")
     val isIncompatible: Boolean?,
     @SerializedName("msg")
-    val msg: String?,
+    val message: String?,
     @SerializedName("push_notifications_enabled")
     val pushNotificationsEnabled: Boolean?,
     @SerializedName("realm_description")

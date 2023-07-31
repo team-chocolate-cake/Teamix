@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class RenderMessageRemoteDto(
     @SerializedName("msg")
-    val msg: String?,
+    val message: String?,
     @SerializedName("rendered")
     val rendered: String?,
     @SerializedName("result")

@@ -7,7 +7,7 @@ data class MessageEditHistoryRemoteDto(
     @SerializedName("message_history")
     val messageHistory: List<MessageHistory?>?,
     @SerializedName("msg")
-    val msg: String?,
+    val message: String?,
     @SerializedName("result")
     val result: String?,
     @SerializedName("code")

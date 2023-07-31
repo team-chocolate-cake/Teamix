@@ -7,7 +7,7 @@ data class CustomEmojiDto(
     @SerializedName("emoji")
     val emoji: Map<String, Emoji>?,
     @SerializedName("msg")
-    val msg: String,
+    val message: String,
     @SerializedName("result")
     val result: String
 ) {

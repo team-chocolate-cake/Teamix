@@ -7,7 +7,7 @@ data class AlertWordsDto(
     @SerializedName("alert_words")
     val alertWords: List<String>?,
     @SerializedName("msg")
-    val msg: String?,
+    val message: String?,
     @SerializedName("result")
     val result: String?
 )

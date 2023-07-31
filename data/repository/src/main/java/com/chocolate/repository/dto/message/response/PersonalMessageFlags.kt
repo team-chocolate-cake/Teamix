@@ -7,7 +7,7 @@ data class PersonalMessageFlags(
     @SerializedName("messages")
     val messages: List<Int?>?,
     @SerializedName("msg")
-    val msg: String?,
+    val message: String?,
     @SerializedName("result")
     val result: String?
 )

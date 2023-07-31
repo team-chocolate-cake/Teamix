@@ -7,7 +7,7 @@ data class UserMembershipStateDto(
     @SerializedName("is_user_group_member")
     val isUserGroupMember: Boolean?,
     @SerializedName("msg")
-    val msg: String?,
+    val message: String?,
     @SerializedName("result")
     val result: String?
 )

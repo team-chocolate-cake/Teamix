@@ -13,7 +13,7 @@ data class MessagesRemoteDto(
     @SerializedName("messages")
     val messages: List<Message?>?,
     @SerializedName("msg")
-    val msg: String?,
+    val message: String?,
     @SerializedName("result")
     val result: String?
 )

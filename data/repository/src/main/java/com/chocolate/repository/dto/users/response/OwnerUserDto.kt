@@ -19,7 +19,7 @@ data class OwnerUserDto(
     @SerializedName("is_guest") val isGuest: Boolean?,
     @SerializedName("is_owner") val isOwner: Boolean?,
     @SerializedName("max_message_id") val maxMessageId: Int?,
-    @SerializedName("msg") val msg: String?,
+    @SerializedName("msg") val message: String?,
     @SerializedName("profile_data") val profileData: Map<String, ProfileField>?,
     @SerializedName("result") val result: String?,
     @SerializedName("role") val role: Int?,

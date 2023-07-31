@@ -6,7 +6,7 @@ data class UsersDto(
     @SerializedName("members")
     val members: List<UserDto?>?,
     @SerializedName("msg")
-    val msg: String?,
+    val message: String?,
     @SerializedName("result")
     val result: String?
 ) {

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class UsersStateDto(
     @SerializedName("msg")
-    val msg: String?,
+    val message: String?,
     @SerializedName("presences")
     val presences: Presences?,
     @SerializedName("result")

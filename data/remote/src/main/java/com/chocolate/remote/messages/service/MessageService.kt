@@ -2,7 +2,6 @@ package com.chocolate.remote.messages.service
 
 import com.chocolate.repository.dto.message.response.DefaultMessageRemoteDto
 import com.chocolate.repository.dto.message.response.FileRemoteDto
-import com.chocolate.repository.dto.message.response.MarkAsReadResponse
 import com.chocolate.repository.dto.message.response.MatchNarrowRemoteDto
 import com.chocolate.repository.dto.message.response.MessageEditHistoryRemoteDto
 import com.chocolate.repository.dto.message.response.MessageReadReceiptsRemoteDto
@@ -135,13 +134,13 @@ interface MessageService {
     @POST("mark_stream_as_read")
     suspend fun markStreamAsRead(
         @Query("stream_id") steamId: Int
-    ): Response<MarkAsReadResponse>
+    ): Response<DefaultMessageRemoteDto>
 
     @POST("mark_topic_as_read")
     suspend fun markTopicAsRead(
         @Query("stream_id") steamId: Int,
         @Query("topic_name") topicName: String
-    ): Response<MarkAsReadResponse>
+    ): Response<DefaultMessageRemoteDto>
 
     @GET("messages/{message_id}/read_receipts")
     suspend fun getMessageReadReceipts(

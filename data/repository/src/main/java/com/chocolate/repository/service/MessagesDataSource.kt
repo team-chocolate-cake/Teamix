@@ -2,7 +2,6 @@ package com.chocolate.repository.service
 
 import com.chocolate.repository.dto.message.response.DefaultMessageRemoteDto
 import com.chocolate.repository.dto.message.response.FileRemoteDto
-import com.chocolate.repository.dto.message.response.MarkAsReadResponse
 import com.chocolate.repository.dto.message.response.MatchNarrowRemoteDto
 import com.chocolate.repository.dto.message.response.MessageEditHistoryRemoteDto
 import com.chocolate.repository.dto.message.response.MessageReadReceiptsRemoteDto
@@ -108,12 +107,12 @@ interface MessagesDataSource {
 
     suspend fun markStreamAsRead(
         steamId: Int
-    ): Response<MarkAsReadResponse>
+    ): Response<DefaultMessageRemoteDto>
 
     suspend fun markTopicAsRead(
         steamId: Int,
         topicName: String
-    ): Response<MarkAsReadResponse>
+    ): Response<DefaultMessageRemoteDto>
 
     suspend fun getMessageReadReceipts(
         messageId: Int

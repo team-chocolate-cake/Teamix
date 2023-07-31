@@ -3,7 +3,6 @@ package com.chocolate.remote.messages
 import com.chocolate.remote.messages.service.MessageService
 import com.chocolate.repository.dto.message.response.DefaultMessageRemoteDto
 import com.chocolate.repository.dto.message.response.FileRemoteDto
-import com.chocolate.repository.dto.message.response.MarkAsReadResponse
 import com.chocolate.repository.dto.message.response.MatchNarrowRemoteDto
 import com.chocolate.repository.dto.message.response.MessageEditHistoryRemoteDto
 import com.chocolate.repository.dto.message.response.MessageReadReceiptsRemoteDto
@@ -134,14 +133,14 @@ class MessagesImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun markStreamAsRead(steamId: Int): Response<MarkAsReadResponse> {
+    override suspend fun markStreamAsRead(steamId: Int): Response<DefaultMessageRemoteDto> {
         TODO("Not yet implemented")
     }
 
     override suspend fun markTopicAsRead(
         steamId: Int,
         topicName: String
-    ): Response<MarkAsReadResponse> {
+    ): Response<DefaultMessageRemoteDto> {
         TODO("Not yet implemented")
     }
 

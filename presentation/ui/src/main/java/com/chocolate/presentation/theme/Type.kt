@@ -7,72 +7,72 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import com.chocolate.presentation.R
 
-val OpenSans = FontFamily(
-    Font(R.font.open_sans_semi_bold, weight = FontWeight.SemiBold),
-    Font(R.font.open_sans_regular, weight = FontWeight.Normal),
+val Montserrat = FontFamily(
+    Font(R.font.montserrat_semi_bold, weight = FontWeight.SemiBold),
+    Font(R.font.montserrat_regular, weight = FontWeight.Normal),
 )
 
 val Typography = Typography(
     titleLarge = TextStyle(
-        fontFamily = OpenSans,
+        fontFamily = Montserrat,
         fontWeight = FontWeight.SemiBold,
-        fontSize = textSize22,
-        lineHeight = textHeight28
+        fontSize = TextSize22,
+        lineHeight = TextHeight28
     ),
 
     titleMedium = TextStyle(
-        fontFamily = OpenSans,
+        fontFamily = Montserrat,
         fontWeight = FontWeight.Normal,
-        fontSize = textSize16,
-        lineHeight = textHeight24
+        fontSize = TextSize16,
+        lineHeight = TextHeight24
     ),
 
     titleSmall = TextStyle(
-        fontFamily = OpenSans,
+        fontFamily = Montserrat,
         fontWeight = FontWeight.Normal,
-        fontSize = textSize16,
-        lineHeight = textHeight20
+        fontSize = TextSize14,
+        lineHeight = TextHeight20
     ),
 
     bodyLarge = TextStyle(
-        fontFamily = OpenSans,
+        fontFamily = Montserrat,
         fontWeight = FontWeight.Normal,
-        fontSize = textSize16,
-        lineHeight = textHeight24
+        fontSize = TextSize16,
+        lineHeight = TextHeight24
     ),
 
     bodyMedium = TextStyle(
-        fontFamily = OpenSans,
+        fontFamily = Montserrat,
         fontWeight = FontWeight.Normal,
-        fontSize = textSize14,
-        lineHeight = textHeight20
+        fontSize = TextSize14,
+        lineHeight = TextHeight20
     ),
 
     bodySmall = TextStyle(
-        fontFamily = OpenSans,
+        fontFamily = Montserrat,
         fontWeight = FontWeight.Normal,
-        fontSize = textSize12,
-        lineHeight = textHeight16
+        fontSize = TextSize12,
+        lineHeight = TextHeight16
     ),
 
     labelLarge = TextStyle(
-        fontFamily = OpenSans,
+        fontFamily = Montserrat,
         fontWeight = FontWeight.Normal,
-        fontSize = textSize12,
-        lineHeight = textHeight16
+        fontSize = TextSize14,
+        lineHeight = TextHeight20
     ),
 
     labelMedium = TextStyle(
-        fontFamily = OpenSans,
+        fontFamily = Montserrat,
         fontWeight = FontWeight.Normal,
-        fontSize = textSize12,
-        lineHeight = textHeight14
+        fontSize = TextSize12,
+        lineHeight = TextHeight16
     ),
 
     labelSmall = TextStyle(
-        fontFamily = OpenSans,
+        fontFamily = Montserrat,
         fontWeight = FontWeight.Normal,
-        fontSize = textSize12,
-        lineHeight = textHeight16
+        fontSize = TextSize12,
+        lineHeight = TextHeight16
     )
 )

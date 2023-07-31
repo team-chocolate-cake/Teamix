@@ -19,55 +19,55 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = onDarkPrimary,
-    secondary = onSecondary,
+    primary = OnDarkPrimary,
+    secondary = OnSecondary,
     tertiary = Pink80,
-    background = onDarkBackground
+    background = OnDarkBackground
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = onLightPrimary,
-    secondary = onSecondary,
+    primary = OnLightPrimary,
+    secondary = OnSecondary,
     tertiary = Pink40,
-    background = onLightBackground
+    background = OnLightBackground
 )
 
 val onLightCustomColorsPalette = CustomColorsPalette(
-    primary = onLightPrimary,
-    onPrimary = onPrimary,
-    secondary = secondary,
-    onSecondary = onSecondary,
-    border = border,
-    card = card,
-    background = onLightBackground,
-    onBackground87 = onLightOnBackground87,
-    onBackground60 = onLightOnBackground60,
-    onBackground38 = onBackground38,
-    gray= gray,
-    lightGray = onLightGray,
-    yellow= yellow,
-    green= green,
-    red60= red60,
-    red = red
+    primary = OnLightPrimary,
+    onPrimary = OnPrimary,
+    secondary = Secondary,
+    onSecondary = OnSecondary,
+    border = Border,
+    card = Card,
+    background = OnLightBackground,
+    onBackground87 = OnLightOnBackground87,
+    onBackground60 = OnLightOnBackground60,
+    onBackground38 = OnBackground38,
+    gray= Gray,
+    lightGray = OnLightGray,
+    yellow= Yellow,
+    green= Green,
+    red60= Red60,
+    red = Red
 )
 
 val onDarkCustomColorsPalette = CustomColorsPalette(
-    primary = onDarkPrimary,
-    onPrimary = onPrimary,
-    secondary = secondary,
-    onSecondary = onSecondary,
-    border = border,
-    card = card,
-    background = onDarkBackground,
-    onBackground87 = onDarkOnBackground87,
-    onBackground60 = onDarkOnBackground60,
-    onBackground38 = onBackground38,
-    gray= gray,
-    darkGray = onDarkGray,
-    yellow= yellow,
-    green= green,
-    red60= red60,
-    red = red
+    primary = OnDarkPrimary,
+    onPrimary = OnPrimary,
+    secondary = Secondary,
+    onSecondary = OnSecondary,
+    border = Border,
+    card = Card,
+    background = OnDarkBackground,
+    onBackground87 = OnDarkOnBackground87,
+    onBackground60 = OnDarkOnBackground60,
+    onBackground38 = OnBackground38,
+    gray= Gray,
+    darkGray = OnDarkGray,
+    yellow= Yellow,
+    green= Green,
+    red60= Red60,
+    red = Red
 )
 
 @SuppressLint("CompositionLocalNaming")

@@ -2,11 +2,11 @@ package com.chocolate.local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.chocolate.local.dao.DraftMessagesDao
-import com.chocolate.local.dao.OrganizationsDao
-import com.chocolate.local.dao.StreamDao
-import com.chocolate.local.dao.TrendDao
-import com.chocolate.local.dao.UserDao
+import com.chocolate.local.dao.draft.DraftMessagesDao
+import com.chocolate.local.dao.organization.OrganizationsDao
+import com.chocolate.local.dao.stream.StreamDao
+import com.chocolate.local.dao.trend.TrendDao
+import com.chocolate.local.dao.user.UserDao
 import com.chocolate.repository.dto.local.draft.DraftLocalDto
 import com.chocolate.repository.dto.local.stream.StreamLocalDto
 import com.chocolate.repository.dto.local.trends.TrendsLocalDto

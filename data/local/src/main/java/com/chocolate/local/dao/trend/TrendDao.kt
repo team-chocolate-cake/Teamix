@@ -1,4 +1,4 @@
-package com.chocolate.local.dao
+package com.chocolate.local.dao.trend
 
 import androidx.room.Dao
 import androidx.room.Delete

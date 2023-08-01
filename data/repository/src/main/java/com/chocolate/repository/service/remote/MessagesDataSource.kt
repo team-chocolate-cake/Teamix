@@ -23,7 +23,7 @@ interface MessagesDataSource {
         content: String,
         queueId: String?,
         localId: String?,
-    ): Response<com.chocolate.repository.dto.remote.message.response.SendMessageRemoteDto>
+    ): Response<SendMessageRemoteDto>
 
     suspend fun sendDirectMessage(
         type: String,
@@ -31,9 +31,9 @@ interface MessagesDataSource {
         content: String,
         queueId: String?,
         localId: String?,
-    ): Response<com.chocolate.repository.dto.remote.message.response.SendMessageRemoteDto>
+    ): Response<SendMessageRemoteDto>
 
-    suspend fun uploadFile(file: MultipartBody.Part): Response<com.chocolate.repository.dto.remote.message.response.FileRemoteDto>
+    suspend fun uploadFile(file: MultipartBody.Part): Response<FileRemoteDto>
 
     suspend fun editMessage(
         messageId: Int,
@@ -42,9 +42,9 @@ interface MessagesDataSource {
         propagateMode: String = "change_one",
         sendNotificationToOldThread: Boolean = false,
         sendNotificationToNewThread: Boolean = true
-    ): Response<com.chocolate.repository.dto.remote.message.response.DefaultMessageRemoteDto>
+    ): Response<DefaultMessageRemoteDto>
 
-    suspend fun deleteMessage(message_id: Int): Response<com.chocolate.repository.dto.remote.message.response.DefaultMessageRemoteDto>
+    suspend fun deleteMessage(message_id: Int): Response<DefaultMessageRemoteDto>
 
     suspend fun getMessages(
         anchor: String?,
@@ -54,44 +54,44 @@ interface MessagesDataSource {
         narrow: List<String>? = null,
         clientGravatar: Boolean = true,
         applyMarkdown: Boolean = true
-    ): Response<com.chocolate.repository.dto.remote.message.response.MessagesRemoteDto>
+    ): Response<MessagesRemoteDto>
 
     suspend fun addEmojiReaction(
         messageId: Int,
         emojiName: String,
         emojiCode: String?,
         reactionType: String?
-    ): Response<com.chocolate.repository.dto.remote.message.response.DefaultMessageRemoteDto>
+    ): Response<DefaultMessageRemoteDto>
 
     suspend fun deleteEmojiReaction(
         messageId: Int,
         emojiName: String,
         emojiCode: String?,
         reactionType: String?
-    ): Response<com.chocolate.repository.dto.remote.message.response.DefaultMessageRemoteDto>
+    ): Response<DefaultMessageRemoteDto>
 
     suspend fun renderMessage(
         content: String,
-    ): Response<com.chocolate.repository.dto.remote.message.response.RenderMessageRemoteDto>
+    ): Response<RenderMessageRemoteDto>
 
     suspend fun fetchSingleMessage(
         messageId: Int
-    ): Response<com.chocolate.repository.dto.remote.message.response.SingleMessageRemoteDto>
+    ): Response<SingleMessageRemoteDto>
 
     suspend fun checkIfMessagesMatchNarrow(
         msg_ids: String,
         narrow: String
-    ): Response<com.chocolate.repository.dto.remote.message.response.MatchNarrowRemoteDto>
+    ): Response<MatchNarrowRemoteDto>
 
     suspend fun getMessagesEditHistory(
         messageId: Int
-    ): Response<com.chocolate.repository.dto.remote.message.response.MessageEditHistoryRemoteDto>
+    ): Response<MessageEditHistoryRemoteDto>
 
     suspend fun updateMessageFlags(
         messages: List<Int>,
         op: String,
         flag: String,
-    ): Response<com.chocolate.repository.dto.remote.message.response.PersonalMessageFlags>
+    ): Response<PersonalMessageFlags>
 
     suspend fun updatePersonalMessageFlagsForNarrow(
         anchor: String,
@@ -101,20 +101,20 @@ interface MessagesDataSource {
         narrow: String,
         op: String,
         flag: String
-    ): Response<com.chocolate.repository.dto.remote.message.response.PersonalMessageForNarrowRemoteDto>
+    ): Response<PersonalMessageForNarrowRemoteDto>
 
-    suspend fun markAllMessagesAsRead(): Response<com.chocolate.repository.dto.remote.message.response.DefaultMessageRemoteDto>
+    suspend fun markAllMessagesAsRead(): Response<DefaultMessageRemoteDto>
 
     suspend fun markStreamAsRead(
         steamId: Int
-    ): Response<com.chocolate.repository.dto.remote.message.response.DefaultMessageRemoteDto>
+    ): Response<DefaultMessageRemoteDto>
 
     suspend fun markTopicAsRead(
         steamId: Int,
         topicName: String
-    ): Response<com.chocolate.repository.dto.remote.message.response.DefaultMessageRemoteDto>
+    ): Response<DefaultMessageRemoteDto>
 
     suspend fun getMessageReadReceipts(
         messageId: Int
-    ): Response<com.chocolate.repository.dto.remote.message.response.MessageReadReceiptsRemoteDto>
+    ): Response<MessageReadReceiptsRemoteDto>
 }

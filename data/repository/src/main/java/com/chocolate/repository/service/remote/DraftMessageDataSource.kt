@@ -6,16 +6,16 @@ import retrofit2.Response
 
 interface DraftMessageDataSource {
 
-    suspend fun getDrafts(): Response<com.chocolate.repository.dto.remote.draft.response.DraftsDto>
+    suspend fun getDrafts(): Response<DraftsDto>
 
     suspend fun createDraft(
         draftRequest: String
-    ): Response<com.chocolate.repository.dto.remote.draft.response.BaseDraftResponse>
+    ): Response<BaseDraftResponse>
 
     suspend fun editDraft(
         id: Int,
         draftRequest: String
-    ): Response<com.chocolate.repository.dto.remote.draft.response.BaseDraftResponse>
+    ): Response<BaseDraftResponse>
 
-    suspend fun deleteDraft(id: Int): Response<com.chocolate.repository.dto.remote.draft.response.BaseDraftResponse>
+    suspend fun deleteDraft(id: Int): Response<BaseDraftResponse>
 }

@@ -1,4 +1,4 @@
-package com.chocolate.remote.channels
+package com.chocolate.remote.channels.implementation.remote
 
 import com.chocolate.remote.channels.service.ChannelsService
 import com.chocolate.repository.dto.remote.channels.response.AllStreamsDto
@@ -21,7 +21,7 @@ class ChannelsImpl @Inject constructor(
 ): ChannelsDataSource {
     override suspend fun getUserSubscriptions(
         includeSubscribers: Boolean
-    ): Response<com.chocolate.repository.dto.remote.channels.response.SubscribedStreamDto> {
+    ): Response<SubscribedStreamDto> {
         TODO("Not yet implemented")
     }
 
@@ -36,7 +36,7 @@ class ChannelsImpl @Inject constructor(
         streamPostPolicy: Int?,
         messageRetentionDays: String?,
         canRemoveSubscribersGroupId: Int?
-    ): Response<com.chocolate.repository.dto.remote.channels.response.SubscribeToStreamDto> {
+    ): Response<SubscribeToStreamDto> {
         TODO("Not yet implemented")
     }
 
@@ -44,22 +44,22 @@ class ChannelsImpl @Inject constructor(
     override suspend fun deleteSubscriberFromStream(
         subscriptions: String,
         principals: List<String>?
-    ): Response<com.chocolate.repository.dto.remote.channels.response.UnsubscribeFromStreamDto> {
+    ): Response<UnsubscribeFromStreamDto> {
         TODO("Not yet implemented")
     }
 
     override suspend fun getSubscriptionStatus(
         userId: Int,
         streamId: Int
-    ): Response<com.chocolate.repository.dto.remote.channels.response.SubscriptionStatusDto> {
+    ): Response<SubscriptionStatusDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getAllSubscribers(streamId: Int): Response<com.chocolate.repository.dto.remote.channels.response.AllSubscribersDto> {
+    override suspend fun getAllSubscribers(streamId: Int): Response<AllSubscribersDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun updateSubscriptionSettings(subscriptionData: String): Response<com.chocolate.repository.dto.remote.channels.response.SubscriptionSettingsDto> {
+    override suspend fun updateSubscriptionSettings(subscriptionData: String): Response<SubscriptionSettingsDto> {
         TODO("Not yet implemented")
     }
 
@@ -70,15 +70,15 @@ class ChannelsImpl @Inject constructor(
         includeAllActive: Boolean,
         includeDefault: Boolean,
         includeOwnerSubscribed: Boolean
-    ): Response<com.chocolate.repository.dto.remote.channels.response.AllStreamsDto> {
+    ): Response<AllStreamsDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getStreamById(streamId: Int): Response<com.chocolate.repository.dto.remote.channels.response.StreamsByIdDto> {
+    override suspend fun getStreamById(streamId: Int): Response<StreamsByIdDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getStreamId(stream: String): Response<com.chocolate.repository.dto.remote.channels.response.StreamsIdDto> {
+    override suspend fun getStreamId(stream: String): Response<StreamsIdDto> {
         TODO("Not yet implemented")
     }
 
@@ -92,15 +92,15 @@ class ChannelsImpl @Inject constructor(
         streamPostPolicy: Int?,
         messageRetentionDays: String?,
         canRemoveSubscribersGroupId: Int?
-    ): Response<com.chocolate.repository.dto.remote.channels.response.DefaultStreamDto> {
+    ): Response<DefaultStreamDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun archiveStream(streamId: Int): Response<com.chocolate.repository.dto.remote.channels.response.DefaultStreamDto> {
+    override suspend fun archiveStream(streamId: Int): Response<DefaultStreamDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getTopicsInStream(streamId: Int): Response<com.chocolate.repository.dto.remote.channels.response.TopicsInStreamDto> {
+    override suspend fun getTopicsInStream(streamId: Int): Response<TopicsInStreamDto> {
         TODO("Not yet implemented")
     }
 
@@ -109,7 +109,7 @@ class ChannelsImpl @Inject constructor(
         status: String,
         streamId: Int?,
         stream: String?
-    ): Response<com.chocolate.repository.dto.remote.channels.response.DefaultStreamDto> {
+    ): Response<DefaultStreamDto> {
         TODO("Not yet implemented")
     }
 
@@ -117,19 +117,19 @@ class ChannelsImpl @Inject constructor(
         streamId: Int,
         topic: String,
         visibilityPolicy: Int
-    ): Response<com.chocolate.repository.dto.remote.channels.response.DefaultStreamDto> {
+    ): Response<DefaultStreamDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteTopic(streamId: Int, topicName: String): Response<com.chocolate.repository.dto.remote.channels.response.DefaultStreamDto> {
+    override suspend fun deleteTopic(streamId: Int, topicName: String): Response<DefaultStreamDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun addDefaultStream(streamId: Int): Response<com.chocolate.repository.dto.remote.channels.response.DefaultStreamDto> {
+    override suspend fun addDefaultStream(streamId: Int): Response<DefaultStreamDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteDefaultStream(streamId: Int): Response<com.chocolate.repository.dto.remote.channels.response.DefaultStreamDto> {
+    override suspend fun deleteDefaultStream(streamId: Int): Response<DefaultStreamDto> {
         TODO("Not yet implemented")
     }
 }

@@ -1,6 +1,6 @@
 package com.chocolate.repository.implementation.draft
 
-import com.chocolate.repository.service.DraftMessageDataSource
+import com.chocolate.repository.service.remote.DraftMessageDataSource
 import repositories.draft.DraftRepository
 import javax.inject.Inject
 

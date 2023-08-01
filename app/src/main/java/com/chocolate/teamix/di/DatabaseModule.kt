@@ -3,6 +3,7 @@ package com.chocolate.teamix.di
 import android.content.Context
 import androidx.room.Room
 import com.chocolate.local.dao.DraftMessagesDao
+import com.chocolate.local.dao.OrganizationsDao
 import com.chocolate.local.dao.StreamDao
 import com.chocolate.local.dao.TrendDao
 import com.chocolate.local.dao.UserDao
@@ -52,5 +53,11 @@ object DatabaseModule {
     @Provides
     fun provideUserDao(teamixDatabase: TeamixDatabase): UserDao {
         return teamixDatabase.userDao
+    }
+
+    @Singleton
+    @Provides
+    fun provideOrganizationsDao(teamixDatabase: TeamixDatabase): OrganizationsDao {
+        return teamixDatabase.organizationsDao
     }
 }

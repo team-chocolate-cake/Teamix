@@ -1,4 +1,4 @@
-package com.chocolate.repository.service
+package com.chocolate.repository.service.remote
 
 import com.chocolate.repository.dto.server_and_organizations.response.DefaultOrganizationDto
 import com.chocolate.repository.dto.server_and_organizations.response.CustomEmojiDto

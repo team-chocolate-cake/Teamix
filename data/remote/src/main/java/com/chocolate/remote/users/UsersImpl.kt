@@ -18,7 +18,7 @@ import com.chocolate.repository.dto.users.response.UserSettingsDto
 import com.chocolate.repository.dto.users.response.UserStateDto
 import com.chocolate.repository.dto.users.response.UsersDto
 import com.chocolate.repository.dto.users.response.UsersStateDto
-import com.chocolate.repository.service.UsersDataSource
+import com.chocolate.repository.service.remote.UsersDataSource
 import retrofit2.Response
 import javax.inject.Inject
 

@@ -10,14 +10,14 @@ import com.chocolate.local.entities.draft.DraftEntity
 @Dao
 interface DraftMessagesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertDraft(draft: DraftEntity)
+    suspend fun insertDraft(draft: DraftEntity)
 
 
     @Query("SELECT * FROM Draft_table WHERE id = :id")
-    fun getDraftById(id: String): DraftEntity?
+    suspend fun getDraftById(id: String): DraftEntity?
 
 
     @Delete
-    fun deleteSavedDraft(draft: DraftEntity)
+    suspend fun deleteSavedDraft(draft: DraftEntity)
 
 }

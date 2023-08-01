@@ -1,6 +1,6 @@
 package com.chocolate.repository.implementation.users
 
-import com.chocolate.repository.service.UsersDataSource
+import com.chocolate.repository.service.remote.UsersDataSource
 import repositories.users.UsersRepositories
 import javax.inject.Inject
 
@@ -95,14 +95,18 @@ class UserRepositoryImp @Inject constructor(userDataSource: UsersDataSource) : U
      }
 
     override suspend fun unmuteUser() {
-     }
+    }
 
     override suspend fun getAlertWords() {
-     }
+    }
 
     override suspend fun addAlertWords() {
-     }
+    }
 
     override suspend fun removeAlertWords() {
-     }
+    }
+
+    override suspend fun addOrganizations(nameOrganizations: String) {
+
+    }
 }

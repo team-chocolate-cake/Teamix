@@ -32,6 +32,7 @@ interface UsersRepositories {
     suspend fun getAlertWords()
     suspend fun addAlertWords()
     suspend fun removeAlertWords()
+    suspend fun addOrganizations(nameOrganizations: String)
 
 
 }

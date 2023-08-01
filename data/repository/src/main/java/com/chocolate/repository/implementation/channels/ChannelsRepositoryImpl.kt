@@ -1,6 +1,6 @@
 package com.chocolate.repository.implementation.channels
 
-import com.chocolate.repository.service.ChannelsDataSource
+import com.chocolate.repository.service.remote.ChannelsDataSource
 import repositories.channels.ChannelsRepository
 import javax.inject.Inject
 

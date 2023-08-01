@@ -10,14 +10,12 @@ import com.chocolate.local.entities.users.StoriesEntity
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertStory(story: StoriesEntity)
-
+    suspend fun insertStory(story: StoriesEntity)
 
     @Query("SELECT * FROM story_table WHERE id = :id")
-    fun getStoryById(id: String): StoriesEntity?
-
+    suspend fun getStoryById(id: String): StoriesEntity?
 
     @Delete
-    fun deleteSavedStory(story: StoriesEntity)
+    suspend fun deleteSavedStory(story: StoriesEntity)
 
 }

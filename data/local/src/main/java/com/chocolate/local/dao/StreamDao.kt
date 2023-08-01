@@ -10,14 +10,14 @@ import com.chocolate.local.entities.stream.StreamEntity
 @Dao
 interface StreamDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertStream(stream: StreamEntity)
+    suspend fun insertStream(stream: StreamEntity)
 
 
     @Query("SELECT * FROM stream_table WHERE id = :id")
-    fun getStreamById(id: String): StreamEntity?
+    suspend fun getStreamById(id: String): StreamEntity?
 
 
     @Delete
-    fun deleteSavedStream(stream: StreamEntity)
+    suspend fun deleteSavedStream(stream: StreamEntity)
 
 }

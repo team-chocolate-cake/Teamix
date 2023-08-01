@@ -1,4 +1,4 @@
-package com.chocolate.repository.service
+package com.chocolate.repository.service.remote
 
 
 import com.chocolate.repository.dto.users.request.ProfileData

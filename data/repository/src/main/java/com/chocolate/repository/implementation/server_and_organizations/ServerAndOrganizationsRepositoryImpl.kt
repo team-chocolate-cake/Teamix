@@ -1,6 +1,6 @@
 package com.chocolate.repository.implementation.server_and_organizations
 
-import com.chocolate.repository.service.OrganizationDataSource
+import com.chocolate.repository.service.remote.OrganizationDataSource
 import repositories.server_and_organizations.ServerAndOrganizationsRepository
 import javax.inject.Inject
 

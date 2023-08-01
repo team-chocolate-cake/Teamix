@@ -1,6 +1,6 @@
 package com.chocolate.repository.implementation.messages
 
-import com.chocolate.repository.service.MessagesDataSource
+import com.chocolate.repository.service.remote.MessagesDataSource
 import repositories.messages.MessagesRepository
 import javax.inject.Inject
 

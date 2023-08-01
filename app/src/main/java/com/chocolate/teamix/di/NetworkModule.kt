@@ -13,16 +13,16 @@ import com.chocolate.remote.server_and_organizations.OrganizationsImpl
 import com.chocolate.remote.server_and_organizations.service.OrganizationService
 import com.chocolate.remote.users.UsersImpl
 import com.chocolate.remote.users.service.UsersService
-import com.chocolate.repository.service.ChannelsDataSource
-import com.chocolate.repository.service.DraftMessageDataSource
-import com.chocolate.repository.service.MessagesDataSource
-import com.chocolate.repository.service.OrganizationDataSource
-import com.chocolate.repository.service.ScheduledMessageDataSource
-import com.chocolate.repository.service.UsersDataSource
+import com.chocolate.repository.service.remote.ChannelsDataSource
+import com.chocolate.repository.service.remote.DraftMessageDataSource
+import com.chocolate.repository.service.remote.MessagesDataSource
+import com.chocolate.repository.service.remote.OrganizationDataSource
+import com.chocolate.repository.service.remote.ScheduledMessageDataSource
+import com.chocolate.repository.service.remote.UsersDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import dagger.hilt.android.components.ActivityRetainedComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -30,7 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ActivityRetainedComponent::class)
 object NetworkModule {
 
     @Singleton
@@ -55,7 +55,6 @@ object NetworkModule {
     @Provides
     fun provideRetrofitBuilder(client: OkHttpClient, factory: GsonConverterFactory): Retrofit =
         Retrofit.Builder()
-            .baseUrl("")
             .client(client)
             .addConverterFactory(factory)
             .build()

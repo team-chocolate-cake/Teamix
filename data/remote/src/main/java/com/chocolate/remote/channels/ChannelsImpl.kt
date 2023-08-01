@@ -12,7 +12,7 @@ import com.chocolate.repository.dto.channels.response.SubscriptionSettingsDto
 import com.chocolate.repository.dto.channels.response.SubscriptionStatusDto
 import com.chocolate.repository.dto.channels.response.TopicsInStreamDto
 import com.chocolate.repository.dto.channels.response.UnsubscribeFromStreamDto
-import com.chocolate.repository.service.ChannelsDataSource
+import com.chocolate.repository.service.remote.ChannelsDataSource
 import retrofit2.Response
 import javax.inject.Inject
 

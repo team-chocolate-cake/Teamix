@@ -6,7 +6,7 @@ import com.chocolate.repository.dto.server_and_organizations.response.CustomProf
 import com.chocolate.repository.dto.server_and_organizations.response.DefaultOrganizationDto
 import com.chocolate.repository.dto.server_and_organizations.response.LinkifiersDto
 import com.chocolate.repository.dto.server_and_organizations.response.ServerSettingsDto
-import com.chocolate.repository.service.OrganizationDataSource
+import com.chocolate.repository.service.remote.OrganizationDataSource
 import retrofit2.Response
 import javax.inject.Inject
 

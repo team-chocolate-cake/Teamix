@@ -12,7 +12,7 @@ import com.chocolate.repository.dto.message.response.PersonalMessageForNarrowRem
 import com.chocolate.repository.dto.message.response.RenderMessageRemoteDto
 import com.chocolate.repository.dto.message.response.SendMessageRemoteDto
 import com.chocolate.repository.dto.message.response.SingleMessageRemoteDto
-import com.chocolate.repository.service.MessagesDataSource
+import com.chocolate.repository.service.remote.MessagesDataSource
 import okhttp3.MultipartBody
 import retrofit2.Response
 import javax.inject.Inject

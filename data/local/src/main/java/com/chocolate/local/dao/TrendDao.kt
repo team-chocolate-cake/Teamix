@@ -10,12 +10,12 @@ import com.chocolate.local.entities.trends.TrendsEntity
 @Dao
 interface TrendDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTrend(trend: TrendsEntity)
+    suspend fun insertTrend(trend: TrendsEntity)
 
     @Query("SELECT * FROM trend_table WHERE id = :id")
-    fun getTrendById(id: String): TrendsEntity?
+    suspend fun getTrendById(id: String): TrendsEntity?
 
     @Delete
-    fun deleteSavedTrend(trend: TrendsEntity)
+    suspend fun deleteSavedTrend(trend: TrendsEntity)
 
 }

@@ -1,4 +1,4 @@
-package com.chocolate.local.dao
+package com.chocolate.local.dao.stream
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -12,10 +12,8 @@ interface StreamDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertStream(stream: StreamLocalDto)
 
-
     @Query("SELECT * FROM stream_table WHERE id = :id")
     suspend fun getStreamById(id: String): StreamLocalDto?
-
 
     @Delete
     suspend fun deleteSavedStream(stream: StreamLocalDto)

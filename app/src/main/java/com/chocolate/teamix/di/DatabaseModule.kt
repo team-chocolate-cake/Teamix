@@ -2,11 +2,11 @@ package com.chocolate.teamix.di
 
 import android.content.Context
 import androidx.room.Room
-import com.chocolate.local.dao.DraftMessagesDao
-import com.chocolate.local.dao.OrganizationsDao
-import com.chocolate.local.dao.StreamDao
-import com.chocolate.local.dao.TrendDao
-import com.chocolate.local.dao.UserDao
+import com.chocolate.local.dao.draft.DraftMessagesDao
+import com.chocolate.local.dao.organization.OrganizationsDao
+import com.chocolate.local.dao.stream.StreamDao
+import com.chocolate.local.dao.trend.TrendDao
+import com.chocolate.local.dao.user.UserDao
 import com.chocolate.local.database.TeamixDatabase
 import dagger.Module
 import dagger.Provides

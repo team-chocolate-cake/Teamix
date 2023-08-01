@@ -1,4 +1,4 @@
-package com.chocolate.local.dao
+package com.chocolate.local.dao.user
 
 import androidx.room.Dao
 import androidx.room.Delete

@@ -10,11 +10,11 @@ import com.chocolate.repository.dto.local.users.OrganizationsLocalDto
 @Dao
 interface OrganizationsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertNameOrg(nameOrg: String)
+    suspend fun insertNameOrg(nameOrg: OrganizationsLocalDto)
 
-    @Query("SELECT * FROM TABLE_ORGANIZATIONS WHERE nameOrganizations = :nameOrganizations")
-    suspend fun getNameOrganizations(nameOrganizations: String): List<OrganizationsLocalDto>
+    @Query("SELECT * FROM TABLE_ORGANIZATIONS")
+    suspend fun getNameOrganizations(): List<OrganizationsLocalDto>
 
     @Delete
-    suspend fun deleteOrganizations(nameOrganizations: String)
+    suspend fun deleteOrganizations(nameOrganizations: OrganizationsLocalDto)
 }

@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -86,4 +87,5 @@ dependencies {
     implementation (DependencyProject.roomRuntime)
     annotationProcessor (DependencyProject.roomCompiler)
     kapt (DependencyProject.room)
+    implementation(DependencyProject.dataStore)
 }

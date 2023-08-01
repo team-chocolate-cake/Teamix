@@ -7,4 +7,5 @@ import androidx.room.PrimaryKey
 data class StoriesEntity(
     @PrimaryKey
     val id: String,
-    val image: Int)
+    val image: Int
+)

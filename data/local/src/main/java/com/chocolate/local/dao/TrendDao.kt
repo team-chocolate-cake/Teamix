@@ -5,17 +5,17 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.chocolate.local.entities.trends.TrendsEntity
+import com.chocolate.repository.dto.local.trends.TrendsLocalDto
 
 @Dao
 interface TrendDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTrend(trend: TrendsEntity)
+    suspend fun insertTrend(trend: TrendsLocalDto)
 
     @Query("SELECT * FROM trend_table WHERE id = :id")
-    suspend fun getTrendById(id: String): TrendsEntity?
+    suspend fun getTrendById(id: String): TrendsLocalDto?
 
     @Delete
-    suspend fun deleteSavedTrend(trend: TrendsEntity)
+    suspend fun deleteSavedTrend(trend: TrendsLocalDto)
 
 }

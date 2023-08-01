@@ -1,16 +1,16 @@
 package com.chocolate.remote.messages.service
 
-import com.chocolate.repository.dto.message.response.DefaultMessageRemoteDto
-import com.chocolate.repository.dto.message.response.FileRemoteDto
-import com.chocolate.repository.dto.message.response.MatchNarrowRemoteDto
-import com.chocolate.repository.dto.message.response.MessageEditHistoryRemoteDto
-import com.chocolate.repository.dto.message.response.MessageReadReceiptsRemoteDto
-import com.chocolate.repository.dto.message.response.MessagesRemoteDto
-import com.chocolate.repository.dto.message.response.PersonalMessageFlags
-import com.chocolate.repository.dto.message.response.PersonalMessageForNarrowRemoteDto
-import com.chocolate.repository.dto.message.response.RenderMessageRemoteDto
-import com.chocolate.repository.dto.message.response.SendMessageRemoteDto
-import com.chocolate.repository.dto.message.response.SingleMessageRemoteDto
+import com.chocolate.repository.dto.remote.message.response.DefaultMessageRemoteDto
+import com.chocolate.repository.dto.remote.message.response.FileRemoteDto
+import com.chocolate.repository.dto.remote.message.response.MatchNarrowRemoteDto
+import com.chocolate.repository.dto.remote.message.response.MessageEditHistoryRemoteDto
+import com.chocolate.repository.dto.remote.message.response.MessageReadReceiptsRemoteDto
+import com.chocolate.repository.dto.remote.message.response.MessagesRemoteDto
+import com.chocolate.repository.dto.remote.message.response.PersonalMessageFlags
+import com.chocolate.repository.dto.remote.message.response.PersonalMessageForNarrowRemoteDto
+import com.chocolate.repository.dto.remote.message.response.RenderMessageRemoteDto
+import com.chocolate.repository.dto.remote.message.response.SendMessageRemoteDto
+import com.chocolate.repository.dto.remote.message.response.SingleMessageRemoteDto
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.DELETE
@@ -32,7 +32,7 @@ interface MessageService {
         @Query("content") content: String,
         @Query("queue_id") queueId: String?,
         @Query("local_id") localId: String?,
-    ): Response<SendMessageRemoteDto>
+    ): Response<com.chocolate.repository.dto.remote.message.response.SendMessageRemoteDto>
 
     @POST("messages")
     suspend fun sendDirectMessage(
@@ -41,11 +41,11 @@ interface MessageService {
         @Query("content") content: String,
         @Query("queue_id") queueId: String?,
         @Query("local_id") localId: String?,
-    ): Response<SendMessageRemoteDto>
+    ): Response<com.chocolate.repository.dto.remote.message.response.SendMessageRemoteDto>
 
     @Multipart
     @POST("user_uploads")
-    suspend fun uploadFile(@Part file: MultipartBody.Part): Response<FileRemoteDto>
+    suspend fun uploadFile(@Part file: MultipartBody.Part): Response<com.chocolate.repository.dto.remote.message.response.FileRemoteDto>
 
     @PATCH("messages/{message_id}")
     suspend fun editMessage(
@@ -55,12 +55,12 @@ interface MessageService {
         @Query("propagate_mode") propagateMode: String = "change_one",
         @Query("send_notification_to_old_thread") sendNotificationToOldThread: Boolean = false,
         @Query("send_notification_to_new_thread") sendNotificationToNewThread: Boolean = true
-    ): Response<DefaultMessageRemoteDto>
+    ): Response<com.chocolate.repository.dto.remote.message.response.DefaultMessageRemoteDto>
 
     @DELETE("messages/{message_id}")
     suspend fun deleteMessage(
         @Query("message_id") messageId: Int
-    ): Response<DefaultMessageRemoteDto>
+    ): Response<com.chocolate.repository.dto.remote.message.response.DefaultMessageRemoteDto>
 
     @GET("messages")
     suspend fun getMessages(
@@ -71,7 +71,7 @@ interface MessageService {
         @Query("narrow") narrow: List<String>? = null,
         @Query("client_gravatar") clientGravatar: Boolean = true,
         @Query("apply_markdown") applyMarkdown: Boolean = true
-    ): Response<MessagesRemoteDto>
+    ): Response<com.chocolate.repository.dto.remote.message.response.MessagesRemoteDto>
 
     @POST("messages/{message_id}/reactions")
     suspend fun addEmojiReaction(
@@ -79,7 +79,7 @@ interface MessageService {
         @Query("emoji_name") emojiName: String,
         @Query("emoji_code") emojiCode: String?,
         @Query("reaction_type") reactionType: String?
-    ): Response<DefaultMessageRemoteDto>
+    ): Response<com.chocolate.repository.dto.remote.message.response.DefaultMessageRemoteDto>
 
     @DELETE("messages/{message_id}/reactions")
     suspend fun deleteEmojiReaction(
@@ -87,35 +87,35 @@ interface MessageService {
         @Query("emoji_name") emojiName: String,
         @Query("emoji_code") emojiCode: String?,
         @Query("reaction_type") reactionType: String?
-    ): Response<DefaultMessageRemoteDto>
+    ): Response<com.chocolate.repository.dto.remote.message.response.DefaultMessageRemoteDto>
 
     @POST("messages/render")
     suspend fun renderMessage(
         @Query("content") content: String,
-    ): Response<RenderMessageRemoteDto>
+    ): Response<com.chocolate.repository.dto.remote.message.response.RenderMessageRemoteDto>
 
     @GET("messages/{message_id}")
     suspend fun fetchSingleMessage(
         @Path("message_id") messageId: Int
-    ): Response<SingleMessageRemoteDto>
+    ): Response<com.chocolate.repository.dto.remote.message.response.SingleMessageRemoteDto>
 
     @GET("messages/matches_narrow")
     suspend fun checkIfMessagesMatchNarrow(
         @Query("msg_ids") messageIds: String,
         @Query("narrow") narrow: String
-    ): Response<MatchNarrowRemoteDto>
+    ): Response<com.chocolate.repository.dto.remote.message.response.MatchNarrowRemoteDto>
 
     @GET("messages/{message_id}/history")
     suspend fun getMessagesEditHistory(
         @Path("message_id") messageId: Int
-    ): Response<MessageEditHistoryRemoteDto>
+    ): Response<com.chocolate.repository.dto.remote.message.response.MessageEditHistoryRemoteDto>
 
     @POST("messages/flags")
     suspend fun updateMessageFlags(
         @Query("messages") messages: List<Int>,
         @Query("op") op: String,
         @Query("flag") flag: String,
-    ): Response<PersonalMessageFlags>
+    ): Response<com.chocolate.repository.dto.remote.message.response.PersonalMessageFlags>
 
     @POST("messages/flags/narrow")
     suspend fun updatePersonalMessageFlagsForNarrow(
@@ -126,25 +126,25 @@ interface MessageService {
         @Query("narrow") narrow: String,
         @Query("op") op: String,
         @Query("flag") flag: String
-    ): Response<PersonalMessageForNarrowRemoteDto>
+    ): Response<com.chocolate.repository.dto.remote.message.response.PersonalMessageForNarrowRemoteDto>
 
     @POST("mark_all_as_read")
-    suspend fun markAllMessagesAsRead(): Response<DefaultMessageRemoteDto>
+    suspend fun markAllMessagesAsRead(): Response<com.chocolate.repository.dto.remote.message.response.DefaultMessageRemoteDto>
 
     @POST("mark_stream_as_read")
     suspend fun markStreamAsRead(
         @Query("stream_id") steamId: Int
-    ): Response<DefaultMessageRemoteDto>
+    ): Response<com.chocolate.repository.dto.remote.message.response.DefaultMessageRemoteDto>
 
     @POST("mark_topic_as_read")
     suspend fun markTopicAsRead(
         @Query("stream_id") steamId: Int,
         @Query("topic_name") topicName: String
-    ): Response<DefaultMessageRemoteDto>
+    ): Response<com.chocolate.repository.dto.remote.message.response.DefaultMessageRemoteDto>
 
     @GET("messages/{message_id}/read_receipts")
     suspend fun getMessageReadReceipts(
         @Path("message_id") messageId: Int
-    ): Response<MessageReadReceiptsRemoteDto>
+    ): Response<com.chocolate.repository.dto.remote.message.response.MessageReadReceiptsRemoteDto>
 
 }

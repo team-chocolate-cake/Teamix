@@ -1,10 +1,10 @@
 package com.chocolate.repository.service.remote
 
-import com.chocolate.repository.dto.server_and_organizations.response.DefaultOrganizationDto
-import com.chocolate.repository.dto.server_and_organizations.response.CustomEmojiDto
-import com.chocolate.repository.dto.server_and_organizations.response.CustomProfileFieldsDto
-import com.chocolate.repository.dto.server_and_organizations.response.LinkifiersDto
-import com.chocolate.repository.dto.server_and_organizations.response.ServerSettingsDto
+import com.chocolate.repository.dto.remote.server_and_organizations.response.DefaultOrganizationDto
+import com.chocolate.repository.dto.remote.server_and_organizations.response.CustomEmojiDto
+import com.chocolate.repository.dto.remote.server_and_organizations.response.CustomProfileFieldsDto
+import com.chocolate.repository.dto.remote.server_and_organizations.response.LinkifiersDto
+import com.chocolate.repository.dto.remote.server_and_organizations.response.ServerSettingsDto
 import retrofit2.Response
 
 interface OrganizationDataSource {

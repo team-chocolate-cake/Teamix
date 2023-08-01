@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.chocolate.local.entities.users.OrganizationsEntity
+import com.chocolate.repository.dto.local.users.OrganizationsLocalDto
 
 @Dao
 interface OrganizationsDao {
@@ -13,7 +13,7 @@ interface OrganizationsDao {
     suspend fun insertNameOrg(nameOrg: String)
 
     @Query("SELECT * FROM TABLE_ORGANIZATIONS WHERE nameOrganizations = :nameOrganizations")
-    suspend fun getNameOrganizations(nameOrganizations: String): List<OrganizationsEntity>
+    suspend fun getNameOrganizations(nameOrganizations: String): List<OrganizationsLocalDto>
 
     @Delete
     suspend fun deleteOrganizations(nameOrganizations: String)

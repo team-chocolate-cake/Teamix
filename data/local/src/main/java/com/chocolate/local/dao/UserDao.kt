@@ -5,17 +5,17 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.chocolate.local.entities.users.StoriesEntity
+import com.chocolate.repository.dto.local.users.StoriesLocalDto
 
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertStory(story: StoriesEntity)
+    suspend fun insertStory(story: StoriesLocalDto)
 
     @Query("SELECT * FROM story_table WHERE id = :id")
-    suspend fun getStoryById(id: String): StoriesEntity?
+    suspend fun getStoryById(id: String): StoriesLocalDto?
 
     @Delete
-    suspend fun deleteSavedStory(story: StoriesEntity)
+    suspend fun deleteSavedStory(story: StoriesLocalDto)
 
 }

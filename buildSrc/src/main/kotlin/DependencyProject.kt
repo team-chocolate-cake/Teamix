@@ -69,6 +69,9 @@ object DependencyProject {
     const val roomRuntime = "androidx.room:room-runtime:$ROOM_VERSION"
     const val roomCompiler = "androidx.room:room-compiler:$ROOM_VERSION"
     const val room = "androidx.room:room-compiler:$ROOM_VERSION"
+    const val roomKtx = "androidx.room:room-ktx:$ROOM_VERSION"
+
+
 
     const val splashScreen = "androidx.core:core-splashscreen:$SPLASH_SCREEN_VERSION-beta02"
 

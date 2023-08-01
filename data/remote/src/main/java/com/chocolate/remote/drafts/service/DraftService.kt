@@ -1,7 +1,7 @@
 package com.chocolate.remote.drafts.service
 
-import com.chocolate.repository.dto.draft.response.BaseDraftResponse
-import com.chocolate.repository.dto.draft.response.DraftsDto
+import com.chocolate.repository.dto.remote.draft.response.BaseDraftResponse
+import com.chocolate.repository.dto.remote.draft.response.DraftsDto
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -13,20 +13,20 @@ import retrofit2.http.Query
 interface DraftService {
 
     @GET("drafts")
-    suspend fun getDrafts(): Response<DraftsDto>
+    suspend fun getDrafts(): Response<com.chocolate.repository.dto.remote.draft.response.DraftsDto>
 
     @POST("drafts")
     suspend fun createDraft(
         @Query("drafts") draftRequest: String
-    ) : Response<BaseDraftResponse>
+    ) : Response<com.chocolate.repository.dto.remote.draft.response.BaseDraftResponse>
 
     @PATCH("drafts/{draft_id}")
     suspend fun editDraft(
         @Path("draft_id") id: Int,
         @Query("draft") draftRequest: String
-    ): Response<BaseDraftResponse>
+    ): Response<com.chocolate.repository.dto.remote.draft.response.BaseDraftResponse>
 
     @DELETE("drafts/{draft_id}")
-    suspend fun deleteDraft(@Path("draft_id") id: Int): Response<BaseDraftResponse>
+    suspend fun deleteDraft(@Path("draft_id") id: Int): Response<com.chocolate.repository.dto.remote.draft.response.BaseDraftResponse>
 
 }

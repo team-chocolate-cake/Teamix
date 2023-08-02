@@ -62,7 +62,7 @@ dependencies {
     implementation(DependencyProject.hilt)
     kapt(DependencyProject.hiltCompiler)
 
-    implementation(DependencyProject.coil)
+    implementation DependencyProject.coil
 
     implementation(DependencyProject.lottie)
 }

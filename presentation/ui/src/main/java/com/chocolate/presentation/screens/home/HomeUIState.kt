@@ -17,7 +17,7 @@ data class ChipsUIState(
 data class ChannelUIState(
     val name: String = "",
     val topics: List<TopicsUIState> = emptyList(),
-    val isExpanded: Boolean = false,
+    var isExpanded: Boolean = false,
     val isPrivateChannel: Boolean = false,
 )
 data class TopicsUIState(

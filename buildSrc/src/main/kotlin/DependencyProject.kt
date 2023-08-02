@@ -63,7 +63,7 @@ object DependencyProject {
 
     const val lottie = "com.airbnb.android:lottie-compose:$LOTTIE_VERSION"
 
-    const val coil = "io.coil-kt:coil:$COIL_VERSION"
+    const val coil = "io.coil-kt:coil-compose:$COIL_VERSION"
 
     const val dataStore = "androidx.datastore:datastore-preferences:$DATASTORE_VERSION"
     const val roomRuntime = "androidx.room:room-runtime:$ROOM_VERSION"

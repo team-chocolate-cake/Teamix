@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
+import com.chocolate.presentation.screens.channel.ChannelScreen
+import com.chocolate.presentation.screens.channel.TopicScreen
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 
@@ -12,7 +14,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TeamixTheme {
-                MaterialTheme.customColors().background
+                TopicScreen()
 
             }
         }

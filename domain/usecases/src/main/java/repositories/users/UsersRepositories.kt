@@ -1,5 +1,7 @@
 package repositories.users
 
+import kotlinx.coroutines.flow.Flow
+
 interface UsersRepositories {
 
     suspend fun getAllUsers()
@@ -33,6 +35,7 @@ interface UsersRepositories {
     suspend fun addAlertWords()
     suspend fun removeAlertWords()
     suspend fun addOrganizations(nameOrganizations: String)
+    suspend fun getOrganizations(): String?
 
 
 }

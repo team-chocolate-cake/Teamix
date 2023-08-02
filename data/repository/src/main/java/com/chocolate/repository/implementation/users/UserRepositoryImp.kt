@@ -1,10 +1,18 @@
 package com.chocolate.repository.implementation.users
 
+import com.chocolate.repository.datastore.PreferenceStorage
+import com.chocolate.repository.dto.local.users.OrganizationsLocalDto
+import com.chocolate.repository.service.local.OrganizationsLocalDataSource
 import com.chocolate.repository.service.remote.UsersDataSource
+import kotlinx.coroutines.flow.Flow
 import repositories.users.UsersRepositories
 import javax.inject.Inject
 
-class UserRepositoryImp @Inject constructor(userDataSource: UsersDataSource) : UsersRepositories {
+class UserRepositoryImp @Inject constructor(
+    private val userDataSource: UsersDataSource,
+    private val organizationsLocalDataSource: OrganizationsLocalDataSource,
+    private val prefs: PreferenceStorage,
+) : UsersRepositories {
     override suspend fun getAllUsers() {
 
     }
@@ -107,6 +115,12 @@ class UserRepositoryImp @Inject constructor(userDataSource: UsersDataSource) : U
     }
 
     override suspend fun addOrganizations(nameOrganizations: String) {
+        val organizationsLocalDto = OrganizationsLocalDto(organizationName = nameOrganizations)
+        organizationsLocalDataSource.insertNameOrg(organizationsLocalDto)
+        prefs.setNameOrganization(nameOrganizations)
+    }
 
+    override suspend fun getOrganizations(): String? {
+        return prefs.currentOrganization
     }
 }

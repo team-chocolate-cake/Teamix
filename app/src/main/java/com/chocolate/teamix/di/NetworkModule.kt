@@ -1,7 +1,7 @@
 package com.chocolate.teamix.di
 
 import com.chocolate.remote.AuthInterceptor
-import com.chocolate.remote.channels.ChannelsImpl
+import com.chocolate.remote.channels.implementation.remote.ChannelsImpl
 import com.chocolate.remote.channels.service.ChannelsService
 import com.chocolate.remote.drafts.DraftsMessagesImpl
 import com.chocolate.remote.drafts.service.DraftService
@@ -22,7 +22,7 @@ import com.chocolate.repository.service.remote.UsersDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -30,7 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ActivityRetainedComponent::class)
+@InstallIn(SingletonComponent::class)
 object NetworkModule {
 
     @Singleton

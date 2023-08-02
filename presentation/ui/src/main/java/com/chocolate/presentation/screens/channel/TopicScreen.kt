@@ -17,9 +17,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.chocolate.presentation.R
 import com.chocolate.presentation.screens.channel.composables.CustomAppBar
 import com.chocolate.presentation.screens.channel.composables.ReplyMessage
+import com.chocolate.presentation.screens.channel.composables.StartNewMessage
 import com.chocolate.presentation.screens.channel.composables.Topic
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.TeamixTheme
@@ -50,17 +52,26 @@ fun TopicContent(
         },
 
     ) { padding ->
-        LazyColumn(
-            reverseLayout = true,
+        ConstraintLayout(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding),
-            verticalArrangement = Arrangement.spacedBy(Space16),
-            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 20.dp)
         ) {
-            items(6) {
-                ReplyMessage()
+            val (messages , newMessage) = createRefs()
+            LazyColumn(
+                reverseLayout = true,
+                verticalArrangement = Arrangement.spacedBy(Space16),
+                contentPadding = PaddingValues(vertical = 20.dp)
+            ) {
+                items(6) {
+                    ReplyMessage()
+                }
             }
+            StartNewMessage(
+                modifier = Modifier.constrainAs(newMessage){
+                    bottom.linkTo(parent.bottom)
+                }
+            )
         }
     }
 }

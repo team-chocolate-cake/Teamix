@@ -18,11 +18,17 @@ class PreferenceStorageImpl @Inject constructor(
         val NAME_ORGANIZATION = stringPreferencesKey("CURRENT_USERNAME_ID")
     }
 
-    override val nameOrganization: String?
-        get() = runBlocking { dataStore.data.map { it[PreferencesKeys.NAME_ORGANIZATION] }.first() }
+    override val currentOrganization: String?
+        get() = runBlocking {  dataStore.data.map { it[PreferencesKeys.NAME_ORGANIZATION] }.first()}
 
-    override suspend fun setNameOrganization(nameOrganization: String) {
-        dataStore.setValue(PreferencesKeys.NAME_ORGANIZATION, nameOrganization)
+    override suspend fun setNameOrganization(currentOrganization: String) {
+        dataStore.setValue(PreferencesKeys.NAME_ORGANIZATION, currentOrganization)
+    }
+
+    override suspend fun clearCurrentOrganization() {
+        dataStore.edit { preferences ->
+            preferences.clear()
+        }
     }
 
     private suspend fun <T> DataStore<Preferences>.setValue(

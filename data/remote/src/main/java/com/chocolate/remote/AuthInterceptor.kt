@@ -16,7 +16,7 @@ class AuthInterceptor @Inject constructor(
         val requestUrl = chain.request().url
         val request = chain.request()
             .newBuilder()
-            .url("https://${prefs.nameOrganization}.zulipchat.com/api/v1/")
+            .url("https://${prefs.currentOrganization}.zulipchat.com/api/v1/")
             .header(
                 AUTHORIZATION, Credentials.basic(
                     username = "",

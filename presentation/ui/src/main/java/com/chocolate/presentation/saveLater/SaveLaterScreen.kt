@@ -1,5 +1,7 @@
 package com.chocolate.presentation.saveLater
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -30,73 +33,75 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.R
+import com.chocolate.presentation.saveLater.tap.SaveLaterViewModel
+import com.chocolate.presentation.saveLater.tap.SavedItemOfDay
+import com.chocolate.presentation.saveLater.tap.SavedItemState
+import com.chocolate.presentation.saveLater.tap.SavedItemUiState
 import com.chocolate.presentation.theme.OnLightBackground
 import com.chocolate.presentation.theme.OnLightPrimary
 import com.chocolate.presentation.theme.OnPrimary
 import com.jetpackcompose.tablayout.TabLayoutScreen
-import okhttp3.internal.concurrent.Task
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun saveLaterScreen()  {
+fun SaveLaterScreen(
+)  {
     TabLayoutScreen()
 }
-@OptIn(ExperimentalFoundationApi::class)
+
 @Composable
-fun saveLaterScreenContent(){
+fun SaveLaterScreenContent(savedLaterUISate:List<SavedItemOfDay>){
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(OnLightBackground)
     ) {
-        LazyColumn(modifier = Modifier.fillMaxWidth()) {
-
-            stickyHeader {
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .background(OnLightBackground)
-
-                ) {
-                    Spacer(modifier = Modifier
-                        .width(16.dp)
-                        .height(16.dp))
-                    Text(
-                        modifier = Modifier.padding(bottom = 8.dp),
-                        text = "Today", fontSize = 16.sp
-                    )
-                }
-            }
-            items(count = 3) {
-                MyItem()
-            }
-
-            stickyHeader {
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .background(OnLightBackground)
-
-                ) {
-                    Spacer(modifier = Modifier
-                        .width(16.dp)
-                        .height(16.dp))
-                    Text(
-                        modifier = Modifier.padding(bottom = 8.dp),
-                        text = "Yesterday", fontSize = 16.sp
-                    )
-                }
-            }
-            items(count = 9) {
-                MyItem()
-            }
-        }
+        SavedItemsList(savedLaterUISate)
     }
 
 }
+
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MyItem() {
+fun SavedItemsList(savedItems: List<SavedItemOfDay>) {
+    val listState = rememberLazyListState()
+
+    LazyColumn(state = listState) {
+        savedItems.forEach { (date, items) ->
+            stickyHeader {
+                DateHeader(date = date)
+            }
+            items(items) { savedItem ->
+                SavedItemRow(savedItem = savedItem)
+            }
+        }
+    }
+}
+
+@Composable
+fun DateHeader(date: String) {
+
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .background(OnLightBackground)
+
+    ) {
+        Spacer(modifier = Modifier
+            .width(16.dp)
+            .height(16.dp))
+        Text(
+            modifier = Modifier.padding(bottom = 8.dp),
+            text = date, fontSize = 16.sp
+        )
+    }
+}
+
+@Composable
+fun SavedItemRow(savedItem: SavedItemUiState) {
     Card(
         modifier = Modifier
             .fillMaxSize()
@@ -109,7 +114,7 @@ fun MyItem() {
     ) {
         Row(modifier = Modifier.padding(8.dp)) {
             Image(
-                painter = painterResource(id = R.drawable.frame_48096465__1_),
+                painter = rememberAsyncImagePainter(savedItem.userImageUrl),
                 contentDescription = null,
                 modifier = Modifier
                     .size(40.dp)
@@ -124,7 +129,7 @@ fun MyItem() {
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = "Hala Hala",
+                        text = savedItem.name,
                         fontSize = 16.sp
                     )
 
@@ -139,159 +144,74 @@ fun MyItem() {
                     Spacer(modifier = Modifier.weight(1f))
                     Text(
 
-                        text = "May 15", fontSize = 16.sp
+                        text = savedItem.date, fontSize = 16.sp
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "----- New day -----",
+                    text = savedItem.title,
                     fontSize = 12.sp,
                 )
 
                 Text(
-                    text = "Good Things Take Time A few men were dispatched to poke around in the warm, dark tunnels on either side of Odéon station, where",
+                    text = savedItem.description,
                     fontSize = 12.sp,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
-                Spacer(modifier = Modifier.weight(1f))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 8.dp),
-                ) {
-                    Button(
-                        onClick = { },
-                        colors = ButtonDefaults.buttonColors(containerColor = OnLightPrimary),
-                        modifier = Modifier
-                            .size(width = 124.dp, height = 32.dp)
-                    ) {
-                        Text(text = "Complete", fontSize = 12.sp)
-                    }
 
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_access_time_24),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(32.dp)
-                            .padding(start = 16.dp)
-                    )
+                Spacer(modifier = Modifier.weight(1f))
+                when(savedItem.state){
+                    SavedItemState.IN_PROGRESS ->  InProgressButtons()
+                    SavedItemState.ARCHIVED -> ArchivedButton()
+                    SavedItemState.COMPLETED ->{}
                 }
             }
         }
     }
+
 }
-//
-//@OptIn(ExperimentalFoundationApi::class)
-//@Composable
-//fun saveLaterScreen() {
-//    Box(
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .background(OnLightBackground)
-//    ) {
-//        LazyColumn(modifier = Modifier.fillMaxWidth()) {
-//
-//                stickyHeader {
-//                    Text(
-//                        modifier = Modifier.padding(top = 24.dp, start = 16.dp, bottom = 8.dp),
-//                        text = "Today", fontSize = 16.sp
-//                    )
-//                }
-//            items(count = 12) {
-//                Card(
-//                    modifier = Modifier
-//
-//                        .fillMaxSize()
-//                        .height(170.dp)
-//                        .width(328.dp)
-//                        .padding(horizontal = 16.dp)
-//                        .padding(bottom = 8.dp),
-//                    colors = CardDefaults.cardColors(containerColor = OnPrimary)
-//
-//                ) {
-//                    Row(modifier = Modifier.padding(8.dp)) {
-//                        Image(
-//                            painter = painterResource(id = R.drawable.frame_48096465__1_),
-//                            contentDescription = null,
-//                            modifier = Modifier
-//                                .size(40.dp)
-//                                .clip(CircleShape)
-//
-//                        )
-//                        Column(
-//                            modifier = Modifier
-//                                .fillMaxSize()
-//                                .padding(start = 8.dp)
-//                        ) {
-//
-//                            Row(verticalAlignment = Alignment.CenterVertically) {
-//                                Text(
-//                                    text = "Hala Hala",
-//                                    fontSize = 16.sp
-//                                )
-//
-//                                Spacer(modifier = Modifier.width(8.dp))
-//
-//                                Image(
-//                                    painter = painterResource(id = R.drawable.frame_48096465__1_),
-//                                    contentDescription = null,
-//                                    modifier = Modifier
-//                                        .size(16.dp)
-//                                )
-//                                Spacer(modifier = Modifier.weight(1f))
-//                                Text(
-//
-//                                    text = "May 15", fontSize = 16.sp
-//                                )
-//                            }
-//                            Spacer(modifier = Modifier.height(8.dp))
-//                            Text(
-//                                text = "----- New day -----",
-//                                fontSize = 12.sp,
-//                            )
-//
-//                            Text(
-//                                text = "Good Things Take Time A few men were dispatched to poke around in the warm, dark tunnels on either side of Odéon station, where",
-//                                fontSize = 12.sp,
-//                                modifier = Modifier.padding(bottom = 8.dp)
-//                            )
-//                            Spacer(modifier = Modifier.weight(1f))
-//                            Row(
-//                                modifier = Modifier
-//                                    .fillMaxWidth()
-//                                    .padding(bottom = 8.dp),
-//                            ) {
-//                                Button(
-//                                    onClick = { },
-//                                    colors = ButtonDefaults.buttonColors(containerColor = OnLightPrimary),
-//                                    modifier = Modifier
-//                                        .size(width = 124.dp, height = 32.dp)
-//                                ) {
-//                                    Text(text = "Complete", fontSize = 12.sp)
-//                                }
-//
-//                                Icon(
-//                                    painter = painterResource(id = R.drawable.baseline_access_time_24),
-//                                    contentDescription = null,
-//                                    modifier = Modifier
-//                                        .size(32.dp)
-//                                        .padding(start = 16.dp)
-//                                )
-//                            }
-//
-//
-//                        }
-//
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
+
+@Composable
+fun ArchivedButton() {
+    Button(
+        onClick = { },
+        colors = ButtonDefaults.buttonColors(containerColor = OnLightPrimary),
+        modifier = Modifier
+            .size(width = 124.dp, height = 32.dp)
+    ) {
+        Text(text = "Un Archive", fontSize = 12.sp)
+    }
+}
+
+@Composable
+private fun InProgressButtons() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        Button(
+            onClick = { },
+            colors = ButtonDefaults.buttonColors(containerColor = OnLightPrimary),
+            modifier = Modifier
+                .size(width = 124.dp, height = 32.dp)
+        ) {
+            Text(text = "Complete", fontSize = 12.sp)
+        }
+
+        Icon(
+            painter = painterResource(id = R.drawable.baseline_access_time_24),
+            contentDescription = null,
+            modifier = Modifier
+                .size(32.dp)
+                .padding(start = 16.dp)
+        )
+    }
+}
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
 @Composable
 fun saveLaterScreenPreview() {
-    saveLaterScreen()
+    SaveLaterScreen()
 }

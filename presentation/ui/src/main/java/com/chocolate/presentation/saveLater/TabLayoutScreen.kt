@@ -1,5 +1,7 @@
 package com.jetpackcompose.tablayout
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -16,20 +18,43 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
-import com.chocolate.presentation.saveLater.tap.tabs
+import com.chocolate.presentation.saveLater.SaveLaterScreenContent
+import com.chocolate.presentation.saveLater.tap.SaveLaterViewModel
+import com.chocolate.presentation.saveLater.tap.TabItem
 import kotlinx.coroutines.launch
 
+
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun TabLayoutScreen() {
+fun TabLayoutScreen(
+    viewModel: SaveLaterViewModel = hiltViewModel()
+) {
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
+    val state = viewModel.state.collectAsState().value
 
+    val tabs = listOf(
+        TabItem(
+            title = "In Progress",
+            screen = { SaveLaterScreenContent(state.inProgressSavedItem) }
+        ),
+        TabItem(
+            title = "Archived",
+            screen = { SaveLaterScreenContent(state.archivedSavedItem) }
+        ),
+        TabItem(
+            title = "Completed",
+            screen = { SaveLaterScreenContent(state.completedSavedItem) }
+        )
+    )
     Scaffold(
         topBar = {
             TopAppBar(

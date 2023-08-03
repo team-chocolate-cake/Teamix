@@ -18,6 +18,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.theme.CustomColorsPalette
+import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.Space24
+import com.chocolate.presentation.theme.Space8
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,7 +44,7 @@ fun ManageChannelAlertDialog(
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 24.dp, top = 24.dp, bottom = 16.dp),
+                    .padding(start = Space24, top = Space24, bottom = Space16),
                 text = "Do you want to $title channel",
                 style = MaterialTheme.typography.titleMedium,
                 color = colors.onBackground87,
@@ -49,7 +52,7 @@ fun ManageChannelAlertDialog(
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 24.dp),
+                    .padding(start = Space24),
                 text = subTitle,
                 style = MaterialTheme.typography.bodySmall,
                 color = colors.onBackground60,
@@ -59,8 +62,8 @@ fun ManageChannelAlertDialog(
                     .fillMaxWidth()
                     .wrapContentHeight()
                     .padding(vertical = 34.dp)
-                    .padding(end = 24.dp),
-                horizontalArrangement = Arrangement.spacedBy(24.dp, alignment = Alignment.End)
+                    .padding(end = Space24),
+                horizontalArrangement = Arrangement.spacedBy(Space24, alignment = Alignment.End)
             ) {
                 Text(
                     text = "Dismiss",
@@ -72,7 +75,7 @@ fun ManageChannelAlertDialog(
                     style = MaterialTheme.typography.bodySmall,
                     color = colors.red60,
                     modifier = Modifier
-                        .padding(end = 8.dp)
+                        .padding(end = Space8)
                         .clickable { onDismiss() })
             }
 

@@ -1,5 +1,6 @@
 package com.chocolate.presentation.screens.topic_details.composables
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -42,9 +43,6 @@ import com.chocolate.presentation.theme.customColors
 
 @Composable
 fun StartNewMessage(modifier: Modifier = Modifier) {
-    var topic by remember {
-        mutableStateOf("")
-    }
     var message by remember {
         mutableStateOf("")
     }
@@ -55,35 +53,6 @@ fun StartNewMessage(modifier: Modifier = Modifier) {
             .padding(Space16)
     ) {
         Column {
-            Surface(
-                shape = RoundedCornerShape(Space8),
-                modifier = Modifier
-                    .fillMaxWidth(),
-                color = MaterialTheme.customColors().lightGray
-            ) {
-                BasicTextField(
-                    singleLine = true,
-                    modifier = Modifier.padding(vertical = Space8, horizontal = Space16),
-                    value = topic,
-                    onValueChange = { topic = it },
-                    decorationBox = { innerTextField ->
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        ) {
-                            if (topic.isEmpty()) {
-                                Text(
-                                    text = "Topic name",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.customColors().onBackground60
-                                )
-                            }
-                            innerTextField()
-                        }
-                    }
-                )
-            }
-
             Surface(
                 shape = RoundedCornerShape(Space8),
                 modifier = Modifier
@@ -146,7 +115,23 @@ fun StartNewMessage(modifier: Modifier = Modifier) {
                                 //todo open Emojis tile
                             }
                     )
-
+                }
+                AnimatedVisibility(visible = !message.isEmpty() ) {
+                    Icon(
+                        modifier = Modifier
+                            .padding(end = Space4)
+                            .size(Space24)
+                            .clickable {
+                                //todo send message
+                            },
+                        painter = painterResource(
+                            id = R.drawable.arrow_right
+                        ),
+                        tint = MaterialTheme.customColors().primary,
+                        contentDescription = ""
+                    )
+                }
+                AnimatedVisibility(visible =message.isEmpty() ) {
                     Icon(
                         painter = painterResource(id = R.drawable.microphone),
                         contentDescription = "",
@@ -158,61 +143,9 @@ fun StartNewMessage(modifier: Modifier = Modifier) {
                                 //todo mic
                             }
                     )
+                }
 
-                    Icon(
-                        painter = painterResource(id = R.drawable.mention_circle),
-                        contentDescription = "",
-                        tint = MaterialTheme.customColors().onBackground60,
-                        modifier = Modifier
-                            .size(Space24)
-                            .clickable {
-                                //todo open mention tile
-                            }
-                    )
-                }
-                Row(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(Space8))
-                        .background(
-                            if (message.isEmpty() || topic.isEmpty())
-                                Color.LightGray
-                            else MaterialTheme.customColors().primary
-                        )
-                        .padding(vertical = Space4, horizontal = Space8)
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .padding(end = Space4)
-                            .size(20.dp)
-                            .clickable {
-                                //todo send message
-                            },
-                        painter = painterResource(
-                            id = R.drawable.arrow_right
-                        ),
-                        tint = Color.White,
-                        contentDescription = ""
-                    )
-                    Spacer(
-                        modifier = Modifier
-                            .background(Color.White)
-                            .height(Space16)
-                            .width(2.dp)
-                    )
-                    Icon(
-                        modifier = Modifier
-                            .padding(start = Space4)
-                            .size(20.dp)
-                            .clickable {
-                                //todo schadule
-                            },
-                        painter = painterResource(
-                            id = R.drawable.alt_arrow_down
-                        ),
-                        tint = Color.White,
-                        contentDescription = ""
-                    )
-                }
+
             }
         }
     }

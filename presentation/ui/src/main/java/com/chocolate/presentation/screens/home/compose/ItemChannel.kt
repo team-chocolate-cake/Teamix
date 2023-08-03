@@ -35,10 +35,10 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
-import com.chocolate.presentation.screens.home.ChannelUIState
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
+import com.chocolate.viewmodel.home.ChannelUIState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

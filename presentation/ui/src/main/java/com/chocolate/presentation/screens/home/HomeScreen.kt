@@ -32,6 +32,8 @@ import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space64
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.viewmodel.home.ChipsUIState
+import com.chocolate.viewmodel.home.HomeUiState
 
 @Composable
 fun HomeScreen() {
@@ -43,7 +45,7 @@ fun HomeScreen() {
 @OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeContent(state: HomeUIState) {
+fun HomeContent(state: HomeUiState) {
     val colors = MaterialTheme.customColors()
     var isShowSheet by remember { mutableStateOf(false) }
 
@@ -111,7 +113,7 @@ fun HomeContent(state: HomeUIState) {
 )
 fun HomePreview() {
     HomeContent(
-        state = HomeUIState(
+        state = HomeUiState(
             "The Chance Community",
             imageUrl = "https://images.pexels.com/photos/1133957/pexels-photo-1133957.jpeg",
             chipsUIState = listOf(

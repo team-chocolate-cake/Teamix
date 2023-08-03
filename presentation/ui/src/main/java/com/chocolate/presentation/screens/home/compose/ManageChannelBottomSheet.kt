@@ -1,5 +1,6 @@
 package com.chocolate.presentation.screens.home.compose
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
@@ -55,48 +57,60 @@ fun ManageChannelBottomSheet(colors: CustomColorsPalette, onDismissBottomSheet: 
                         openDialogLeave= false
                         onDismissBottomSheet()
                     })
-                }
-                        Divider (
-                        modifier = Modifier
-                            .width(50.dp)
-                            .align(Alignment.CenterHorizontally),
-                thickness = Space4,
-                color = colors.onBackground38
+        }
+        CustomDivider(modifier = Modifier
+            .align(Alignment.CenterHorizontally),
+            thickness = 4,
+            color = colors.onBackground38
             )
-            ItemManageChannelBottomSheet(
-                colors,
-                title = "Mute Channel",
-                painter = painterResource(id = R.drawable.ic_mute_channel)
-            ) {
-                openDialog = true
-                openDialogMute = true
-            }
-            ItemManageChannelBottomSheet(
-                colors,
-                title = "Star Channel",
-                painter = painterResource(id = R.drawable.ic_star)
-            ) {
-                openDialog = true
-                openDialogStar = true
-            }
-            ItemManageChannelBottomSheet(
-                colors,
-                title = "Copy Link",
-                painter = painterResource(id = R.drawable.ic_copy)
-            ) { }
-            ItemManageChannelBottomSheet(
-                colors,
-                title = "Copy Name",
-                painter = painterResource(id = R.drawable.ic_copy)
-            ) { }
-            ItemManageChannelBottomSheet(
-                colors,
-                title = "Leave Channel",
-                painter = painterResource(id = R.drawable.ic_leave),
-                itemColor = colors.red60,
-            ) {
-                openDialog = true
-                openDialogLeave = true
-            }
+        ItemManageChannelBottomSheet(
+            colors,
+            title = "Mute Channel",
+            painter = painterResource(id = R.drawable.ic_mute_channel)
+        ) {
+            openDialog = true
+            openDialogMute = true
+        }
+        CustomDivider(
+            modifier = Modifier
+                .wrapContentSize()
+                .padding(horizontal = Space16)
+        )
+        ItemManageChannelBottomSheet(
+            colors,
+            title = "Star Channel",
+            painter = painterResource(id = R.drawable.ic_star)
+        ) {
+            openDialog = true
+            openDialogStar = true
+        }
+        CustomDivider(modifier = Modifier
+            .wrapContentSize()
+            .padding(horizontal = Space16))
+        ItemManageChannelBottomSheet(
+            colors,
+            title = "Copy Link",
+            painter = painterResource(id = R.drawable.ic_copy)
+        ) { }
+        CustomDivider(modifier = Modifier
+            .wrapContentSize()
+            .padding(horizontal = Space16))
+        ItemManageChannelBottomSheet(
+            colors,
+            title = "Copy Name",
+            painter = painterResource(id = R.drawable.ic_copy)
+        ) { }
+        CustomDivider(modifier = Modifier
+            .wrapContentSize()
+            .padding(horizontal = Space16))
+        ItemManageChannelBottomSheet(
+            colors,
+            title = "Leave Channel",
+            painter = painterResource(id = R.drawable.ic_leave),
+            itemColor = colors.red60,
+        ) {
+            openDialog = true
+            openDialogLeave = true
+        }
     }
 }

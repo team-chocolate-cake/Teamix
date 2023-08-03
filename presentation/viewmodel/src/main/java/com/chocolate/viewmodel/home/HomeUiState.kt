@@ -1,6 +1,6 @@
-package com.chocolate.presentation.screens.home
+package com.chocolate.viewmodel.home
 
-data class HomeUIState(
+data class HomeUiState(
     val title: String = "",
     val imageUrl: String = "",
     val chipsUIState: List<ChipsUIState> = emptyList(),

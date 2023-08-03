@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.channel.composables
+package com.chocolate.presentation.screens.topic_details.composables
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background

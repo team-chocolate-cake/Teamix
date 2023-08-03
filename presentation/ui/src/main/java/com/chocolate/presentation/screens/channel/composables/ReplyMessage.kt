@@ -53,7 +53,7 @@ fun ReplyMessage(
     var showSheet by remember { mutableStateOf(false) }
 
     if (showSheet) {
-        MessageOptions(){
+        MessageOptionsBottomSheet(){
             showSheet = false
         }
     }

@@ -12,12 +12,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,20 +37,23 @@ import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
 import com.chocolate.presentation.screens.home.ChannelUIState
 import com.chocolate.presentation.theme.CustomColorsPalette
+import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.Space8
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ItemChannel(
     state: ChannelUIState,
     colors: CustomColorsPalette,
-    onLongClickChannel: () -> Unit
+    onLongClickChannel: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val haptics = LocalHapticFeedback.current
     val context = LocalContext.current
     var isExpanded by remember { mutableStateOf(false) }
     val animate by animateFloatAsState(targetValue = if (isExpanded) 180f else 0f)
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .animateContentSize(
@@ -61,7 +63,7 @@ fun ItemChannel(
             )
             .clip(RoundedCornerShape(12.dp))
             .background(color = colors.onPrimary)
-            .padding(16.dp)
+            .padding(Space16)
             .combinedClickable(
                 onLongClick = {
                     haptics.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -70,12 +72,12 @@ fun ItemChannel(
                         .makeText(context, "Long Click", Toast.LENGTH_SHORT)
                         .show()
                 },
-                onClick = { })
+                onClick = { }),
+        verticalArrangement = Arrangement.Center
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
+                .fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
 
@@ -85,7 +87,7 @@ fun ItemChannel(
                 painter = painterResource(id = iconsChannel),
                 contentDescription = null,
                 tint = colors.primary,
-                modifier = Modifier.padding(end = 8.dp)
+                modifier = Modifier.padding(end = Space8)
             )
             Text(
                 text = state.name,
@@ -109,32 +111,31 @@ fun ItemChannel(
             state.topics.forEach { topicUIState ->
                 Column(
                     modifier = Modifier
-                        .wrapContentSize()
-                        .padding(16.dp)
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.Center
                 ) {
-                    Divider(
-                        modifier = Modifier.fillMaxWidth(),
-                        thickness = 1.dp,
-                        color = colors.border
-                    )
+                    CustomDivider(modifier = Modifier.padding(Space8))
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .wrapContentHeight(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
+                            .wrapContentHeight()
+                            .padding(vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
                             text = topicUIState.name,
                             color = colors.onBackground60,
-                            modifier = Modifier.padding(vertical = 8.dp)
                         )
-
+                        BadgeHome(
+                            number = topicUIState.notificationNumber,
+                            textColor = colors.onPrimary,
+                            cardColor = colors.primary
+                        )
                     }
-
                 }
-
             }
+            CustomDivider(modifier = Modifier.padding(Space8))
         }
     }
 }

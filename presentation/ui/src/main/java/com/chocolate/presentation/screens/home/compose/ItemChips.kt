@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,31 +20,32 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.chocolate.presentation.screens.home.ChipsUIState
+import com.chocolate.viewmodel.home.ChipsUIState
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Space24
 import com.chocolate.presentation.theme.Space4
 import com.chocolate.presentation.theme.Space8
 
 @Composable
-fun ItemChips(chipsUIState: ChipsUIState, colors: CustomColorsPalette,modifier: Modifier = Modifier) {
+fun ItemChips(chipsUIState: ChipsUIState, colors: CustomColorsPalette, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
-            .fillMaxSize()
+            .fillMaxWidth()
+            .height(96.dp)
             .clip(RoundedCornerShape(12.dp))
             .background(colors.card),
         contentAlignment = Alignment.Center
     ) {
         Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
-            BadgeHome(
-                number = chipsUIState.notificationNumber,
-                textColor = colors.onPrimary,
-                cardColor = colors.primary,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.End)
-                    .padding(end = Space4, top = Space4)
-            )
+                BadgeHome(
+                    number = chipsUIState.notificationNumber,
+                    textColor = colors.onPrimary,
+                    cardColor = colors.primary,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.End)
+                        .padding(end = Space4, top = Space4)
+                )
             Icon(
                 painter = painterResource(id = chipsUIState.icon),
                 contentDescription = "icons",

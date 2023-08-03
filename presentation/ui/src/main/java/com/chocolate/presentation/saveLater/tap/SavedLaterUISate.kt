@@ -20,8 +20,9 @@ data class SavedItemUiState(
     val description: String = "",
     val state: SavedItemState,
     val date: String = "",
-)
+    val onComplete: () -> Unit = {}
 
+)
 enum class SavedItemState {
     IN_PROGRESS, ARCHIVED, COMPLETED
 }

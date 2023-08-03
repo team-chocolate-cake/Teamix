@@ -17,6 +17,4 @@ fun CustomDivider(modifier: Modifier = Modifier, thickness: Int = 1) {
         thickness = thickness.dp,
         color = colors.border
     )
-
-
 }

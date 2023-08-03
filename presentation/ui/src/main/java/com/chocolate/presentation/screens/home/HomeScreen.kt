@@ -2,6 +2,7 @@ package com.chocolate.presentation.screens.home
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,112 +28,19 @@ import com.chocolate.presentation.screens.home.compose.HomeAppBar
 import com.chocolate.presentation.screens.home.compose.ItemChannel
 import com.chocolate.presentation.screens.home.compose.ItemChips
 import com.chocolate.presentation.screens.home.compose.ManageChannelBottomSheet
+import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.Space64
+import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
 
 @Composable
 fun HomeScreen() {
     HomeContent(
-        state = HomeUIState(
-            "The Chance Community",
-            imageUrl = "https://images.pexels.com/photos/1133957/pexels-photo-1133957.jpeg",
-            chipsUIState = listOf(
-                ChipsUIState("Mentions", 2, R.drawable.ic_mention),
-                ChipsUIState("Drafts", 2, R.drawable.ic_drafts),
-                ChipsUIState("Starred",10, R.drawable.ic_star),
-                ChipsUIState("Saved Later",35, R.drawable.ic_saved_later),
-            ),
-            channelsUIState = listOf(
-                ChannelUIState(
-                    name = "The Chance Plus",
-                    topics = listOf(
-                        TopicsUIState("Chat", 2),
-                        TopicsUIState("Chat", 2),
-                        TopicsUIState("Chat", 2),
-                    ),
-                    isPrivateChannel = true
-                ),
-                ChannelUIState(
-                    name = "The Chance Plus",
-                    topics = listOf(
-                        TopicsUIState("Chat", 2),
-                        TopicsUIState("Chat", 2),
-                        TopicsUIState("Chat", 2),
-                    )
-                ),
-                ChannelUIState(
-                    name = "The Chance Plus",
-                    topics = listOf(
-                        TopicsUIState("Chat", 2),
-                        TopicsUIState("Chat", 2),
-                        TopicsUIState("Chat", 2),
-                    ),
-                    isPrivateChannel = true
-
-                ),
-                ChannelUIState(
-                    name = "The Chance Plus",
-                    topics = listOf(
-                        TopicsUIState("Chat", 2),
-                        TopicsUIState("Chat", 2),
-                        TopicsUIState("Chat", 2),
-                    )
-                ),
-                ChannelUIState(
-                    name = "The Chance Plus",
-                    topics = listOf(
-                        TopicsUIState("Chat", 2),
-                        TopicsUIState("Chat", 2),
-                        TopicsUIState("Chat", 2),
-                    ),
-                    isPrivateChannel = true
-                ),
-                ChannelUIState(
-                    name = "The Chance Plus",
-                    topics = listOf(
-                        TopicsUIState("Chat", 2),
-                        TopicsUIState("Chat", 2),
-                        TopicsUIState("Chat", 2),
-                    ),
-                    isExpanded = true
-                ),
-                ChannelUIState(
-                    name = "The Chance Plus",
-                    topics = listOf(
-                        TopicsUIState("Chat", 2),
-                        TopicsUIState("Chat", 2),
-                        TopicsUIState("Chat", 2),
-                    )
-                ),
-                ChannelUIState(
-                    name = "The Chance Plus",
-                    topics = listOf(
-                        TopicsUIState("Chat", 2),
-                        TopicsUIState("Chat", 2),
-                        TopicsUIState("Chat", 2),
-                    )
-                ),
-                ChannelUIState(
-                    name = "The Chance Plus",
-                    topics = listOf(
-                        TopicsUIState("Chat", 2),
-                        TopicsUIState("Chat", 2),
-                        TopicsUIState("Chat", 2),
-                    )
-                ),
-                ChannelUIState(
-                    name = "The Chance Plus",
-                    topics = listOf(
-                        TopicsUIState("Chat", 2),
-                        TopicsUIState("Chat", 2),
-                        TopicsUIState("Chat", 2),
-                    )
-                ),
-            )
-
-        )
+        state = homeUiState
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeContent(state: HomeUIState) {
@@ -153,17 +61,17 @@ fun HomeContent(state: HomeUIState) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 64.dp),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+                .padding(top = Space64),
+            contentPadding = PaddingValues(vertical = Space16),
+            verticalArrangement = Arrangement.spacedBy(Space8),
         ) {
             item {
                 LazyRow(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .wrapContentHeight()
-                        .padding(vertical = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        .wrapContentHeight(),
+                    horizontalArrangement = Arrangement.spacedBy(Space8),
+                    contentPadding = PaddingValues(horizontal = Space16)
                 ) {
                     items(items = state.chipsUIState) { chipsUIState ->
                         ItemChips(chipsUIState, colors)
@@ -176,14 +84,21 @@ fun HomeContent(state: HomeUIState) {
                     style = MaterialTheme.typography.bodyLarge,
                     color = colors.onBackground87,
                     modifier = Modifier
-                        .padding(bottom = 8.dp)
-                        .padding(horizontal = 16.dp)
+                        .padding(bottom = Space8)
+                        .padding(horizontal = Space16)
                 )
             }
-            items(items = state.channelsUIState) { channelUIState ->
-                ItemChannel(channelUIState, colors) {
-                    isShowSheet = true
-                }
+            items(items = state.channelsUIState, key = { currentChannel ->
+                currentChannel.name
+            }) { channelUIState ->
+                ItemChannel(
+                    channelUIState,
+                    colors,
+                    onLongClickChannel = { isShowSheet = true },
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .animateItemPlacement()
+                )
             }
         }
     }

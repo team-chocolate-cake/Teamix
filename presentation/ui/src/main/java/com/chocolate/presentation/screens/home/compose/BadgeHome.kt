@@ -17,7 +17,7 @@ import com.chocolate.presentation.theme.Space4
 import com.chocolate.presentation.theme.Space8
 
 @Composable
-fun Badge(number: Int, textColor: Color, cardColor: Color, modifier: Modifier = Modifier){
+fun BadgeHome(number: Int, textColor: Color, cardColor: Color, modifier: Modifier = Modifier){
     AnimatedVisibility(visible = (number != 0)) {
         Card(
             modifier = modifier.wrapContentSize(),

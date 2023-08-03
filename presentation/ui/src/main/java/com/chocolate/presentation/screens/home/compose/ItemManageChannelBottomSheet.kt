@@ -14,6 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.theme.CustomColorsPalette
+import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.Space8
 
 @Composable
 fun ItemManageChannelBottomSheet(
@@ -27,7 +29,7 @@ fun ItemManageChannelBottomSheet(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(Space16)
             .clickable { onClickItemManageChannelBottomSheet() },
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -35,7 +37,7 @@ fun ItemManageChannelBottomSheet(
             painter = painter,
             contentDescription = title,
             tint = itemColor,
-            modifier = Modifier.padding(end = 8.dp)
+            modifier = Modifier.padding(end = Space8)
         )
         Text(
             text = title,

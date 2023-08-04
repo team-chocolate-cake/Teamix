@@ -159,47 +159,61 @@ class SaveLaterViewModel @Inject constructor() : ViewModel() {
 
 
     fun completeItem(savedItemUiState: SavedItemUiState) {
-        Log.d("MAMO", "completeItem: MAMO")
         val currentState = _state.value
         val currentInProgressItems = currentState.inProgressSavedItem.toMutableList()
         val currentCompletedItems = currentState.completedSavedItem.toMutableList()
 
-        val itemOfDayToUpdateIndex = currentInProgressItems.indexOfFirst { itemOfDay ->
-            itemOfDay.saveItems.any {
-                it.name == savedItemUiState.name &&
-                        it.title == savedItemUiState.title &&
-                        it.date == savedItemUiState.date &&
-                        it.description == savedItemUiState.description
-            }
+        moveItemToState(currentInProgressItems, currentCompletedItems, savedItemUiState, SavedItemState.COMPLETED)
+
+        _state.update {
+            it.copy(
+                inProgressSavedItem = currentInProgressItems,
+                completedSavedItem = currentCompletedItems
+            )
         }
+    }
+    fun unarchiveItem(savedItemUiState: SavedItemUiState) {
+        val currentState = _state.value
+        val currentArchivedItems = currentState.archivedSavedItem.toMutableList()
+        val currentCompletedItems = currentState.completedSavedItem.toMutableList()
+        moveItemToState(currentArchivedItems, currentCompletedItems, savedItemUiState, SavedItemState.COMPLETED)
 
-        if (itemOfDayToUpdateIndex != -1) {
-            val itemOfDayToUpdate = currentInProgressItems[itemOfDayToUpdateIndex]
-            val updatedSaveItems = itemOfDayToUpdate.saveItems.filterNot {
-                it.name == savedItemUiState.name &&
-                        it.title == savedItemUiState.title &&
-                        it.date == savedItemUiState.date &&
-                        it.description == savedItemUiState.description
-            }
-
-            if (updatedSaveItems.isEmpty()) {
-                currentInProgressItems.removeAt(itemOfDayToUpdateIndex)
-            } else {
-                val updatedItemOfDay = itemOfDayToUpdate.copy(saveItems = updatedSaveItems)
-                currentInProgressItems[itemOfDayToUpdateIndex] = updatedItemOfDay
-            }
-
-            val updatedItemUiState = savedItemUiState.copy(state = SavedItemState.COMPLETED)
-            currentCompletedItems.add(0, SavedItemOfDay(savedItemUiState.date, listOf(updatedItemUiState))) // Add to the start of the list
-            _state.update {
-                it.copy(
-                    inProgressSavedItem = currentInProgressItems,
-                    completedSavedItem = currentCompletedItems
-                )
-            }
+        _state.update {
+            it.copy(
+                archivedSavedItem = currentArchivedItems,
+                completedSavedItem = currentCompletedItems
+            )
         }
     }
 
+    fun moveToInProgress(savedItemUiState: SavedItemUiState) {
+        val currentState = _state.value
+        val currentCompletedItems = currentState.completedSavedItem.toMutableList()
+        val currentInProgressItems = currentState.inProgressSavedItem.toMutableList()
+
+        moveItemToState(currentCompletedItems, currentInProgressItems, savedItemUiState, SavedItemState.IN_PROGRESS)
+
+        _state.update {
+            it.copy(
+                completedSavedItem = currentCompletedItems,
+                inProgressSavedItem = currentInProgressItems
+            )
+        }
+    }
+    fun moveToArchive(savedItemUiState: SavedItemUiState) {
+        val currentState = _state.value
+        val currentCompletedItems = currentState.completedSavedItem.toMutableList()
+        val currentArchivedItems = currentState.archivedSavedItem.toMutableList()
+
+        moveItemToState(currentCompletedItems, currentArchivedItems, savedItemUiState, SavedItemState.ARCHIVED)
+
+        _state.update {
+            it.copy(
+                completedSavedItem = currentCompletedItems,
+                archivedSavedItem = currentArchivedItems
+            )
+        }
+    }
     private fun getInProgressSavedItem()
             : List<SavedItemOfDay> {
         return savedItemsList.filter { it.state == SavedItemState.IN_PROGRESS }.groupBy { it.date }
@@ -215,7 +229,10 @@ class SaveLaterViewModel @Inject constructor() : ViewModel() {
         return savedItemsList.filter { it.state == SavedItemState.ARCHIVED }
             .groupBy { it.date }
             .map {
-                SavedItemOfDay(date = it.key, saveItems = it.value)
+                val values = it.value.map{
+                    it.copy(onUnArchive  = {unarchiveItem(it)})
+                }
+                SavedItemOfDay(date = it.key, saveItems = values)
             }
     }
 
@@ -226,4 +243,44 @@ class SaveLaterViewModel @Inject constructor() : ViewModel() {
                 SavedItemOfDay(date = it.key, saveItems = it.value)
             }
     }
+}
+inline fun <T> MutableList<T>.removeIfAndTransform(index: Int, predicate: (T) -> Boolean): T? {
+    return if (predicate(this[index])) removeAt(index) else null
+}
+
+private fun SavedItemUiState.matches(other: SavedItemUiState): Boolean =
+    name == other.name && title == other.title && date == other.date && description == other.description
+
+fun moveItemToState(
+    sourceState: MutableList<SavedItemOfDay>,
+    targetState: MutableList<SavedItemOfDay>,
+    savedItemUiState: SavedItemUiState,
+    newState: SavedItemState
+) {
+    sourceState.indexOfFirst {
+        it.saveItems.any { it.matches(savedItemUiState) }
+    }.takeIf { it != -1 }
+        ?.let { itemOfDayToUpdateIndex ->
+            sourceState.removeIfAndTransform(itemOfDayToUpdateIndex) { itemOfDayToUpdate ->
+                itemOfDayToUpdate.saveItems.any {
+                    it.matches(savedItemUiState)
+                }
+            }
+
+            val updatedItemUiState = savedItemUiState.copy(state = newState)
+            val existingItemOfDayIndex = targetState.indexOfFirst {
+                it.date == savedItemUiState.date
+            }
+
+            if (existingItemOfDayIndex != -1) {
+                targetState[existingItemOfDayIndex] =
+                    targetState[existingItemOfDayIndex].copy(
+                        saveItems = targetState[existingItemOfDayIndex].saveItems + updatedItemUiState
+                    )
+            } else {
+                targetState.add(
+                    0, SavedItemOfDay(savedItemUiState.date, listOf(updatedItemUiState))
+                )
+            }
+        }
 }

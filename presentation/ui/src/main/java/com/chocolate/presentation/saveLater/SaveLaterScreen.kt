@@ -162,7 +162,7 @@ fun SavedItemRow(savedItem: SavedItemUiState) {
                 Spacer(modifier = Modifier.weight(1f))
                 when(savedItem.state){
                     SavedItemState.IN_PROGRESS ->  InProgressButtons(onComplete = savedItem.onComplete)
-                    SavedItemState.ARCHIVED -> ArchivedButton()
+                    SavedItemState.ARCHIVED -> ArchivedButton(onUnArchive = savedItem.onUnArchive)
                     SavedItemState.COMPLETED ->{}
                 }
             }
@@ -172,9 +172,9 @@ fun SavedItemRow(savedItem: SavedItemUiState) {
 }
 
 @Composable
-fun ArchivedButton() {
+fun ArchivedButton(onUnArchive: () -> Unit) {
     Button(
-        onClick = { },
+        onClick = onUnArchive,
         colors = ButtonDefaults.buttonColors(containerColor = OnLightPrimary),
         modifier = Modifier
             .size(width = 124.dp, height = 32.dp)

@@ -6,13 +6,14 @@ import com.chocolate.repository.dto.server_and_organizations.response.CustomProf
 import com.chocolate.repository.dto.server_and_organizations.response.DefaultOrganizationDto
 import com.chocolate.repository.dto.server_and_organizations.response.LinkifiersDto
 import com.chocolate.repository.dto.server_and_organizations.response.ServerSettingsDto
+import com.chocolate.repository.implementation.BaseRepository
 import com.chocolate.repository.service.OrganizationDataSource
 import retrofit2.Response
 import javax.inject.Inject
 
 class OrganizationsImpl @Inject constructor(
     private val organizationService: OrganizationService
-): OrganizationDataSource {
+): OrganizationDataSource, BaseRepository() {
     override suspend fun getServerSettings(): Response<ServerSettingsDto> {
         TODO("Not yet implemented")
     }

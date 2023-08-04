@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class MessagesRepositoryImpl @Inject constructor(
     private val messageDataSource: MessagesDataSource
-): MessagesRepository, BaseRepository {
+): MessagesRepository, BaseRepository() {
     override suspend fun sendStreamMessage(
         type: String,
         to: String,

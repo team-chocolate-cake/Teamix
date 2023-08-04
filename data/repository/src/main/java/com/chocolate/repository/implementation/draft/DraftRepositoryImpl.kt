@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class DraftRepositoryImpl @Inject constructor(
     private val draftDataSource: DraftMessageDataSource
-): DraftRepository, BaseRepository {
+): DraftRepository, BaseRepository() {
     override suspend fun getDrafts() {
         TODO("Not yet implemented")
     }

@@ -1,20 +1,21 @@
 package com.chocolate.repository.implementation
 
 import com.chocolate.entities.ErrorType
+import com.chocolate.repository.utils.HttpStatusCodes
 import retrofit2.Response
 import java.net.UnknownHostException
 
-interface BaseRepository {
-    suspend fun <T> wrapApiCall(call: suspend () -> Response<T>): T {
+abstract class BaseRepository {
+    protected suspend fun <T> wrapApiCall(call: suspend () -> Response<T>): T {
         return try {
             val result = call()
 
             when (result.code()) {
-                BAD_REQUEST -> throw ErrorType.Network(result.message())
-                UNAUTHORIZED -> throw ErrorType.UnAuthorized(result.message())
-                USER_DEACTIVATED -> throw ErrorType.UserDeactivated(result.message())
-                TOO_MANY_REQUESTS -> throw ErrorType.RateLimitExceeded(result.message())
-                NO_CONNECTION -> throw ErrorType.NoConnection(result.message())
+                HttpStatusCodes.BAD_REQUEST.code -> throw ErrorType.Network(result.message())
+                HttpStatusCodes.UNAUTHORIZED.code -> throw ErrorType.UnAuthorized(result.message())
+                HttpStatusCodes.USER_DEACTIVATED.code -> throw ErrorType.UserDeactivated(result.message())
+                HttpStatusCodes.TOO_MANY_REQUESTS.code -> throw ErrorType.RateLimitExceeded(result.message())
+                HttpStatusCodes.NO_CONNECTION.code -> throw ErrorType.NoConnection(result.message())
 
                 else -> result.body() ?: throw ErrorType.Unknown(result.message())
             }
@@ -26,12 +27,4 @@ interface BaseRepository {
         }
     }
 
-    companion object{
-        private const val BAD_REQUEST = 400
-        private const val NO_CONNECTION = 404
-        private const val UNAUTHORIZED = 401
-        private const val USER_DEACTIVATED = 403
-        private const val TOO_MANY_REQUESTS = 429
-
-    }
 }

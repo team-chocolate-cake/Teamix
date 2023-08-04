@@ -6,7 +6,7 @@ import repositories.users.UsersRepositories
 import javax.inject.Inject
 
 class UserRepositoryImp @Inject constructor(userDataSource: UsersDataSource) : UsersRepositories,
-    BaseRepository {
+    BaseRepository() {
     override suspend fun getAllUsers() {
 
     }
@@ -52,59 +52,59 @@ class UserRepositoryImp @Inject constructor(userDataSource: UsersDataSource) : U
     }
 
     override suspend fun getUserPresence() {
-     }
+    }
 
     override suspend fun getRealmPresence() {
-     }
+    }
 
     override suspend fun getAttachments() {
-     }
+    }
 
     override suspend fun deleteAttachment() {
-     }
+    }
 
     override suspend fun updateSettings() {
-     }
+    }
 
     override suspend fun getUserGroups() {
-     }
+    }
 
     override suspend fun createUserGroup() {
-     }
+    }
 
     override suspend fun updateUserGroup() {
-     }
+    }
 
     override suspend fun removeUserGroup() {
-     }
+    }
 
     override suspend fun updateUserGroupMembers() {
-     }
+    }
 
     override suspend fun createUserGroupSubgroups() {
-     }
+    }
 
     override suspend fun getUserMembership() {
-     }
+    }
 
     override suspend fun getGroupMembers() {
-     }
+    }
 
     override suspend fun getSubgroups() {
-     }
+    }
 
     override suspend fun muteUser() {
-     }
+    }
 
     override suspend fun unmuteUser() {
-     }
+    }
 
     override suspend fun getAlertWords() {
-     }
+    }
 
     override suspend fun addAlertWords() {
-     }
+    }
 
     override suspend fun removeAlertWords() {
-     }
+    }
 }

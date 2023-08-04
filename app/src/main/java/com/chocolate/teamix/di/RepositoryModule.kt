@@ -9,8 +9,8 @@ import com.chocolate.repository.implementation.users.UserRepositoryImp
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.scopes.ActivityScoped
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 import repositories.channels.ChannelsRepository
 import repositories.draft.DraftRepository
 import repositories.messages.MessagesRepository
@@ -19,31 +19,31 @@ import repositories.server_and_organizations.ServerAndOrganizationsRepository
 import repositories.users.UsersRepositories
 
 @Module
-@InstallIn(ActivityComponent::class)
+@InstallIn(ViewModelComponent::class)
 abstract class RepositoryModule {
 
     @Binds
-    @ActivityScoped
+    @ViewModelScoped
     abstract fun bindMessagesRepository(messagesRepositoryImpl: MessagesRepositoryImpl): MessagesRepository
 
     @Binds
-    @ActivityScoped
+    @ViewModelScoped
     abstract fun bindChannelsRepository(channelsRepositoryImpl: ChannelsRepositoryImpl): ChannelsRepository
 
     @Binds
-    @ActivityScoped
+    @ViewModelScoped
     abstract fun bindUserRepository(userRepositoriesImp: UserRepositoryImp): UsersRepositories
 
     @Binds
-    @ActivityScoped
+    @ViewModelScoped
     abstract fun bindDraftRepository(draftRepositoryImpl: DraftRepositoryImpl): DraftRepository
 
     @Binds
-    @ActivityScoped
+    @ViewModelScoped
     abstract fun bindScheduledMessageRepository(scheduledMessageRepositoryImpl: ScheduledMessageRepositoryImpl): ScheduledMessageRepository
 
     @Binds
-    @ActivityScoped
+    @ViewModelScoped
     abstract fun bindServerAndOrganizationsRepository(serverAndOrganizationsRepositoryImpl: ServerAndOrganizationsRepositoryImpl): ServerAndOrganizationsRepository
 
 }

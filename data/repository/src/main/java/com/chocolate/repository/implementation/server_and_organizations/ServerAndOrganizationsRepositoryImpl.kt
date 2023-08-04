@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class ServerAndOrganizationsRepositoryImpl @Inject constructor(
     private val organizationDataSource: OrganizationDataSource
-): ServerAndOrganizationsRepository, BaseRepository {
+): ServerAndOrganizationsRepository, BaseRepository() {
     override suspend fun getServiceSettings() {
         TODO("Not yet implemented")
     }

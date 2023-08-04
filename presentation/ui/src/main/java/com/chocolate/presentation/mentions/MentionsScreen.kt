@@ -15,7 +15,6 @@ import androidx.compose.ui.res.stringResource
 import com.chocolate.presentation.R
 import com.chocolate.presentation.mentions.composables.MentionDays
 import com.chocolate.presentation.mentions.composables.SecondaryAppBar
-import com.chocolate.presentation.mentions.composables.VerticalSpacer
 import com.chocolate.presentation.theme.OnLightBackground
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.viewmodel.mentions.MentionsViewModel
@@ -39,7 +38,6 @@ private fun MentionsContent(
         modifier = Modifier.fillMaxSize().background(OnLightBackground)
     ) {
         SecondaryAppBar(stringResource(R.string.mentions))
-        VerticalSpacer(Space16)
         LazyColumn(
             modifier = Modifier.weight(1f),
             contentPadding = PaddingValues(Space16),

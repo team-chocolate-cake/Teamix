@@ -63,6 +63,7 @@ dependencies {
     kapt(DependencyProject.hiltCompiler)
 
     implementation(DependencyProject.coil)
+    implementation(DependencyProject.hiltNavigation)
 
     implementation(DependencyProject.lottie)
     implementation(DependencyProject.splashScreen)

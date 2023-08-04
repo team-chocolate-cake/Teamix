@@ -28,7 +28,7 @@ class MessagesImpl @Inject constructor(
         queueId: String?,
         localId: String?
     ): Response<SendMessageRemoteDto> {
-        TODO("Not yet implemented")
+        return messageService.sendStreamMessage(type, to, topic, content, queueId, localId)
     }
 
     override suspend fun sendDirectMessage(
@@ -38,11 +38,11 @@ class MessagesImpl @Inject constructor(
         queueId: String?,
         localId: String?
     ): Response<SendMessageRemoteDto> {
-        TODO("Not yet implemented")
+        return messageService.sendDirectMessage(type, to, content, queueId, localId)
     }
 
     override suspend fun uploadFile(file: MultipartBody.Part): Response<FileRemoteDto> {
-        TODO("Not yet implemented")
+        return messageService.uploadFile(file)
     }
 
     override suspend fun editMessage(
@@ -53,11 +53,18 @@ class MessagesImpl @Inject constructor(
         sendNotificationToOldThread: Boolean,
         sendNotificationToNewThread: Boolean
     ): Response<DefaultMessageRemoteDto> {
-        TODO("Not yet implemented")
+        return messageService.editMessage(
+            messageId,
+            content,
+            topic,
+            propagateMode,
+            sendNotificationToOldThread,
+            sendNotificationToNewThread
+        )
     }
 
     override suspend fun deleteMessage(message_id: Int): Response<DefaultMessageRemoteDto> {
-        TODO("Not yet implemented")
+        return messageService.deleteMessage(message_id)
     }
 
     override suspend fun getMessages(
@@ -69,7 +76,15 @@ class MessagesImpl @Inject constructor(
         clientGravatar: Boolean,
         applyMarkdown: Boolean
     ): Response<MessagesRemoteDto> {
-        TODO("Not yet implemented")
+        return messageService.getMessages(
+            anchor,
+            includeAnchor,
+            numBefore,
+            numAfter,
+            narrow,
+            clientGravatar,
+            applyMarkdown
+        )
     }
 
     override suspend fun addEmojiReaction(
@@ -78,7 +93,7 @@ class MessagesImpl @Inject constructor(
         emojiCode: String?,
         reactionType: String?
     ): Response<DefaultMessageRemoteDto> {
-        TODO("Not yet implemented")
+        return messageService.addEmojiReaction(messageId, emojiName, emojiCode, reactionType)
     }
 
     override suspend fun deleteEmojiReaction(
@@ -87,26 +102,26 @@ class MessagesImpl @Inject constructor(
         emojiCode: String?,
         reactionType: String?
     ): Response<DefaultMessageRemoteDto> {
-        TODO("Not yet implemented")
+        return messageService.deleteEmojiReaction(messageId, emojiName, emojiCode, reactionType)
     }
 
     override suspend fun renderMessage(content: String): Response<RenderMessageRemoteDto> {
-        TODO("Not yet implemented")
+        return messageService.renderMessage(content)
     }
 
     override suspend fun fetchSingleMessage(messageId: Int): Response<SingleMessageRemoteDto> {
-        TODO("Not yet implemented")
+        return messageService.fetchSingleMessage(messageId)
     }
 
     override suspend fun checkIfMessagesMatchNarrow(
         msg_ids: String,
         narrow: String
     ): Response<MatchNarrowRemoteDto> {
-        TODO("Not yet implemented")
+        return messageService.checkIfMessagesMatchNarrow(msg_ids, narrow)
     }
 
     override suspend fun getMessagesEditHistory(messageId: Int): Response<MessageEditHistoryRemoteDto> {
-        TODO("Not yet implemented")
+        return messageService.getMessagesEditHistory(messageId)
     }
 
     override suspend fun updateMessageFlags(
@@ -114,7 +129,7 @@ class MessagesImpl @Inject constructor(
         op: String,
         flag: String
     ): Response<PersonalMessageFlags> {
-        TODO("Not yet implemented")
+        return messageService.updateMessageFlags(messages, op, flag)
     }
 
     override suspend fun updatePersonalMessageFlagsForNarrow(
@@ -126,25 +141,33 @@ class MessagesImpl @Inject constructor(
         op: String,
         flag: String
     ): Response<PersonalMessageForNarrowRemoteDto> {
-        TODO("Not yet implemented")
+        return messageService.updatePersonalMessageFlagsForNarrow(
+            anchor,
+            numBefore,
+            numAfter,
+            includeAnchor,
+            narrow,
+            op,
+            flag
+        )
     }
 
     override suspend fun markAllMessagesAsRead(): Response<DefaultMessageRemoteDto> {
-        TODO("Not yet implemented")
+        return messageService.markAllMessagesAsRead()
     }
 
     override suspend fun markStreamAsRead(steamId: Int): Response<DefaultMessageRemoteDto> {
-        TODO("Not yet implemented")
+        return messageService.markStreamAsRead(steamId)
     }
 
     override suspend fun markTopicAsRead(
         steamId: Int,
         topicName: String
     ): Response<DefaultMessageRemoteDto> {
-        TODO("Not yet implemented")
+        return messageService.markTopicAsRead(steamId, topicName)
     }
 
     override suspend fun getMessageReadReceipts(messageId: Int): Response<MessageReadReceiptsRemoteDto> {
-        TODO("Not yet implemented")
+        return messageService.getMessageReadReceipts(messageId)
     }
 }

@@ -1,5 +1,5 @@
 package com.chocolate.entities.ChannelModels
 
-data class UnsubscribeFromStream(
+data class DefaultChannelModel(
     val message:String?
 )

@@ -18,11 +18,11 @@ import javax.inject.Inject
 
 class ChannelsImpl @Inject constructor(
     private val channelsService: ChannelsService
-): ChannelsDataSource {
+) : ChannelsDataSource {
     override suspend fun getUserSubscriptions(
         includeSubscribers: Boolean
     ): Response<SubscribedStreamDto> {
-        TODO("Not yet implemented")
+        return channelsService.getUserSubscriptions(includeSubscribers)
     }
 
     override suspend fun addSubscribesToStream(
@@ -37,7 +37,18 @@ class ChannelsImpl @Inject constructor(
         messageRetentionDays: String?,
         canRemoveSubscribersGroupId: Int?
     ): Response<SubscribeToStreamDto> {
-        TODO("Not yet implemented")
+        return channelsService.addSubscribesToStream(
+            subscribeToStream,
+            principals,
+            authorizationErrorsFatal,
+            announce,
+            inviteOnly,
+            isWebPublic,
+            historyPublicToSubscribers,
+            streamPostPolicy,
+            messageRetentionDays,
+            canRemoveSubscribersGroupId,
+        )
     }
 
 
@@ -45,22 +56,25 @@ class ChannelsImpl @Inject constructor(
         subscriptions: String,
         principals: List<String>?
     ): Response<UnsubscribeFromStreamDto> {
-        TODO("Not yet implemented")
+        return channelsService.deleteSubscriberFromStream(
+            subscriptions,
+            principals
+        )
     }
 
     override suspend fun getSubscriptionStatus(
         userId: Int,
         streamId: Int
     ): Response<SubscriptionStatusDto> {
-        TODO("Not yet implemented")
+        return channelsService.getSubscriptionStatus(userId, streamId)
     }
 
     override suspend fun getAllSubscribers(streamId: Int): Response<AllSubscribersDto> {
-        TODO("Not yet implemented")
+        return channelsService.getAllSubscriber(streamId)
     }
 
     override suspend fun updateSubscriptionSettings(subscriptionData: String): Response<SubscriptionSettingsDto> {
-        TODO("Not yet implemented")
+        return channelsService.updateSubscriptionSettings(subscriptionData)
     }
 
     override suspend fun getAllStreams(
@@ -71,15 +85,22 @@ class ChannelsImpl @Inject constructor(
         includeDefault: Boolean,
         includeOwnerSubscribed: Boolean
     ): Response<AllStreamsDto> {
-        TODO("Not yet implemented")
+        return channelsService.getAllStreams(
+            includePublic,
+            includeWebPublic,
+            includeSubscribed,
+            includeAllActive,
+            includeDefault,
+            includeOwnerSubscribed
+        )
     }
 
     override suspend fun getStreamById(streamId: Int): Response<StreamsByIdDto> {
-        TODO("Not yet implemented")
+        return channelsService.getStreamById(streamId)
     }
 
     override suspend fun getStreamId(stream: String): Response<StreamsIdDto> {
-        TODO("Not yet implemented")
+        return channelsService.getStreamId(stream)
     }
 
     override suspend fun updateStream(
@@ -93,15 +114,25 @@ class ChannelsImpl @Inject constructor(
         messageRetentionDays: String?,
         canRemoveSubscribersGroupId: Int?
     ): Response<DefaultStreamDto> {
-        TODO("Not yet implemented")
+        return channelsService.updateStream(
+            streamId,
+            description,
+            newName,
+            isPrivate,
+            isWebPublic,
+            historyPublicToSubscribers,
+            streamPostPolicy,
+            messageRetentionDays,
+            canRemoveSubscribersGroupId
+        )
     }
 
     override suspend fun archiveStream(streamId: Int): Response<DefaultStreamDto> {
-        TODO("Not yet implemented")
+        return channelsService.archiveStream(streamId)
     }
 
     override suspend fun getTopicsInStream(streamId: Int): Response<TopicsInStreamDto> {
-        TODO("Not yet implemented")
+        return channelsService.getTopicsInStream(streamId)
     }
 
     override suspend fun setTopicMuting(
@@ -110,7 +141,7 @@ class ChannelsImpl @Inject constructor(
         streamId: Int?,
         stream: String?
     ): Response<DefaultStreamDto> {
-        TODO("Not yet implemented")
+        return channelsService.setTopicMuting(topic, status, streamId, stream)
     }
 
     override suspend fun updatePersonalPreferenceTopic(
@@ -118,18 +149,18 @@ class ChannelsImpl @Inject constructor(
         topic: String,
         visibilityPolicy: Int
     ): Response<DefaultStreamDto> {
-        TODO("Not yet implemented")
+        return channelsService.updatePersonalPreferenceTopic(streamId, topic, visibilityPolicy)
     }
 
     override suspend fun deleteTopic(streamId: Int, topicName: String): Response<DefaultStreamDto> {
-        TODO("Not yet implemented")
+        return channelsService.deleteTopic(streamId, topicName)
     }
 
     override suspend fun addDefaultStream(streamId: Int): Response<DefaultStreamDto> {
-        TODO("Not yet implemented")
+        return channelsService.addDefaultStream(streamId)
     }
 
     override suspend fun deleteDefaultStream(streamId: Int): Response<DefaultStreamDto> {
-        TODO("Not yet implemented")
+        return channelsService.deleteDefaultStream(streamId)
     }
 }

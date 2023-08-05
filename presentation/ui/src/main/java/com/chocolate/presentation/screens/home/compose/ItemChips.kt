@@ -17,37 +17,42 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.chocolate.viewmodel.home.ChipsUIState
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Space24
 import com.chocolate.presentation.theme.Space4
 import com.chocolate.presentation.theme.Space8
 
 @Composable
-fun ItemChips(chipsUIState: ChipsUIState, colors: CustomColorsPalette, modifier: Modifier = Modifier) {
+fun ItemChips(
+    badge: Int,
+    painter: Painter,
+    title: String,
+    colors: CustomColorsPalette,
+    modifier: Modifier = Modifier
+) {
     Box(
         modifier = modifier
-            .fillMaxWidth()
+            .wrapContentSize()
             .height(96.dp)
             .clip(RoundedCornerShape(12.dp))
             .background(colors.card),
         contentAlignment = Alignment.Center
     ) {
         Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
-                BadgeHome(
-                    number = chipsUIState.notificationNumber,
-                    textColor = colors.onPrimary,
-                    cardColor = colors.primary,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.End)
-                        .padding(end = Space4, top = Space4)
-                )
+            BadgeHome(
+                number = badge,
+                textColor = colors.onPrimary,
+                cardColor = colors.primary,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.End)
+                    .padding(end = Space4, top = Space4)
+            )
             Icon(
-                painter = painterResource(id = chipsUIState.icon),
+                painter = painter,
                 contentDescription = "icons",
                 modifier = Modifier
                     .wrapContentSize()
@@ -56,7 +61,7 @@ fun ItemChips(chipsUIState: ChipsUIState, colors: CustomColorsPalette, modifier:
                 tint = colors.onBackground60,
             )
             Text(
-                text = chipsUIState.title,
+                text = title,
                 color = colors.onBackground60,
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier

@@ -21,6 +21,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
@@ -32,7 +33,6 @@ import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space64
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.viewmodel.home.ChipsUIState
 import com.chocolate.viewmodel.home.HomeUiState
 
 @Composable
@@ -75,8 +75,34 @@ fun HomeContent(state: HomeUiState) {
                     horizontalArrangement = Arrangement.spacedBy(Space8),
                     contentPadding = PaddingValues(horizontal = Space16)
                 ) {
-                    items(items = state.chipsUIState) { chipsUIState ->
-                        ItemChips(chipsUIState, colors)
+                    item {
+                        ItemChips(
+                            badge = state.mentionsBadge,
+                            painter = painterResource(id = R.drawable.ic_mention),
+                            title = "Mentions",
+                            colors = colors,
+                            modifier = Modifier.padding(end = Space8)
+                        )
+                        ItemChips(
+                            badge = state.draftsBadge,
+                            painter = painterResource(id = R.drawable.ic_drafts),
+                            title = "Drafts",
+                            colors = colors,
+                            modifier = Modifier.padding(end = Space8)
+                        )
+                        ItemChips(
+                            badge = state.starredBadge,
+                            painter = painterResource(id = R.drawable.ic_star),
+                            title = "Starred",
+                            colors = colors,
+                            modifier = Modifier.padding(end = Space8)
+                        )
+                        ItemChips(
+                            badge = state.savedBadge,
+                            painter = painterResource(id = R.drawable.ic_saved_later),
+                            title = "Saved Later",
+                            colors = colors
+                        )
                     }
                 }
             }
@@ -113,15 +139,6 @@ fun HomeContent(state: HomeUiState) {
 )
 fun HomePreview() {
     HomeContent(
-        state = HomeUiState(
-            "The Chance Community",
-            imageUrl = "https://images.pexels.com/photos/1133957/pexels-photo-1133957.jpeg",
-            chipsUIState = listOf(
-                ChipsUIState("Mentions", 2, R.drawable.ic_mention),
-                ChipsUIState("Drafts", 2, R.drawable.ic_drafts),
-                ChipsUIState("Starred", R.drawable.ic_star),
-                ChipsUIState("Saved Later", R.drawable.ic_saved_later),
-            )
-        )
+        state = homeUiState
     )
 }

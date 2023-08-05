@@ -11,7 +11,7 @@ data class MessagesRemoteDto(
     @SerializedName("found_newest")
     val foundNewest: Boolean?,
     @SerializedName("messages")
-    val messages: List<Message?>?,
+    val messages: List<Message>?,
     @SerializedName("msg")
     val message: String?,
     @SerializedName("result")

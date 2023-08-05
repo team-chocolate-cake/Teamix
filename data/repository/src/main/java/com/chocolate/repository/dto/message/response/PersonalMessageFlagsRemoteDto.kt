@@ -3,9 +3,9 @@ package com.chocolate.repository.dto.message.response
 
 import com.google.gson.annotations.SerializedName
 
-data class PersonalMessageFlags(
+data class PersonalMessageFlagsRemoteDto(
     @SerializedName("messages")
-    val messages: List<Int?>?,
+    val messages: List<Int>?,
     @SerializedName("msg")
     val message: String?,
     @SerializedName("result")

@@ -1,5 +1,5 @@
 package com.chocolate.entities.messages
 
-data class PersonalMessageEntity(
+data class PersonalMessage(
     val messages: List<Int>
 )

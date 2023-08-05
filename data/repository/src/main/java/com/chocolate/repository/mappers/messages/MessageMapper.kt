@@ -1,13 +1,12 @@
 package com.chocolate.repository.mappers.messages
 
-import com.chocolate.entities.messages.MessageEntity
-import com.chocolate.entities.messages.MessagesEntity
+import com.chocolate.entities.messages.Messages
 import com.chocolate.repository.dto.message.response.Message
 import com.chocolate.repository.dto.message.response.MessagesRemoteDto
 
 
-fun Message.toMessageEntity(): MessageEntity{
-    return MessageEntity(
+fun Message.toMessageEntity(): com.chocolate.entities.messages.Message {
+    return com.chocolate.entities.messages.Message(
         avatarUrl = this.avatarUrl ?: "",
         client = this.client ?: "",
         content = this.content ?: "",
@@ -30,8 +29,8 @@ fun Message.toMessageEntity(): MessageEntity{
         type = this.type ?: ""
     )
 }
-fun MessagesRemoteDto.toEntity(): MessagesEntity{
-    return MessagesEntity(
+fun MessagesRemoteDto.toEntity(): Messages{
+    return Messages(
         messages = this.messages?.map { it.toMessageEntity() } ?: emptyList()
     )
 }

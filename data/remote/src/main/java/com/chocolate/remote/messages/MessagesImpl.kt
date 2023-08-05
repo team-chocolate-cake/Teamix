@@ -7,7 +7,7 @@ import com.chocolate.repository.dto.message.response.MatchNarrowRemoteDto
 import com.chocolate.repository.dto.message.response.MessageEditHistoryRemoteDto
 import com.chocolate.repository.dto.message.response.MessageReadReceiptsRemoteDto
 import com.chocolate.repository.dto.message.response.MessagesRemoteDto
-import com.chocolate.repository.dto.message.response.PersonalMessageFlags
+import com.chocolate.repository.dto.message.response.PersonalMessageFlagsRemoteDto
 import com.chocolate.repository.dto.message.response.PersonalMessageForNarrowRemoteDto
 import com.chocolate.repository.dto.message.response.RenderMessageRemoteDto
 import com.chocolate.repository.dto.message.response.SendMessageRemoteDto
@@ -63,8 +63,8 @@ class MessagesImpl @Inject constructor(
         )
     }
 
-    override suspend fun deleteMessage(message_id: Int): Response<DefaultMessageRemoteDto> {
-        return messageService.deleteMessage(message_id)
+    override suspend fun deleteMessage(messageId: Int): Response<DefaultMessageRemoteDto> {
+        return messageService.deleteMessage(messageId)
     }
 
     override suspend fun getMessages(
@@ -128,7 +128,7 @@ class MessagesImpl @Inject constructor(
         messages: List<Int>,
         op: String,
         flag: String
-    ): Response<PersonalMessageFlags> {
+    ): Response<PersonalMessageFlagsRemoteDto> {
         return messageService.updateMessageFlags(messages, op, flag)
     }
 

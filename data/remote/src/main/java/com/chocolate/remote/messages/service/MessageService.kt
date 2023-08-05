@@ -6,7 +6,7 @@ import com.chocolate.repository.dto.message.response.MatchNarrowRemoteDto
 import com.chocolate.repository.dto.message.response.MessageEditHistoryRemoteDto
 import com.chocolate.repository.dto.message.response.MessageReadReceiptsRemoteDto
 import com.chocolate.repository.dto.message.response.MessagesRemoteDto
-import com.chocolate.repository.dto.message.response.PersonalMessageFlags
+import com.chocolate.repository.dto.message.response.PersonalMessageFlagsRemoteDto
 import com.chocolate.repository.dto.message.response.PersonalMessageForNarrowRemoteDto
 import com.chocolate.repository.dto.message.response.RenderMessageRemoteDto
 import com.chocolate.repository.dto.message.response.SendMessageRemoteDto
@@ -115,7 +115,7 @@ interface MessageService {
         @Query("messages") messages: List<Int>,
         @Query("op") op: String,
         @Query("flag") flag: String,
-    ): Response<PersonalMessageFlags>
+    ): Response<PersonalMessageFlagsRemoteDto>
 
     @POST("messages/flags/narrow")
     suspend fun updatePersonalMessageFlagsForNarrow(

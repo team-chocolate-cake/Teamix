@@ -1,5 +1,5 @@
 package com.chocolate.entities.messages
 
-data class SendMessageEntity(
+data class SendMessage(
     val id: Int
 )

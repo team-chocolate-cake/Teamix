@@ -1,6 +1,6 @@
 package com.chocolate.entities.messages
 
-data class MessageEntity(
+data class Message(
     val avatarUrl: String,
     val client: String,
     val content: String,

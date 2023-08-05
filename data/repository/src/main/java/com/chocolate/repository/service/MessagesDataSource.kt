@@ -6,7 +6,7 @@ import com.chocolate.repository.dto.message.response.MatchNarrowRemoteDto
 import com.chocolate.repository.dto.message.response.MessageEditHistoryRemoteDto
 import com.chocolate.repository.dto.message.response.MessageReadReceiptsRemoteDto
 import com.chocolate.repository.dto.message.response.MessagesRemoteDto
-import com.chocolate.repository.dto.message.response.PersonalMessageFlags
+import com.chocolate.repository.dto.message.response.PersonalMessageFlagsRemoteDto
 import com.chocolate.repository.dto.message.response.PersonalMessageForNarrowRemoteDto
 import com.chocolate.repository.dto.message.response.RenderMessageRemoteDto
 import com.chocolate.repository.dto.message.response.SendMessageRemoteDto
@@ -21,16 +21,16 @@ interface MessagesDataSource {
         to: Any,
         topic: String,
         content: String,
-        queueId: String?,
-        localId: String?,
+        queueId: String? = null,
+        localId: String? = null,
     ): Response<SendMessageRemoteDto>
 
     suspend fun sendDirectMessage(
         type: String,
         to: Any,
         content: String,
-        queueId: String?,
-        localId: String?,
+        queueId: String? = null,
+        localId: String? = null,
     ): Response<SendMessageRemoteDto>
 
     suspend fun uploadFile(file: MultipartBody.Part): Response<FileRemoteDto>
@@ -44,7 +44,7 @@ interface MessagesDataSource {
         sendNotificationToNewThread: Boolean = true
     ): Response<DefaultMessageRemoteDto>
 
-    suspend fun deleteMessage(message_id: Int): Response<DefaultMessageRemoteDto>
+    suspend fun deleteMessage(messageId: Int): Response<DefaultMessageRemoteDto>
 
     suspend fun getMessages(
         anchor: String?,
@@ -59,15 +59,15 @@ interface MessagesDataSource {
     suspend fun addEmojiReaction(
         messageId: Int,
         emojiName: String,
-        emojiCode: String?,
-        reactionType: String?
+        emojiCode: String?= null,
+        reactionType: String? = null
     ): Response<DefaultMessageRemoteDto>
 
     suspend fun deleteEmojiReaction(
         messageId: Int,
         emojiName: String,
-        emojiCode: String?,
-        reactionType: String?
+        emojiCode: String? = null,
+        reactionType: String? = null
     ): Response<DefaultMessageRemoteDto>
 
     suspend fun renderMessage(
@@ -91,7 +91,7 @@ interface MessagesDataSource {
         messages: List<Int>,
         op: String,
         flag: String,
-    ): Response<PersonalMessageFlags>
+    ): Response<PersonalMessageFlagsRemoteDto>
 
     suspend fun updatePersonalMessageFlagsForNarrow(
         anchor: String,

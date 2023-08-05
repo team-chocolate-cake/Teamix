@@ -2,7 +2,7 @@ package com.chocolate.repository.mappers.messages
 
 import com.chocolate.entities.messages.Messages
 import com.chocolate.repository.dto.message.response.Message
-import com.chocolate.repository.dto.message.response.MessagesRemoteDto
+import com.chocolate.repository.dto.message.response.MessagesDto
 
 
 fun Message.toMessageEntity(): com.chocolate.entities.messages.Message {
@@ -29,7 +29,7 @@ fun Message.toMessageEntity(): com.chocolate.entities.messages.Message {
         type = this.type ?: ""
     )
 }
-fun MessagesRemoteDto.toEntity(): Messages{
+fun MessagesDto.toEntity(): Messages{
     return Messages(
         messages = this.messages?.map { it.toMessageEntity() } ?: emptyList()
     )

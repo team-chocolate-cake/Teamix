@@ -1,21 +1,16 @@
 package com.chocolate.presentation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import com.chocolate.presentation.welcome.WelcomeScreen
+import androidx.navigation.compose.rememberNavController
+import com.chocolate.presentation.on_boarding.onBoardingRoute
+import com.chocolate.presentation.welcome.welcomeRoute
 
 @Composable
-fun SetUpNavGraph(
-    navController: NavHostController
-) {
+fun SetUpNavGraph() {
+    val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.Welcome.route) {
-        composable(Screen.Welcome.route) {
-            WelcomeScreen(navController)
-        }
-        composable(Screen.Welcome.route) {
-            WelcomeScreen(navController)
-        }
+        welcomeRoute(navController)
+        onBoardingRoute(navController)
     }
 }

@@ -83,7 +83,6 @@ fun HomeContent(
 ) {
     val colors = MaterialTheme.customColors()
     var isShowSheet by remember { mutableStateOf(false) }
-    var selectedCardIndex by remember { mutableStateOf(-1) }
 
 
     if (isShowSheet) {
@@ -154,10 +153,10 @@ fun HomeContent(
                             colors = colors,
                             onClickItemCard = {
                                 when (it) {
-                                    0 -> {}
-                                    1 -> {}
-                                    2 -> {}
-                                    3 -> {}
+                                    0 -> {navigationToMention()}
+                                    1 -> {navigationToDrafts()}
+                                    2 -> {navigationToStarred()}
+                                    3 -> {navigationToSavedLater()}
                                 }
                             },
                             modifier = Modifier.padding(end = Space8)

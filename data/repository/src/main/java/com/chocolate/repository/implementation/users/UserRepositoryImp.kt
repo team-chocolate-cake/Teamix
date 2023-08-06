@@ -1,18 +1,12 @@
 package com.chocolate.repository.implementation.users
 
-import com.chocolate.repository.datastore.PreferenceStorage
-import com.chocolate.repository.dto.local.users.OrganizationsLocalDto
-import com.chocolate.repository.service.local.OrganizationsLocalDataSource
-import com.chocolate.repository.service.remote.UsersDataSource
-import kotlinx.coroutines.flow.Flow
+import com.chocolate.repository.implementation.BaseRepository
+import com.chocolate.repository.service.UsersDataSource
 import repositories.users.UsersRepositories
 import javax.inject.Inject
 
-class UserRepositoryImp @Inject constructor(
-    private val userDataSource: UsersDataSource,
-    private val organizationsLocalDataSource: OrganizationsLocalDataSource,
-    private val prefs: PreferenceStorage,
-) : UsersRepositories {
+class UserRepositoryImp @Inject constructor(userDataSource: UsersDataSource) : UsersRepositories,
+    BaseRepository() {
     override suspend fun getAllUsers() {
 
     }
@@ -58,49 +52,49 @@ class UserRepositoryImp @Inject constructor(
     }
 
     override suspend fun getUserPresence() {
-     }
+    }
 
     override suspend fun getRealmPresence() {
-     }
+    }
 
     override suspend fun getAttachments() {
-     }
+    }
 
     override suspend fun deleteAttachment() {
-     }
+    }
 
     override suspend fun updateSettings() {
-     }
+    }
 
     override suspend fun getUserGroups() {
-     }
+    }
 
     override suspend fun createUserGroup() {
-     }
+    }
 
     override suspend fun updateUserGroup() {
-     }
+    }
 
     override suspend fun removeUserGroup() {
-     }
+    }
 
     override suspend fun updateUserGroupMembers() {
-     }
+    }
 
     override suspend fun createUserGroupSubgroups() {
-     }
+    }
 
     override suspend fun getUserMembership() {
-     }
+    }
 
     override suspend fun getGroupMembers() {
-     }
+    }
 
     override suspend fun getSubgroups() {
-     }
+    }
 
     override suspend fun muteUser() {
-     }
+    }
 
     override suspend fun unmuteUser() {
     }
@@ -112,15 +106,5 @@ class UserRepositoryImp @Inject constructor(
     }
 
     override suspend fun removeAlertWords() {
-    }
-
-    override suspend fun addOrganizations(nameOrganizations: String) {
-        val organizationsLocalDto = OrganizationsLocalDto(organizationName = nameOrganizations)
-        organizationsLocalDataSource.insertNameOrg(organizationsLocalDto)
-        prefs.setNameOrganization(nameOrganizations)
-    }
-
-    override suspend fun getOrganizations(): String? {
-        return prefs.currentOrganization
     }
 }

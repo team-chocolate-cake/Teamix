@@ -23,6 +23,7 @@ object DependencyProject {
     private const val NAVIGATION_COMPOSE = "2.5.3"
     private const val HILT_NAVIGATION_VERSION = "1.0.0"
     private const val MATERIAL3_VERSION = "1.1.0-beta01"
+    private const val COMPOSE_FOUNDATION_VERSION = "1.4.3"
 
     const val androidxCore = "androidx.core:core-ktx:$CORE_VERSION"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:$CONSTRAINT_LAYOUT_VERSION"
@@ -63,7 +64,7 @@ object DependencyProject {
 
     const val lottie = "com.airbnb.android:lottie-compose:$LOTTIE_VERSION"
 
-    const val coil = "io.coil-kt:coil:$COIL_VERSION"
+    const val coil = "io.coil-kt:coil-compose:$COIL_VERSION"
 
     const val dataStore = "androidx.datastore:datastore-preferences:$DATASTORE_VERSION"
     const val roomRuntime = "androidx.room:room-runtime:$ROOM_VERSION"
@@ -74,6 +75,8 @@ object DependencyProject {
 
 
     const val splashScreen = "androidx.core:core-splashscreen:$SPLASH_SCREEN_VERSION-beta02"
+
+    const val composeFoundation = "androidx.compose.foundation:foundation:$COMPOSE_FOUNDATION_VERSION"
 
 
 }

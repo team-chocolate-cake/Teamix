@@ -1,8 +1,8 @@
 package com.chocolate.remote.users.service
 
 
-import com.chocolate.repository.dto.users.request.ProfileData
-import com.chocolate.repository.dto.users.request.SettingsRequest
+import com.chocolate.repository.dto.users.request.ProfileDataDto
+import com.chocolate.repository.dto.users.request.SettingsRequestDto
 import com.chocolate.repository.dto.users.response.AlertWordsDto
 import com.chocolate.repository.dto.users.response.CreateUserDto
 import com.chocolate.repository.dto.users.response.MuteUserResponseDto
@@ -56,7 +56,7 @@ interface UsersService {
         @Path("id") id: Int,
         @Query("full_name") fullName: String? = null,
         @Query("role") role: Int? = null,
-        @Query("profile_data") profileData: List<ProfileData>? = null
+        @Query("profile_data") profileData: List<ProfileDataDto>? = null
     ): Response<ResponseStateDto>
 
     @POST("users/me/status")
@@ -105,7 +105,7 @@ interface UsersService {
     suspend fun deleteAttachment(@Path("attachment_id") attachmentId: Int): Response<ResponseStateDto>
 
     @PATCH("settings")
-    suspend fun updateSettings(@Query("settings") settings: SettingsRequest): Response<UserSettingsDto>
+    suspend fun updateSettings(@Query("settings") settings: SettingsRequestDto): Response<UserSettingsDto>
 
     @GET("user_groups")
     suspend fun getUserGroups(): Response<UserGroupsDto>

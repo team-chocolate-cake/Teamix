@@ -9,5 +9,5 @@ data class UserGroupsDto(
     @SerializedName("result")
     val result: String?,
     @SerializedName("user_groups")
-    val userGroups: List<UserGroup>?
+    val userGroupDto: List<UserGroupDto>?
 )

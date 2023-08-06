@@ -2,9 +2,9 @@ package com.chocolate.repository.dto.users.response
 
 import com.google.gson.annotations.SerializedName
 
-data class IagoZulipCom(
+data class IagoZulipComDto(
     @SerializedName("aggregated")
-    val aggregated: Aggregated?,
+    val aggregated: AggregatedDto?,
     @SerializedName("website")
-    val website: Website?
+    val websiteDto: WebsiteDto?
 )

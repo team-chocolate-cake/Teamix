@@ -2,7 +2,7 @@ package com.chocolate.repository.dto.users.response
 
 import com.google.gson.annotations.SerializedName
 
-data class UserGroup(
+data class UserGroupDto(
     @SerializedName("description")
     val description: String?,
     @SerializedName("direct_subgroup_ids")

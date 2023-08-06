@@ -2,9 +2,9 @@ package com.chocolate.repository.dto.users.response
 
 import com.google.gson.annotations.SerializedName
 
-data class Presence(
+data class PresenceDto(
     @SerializedName("aggregated")
-    val aggregated: Aggregated?,
+    val aggregatedDto: AggregatedDto?,
     @SerializedName("website")
-    val website: Website?
+    val websiteDto: WebsiteDto?
 )

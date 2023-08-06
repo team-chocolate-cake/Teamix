@@ -9,5 +9,5 @@ data class UserDto(
     @SerializedName("result")
     val result: String?,
     @SerializedName("user")
-    val user: User?
+    val userDetailsDto: UserDetailsDto?
 )

@@ -2,7 +2,7 @@ package com.chocolate.repository.dto.users.response
 
 import com.google.gson.annotations.SerializedName
 
-data class Member(
+data class MemberDto(
     @SerializedName("avatar_url")
     val avatarUrl: String?,
     @SerializedName("avatar_version")

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class UserAttachmentsDto(
     @SerializedName("attachments")
-    val attachments: List<Attachment?>?,
+    val attachmentDto: List<AttachmentDto?>?,
     @SerializedName("msg")
     val message: String?,
     @SerializedName("result")

@@ -1,8 +1,9 @@
 package com.chocolate.repository.service
 
 
-import com.chocolate.repository.dto.users.request.ProfileData
-import com.chocolate.repository.dto.users.request.SettingsRequest
+import com.chocolate.entities.user.request.ProfileData
+import com.chocolate.repository.dto.users.request.ProfileDataDto
+import com.chocolate.repository.dto.users.request.SettingsRequestDto
 import com.chocolate.repository.dto.users.response.AlertWordsDto
 import com.chocolate.repository.dto.users.response.CreateUserDto
 import com.chocolate.repository.dto.users.response.MuteUserResponseDto
@@ -44,7 +45,7 @@ interface UsersDataSource {
         id: Int,
         fullName: String? = null,
         role: Int? = null,
-        profileData: List<ProfileData>? = null
+        profileData: List<ProfileDataDto>? = null
     ): Response<ResponseStateDto>
 
     suspend fun updateUserStatus(
@@ -82,7 +83,7 @@ interface UsersDataSource {
 
     suspend fun deleteAttachment(attachmentId: Int): Response<ResponseStateDto>
 
-    suspend fun updateSettings(settings: SettingsRequest): Response<UserSettingsDto>
+    suspend fun updateSettings(settings: SettingsRequestDto): Response<UserSettingsDto>
 
     suspend fun getUserGroups(): Response<UserGroupsDto>
 

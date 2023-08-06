@@ -79,7 +79,7 @@ interface MessagesDataSource {
     ): Response<SingleMessageDto>
 
     suspend fun checkIfMessagesMatchNarrow(
-        msg_ids: String,
+        messagesIds: String,
         narrow: String
     ): Response<MatchNarrowDto>
 

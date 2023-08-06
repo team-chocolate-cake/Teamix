@@ -114,10 +114,10 @@ class MessagesImpl @Inject constructor(
     }
 
     override suspend fun checkIfMessagesMatchNarrow(
-        msg_ids: String,
+        messagesIds: String,
         narrow: String
     ): Response<MatchNarrowDto> {
-        return messageService.checkIfMessagesMatchNarrow(msg_ids, narrow)
+        return messageService.checkIfMessagesMatchNarrow(messagesIds, narrow)
     }
 
     override suspend fun getMessagesEditHistory(messageId: Int): Response<MessageEditHistoryDto> {

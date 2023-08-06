@@ -1,18 +1,28 @@
 package com.chocolate.repository.implementation.messages
 
+import com.chocolate.entities.messages.AttachmentMessage
+import com.chocolate.entities.messages.MatchNarrow
+import com.chocolate.entities.messages.MessageEditHistory
 import com.chocolate.entities.messages.MessageReadReceipts
 import com.chocolate.entities.messages.Messages
 import com.chocolate.entities.messages.PersonalMessage
+import com.chocolate.entities.messages.PersonalMessageForNarrow
+import com.chocolate.entities.messages.RenderMessage
 import com.chocolate.entities.messages.SendMessage
+import com.chocolate.entities.messages.SingleMessage
 import com.chocolate.repository.implementation.BaseRepository
 import com.chocolate.repository.mappers.messages.toEntity
 import com.chocolate.repository.service.MessagesDataSource
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import repositories.messages.MessagesRepository
+import java.io.File
 import javax.inject.Inject
 
 class MessagesRepositoryImpl @Inject constructor(
     private val messageDataSource: MessagesDataSource
-): MessagesRepository, BaseRepository() {
+) : MessagesRepository, BaseRepository() {
     override suspend fun sendStreamMessage(
         type: String,
         to: Any,
@@ -148,9 +158,56 @@ class MessagesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getMessageReadReceipts(messageId: Int): MessageReadReceipts {
-        val messageReadReceiptsDto = wrapApiCall { messageDataSource.getMessageReadReceipts(messageId) }
+        val messageReadReceiptsDto =
+            wrapApiCall { messageDataSource.getMessageReadReceipts(messageId) }
         return messageReadReceiptsDto.toEntity()
     }
 
+    override suspend fun uploadFile(file: File): AttachmentMessage {
+        val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+        val filePart = MultipartBody.Part.createFormData("file", file.name, requestFile)
+        return wrapApiCall { messageDataSource.uploadFile(filePart) }.toEntity()
+    }
+
+
+    override suspend fun renderMessage(content: String): RenderMessage {
+        return wrapApiCall { messageDataSource.renderMessage(content) }.toEntity()
+    }
+
+    override suspend fun fetchSingleMethod(messageId: Int): SingleMessage {
+        return wrapApiCall { messageDataSource.fetchSingleMessage(messageId) }.toEntity()
+    }
+
+    override suspend fun checkIfMessagesMatchNarrow(
+        messagesIds: String,
+        narrow: String
+    ): MatchNarrow {
+        return wrapApiCall {
+            messageDataSource.checkIfMessagesMatchNarrow(
+                messagesIds,
+                narrow
+            )
+        }.toEntity()
+    }
+
+    override suspend fun getMessagesEditHistory(messageId: Int): List<MessageEditHistory> {
+        return wrapApiCall { messageDataSource.getMessagesEditHistory(messageId) }.toEntity()
+    }
+
+    override suspend fun updatePersonalMessageFlagsForNarrow(
+        anchor: String,
+        numBefore: Int,
+        numAfter: Int,
+        includeAnchor: Boolean,
+        narrow: String,
+        op: String,
+        flag: String
+    ): PersonalMessageForNarrow {
+        return wrapApiCall {
+            messageDataSource.updatePersonalMessageFlagsForNarrow(
+                anchor, numBefore, numAfter, includeAnchor, narrow, op, flag
+            )
+        }.toEntity()
+    }
 
 }

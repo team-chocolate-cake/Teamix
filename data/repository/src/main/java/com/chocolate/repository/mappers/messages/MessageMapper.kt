@@ -13,7 +13,7 @@ fun Message.toMessageEntity(): com.chocolate.entities.messages.Message {
         contentType = this.contentType ?: "",
         displayRecipient = this.displayRecipient ?: "",
         flags = this.flags ?: emptyList(),
-        id= this.id ?: 0,
+        id = this.id ?: 0,
         isMeMessage = this.isMeMessage ?: false,
         reactions = this.reactions ?: emptyList(),
         recipientId = this.recipientId ?: 0,
@@ -29,7 +29,8 @@ fun Message.toMessageEntity(): com.chocolate.entities.messages.Message {
         type = this.type ?: ""
     )
 }
-fun MessagesDto.toEntity(): Messages{
+
+fun MessagesDto.toEntity(): Messages {
     return Messages(
         messages = this.messages?.map { it.toMessageEntity() } ?: emptyList()
     )

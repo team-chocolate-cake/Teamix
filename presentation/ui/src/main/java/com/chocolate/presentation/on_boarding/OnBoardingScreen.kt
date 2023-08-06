@@ -8,36 +8,39 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.chocolate.presentation.composable.Button
-import com.chocolate.presentation.theme.OnLightPrimary
-import com.chocolate.presentation.theme.OnSecondary
-import com.chocolate.presentation.theme.Typography
+import com.chocolate.presentation.theme.TeamixTheme
+import com.chocolate.presentation.theme.customColors
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnBoardingScreen(
     navController: NavController,
-    pagerState: PagerState
 ) {
-    val onboardingPages = listOf(
-        OnBoardingPage.First,
-        OnBoardingPage.Second,
-        OnBoardingPage.Third,
-    )
+    // navigate To Home here using the navController
+    OnBoardingContent({  })
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun OnBoardingContent(
+    navigateToHome: () -> Unit
+) {
     val coroutineScope = rememberCoroutineScope()
+    val pagerState = rememberPagerState()
+    val onboardingPages = listOf(OnBoardingPage.First, OnBoardingPage.Second, OnBoardingPage.Third)
+    val colors = MaterialTheme.customColors()
     Column(Modifier.fillMaxSize()) {
         HorizontalPager(
             modifier = Modifier.weight(8f),
@@ -58,8 +61,8 @@ fun OnBoardingScreen(
             PageIndicator(
                 numberOfPages = onboardingPages.size,
                 modifier = Modifier.padding(),
-                selectedColor = OnLightPrimary,
-                defaultColor = OnSecondary,
+                selectedColor = colors.primary,
+                defaultColor = colors.onSecondary,
                 space = 8.dp,
                 defaultRadius = 8.dp,
                 selectedLength = 36.dp,
@@ -72,15 +75,16 @@ fun OnBoardingScreen(
                             pagerState.scrollToPage(pagerState.currentPage + 1)
                         }
                     } else {
-                        // navigate here
+                        navigateToHome()
                     }
                 },
-                modifier = Modifier
+                modifier = Modifier,
+                colors = colors
             ) {
                 Text(
                     text = if (pagerState.currentPage != 2) "Next" else "Lets start",
-                    style = Typography.titleMedium,
-                    color = Color.White
+                    style = MaterialTheme.typography.titleMedium,
+                    color = colors.onPrimary
                 )
             }
         }
@@ -91,7 +95,8 @@ fun OnBoardingScreen(
 @Preview
 @Composable
 fun OnBoardingScreenPreview() {
-    val pagerState = rememberPagerState()
-    OnBoardingScreen(navController = rememberNavController(), pagerState)
+    TeamixTheme {
+        OnBoardingScreen(navController = rememberNavController())
+    }
 }
 

@@ -13,20 +13,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.chocolate.presentation.theme.OnLightPrimary
-import com.chocolate.presentation.theme.OnSecondary
+import com.chocolate.presentation.theme.CustomColorsPalette
 
 @Composable
 fun Button(
     onClick: () -> Unit,
     modifier: Modifier,
     enabled: Boolean = true,
+    colors: CustomColorsPalette,
     content: @Composable RowScope.() -> Unit
 ) {
     Surface(
         onClick = onClick,
         modifier = modifier,
-        color = if (enabled) OnLightPrimary else OnSecondary,
+        color = if (enabled) colors.primary else colors.secondary,
         shape = RoundedCornerShape(12f)
     ) {
         Row(

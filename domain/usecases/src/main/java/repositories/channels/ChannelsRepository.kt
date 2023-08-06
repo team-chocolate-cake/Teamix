@@ -23,7 +23,7 @@ interface ChannelsRepository {
         streamPostPolicy: Int?,
         messageRetentionDays: String?,
         canRemoveSubscribersGroupId: Int?
-    ): SubscribeToStream?
+    ): SubscribeToStream
 
     suspend fun deleteSubscriber(
         subscriptions: String,
@@ -36,7 +36,7 @@ interface ChannelsRepository {
     ): SubscriptionStatus
 
     suspend fun getAllSubscriber(streamId: Int): ChannelSubscribers
-    suspend fun updateSubscriptionSettings(subscriptionData: String): SubscriptionSettingsUpdate?
+    suspend fun updateSubscriptionSettings(subscriptionData: String): SubscriptionSettingsUpdate
     suspend fun getAllChannels(
         includePublic: Boolean,
         includeWebPublic: Boolean,
@@ -44,10 +44,10 @@ interface ChannelsRepository {
         includeAllActive: Boolean,
         includeDefault: Boolean,
         includeOwnerSubscribed: Boolean
-    ): List<StreamItem>?
+    ): List<StreamItem>
 
-    suspend fun getChannelById(streamId: Int): ChannelDetails?
-    suspend fun getChannelId(channel: String): ChannelId?
+    suspend fun getChannelById(streamId: Int): ChannelDetails
+    suspend fun getChannelId(channel: String): ChannelId
     suspend fun updateChannel(
         streamId: Int,
         description: String?,
@@ -58,28 +58,28 @@ interface ChannelsRepository {
         streamPostPolicy: Int?,
         messageRetentionDays: String?,
         canRemoveSubscribersGroupId: Int?
-    ): DefaultChannelModel?
+    ): DefaultChannelModel
 
-    suspend fun archiveChannel(channelId: Int): DefaultChannelModel?
-    suspend fun getTopicsInChannel(channelId: Int): Topics?
+    suspend fun archiveChannel(channelId: Int): DefaultChannelModel
+    suspend fun getTopicsInChannel(channelId: Int): Topics
     suspend fun setTopicMuting(
         topic: String,
         status: String,
         streamId: Int?,
         stream: String?
-    ): DefaultChannelModel?
+    ): DefaultChannelModel
 
     suspend fun updatePersonalPreferenceTopic(
         streamId: Int,
         topic: String,
         visibilityPolicy: Int
-    ): DefaultChannelModel?
+    ): DefaultChannelModel
 
     suspend fun deleteTopic(
         channelId: Int,
         topicName: String
-    ): DefaultChannelModel?
+    ): DefaultChannelModel
 
-    suspend fun addDefaultChannel(channelId: Int): DefaultChannelModel?
-    suspend fun deleteDefaultChannel(channelId: Int): DefaultChannelModel?
+    suspend fun addDefaultChannel(channelId: Int): DefaultChannelModel
+    suspend fun deleteDefaultChannel(channelId: Int): DefaultChannelModel
 }

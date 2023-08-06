@@ -17,8 +17,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.chocolate.presentation.R
 import com.chocolate.viewmodel.home.HomeUiState
 import com.chocolate.presentation.theme.CustomColorsPalette
 
@@ -35,7 +37,7 @@ fun HomeAppBar(state: HomeUiState, colors: CustomColorsPalette) {
             ) {
                 Image(
                     painter = rememberAsyncImagePainter(model = state.imageUrl),
-                    contentDescription = "image stream",
+                    contentDescription = stringResource(R.string.image_stream),
                     modifier = Modifier
                         .padding(end = 12.dp)
                         .size(32.dp)

@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.home.compose
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,6 +32,7 @@ fun ItemChips(
     painter: Painter,
     title: String,
     colors: CustomColorsPalette,
+    onClickItemChip: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -38,7 +40,8 @@ fun ItemChips(
             .wrapContentSize()
             .height(96.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(colors.card),
+            .background(colors.card)
+            .clickable { onClickItemChip() },
         contentAlignment = Alignment.Center
     ) {
         Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {

@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.screens.home.compose.HomeAppBar
 import com.chocolate.presentation.screens.home.compose.ItemChannel
@@ -32,23 +33,28 @@ import com.chocolate.presentation.screens.home.compose.ManageChannelBottomSheet
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space64
 import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.home.HomeUiState
+import com.chocolate.viewmodel.home.HomeViewModel
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    homeViewModel: HomeViewModel = hiltViewModel()
+) {
     HomeContent(
-        state = homeUiState
+        state = homeUiState,
     )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeContent(state: HomeUiState) {
+fun HomeContent(
+    state: HomeUiState,
+) {
     val colors = MaterialTheme.customColors()
     var isShowSheet by remember { mutableStateOf(false) }
-
 
     if (isShowSheet) {
         ManageChannelBottomSheet(colors = colors) {
@@ -72,36 +78,41 @@ fun HomeContent(state: HomeUiState) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight(),
-                    horizontalArrangement = Arrangement.spacedBy(Space8),
+                    horizontalArrangement = Arrangement.SpaceAround,
                     contentPadding = PaddingValues(horizontal = Space16)
                 ) {
                     item {
                         ItemChips(
-                            badge = state.mentionsBadge,
-                            painter = painterResource(id = R.drawable.ic_mention),
-                            title = "Mentions",
+                            badge = state.badgeCountsUiState.mentions,
+                            painter = painterResource(R.drawable.ic_mention),
+                            title = "Mention",
                             colors = colors,
+                            onClickItemChip = {  },
                             modifier = Modifier.padding(end = Space8)
                         )
                         ItemChips(
-                            badge = state.draftsBadge,
-                            painter = painterResource(id = R.drawable.ic_drafts),
+                            badge = state.badgeCountsUiState.drafts,
+                            painter = painterResource(R.drawable.ic_drafts),
                             title = "Drafts",
                             colors = colors,
+                            onClickItemChip = { },
                             modifier = Modifier.padding(end = Space8)
                         )
                         ItemChips(
-                            badge = state.starredBadge,
-                            painter = painterResource(id = R.drawable.ic_star),
+                            badge = state.badgeCountsUiState.starred,
+                            painter = painterResource(R.drawable.ic_mention),
                             title = "Starred",
                             colors = colors,
+                            onClickItemChip = { },
                             modifier = Modifier.padding(end = Space8)
                         )
                         ItemChips(
-                            badge = state.savedBadge,
-                            painter = painterResource(id = R.drawable.ic_saved_later),
+                            badge = state.badgeCountsUiState.drafts,
+                            painter = painterResource(R.drawable.ic_drafts),
                             title = "Saved Later",
-                            colors = colors
+                            colors = colors,
+                            onClickItemChip = {  },
+                            modifier = Modifier.padding(end = Space8)
                         )
                     }
                 }
@@ -112,7 +123,7 @@ fun HomeContent(state: HomeUiState) {
                     style = MaterialTheme.typography.bodyLarge,
                     color = colors.onBackground87,
                     modifier = Modifier
-                        .padding(bottom = Space8)
+                        .padding(top = Space8)
                         .padding(horizontal = Space16)
                 )
             }
@@ -123,6 +134,7 @@ fun HomeContent(state: HomeUiState) {
                     channelUIState,
                     colors,
                     onLongClickChannel = { isShowSheet = true },
+                    onClickItemChannel = {},
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .animateItemPlacement()
@@ -138,7 +150,8 @@ fun HomeContent(state: HomeUiState) {
     uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL
 )
 fun HomePreview() {
-    HomeContent(
-        state = homeUiState
-    )
+    TeamixTheme {
+        HomeScreen()
+    }
+
 }

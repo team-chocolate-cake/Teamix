@@ -1,6 +1,5 @@
 package com.chocolate.presentation.screens.home.compose
 
-import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -30,7 +29,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -46,10 +44,10 @@ fun ItemChannel(
     state: ChannelUIState,
     colors: CustomColorsPalette,
     onLongClickChannel: () -> Unit,
+    onClickItemChannel: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val haptics = LocalHapticFeedback.current
-    val context = LocalContext.current
     var isExpanded by remember { mutableStateOf(false) }
     val animate by animateFloatAsState(targetValue = if (isExpanded) 180f else 0f)
     Column(
@@ -68,11 +66,8 @@ fun ItemChannel(
                 onLongClick = {
                     haptics.performHapticFeedback(HapticFeedbackType.LongPress)
                     onLongClickChannel()
-                    Toast
-                        .makeText(context, "Long Click", Toast.LENGTH_SHORT)
-                        .show()
                 },
-                onClick = { }),
+                onClick = { onClickItemChannel(state.channelId) }),
         verticalArrangement = Arrangement.Center
     ) {
         Row(
@@ -80,7 +75,6 @@ fun ItemChannel(
                 .fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-
             val iconsChannel =
                 if (state.isPrivateChannel) R.drawable.ic_lock else R.drawable.ic_hashtag
             Icon(
@@ -105,7 +99,6 @@ fun ItemChannel(
                         isExpanded = !isExpanded
                     }
             )
-
         }
         if (isExpanded) {
             state.topics.forEach { topicUIState ->
@@ -128,7 +121,7 @@ fun ItemChannel(
                             color = colors.onBackground60,
                         )
                         BadgeHome(
-                            number = topicUIState.notificationNumber,
+                            number = topicUIState.topicBadge,
                             textColor = colors.onPrimary,
                             cardColor = colors.primary
                         )

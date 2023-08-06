@@ -3,28 +3,27 @@ package com.chocolate.viewmodel.home
 data class HomeUiState(
     val title: String = "",
     val imageUrl: String = "",
-//    val chipsUIState: List<ChipsUIState> = emptyList(),
+    val badgeCountsUiState: BadgeCountsUiState = BadgeCountsUiState(),
     val channelsUIState: List<ChannelUIState> = emptyList(),
-    val mentionsBadge: Int = 0,
-    val draftsBadge: Int = 0,
-    val starredBadge: Int = 0,
-    val savedBadge: Int = 0,
-    var isShowSheet: Boolean = true,
     val isLoading: Boolean = false,
     val error: String? = null
 )
-//data class ChipsUIState(
-//    val title: String = "",
-//    val notificationNumber: Int = 0,
-//    val icon: Int = 0,
-//)
+
+data class BadgeCountsUiState(
+    val mentions: Int = 0,
+    val drafts: Int = 0,
+    val starred: Int = 0,
+    val saved: Int = 0
+)
+
 data class ChannelUIState(
+    val channelId: Int = 0,
     val name: String = "",
     val topics: List<TopicsUIState> = emptyList(),
-    var isExpanded: Boolean = false,
     val isPrivateChannel: Boolean = false,
 )
+
 data class TopicsUIState(
     val name: String = "",
-    val notificationNumber: Int = 0
+    val topicBadge: Int = 0
 )

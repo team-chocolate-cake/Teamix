@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Teamix</string>
+    <string name="mute">Mute</string>
+    <string name="star">Star</string>
+    <string name="leave">Leave</string>
+    <string name="unknown">Unknown</string>
+    <string name="mute_channel">Mute Channel</string>
+    <string name="star_channel">Star Channel</string>
+    <string name="copy_link">Copy Link</string>
+    <string name="copy_name">Copy Name</string>
+    <string name="leave_channel">Leave Channel</string>
+    <string name="image_stream">image stream</string>
 </resources>

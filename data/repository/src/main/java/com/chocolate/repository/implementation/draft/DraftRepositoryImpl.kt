@@ -9,18 +9,18 @@ class DraftRepositoryImpl @Inject constructor(
     private val draftDataSource: DraftMessageDataSource
 ): DraftRepository, BaseRepository() {
     override suspend fun getDrafts() {
-        TODO("Not yet implemented")
+         wrapApiCall { draftDataSource.getDrafts() }
     }
 
     override suspend fun createDraft() {
-        TODO("Not yet implemented")
+       wrapApiCall { draftDataSource.createDraft() }
     }
 
     override suspend fun editDraft() {
-        TODO("Not yet implemented")
+        wrapApiCall { draftDataSource.editDraft() }
     }
 
     override suspend fun deleteDraft() {
-        TODO("Not yet implemented")
+      wrapApiCall { draftDataSource.deleteDraft() }
     }
 }

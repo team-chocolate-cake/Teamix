@@ -17,16 +17,27 @@ interface DraftService {
 
     @POST("drafts")
     suspend fun createDraft(
-        @Query("drafts") draftRequest: String
+        @Query("id") id : Int,
+        @Query("type") type: String,
+        @Query("to") to: String,
+        @Query("topic") topic: String,
+        @Query("content") content: String,
+        @Query("timestamp") timestamp: Long,
+
     ) : Response<BaseDraftResponse>
 
     @PATCH("drafts/{draft_id}")
     suspend fun editDraft(
         @Path("draft_id") id: Int,
-        @Query("draft") draftRequest: String
+        @Query("type") type: String,
+        @Query("to") to:String,
+        @Query("topic") topic: String,
+        @Query("content") content: String,
+        @Query("timestamp") timestamp: Long,
     ): Response<BaseDraftResponse>
 
     @DELETE("drafts/{draft_id}")
     suspend fun deleteDraft(@Path("draft_id") id: Int): Response<BaseDraftResponse>
 
 }
+

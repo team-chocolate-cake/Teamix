@@ -8,14 +8,23 @@ interface DraftMessageDataSource {
 
     suspend fun getDrafts(): Response<DraftsDto>
 
+
+    suspend fun deleteDraft(id: Int): Response<BaseDraftResponse>
     suspend fun createDraft(
-        draftRequest: String
+        id: Int,
+        type: String,
+        to: String,
+        topic: String,
+        content: String,
+        timestamp: Long
     ): Response<BaseDraftResponse>
 
     suspend fun editDraft(
         id: Int,
-        draftRequest: String
+        type: String,
+        to: String,
+        topic: String,
+        content: String,
+        timestamp: Long
     ): Response<BaseDraftResponse>
-
-    suspend fun deleteDraft(id: Int): Response<BaseDraftResponse>
 }

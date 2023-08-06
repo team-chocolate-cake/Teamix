@@ -3,7 +3,7 @@ package com.chocolate.repository.dto.message.response
 
 import com.google.gson.annotations.SerializedName
 
-data class PersonalMessageForNarrowRemoteDto(
+data class PersonalMessageForNarrowDto(
     @SerializedName("first_processed_id")
     val firstProcessedId: Int?,
     @SerializedName("found_newest")

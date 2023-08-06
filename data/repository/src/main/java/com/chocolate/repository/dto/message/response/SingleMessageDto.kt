@@ -3,7 +3,7 @@ package com.chocolate.repository.dto.message.response
 
 import com.google.gson.annotations.SerializedName
 
-data class SingleMessageRemoteDto(
+data class SingleMessageDto(
     @SerializedName("message")
     val message: Message?,
     @SerializedName("msg")

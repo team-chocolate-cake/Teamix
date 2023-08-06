@@ -1,16 +1,16 @@
 package com.chocolate.repository.service
 
-import com.chocolate.repository.dto.message.response.DefaultMessageRemoteDto
-import com.chocolate.repository.dto.message.response.FileRemoteDto
-import com.chocolate.repository.dto.message.response.MatchNarrowRemoteDto
-import com.chocolate.repository.dto.message.response.MessageEditHistoryRemoteDto
-import com.chocolate.repository.dto.message.response.MessageReadReceiptsRemoteDto
-import com.chocolate.repository.dto.message.response.MessagesRemoteDto
-import com.chocolate.repository.dto.message.response.PersonalMessageFlags
-import com.chocolate.repository.dto.message.response.PersonalMessageForNarrowRemoteDto
-import com.chocolate.repository.dto.message.response.RenderMessageRemoteDto
-import com.chocolate.repository.dto.message.response.SendMessageRemoteDto
-import com.chocolate.repository.dto.message.response.SingleMessageRemoteDto
+import com.chocolate.repository.dto.message.response.DefaultMessageDto
+import com.chocolate.repository.dto.message.response.FileDto
+import com.chocolate.repository.dto.message.response.MatchNarrowDto
+import com.chocolate.repository.dto.message.response.MessageEditHistoryDto
+import com.chocolate.repository.dto.message.response.MessageReadReceiptsDto
+import com.chocolate.repository.dto.message.response.MessagesDto
+import com.chocolate.repository.dto.message.response.PersonalMessageFlagsDto
+import com.chocolate.repository.dto.message.response.PersonalMessageForNarrowDto
+import com.chocolate.repository.dto.message.response.RenderMessageDto
+import com.chocolate.repository.dto.message.response.SendMessageDto
+import com.chocolate.repository.dto.message.response.SingleMessageDto
 import okhttp3.MultipartBody
 import retrofit2.Response
 
@@ -21,19 +21,19 @@ interface MessagesDataSource {
         to: Any,
         topic: String,
         content: String,
-        queueId: String?,
-        localId: String?,
-    ): Response<SendMessageRemoteDto>
+        queueId: String? = null,
+        localId: String? = null,
+    ): Response<SendMessageDto>
 
     suspend fun sendDirectMessage(
         type: String,
         to: Any,
         content: String,
-        queueId: String?,
-        localId: String?,
-    ): Response<SendMessageRemoteDto>
+        queueId: String? = null,
+        localId: String? = null,
+    ): Response<SendMessageDto>
 
-    suspend fun uploadFile(file: MultipartBody.Part): Response<FileRemoteDto>
+    suspend fun uploadFile(file: MultipartBody.Part): Response<FileDto>
 
     suspend fun editMessage(
         messageId: Int,
@@ -42,9 +42,9 @@ interface MessagesDataSource {
         propagateMode: String = "change_one",
         sendNotificationToOldThread: Boolean = false,
         sendNotificationToNewThread: Boolean = true
-    ): Response<DefaultMessageRemoteDto>
+    ): Response<DefaultMessageDto>
 
-    suspend fun deleteMessage(message_id: Int): Response<DefaultMessageRemoteDto>
+    suspend fun deleteMessage(messageId: Int): Response<DefaultMessageDto>
 
     suspend fun getMessages(
         anchor: String?,
@@ -54,44 +54,44 @@ interface MessagesDataSource {
         narrow: List<String>? = null,
         clientGravatar: Boolean = true,
         applyMarkdown: Boolean = true
-    ): Response<MessagesRemoteDto>
+    ): Response<MessagesDto>
 
     suspend fun addEmojiReaction(
         messageId: Int,
         emojiName: String,
-        emojiCode: String?,
-        reactionType: String?
-    ): Response<DefaultMessageRemoteDto>
+        emojiCode: String?= null,
+        reactionType: String? = null
+    ): Response<DefaultMessageDto>
 
     suspend fun deleteEmojiReaction(
         messageId: Int,
         emojiName: String,
-        emojiCode: String?,
-        reactionType: String?
-    ): Response<DefaultMessageRemoteDto>
+        emojiCode: String? = null,
+        reactionType: String? = null
+    ): Response<DefaultMessageDto>
 
     suspend fun renderMessage(
         content: String,
-    ): Response<RenderMessageRemoteDto>
+    ): Response<RenderMessageDto>
 
     suspend fun fetchSingleMessage(
         messageId: Int
-    ): Response<SingleMessageRemoteDto>
+    ): Response<SingleMessageDto>
 
     suspend fun checkIfMessagesMatchNarrow(
         msg_ids: String,
         narrow: String
-    ): Response<MatchNarrowRemoteDto>
+    ): Response<MatchNarrowDto>
 
     suspend fun getMessagesEditHistory(
         messageId: Int
-    ): Response<MessageEditHistoryRemoteDto>
+    ): Response<MessageEditHistoryDto>
 
     suspend fun updateMessageFlags(
         messages: List<Int>,
         op: String,
         flag: String,
-    ): Response<PersonalMessageFlags>
+    ): Response<PersonalMessageFlagsDto>
 
     suspend fun updatePersonalMessageFlagsForNarrow(
         anchor: String,
@@ -101,20 +101,20 @@ interface MessagesDataSource {
         narrow: String,
         op: String,
         flag: String
-    ): Response<PersonalMessageForNarrowRemoteDto>
+    ): Response<PersonalMessageForNarrowDto>
 
-    suspend fun markAllMessagesAsRead(): Response<DefaultMessageRemoteDto>
+    suspend fun markAllMessagesAsRead(): Response<DefaultMessageDto>
 
     suspend fun markStreamAsRead(
         steamId: Int
-    ): Response<DefaultMessageRemoteDto>
+    ): Response<DefaultMessageDto>
 
     suspend fun markTopicAsRead(
         steamId: Int,
         topicName: String
-    ): Response<DefaultMessageRemoteDto>
+    ): Response<DefaultMessageDto>
 
     suspend fun getMessageReadReceipts(
         messageId: Int
-    ): Response<MessageReadReceiptsRemoteDto>
+    ): Response<MessageReadReceiptsDto>
 }

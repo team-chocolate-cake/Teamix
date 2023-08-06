@@ -1,7 +1,5 @@
 package repositories.users
 
-import kotlinx.coroutines.flow.Flow
-
 interface UsersRepositories {
 
     suspend fun getAllUsers()

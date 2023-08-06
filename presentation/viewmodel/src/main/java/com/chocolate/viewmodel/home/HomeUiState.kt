@@ -1,7 +1,7 @@
 package com.chocolate.viewmodel.home
 
 data class HomeUiState(
-    val title: String = "",
+    val titleOrganization: String = "",
     val imageUrl: String = "",
     val badgeCountsUiState: BadgeCountsUiState = BadgeCountsUiState(),
     val channelsUIState: List<ChannelUIState> = emptyList(),

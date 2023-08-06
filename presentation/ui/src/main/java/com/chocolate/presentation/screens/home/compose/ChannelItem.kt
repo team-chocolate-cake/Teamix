@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -40,7 +41,7 @@ import com.chocolate.viewmodel.home.ChannelUIState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ItemChannel(
+fun ChannelItem(
     state: ChannelUIState,
     colors: CustomColorsPalette,
     onLongClickChannel: () -> Unit,
@@ -49,7 +50,7 @@ fun ItemChannel(
 ) {
     val haptics = LocalHapticFeedback.current
     var isExpanded by remember { mutableStateOf(false) }
-    val animate by animateFloatAsState(targetValue = if (isExpanded) 180f else 0f)
+    val animateIcon by animateFloatAsState(targetValue = if (isExpanded) 180f else 0f)
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -94,7 +95,7 @@ fun ItemChannel(
                 contentDescription = null,
                 tint = colors.onBackground60,
                 modifier = Modifier
-                    .rotate(animate)
+                    .rotate(animateIcon)
                     .clickable {
                         isExpanded = !isExpanded
                     }
@@ -107,7 +108,7 @@ fun ItemChannel(
                         .fillMaxSize(),
                     verticalArrangement = Arrangement.Center
                 ) {
-                    CustomDivider(modifier = Modifier.padding(Space8))
+                    Divider(modifier = Modifier.padding(Space8), color = colors.border)
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -128,7 +129,7 @@ fun ItemChannel(
                     }
                 }
             }
-            CustomDivider(modifier = Modifier.padding(Space8))
+            Divider(modifier = Modifier.padding(Space8), color = colors.border)
         }
     }
 }

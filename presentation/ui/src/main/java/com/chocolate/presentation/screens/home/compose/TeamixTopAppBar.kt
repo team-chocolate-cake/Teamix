@@ -21,12 +21,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.R
-import com.chocolate.viewmodel.home.HomeUiState
 import com.chocolate.presentation.theme.CustomColorsPalette
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeAppBar(state: HomeUiState, colors: CustomColorsPalette) {
+fun TeamixTopAppBar(imageUrl: String, title: String, colors: CustomColorsPalette) {
     TopAppBar(
         title = {
             Row(
@@ -36,7 +35,7 @@ fun HomeAppBar(state: HomeUiState, colors: CustomColorsPalette) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    painter = rememberAsyncImagePainter(model = state.imageUrl),
+                    painter = rememberAsyncImagePainter(model = imageUrl),
                     contentDescription = stringResource(R.string.image_stream),
                     modifier = Modifier
                         .padding(end = 12.dp)
@@ -45,7 +44,7 @@ fun HomeAppBar(state: HomeUiState, colors: CustomColorsPalette) {
                     contentScale = ContentScale.FillBounds
                 )
                 Text(
-                    text = state.title,
+                    text = title,
                     style = MaterialTheme.typography.titleLarge,
                     color = colors.onPrimary,
                 )

@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,6 +27,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,10 +38,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.R
+import com.chocolate.presentation.saveLater.tap.ManageChannelBottomSheet
 import com.chocolate.presentation.saveLater.tap.SaveLaterViewModel
 import com.chocolate.presentation.saveLater.tap.SavedItemOfDay
 import com.chocolate.presentation.saveLater.tap.SavedItemState
 import com.chocolate.presentation.saveLater.tap.SavedItemUiState
+import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.OnLightBackground
 import com.chocolate.presentation.theme.OnLightPrimary
 import com.chocolate.presentation.theme.OnPrimary
@@ -47,26 +52,41 @@ import com.jetpackcompose.tablayout.TabLayoutScreen
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SaveLaterScreen(
-)  {
+) {
     TabLayoutScreen()
 }
 
 @Composable
-fun SaveLaterScreenContent(savedLaterUISate:List<SavedItemOfDay>){
+fun SaveLaterScreenContent(savedLaterUISate: List<SavedItemOfDay>, viewModel: SaveLaterViewModel) {
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(OnLightBackground)
     ) {
-        SavedItemsList(savedLaterUISate)
+        if (savedLaterUISate.isNotEmpty())
+            SavedItemsList(savedLaterUISate, viewModel)
+        else {
+            EmptyScreen()
+        }
     }
 
 }
 
+@Composable
+fun EmptyScreen() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Spacer(modifier = Modifier.height(64.dp))
+        Image(painter = painterResource(id = R.drawable.group), contentDescription = null)
+        Spacer(modifier = Modifier.height(32.dp))
+        Text(text = "No Saved Items")
+        Text(text = "Your saved items will appear here for easy access and reference")
+    }
+}
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun SavedItemsList(savedItems: List<SavedItemOfDay>) {
+fun SavedItemsList(savedItems: List<SavedItemOfDay>, viewModel: SaveLaterViewModel) {
     val listState = rememberLazyListState()
 
     LazyColumn(state = listState) {
@@ -75,7 +95,7 @@ fun SavedItemsList(savedItems: List<SavedItemOfDay>) {
                 DateHeader(date = date)
             }
             items(items) { savedItem ->
-                SavedItemRow(savedItem = savedItem)
+                SavedItemRow(savedItem = savedItem, viewModel = viewModel)
             }
         }
     }
@@ -90,9 +110,11 @@ fun DateHeader(date: String) {
             .background(OnLightBackground)
 
     ) {
-        Spacer(modifier = Modifier
-            .width(16.dp)
-            .height(16.dp))
+        Spacer(
+            modifier = Modifier
+                .width(16.dp)
+                .height(16.dp)
+        )
         Text(
             modifier = Modifier.padding(bottom = 8.dp),
             text = date, fontSize = 16.sp
@@ -101,14 +123,20 @@ fun DateHeader(date: String) {
 }
 
 @Composable
-fun SavedItemRow(savedItem: SavedItemUiState) {
+fun SavedItemRow(savedItem: SavedItemUiState, viewModel: SaveLaterViewModel) {
+    val isBottomSheetShowing = remember { mutableStateOf(false) }
     Card(
         modifier = Modifier
             .fillMaxSize()
             .height(170.dp)
             .width(328.dp)
             .padding(horizontal = 16.dp)
-            .padding(bottom = 8.dp),
+            .padding(bottom = 8.dp)
+            .clickable {
+                isBottomSheetShowing.value = true
+
+                viewModel.onCardClicked(savedItem)
+            },
         colors = CardDefaults.cardColors(containerColor = OnPrimary)
 
     ) {
@@ -116,6 +144,7 @@ fun SavedItemRow(savedItem: SavedItemUiState) {
             Image(
                 painter = rememberAsyncImagePainter(savedItem.userImageUrl),
                 contentDescription = null,
+
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
@@ -160,10 +189,22 @@ fun SavedItemRow(savedItem: SavedItemUiState) {
                 )
 
                 Spacer(modifier = Modifier.weight(1f))
-                when(savedItem.state){
-                    SavedItemState.IN_PROGRESS ->  InProgressButtons(onComplete = savedItem.onComplete)
-                    SavedItemState.ARCHIVED -> ArchivedButton(onUnArchive = savedItem.onUnArchive)
-                    SavedItemState.COMPLETED ->{}
+                when (savedItem.state) {
+                    SavedItemState.IN_PROGRESS -> InProgressButtons { viewModel.completeItem(savedItem) }
+                    SavedItemState.ARCHIVED -> ArchivedButton { viewModel.unarchiveItem(savedItem) }
+                    SavedItemState.COMPLETED -> {
+                        if (isBottomSheetShowing.value) {
+                            ManageChannelBottomSheet(
+                                colors = CustomColorsPalette(),
+                                onDismiss = { isBottomSheetShowing.value = false },
+                                savedItem = savedItem,
+                                viewModel = viewModel,
+                                onArchiveClicked = { viewModel.moveToArchive(savedItem) },
+                                moveToInProgress = { viewModel.moveToInProgress(savedItem) },
+                                removeFromLater = { viewModel.removeFromCompleted(savedItem) }
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -171,10 +212,13 @@ fun SavedItemRow(savedItem: SavedItemUiState) {
 
 }
 
+
 @Composable
-fun ArchivedButton(onUnArchive: () -> Unit) {
+fun ArchivedButton(
+    onUnArchive: () -> Unit
+) {
     Button(
-        onClick = onUnArchive,
+        onClick = { onUnArchive() },
         colors = ButtonDefaults.buttonColors(containerColor = OnLightPrimary),
         modifier = Modifier
             .size(width = 124.dp, height = 32.dp)
@@ -183,6 +227,7 @@ fun ArchivedButton(onUnArchive: () -> Unit) {
     }
 }
 
+
 @Composable
 private fun InProgressButtons(onComplete: () -> Unit) {
     Row(
@@ -190,7 +235,7 @@ private fun InProgressButtons(onComplete: () -> Unit) {
             .fillMaxWidth()
     ) {
         Button(
-            onClick = onComplete ,
+            onClick = onComplete,
             colors = ButtonDefaults.buttonColors(containerColor = OnLightPrimary),
             modifier = Modifier
                 .size(width = 124.dp, height = 32.dp)

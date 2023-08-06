@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -27,8 +28,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.saveLater.SaveLaterScreenContent
+import com.chocolate.presentation.saveLater.tap.ManageChannelBottomSheet
 import com.chocolate.presentation.saveLater.tap.SaveLaterViewModel
 import com.chocolate.presentation.saveLater.tap.TabItem
+import com.chocolate.presentation.theme.CustomColorsPalette
 import kotlinx.coroutines.launch
 
 
@@ -45,17 +48,18 @@ fun TabLayoutScreen(
     val tabs = listOf(
         TabItem(
             title = "In Progress",
-            screen = { SaveLaterScreenContent(state.inProgressSavedItem) }
+            screen = { SaveLaterScreenContent(state.inProgressSavedItem,viewModel) }
         ),
         TabItem(
             title = "Archived",
-            screen = { SaveLaterScreenContent(state.archivedSavedItem) }
+            screen = { SaveLaterScreenContent(state.archivedSavedItem,viewModel) }
         ),
         TabItem(
             title = "Completed",
-            screen = { SaveLaterScreenContent(state.completedSavedItem) }
+            screen = { SaveLaterScreenContent(state.completedSavedItem,viewModel) }
         )
     )
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -100,7 +104,9 @@ fun TabLayoutScreen(
             ) {
                 tabs[pagerState.currentPage].screen()
             }
+
         }
+
     }
 
-}
+    }

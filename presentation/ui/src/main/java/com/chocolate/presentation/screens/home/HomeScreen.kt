@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -82,6 +83,8 @@ fun HomeContent(
 ) {
     val colors = MaterialTheme.customColors()
     var isShowSheet by remember { mutableStateOf(false) }
+    var selectedCardIndex by remember { mutableStateOf(-1) }
+
 
     if (isShowSheet) {
         ManageChannelBottomSheet(onDismissBottomSheet = { isShowSheet = false }, colors = colors)
@@ -112,45 +115,53 @@ fun HomeContent(
                     horizontalArrangement = Arrangement.SpaceAround,
                     contentPadding = PaddingValues(horizontal = Space16)
                 ) {
-
                     val cardList = mutableListOf<CardItemContent>().apply {
                         add(
                             CardItemContent(
                                 state.badgeCountsUiState.mentions,
                                 "Mentions",
                                 R.drawable.ic_mention
-                            ) { navigationToMention() })
+                            )
+                        )
                         add(
                             CardItemContent(
                                 state.badgeCountsUiState.drafts,
                                 "Drafts",
                                 R.drawable.ic_drafts
-                            ) { navigationToDrafts() })
+                            )
+                        )
                         add(
                             CardItemContent(
                                 state.badgeCountsUiState.starred,
                                 "Starred",
                                 R.drawable.ic_star
-                            ) { navigationToStarred() })
+                            )
+                        )
                         add(
                             CardItemContent(
                                 state.badgeCountsUiState.saved,
                                 "Saved Later",
                                 R.drawable.ic_saved_later
-                            ) { navigationToSavedLater() })
+                            )
+                        )
                     }
-                    items(cardList) { item ->
+                    itemsIndexed(cardList) { index, item ->
                         CardItem(
                             badge = item.badgeCount,
                             painter = painterResource(item.icon),
                             title = item.title,
+                            clickIndex = index,
                             colors = colors,
                             onClickItemCard = {
-                                item.onClickItemCard
+                                when (it) {
+                                    0 -> {}
+                                    1 -> {}
+                                    2 -> {}
+                                    3 -> {}
+                                }
                             },
                             modifier = Modifier.padding(end = Space8)
                         )
-
                     }
                 }
             }
@@ -186,8 +197,9 @@ private fun CardItem(
     badge: Int,
     painter: Painter,
     title: String,
+    clickIndex: Int,
     colors: CustomColorsPalette,
-    onClickItemCard: () -> Unit,
+    onClickItemCard: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -196,7 +208,7 @@ private fun CardItem(
             .height(96.dp)
             .clip(RoundedCornerShape(12.dp))
             .background(colors.card)
-            .clickable { onClickItemCard() },
+            .clickable { onClickItemCard(clickIndex) },
         contentAlignment = Alignment.Center
     ) {
         Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
@@ -236,7 +248,6 @@ private data class CardItemContent(
     val badgeCount: Int = 0,
     val title: String = "",
     val icon: Int = 0,
-    val onClickItemCard: (String) -> Unit
 )
 
 @Composable

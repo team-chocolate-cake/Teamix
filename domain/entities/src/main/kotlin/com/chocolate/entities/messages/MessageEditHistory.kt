@@ -9,5 +9,4 @@ data class MessageEditHistory(
     val timestamp: Int,
     val topic: String,
     val userId: Int,
-    val message: String,
 )

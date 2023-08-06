@@ -5,7 +5,6 @@ import com.chocolate.repository.dto.message.response.FileDto
 
 fun FileDto.toEntity(): AttachmentMessage {
     return AttachmentMessage(
-        message = this.message ?: "",
         uri = this.uri ?: ""
     )
 }

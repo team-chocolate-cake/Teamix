@@ -6,7 +6,6 @@ import com.chocolate.repository.dto.message.response.SingleMessageDto
 fun SingleMessageDto.toEntity(): SingleMessage {
     return SingleMessage(
         message = this.message!!.toMessageEntity(),
-        msg = this.msg ?: "",
         rawContent = this.rawContent ?: ""
     )
 }

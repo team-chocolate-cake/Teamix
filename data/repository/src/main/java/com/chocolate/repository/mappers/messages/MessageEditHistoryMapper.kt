@@ -13,8 +13,7 @@ fun MessageEditHistoryDto.toEntity(): List<MessageEditHistory> {
             renderedContent = messageHistory.renderedContent ?: "",
             timestamp = messageHistory.timestamp ?: 0,
             topic = messageHistory.topic ?: "",
-            userId = messageHistory.userId ?: 0,
-            message = this.message ?: ""
+            userId = messageHistory.userId ?: 0
         )
     } ?: emptyList()
 }

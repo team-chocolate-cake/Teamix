@@ -5,8 +5,6 @@ data class PersonalMessageForNarrow(
     val foundNewest: Boolean?,
     val foundOldest: Boolean?,
     val lastProcessedId: Int?,
-    val message: String?,
     val processedCount: Int?,
-    val result: String?,
     val updatedCount: Int?
 )

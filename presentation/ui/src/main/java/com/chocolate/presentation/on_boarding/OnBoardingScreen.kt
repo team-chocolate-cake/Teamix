@@ -17,29 +17,34 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.chocolate.presentation.composable.Button
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.viewmodel.onboarding.OnboardingEffect
+import com.chocolate.viewmodel.onboarding.OnboardingViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun OnBoardingScreen(
+fun OnboardingScreen(
     navController: NavController,
+    onboardingViewModel: OnboardingViewModel = hiltViewModel()
 ) {
     // navigate To Home here using the navController
-    OnBoardingContent({  })
+    OnboardingContent({  }, onboardingViewModel)
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnBoardingContent(
-    navigateToHome: () -> Unit
+fun OnboardingContent(
+    navigateToHome: () -> Unit,
+    onboardingEffect: OnboardingEffect
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
-    val onboardingPages = listOf(OnBoardingPage.First, OnBoardingPage.Second, OnBoardingPage.Third)
+    val onboardingPages = listOf(OnboardingPage.First, OnboardingPage.Second, OnboardingPage.Third)
     val colors = MaterialTheme.customColors()
     Column(Modifier.fillMaxSize()) {
         HorizontalPager(
@@ -76,6 +81,7 @@ fun OnBoardingContent(
                         }
                     } else {
                         navigateToHome()
+                        onboardingEffect.setOnboardingShown()
                     }
                 },
                 modifier = Modifier,
@@ -94,9 +100,9 @@ fun OnBoardingContent(
 @OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
-fun OnBoardingScreenPreview() {
+fun OnboardingScreenPreview() {
     TeamixTheme {
-        OnBoardingScreen(navController = rememberNavController())
+        OnboardingScreen(navController = rememberNavController())
     }
 }
 

@@ -10,3 +10,7 @@ fun NavGraphBuilder.welcomeRoute(navController: NavController) {
         WelcomeScreen(navController)
     }
 }
+
+fun NavController.navigateToWelcome() {
+    navigate(Screen.Welcome.route)
+}

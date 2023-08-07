@@ -2,6 +2,7 @@ package com.chocolate.presentation.screens
 
 import com.chocolate.presentation.screens.allMembers.AllMembersUiState
 import com.chocolate.presentation.screens.allMembers.MemberItemUiState
+import com.chocolate.presentation.screens.messageSearch.MessageSearchUiState
 import com.chocolate.presentation.screens.pinnedMessages.MessageItemUiState
 import com.chocolate.presentation.screens.pinnedMessages.PinnedMessagesUiState
 
@@ -52,5 +53,10 @@ private val messages: List<MessageItemUiState> = listOf(
     )
 
 val pinnedMessagesUiState = PinnedMessagesUiState(
+    messages = messages
+)
+
+
+val searchMessage = MessageSearchUiState(
     messages = messages
 )

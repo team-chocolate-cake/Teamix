@@ -21,7 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.Button
 import com.chocolate.presentation.composable.FitImage
-import com.chocolate.presentation.on_boarding.navigateToOnBoarding
+import com.chocolate.presentation.on_boarding.navigateToOnboarding
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 
@@ -30,7 +30,7 @@ fun WelcomeScreen(
     navController: NavController
 ) {
     WelcomeContent {
-        navController.navigateToOnBoarding()
+        navController.navigateToOnboarding()
     }
 }
 

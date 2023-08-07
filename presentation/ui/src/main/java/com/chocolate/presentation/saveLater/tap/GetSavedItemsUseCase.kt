@@ -159,39 +159,7 @@ class GetSavedItemsUseCase {
     private fun SavedItemUiState.matches(other: SavedItemUiState): Boolean =
         name == other.name && title == other.title && date == other.date && description == other.description
 
-    fun moveItemToState(
-        sourceState: MutableList<SavedItemOfDay>,
-        targetState: MutableList<SavedItemOfDay>,
-        savedItemUiState: SavedItemUiState,
-        newState: SavedItemState
-    ) {
-        sourceState.indexOfFirst {
-            it.saveItems.any { it.matches(savedItemUiState) }
-        }.takeIf { it != -1 }
-            ?.let { itemOfDayToUpdateIndex ->
-                sourceState.removeIfAndTransform(itemOfDayToUpdateIndex) { itemOfDayToUpdate ->
-                    itemOfDayToUpdate.saveItems.any {
-                        it.matches(savedItemUiState)
-                    }
-                }
 
-                val updatedItemUiState = savedItemUiState.copy(state = newState)
-                val existingItemOfDayIndex = targetState.indexOfFirst {
-                    it.date == savedItemUiState.date
-                }
-
-                if (existingItemOfDayIndex != -1) {
-                    targetState[existingItemOfDayIndex] =
-                        targetState[existingItemOfDayIndex].copy(
-                            saveItems = targetState[existingItemOfDayIndex].saveItems + updatedItemUiState
-                        )
-                } else {
-                    targetState.add(
-                        0, SavedItemOfDay(savedItemUiState.date, listOf(updatedItemUiState))
-                    )
-                }
-            }
-    }
 
 
 

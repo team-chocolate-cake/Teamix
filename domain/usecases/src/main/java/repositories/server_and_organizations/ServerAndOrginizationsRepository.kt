@@ -1,10 +1,12 @@
 package repositories.server_and_organizations
 
+import com.chocolate.entities.server_and_organizations.LinkifiersEntity
+import com.chocolate.entities.server_and_organizations.ServerSettings
 import org.intellij.lang.annotations.Language
 
 interface ServerAndOrganizationsRepository {
-    suspend fun getServiceSettings()
-    suspend fun getLinkifiers()
+    suspend fun getServiceSettings(): ServerSettings
+    suspend fun getLinkifiers(): LinkifiersEntity
     suspend fun addLinkifiers(pattern: String, url: String)
     suspend fun updateLinkifiers(pattern: String, url: String)
     suspend fun deleteLinkifier(filterId: Int)

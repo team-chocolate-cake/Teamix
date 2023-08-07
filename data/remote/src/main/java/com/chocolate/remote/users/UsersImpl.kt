@@ -1,24 +1,22 @@
 package com.chocolate.remote.users
 
 import com.chocolate.remote.users.service.UsersService
-import com.chocolate.repository.dto.users.request.ProfileData
-import com.chocolate.repository.dto.users.request.SettingsRequest
-import com.chocolate.repository.dto.users.response.AlertWordsDto
-import com.chocolate.repository.dto.users.response.CreateUserDto
-import com.chocolate.repository.dto.users.response.MuteUserResponseDto
-import com.chocolate.repository.dto.users.response.OwnerUserDto
-import com.chocolate.repository.dto.users.response.ResponseStateDto
-import com.chocolate.repository.dto.users.response.SubgroupsOfUserGroupDto
-import com.chocolate.repository.dto.users.response.UserAttachmentsDto
-import com.chocolate.repository.dto.users.response.UserDto
-import com.chocolate.repository.dto.users.response.UserGroupMembershipsDto
-import com.chocolate.repository.dto.users.response.UserGroupsDto
-import com.chocolate.repository.dto.users.response.UserMembershipStateDto
-import com.chocolate.repository.dto.users.response.UserSettingsDto
-import com.chocolate.repository.dto.users.response.UserStateDto
-import com.chocolate.repository.dto.users.response.UsersDto
-import com.chocolate.repository.dto.users.response.UsersStateDto
-import com.chocolate.repository.service.UsersDataSource
+import com.chocolate.repository.dto.remote.users.response.AlertWordsDto
+import com.chocolate.repository.dto.remote.users.response.CreateUserDto
+import com.chocolate.repository.dto.remote.users.response.MuteUserResponseDto
+import com.chocolate.repository.dto.remote.users.response.OwnerUserDto
+import com.chocolate.repository.dto.remote.users.response.ResponseStateDto
+import com.chocolate.repository.dto.remote.users.response.SubgroupsOfUserGroupDto
+import com.chocolate.repository.dto.remote.users.response.UserAttachmentsDto
+import com.chocolate.repository.dto.remote.users.response.UserDto
+import com.chocolate.repository.dto.remote.users.response.UserGroupMembershipsDto
+import com.chocolate.repository.dto.remote.users.response.UserGroupsDto
+import com.chocolate.repository.dto.remote.users.response.UserMembershipStateDto
+import com.chocolate.repository.dto.remote.users.response.UserSettingsDto
+import com.chocolate.repository.dto.remote.users.response.UserStateDto
+import com.chocolate.repository.dto.remote.users.response.UsersDto
+import com.chocolate.repository.dto.remote.users.response.UsersStateDto
+import com.chocolate.repository.service.remote.UsersDataSource
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -56,7 +54,7 @@ class UsersImpl @Inject constructor(
         id: Int,
         fullName: String?,
         role: Int?,
-        profileData: List<ProfileData>?
+        profileData: List<com.chocolate.repository.dto.remote.users.request.ProfileData>?
     ): Response<ResponseStateDto> {
         TODO("Not yet implemented")
     }
@@ -116,7 +114,7 @@ class UsersImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun updateSettings(settings: SettingsRequest): Response<UserSettingsDto> {
+    override suspend fun updateSettings(settings: com.chocolate.repository.dto.remote.users.request.SettingsRequest): Response<UserSettingsDto> {
         TODO("Not yet implemented")
     }
 

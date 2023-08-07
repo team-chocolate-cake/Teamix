@@ -2,6 +2,7 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -63,6 +64,11 @@ dependencies {
     kapt(DependencyProject.hiltCompiler)
 
     implementation(DependencyProject.coil)
+    implementation(DependencyProject.hiltNavigation)
 
     implementation(DependencyProject.lottie)
+    implementation(DependencyProject.splashScreen)
+
+    implementation(DependencyProject.composeFoundation)
+
 }

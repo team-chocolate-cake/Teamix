@@ -32,8 +32,8 @@ class GetSavedItemsUseCase {
             userImageUrl = "https://example.com/user4.jpg",
             name = "Alice Johnson",
             title = "Project D",
-            description = "Marketing strategy",
-            state = SavedItemState.IN_PROGRESS,
+            description = ".wrapContentSize(): This modifier makes the composable size itself based on its content. In the context of the Card, if you use this modifier, the card will adjus ",
+            state = SavedItemState.COMPLETED,
             date = "2023-08-02"
         ),
         SavedItemUiState(

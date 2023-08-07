@@ -5,6 +5,7 @@ import com.chocolate.local.dao.organization.OrganizationsLocalDataSourceImplemen
 import com.chocolate.local.dao.stream.StreamLocalDataSourceImpl
 import com.chocolate.local.dao.trend.TrendLocalDataSourceImpl
 import com.chocolate.local.dao.user.UserLocalDataSourceImpl
+import com.chocolate.local.datastore.OnboardingPreferencesDataSourceImplementation
 import com.chocolate.local.datastore.OrganizationPreferenceDataSourceImplementation
 import com.chocolate.remote.channels.implementation.remote.ChannelsImpl
 import com.chocolate.remote.drafts.DraftsMessagesImpl
@@ -13,6 +14,7 @@ import com.chocolate.remote.scheduled_message.ScheduledMessageImpl
 import com.chocolate.remote.server_and_organizations.OrganizationsImpl
 import com.chocolate.remote.users.UsersImpl
 import com.chocolate.repository.datastore.OrganizationPreferenceDataSource
+import com.chocolate.repository.service.OnboardingPreferencesDataSource
 import com.chocolate.repository.service.local.DraftMessagesLocalDataSource
 import com.chocolate.repository.service.local.OrganizationsLocalDataSource
 import com.chocolate.repository.service.local.StreamLocalDataSource
@@ -82,4 +84,8 @@ abstract class DataSourceModule {
     @Binds
     abstract fun provideUsers(usersImpl: UsersImpl): UsersDataSource
 
+    @Binds
+    abstract fun bindOnboardingPreferencesDataSource(
+        onboardingPreferencesDataSourceImplementation: OnboardingPreferencesDataSourceImplementation
+    ): OnboardingPreferencesDataSource
 }

@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.allMembers.composable
+package com.chocolate.presentation.screens.combosables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextOverflow
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.theme.ImageSize40
 import com.chocolate.presentation.theme.Radius12
@@ -28,11 +28,13 @@ import com.chocolate.presentation.theme.customColors
 
 
 @Composable
-fun MemberItem(
+fun PersonCardWithDetails(
     personImageUrl: String,
-    name: String,
-    jobTitle: String,
-    modifier: Modifier = Modifier
+    title: String,
+    subTitle: String,
+    modifier: Modifier = Modifier,
+    subTitleMaxLine: Int = 1,
+    date: String = ""
 ) {
     Card(
         modifier = modifier
@@ -59,23 +61,29 @@ fun MemberItem(
                 modifier = Modifier.padding(horizontal = Space8),
                 verticalArrangement = Arrangement.spacedBy(Space8)
             ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.customColors().onBackground87
+                    )
+                    Text(
+                        text = date,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.customColors().onBackground60
+                    )
+                }
                 Text(
-                    text = name,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.customColors().onBackground87
-                )
-                Text(
-                    text = jobTitle,
+                    text = subTitle,
+                    maxLines = subTitleMaxLine,
                     style = MaterialTheme.typography.labelSmall,
+                    overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.customColors().onBackground60
                 )
             }
         }
     }
-}
-
-@Preview
-@Composable
-private fun MemberItemPev() {
-    // MemberItem(painterResource(id = R.drawable.test_peson_image),"Ali Mohammed", "Android Developer")
 }

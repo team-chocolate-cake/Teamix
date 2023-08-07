@@ -1,9 +1,9 @@
 package com.chocolate.remote.scheduled_message
 
 import com.chocolate.remote.scheduled_message.service.ScheduledMessageService
-import com.chocolate.repository.dto.scheduled_message.response.BaseScheduledMessageResponse
-import com.chocolate.repository.dto.scheduled_message.response.ScheduledMessagesDto
-import com.chocolate.repository.service.ScheduledMessageDataSource
+import com.chocolate.repository.dto.remote.scheduled_message.response.BaseScheduledMessageResponse
+import com.chocolate.repository.dto.remote.scheduled_message.response.ScheduledMessagesDto
+import com.chocolate.repository.service.remote.ScheduledMessageDataSource
 import retrofit2.Response
 import javax.inject.Inject
 

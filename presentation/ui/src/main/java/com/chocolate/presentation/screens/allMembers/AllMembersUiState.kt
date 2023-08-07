@@ -1,18 +1,16 @@
 package com.chocolate.presentation.screens.allMembers
 
+import com.chocolate.presentation.base.BaseErrorUiState
+
 data class AllMembersUiState(
+    val searchInput: String = "",
     val members: List<MemberItemUiState> = emptyList(),
     val isLoading: Boolean = false,
-    val error: ErrorUiState = ErrorUiState()
+    val error: BaseErrorUiState = BaseErrorUiState()
 )
 
 data class MemberItemUiState(
     val imageUrl: String = "",
     val name: String = "",
     val jobTitle: String = ""
-)
-
-data class ErrorUiState(
-    val message: String = "",
-    val isError: Boolean = false
 )

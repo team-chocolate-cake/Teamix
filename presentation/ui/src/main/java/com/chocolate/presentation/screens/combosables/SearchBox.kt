@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.composables
+package com.chocolate.presentation.screens.combosables
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size

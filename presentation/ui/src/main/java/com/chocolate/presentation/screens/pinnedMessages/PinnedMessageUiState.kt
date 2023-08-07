@@ -1,9 +1,11 @@
 package com.chocolate.presentation.screens.pinnedMessages
 
+import com.chocolate.presentation.base.BaseErrorUiState
+
 data class PinnedMessagesUiState(
     val messages: List<MessageItemUiState> = emptyList(),
     val isLoading: Boolean = false,
-    val error: ErrorUiState = ErrorUiState()
+    val error: BaseErrorUiState = BaseErrorUiState()
 )
 
 data class MessageItemUiState(
@@ -13,7 +15,3 @@ data class MessageItemUiState(
     val date: String = ""
 )
 
-data class ErrorUiState(
-    val message: String = "",
-    val isError: Boolean = false
-)

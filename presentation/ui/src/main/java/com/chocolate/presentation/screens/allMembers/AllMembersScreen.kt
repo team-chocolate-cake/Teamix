@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.chocolate.presentation.screens.allMembersUiState
 import com.chocolate.presentation.screens.combosables.PersonCardWithDetails
-import com.chocolate.presentation.screens.composables.SearchBox
+import com.chocolate.presentation.screens.combosables.SearchBox
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.TeamixTheme

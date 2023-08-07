@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -44,11 +45,11 @@ private fun AllMembersContent(
                 verticalArrangement = Arrangement.spacedBy(Space8),
                 contentPadding = PaddingValues(vertical = Space16)
             ) {
-                items(state.members.count()) { index ->
+                items(state.members){ member ->
                     PersonCardWithDetails(
-                        personImageUrl = state.members[index].imageUrl,
-                        title = state.members[index].name,
-                        subTitle = state.members[index].jobTitle
+                        personImageUrl = member.imageUrl,
+                        title = member.name,
+                        subTitle = member.jobTitle
                     )
                 }
             }

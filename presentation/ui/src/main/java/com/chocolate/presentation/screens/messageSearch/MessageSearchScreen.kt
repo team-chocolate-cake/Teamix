@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -43,12 +44,12 @@ private fun MessageSearchContent(
                 verticalArrangement = Arrangement.spacedBy(Space8),
                 contentPadding = PaddingValues(vertical = Space16)
             ) {
-                items(state.messages.count()) { index ->
+                items(state.messages){ message ->
                     PersonCardWithDetails(
-                        personImageUrl = state.messages[index].imageUrl,
-                        title = state.messages[index].name,
-                        subTitle = state.messages[index].messageContent,
-                        date = state.messages[index].date,
+                        personImageUrl = message.imageUrl,
+                        title = message.name,
+                        subTitle = message.messageContent,
+                        date = message.date,
                         subTitleMaxLine = 3
                     )
                 }

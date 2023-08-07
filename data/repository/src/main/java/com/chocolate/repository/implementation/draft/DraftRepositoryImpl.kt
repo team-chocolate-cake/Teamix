@@ -23,9 +23,9 @@ class DraftRepositoryImpl @Inject constructor(
         topic: String,
         content: String,
         timestamp: Long
-    ) {
+    ):List<Int> {
 
-        wrapApiCall {
+        return wrapApiCall {
             draftDataSource.createDraft(
                 id = id,
                 type = type,
@@ -34,7 +34,7 @@ class DraftRepositoryImpl @Inject constructor(
                 to = to.toJson(),
                 timestamp = timestamp
             )
-        }
+        }.ids?: emptyList()
     }
 
     override suspend fun editDraft(

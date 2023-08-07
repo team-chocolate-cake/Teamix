@@ -13,7 +13,7 @@ interface DraftRepository {
         topic: String,
         content: String,
         timestamp: Long
-    )
+    ): List<Int>
 
     suspend fun editDraft(
         id: Int,

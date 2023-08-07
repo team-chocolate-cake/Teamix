@@ -1,6 +1,5 @@
 package com.chocolate.repository.dto.remote.server_and_organizations.response
 
-
 import com.google.gson.annotations.SerializedName
 
 data class CustomProfileFieldsDto(

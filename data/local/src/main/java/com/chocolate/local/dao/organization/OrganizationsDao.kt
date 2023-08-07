@@ -1,20 +1,20 @@
 package com.chocolate.local.dao.organization
 
 import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Upsert
 import com.chocolate.repository.dto.local.users.OrganizationsLocalDto
 
 @Dao
 interface OrganizationsDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertNameOrg(nameOrg: OrganizationsLocalDto)
+
+    @Upsert
+    suspend fun upsertNameOrg(nameOrg: OrganizationsLocalDto)
 
     @Query("SELECT * FROM TABLE_ORGANIZATIONS")
     suspend fun getNameOrganizations(): List<OrganizationsLocalDto>
 
-    @Delete
+    @Query("DELETE FROM TABLE_ORGANIZATIONS")
     suspend fun deleteOrganizations(nameOrganizations: OrganizationsLocalDto)
+
 }

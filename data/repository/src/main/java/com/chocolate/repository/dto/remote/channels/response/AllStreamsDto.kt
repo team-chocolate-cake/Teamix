@@ -11,5 +11,5 @@ data class AllStreamsDto(
 	@SerializedName("result")
 	val result: String? = null,
 	@SerializedName("streams")
-	val streams: List<com.chocolate.repository.dto.remote.channels.response.StreamsItem?>? = null
+	val streams: List<StreamsItem?>? = null
 )

@@ -11,5 +11,5 @@ data class StreamsByIdDto(
 	@field:SerializedName("result")
 	val result: String? = null,
 	@field:SerializedName("stream")
-	val stream: com.chocolate.repository.dto.remote.channels.response.Stream? = null
+	val stream: Stream? = null
 )

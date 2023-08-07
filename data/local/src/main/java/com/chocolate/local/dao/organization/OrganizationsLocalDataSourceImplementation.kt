@@ -4,11 +4,11 @@ import com.chocolate.repository.dto.local.users.OrganizationsLocalDto
 import com.chocolate.repository.service.local.OrganizationsLocalDataSource
 import javax.inject.Inject
 
-class OrganizationsLocalDataSourceImpl @Inject constructor(
+class OrganizationsLocalDataSourceImplementation @Inject constructor(
     private val organizationsDao: OrganizationsDao
 ) : OrganizationsLocalDataSource{
     override suspend fun insertNameOrg(nameOrg: OrganizationsLocalDto) {
-        organizationsDao.insertNameOrg(nameOrg)
+        organizationsDao.upsertNameOrg(nameOrg)
     }
 
     override suspend fun getNameOrganizations(): List<OrganizationsLocalDto> {

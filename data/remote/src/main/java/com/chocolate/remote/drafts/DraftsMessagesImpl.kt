@@ -10,19 +10,19 @@ import javax.inject.Inject
 class DraftsMessagesImpl @Inject constructor(
     private val draftService: DraftService
 ): DraftMessageDataSource {
-    override suspend fun getDrafts(): Response<com.chocolate.repository.dto.remote.draft.response.DraftsDto> {
+    override suspend fun getDrafts(): Response<DraftsDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun createDraft(draftRequest: String): Response<com.chocolate.repository.dto.remote.draft.response.BaseDraftResponse> {
+    override suspend fun createDraft(draftRequest: String): Response<BaseDraftResponse> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun editDraft(id: Int, draftRequest: String): Response<com.chocolate.repository.dto.remote.draft.response.BaseDraftResponse> {
+    override suspend fun editDraft(id: Int, draftRequest: String): Response<BaseDraftResponse> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteDraft(id: Int): Response<com.chocolate.repository.dto.remote.draft.response.BaseDraftResponse> {
+    override suspend fun deleteDraft(id: Int): Response<BaseDraftResponse> {
         TODO("Not yet implemented")
     }
 }

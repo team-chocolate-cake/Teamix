@@ -32,7 +32,7 @@ data class OwnerUserDto(
     @SerializedName("msg")
     val message: String?,
     @SerializedName("profile_data")
-    val profileData: Map<String, com.chocolate.repository.dto.remote.users.response.ProfileField>?,
+    val profileData: Map<String, ProfileField>?,
     @SerializedName("result")
     val result: String?,
     @SerializedName("role")

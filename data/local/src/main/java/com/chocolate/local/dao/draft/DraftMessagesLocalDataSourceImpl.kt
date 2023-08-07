@@ -8,14 +8,14 @@ class DraftMessagesLocalDataSourceImpl @Inject constructor(
     private val draftMessagesDao: DraftMessagesDao
 ) : DraftMessagesLocalDataSource {
     override suspend fun insertDraft(draft: DraftLocalDto) {
-        draftMessagesDao.insertDraft(draft)
+        draftMessagesDao.upsertDraft(draft)
     }
 
     override suspend fun getDraftById(id: String): DraftLocalDto? {
         return draftMessagesDao.getDraftById(id)
     }
 
-    override suspend fun deleteSavedDraft(draft: DraftLocalDto) {
-        draftMessagesDao.deleteSavedDraft(draft)
+    override suspend fun deleteDraftMessage(draftId: Int) {
+        draftMessagesDao.deleteDraftMessage(draftId)
     }
 }

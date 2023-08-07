@@ -1,6 +1,5 @@
 package com.chocolate.repository.dto.remote.scheduled_message.response
 
-
 import com.google.gson.annotations.SerializedName
 
 data class ScheduledMessageContentDto(

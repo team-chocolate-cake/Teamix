@@ -1,6 +1,6 @@
 package com.chocolate.repository.datastore
 
-interface PreferenceStorage {
+interface OrganizationPreferenceDataSource {
     val currentOrganization: String?
 
     suspend fun setNameOrganization(currentOrganization: String)

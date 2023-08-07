@@ -9,5 +9,5 @@ data class UserGroupsDto(
     @SerializedName("result")
     val result: String?,
     @SerializedName("user_groups")
-    val userGroups: List<com.chocolate.repository.dto.remote.users.response.UserGroup>?
+    val userGroups: List<UserGroup>?
 )

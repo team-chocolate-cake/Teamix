@@ -8,7 +8,7 @@ data class Attachment(
     @SerializedName("id")
     val id: Int?,
     @SerializedName("messages")
-    val messages: List<com.chocolate.repository.dto.remote.users.response.Message?>?,
+    val messages: List<Message?>?,
     @SerializedName("name")
     val name: String?,
     @SerializedName("path_id")

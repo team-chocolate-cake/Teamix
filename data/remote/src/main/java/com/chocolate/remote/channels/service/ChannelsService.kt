@@ -1,5 +1,6 @@
 package com.chocolate.remote.channels.service
 
+
 import com.chocolate.repository.dto.remote.channels.response.AllStreamsDto
 import com.chocolate.repository.dto.remote.channels.response.AllSubscribersDto
 import com.chocolate.repository.dto.remote.channels.response.DefaultStreamDto
@@ -23,7 +24,7 @@ interface ChannelsService {
     @GET("users/me/subscriptions")
     suspend fun getUserSubscriptions(
         @Query("include_subscribers") includeSubscribers: Boolean = false
-    ): Response<com.chocolate.repository.dto.remote.channels.response.SubscribedStreamDto>
+    ): Response<SubscribedStreamDto>
 
     @POST("users/me/subscriptions")
     suspend fun addSubscribesToStream(
@@ -37,29 +38,29 @@ interface ChannelsService {
         @Query("stream_post_policy") streamPostPolicy: Int? = null,
         @Query("message_retention_days") messageRetentionDays: String? = null,
         @Query("can_remove_subscribers_group_id") canRemoveSubscribersGroupId: Int? = null,
-    ): Response<com.chocolate.repository.dto.remote.channels.response.SubscribeToStreamDto>
+    ): Response<SubscribeToStreamDto>
 
     @DELETE("users/me/subscriptions")
     suspend fun deleteSubscriberFromStream(
         @Query("subscriptions") subscriptions: String,
         @Query("principals") principals: List<String>? = null,
-    ): Response<com.chocolate.repository.dto.remote.channels.response.UnsubscribeFromStreamDto>
+    ): Response<UnsubscribeFromStreamDto>
 
     @GET("users/{user_id}/subscriptions/{stream_id}")
     suspend fun getSubscriptionStatus(
         @Path("user_id") userId: Int,
         @Path("stream_id") streamId: Int,
-    ): Response<com.chocolate.repository.dto.remote.channels.response.SubscriptionStatusDto>
+    ): Response<SubscriptionStatusDto>
 
     @GET("streams/{stream_id}/members")
     suspend fun getAllSubscriber(
         @Path("stream_id") streamId: Int
-    ): Response<com.chocolate.repository.dto.remote.channels.response.AllSubscribersDto>
+    ): Response<AllSubscribersDto>
 
     @POST("users/me/subscriptions/properties")
     suspend fun updateSubscriptionSettings(
         @Query("subscription_data") subscriptionData: String
-    ): Response<com.chocolate.repository.dto.remote.channels.response.SubscriptionSettingsDto>
+    ): Response<SubscriptionSettingsDto>
 
     @GET("streams")
     suspend fun getAllStreams(
@@ -69,17 +70,17 @@ interface ChannelsService {
         @Query("include_all_active") includeAllActive: Boolean = false,
         @Query("include_default") includeDefault: Boolean = false,
         @Query("include_owner_subscribed") includeOwnerSubscribed: Boolean = false,
-    ): Response<com.chocolate.repository.dto.remote.channels.response.AllStreamsDto>
+    ): Response<AllStreamsDto>
 
     @GET("streams/{stream_id}")
     suspend fun getStreamById(
         @Path("stream_id") streamId: Int
-    ): Response<com.chocolate.repository.dto.remote.channels.response.StreamsByIdDto>
+    ): Response<StreamsByIdDto>
 
     @GET("get_stream_id")
     suspend fun getStreamId(
         @Query("stream") stream: String
-    ): Response<com.chocolate.repository.dto.remote.channels.response.StreamsIdDto>
+    ): Response<StreamsIdDto>
 
     @PATCH("streams/{stream_id}")
     suspend fun updateStream(
@@ -92,17 +93,17 @@ interface ChannelsService {
         @Query("stream_post_policy") streamPostPolicy: Int? = null,
         @Query("message_retention_days") messageRetentionDays: String? = null,
         @Query("can_remove_subscribers_group_id") canRemoveSubscribersGroupId: Int? = null,
-    ): Response<com.chocolate.repository.dto.remote.channels.response.DefaultStreamDto>
+    ): Response<DefaultStreamDto>
 
     @DELETE("streams/{stream_id}")
     suspend fun archiveStream(
         @Path("stream_id") streamId: Int
-    ): Response<com.chocolate.repository.dto.remote.channels.response.DefaultStreamDto>
+    ): Response<DefaultStreamDto>
 
     @GET("users/me/{stream_id}/topics")
     suspend fun getTopicsInStream(
         @Path("stream_id") streamId: Int
-    ): Response<com.chocolate.repository.dto.remote.channels.response.TopicsInStreamDto>
+    ): Response<TopicsInStreamDto>
 
     @PATCH("users/me/subscriptions/muted_topics")
     suspend fun setTopicMuting(
@@ -110,28 +111,28 @@ interface ChannelsService {
         @Query("op") status: String,
         @Query("stream_id") streamId: Int? = null,
         @Query("stream") stream: String? = null,
-    ): Response<com.chocolate.repository.dto.remote.channels.response.DefaultStreamDto>
+    ): Response<DefaultStreamDto>
 
     @POST("user_topics")
     suspend fun updatePersonalPreferenceTopic(
         @Query("stream_id") streamId: Int,
         @Query("topic") topic: String,
         @Query("visibility_policy") visibilityPolicy: Int,
-    ): Response<com.chocolate.repository.dto.remote.channels.response.DefaultStreamDto>
+    ): Response<DefaultStreamDto>
 
     @POST("streams/{stream_id}/delete_topic")
     suspend fun deleteTopic(
         @Path("stream_id") streamId: Int,
         @Query("topic_name") topicName: String
-    ): Response<com.chocolate.repository.dto.remote.channels.response.DefaultStreamDto>
+    ): Response<DefaultStreamDto>
 
     @POST("default_streams")
     suspend fun addDefaultStream(
         @Query("stream_id") streamId: Int,
-    ): Response<com.chocolate.repository.dto.remote.channels.response.DefaultStreamDto>
+    ): Response<DefaultStreamDto>
 
     @DELETE("default_streams")
     suspend fun deleteDefaultStream(
         @Query("stream_id") streamId: Int
-    ): Response<com.chocolate.repository.dto.remote.channels.response.DefaultStreamDto>
+    ): Response<DefaultStreamDto>
 }

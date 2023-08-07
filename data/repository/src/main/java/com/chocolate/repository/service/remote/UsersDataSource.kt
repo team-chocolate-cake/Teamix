@@ -1,6 +1,7 @@
 package com.chocolate.repository.service.remote
 
-
+import com.chocolate.repository.dto.remote.users.request.ProfileData
+import com.chocolate.repository.dto.remote.users.request.SettingsRequest
 import com.chocolate.repository.dto.remote.users.response.AlertWordsDto
 import com.chocolate.repository.dto.remote.users.response.CreateUserDto
 import com.chocolate.repository.dto.remote.users.response.MuteUserResponseDto
@@ -42,7 +43,7 @@ interface UsersDataSource {
         id: Int,
         fullName: String? = null,
         role: Int? = null,
-        profileData: List<com.chocolate.repository.dto.remote.users.request.ProfileData>? = null
+        profileData: List<ProfileData>? = null
     ): Response<ResponseStateDto>
 
     suspend fun updateUserStatus(
@@ -80,7 +81,7 @@ interface UsersDataSource {
 
     suspend fun deleteAttachment(attachmentId: Int): Response<ResponseStateDto>
 
-    suspend fun updateSettings(settings: com.chocolate.repository.dto.remote.users.request.SettingsRequest): Response<UserSettingsDto>
+    suspend fun updateSettings(settings: SettingsRequest): Response<UserSettingsDto>
 
     suspend fun getUserGroups(): Response<UserGroupsDto>
 

@@ -1,21 +1,20 @@
 package com.chocolate.local.dao.trend
 
 import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Upsert
 import com.chocolate.repository.dto.local.trends.TrendsLocalDto
 
 @Dao
 interface TrendDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTrend(trend: TrendsLocalDto)
+
+    @Upsert
+    suspend fun upsertTrend(trend: TrendsLocalDto)
 
     @Query("SELECT * FROM trend_table WHERE id = :id")
     suspend fun getTrendById(id: String): TrendsLocalDto?
 
-    @Delete
+    @Query("DELETE FROM trend_table")
     suspend fun deleteSavedTrend(trend: TrendsLocalDto)
 
 }

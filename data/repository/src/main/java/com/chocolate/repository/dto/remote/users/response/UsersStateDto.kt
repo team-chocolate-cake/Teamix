@@ -6,7 +6,7 @@ data class UsersStateDto(
     @SerializedName("msg")
     val message: String?,
     @SerializedName("presences")
-    val presences: com.chocolate.repository.dto.remote.users.response.Presences?,
+    val presences: Presences?,
     @SerializedName("result")
     val result: String?,
     @SerializedName("server_timestamp")

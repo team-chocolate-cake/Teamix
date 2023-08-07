@@ -8,5 +8,5 @@ interface DraftMessagesLocalDataSource {
 
     suspend fun getDraftById(id: String): DraftLocalDto?
 
-    suspend fun deleteSavedDraft(draft: DraftLocalDto)
+    suspend fun deleteDraftMessage(draftId: Int)
 }

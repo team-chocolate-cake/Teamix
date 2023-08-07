@@ -15,7 +15,6 @@ import com.chocolate.repository.dto.local.users.GroupsLocalDto
 import com.chocolate.repository.dto.local.users.OrganizationsLocalDto
 import com.chocolate.repository.dto.local.users.StoriesLocalDto
 
-
 @Database(
     entities = [
         StoriesLocalDto::class,

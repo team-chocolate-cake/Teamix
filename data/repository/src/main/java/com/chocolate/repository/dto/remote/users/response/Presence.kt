@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Presence(
     @SerializedName("aggregated")
-    val aggregated: com.chocolate.repository.dto.remote.users.response.Aggregated?,
+    val aggregated: Aggregated?,
     @SerializedName("website")
-    val website: com.chocolate.repository.dto.remote.users.response.Website?
+    val website: Website?
 )

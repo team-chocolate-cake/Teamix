@@ -1,6 +1,5 @@
 package com.chocolate.repository.dto.remote.message.response
 
-
 import com.google.gson.annotations.SerializedName
 
 data class MessagesRemoteDto(
@@ -11,7 +10,7 @@ data class MessagesRemoteDto(
     @SerializedName("found_newest")
     val foundNewest: Boolean?,
     @SerializedName("messages")
-    val messages: List<com.chocolate.repository.dto.remote.message.response.Message?>?,
+    val messages: List<Message?>?,
     @SerializedName("msg")
     val message: String?,
     @SerializedName("result")

@@ -93,45 +93,4 @@ object NetworkModule {
     fun provideOrganizationService(retrofit: Retrofit): OrganizationService =
         retrofit.create(OrganizationService::class.java)
 
-    @Singleton
-    @Provides
-    fun provideChannels(channelsService: ChannelsService): ChannelsDataSource {
-        return ChannelsImpl(channelsService)
-    }
-
-
-    @Singleton
-    @Provides
-    fun provideOrganization(organizationService: OrganizationService): OrganizationDataSource {
-        return OrganizationsImpl(organizationService)
-    }
-
-
-    @Singleton
-    @Provides
-    fun provideDraftsMessage(draftService: DraftService): DraftMessageDataSource {
-        return DraftsMessagesImpl(draftService)
-    }
-
-
-    @Singleton
-    @Provides
-    fun provideMessages(messageService: MessageService): MessagesDataSource {
-        return MessagesImpl(messageService)
-    }
-
-
-    @Singleton
-    @Provides
-    fun provideScheduledMessage(scheduledMessageService: ScheduledMessageService): ScheduledMessageDataSource {
-        return ScheduledMessageImpl(scheduledMessageService)
-    }
-
-
-    @Singleton
-    @Provides
-    fun provideUsers(usersService: UsersService): UsersDataSource {
-        return UsersImpl(usersService)
-    }
-
 }

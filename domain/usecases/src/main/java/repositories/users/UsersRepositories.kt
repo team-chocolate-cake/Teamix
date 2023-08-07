@@ -35,5 +35,4 @@ interface UsersRepositories {
     suspend fun addOrganizations(nameOrganizations: String)
     suspend fun getOrganizations(): String?
 
-
 }

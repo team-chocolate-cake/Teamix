@@ -1,6 +1,5 @@
 package com.chocolate.repository.dto.remote.users.response
 
-
 import com.google.gson.annotations.SerializedName
 
 data class AlertWordsDto(

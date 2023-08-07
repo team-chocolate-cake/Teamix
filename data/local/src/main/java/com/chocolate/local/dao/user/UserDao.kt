@@ -1,21 +1,20 @@
 package com.chocolate.local.dao.user
 
 import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Upsert
 import com.chocolate.repository.dto.local.users.StoriesLocalDto
 
 @Dao
 interface UserDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertStory(story: StoriesLocalDto)
+
+    @Upsert
+    suspend fun upsertStory(story: StoriesLocalDto)
 
     @Query("SELECT * FROM story_table WHERE id = :id")
     suspend fun getStoryById(id: String): StoriesLocalDto?
 
-    @Delete
+    @Query("DELETE FROM story_table")
     suspend fun deleteSavedStory(story: StoriesLocalDto)
 
 }

@@ -4,15 +4,15 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.chocolate.repository.datastore.PreferenceStorage
+import com.chocolate.repository.datastore.OrganizationPreferenceDataSource
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
-class PreferenceStorageImpl @Inject constructor(
+class OrganizationPreferenceDataSourceImplementation @Inject constructor(
     private val dataStore: DataStore<Preferences>
-) : PreferenceStorage {
+) : OrganizationPreferenceDataSource {
 
     private object PreferencesKeys {
         val NAME_ORGANIZATION = stringPreferencesKey("CURRENT_USERNAME_ID")

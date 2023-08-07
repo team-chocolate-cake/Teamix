@@ -1,6 +1,5 @@
 package com.chocolate.repository.dto.remote.draft.response
 
-
 import com.google.gson.annotations.SerializedName
 
 data class BaseDraftResponse(

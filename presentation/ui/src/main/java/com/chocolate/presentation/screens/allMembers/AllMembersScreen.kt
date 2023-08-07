@@ -10,8 +10,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.chocolate.presentation.screens.allMembers.composable.MemberItem
-import com.chocolate.presentation.screens.allMembers.composable.SearchBox
+import com.chocolate.presentation.screens.allMembersUiState
+import com.chocolate.presentation.screens.combosables.PersonCardWithDetails
+import com.chocolate.presentation.screens.composables.SearchBox
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.TeamixTheme
@@ -21,7 +22,7 @@ import com.chocolate.presentation.theme.customColors
 fun AllMembersScreen(
     //navController: NavController,
 
-    ) {
+) {
     AllMembersContent(state = allMembersUiState)
 }
 
@@ -44,10 +45,10 @@ private fun AllMembersContent(
                 contentPadding = PaddingValues(vertical = Space16)
             ) {
                 items(state.members.count()) { index ->
-                    MemberItem(
+                    PersonCardWithDetails(
                         personImageUrl = state.members[index].imageUrl,
-                        name = state.members[index].name,
-                        jobTitle = state.members[index].jobTitle
+                        title = state.members[index].name,
+                        subTitle = state.members[index].jobTitle
                     )
                 }
             }

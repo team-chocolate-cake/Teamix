@@ -5,12 +5,12 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.chocolate.presentation.Screen
 
-fun NavGraphBuilder.onBoardingRoute(navController: NavController) {
+fun NavGraphBuilder.onboardingRoute(navController: NavController) {
     composable(Screen.OnBoarding.route) {
-        OnBoardingScreen(navController)
+        OnboardingScreen(navController)
     }
 }
 
-fun NavController.navigateToOnBoarding() {
+fun NavController.navigateToOnboarding() {
     navigate(Screen.OnBoarding.route)
 }

@@ -72,7 +72,7 @@ val Typography = Typography(
     labelSmall = TextStyle(
         fontFamily = Montserrat,
         fontWeight = FontWeight.Normal,
-        fontSize = TextSize12,
-        lineHeight = TextHeight14
+        fontSize = TextSize11,
+        lineHeight = TextHeight16
     )
 )

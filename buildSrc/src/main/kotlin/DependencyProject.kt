@@ -48,7 +48,6 @@ object DependencyProject {
     const val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$LIFECYCLE_VERSION"
     const val lifecycleLiveData = "androidx.lifecycle:lifecycle-livedata-ktx:$LIFECYCLE_VERSION"
 
-
     const val activityCompose = "androidx.activity:activity-compose:$ACTIVITY_COMPOSE"
     const val composeBom = "androidx.compose:compose-bom:$COMPOSE_BOM"
     const val composeUi = "androidx.compose.ui:ui"
@@ -70,10 +69,10 @@ object DependencyProject {
     const val roomRuntime = "androidx.room:room-runtime:$ROOM_VERSION"
     const val roomCompiler = "androidx.room:room-compiler:$ROOM_VERSION"
     const val room = "androidx.room:room-compiler:$ROOM_VERSION"
+    const val roomKtx = "androidx.room:room-ktx:$ROOM_VERSION"
 
     const val splashScreen = "androidx.core:core-splashscreen:$SPLASH_SCREEN_VERSION-beta02"
 
     const val composeFoundation = "androidx.compose.foundation:foundation:$COMPOSE_FOUNDATION_VERSION"
-
 
 }

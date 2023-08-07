@@ -1,9 +1,9 @@
 package com.chocolate.remote.drafts
 
 import com.chocolate.remote.drafts.service.DraftService
-import com.chocolate.repository.dto.draft.response.BaseDraftResponse
-import com.chocolate.repository.dto.draft.response.DraftsDto
-import com.chocolate.repository.service.DraftMessageDataSource
+import com.chocolate.repository.dto.remote.draft.response.BaseDraftResponse
+import com.chocolate.repository.dto.remote.draft.response.DraftsDto
+import com.chocolate.repository.service.remote.DraftMessageDataSource
 import retrofit2.Response
 import javax.inject.Inject
 

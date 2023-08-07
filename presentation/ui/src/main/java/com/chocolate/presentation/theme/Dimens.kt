@@ -55,4 +55,10 @@ val IconSize16 = 16.dp
 val ImageSize40 = 40.dp
 //endregion
 
+// region Button Size
+val ButtonSize18 = 18.dp
+val ButtonSize24 = 24.dp
+//endregion
+
+
 

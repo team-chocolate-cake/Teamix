@@ -16,6 +16,5 @@ fun CustomProfileFieldsDto.toEntity(): CustomProfileFields {
             type = customFieldDto?.type
         )
     } ?: emptyList()
-
     return CustomProfileFields(customFields = customFieldsEntity)
 }

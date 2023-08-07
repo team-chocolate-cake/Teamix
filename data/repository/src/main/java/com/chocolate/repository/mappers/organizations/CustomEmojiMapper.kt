@@ -14,6 +14,5 @@ fun CustomEmojiDto.toEntity(): CustomEmoji {
             sourceUrl = emojiDto.sourceUrl
         )
     } ?: emptyMap()
-
     return CustomEmoji(emoji = emojiEntity)
 }

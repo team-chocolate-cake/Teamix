@@ -5,7 +5,6 @@ import com.chocolate.entities.server_and_organizations.CustomProfileFields
 import com.chocolate.entities.server_and_organizations.DefaultOrganization
 import com.chocolate.entities.server_and_organizations.LinkifiersEntity
 import com.chocolate.entities.server_and_organizations.ServerSettings
-import org.intellij.lang.annotations.Language
 
 interface ServerAndOrganizationsRepository {
     suspend fun getServiceSettings(): ServerSettings

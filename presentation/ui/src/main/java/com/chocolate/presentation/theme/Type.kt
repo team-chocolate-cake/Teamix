@@ -36,7 +36,7 @@ val Typography = Typography(
 
     bodyLarge = TextStyle(
         fontFamily = Montserrat,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.SemiBold,
         fontSize = TextSize16,
         lineHeight = TextHeight24
     ),
@@ -57,7 +57,7 @@ val Typography = Typography(
 
     labelLarge = TextStyle(
         fontFamily = Montserrat,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.SemiBold,
         fontSize = TextSize14,
         lineHeight = TextHeight20
     ),
@@ -72,7 +72,7 @@ val Typography = Typography(
     labelSmall = TextStyle(
         fontFamily = Montserrat,
         fontWeight = FontWeight.Normal,
-        fontSize = TextSize12,
+        fontSize = TextSize11,
         lineHeight = TextHeight16
     )
 )

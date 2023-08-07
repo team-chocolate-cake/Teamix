@@ -44,6 +44,7 @@ dependencies {
     kapt(DependencyProject.hiltCompiler)
     implementation(DependencyProject.dataStore)
     implementation(DependencyProject.roomRuntime)
+    implementation(DependencyProject.roomKtx)
     annotationProcessor(DependencyProject.roomCompiler)
     kapt(DependencyProject.room)
 

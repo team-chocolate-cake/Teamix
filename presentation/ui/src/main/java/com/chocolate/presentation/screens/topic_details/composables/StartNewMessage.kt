@@ -1,5 +1,6 @@
 package com.chocolate.presentation.screens.topic_details.composables
 
+import android.widget.Space
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -52,25 +53,53 @@ fun StartNewMessage(modifier: Modifier = Modifier) {
             .background(MaterialTheme.customColors().background)
             .padding(Space16)
     ) {
-        Column {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = Space8),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    painter = painterResource(id = R.drawable.add_attachment),
+                    contentDescription = "",
+                    tint = MaterialTheme.customColors().onBackground60,
+                    modifier = Modifier
+                        .padding(end = Space8 + Space4)
+                        .size(Space32)
+                        .clickable {
+                            //todo attachment bottom sheet
+                        }
+                )
+
+                Icon(
+                    painter = painterResource(id = R.drawable.smile_circle),
+                    contentDescription = "",
+                    tint = MaterialTheme.customColors().onBackground60,
+                    modifier = Modifier
+                        .padding(end = Space8)
+                        .size(Space24)
+                        .clickable {
+                            //todo open Emojis tile
+                        }
+                )
+            }
             Surface(
                 shape = RoundedCornerShape(Space8),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = Space8),
+                modifier = Modifier.fillMaxWidth(0.9f).padding(end = Space16),
                 color = MaterialTheme.customColors().lightGray
             ) {
                 BasicTextField(
                     singleLine = true,
                     modifier = Modifier
-                        .height(Space64)
-                        .padding(vertical = Space8, horizontal = Space16),
+                        .height(Space32),
                     value = message,
                     onValueChange = { message = it },
                     decorationBox = { innerTextField ->
                         Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
+                            contentAlignment = Alignment.CenterStart,
+                            modifier = Modifier.padding(Space8)
                         ) {
                             if (message.isEmpty()) {
                                 Text(
@@ -84,42 +113,12 @@ fun StartNewMessage(modifier: Modifier = Modifier) {
                     }
                 )
             }
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = Space8),
-                horizontalArrangement = Arrangement.SpaceBetween
+            Surface(
+                modifier = Modifier.padding(end = Space4).size(Space24)
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.add_attachment),
-                        contentDescription = "",
-                        tint = MaterialTheme.customColors().onBackground60,
-                        modifier = Modifier
-                            .padding(end = Space8 + Space4)
-                            .size(Space32)
-                            .clickable {
-                                //todo attachment bottom sheet
-                            }
-                    )
-
-                    Icon(
-                        painter = painterResource(id = R.drawable.smile_circle),
-                        contentDescription = "",
-                        tint = MaterialTheme.customColors().onBackground60,
-                        modifier = Modifier
-                            .padding(end = Space8)
-                            .size(Space24)
-                            .clickable {
-                                //todo open Emojis tile
-                            }
-                    )
-                }
                 AnimatedVisibility(visible = !message.isEmpty() ) {
                     Icon(
                         modifier = Modifier
-                            .padding(end = Space4)
                             .size(Space24)
                             .clickable {
                                 //todo send message
@@ -137,16 +136,14 @@ fun StartNewMessage(modifier: Modifier = Modifier) {
                         contentDescription = "",
                         tint = MaterialTheme.customColors().onBackground60,
                         modifier = Modifier
-                            .padding(end = Space8)
                             .size(Space24)
                             .clickable {
                                 //todo mic
                             }
                     )
                 }
-
-
             }
+
         }
     }
 }

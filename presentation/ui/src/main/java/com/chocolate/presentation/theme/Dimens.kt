@@ -42,8 +42,17 @@ val Border1 = 1.dp
 
 
 // region Radius Dimensions
+val Radius12 = 12.dp
 val Radius16 = 16.dp
 val Radius24 = 24.dp
+//endregion
+
+// region Icon Size
+val IconSize16 = 16.dp
+//endregion
+
+// region Image Size
+val ImageSize40 = 40.dp
 //endregion
 
 

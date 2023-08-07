@@ -1,22 +1,29 @@
 package com.chocolate.repository.mapper.users.response
 
-import com.chocolate.entities.user.respons.Attachment
-import com.chocolate.entities.user.respons.Message
-import com.chocolate.entities.user.respons.UserAttachments
+import com.chocolate.entities.user.Attachment
+import com.chocolate.entities.user.Message
+import com.chocolate.entities.user.UserAttachments
 import com.chocolate.repository.dto.users.response.AttachmentDto
 import com.chocolate.repository.dto.users.response.MessageDto
 import com.chocolate.repository.dto.users.response.UserAttachmentsDto
 
 fun  UserAttachmentsDto.toUserAttachments(): UserAttachments {
 return UserAttachments(
-    attachmentDto?.map { it?.toAttachment() },uploadSpaceUsed
+    attachmentDto?.mapNotNull { it?.toAttachment() } ?: emptyList(),uploadSpaceUsed?:0
 )
 }
 
 fun AttachmentDto.toAttachment(): Attachment {
-    return Attachment(createTime,id,messageDto?.map { it?.toMessage() },name, pathId, size)
+        return Attachment(
+            createTime ?: 0,
+            id ?: 0,
+            messageDto?.mapNotNull { it?.toMessage() } ?: emptyList(),
+            name ?: "",
+            pathId ?: "",
+            size ?: 0
+        )
 }
 
 fun MessageDto.toMessage(): Message {
-    return Message(dateSent, id)
+    return Message(dateSent?:0L, id?:0)
 }

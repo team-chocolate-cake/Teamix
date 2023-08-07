@@ -1,7 +1,6 @@
 package com.chocolate.repository.service
 
 
-import com.chocolate.entities.user.request.ProfileData
 import com.chocolate.repository.dto.users.request.ProfileDataDto
 import com.chocolate.repository.dto.users.request.SettingsRequestDto
 import com.chocolate.repository.dto.users.response.AlertWordsDto

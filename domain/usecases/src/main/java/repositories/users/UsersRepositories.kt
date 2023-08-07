@@ -1,22 +1,20 @@
 package repositories.users
 
-import com.chocolate.entities.user.request.ProfileData
-import com.chocolate.entities.user.request.SettingsRequest
-import com.chocolate.entities.user.respons.AlertWords
-import com.chocolate.entities.user.respons.CreateUser
-import com.chocolate.entities.user.respons.MuteUserResponse
-import com.chocolate.entities.user.respons.OwnerUser
-import com.chocolate.entities.user.respons.ResponseState
-import com.chocolate.entities.user.respons.SubgroupsOfUserGroup
-import com.chocolate.entities.user.respons.User
-import com.chocolate.entities.user.respons.UserAttachments
-import com.chocolate.entities.user.respons.UserGroupMemberships
-import com.chocolate.entities.user.respons.UserGroups
-import com.chocolate.entities.user.respons.UserMembershipState
-import com.chocolate.entities.user.respons.UserSettings
-import com.chocolate.entities.user.respons.UserState
-import com.chocolate.entities.user.respons.Users
-import com.chocolate.entities.user.respons.UsersState
+import com.chocolate.entities.user.ProfileData
+import com.chocolate.entities.user.SettingsRequest
+import com.chocolate.entities.user.AlertWords
+import com.chocolate.entities.user.CreateUser
+import com.chocolate.entities.user.OwnerUser
+import com.chocolate.entities.user.SubgroupsOfUserGroup
+import com.chocolate.entities.user.User
+import com.chocolate.entities.user.UserAttachments
+import com.chocolate.entities.user.UserGroupMemberships
+import com.chocolate.entities.user.UserGroups
+import com.chocolate.entities.user.UserMembershipState
+import com.chocolate.entities.user.UserSettings
+import com.chocolate.entities.user.UserState
+import com.chocolate.entities.user.Users
+import com.chocolate.entities.user.UsersState
 
 interface UsersRepositories {
 
@@ -28,50 +26,53 @@ interface UsersRepositories {
     suspend fun getOwnUser(): OwnerUser
 
     suspend fun getUserById(
-        userId: Int,
+        userId: Int=635418,
         clientGravatar: Boolean = true,
         includeCustomProfileFields: Boolean = false
     ): User
+
+
 
     suspend fun getUserByEmail(
-        email: String,
+        email: String="user635418@chocolate-cake.zulipchat.com",
         clientGravatar: Boolean = true,
         includeCustomProfileFields: Boolean = false
     ): User
-
+    //This endpoint is only available to organization administrators.
     suspend fun updateUserById(
-        id: Int,
+        id: Int=635418,
         fullName: String? = null,
         role: Int? = null,
         profileData: List<ProfileData>? = null
-    ): ResponseState
+    )
 
     suspend fun updateUserStatus(
-        statusText: String? = null,
+        statusText: String? = "good",
         away: Boolean? = null,
         emojiName: String? = null,
         emojiCode: String? = null,
         reactionType: String? = null
-    ): ResponseState
+    )
 
+    //This endpoint is only available to organization administrators.
     suspend fun createUser(
         email: String,
         password: String,
         fullName: String
     ): CreateUser
 
-    suspend fun deactivateUserAccount(id: Int): ResponseState
+    suspend fun deactivateUserAccount(id: Int)
 
-    suspend fun reactivateUserAccount(id: Int): ResponseState
+    suspend fun reactivateUserAccount(id: Int)
 
-    suspend fun deactivateOwnUserAccount(): ResponseState
+    suspend fun deactivateOwnUserAccount()
 
     suspend fun setTypingStatus(
         op: String,
         to: String,
         type: String? = "direct",
         topic: String? = null
-    ): ResponseState
+    )
 
     suspend fun getUserPresence(email: String): UserState
 
@@ -79,7 +80,7 @@ interface UsersRepositories {
 
     suspend fun getAttachments(): UserAttachments
 
-    suspend fun deleteAttachment(attachmentId: Int): ResponseState
+    suspend fun deleteAttachment(attachmentId: Int)
 
     suspend fun updateSettings(settings: SettingsRequest): UserSettings
 
@@ -89,21 +90,21 @@ interface UsersRepositories {
         name: String,
         description: String,
         members: String
-    ): ResponseState
+    )
 
     suspend fun updateUserGroup(
         userGroupId: Int,
         name: String,
         description: String
-    ): ResponseState
+    )
 
-    suspend fun removeUserGroup(userGroupId: Int): ResponseState
+    suspend fun removeUserGroup(userGroupId: Int)
 
     suspend fun updateUserGroupMembers(
         id: Int,
         add: List<Int>,
         delete: List<Int>
-    ): ResponseState
+    )
 
     suspend fun updateUserGroupSubgroups(
         userGroupId: Int,
@@ -133,7 +134,7 @@ interface UsersRepositories {
 
     suspend fun removeAlertWords(alertWords: String): AlertWords
 
-    suspend fun muteUser(mutedUserId: Int): MuteUserResponse
+    suspend fun muteUser(mutedUserId: Int)
 
-    suspend fun unMuteUser(mutedUserId: Int): MuteUserResponse
+    suspend fun unMuteUser(mutedUserId: Int)
 }

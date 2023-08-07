@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class IagoZulipComDto(
     @SerializedName("aggregated")
-    val aggregated: AggregatedDto?,
+    val aggregatedDto: AggregatedDto?,
     @SerializedName("website")
     val websiteDto: WebsiteDto?
 )

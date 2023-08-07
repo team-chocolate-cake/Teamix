@@ -1,3 +1,3 @@
-package com.chocolate.entities.user.respons
+package com.chocolate.entities.user
 
 data class User (val userDetails: UserDetails)

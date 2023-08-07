@@ -1,4 +1,4 @@
-package com.chocolate.entities.user.request
+package com.chocolate.entities.user
 
 data class SettingsRequest (
     val offlineNotifications: Boolean,

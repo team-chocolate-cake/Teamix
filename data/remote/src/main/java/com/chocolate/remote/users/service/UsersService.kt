@@ -51,9 +51,9 @@ interface UsersService {
         @Query("include_custom_profile_fields") includeCustomProfileFields: Boolean = false
     ): Response<UserDto>
 
-    @PATCH("users/{id}")
+    @PATCH("users/{user_id}")
     suspend fun updateUserById(
-        @Path("id") id: Int,
+        @Path("user_id") id: Int,
         @Query("full_name") fullName: String? = null,
         @Query("role") role: Int? = null,
         @Query("profile_data") profileData: List<ProfileDataDto>? = null

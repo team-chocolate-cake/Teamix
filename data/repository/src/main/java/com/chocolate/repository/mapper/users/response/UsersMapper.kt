@@ -1,13 +1,13 @@
 package com.chocolate.repository.mapper.users.response
 
-import com.chocolate.entities.user.respons.Member
-import com.chocolate.entities.user.respons.Users
+import com.chocolate.entities.user.Member
+import com.chocolate.entities.user.Users
 import com.chocolate.repository.dto.users.response.MemberDto
 import com.chocolate.repository.dto.users.response.UsersDto
 
 fun UsersDto.toUsers(): Users {
     return Users(
-        member=memberDto?.map { it?.toMember() }
+        member=memberDto?.mapNotNull { it?.toMember() }?: emptyList()
     )
 }
 
@@ -15,23 +15,23 @@ fun UsersDto.toUsers(): Users {
 fun MemberDto.toMember(): Member {
 
     return  Member(
-        avatarUrl=avatarUrl,
-        avatarVersion=avatarVersion,
-        dateJoined=dateJoined,
-        deliveryEmail=deliveryEmail,
-        email=email,
-        fullName=fullName,
-        isActive=isActive,
-        isAdmin=isAdmin,
-        isBillingAdmin=isBillingAdmin,
-        isBot=isBot,
-        isGuest=isGuest,
-        isOwner=isOwner,
-        role=role,
-        timezone=timezone,
-        userId=userId,
-        botOwnerId =botOwnerId ,
-        botType = botType,
+        avatarUrl=avatarUrl?:"",
+        avatarVersion=avatarVersion?:0,
+        dateJoined=dateJoined?:"",
+        deliveryEmail=deliveryEmail?:"",
+        email=email?:"",
+        fullName=fullName?:"",
+        isActive=isActive?:false,
+        isAdmin=isAdmin?:false,
+        isBillingAdmin=isBillingAdmin?:false,
+        isBot=isBot?:false,
+        isGuest=isGuest?:false,
+        isOwner=isOwner?:false,
+        role=role?:0,
+        timezone=timezone?:"",
+        userId=userId?:0,
+        botOwnerId =botOwnerId?:0 ,
+        botType = botType?:0,
 
     )
 

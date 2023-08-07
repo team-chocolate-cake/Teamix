@@ -1,31 +1,29 @@
 package com.chocolate.repository.mapper.users.response
 
-import com.chocolate.entities.user.respons.OwnerUser
-import com.chocolate.entities.user.respons.ProfileField
+import com.chocolate.entities.user.OwnerUser
+import com.chocolate.entities.user.ProfileField
 import com.chocolate.repository.dto.users.response.OwnerUserDto
 import com.chocolate.repository.dto.users.response.ProfileFieldDto
 
 fun OwnerUserDto.toOwnerUser(): OwnerUser {
     return OwnerUser(
-        avatarUrl = avatarUrl,
-        avatarVersion = avatarVersion,
-        dateJoined = dateJoined,
-        deliveryEmail = deliveryEmail,
-        email = email,
-        fullName = fullName,
-        isActive = isActive,
-        isAdmin = isAdmin,
-        isBillingAdmin = isBillingAdmin,
-        isBot = isBot,
-        isGuest = isGuest,
-        isOwner = isOwner,
-        maxMessageId = maxMessageId,
-        message = message,
-        role = role,
-        timezone = timezone,
-        userId = userId,
-        result = result,
-        profileData = profileData?.mapValues { it.value.toProfileField() }
+        avatarUrl = avatarUrl?:"",
+        avatarVersion = avatarVersion?:0,
+        dateJoined = dateJoined?:"",
+        deliveryEmail = deliveryEmail?:"",
+        email = email?:"",
+        fullName = fullName?:"",
+        isActive = isActive?:false,
+        isAdmin = isAdmin?:false,
+        isBillingAdmin = isBillingAdmin?:false,
+        isBot = isBot?:false,
+        isGuest = isGuest?:false,
+        isOwner = isOwner?:false,
+        maxMessageId = maxMessageId?:0,
+        role = role?:0,
+        timezone = timezone?:"",
+        userId = userId?:0,
+        profileData = profileData?.mapValues { it.value.toProfileField() }?: emptyMap()
 
 
     )
@@ -33,8 +31,8 @@ fun OwnerUserDto.toOwnerUser(): OwnerUser {
 
 fun ProfileFieldDto.toProfileField(): ProfileField {
     return ProfileField(
-        renderedValue = renderedValue,
-        value = value
+        renderedValue = renderedValue?:"",
+        value = value?:""
     )
 }
 

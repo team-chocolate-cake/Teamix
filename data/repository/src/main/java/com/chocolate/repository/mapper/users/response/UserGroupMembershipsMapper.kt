@@ -1,8 +1,8 @@
 package com.chocolate.repository.mapper.users.response
 
-import com.chocolate.entities.user.respons.UserGroupMemberships
+import com.chocolate.entities.user.UserGroupMemberships
 import com.chocolate.repository.dto.users.response.UserGroupMembershipsDto
 
 fun UserGroupMembershipsDto.toUserGroupMemberships(): UserGroupMemberships {
-return UserGroupMemberships(members)
+return UserGroupMemberships(members?: emptyList())
 }

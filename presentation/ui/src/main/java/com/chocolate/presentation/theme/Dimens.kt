@@ -21,6 +21,7 @@ val Space80 = 80.dp
 //endregion
 
 //region Text Size Dimensions
+val TextSize11 = 11.sp
 val TextSize12 = 12.sp
 val TextSize14 = 14.sp
 val TextSize16 = 16.sp

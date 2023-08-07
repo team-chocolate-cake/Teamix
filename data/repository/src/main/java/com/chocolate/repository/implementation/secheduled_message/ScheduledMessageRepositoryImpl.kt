@@ -1,7 +1,7 @@
 package com.chocolate.repository.implementation.secheduled_message
 
 import com.chocolate.repository.implementation.BaseRepository
-import com.chocolate.repository.service.ScheduledMessageDataSource
+import com.chocolate.repository.service.remote.ScheduledMessageDataSource
 import repositories.scheduled_message.ScheduledMessageRepository
 import javax.inject.Inject
 

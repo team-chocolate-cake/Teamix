@@ -1,7 +1,7 @@
 package com.chocolate.teamix.di
 
 import com.chocolate.remote.AuthInterceptor
-import com.chocolate.remote.channels.ChannelsImpl
+import com.chocolate.remote.channels.implementation.remote.ChannelsImpl
 import com.chocolate.remote.channels.service.ChannelsService
 import com.chocolate.remote.drafts.DraftsMessagesImpl
 import com.chocolate.remote.drafts.service.DraftService
@@ -13,12 +13,12 @@ import com.chocolate.remote.server_and_organizations.OrganizationsImpl
 import com.chocolate.remote.server_and_organizations.service.OrganizationService
 import com.chocolate.remote.users.UsersImpl
 import com.chocolate.remote.users.service.UsersService
-import com.chocolate.repository.service.ChannelsDataSource
-import com.chocolate.repository.service.DraftMessageDataSource
-import com.chocolate.repository.service.MessagesDataSource
-import com.chocolate.repository.service.OrganizationDataSource
-import com.chocolate.repository.service.ScheduledMessageDataSource
-import com.chocolate.repository.service.UsersDataSource
+import com.chocolate.repository.service.remote.ChannelsDataSource
+import com.chocolate.repository.service.remote.DraftMessageDataSource
+import com.chocolate.repository.service.remote.MessagesDataSource
+import com.chocolate.repository.service.remote.OrganizationDataSource
+import com.chocolate.repository.service.remote.ScheduledMessageDataSource
+import com.chocolate.repository.service.remote.UsersDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,7 +55,6 @@ object NetworkModule {
     @Provides
     fun provideRetrofitBuilder(client: OkHttpClient, factory: GsonConverterFactory): Retrofit =
         Retrofit.Builder()
-            .baseUrl("")
             .client(client)
             .addConverterFactory(factory)
             .build()
@@ -93,46 +92,5 @@ object NetworkModule {
     @Provides
     fun provideOrganizationService(retrofit: Retrofit): OrganizationService =
         retrofit.create(OrganizationService::class.java)
-
-    @Singleton
-    @Provides
-    fun provideChannels(channelsService: ChannelsService): ChannelsDataSource {
-        return ChannelsImpl(channelsService)
-    }
-
-
-    @Singleton
-    @Provides
-    fun provideOrganization(organizationService: OrganizationService): OrganizationDataSource {
-        return OrganizationsImpl(organizationService)
-    }
-
-
-    @Singleton
-    @Provides
-    fun provideDraftsMessage(draftService: DraftService): DraftMessageDataSource {
-        return DraftsMessagesImpl(draftService)
-    }
-
-
-    @Singleton
-    @Provides
-    fun provideMessages(messageService: MessageService): MessagesDataSource {
-        return MessagesImpl(messageService)
-    }
-
-
-    @Singleton
-    @Provides
-    fun provideScheduledMessage(scheduledMessageService: ScheduledMessageService): ScheduledMessageDataSource {
-        return ScheduledMessageImpl(scheduledMessageService)
-    }
-
-
-    @Singleton
-    @Provides
-    fun provideUsers(usersService: UsersService): UsersDataSource {
-        return UsersImpl(usersService)
-    }
 
 }

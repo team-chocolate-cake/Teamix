@@ -7,5 +7,5 @@ interface StreamLocalDataSource {
 
     suspend fun getStreamById(id: String): StreamLocalDto?
 
-    suspend fun deleteStream(stream: StreamLocalDto)
+    suspend fun deleteStream(streamId: Int)
 }

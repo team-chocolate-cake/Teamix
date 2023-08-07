@@ -8,5 +8,5 @@ interface OrganizationsLocalDataSource {
 
     suspend fun getNameOrganizations(): List<OrganizationsLocalDto>
 
-    suspend fun deleteOrganizations(nameOrganizations: OrganizationsLocalDto)
+    suspend fun deleteOrganizations(nameOrganizations: String)
 }

@@ -14,7 +14,7 @@ interface DraftMessagesDao {
     @Query("SELECT * FROM DRAFT_TABLE WHERE id = :id")
     suspend fun getDraftById(id: String): DraftLocalDto?
 
-    @Query("DELETE FROM DRAFT_TABLE")
+    @Query("DELETE FROM DRAFT_TABLE WHERE id = :draftId")
     suspend fun deleteDraftMessage(draftId: Int)
 
 }

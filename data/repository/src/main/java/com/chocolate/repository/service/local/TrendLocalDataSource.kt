@@ -8,5 +8,5 @@ interface TrendLocalDataSource {
 
     suspend fun getTrendById(id: String): TrendsLocalDto?
 
-    suspend fun deleteSavedTrend(trend: TrendsLocalDto)
+    suspend fun deleteSavedTrend(trendId: Int)
 }

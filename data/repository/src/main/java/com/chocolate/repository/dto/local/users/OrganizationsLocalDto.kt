@@ -5,6 +5,6 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "TABLE_ORGANIZATIONS")
 data class OrganizationsLocalDto(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = false)
     val organizationName: String
 )

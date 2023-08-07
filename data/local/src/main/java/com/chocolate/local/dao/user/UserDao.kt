@@ -14,7 +14,7 @@ interface UserDao {
     @Query("SELECT * FROM story_table WHERE id = :id")
     suspend fun getStoryById(id: String): StoriesLocalDto?
 
-    @Query("DELETE FROM story_table")
-    suspend fun deleteSavedStory(story: StoriesLocalDto)
+    @Query("DELETE FROM story_table WHERE id = :storyId")
+    suspend fun deleteSavedStory(storyId: Int)
 
 }

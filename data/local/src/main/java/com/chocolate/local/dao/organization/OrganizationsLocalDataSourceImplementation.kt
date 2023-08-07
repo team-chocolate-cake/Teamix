@@ -15,7 +15,7 @@ class OrganizationsLocalDataSourceImplementation @Inject constructor(
         return organizationsDao.getNameOrganizations()
     }
 
-    override suspend fun deleteOrganizations(nameOrganizations: OrganizationsLocalDto) {
+    override suspend fun deleteOrganizations(nameOrganizations: String) {
         organizationsDao.deleteOrganizations(nameOrganizations)
     }
 }

@@ -15,7 +15,7 @@ class StreamLocalDataSourceImpl @Inject constructor(
         return streamDao.getStreamById(id)
     }
 
-    override suspend fun deleteStream(stream: StreamLocalDto) {
-        streamDao.deleteStream(stream)
+    override suspend fun deleteStream(streamId: Int) {
+        streamDao.deleteStream(streamId)
     }
 }

@@ -14,7 +14,7 @@ interface TrendDao {
     @Query("SELECT * FROM trend_table WHERE id = :id")
     suspend fun getTrendById(id: String): TrendsLocalDto?
 
-    @Query("DELETE FROM trend_table")
-    suspend fun deleteSavedTrend(trend: TrendsLocalDto)
+    @Query("DELETE FROM trend_table WHERE id = :trendId")
+    suspend fun deleteSavedTrend(trendId: Int)
 
 }

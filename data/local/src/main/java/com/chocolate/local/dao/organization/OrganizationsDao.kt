@@ -14,7 +14,7 @@ interface OrganizationsDao {
     @Query("SELECT * FROM TABLE_ORGANIZATIONS")
     suspend fun getNameOrganizations(): List<OrganizationsLocalDto>
 
-    @Query("DELETE FROM TABLE_ORGANIZATIONS")
-    suspend fun deleteOrganizations(nameOrganizations: OrganizationsLocalDto)
+    @Query("DELETE FROM TABLE_ORGANIZATIONS  WHERE organizationName = :nameOrganizations")
+    suspend fun deleteOrganizations(nameOrganizations: String)
 
 }

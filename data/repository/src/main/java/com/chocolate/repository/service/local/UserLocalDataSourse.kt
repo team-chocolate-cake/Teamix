@@ -7,5 +7,5 @@ interface UserLocalDataSource {
 
     suspend fun getStoryById(id: String): StoriesLocalDto?
 
-    suspend fun deleteSavedStory(story: StoriesLocalDto)
+    suspend fun deleteSavedStory(storyId: Int)
 }

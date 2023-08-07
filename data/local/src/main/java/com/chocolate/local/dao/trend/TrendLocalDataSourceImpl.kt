@@ -15,8 +15,8 @@ class TrendLocalDataSourceImpl @Inject constructor(
         return trendDao.getTrendById(id)
     }
 
-    override suspend fun deleteSavedTrend(trend: TrendsLocalDto) {
-        trendDao.deleteSavedTrend(trend)
+    override suspend fun deleteSavedTrend(trendId: Int) {
+        trendDao.deleteSavedTrend(trendId)
     }
 
 }

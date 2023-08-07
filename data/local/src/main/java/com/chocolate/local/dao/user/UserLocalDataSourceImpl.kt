@@ -15,7 +15,7 @@ class UserLocalDataSourceImpl @Inject constructor(
         return userDao.getStoryById(id)
     }
 
-    override suspend fun deleteSavedStory(story: StoriesLocalDto) {
-        userDao.deleteSavedStory(story)
+    override suspend fun deleteSavedStory(storyId: Int) {
+        userDao.deleteSavedStory(storyId)
     }
 }

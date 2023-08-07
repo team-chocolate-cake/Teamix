@@ -14,7 +14,7 @@ interface StreamDao {
     @Query("SELECT * FROM stream_table WHERE id = :id")
     suspend fun getStreamById(id: String): StreamLocalDto?
 
-    @Query("DELETE FROM stream_table")
-    suspend fun deleteStream(stream: StreamLocalDto)
+    @Query("DELETE FROM stream_table WHERE id = :streamId")
+    suspend fun deleteStream(streamId: Int)
 
 }

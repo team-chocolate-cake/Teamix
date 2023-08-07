@@ -16,7 +16,7 @@ import com.chocolate.presentation.theme.Typography
 
 @Composable
 fun PagerScreen(
-    onBoardingPage: OnBoardingPage
+    onBoardingPage: OnboardingPage
 ) {
     Column(Modifier.fillMaxSize()) {
         FitImage(
@@ -44,16 +44,16 @@ fun PagerScreen(
 @Preview
 @Composable
 fun OnboardingOne() {
-    PagerScreen(OnBoardingPage.First)
+    PagerScreen(OnboardingPage.First)
 }
 @Preview
 @Composable
 fun OnboardingTwo() {
-    PagerScreen(OnBoardingPage.Second)
+    PagerScreen(OnboardingPage.Second)
 }
 
 @Preview
 @Composable
 fun OnboardingThree() {
-    PagerScreen(OnBoardingPage.Third)
+    PagerScreen(OnboardingPage.Third)
 }

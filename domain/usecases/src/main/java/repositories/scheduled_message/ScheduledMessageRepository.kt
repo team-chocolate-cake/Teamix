@@ -1,7 +1,9 @@
 package repositories.scheduled_message
 
+import com.chocolate.entities.scheduled_messages.ScheduledMessages
+
 interface ScheduledMessageRepository {
-    suspend fun getScheduledMessages()
+    suspend fun getScheduledMessages():ScheduledMessages
 
     suspend fun createScheduledMessage()
 

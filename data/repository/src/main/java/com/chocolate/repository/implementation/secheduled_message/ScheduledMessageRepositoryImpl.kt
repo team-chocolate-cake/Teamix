@@ -9,18 +9,18 @@ class ScheduledMessageRepositoryImpl @Inject constructor(
     private val scheduledMessageDataSource: ScheduledMessageDataSource
 ): ScheduledMessageRepository, BaseRepository() {
     override suspend fun getScheduledMessages() {
-        TODO("Not yet implemented")
+        return wrapApiCall { scheduledMessageDataSource.getScheduledMessages() }
     }
 
     override suspend fun createScheduledMessage() {
-        TODO("Not yet implemented")
+
     }
 
     override suspend fun editScheduledMessage() {
-        TODO("Not yet implemented")
+
     }
 
     override suspend fun deleteScheduledMessage() {
-        TODO("Not yet implemented")
+
     }
 }

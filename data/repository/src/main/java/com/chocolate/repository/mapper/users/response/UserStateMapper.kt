@@ -1,4 +1,4 @@
-package com.chocolate.repository.mapper.users
+package com.chocolate.repository.mapper.users.response
 
 import com.chocolate.entities.user.respons.Aggregated
 import com.chocolate.entities.user.respons.Presence

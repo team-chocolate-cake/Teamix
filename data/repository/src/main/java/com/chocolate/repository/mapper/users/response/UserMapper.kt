@@ -1,24 +1,20 @@
-package com.chocolate.repository.mapper.users
+package com.chocolate.repository.mapper.users.response
 
-import com.chocolate.entities.user.respons.Member
 import com.chocolate.entities.user.respons.User
 import com.chocolate.entities.user.respons.UserDetails
-import com.chocolate.entities.user.respons.Users
-import com.chocolate.repository.dto.users.response.MemberDto
 import com.chocolate.repository.dto.users.response.UserDetailsDto
 import com.chocolate.repository.dto.users.response.UserDto
-import com.chocolate.repository.dto.users.response.UsersDto
 
-fun UsersDto.toUsers(): Users {
-    return Users(
-        member=memberDto?.map { it?.toMember() }
+fun UserDto.toUser(): User {
+    return User(
+        userDetails= userDetailsDto!!.toUserDetails()
     )
 }
 
 
-fun MemberDto.toMember(): Member {
+fun UserDetailsDto.toUserDetails(): UserDetails {
 
-    return  Member(
+    return  UserDetails(
         avatarUrl=avatarUrl,
         avatarVersion=avatarVersion,
         dateJoined=dateJoined,
@@ -33,10 +29,6 @@ fun MemberDto.toMember(): Member {
         isOwner=isOwner,
         role=role,
         timezone=timezone,
-        userId=userId,
-        botOwnerId =botOwnerId ,
-        botType = botType,
-
-    )
+        userId=userId)
 
 }

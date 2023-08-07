@@ -1,4 +1,4 @@
-package com.chocolate.repository.mapper.users
+package com.chocolate.repository.mapper.users.response
 
 import com.chocolate.entities.user.respons.Attachment
 import com.chocolate.entities.user.respons.Message

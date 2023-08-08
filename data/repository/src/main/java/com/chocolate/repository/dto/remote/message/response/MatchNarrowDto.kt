@@ -2,9 +2,9 @@ package com.chocolate.repository.dto.remote.message.response
 
 import com.google.gson.annotations.SerializedName
 
-data class MatchNarrowRemoteDto(
+data class MatchNarrowDto(
     @SerializedName("messages")
-    val messages: com.chocolate.repository.dto.remote.message.response.Messages?,
+    val messages: MessagesDto?,
     @SerializedName("msg")
     val msg: String?,
     @SerializedName("result")

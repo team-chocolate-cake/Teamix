@@ -2,7 +2,7 @@ package com.chocolate.repository.dto.remote.message.response
 
 import com.google.gson.annotations.SerializedName
 
-data class DisplayRecipient(
+data class DisplayRecipientDto(
     @SerializedName("email")
     val email: String?,
     @SerializedName("full_name")

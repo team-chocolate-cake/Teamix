@@ -2,11 +2,11 @@ package com.chocolate.repository.dto.remote.message.response
 
 import com.google.gson.annotations.SerializedName
 
-data class RenderMessageRemoteDto(
+data class MessageReadReceiptsDto(
     @SerializedName("msg")
     val message: String?,
-    @SerializedName("rendered")
-    val rendered: String?,
     @SerializedName("result")
-    val result: String?
+    val result: String?,
+    @SerializedName("user_ids")
+    val userIds: List<Int>?
 )

@@ -1,10 +1,10 @@
-package com.chocolate.repository.scheduled.mappers
+package com.chocolate.repository.mappers.scheduled
 
 import com.chocolate.entities.scheduled_messages.ScheduledMessageContent
 import com.chocolate.entities.scheduled_messages.ScheduledMessages
 import com.chocolate.repository.dto.remote.scheduled_message.response.ScheduledMessagesDto
 
-fun ScheduledMessagesDto.toEntity(): ScheduledMessages {
+fun ScheduledMessagesDto.toScheduledMessages(): ScheduledMessages {
     val scheduledMessageContents = scheduledMessages?.map { scheduledMessageContentDto ->
         ScheduledMessageContent(
             content = scheduledMessageContentDto?.content ?: "",

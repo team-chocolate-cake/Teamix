@@ -61,5 +61,9 @@ val ButtonSize18 = 18.dp
 val ButtonSize24 = 24.dp
 //endregion
 
+// region text Field height
+val TextFieldHeight48 = 48.dp
+//endregion
+
 
 

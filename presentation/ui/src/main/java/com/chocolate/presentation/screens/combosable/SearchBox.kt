@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.combosable
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.IconSize16
 import com.chocolate.presentation.theme.Radius12
+import com.chocolate.presentation.theme.TextFieldHeight48
 import com.chocolate.presentation.theme.customColors
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,12 +37,12 @@ fun SearchBox(
     TextField(
         shape = RoundedCornerShape(Radius12),
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth().height(TextFieldHeight48),
         textStyle = MaterialTheme.typography.bodySmall,
         singleLine = true,
         value = text,
         onValueChange = { text = it },
-        placeholder = { Text(text = hint, style = MaterialTheme.typography.bodySmall) },
+        placeholder = { Text(text = hint, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.customColors().onBackground38) },
         leadingIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.ic_search),

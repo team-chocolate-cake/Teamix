@@ -33,7 +33,6 @@ private fun MessageSearchContent(
 ) {
     val colors = MaterialTheme.customColors()
 
-    TeamixTheme {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -57,4 +56,3 @@ private fun MessageSearchContent(
             }
         }
     }
-}

@@ -43,7 +43,6 @@ fun AddMemberContent(
     val colors = MaterialTheme.customColors()
     val typography = MaterialTheme.typography
 
-    TeamixTheme {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -89,7 +88,5 @@ fun AddMemberContent(
             }
 
         }
-
-    }
 }
 

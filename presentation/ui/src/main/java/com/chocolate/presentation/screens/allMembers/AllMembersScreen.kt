@@ -34,8 +34,7 @@ private fun AllMembersContent(
 ) {
     val colors = MaterialTheme.customColors()
 
-    TeamixTheme {
-        Column(
+    Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(color = colors.background)
@@ -56,5 +55,4 @@ private fun AllMembersContent(
             }
         }
     }
-}
 

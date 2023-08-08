@@ -50,7 +50,6 @@ private fun PinnedMessageContent(
 ) {
     val colors = MaterialTheme.customColors()
 
-    TeamixTheme {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -93,7 +92,6 @@ private fun PinnedMessageContent(
             }
         }
     }
-}
 
 @Composable
 private fun SwipeBackground() {

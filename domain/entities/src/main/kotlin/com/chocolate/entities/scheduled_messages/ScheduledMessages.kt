@@ -1,7 +1,7 @@
 package com.chocolate.entities.scheduled_messages
 
 data class ScheduledMessages(
-    val scheduledMessages: List<ScheduledMessageContent?>?
+    val scheduledMessages: List<ScheduledMessageContent>
 )
 data class ScheduledMessageContent(
     val content: String,

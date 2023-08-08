@@ -21,6 +21,7 @@ val Space80 = 80.dp
 //endregion
 
 //region Text Size Dimensions
+val TextSize11 = 11.sp
 val TextSize12 = 12.sp
 val TextSize14 = 14.sp
 val TextSize16 = 16.sp
@@ -42,8 +43,27 @@ val Border1 = 1.dp
 
 
 // region Radius Dimensions
+val Radius12 = 12.dp
 val Radius16 = 16.dp
 val Radius24 = 24.dp
 //endregion
+
+// region Icon Size
+val IconSize16 = 16.dp
+//endregion
+
+// region Image Size
+val ImageSize40 = 40.dp
+//endregion
+
+// region Button Size
+val ButtonSize18 = 18.dp
+val ButtonSize24 = 24.dp
+//endregion
+
+// region text Field height
+val TextFieldHeight48 = 48.dp
+//endregion
+
 
 

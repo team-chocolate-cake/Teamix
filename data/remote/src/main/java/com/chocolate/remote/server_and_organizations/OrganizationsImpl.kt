@@ -1,13 +1,13 @@
 package com.chocolate.remote.server_and_organizations
 
 import com.chocolate.remote.server_and_organizations.service.OrganizationService
-import com.chocolate.repository.dto.server_and_organizations.response.CustomEmojiDto
-import com.chocolate.repository.dto.server_and_organizations.response.CustomProfileFieldsDto
-import com.chocolate.repository.dto.server_and_organizations.response.DefaultOrganizationDto
-import com.chocolate.repository.dto.server_and_organizations.response.LinkifiersDto
-import com.chocolate.repository.dto.server_and_organizations.response.ServerSettingsDto
+import com.chocolate.repository.dto.remote.server_and_organizations.response.CustomEmojiDto
+import com.chocolate.repository.dto.remote.server_and_organizations.response.CustomProfileFieldsDto
+import com.chocolate.repository.dto.remote.server_and_organizations.response.DefaultOrganizationDto
+import com.chocolate.repository.dto.remote.server_and_organizations.response.LinkifiersDto
+import com.chocolate.repository.dto.remote.server_and_organizations.response.ServerSettingsDto
 import com.chocolate.repository.implementation.BaseRepository
-import com.chocolate.repository.service.OrganizationDataSource
+import com.chocolate.repository.service.remote.OrganizationDataSource
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -15,18 +15,18 @@ class OrganizationsImpl @Inject constructor(
     private val organizationService: OrganizationService
 ): OrganizationDataSource, BaseRepository() {
     override suspend fun getServerSettings(): Response<ServerSettingsDto> {
-        TODO("Not yet implemented")
+        return organizationService.getServerSettings()
     }
 
     override suspend fun getLinkifiers(): Response<LinkifiersDto> {
-        TODO("Not yet implemented")
+        return organizationService.getLinkifiers()
     }
 
     override suspend fun addLinkifiers(
         pattern: String,
         url: String
     ): Response<DefaultOrganizationDto> {
-        TODO("Not yet implemented")
+        return organizationService.addLinkifiers(pattern, url)
     }
 
     override suspend fun updateLinkifiers(
@@ -34,11 +34,12 @@ class OrganizationsImpl @Inject constructor(
         pattern: String,
         url: String
     ): Response<DefaultOrganizationDto> {
-        TODO("Not yet implemented")
+        return organizationService.updateLinkifiers(filterId, pattern, url)
     }
 
     override suspend fun deleteLinkifiers(filterId: Int): Response<DefaultOrganizationDto> {
-        TODO("Not yet implemented")
+        return organizationService.deleteLinkifiers(filterId)
+
     }
 
     override suspend fun addCodePlayGround(
@@ -46,31 +47,31 @@ class OrganizationsImpl @Inject constructor(
         language: String,
         url: String
     ): Response<DefaultOrganizationDto> {
-        TODO("Not yet implemented")
+        return organizationService.addCodePlayGround(name, language, url)
     }
 
     override suspend fun deleteCodePlayground(playGroundId: Int): Response<DefaultOrganizationDto> {
-        TODO("Not yet implemented")
+        return organizationService.deleteCodePlayground(playGroundId)
     }
 
     override suspend fun getAllCustomEmojis(): Response<CustomEmojiDto> {
-        TODO("Not yet implemented")
+        return organizationService.getAllCustomEmojis()
     }
 
     override suspend fun addCustomEmoji(emojiName: String): Response<DefaultOrganizationDto> {
-        TODO("Not yet implemented")
+        return organizationService.addCustomEmoji(emojiName)
     }
 
     override suspend fun deactivateCustomEmoji(emojiName: String): Response<DefaultOrganizationDto> {
-        TODO("Not yet implemented")
+        return organizationService.deactivateCustomEmoji(emojiName)
     }
 
     override suspend fun getAllCustomProfileFields(): Response<CustomProfileFieldsDto> {
-        TODO("Not yet implemented")
+        return organizationService.getAllCustomProfileFields()
     }
 
     override suspend fun reorderCustomProfileFields(order: String): Response<DefaultOrganizationDto> {
-        TODO("Not yet implemented")
+        return organizationService.reorderCustomProfileFields(order)
     }
 
     override suspend fun createCustomProfileField(
@@ -78,6 +79,6 @@ class OrganizationsImpl @Inject constructor(
         hint: String,
         fieldType: Int
     ): Response<DefaultOrganizationDto> {
-        TODO("Not yet implemented")
+        return organizationService.createCustomProfileField(name, hint, fieldType)
     }
 }

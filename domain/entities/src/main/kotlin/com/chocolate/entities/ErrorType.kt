@@ -1,15 +1,16 @@
 package com.chocolate.entities
 
-sealed class ErrorType(message: String) : Throwable(message) {
+open class TeamixException(message: String?) : Exception(message)
 
-    class Network(message: String) : ErrorType(message)
-    class NoConnection(message: String) : ErrorType(message)
-    class UnAuthorized(message: String) : ErrorType(message)
+open class NetworkException(message: String?) : TeamixException(message)
+class NoConnectionException(message: String?) : NetworkException(message)
 
-    class UserDeactivated(message: String) : ErrorType(message)
-    class RateLimitExceeded(message: String) : ErrorType(message)
+open class ServerException(message: String?) : TeamixException(message)
+class UnAuthorizedException(message: String?) : ServerException(message)
+class UserDeactivatedException(message: String?) : ServerException(message)
+class RateLimitExceededException(message: String?) : ServerException(message)
 
-    class Unknown(message: String) : ErrorType(message)
+class UnknownException(message: String) : TeamixException(message)
 
 
-}
+

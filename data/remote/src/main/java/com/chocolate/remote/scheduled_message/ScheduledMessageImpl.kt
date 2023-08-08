@@ -1,9 +1,9 @@
 package com.chocolate.remote.scheduled_message
 
 import com.chocolate.remote.scheduled_message.service.ScheduledMessageService
-import com.chocolate.repository.dto.scheduled_message.response.BaseScheduledMessageResponse
-import com.chocolate.repository.dto.scheduled_message.response.ScheduledMessagesDto
-import com.chocolate.repository.service.ScheduledMessageDataSource
+import com.chocolate.repository.dto.remote.scheduled_message.response.BaseScheduledMessageResponse
+import com.chocolate.repository.dto.remote.scheduled_message.response.ScheduledMessagesDto
+import com.chocolate.repository.service.remote.ScheduledMessageDataSource
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -11,7 +11,7 @@ class ScheduledMessageImpl @Inject constructor(
     private val scheduledMessageService: ScheduledMessageService
 ): ScheduledMessageDataSource {
     override suspend fun getScheduledMessages(): Response<ScheduledMessagesDto> {
-        TODO("Not yet implemented")
+        return scheduledMessageService.getScheduledMessages()
     }
 
     override suspend fun createScheduledMessage(
@@ -21,7 +21,7 @@ class ScheduledMessageImpl @Inject constructor(
         topic: String,
         scheduledDeliveryTimestamp: Long
     ): Response<BaseScheduledMessageResponse> {
-        TODO("Not yet implemented")
+        return scheduledMessageService.createScheduledMessage(type, to, content, topic, scheduledDeliveryTimestamp)
     }
 
     override suspend fun editScheduledMessage(
@@ -32,10 +32,10 @@ class ScheduledMessageImpl @Inject constructor(
         topic: String?,
         scheduledDeliveryTimestamp: Long?
     ): Response<BaseScheduledMessageResponse> {
-        TODO("Not yet implemented")
+        return scheduledMessageService.editScheduledMessage(id, type, to, content, topic, scheduledDeliveryTimestamp)
     }
 
     override suspend fun deleteScheduledMessage(id: Int): Response<BaseScheduledMessageResponse> {
-        TODO("Not yet implemented")
+        return scheduledMessageService.deleteScheduledMessage(id)
     }
 }

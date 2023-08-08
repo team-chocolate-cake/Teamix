@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Teamix</string>
+    <string name="search">Search</string>
+    <string name="suggested">Suggested</string>
     <string name="arrow_back">Arrow Back</string>
     <string name="mentions">Mentions</string>
 </resources>

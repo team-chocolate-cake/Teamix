@@ -11,7 +11,7 @@ class ScheduledMessageImpl @Inject constructor(
     private val scheduledMessageService: ScheduledMessageService
 ): ScheduledMessageDataSource {
     override suspend fun getScheduledMessages(): Response<ScheduledMessagesDto> {
-        TODO("Not yet implemented")
+        return scheduledMessageService.getScheduledMessages()
     }
 
     override suspend fun createScheduledMessage(
@@ -21,7 +21,7 @@ class ScheduledMessageImpl @Inject constructor(
         topic: String,
         scheduledDeliveryTimestamp: Long
     ): Response<BaseScheduledMessageResponse> {
-        TODO("Not yet implemented")
+        return scheduledMessageService.createScheduledMessage(type, to, content, topic, scheduledDeliveryTimestamp)
     }
 
     override suspend fun editScheduledMessage(
@@ -32,10 +32,10 @@ class ScheduledMessageImpl @Inject constructor(
         topic: String?,
         scheduledDeliveryTimestamp: Long?
     ): Response<BaseScheduledMessageResponse> {
-        TODO("Not yet implemented")
+        return scheduledMessageService.editScheduledMessage(id, type, to, content, topic, scheduledDeliveryTimestamp)
     }
 
     override suspend fun deleteScheduledMessage(id: Int): Response<BaseScheduledMessageResponse> {
-        TODO("Not yet implemented")
+        return scheduledMessageService.deleteScheduledMessage(id)
     }
 }

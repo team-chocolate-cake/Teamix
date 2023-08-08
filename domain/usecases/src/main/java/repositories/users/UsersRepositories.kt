@@ -16,42 +16,42 @@ import com.chocolate.entities.user.UserState
 import com.chocolate.entities.user.Users
 import com.chocolate.entities.user.UsersState
 
-interface UsersRepositories {
+interface UsersRepositories{
 
     suspend fun getAllUsers(
-        clientGravatar: Boolean = true,
-        includeCustomProfileFields: Boolean = false
+        clientGravatar: Boolean,
+        includeCustomProfileFields: Boolean
     ): Users
 
     suspend fun getOwnUser(): OwnerUser
 
     suspend fun getUserById(
-        userId: Int=635418,
-        clientGravatar: Boolean = true,
-        includeCustomProfileFields: Boolean = false
+        userId: Int,
+        clientGravatar: Boolean ,
+        includeCustomProfileFields: Boolean
     ): User
 
 
 
     suspend fun getUserByEmail(
-        email: String="user635418@chocolate-cake.zulipchat.com",
-        clientGravatar: Boolean = true,
-        includeCustomProfileFields: Boolean = false
+        email: String,
+        clientGravatar: Boolean ,
+        includeCustomProfileFields: Boolean
     ): User
     //This endpoint is only available to organization administrators.
     suspend fun updateUserById(
-        id: Int=635418,
-        fullName: String? = null,
-        role: Int? = null,
-        profileData: List<ProfileData>? = null
+        id: Int,
+        fullName: String,
+        role: Int,
+        profileData: List<ProfileData>
     )
 
     suspend fun updateUserStatus(
-        statusText: String? = "good",
-        away: Boolean? = null,
-        emojiName: String? = null,
-        emojiCode: String? = null,
-        reactionType: String? = null
+        statusText: String,
+        away: Boolean ,
+        emojiName: String,
+        emojiCode: String ,
+        reactionType: String
     )
 
     //This endpoint is only available to organization administrators.
@@ -67,11 +67,13 @@ interface UsersRepositories {
 
     suspend fun deactivateOwnUserAccount()
 
+
+    // change type of "to" to List of Integer
     suspend fun setTypingStatus(
         op: String,
         to: String,
-        type: String? = "direct",
-        topic: String? = null
+        type: String,
+        topic: String
     )
 
     suspend fun getUserPresence(email: String): UserState
@@ -82,10 +84,13 @@ interface UsersRepositories {
 
     suspend fun deleteAttachment(attachmentId: Int)
 
+    //need to review
     suspend fun updateSettings(settings: SettingsRequest): UserSettings
 
     suspend fun getUserGroups(): UserGroups
 
+    // change type of "members" to List of Integer
+    //    "msg": "Insufficient permission",
     suspend fun createUserGroup(
         name: String,
         description: String,

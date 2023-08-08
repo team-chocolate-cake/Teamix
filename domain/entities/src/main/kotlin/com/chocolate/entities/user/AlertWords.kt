@@ -1,6 +1,4 @@
 package com.chocolate.entities.user
 
 data class AlertWords(
-    val alertWords: List<String>,
-
-)
+    val alertWords: List<String>,)

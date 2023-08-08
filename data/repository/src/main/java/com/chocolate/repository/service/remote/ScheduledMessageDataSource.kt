@@ -13,7 +13,7 @@ interface ScheduledMessageDataSource {
         to: Any,
         content: String,
         topic: String,
-        scheduledDeliveryTimestamp: Long,
+        scheduledDeliveryTimestamp: Long
     ): Response<BaseScheduledMessageResponse>
 
     suspend fun editScheduledMessage(
@@ -22,7 +22,7 @@ interface ScheduledMessageDataSource {
         to: Any? = null,
         content: String? = null,
         topic: String? = null,
-        scheduledDeliveryTimestamp: Long? = null,
+        scheduledDeliveryTimestamp: Long? = null
     ): Response<BaseScheduledMessageResponse>
 
     suspend fun deleteScheduledMessage(id: Int): Response<BaseScheduledMessageResponse>

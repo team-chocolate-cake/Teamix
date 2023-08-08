@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class Messages(
     @SerializedName("message_id")
-    val messageId: com.chocolate.repository.dto.remote.message.response.MessageId?
+    val messageId: MessageId?
 )

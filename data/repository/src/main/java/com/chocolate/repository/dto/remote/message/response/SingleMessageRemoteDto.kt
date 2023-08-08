@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class SingleMessageRemoteDto(
     @SerializedName("message")
-    val message: Message?,
+    val message: MessageDto?,
     @SerializedName("msg")
     val msg: String?,
     @SerializedName("raw_content")

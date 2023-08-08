@@ -75,4 +75,6 @@ object DependencyProject {
 
     const val composeFoundation = "androidx.compose.foundation:foundation:$COMPOSE_FOUNDATION_VERSION"
 
+    const val encryptedSharedPreference = "androidx.security:security-crypto:1.1.0-alpha06"
+
 }

@@ -14,4 +14,8 @@
     <string name="title_subtitle">By leaving the channel, you will no longer receive updates or messages from this channel</string>
     <string name="na">NA</string>
     <string name="channels">Channels</string>
+    <string name="search">Search</string>
+    <string name="suggested">Suggested</string>
+    <string name="arrow_back">Arrow Back</string>
+    <string name="mentions">Mentions</string>
 </resources>

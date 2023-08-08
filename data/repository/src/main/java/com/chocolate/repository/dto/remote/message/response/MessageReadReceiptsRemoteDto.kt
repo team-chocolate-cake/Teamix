@@ -8,5 +8,5 @@ data class MessageReadReceiptsRemoteDto(
     @SerializedName("result")
     val result: String?,
     @SerializedName("user_ids")
-    val userIds: List<Int?>?
+    val userIds: List<Int>?
 )

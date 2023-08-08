@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         setContent {
             TeamixTheme {
-
+                SetUpNavGraph()
             }
         }
     }

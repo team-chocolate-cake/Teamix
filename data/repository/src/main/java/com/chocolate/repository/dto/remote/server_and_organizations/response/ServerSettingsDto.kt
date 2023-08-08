@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName
 
 data class ServerSettingsDto(
     @SerializedName("authentication_methods")
-    val authenticationMethods: AuthenticationMethods?,
+    val authenticationMethodsDto: AuthenticationMethodsDto?,
     @SerializedName("email_auth_enabled")
     val emailAuthEnabled: Boolean?,
     @SerializedName("external_authentication_methods")
-    val externalAuthenticationMethods: List<ExternalAuthenticationMethod>?,
+    val externalAuthenticationMethodDtos: List<ExternalAuthenticationMethodDto>?,
     @SerializedName("is_incompatible")
     val isIncompatible: Boolean?,
     @SerializedName("msg")

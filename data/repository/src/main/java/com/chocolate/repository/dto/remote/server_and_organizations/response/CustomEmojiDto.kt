@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class CustomEmojiDto(
     @SerializedName("emoji")
-    val emoji: Map<String, Emoji>?,
+    val emojiDto: Map<String, EmojiDto>?,
     @SerializedName("msg")
     val message: String,
     @SerializedName("result")

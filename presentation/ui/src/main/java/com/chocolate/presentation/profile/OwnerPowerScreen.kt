@@ -48,50 +48,41 @@ fun OwnerPowerScreen() {
 fun OwnerPowerContent() {
     TeamixTheme {
         val color = MaterialTheme.customColors()
-        var showDialog by remember {
-            mutableStateOf(false)
-        }
-        var organizationImageSheet by remember {
-            mutableStateOf(false)
-        }
-
-        var organizationNameSheet by remember {
-            mutableStateOf(false)
-        }
-        var channelName by remember {
-            mutableStateOf(false)
-        }
+        var showDialog by remember { mutableStateOf(false) }
+        var organizationImageSheet by remember { mutableStateOf(false) }
+        var organizationNameSheet by remember { mutableStateOf(false) }
+        var channelNameSheet by remember { mutableStateOf(false) }
 
 
         if (showDialog) {
-            MultiChoiceDialog(onClick = { showDialog = false }, list = listOf("Guest", "Member", "Administrator", "Owner"))
+            MultiChoiceDialog(
+                onClick = { showDialog = false },
+                list = listOf("Guest", "Member", "Administrator", "Owner")
+            )
         }
-
         if (organizationNameSheet) {
-
-            OrganizationNameSheet(onClick = { organizationNameSheet = false}, color =color )
+            OrganizationNameSheet(onClick = { organizationNameSheet = false }, color = color)
         }
-
-        if (channelName) {
-
-            ChannelNameSheet(onClick = { channelName = false }, color = color)
+        if (channelNameSheet) {
+            ChannelNameSheet(onClick = { channelNameSheet = false }, color = color)
         }
-
-
         if (organizationImageSheet) {
-
-           OrganizationImageSheet(onClick = { organizationImageSheet = false }, color =color )
+            OrganizationImageSheet(onClick = { organizationImageSheet = false }, color = color)
         }
-
         Scaffold(
             topBar = {
                 TopAppBar(title = {
-                    Text(text="Owner Powers", style = MaterialTheme.typography.titleMedium
-                    ,color=color.onBackground87)
-                },navigationIcon={ Image(
-                    painter = painterResource(id = R.drawable.alt_arrow_left),
-                    contentDescription = null
-                )},colors= TopAppBarDefaults.topAppBarColors(color.onPrimary))
+                    Text(
+                        text = "Owner Powers",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = color.onBackground87
+                    )
+                }, navigationIcon = {
+                    Image(
+                        painter = painterResource(id = R.drawable.alt_arrow_left),
+                        contentDescription = null
+                    )
+                }, colors = TopAppBarDefaults.topAppBarColors(color.onPrimary))
             }
         ) {
             LazyColumn(
@@ -131,11 +122,8 @@ fun OwnerPowerContent() {
                                 icon = painterResource(id = R.drawable.organizationimage)
                             )
                         }
-
                     }
-
                 }
-
                 item {
                     Text(
                         text = "Permissions & Roles", style = MaterialTheme.typography.bodyLarge,
@@ -174,11 +162,8 @@ fun OwnerPowerContent() {
                                 icon = painterResource(id = R.drawable.mentions)
                             )
                         }
-
                     }
-
                 }
-
                 item {
                     Text(
                         text = "Channel", style = MaterialTheme.typography.bodyLarge,
@@ -194,7 +179,7 @@ fun OwnerPowerContent() {
                     ) {
                         Column {
                             SettingCard(
-                                click = { channelName = true },
+                                click = { channelNameSheet = true },
                                 text = "Create Channel",
                                 icon = painterResource(id = R.drawable.channel)
                             )
@@ -206,18 +191,10 @@ fun OwnerPowerContent() {
                                 textColor = color.red
                             )
                         }
-
                     }
-
                 }
-
-
             }
-
-
         }
-
-
     }
 }
 

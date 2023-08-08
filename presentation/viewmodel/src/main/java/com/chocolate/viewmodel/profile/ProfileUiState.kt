@@ -1,12 +1,14 @@
 package com.chocolate.viewmodel.profile
 
 data class ProfileUiState(
-    val image:String,
-    val name:String,
-    val job:String,
-    val team:String,
-    val number:String,
-    val status:String,
+    val image:String="",
+    val name:String="name",
+    val job:String="job",
+    val team:String="team",
+    val number:String="number",
+    val status:String="status",
+    val isLoading:Boolean=false,
+    val error:List<String>?=null
 )
 data class SettingUiState(
     val showLanguageDialog:Boolean,

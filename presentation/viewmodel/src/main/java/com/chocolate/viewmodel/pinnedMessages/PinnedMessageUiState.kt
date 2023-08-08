@@ -1,6 +1,6 @@
-package com.chocolate.presentation.screens.pinnedMessages
+package com.chocolate.viewmodel.pinnedMessages
 
-import com.chocolate.presentation.base.BaseErrorUiState
+import com.chocolate.viewmodel.base.BaseErrorUiState
 
 data class PinnedMessagesUiState(
     val messages: List<MessageItemUiState> = emptyList(),

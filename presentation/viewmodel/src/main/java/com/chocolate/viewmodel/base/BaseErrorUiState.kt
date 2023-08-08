@@ -1,4 +1,4 @@
-package com.chocolate.presentation.base
+package com.chocolate.viewmodel.base
 
 data class BaseErrorUiState(
     val message: String = "",

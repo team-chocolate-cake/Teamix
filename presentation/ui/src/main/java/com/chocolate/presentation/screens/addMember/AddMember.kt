@@ -18,13 +18,14 @@ import androidx.compose.ui.res.stringResource
 import com.chocolate.presentation.R
 import com.chocolate.presentation.screens.addMember.composable.CancelableRectangularProfileItem
 import com.chocolate.presentation.screens.addMemberUiState
-import com.chocolate.presentation.screens.combosables.PersonCardWithDetails
-import com.chocolate.presentation.screens.combosables.SearchBox
+import com.chocolate.presentation.screens.combosable.PersonCardWithDetails
+import com.chocolate.presentation.screens.combosable.SearchBox
 import com.chocolate.presentation.theme.Border1
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.viewmodel.addMember.AddMemberUiState
 
 @Composable
 fun AddMemberScreen(

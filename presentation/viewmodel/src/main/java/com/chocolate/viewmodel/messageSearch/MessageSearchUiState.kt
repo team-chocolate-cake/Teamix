@@ -1,7 +1,7 @@
-package com.chocolate.presentation.screens.messageSearch
+package com.chocolate.viewmodel.messageSearch
 
-import com.chocolate.presentation.base.BaseErrorUiState
-import com.chocolate.presentation.screens.pinnedMessages.MessageItemUiState
+import com.chocolate.viewmodel.base.BaseErrorUiState
+import com.chocolate.viewmodel.pinnedMessages.MessageItemUiState
 
 data class MessageSearchUiState(
     val searchInput: String = "",

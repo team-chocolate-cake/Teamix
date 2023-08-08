@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.combosables
+package com.chocolate.presentation.screens.combosable
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image

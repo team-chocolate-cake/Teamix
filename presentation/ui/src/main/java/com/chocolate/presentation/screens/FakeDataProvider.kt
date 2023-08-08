@@ -1,12 +1,12 @@
 package com.chocolate.presentation.screens
 
-import com.chocolate.presentation.screens.addMember.AddMemberUiState
-import com.chocolate.presentation.screens.addMember.SuggestedMemberItemUiState
-import com.chocolate.presentation.screens.allMembers.AllMembersUiState
-import com.chocolate.presentation.screens.allMembers.MemberItemUiState
-import com.chocolate.presentation.screens.messageSearch.MessageSearchUiState
-import com.chocolate.presentation.screens.pinnedMessages.MessageItemUiState
-import com.chocolate.presentation.screens.pinnedMessages.PinnedMessagesUiState
+import com.chocolate.viewmodel.addMember.AddMemberUiState
+import com.chocolate.viewmodel.addMember.SuggestedMemberItemUiState
+import com.chocolate.viewmodel.allMembers.AllMembersUiState
+import com.chocolate.viewmodel.allMembers.MemberItemUiState
+import com.chocolate.viewmodel.messageSearch.MessageSearchUiState
+import com.chocolate.viewmodel.pinnedMessages.MessageItemUiState
+import com.chocolate.viewmodel.pinnedMessages.PinnedMessagesUiState
 
 val members: List<MemberItemUiState> = listOf(
     MemberItemUiState(

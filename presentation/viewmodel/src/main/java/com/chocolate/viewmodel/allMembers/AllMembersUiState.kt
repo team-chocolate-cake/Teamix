@@ -1,6 +1,6 @@
-package com.chocolate.presentation.screens.allMembers
+package com.chocolate.viewmodel.allMembers
 
-import com.chocolate.presentation.base.BaseErrorUiState
+import com.chocolate.viewmodel.base.BaseErrorUiState
 
 data class AllMembersUiState(
     val searchInput: String = "",

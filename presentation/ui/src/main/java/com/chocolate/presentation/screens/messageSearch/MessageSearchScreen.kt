@@ -11,13 +11,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.chocolate.presentation.screens.combosables.PersonCardWithDetails
-import com.chocolate.presentation.screens.combosables.SearchBox
+import com.chocolate.presentation.screens.combosable.PersonCardWithDetails
+import com.chocolate.presentation.screens.combosable.SearchBox
 import com.chocolate.presentation.screens.searchMessage
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.viewmodel.messageSearch.MessageSearchUiState
 
 @Composable
 fun MessageSearchScreen(
@@ -44,7 +45,7 @@ private fun MessageSearchContent(
                 verticalArrangement = Arrangement.spacedBy(Space8),
                 contentPadding = PaddingValues(vertical = Space16)
             ) {
-                items(state.messages){ message ->
+                items(state.messages) { message ->
                     PersonCardWithDetails(
                         personImageUrl = message.imageUrl,
                         title = message.name,

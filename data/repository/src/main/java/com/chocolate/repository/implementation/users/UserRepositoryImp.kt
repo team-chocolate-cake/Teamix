@@ -1,11 +1,15 @@
 package com.chocolate.repository.implementation.users
 
+import com.chocolate.repository.datastore.UserEncryptedSharedPreference
 import com.chocolate.repository.implementation.BaseRepository
 import com.chocolate.repository.service.remote.UsersDataSource
 import repositories.users.UsersRepositories
 import javax.inject.Inject
 
-class UserRepositoryImp @Inject constructor(userDataSource: UsersDataSource) : UsersRepositories,
+class UserRepositoryImp @Inject constructor(
+    private val userDataSource: UsersDataSource,
+    private val userEncryptedSharedPreference: UserEncryptedSharedPreference
+) : UsersRepositories,
     BaseRepository() {
     override suspend fun getAllUsers() {
         TODO("Not yet implemented")
@@ -133,6 +137,17 @@ class UserRepositoryImp @Inject constructor(userDataSource: UsersDataSource) : U
 
     override suspend fun getOrganizations(): String? {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun userLogin(userName: String, password: String): Boolean {
+        return wrapApiCall { userDataSource.fetchApiKey(userName, password) }
+            .takeIf { it.result == "success" }?.run {
+                userEncryptedSharedPreference.putAuthenticationData(
+                    apikey = apiKey ?: "",
+                    email = email ?: ""
+                )
+                true
+            } ?: false
     }
 
 }

@@ -7,6 +7,7 @@ import com.chocolate.local.dao.trend.TrendLocalDataSourceImpl
 import com.chocolate.local.dao.user.UserLocalDataSourceImpl
 import com.chocolate.local.datastore.OnboardingPreferencesDataSourceImplementation
 import com.chocolate.local.datastore.OrganizationPreferenceDataSourceImplementation
+import com.chocolate.local.datastore.UserEncryptedSharedPreferenceImplementation
 import com.chocolate.remote.channels.implementation.remote.ChannelsImpl
 import com.chocolate.remote.drafts.DraftsMessagesImpl
 import com.chocolate.remote.messages.MessagesImpl
@@ -14,6 +15,7 @@ import com.chocolate.remote.scheduled_message.ScheduledMessageImpl
 import com.chocolate.remote.server_and_organizations.OrganizationsImpl
 import com.chocolate.remote.users.UsersImpl
 import com.chocolate.repository.datastore.OrganizationPreferenceDataSource
+import com.chocolate.repository.datastore.UserEncryptedSharedPreference
 import com.chocolate.repository.service.OnboardingPreferencesDataSource
 import com.chocolate.repository.service.local.DraftMessagesLocalDataSource
 import com.chocolate.repository.service.local.OrganizationsLocalDataSource
@@ -88,4 +90,10 @@ abstract class DataSourceModule {
     abstract fun bindOnboardingPreferencesDataSource(
         onboardingPreferencesDataSourceImplementation: OnboardingPreferencesDataSourceImplementation
     ): OnboardingPreferencesDataSource
+
+    @Binds
+    abstract fun bindUserEncryptedSharedPreference(
+        userEncryptedSharedPreferenceImplementation: UserEncryptedSharedPreferenceImplementation
+    ): UserEncryptedSharedPreference
+
 }

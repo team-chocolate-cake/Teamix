@@ -4,15 +4,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.composable.FitImage
-import com.chocolate.presentation.theme.OnLightOnBackground60
-import com.chocolate.presentation.theme.OnLightOnBackground87
-import com.chocolate.presentation.theme.Typography
+import com.chocolate.presentation.theme.customColors
+
 
 @Composable
 fun PagerScreen(
@@ -29,14 +29,14 @@ fun PagerScreen(
         Text(
             modifier = Modifier.padding(top = 32.dp, start = 24.dp, end = 24.dp),
             text = onBoardingPage.title,
-            style = Typography.titleLarge,
-            color = OnLightOnBackground87
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.customColors().onBackground87
         )
         Text(
             modifier = Modifier.padding(top = 16.dp, start = 24.dp, end = 24.dp),
             text = onBoardingPage.description,
-            style = Typography.bodyMedium,
-            color = OnLightOnBackground60
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.customColors().onBackground60
         )
     }
 }

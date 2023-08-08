@@ -3,6 +3,7 @@ package com.chocolate.remote.users.service
 
 import com.chocolate.repository.dto.remote.users.response.AlertWordsDto
 import com.chocolate.repository.dto.remote.users.response.CreateUserDto
+import com.chocolate.repository.dto.remote.users.response.FetchApiKeyDto
 import com.chocolate.repository.dto.remote.users.response.MuteUserResponseDto
 import com.chocolate.repository.dto.remote.users.response.OwnerUserDto
 import com.chocolate.repository.dto.remote.users.response.ResponseStateDto
@@ -175,4 +176,10 @@ interface UsersService {
     suspend fun unmuteUser(
         @Path("muted_user_id") mutedUserId: Int
     ): Response<MuteUserResponseDto>
+
+    @POST("fetch_api_key")
+    suspend fun fetchApiKey(
+        @Query("username") userName: String,
+        @Query("password") password: String,
+    ): Response<FetchApiKeyDto>
 }

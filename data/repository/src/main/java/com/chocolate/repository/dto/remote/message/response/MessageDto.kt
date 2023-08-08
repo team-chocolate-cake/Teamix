@@ -2,7 +2,7 @@ package com.chocolate.repository.dto.remote.message.response
 
 import com.google.gson.annotations.SerializedName
 
-data class Message(
+data class MessageDto(
     @SerializedName("avatar_url")
     val avatarUrl: String?,
     @SerializedName("client")
@@ -14,13 +14,13 @@ data class Message(
     @SerializedName("display_recipient")
     val displayRecipient: Any?,
     @SerializedName("flags")
-    val flags: List<String?>?,
+    val flags: List<String>?,
     @SerializedName("id")
     val id: Int?,
     @SerializedName("is_me_message")
     val isMeMessage: Boolean?,
     @SerializedName("reactions")
-    val reactions: List<Any?>?,
+    val reactions: List<Any>?,
     @SerializedName("recipient_id")
     val recipientId: Int?,
     @SerializedName("sender_email")
@@ -36,11 +36,11 @@ data class Message(
     @SerializedName("subject")
     val subject: String?,
     @SerializedName("submessages")
-    val subMessages: List<Any?>?,
+    val subMessages: List<Any>?,
     @SerializedName("timestamp")
-    val timestamp: Int?,
+    val timestamp: Long?,
     @SerializedName("topic_links")
-    val topicLinks: List<Any?>?,
+    val topicLinks: List<Any>?,
     @SerializedName("type")
     val type: String?
 )

@@ -5,7 +5,7 @@ object DependencyProject {
     private const val COIL_VERSION = "2.4.0"
     private const val JUNIT_VERSION = "4.13.2"
     private const val JUNIT_KTS_VERSION = "1.1.5"
-    private const val ESPRESSO_VERSION = "3.5.1"
+    private const val ESPRESSO_VERSION = "3.4.0"
     private const val HILT_VERSION = "2.44"
     private const val DAGGER_VERSION = "2.35.1"
     private const val RETROFIT_VERSION = "2.9.0"

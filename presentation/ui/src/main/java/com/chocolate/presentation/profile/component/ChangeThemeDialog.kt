@@ -1,4 +1,4 @@
-package com.chocolate.presentation.profile
+package com.chocolate.presentation.profile.component
 
 
 import androidx.compose.foundation.background
@@ -26,17 +26,17 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ChangeThemeDialog() {
-
-    val textColors = listOf("Blue", "Orange", "Mauve","Green","Red")
-    val colors = listOf(Color.Blue, Color.Yellow,
-        Color.Magenta,Color.Green,Color.Red)
-
-
-    var (selected) = textColors.map {
+    val textColors = listOf("Blue", "Orange", "Mauve", "Green", "Red")
+    val colors = listOf(
+        Color.Blue, Color.Yellow,
+        Color.Magenta, Color.Green, Color.Red
+    )
+    val (selected) = textColors.map {
         remember {
             mutableStateOf(textColors[1])
         }
     }
+
     Column(
         modifier = Modifier
             .size(width = 300.dp, height = 350.dp)
@@ -47,24 +47,22 @@ fun ChangeThemeDialog() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp), verticalAlignment =Alignment.CenterVertically,
+                    .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                val index=textColors.indexOf(text)
-
-                Box (
+                Box(
                     Modifier
                         .size(12.dp)
                         .clip(CircleShape)
-                        .background(colors[index]))
+                        .background(colors[textColors.indexOf(text)])
+                )
                 Text(text = text, modifier = Modifier.padding(start = 8.dp))
                 Spacer(modifier = Modifier.weight(1f))
-                RadioButton(selected = (text==selected.value), onClick = {
-                    selected.value=text
+                RadioButton(selected = (text == selected.value), onClick = {
+                    selected.value = text
                 })
-
             }
         }
-
     }
 
 }

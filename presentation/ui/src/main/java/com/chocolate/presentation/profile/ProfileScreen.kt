@@ -4,7 +4,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,25 +20,15 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -52,7 +41,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.chocolate.presentation.R
+import com.chocolate.presentation.profile.component.ChangeThemeDialog
+import com.chocolate.presentation.profile.component.MultiChoiceDialog
+import com.chocolate.presentation.profile.component.ProfileDialog
+import com.chocolate.presentation.profile.component.ProfileTextField
+import com.chocolate.presentation.profile.component.SettingCard
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 
@@ -61,29 +56,28 @@ fun ProfileScreen() {
     ProfileContent()
 }
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProfileContent() {
     TeamixTheme {
-        var textState= remember{ mutableStateOf("") }
-
-
         val color = MaterialTheme.customColors()
-        var number by remember {
+        var pageNumber by remember {
             mutableStateOf(0)
         }
-        val pageState = rememberPagerState(initialPage = 1)
-        val selectButton by remember {
-            mutableStateOf(0)
+        val pageState = rememberPagerState(initialPage = 0)
+
+        LaunchedEffect(pageNumber) {
+            if (pageNumber == 0) {
+                pageState.scrollToPage(0)
+            } else {
+                pageState.scrollToPage(1)
+            }
         }
-        val selectColor by remember {
-            mutableStateOf(color.primary)
-        }
-        var showDialog by remember {
+        var showLanguageDialog by remember {
             mutableStateOf(false)
         }
 
-        var themeDialog by remember {
+        var showThemeDialog by remember {
             mutableStateOf(false)
         }
         var logout by remember {
@@ -94,21 +88,11 @@ fun ProfileContent() {
         }
 
 
-        var text by remember { mutableStateOf("test") }
-
-        LaunchedEffect(number) {
-            if (number == 0) {
-                pageState.scrollToPage(0)
-            } else {
-                pageState.scrollToPage(1)
-
-            }
-        }
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color.background), horizontalAlignment = Alignment.CenterHorizontally
+                .background(color.background)
+                .padding(top = 26.dp), horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(Modifier.height(158.dp)) {
 
@@ -151,9 +135,8 @@ fun ProfileContent() {
             }
 
 
-
             Text(
-                "Abdoood", modifier = Modifier.padding(top = 16.dp),
+                "Abooood", modifier = Modifier.padding(top = 16.dp),
                 style = MaterialTheme.typography.titleMedium,
                 color = color.onBackground87
             )
@@ -163,77 +146,36 @@ fun ProfileContent() {
                 color = color.onBackground60
             )
 
-            if (showDialog) {
-                AlertDialog(
-                    modifier = Modifier,
-                    onDismissRequest = { showDialog = false },
-                  //  title = { Text(text = "Select Language") },
-                    confirmButton = {
-                       // Text(text = "Select Language")
-                    },
-                    dismissButton = {
-
-                    },
-                    text = {
-                        ProfileLanguageDialog()
-                    }, containerColor =color.background
+            if (showLanguageDialog) {
+                MultiChoiceDialog(
+                    { showLanguageDialog = false },
+                    listOf("english", "arabic", "franch", "ispanish")
                 )
             }
-            if (themeDialog) {
+            if (showThemeDialog) {
                 AlertDialog(
                     modifier = Modifier,
-                    onDismissRequest = { themeDialog = false },
+                    onDismissRequest = { showThemeDialog = false },
                     confirmButton = {
                     },
                     dismissButton = {
                     },
                     text = {
                         ChangeThemeDialog()
-                    }, containerColor =color.background
+                    }, containerColor = color.background
                 )
             }
-            if(clearHistory) {
-                AlertDialog(
-                    modifier = Modifier,
-                    onDismissRequest = { clearHistory = false },
-                    title = { Text(text = "Are you sure to delete your history?") },
-                    text = { Text(text = "This action will permanently remove all your browsing data," +
-                            " including search history, and cached files") },
-                    confirmButton = {
-                        TextButton(onClick = { }) {
-                            Text(text = "confirm")
+            if (clearHistory) {
+                ProfileDialog(title = "Are you sure to delete your history?",
+                    text =
+                    "This action will permanently remove all your browsing data," +
+                            " including search history, and cached files",
+                    onClick = { clearHistory = false })
 
-                        }
-                    },
-                    dismissButton = {
-                        TextButton(onClick = { clearHistory = false }) {
-                            Text(text = "dismiss")
-
-                        }
-                    },
-                    containerColor = color.background
-                )
             }
-            if(logout) {
-                AlertDialog(
-                    modifier = Modifier,
-                    onDismissRequest = { logout = false },
-                    title = { Text(text = "test title") },
-                    text = { Text(text = "test content") },
-                    confirmButton = {
-                        TextButton(onClick = { }) {
-                            Text(text = "confirm")
-
-                        }
-                    },
-                    dismissButton = {
-                        TextButton(onClick = { logout = false }) {
-                            Text(text = "dismiss")
-
-                        }
-                    },
-                    containerColor = color.background
-                )
+            if (logout) {
+                ProfileDialog(title = "test title", text =
+                "test content", onClick = { logout = false })
             }
             Spacer(modifier = Modifier.weight(1f))
             Box(
@@ -258,7 +200,7 @@ fun ProfileContent() {
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Button(
-                            onClick = { number = 0 }, modifier = Modifier
+                            onClick = { pageNumber = 0 }, modifier = Modifier
                                 .padding(start = 16.dp)
                                 .width(110.dp),
                             colors = ButtonDefaults.buttonColors(
@@ -273,7 +215,7 @@ fun ProfileContent() {
                             )
                         }
                         Button(
-                            onClick = { number = 1 }, modifier = Modifier
+                            onClick = { pageNumber = 1 }, modifier = Modifier
                                 .padding(end = 16.dp)
                                 .width(110.dp),
                             colors = ButtonDefaults.buttonColors(
@@ -293,27 +235,53 @@ fun ProfileContent() {
                     HorizontalPager(state = pageState, pageCount = 2) {
                         if (pageState.currentPage == 0) {
                             LazyColumn(modifier = Modifier.padding(horizontal = 16.dp)) {
-
                                 item {
-                                        OutlinedTextField(modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(top = 16.dp)
-                                                ,value = textState.value,
-                                                onValueChange ={
-                                                textState.value=it
-                                            }, placeholder = {Text("name",color=color.onBackground60.copy(alpha=0.6f))}, shape = RoundedCornerShape(12.dp),
-                                                colors = TextFieldDefaults.outlinedTextFieldColors(
-                                                 containerColor = color.card,
-                                                    focusedBorderColor =  color.primary,
-                                                unfocusedBorderColor = color.background
-                                            ), trailingIcon = {
-                                                Image(
-                                                    painter = painterResource(id = R.drawable.pen),
-                                                    contentDescription = null
-                                                )
-                                            }
-
-                                        )
+                                    ProfileTextField(
+                                        text = "name",
+                                        color.primary,
+                                        color.background,
+                                        colorIcon = color.primary
+                                    )
+                                }
+                                item {
+                                    ProfileTextField(
+                                        text = "job",
+                                        color.primary,
+                                        color.background,
+                                        colorIcon = color.primary
+                                    )
+                                }
+                                item {
+                                    ProfileTextField(
+                                        text = "phone number",
+                                        color.primary,
+                                        color.background,
+                                        colorIcon = color.primary
+                                    )
+                                }
+                                item {
+                                    ProfileTextField(
+                                        text = "team",
+                                        color.primary,
+                                        color.background,
+                                        colorIcon = color.primary
+                                    )
+                                }
+                                item {
+                                    ProfileTextField(
+                                        text = "state",
+                                        color.primary,
+                                        color.background,
+                                        colorIcon = color.primary
+                                    )
+                                }
+                                item {
+                                    ProfileTextField(
+                                        text = "set your self as away",
+                                        color.primary,
+                                        color.background,
+                                        colorIcon = color.primary
+                                    )
                                 }
 
                             }
@@ -322,39 +290,50 @@ fun ProfileContent() {
 
                             LazyColumn {
                                 item {
-                                    SettingCard(click = {showDialog=true},text = "Owner Powers", icon = painterResource(id = R.drawable.ownerpowers))
+                                    SettingCard(
+                                        click = {  },
+                                        text = "Owner Powers",
+                                        icon = painterResource(id = R.drawable.ownerpowers)
+                                    )
                                     Divider(color = color.background, thickness = 2.dp)
                                 }
                                 item {
-                                    SettingCard(click = {showDialog=true},text = "Language", icon = painterResource(id = R.drawable.language))
+                                    SettingCard(
+                                        click = { showLanguageDialog = true },
+                                        text = "Language",
+                                        icon = painterResource(id = R.drawable.language)
+                                    )
                                     Divider(color = color.background, thickness = 2.dp)
                                 }
                                 item {
-                                    SettingCard(click = {themeDialog=true},text = "Change Theme", icon = painterResource(id = R.drawable.changetheme))
+                                    SettingCard(
+                                        click = { showThemeDialog = true },
+                                        text = "Change Theme",
+                                        icon = painterResource(id = R.drawable.changetheme)
+                                    )
                                     Divider(color = color.background, thickness = 2.dp)
                                 }
                                 item {
-                                    SettingCard(click = {clearHistory=true},text = "Clear History", icon = painterResource(id = R.drawable.clearhistory))
+                                    SettingCard(
+                                        click = { clearHistory = true },
+                                        text = "Clear History",
+                                        icon = painterResource(id = R.drawable.clearhistory)
+                                    )
                                     Divider(color = color.background, thickness = 2.dp)
                                 }
                                 item {
-                                    SettingCard(click = {logout=true},text = "Log out", icon = painterResource(id = R.drawable.logout))
+                                    SettingCard(
+                                        click = { logout = true },
+                                        text = "Log out",
+                                        icon = painterResource(id = R.drawable.logout)
+                                    )
                                     Divider(color = color.background, thickness = 2.dp)
                                 }
-
                             }
-
                         }
-
                     }
-
-
                 }
-
-
             }
-
-
         }
     }
 
@@ -365,5 +344,6 @@ fun ProfileContent() {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ProfileScreenPreview() {
-    ProfileScreen()
+    ProfileContent()
 }
+

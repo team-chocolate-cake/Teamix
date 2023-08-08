@@ -52,6 +52,7 @@ import com.chocolate.presentation.theme.Space64
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.viewmodel.home.CardItemContent
 import com.chocolate.viewmodel.home.HomeUiState
 import com.chocolate.viewmodel.home.HomeViewModel
 
@@ -242,12 +243,6 @@ private fun CardItem(
         }
     }
 }
-
-private data class CardItemContent(
-    val badgeCount: Int = 0,
-    val title: String = "",
-    val icon: Int = 0,
-)
 
 @Composable
 @Preview(

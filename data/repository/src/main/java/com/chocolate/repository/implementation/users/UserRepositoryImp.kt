@@ -72,7 +72,7 @@ class UserRepositoryImp @Inject constructor(
     }
 
     override suspend fun updateUserById(
-        id: Int, fullName: String?, role: Int?, profileData: List<ProfileData>?
+        id: Int, fullName: String, role: Int, profileData: List<ProfileData>
     ) {
 
         wrapApiCall {
@@ -80,16 +80,16 @@ class UserRepositoryImp @Inject constructor(
                 id,
                 fullName,
                 role,
-                profileData?.map { it.toProfileDataDto() })
+                profileData.map { it.toProfileDataDto() })
         }
     }
 
     override suspend fun updateUserStatus(
-        statusText: String?,
-        away: Boolean?,
-        emojiName: String?,
-        emojiCode: String?,
-        reactionType: String?
+        statusText: String,
+        away: Boolean,
+        emojiName: String,
+        emojiCode: String,
+        reactionType: String
     ) {
         wrapApiCall {
             userDataSource.updateUserStatus(
@@ -124,7 +124,7 @@ class UserRepositoryImp @Inject constructor(
     }
 
     override suspend fun setTypingStatus(
-        op: String, to: String, type: String?, topic: String?
+        op: String, to: String, type: String, topic: String
     ) {
         wrapApiCall {
             userDataSource.setTypingStatus(op, to, type, topic)

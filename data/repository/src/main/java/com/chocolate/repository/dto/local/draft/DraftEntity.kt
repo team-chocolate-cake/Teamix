@@ -1,4 +1,4 @@
-package com.chocolate.local.entities.draft
+package com.chocolate.repository.dto.local.draft
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -1,4 +1,4 @@
-package com.chocolate.local.entities.users
+package com.chocolate.repository.dto.local.users
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

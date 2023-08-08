@@ -1,4 +1,4 @@
-package com.chocolate.local.entities.stream
+package com.chocolate.repository.dto.local.stream
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

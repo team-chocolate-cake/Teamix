@@ -1,4 +1,4 @@
-package com.chocolate.local.entities.trends
+package com.chocolate.repository.dto.local.trends
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

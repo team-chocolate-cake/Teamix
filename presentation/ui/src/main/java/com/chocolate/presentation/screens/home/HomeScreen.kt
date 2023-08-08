@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -118,23 +119,9 @@ fun HomeContent(
                     val cardList = mutableListOf<CardItemContent>().apply {
                         add(
                             CardItemContent(
-                                state.badgeCountsUiState.mentions,
-                                "Mentions",
-                                R.drawable.ic_mention
-                            )
-                        )
-                        add(
-                            CardItemContent(
                                 state.badgeCountsUiState.drafts,
                                 "Drafts",
                                 R.drawable.ic_drafts
-                            )
-                        )
-                        add(
-                            CardItemContent(
-                                state.badgeCountsUiState.starred,
-                                "Starred",
-                                R.drawable.ic_star
                             )
                         )
                         add(
@@ -167,7 +154,7 @@ fun HomeContent(
             }
             item {
                 Text(
-                    text = "Channels",
+                    text = stringResource(R.string.channels),
                     style = MaterialTheme.typography.bodyLarge,
                     color = colors.onBackground87,
                     modifier = Modifier

@@ -10,4 +10,8 @@
     <string name="copy_name">Copy Name</string>
     <string name="leave_channel">Leave Channel</string>
     <string name="image_stream">image stream</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="title_subtitle">By leaving the channel, you will no longer receive updates or messages from this channel</string>
+    <string name="na">NA</string>
+    <string name="channels">Channels</string>
 </resources>

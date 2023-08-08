@@ -16,7 +16,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space24
@@ -66,7 +68,7 @@ fun ManageChannelAlertDialog(
                 horizontalArrangement = Arrangement.spacedBy(Space24, alignment = Alignment.End)
             ) {
                 Text(
-                    text = "Dismiss",
+                    text = stringResource(R.string.dismiss),
                     style = MaterialTheme.typography.bodySmall,
                     color = colors.onBackground87,
                     modifier = Modifier.clickable { onDismiss() })

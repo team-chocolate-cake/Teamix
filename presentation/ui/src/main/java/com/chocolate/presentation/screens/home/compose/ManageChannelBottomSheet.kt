@@ -22,23 +22,20 @@ import com.chocolate.presentation.theme.Space16
 fun ManageChannelBottomSheet(onDismissBottomSheet: () -> Unit, colors: CustomColorsPalette) {
     BottomSheet(colors = colors, onDismissBottomSheet = { onDismissBottomSheet() }) {
         var openDialog by remember { mutableStateOf(false) }
-        var openDialogMute by remember { mutableStateOf(false) }
-        var openDialogStar by remember { mutableStateOf(false) }
         var openDialogLeave by remember { mutableStateOf(false) }
         if (openDialog) {
             ManageChannelAlertDialog(
                 title = when {
-                    openDialogMute -> stringResource(R.string.mute)
-                    openDialogStar -> stringResource(R.string.star)
                     openDialogLeave -> stringResource(R.string.leave)
                     else -> stringResource(R.string.unknown)
                 },
-                subTitle = "a",
+                subTitle = when {
+                    openDialogLeave -> stringResource(R.string.title_subtitle)
+                    else -> stringResource(R.string.na)
+                },
                 colors,
                 onDismiss = {
                     openDialog = false
-                    openDialogMute = false
-                    openDialogStar = false
                     openDialogLeave = false
                     onDismissBottomSheet()
                 })
@@ -55,7 +52,6 @@ fun ManageChannelBottomSheet(onDismissBottomSheet: () -> Unit, colors: CustomCol
             painter = painterResource(id = R.drawable.ic_mute_channel)
         ) {
             openDialog = true
-            openDialogMute = true
         }
         Divider(
             modifier = Modifier
@@ -69,7 +65,6 @@ fun ManageChannelBottomSheet(onDismissBottomSheet: () -> Unit, colors: CustomCol
             painter = painterResource(id = R.drawable.ic_star)
         ) {
             openDialog = true
-            openDialogStar = true
         }
         Divider(
             modifier = Modifier

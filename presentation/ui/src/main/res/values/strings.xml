@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Teamix</string>
+    <string name="arrow_back">Arrow Back</string>
+    <string name="mentions">Mentions</string>
 </resources>

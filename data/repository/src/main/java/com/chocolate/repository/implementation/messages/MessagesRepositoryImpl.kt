@@ -11,7 +11,16 @@ import com.chocolate.entities.messages.RenderMessage
 import com.chocolate.entities.messages.SendMessage
 import com.chocolate.entities.messages.SingleMessage
 import com.chocolate.repository.implementation.BaseRepository
-import com.chocolate.repository.mappers.messages.toEntity
+import com.chocolate.repository.mappers.messages.toMessages
+import com.chocolate.repository.mappers.messages.toSingleMessage
+import com.chocolate.repository.mappers.messages.toSendMessage
+import com.chocolate.repository.mappers.messages.toRenderMessage
+import com.chocolate.repository.mappers.messages.toPersonalMessage
+import com.chocolate.repository.mappers.messages.toMessageReadReceipts
+import com.chocolate.repository.mappers.messages.toMessageEditHistory
+import com.chocolate.repository.mappers.messages.toMatchNarrow
+import com.chocolate.repository.mappers.messages.toAttachmentMessage
+import com.chocolate.repository.mappers.messages.toPersonalMessageForNarrow
 import com.chocolate.repository.service.remote.MessagesDataSource
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -41,7 +50,7 @@ class MessagesRepositoryImpl @Inject constructor(
                 localId
             )
         }
-        return sendSteamMessageDto.toEntity()
+        return sendSteamMessageDto.toSendMessage()
     }
 
     override suspend fun sendDirectMessage(
@@ -53,7 +62,7 @@ class MessagesRepositoryImpl @Inject constructor(
     ): SendMessage {
         val sendDirectMessageDto =
             wrapApiCall { messageDataSource.sendDirectMessage(type, to, content, queueId, localId) }
-        return sendDirectMessageDto.toEntity()
+        return sendDirectMessageDto.toSendMessage()
     }
 
     override suspend fun editMessage(
@@ -100,7 +109,7 @@ class MessagesRepositoryImpl @Inject constructor(
                 applyMarkdown
             )
         }
-        return messagesDto.toEntity()
+        return messagesDto.toMessages()
     }
 
     override suspend fun addEmojiReaction(
@@ -142,7 +151,7 @@ class MessagesRepositoryImpl @Inject constructor(
     ): PersonalMessage {
         val personalMessageDto =
             wrapApiCall { messageDataSource.updateMessageFlags(messages, op, flag) }
-        return personalMessageDto.toEntity()
+        return personalMessageDto.toPersonalMessage()
     }
 
     override suspend fun markAllMessagesAsRead() {
@@ -160,22 +169,22 @@ class MessagesRepositoryImpl @Inject constructor(
     override suspend fun getMessageReadReceipts(messageId: Int): MessageReadReceipts {
         val messageReadReceiptsDto =
             wrapApiCall { messageDataSource.getMessageReadReceipts(messageId) }
-        return messageReadReceiptsDto.toEntity()
+        return messageReadReceiptsDto.toMessageReadReceipts()
     }
 
     override suspend fun uploadFile(file: File): AttachmentMessage {
         val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
         val filePart = MultipartBody.Part.createFormData("file", file.name, requestFile)
-        return wrapApiCall { messageDataSource.uploadFile(filePart) }.toEntity()
+        return wrapApiCall { messageDataSource.uploadFile(filePart) }.toAttachmentMessage()
     }
 
 
     override suspend fun renderMessage(content: String): RenderMessage {
-        return wrapApiCall { messageDataSource.renderMessage(content) }.toEntity()
+        return wrapApiCall { messageDataSource.renderMessage(content) }.toRenderMessage()
     }
 
     override suspend fun fetchSingleMethod(messageId: Int): SingleMessage {
-        return wrapApiCall { messageDataSource.fetchSingleMessage(messageId) }.toEntity()
+        return wrapApiCall { messageDataSource.fetchSingleMessage(messageId) }.toSingleMessage()
     }
 
     override suspend fun checkIfMessagesMatchNarrow(
@@ -187,11 +196,11 @@ class MessagesRepositoryImpl @Inject constructor(
                 messagesIds,
                 narrow
             )
-        }.toEntity()
+        }.toMatchNarrow()
     }
 
     override suspend fun getMessagesEditHistory(messageId: Int): List<MessageEditHistory> {
-        return wrapApiCall { messageDataSource.getMessagesEditHistory(messageId) }.toEntity()
+        return wrapApiCall { messageDataSource.getMessagesEditHistory(messageId) }.toMessageEditHistory()
     }
 
     override suspend fun updatePersonalMessageFlagsForNarrow(
@@ -207,7 +216,7 @@ class MessagesRepositoryImpl @Inject constructor(
             messageDataSource.updatePersonalMessageFlagsForNarrow(
                 anchor, numBefore, numAfter, includeAnchor, narrow, op, flag
             )
-        }.toEntity()
+        }.toPersonalMessageForNarrow()
     }
 
 }

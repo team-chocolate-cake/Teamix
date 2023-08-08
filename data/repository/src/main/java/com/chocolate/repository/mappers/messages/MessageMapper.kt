@@ -6,7 +6,7 @@ import com.chocolate.repository.dto.remote.message.response.MessageDto
 import com.chocolate.repository.dto.remote.message.response.MessagesRemoteDto
 
 
-fun MessageDto.toMessageEntity(): Message {
+fun MessageDto.toMessage(): Message {
     return Message(
         avatarUrl = this.avatarUrl ?: "",
         client = this.client ?: "",
@@ -31,8 +31,8 @@ fun MessageDto.toMessageEntity(): Message {
     )
 }
 
-fun MessagesRemoteDto.toEntity(): Messages {
+fun MessagesRemoteDto.toMessages(): Messages {
     return Messages(
-        messages = this.messages?.map { it.toMessageEntity() } ?: emptyList()
+        messages = this.messages?.map { it.toMessage() } ?: emptyList()
     )
 }

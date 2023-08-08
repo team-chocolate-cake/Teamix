@@ -2,7 +2,7 @@ package com.chocolate.repository.dto.remote.message.response
 
 import com.google.gson.annotations.SerializedName
 
-data class MessageHistory(
+data class MessageHistoryDto(
     @SerializedName("content")
     val content: String?,
     @SerializedName("content_html_diff")

@@ -2,6 +2,7 @@ package com.chocolate.repository.implementation.draft
 
 import com.chocolate.entities.draft.Draft
 import com.chocolate.repository.implementation.BaseRepository
+import com.chocolate.repository.mappers.draft.toEntity
 import com.chocolate.repository.service.remote.DraftMessageDataSource
 import com.google.gson.Gson
 import repositories.draft.DraftRepository

@@ -3,6 +3,7 @@ package com.chocolate.remote.users
 import com.chocolate.remote.users.service.UsersService
 import com.chocolate.repository.dto.remote.users.response.AlertWordsDto
 import com.chocolate.repository.dto.remote.users.response.CreateUserDto
+import com.chocolate.repository.dto.remote.users.response.FetchApiKeyDto
 import com.chocolate.repository.dto.remote.users.response.MuteUserResponseDto
 import com.chocolate.repository.dto.remote.users.response.OwnerUserDto
 import com.chocolate.repository.dto.remote.users.response.ResponseStateDto
@@ -198,5 +199,9 @@ class UsersImpl @Inject constructor(
 
     override suspend fun unmuteUser(mutedUserId: Int): Response<MuteUserResponseDto> {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun fetchApiKey(userName: String, password: String): Response<FetchApiKeyDto> {
+        return userService.fetchApiKey(userName, password)
     }
 }

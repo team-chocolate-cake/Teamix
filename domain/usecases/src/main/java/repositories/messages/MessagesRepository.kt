@@ -1,105 +1,98 @@
 package repositories.messages
 
+import com.chocolate.entities.messages.AttachmentMessage
+import com.chocolate.entities.messages.MatchNarrow
+import com.chocolate.entities.messages.MessageEditHistory
+import com.chocolate.entities.messages.MessageReadReceipts
+import com.chocolate.entities.messages.Messages
+import com.chocolate.entities.messages.PersonalMessage
+import com.chocolate.entities.messages.PersonalMessageForNarrow
+import com.chocolate.entities.messages.RenderMessage
+import com.chocolate.entities.messages.SendMessage
+import com.chocolate.entities.messages.SingleMessage
+import java.io.File
+
 interface MessagesRepository {
 
     suspend fun sendStreamMessage(
         type: String,
-        to: String,
-        topic: String?,
-        content: String
-    )
+        to: Any,
+        topic: String,
+        content: String,
+        queueId: String? = null,
+        localId: String? = null,
+    ): SendMessage
 
     suspend fun sendDirectMessage(
         type: String,
-        to: String,
-        content: String
-    )
-
-    suspend fun uploadFile(filePath: String)
+        to: Any,
+        content: String,
+        queueId: String? = null,
+        localId: String? = null,
+    ): SendMessage
 
     suspend fun editMessage(
-        message_id: Int,
+        messageId: Int,
         content: String,
-        topic: String?,
-        propagateMode: String?,
+        topic: String = "",
+        propagateMode: String = "change_one",
         sendNotificationToOldThread: Boolean = false,
         sendNotificationToNewThread: Boolean = true
     )
 
-    suspend fun deleteMessage(
-        message_id: Int
-    )
+    suspend fun deleteMessage(messageId: Int)
 
     suspend fun getMessages(
         anchor: String?,
         includeAnchor: Boolean = true,
-        numberBefore: Int,
-        numberAfter: Int,
-        narrow: List<String>?,
+        numBefore: Int,
+        numAfter: Int,
+        narrow: List<String>? = null,
         clientGravatar: Boolean = true,
         applyMarkdown: Boolean = true
-    )
+    ): Messages
 
     suspend fun addEmojiReaction(
         messageId: Int,
         emojiName: String,
-        emojiCode: String?,
-        reactionType: String?
-
+        emojiCode: String? = null,
+        reactionType: String? = null
     )
 
     suspend fun deleteEmojiReaction(
         messageId: Int,
         emojiName: String,
-        emojiCode: String?,
-        reactionType: String?
+        emojiCode: String? = null,
+        reactionType: String? = null
     )
 
-    suspend fun renderMessage(
-        content: String,
-    )
+    suspend fun updateMessageFlags(messages: List<Int>, op: String, flag: String): PersonalMessage
 
-    suspend fun fetchSingleMessage(
-        messageId: Int
-    )
+    suspend fun markAllMessagesAsRead()
 
-    suspend fun checkIfMessagesMatchNarrow(
-        messageIds: List<Int>,
-        narrow: List<Map<String, String>>
-    )
+    suspend fun markStreamAsRead(steamId: Int)
 
-    suspend fun getMessagesEditHistory(
-        messageId: Int
-    )
+    suspend fun markTopicAsRead(steamId: Int, topicName: String)
 
-    suspend fun updateMessageFlags(
-        messages: List<Int>,
-        op: String,
-        flag: String,
+    suspend fun getMessageReadReceipts(messageId: Int): MessageReadReceipts
 
-    )
+    suspend fun uploadFile(file: File): AttachmentMessage
+
+    suspend fun renderMessage(content: String): RenderMessage
+
+    suspend fun fetchSingleMethod(messageId: Int): SingleMessage
+
+    suspend fun checkIfMessagesMatchNarrow(messagesIds: String, narrow: String): MatchNarrow
+
+    suspend fun getMessagesEditHistory(messageId: Int): List<MessageEditHistory>
 
     suspend fun updatePersonalMessageFlagsForNarrow(
         anchor: String,
         numBefore: Int,
         numAfter: Int,
-        narrow: List<Map<String, String>>,
+        includeAnchor: Boolean = true,
+        narrow: String,
         op: String,
         flag: String
-    )
-
-    suspend fun markAllMessagesAsRead()
-
-    suspend fun markStreamAsRead(
-        steamId: Int,
-    )
-
-    suspend fun markTopicAsRead(
-        steamId: Int,
-        topicName: String
-    )
-
-    suspend fun getMessageReadReceipts(
-        messageId: Int
-    )
+    ): PersonalMessageForNarrow
 }

@@ -40,6 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.chocolate.presentation.R
 import com.chocolate.presentation.screens.home.compose.BadgeHome
 import com.chocolate.presentation.screens.home.compose.ChannelItem
@@ -59,6 +60,7 @@ import com.chocolate.viewmodel.home.HomeViewModel
 
 @Composable
 fun HomeScreen(
+    navController: NavController,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by homeViewModel.state.collectAsState()
@@ -238,7 +240,13 @@ private fun CardItem(
 )
 fun HomePreview() {
     TeamixTheme {
-        HomeScreen()
+        HomeContent(
+            state = HomeUiState(),
+            navigationToMention = { /*TODO*/ },
+            navigationToDrafts = { /*TODO*/ },
+            navigationToStarred = { /*TODO*/ },
+            navigationToSavedLater = { /*TODO*/ },
+            navigateToChannel = {}
+        )
     }
-
 }

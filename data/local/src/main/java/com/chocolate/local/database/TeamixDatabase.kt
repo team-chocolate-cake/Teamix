@@ -6,12 +6,12 @@ import com.chocolate.local.dao.DraftMessagesDao
 import com.chocolate.local.dao.StreamDao
 import com.chocolate.local.dao.TrendDao
 import com.chocolate.local.dao.UserDao
-import com.chocolate.local.entities.draft.DraftEntity
-import com.chocolate.local.entities.stream.StreamEntity
-import com.chocolate.local.entities.trends.TrendsEntity
-import com.chocolate.local.entities.users.ChatEntity
-import com.chocolate.local.entities.users.GroupsEntity
-import com.chocolate.local.entities.users.StoriesEntity
+import com.chocolate.repository.dto.local.draft.DraftEntity
+import com.chocolate.repository.dto.local.stream.StreamEntity
+import com.chocolate.repository.dto.local.trends.TrendsEntity
+import com.chocolate.repository.dto.local.users.ChatEntity
+import com.chocolate.repository.dto.local.users.GroupsEntity
+import com.chocolate.repository.dto.local.users.StoriesEntity
 
 
 @Database(entities = [

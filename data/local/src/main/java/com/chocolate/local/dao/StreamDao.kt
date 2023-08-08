@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.chocolate.local.entities.stream.StreamEntity
+import com.chocolate.repository.dto.local.stream.StreamEntity
 
 @Dao
 interface StreamDao {

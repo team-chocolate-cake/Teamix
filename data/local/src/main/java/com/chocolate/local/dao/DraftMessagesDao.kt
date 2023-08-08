@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.chocolate.local.entities.draft.DraftEntity
+import com.chocolate.repository.dto.local.draft.DraftEntity
 
 @Dao
 interface DraftMessagesDao {

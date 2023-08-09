@@ -1,4 +1,4 @@
-package com.chocolate.presentation.profile.component
+package com.chocolate.presentation.screens.profile.component
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.wrapContentSize

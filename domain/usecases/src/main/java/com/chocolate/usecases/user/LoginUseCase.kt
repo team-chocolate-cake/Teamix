@@ -1,6 +1,6 @@
 package com.chocolate.usecases.user
 
-import repositories.users.UsersRepositories
+import repositories.UsersRepositories
 import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(

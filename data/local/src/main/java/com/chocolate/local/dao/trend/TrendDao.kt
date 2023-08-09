@@ -3,7 +3,7 @@ package com.chocolate.local.dao.trend
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.chocolate.repository.dto.local.trends.TrendsLocalDto
+import com.chocolate.repository.model.localDto.trends.TrendsLocalDto
 
 @Dao
 interface TrendDao {

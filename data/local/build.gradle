@@ -35,18 +35,12 @@ dependencies {
 
     implementation project(Modules.DATA_REPO)
 
-    implementation(DependencyProject.androidxCore)
-    testImplementation(DependencyProject.junit)
-    androidTestImplementation(DependencyProject.junitExtension)
-    androidTestImplementation(DependencyProject.espresso)
-
     implementation(DependencyProject.hilt)
     kapt(DependencyProject.hiltCompiler)
     implementation(DependencyProject.dataStore)
     implementation(DependencyProject.roomRuntime)
     implementation(DependencyProject.roomKtx)
     annotationProcessor(DependencyProject.roomCompiler)
-    kapt(DependencyProject.room)
 
     implementation(DependencyProject.encryptedSharedPreference)
 

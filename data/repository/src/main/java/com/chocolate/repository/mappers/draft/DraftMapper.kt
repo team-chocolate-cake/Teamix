@@ -1,7 +1,7 @@
 package com.chocolate.repository.mappers.draft
 
 import com.chocolate.entities.draft.Draft
-import com.chocolate.repository.dto.remote.draft.response.DraftDto
+import com.chocolate.repository.model.dto.draft.response.DraftDto
 
 
 fun DraftDto.toEntity(): Draft = Draft(

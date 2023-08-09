@@ -1,9 +1,9 @@
 package com.chocolate.repository.mappers.messages
 
 import com.chocolate.entities.messages.PersonalMessageForNarrow
-import com.chocolate.repository.dto.remote.message.response.PersonalMessageForNarrowRemoteDto
+import com.chocolate.repository.model.dto.message.response.PersonalMessageForNarrowDto
 
-fun PersonalMessageForNarrowRemoteDto.toEntity(): PersonalMessageForNarrow {
+fun PersonalMessageForNarrowDto.toPersonalMessageForNarrow(): PersonalMessageForNarrow {
     return PersonalMessageForNarrow(
         firstProcessedId = this.firstProcessedId ?: 0,
         foundNewest = this.foundNewest ?: true,

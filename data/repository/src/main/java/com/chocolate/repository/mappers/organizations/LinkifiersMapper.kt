@@ -1,17 +1,17 @@
 package com.chocolate.repository.mappers.organizations
 
-import com.chocolate.entities.server_and_organizations.LinkifierEntity
-import com.chocolate.entities.server_and_organizations.LinkifiersEntity
-import com.chocolate.repository.dto.remote.server_and_organizations.response.LinkifiersDto
+import com.chocolate.entities.server_and_organizations.Linkifier
+import com.chocolate.entities.server_and_organizations.Linkifiers
+import com.chocolate.repository.model.dto.server_and_organizations.response.LinkifiersDto
 
-fun LinkifiersDto.toEntity(): LinkifiersEntity {
-    val linkifiersEntity = linkifiers?.map { linkifierDto ->
-        LinkifierEntity(
+fun LinkifiersDto.toLinkifiers(): Linkifiers {
+    val linkifiers = linkifierDtos?.map { linkifierDto ->
+        Linkifier(
             id = linkifierDto.id ?: 0,
             pattern = linkifierDto.pattern ?: "",
             urlTemplate = linkifierDto.urlTemplate ?: ""
         )
     } ?: emptyList()
 
-    return LinkifiersEntity(linkifiers = linkifiersEntity)
+    return Linkifiers(linkifiers = linkifiers)
 }

@@ -35,16 +35,11 @@ dependencies {
 
     implementation(project(Modules.DOMAIN_USE_CASE))
 
-    testImplementation(DependencyProject.junit)
-    androidTestImplementation(DependencyProject.junitExtension)
-
-    implementation(DependencyProject.retrofit)
-
     implementation(DependencyProject.hilt)
     implementation(DependencyProject.gsonConverter)
 
     implementation(DependencyProject.roomRuntime)
     implementation(DependencyProject.roomKtx)
     annotationProcessor(DependencyProject.roomCompiler)
-    kapt(DependencyProject.room)
+    kapt(DependencyProject.roomCompiler)
 }

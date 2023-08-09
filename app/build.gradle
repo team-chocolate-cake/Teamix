@@ -56,25 +56,7 @@ dependencies {
     implementation (project(Modules.DOMAIN_USE_CASE))
     implementation (project(Modules.PRESENTATION_UI))
 
-    implementation (DependencyProject.androidxCore)
-    testImplementation (DependencyProject.junit)
-    androidTestImplementation (DependencyProject.junitExtension)
-    androidTestImplementation (DependencyProject.espresso)
-    implementation platform (DependencyProject.kotlinBom)
-    implementation (DependencyProject.lifecycleRuntime)
-
-    implementation (DependencyProject.activityCompose)
-    implementation platform(DependencyProject.composeBom)
-    androidTestImplementation platform(DependencyProject.composeBom)
-    implementation (DependencyProject.composeUi)
-    implementation (DependencyProject.composeUiGraphics)
-    implementation (DependencyProject.composeUiPreviewTool)
-    implementation (DependencyProject.composeMaterial3)
-    implementation (DependencyProject.navigationCompose)
-    androidTestImplementation (DependencyProject.composeJunit)
-    debugImplementation (DependencyProject.composeUiTooling)
-    debugImplementation (DependencyProject.composeTestManifest)
-    debugImplementation (DependencyProject.navigationCompose)
+    implementation (DependencyProject.composeRuntime)
 
     implementation (DependencyProject.retrofit)
     implementation (DependencyProject.gsonConverter)
@@ -88,6 +70,6 @@ dependencies {
 
     implementation (DependencyProject.roomRuntime)
     annotationProcessor (DependencyProject.roomCompiler)
-    kapt (DependencyProject.room)
+    kapt (DependencyProject.roomCompiler)
     implementation(DependencyProject.dataStore)
 }

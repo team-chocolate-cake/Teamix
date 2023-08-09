@@ -13,8 +13,8 @@ class AuthInterceptor @Inject constructor() : Interceptor {
             .newBuilder()
             .header(
                 AUTHORIZATION, Credentials.basic(
-                    username = "",
-                    password = ""
+                    username = "khaled.eid1k1k@gmail.com",
+                    password = "z3lDWRSSPv2VCyRrMb7EkSMs9hB7I1ub"
                 )
             )
             .build()

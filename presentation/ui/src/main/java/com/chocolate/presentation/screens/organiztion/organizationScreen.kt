@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.chocolate.presentation.R
+import com.chocolate.presentation.screens.login.navigateToLogin
 import com.chocolate.presentation.theme.DarkPrimary
 import com.chocolate.presentation.theme.LightBackground
 import com.chocolate.presentation.theme.OnLightSecondary38
@@ -46,16 +47,22 @@ fun OrganizationScreen(
 ) {
     val state by viewModel.state.collectAsState()
 
-    OrganizationContent(updateOrganizationName = viewModel::updateOrganizationName, state)
+    OrganizationContent(
+        navigateToLogin = {navController.navigateToLogin()},
+        updateOrganizationName = viewModel::updateOrganizationName,
+        state
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OrganizationContent(updateOrganizationName: (String) -> Unit, state: OrganizationNameUiState) {
-
+fun OrganizationContent(
+    navigateToLogin: () -> Unit,
+    updateOrganizationName: (String) -> Unit,
+    state: OrganizationNameUiState
+) {
 
     val buttonColor = if (state.nameOrganization.isNotEmpty()) DarkPrimary else OnLightSecondary38
-
 
     Box(
         modifier = Modifier
@@ -104,7 +111,9 @@ fun OrganizationContent(updateOrganizationName: (String) -> Unit, state: Organiz
                     .fillMaxWidth()
                     .height(48.dp)
                     .padding(horizontal = 16.dp),
-                onClick = { },
+                onClick = {
+                    navigateToLogin()
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = buttonColor
                 )

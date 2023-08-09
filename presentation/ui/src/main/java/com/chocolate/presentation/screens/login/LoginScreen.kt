@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.organiztion
+package com.chocolate.presentation.screens.login
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +17,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -26,17 +28,31 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.viewmodel.login.LoginUiState
+import com.chocolate.viewmodel.login.LoginViewModel
 
 @Composable
 fun LoginScreen(
     navController: NavController,
+    loginViewModel: LoginViewModel
 ) {
-    LoginContent()
+    val state by loginViewModel.state.collectAsState()
+    LoginContent(
+        updateEmailState = loginViewModel::updateEmailState,
+        updatePasswordState = loginViewModel::updatePasswordState,
+        login = loginViewModel::login,
+        state = state
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginContent() {
+fun LoginContent(
+    updateEmailState: (String) -> Unit,
+    updatePasswordState: (String) -> Unit,
+    login: (String, String) -> Unit,
+    state: LoginUiState
+) {
     val colors = MaterialTheme.customColors()
 
     Column(
@@ -47,29 +63,29 @@ fun LoginContent() {
     ) {
         Text(
             modifier = Modifier.padding(top = 42.dp),
-            text = "Welcome To",
+            text = stringResource(R.string.welcome_to),
             style = MaterialTheme.typography.titleLarge,
             color = colors.onBackground87
         )
         Text(
             modifier = Modifier.padding(bottom = 48.dp),
-            text = "Aboood world",
+            text = state.nameOrganization,
             style = MaterialTheme.typography.titleLarge,
             color = colors.primary
         )
 
         Text(
             modifier = Modifier,
-            text = stringResource(R.string.enter_your_name_organization),
+            text = stringResource(R.string.email),
             style = MaterialTheme.typography.labelMedium
         )
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp),
-            value = "",
-            onValueChange = { nameorganiztion ->
-
+            value = state.email,
+            onValueChange = { email ->
+                updateEmailState(email)
             },
             placeholder = { Text("", color = Color.Black.copy(alpha = 0.6f)) },
             shape = RoundedCornerShape(12.dp),
@@ -82,16 +98,16 @@ fun LoginContent() {
 
         Text(
             modifier = Modifier.padding(top = 16.dp),
-            text = stringResource(R.string.enter_your_name_organization),
+            text = stringResource(R.string.password),
             style = MaterialTheme.typography.labelMedium
         )
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp),
-            value = "",
-            onValueChange = {
-
+            value = state.password,
+            onValueChange = { password ->
+                updatePasswordState(password)
             },
             placeholder = { Text("", color = Color.Black.copy(alpha = 0.6f)) },
             shape = RoundedCornerShape(12.dp),
@@ -119,7 +135,7 @@ fun LoginContent() {
                 .fillMaxWidth()
                 .height(48.dp)
                 .padding(horizontal = 16.dp),
-            onClick = { },
+            onClick = { login(state.email, state.password) },
             colors = ButtonDefaults.buttonColors(
                 containerColor = colors.primary
             ),
@@ -133,5 +149,5 @@ fun LoginContent() {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LogInPreview() {
-    LoginContent()
+    LoginContent({}, {}, { _, _ -> }, LoginUiState())
 }

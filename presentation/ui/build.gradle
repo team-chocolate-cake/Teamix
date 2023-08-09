@@ -38,10 +38,7 @@ android {
 dependencies {
     implementation(project(Modules.PRESENTATION_VIEW_MODEL))
 
-    implementation(DependencyProject.androidxCore)
-    testImplementation(DependencyProject.junit)
-    androidTestImplementation(DependencyProject.junitExtension)
-    androidTestImplementation(DependencyProject.espresso)
+
     implementation(DependencyProject.constraintLayout)
 
     implementation(DependencyProject.composeMaterial3)
@@ -54,6 +51,7 @@ dependencies {
     implementation(DependencyProject.composeUiPreviewTool)
     implementation(DependencyProject.composeBom)
     implementation(DependencyProject.composeTestManifest)
+    implementation(DependencyProject.composeRuntime)
 
     implementation(DependencyProject.coroutines)
     implementation(DependencyProject.lifecycleRuntime)

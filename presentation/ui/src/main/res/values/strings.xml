@@ -4,4 +4,7 @@
     <string name="suggested">Suggested</string>
     <string name="arrow_back">Arrow Back</string>
     <string name="mentions">Mentions</string>
+    <string name="enter_your_name_organization">Enter your Name Organization</string>
+    <string name="create_new_organization">Create New Organization</string>
+    <string name="create_new_organizat">Create New Organization</string>
 </resources>

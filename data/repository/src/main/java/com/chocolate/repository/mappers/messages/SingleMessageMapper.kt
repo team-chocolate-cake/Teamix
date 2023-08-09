@@ -1,11 +1,11 @@
 package com.chocolate.repository.mappers.messages
 
 import com.chocolate.entities.messages.SingleMessage
-import com.chocolate.repository.dto.remote.message.response.SingleMessageRemoteDto
+import com.chocolate.repository.dto.remote.message.response.SingleMessageDto
 
-fun SingleMessageRemoteDto.toEntity(): SingleMessage {
+fun SingleMessageDto.toSingleMessage(): SingleMessage {
     return SingleMessage(
-        message = this.message!!.toMessageEntity(),
+        message = this.message!!.toMessage(),
         rawContent = this.rawContent ?: ""
     )
 }

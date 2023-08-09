@@ -2,15 +2,13 @@ package com.chocolate.repository.dto.remote.message.response
 
 import com.google.gson.annotations.SerializedName
 
-data class SendMessageRemoteDto(
-    @SerializedName("id")
-    val id: Int?,
+data class MessageEditHistoryDto(
+    @SerializedName("message_history")
+    val messageHistory: List<MessageHistoryDto>?,
     @SerializedName("msg")
     val message: String?,
     @SerializedName("result")
     val result: String?,
     @SerializedName("code")
-    val code: String?,
-    @SerializedName("stream")
-    val stream: String?
+    val code: String
 )

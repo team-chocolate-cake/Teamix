@@ -2,7 +2,7 @@ package com.chocolate.repository.dto.remote.server_and_organizations.response
 
 import com.google.gson.annotations.SerializedName
 
-data class CustomField(
+data class CustomFieldDto(
     @SerializedName("display_in_profile_summary")
     val displayInProfileSummary: Boolean?,
     @SerializedName("field_data")

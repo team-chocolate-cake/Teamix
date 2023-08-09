@@ -3,15 +3,15 @@ package com.chocolate.remote.messages
 import com.chocolate.remote.messages.service.MessageService
 import com.chocolate.repository.dto.remote.message.response.DefaultMessageRemoteDto
 import com.chocolate.repository.dto.remote.message.response.FileRemoteDto
-import com.chocolate.repository.dto.remote.message.response.MatchNarrowRemoteDto
-import com.chocolate.repository.dto.remote.message.response.MessageEditHistoryRemoteDto
-import com.chocolate.repository.dto.remote.message.response.MessageReadReceiptsRemoteDto
+import com.chocolate.repository.dto.remote.message.response.MatchNarrowDto
+import com.chocolate.repository.dto.remote.message.response.MessageEditHistoryDto
+import com.chocolate.repository.dto.remote.message.response.MessageReadReceiptsDto
 import com.chocolate.repository.dto.remote.message.response.MessagesRemoteDto
-import com.chocolate.repository.dto.remote.message.response.PersonalMessageFlags
-import com.chocolate.repository.dto.remote.message.response.PersonalMessageForNarrowRemoteDto
-import com.chocolate.repository.dto.remote.message.response.RenderMessageRemoteDto
-import com.chocolate.repository.dto.remote.message.response.SendMessageRemoteDto
-import com.chocolate.repository.dto.remote.message.response.SingleMessageRemoteDto
+import com.chocolate.repository.dto.remote.message.response.PersonalMessageFlagsDto
+import com.chocolate.repository.dto.remote.message.response.PersonalMessageForNarrowDto
+import com.chocolate.repository.dto.remote.message.response.RenderMessageDto
+import com.chocolate.repository.dto.remote.message.response.SendMessageDto
+import com.chocolate.repository.dto.remote.message.response.SingleMessageDto
 import com.chocolate.repository.service.remote.MessagesDataSource
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -27,7 +27,7 @@ class MessagesImpl @Inject constructor(
         content: String,
         queueId: String?,
         localId: String?
-    ): Response<SendMessageRemoteDto> {
+    ): Response<SendMessageDto> {
         return messageService.sendStreamMessage(type, to, topic, content, queueId, localId)
     }
 
@@ -37,7 +37,7 @@ class MessagesImpl @Inject constructor(
         content: String,
         queueId: String?,
         localId: String?
-    ): Response<SendMessageRemoteDto> {
+    ): Response<SendMessageDto> {
         return messageService.sendDirectMessage(type, to, content, queueId, localId)
     }
 
@@ -103,22 +103,22 @@ class MessagesImpl @Inject constructor(
         return messageService.deleteEmojiReaction(messageId, emojiName, emojiCode, reactionType)
     }
 
-    override suspend fun renderMessage(content: String): Response<RenderMessageRemoteDto> {
+    override suspend fun renderMessage(content: String): Response<RenderMessageDto> {
         return messageService.renderMessage(content)
     }
 
-    override suspend fun fetchSingleMessage(messageId: Int): Response<SingleMessageRemoteDto> {
+    override suspend fun fetchSingleMessage(messageId: Int): Response<SingleMessageDto> {
         return messageService.fetchSingleMessage(messageId)
     }
 
     override suspend fun checkIfMessagesMatchNarrow(
         msg_ids: String,
         narrow: String
-    ): Response<MatchNarrowRemoteDto> {
+    ): Response<MatchNarrowDto> {
         return messageService.checkIfMessagesMatchNarrow(msg_ids, narrow)
     }
 
-    override suspend fun getMessagesEditHistory(messageId: Int): Response<MessageEditHistoryRemoteDto> {
+    override suspend fun getMessagesEditHistory(messageId: Int): Response<MessageEditHistoryDto> {
         return messageService.getMessagesEditHistory(messageId)
     }
 
@@ -126,7 +126,7 @@ class MessagesImpl @Inject constructor(
         messages: List<Int>,
         op: String,
         flag: String
-    ): Response<PersonalMessageFlags> {
+    ): Response<PersonalMessageFlagsDto> {
         return messageService.updateMessageFlags(messages, op, flag)
     }
 
@@ -138,7 +138,7 @@ class MessagesImpl @Inject constructor(
         narrow: String,
         op: String,
         flag: String
-    ): Response<PersonalMessageForNarrowRemoteDto> {
+    ): Response<PersonalMessageForNarrowDto> {
         return messageService.updatePersonalMessageFlagsForNarrow(
             anchor,
             numBefore,
@@ -164,7 +164,7 @@ class MessagesImpl @Inject constructor(
         return messageService.markTopicAsRead(steamId, topicName)
     }
 
-    override suspend fun getMessageReadReceipts(messageId: Int): Response<MessageReadReceiptsRemoteDto> {
+    override suspend fun getMessageReadReceipts(messageId: Int): Response<MessageReadReceiptsDto> {
         return messageService.getMessageReadReceipts(messageId)
     }
 }

@@ -84,6 +84,8 @@ dependencies {
     implementation (DependencyProject.hilt)
     kapt (DependencyProject.hiltCompiler)
 
+    implementation(DependencyProject.encryptedSharedPreference)
+
     implementation (DependencyProject.roomRuntime)
     annotationProcessor (DependencyProject.roomCompiler)
     kapt (DependencyProject.room)

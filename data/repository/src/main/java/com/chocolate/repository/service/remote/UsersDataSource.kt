@@ -4,6 +4,7 @@ import com.chocolate.repository.dto.remote.users.request.ProfileData
 import com.chocolate.repository.dto.remote.users.request.SettingsRequest
 import com.chocolate.repository.dto.remote.users.response.AlertWordsDto
 import com.chocolate.repository.dto.remote.users.response.CreateUserDto
+import com.chocolate.repository.dto.remote.users.response.FetchApiKeyDto
 import com.chocolate.repository.dto.remote.users.response.MuteUserResponseDto
 import com.chocolate.repository.dto.remote.users.response.OwnerUserDto
 import com.chocolate.repository.dto.remote.users.response.ResponseStateDto
@@ -136,4 +137,6 @@ interface UsersDataSource {
     suspend fun muteUser(mutedUserId: Int): Response<MuteUserResponseDto>
 
     suspend fun unmuteUser(mutedUserId: Int): Response<MuteUserResponseDto>
+
+    suspend fun fetchApiKey(userName: String, password: String): Response<FetchApiKeyDto>
 }

@@ -3,12 +3,12 @@ package repositories.server_and_organizations
 import com.chocolate.entities.server_and_organizations.CustomEmoji
 import com.chocolate.entities.server_and_organizations.CustomProfileFields
 import com.chocolate.entities.server_and_organizations.DefaultOrganization
-import com.chocolate.entities.server_and_organizations.LinkifiersEntity
+import com.chocolate.entities.server_and_organizations.Linkifiers
 import com.chocolate.entities.server_and_organizations.ServerSettings
 
 interface ServerAndOrganizationsRepository {
     suspend fun getServiceSettings(): ServerSettings
-    suspend fun getLinkifiers(): LinkifiersEntity
+    suspend fun getLinkifiers(): Linkifiers
     suspend fun addLinkifiers(pattern: String, url: String): DefaultOrganization
     suspend fun updateLinkifiers(filterId: Int, pattern: String, url: String): DefaultOrganization
     suspend fun deleteLinkifier(filterId: Int): DefaultOrganization

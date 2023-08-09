@@ -48,12 +48,11 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.R
-import com.chocolate.presentation.on_boarding.navigateToOnboarding
-import com.chocolate.presentation.screens.profile.component.ChangeThemeDialog
-import com.chocolate.presentation.screens.profile.component.MultiChoiceDialog
-import com.chocolate.presentation.screens.profile.component.ProfileDialog
-import com.chocolate.presentation.screens.profile.component.ProfileTextField
-import com.chocolate.presentation.screens.profile.component.SettingCard
+import com.chocolate.presentation.screens.profile.composable.ChangeThemeDialog
+import com.chocolate.presentation.screens.profile.composable.MultiChoiceDialog
+import com.chocolate.presentation.screens.profile.composable.ProfileDialog
+import com.chocolate.presentation.screens.profile.composable.ProfileTextField
+import com.chocolate.presentation.screens.profile.composable.SettingCard
 import com.chocolate.presentation.theme.BoxHeight400
 import com.chocolate.presentation.theme.ButtonSize110
 import com.chocolate.presentation.theme.IconSize24
@@ -68,7 +67,6 @@ import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space26
 import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.Space8
-import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.Thickness2
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.profile.ProfileUiState

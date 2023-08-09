@@ -7,4 +7,15 @@
     <string name="enter_your_name_organization">Enter your Name Organization</string>
     <string name="create_new_organization">Create New Organization</string>
     <string name="create_new_organizat">Create New Organization</string>
+    <string name="welcome_to">Welcome To</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forget_password">Forget Password</string>
+    <string name="sign_in">Sign in</string>
+
+
+
+
+
+
 </resources>

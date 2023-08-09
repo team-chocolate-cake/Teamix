@@ -11,5 +11,5 @@ data class TopicsInStreamDto(
 	@field:SerializedName("result")
 	val result: String? = null,
 	@field:SerializedName("topics")
-	val topics: List<TopicsItem?>? = null
+	val topics: List<TopicsItemDto>? = null
 )

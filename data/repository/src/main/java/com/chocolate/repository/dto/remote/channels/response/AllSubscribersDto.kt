@@ -11,5 +11,5 @@ data class AllSubscribersDto(
 	@field:SerializedName("result")
 	val result: String? = null,
 	@field:SerializedName("subscribers")
-	val subscribers: List<Int?>? = null
+	val subscribers: List<Int>? = null
 )

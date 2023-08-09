@@ -2,7 +2,7 @@ package com.chocolate.repository.dto.remote.channels.response
 
 import com.google.gson.annotations.SerializedName
 
-data class SubscriptionsItem(
+data class SubscriptionsItemDto(
 
 	@field:SerializedName("push_notifications")
 	val pushNotifications: Boolean? = null,

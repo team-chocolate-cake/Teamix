@@ -11,5 +11,5 @@ data class AllStreamsDto(
 	@SerializedName("result")
 	val result: String? = null,
 	@SerializedName("streams")
-	val streams: List<StreamsItem?>? = null
+	val streams: List<StreamsItem>? = null
 )

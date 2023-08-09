@@ -11,9 +11,9 @@ data class UnsubscribeFromStreamDto(
 	@field:SerializedName("result")
 	val result: String? = null,
 	@field:SerializedName("removed")
-	val removed: List<String?>? = null,
+	val removed: List<String>? = null,
 	@field:SerializedName("not_removed")
-	val notRemoved: List<String?>? = null,
+	val notRemoved: List<String>? = null,
 	@field:SerializedName("stream")
 	val stream: String? = null,
 )

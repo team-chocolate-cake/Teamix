@@ -9,5 +9,5 @@ data class SubscribedStreamDto(
 	@field:SerializedName("result")
 	val result: String? = null,
 	@field:SerializedName("subscriptions")
-	val subscriptions: List<SubscriptionsItem?>? = null
+	val subscriptions: List<SubscriptionsItemDto>? = null
 )

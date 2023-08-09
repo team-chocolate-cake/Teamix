@@ -2,7 +2,7 @@ package com.chocolate.repository.dto.remote.channels.response
 
 import com.google.gson.annotations.SerializedName
 
-data class Stream(
+data class StreamDto(
 
 	@field:SerializedName("first_message_id")
 	val firstMessageId: Int? = null,

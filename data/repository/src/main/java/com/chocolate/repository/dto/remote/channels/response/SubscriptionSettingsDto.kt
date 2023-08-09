@@ -9,5 +9,5 @@ data class SubscriptionSettingsDto(
 	@field:SerializedName("result")
 	val result: String? = null,
 	@field:SerializedName("ignored_parameters_unsupported")
-	val ignoredParametersUnsupported: List<String?>? = null
+	val ignoredParametersUnsupported: List<String>? = null
 )

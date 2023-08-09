@@ -3,7 +3,7 @@ package com.chocolate.local.dao.organization
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.chocolate.repository.dto.local.users.OrganizationsLocalDto
+import com.chocolate.repository.model.localDto.users.OrganizationsLocalDto
 
 @Dao
 interface OrganizationsDao {

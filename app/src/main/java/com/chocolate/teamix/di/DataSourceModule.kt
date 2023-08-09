@@ -1,99 +1,114 @@
 package com.chocolate.teamix.di
 
-import com.chocolate.local.dao.draft.DraftMessagesLocalDataSourceImpl
-import com.chocolate.local.dao.organization.OrganizationsLocalDataSourceImplementation
-import com.chocolate.local.dao.stream.StreamLocalDataSourceImpl
-import com.chocolate.local.dao.trend.TrendLocalDataSourceImpl
-import com.chocolate.local.dao.user.UserLocalDataSourceImpl
-import com.chocolate.local.datastore.OnboardingPreferencesDataSourceImplementation
-import com.chocolate.local.datastore.OrganizationPreferenceDataSourceImplementation
-import com.chocolate.local.datastore.UserEncryptedSharedPreferenceImplementation
-import com.chocolate.remote.channels.implementation.remote.ChannelsImpl
-import com.chocolate.remote.drafts.DraftsMessagesImpl
-import com.chocolate.remote.messages.MessagesImpl
-import com.chocolate.remote.scheduled_message.ScheduledMessageImpl
-import com.chocolate.remote.server_and_organizations.OrganizationsImpl
-import com.chocolate.remote.users.UsersImpl
-import com.chocolate.repository.datastore.OrganizationPreferenceDataSource
-import com.chocolate.repository.datastore.UserEncryptedSharedPreference
-import com.chocolate.repository.service.OnboardingPreferencesDataSource
-import com.chocolate.repository.service.local.DraftMessagesLocalDataSource
-import com.chocolate.repository.service.local.OrganizationsLocalDataSource
-import com.chocolate.repository.service.local.StreamLocalDataSource
-import com.chocolate.repository.service.local.TrendLocalDataSource
-import com.chocolate.repository.service.local.UserLocalDataSource
-import com.chocolate.repository.service.remote.ChannelsDataSource
-import com.chocolate.repository.service.remote.DraftMessageDataSource
-import com.chocolate.repository.service.remote.MessagesDataSource
-import com.chocolate.repository.service.remote.OrganizationDataSource
-import com.chocolate.repository.service.remote.ScheduledMessageDataSource
-import com.chocolate.repository.service.remote.UsersDataSource
+import com.chocolate.local.dao.draft.DraftMessagesLocalDataSource
+import com.chocolate.local.dao.organization.OrganizationsLocalDataSource
+import com.chocolate.local.dao.stream.StreamLocalDataSource
+import com.chocolate.local.dao.trend.TrendLocalDataSource
+import com.chocolate.local.dao.user.UserLocalDataSource
+import com.chocolate.local.datastore.OnboardingPreferencesDataSource
+import com.chocolate.local.datastore.OrganizationPreferencesDataSource
+import com.chocolate.local.datastore.UserPreferencesDataSource
+import com.chocolate.remote.channels.ChannelsRetrofitDataSource
+import com.chocolate.remote.drafts.DraftsMessagesRetrofitDataSource
+import com.chocolate.remote.messages.MessagesRetrofitDataSource
+import com.chocolate.remote.scheduled_message.ScheduledMessageRetrofitDataSource
+import com.chocolate.remote.server_and_organizations.OrganizationsRetrofitDataSource
+import com.chocolate.remote.users.UsersRetrofitDataSource
+import com.chocolate.repository.datastore.OnboardingDataStoreDataSource
+import com.chocolate.repository.datastore.OrganizationDataStoreDataSource
+import com.chocolate.repository.datastore.UserDataStoreDataSource
+import com.chocolate.repository.service.local.DraftMessagesRoomDataSource
+import com.chocolate.repository.service.local.OrganizationsRoomDataSource
+import com.chocolate.repository.service.local.StreamRoomDataSource
+import com.chocolate.repository.service.local.TrendRoomDataSource
+import com.chocolate.repository.service.local.UserRoomDataSource
+import com.chocolate.repository.service.remote.ChannelsRemoteDataSource
+import com.chocolate.repository.service.remote.DraftMessageRemoteDataSource
+import com.chocolate.repository.service.remote.MessagesRemoteDataSource
+import com.chocolate.repository.service.remote.OrganizationRemoteDataSource
+import com.chocolate.repository.service.remote.ScheduledMessageRemoteDataSource
+import com.chocolate.repository.service.remote.UsersRemoteDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class DataSourceModule {
 
+    @Singleton
     @Binds
-    abstract fun provideOrganizationPreferenceDataSource(
-        organizationPreferenceDataSourceImplementation: OrganizationPreferenceDataSourceImplementation
-    ): OrganizationPreferenceDataSource
+    abstract fun bindOrganizationPreferenceDataSource(
+        organizationPreferencesDataSource: OrganizationPreferencesDataSource
+    ): OrganizationDataStoreDataSource
 
+    @Singleton
     @Binds
-    abstract fun provideDraftMessageDataSource(
-        draftMessagesLocalDataSourceImpl: DraftMessagesLocalDataSourceImpl
-    ): DraftMessagesLocalDataSource
+    abstract fun bindDraftMessageDataSource(
+        draftMessagesLocalDataSource: DraftMessagesLocalDataSource
+    ): DraftMessagesRoomDataSource
 
+    @Singleton
     @Binds
-    abstract fun provideOrganizationsDataSource(
-        organizationsLocalDataSourceImplementation: OrganizationsLocalDataSourceImplementation
-    ): OrganizationsLocalDataSource
+    abstract fun bindOrganizationsDataSource(
+        organizationsLocalDataSource: OrganizationsLocalDataSource
+    ): OrganizationsRoomDataSource
 
+    @Singleton
     @Binds
-    abstract fun provideStreamDataSource(
-        streamLocalDataSourceImpl: StreamLocalDataSourceImpl
-    ): StreamLocalDataSource
+    abstract fun bindStreamDataSource(
+        streamLocalDataSource: StreamLocalDataSource
+    ): StreamRoomDataSource
 
+    @Singleton
     @Binds
-    abstract fun provideTrendDataSource(
-        trendLocalDataSourceImpl: TrendLocalDataSourceImpl
-    ): TrendLocalDataSource
+    abstract fun bindTrendDataSource(
+        trendLocalDataSource: TrendLocalDataSource
+    ): TrendRoomDataSource
 
+    @Singleton
     @Binds
     abstract
-    fun provideUserDataSource(
-        userLocalDataSourceImpl: UserLocalDataSourceImpl
-    ): UserLocalDataSource
+    fun bindUserDataSource(
+        userLocalDataSource: UserLocalDataSource
+    ): UserRoomDataSource
 
+    @Singleton
     @Binds
-    abstract fun provideChannels(channelsImpl: ChannelsImpl): ChannelsDataSource
+    abstract fun bindChannels(channelsRetrofitDataSource: ChannelsRetrofitDataSource): ChannelsRemoteDataSource
 
+    @Singleton
     @Binds
-    abstract fun provideOrganization(organizationsImpl: OrganizationsImpl): OrganizationDataSource
+    abstract fun bindOrganization(organizationsRetrofitDataSource: OrganizationsRetrofitDataSource): OrganizationRemoteDataSource
 
+    @Singleton
     @Binds
-    abstract fun provideDraftsMessage(draftsMessagesImpl: DraftsMessagesImpl): DraftMessageDataSource
+    abstract fun bindDraftsMessage(draftsMessagesRetrofitDataSource: DraftsMessagesRetrofitDataSource): DraftMessageRemoteDataSource
 
+    @Singleton
     @Binds
-    abstract fun provideMessages(messagesImpl: MessagesImpl): MessagesDataSource
+    abstract fun bindMessages(messagesRetrofitDataSource: MessagesRetrofitDataSource): MessagesRemoteDataSource
 
+    @Singleton
     @Binds
-    abstract fun provideScheduledMessage(scheduledMessageImpl: ScheduledMessageImpl): ScheduledMessageDataSource
+    abstract fun bindScheduledMessage(scheduledMessageRetrofitDataSource: ScheduledMessageRetrofitDataSource): ScheduledMessageRemoteDataSource
 
+    @Singleton
     @Binds
-    abstract fun provideUsers(usersImpl: UsersImpl): UsersDataSource
+    abstract fun bindUsers(usersRetrofitDataSource: UsersRetrofitDataSource): UsersRemoteDataSource
 
+    @Singleton
     @Binds
     abstract fun bindOnboardingPreferencesDataSource(
-        onboardingPreferencesDataSourceImplementation: OnboardingPreferencesDataSourceImplementation
-    ): OnboardingPreferencesDataSource
+        onboardingPreferencesDataSource: OnboardingPreferencesDataSource
+    ): OnboardingDataStoreDataSource
 
+    @Singleton
     @Binds
     abstract fun bindUserEncryptedSharedPreference(
-        userEncryptedSharedPreferenceImplementation: UserEncryptedSharedPreferenceImplementation
-    ): UserEncryptedSharedPreference
+        userPreferencesDataSource: UserPreferencesDataSource
+    ): UserDataStoreDataSource
 
 }

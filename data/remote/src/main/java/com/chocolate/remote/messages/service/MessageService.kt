@@ -1,16 +1,16 @@
 package com.chocolate.remote.messages.service
 
-import com.chocolate.repository.dto.remote.message.response.DefaultMessageRemoteDto
-import com.chocolate.repository.dto.remote.message.response.FileRemoteDto
-import com.chocolate.repository.dto.remote.message.response.MatchNarrowDto
-import com.chocolate.repository.dto.remote.message.response.MessageEditHistoryDto
-import com.chocolate.repository.dto.remote.message.response.MessageReadReceiptsDto
-import com.chocolate.repository.dto.remote.message.response.MessagesRemoteDto
-import com.chocolate.repository.dto.remote.message.response.PersonalMessageFlagsDto
-import com.chocolate.repository.dto.remote.message.response.PersonalMessageForNarrowDto
-import com.chocolate.repository.dto.remote.message.response.RenderMessageDto
-import com.chocolate.repository.dto.remote.message.response.SendMessageDto
-import com.chocolate.repository.dto.remote.message.response.SingleMessageDto
+import com.chocolate.repository.model.dto.message.response.DefaultMessageRemoteDto
+import com.chocolate.repository.model.dto.message.response.FileRemoteDto
+import com.chocolate.repository.model.dto.message.response.MatchNarrowDto
+import com.chocolate.repository.model.dto.message.response.MessageEditHistoryDto
+import com.chocolate.repository.model.dto.message.response.MessageReadReceiptsDto
+import com.chocolate.repository.model.dto.message.response.MessagesRemoteDto
+import com.chocolate.repository.model.dto.message.response.PersonalMessageFlagsDto
+import com.chocolate.repository.model.dto.message.response.PersonalMessageForNarrowDto
+import com.chocolate.repository.model.dto.message.response.RenderMessageDto
+import com.chocolate.repository.model.dto.message.response.SendMessageDto
+import com.chocolate.repository.model.dto.message.response.SingleMessageDto
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.DELETE

@@ -1,7 +1,7 @@
 package com.chocolate.repository.mappers.messages
 
 import com.chocolate.entities.messages.PersonalMessageForNarrow
-import com.chocolate.repository.dto.remote.message.response.PersonalMessageForNarrowDto
+import com.chocolate.repository.model.dto.message.response.PersonalMessageForNarrowDto
 
 fun PersonalMessageForNarrowDto.toPersonalMessageForNarrow(): PersonalMessageForNarrow {
     return PersonalMessageForNarrow(

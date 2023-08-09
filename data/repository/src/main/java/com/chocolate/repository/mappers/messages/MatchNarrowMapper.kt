@@ -1,7 +1,7 @@
 package com.chocolate.repository.mappers.messages
 
 import com.chocolate.entities.messages.MatchNarrow
-import com.chocolate.repository.dto.remote.message.response.MatchNarrowDto
+import com.chocolate.repository.model.dto.message.response.MatchNarrowDto
 
 fun MatchNarrowDto.toMatchNarrow(): MatchNarrow {
     return MatchNarrow(

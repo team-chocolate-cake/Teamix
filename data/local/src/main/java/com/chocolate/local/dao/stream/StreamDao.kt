@@ -3,7 +3,7 @@ package com.chocolate.local.dao.stream
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.chocolate.repository.dto.local.stream.StreamLocalDto
+import com.chocolate.repository.model.localDto.stream.StreamLocalDto
 
 @Dao
 interface StreamDao {

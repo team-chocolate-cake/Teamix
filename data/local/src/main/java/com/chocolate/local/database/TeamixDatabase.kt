@@ -7,13 +7,13 @@ import com.chocolate.local.dao.organization.OrganizationsDao
 import com.chocolate.local.dao.stream.StreamDao
 import com.chocolate.local.dao.trend.TrendDao
 import com.chocolate.local.dao.user.UserDao
-import com.chocolate.repository.dto.local.draft.DraftLocalDto
-import com.chocolate.repository.dto.local.stream.StreamLocalDto
-import com.chocolate.repository.dto.local.trends.TrendsLocalDto
-import com.chocolate.repository.dto.local.users.ChatLocalDto
-import com.chocolate.repository.dto.local.users.GroupsLocalDto
-import com.chocolate.repository.dto.local.users.OrganizationsLocalDto
-import com.chocolate.repository.dto.local.users.StoriesLocalDto
+import com.chocolate.repository.model.localDto.draft.DraftLocalDto
+import com.chocolate.repository.model.localDto.stream.StreamLocalDto
+import com.chocolate.repository.model.localDto.trends.TrendsLocalDto
+import com.chocolate.repository.model.localDto.users.ChatLocalDto
+import com.chocolate.repository.model.localDto.users.GroupsLocalDto
+import com.chocolate.repository.model.localDto.users.OrganizationsLocalDto
+import com.chocolate.repository.model.localDto.users.StoriesLocalDto
 
 @Database(
     entities = [

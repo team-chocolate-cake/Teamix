@@ -2,8 +2,8 @@ package com.chocolate.repository.mappers.messages
 
 import com.chocolate.entities.messages.Message
 import com.chocolate.entities.messages.Messages
-import com.chocolate.repository.dto.remote.message.response.MessageDto
-import com.chocolate.repository.dto.remote.message.response.MessagesRemoteDto
+import com.chocolate.repository.model.dto.message.response.MessageDto
+import com.chocolate.repository.model.dto.message.response.MessagesRemoteDto
 
 
 fun MessageDto.toMessage(): Message {

@@ -2,7 +2,7 @@ package com.chocolate.repository.mappers.organizations
 
 import com.chocolate.entities.server_and_organizations.CustomFieldEntity
 import com.chocolate.entities.server_and_organizations.CustomProfileFields
-import com.chocolate.repository.dto.remote.server_and_organizations.response.CustomProfileFieldsDto
+import com.chocolate.repository.model.dto.server_and_organizations.response.CustomProfileFieldsDto
 
 fun CustomProfileFieldsDto.toCustomProfileFields(): CustomProfileFields {
     val customFieldsEntity = customFieldDtos?.map { customFieldDto ->

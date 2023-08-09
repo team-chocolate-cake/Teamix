@@ -1,6 +1,6 @@
 package com.chocolate.usecases.onboarding
 
-import repositories.onboarding.OnboardingRepository
+import repositories.OnboardingRepository
 import javax.inject.Inject
 
 class SetOnboardingScreenShownUseCase @Inject constructor(

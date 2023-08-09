@@ -10,18 +10,18 @@ import com.chocolate.entities.channel_models.SubscriptionSettingsUpdate
 import com.chocolate.entities.channel_models.SubscriptionStatus
 import com.chocolate.entities.channel_models.TopicItem
 import com.chocolate.entities.channel_models.Topics
-import com.chocolate.repository.dto.remote.channels.response.AllSubscribersDto
-import com.chocolate.repository.dto.remote.channels.response.DefaultStreamDto
-import com.chocolate.repository.dto.remote.channels.response.StreamDto
-import com.chocolate.repository.dto.remote.channels.response.StreamsIdDto
-import com.chocolate.repository.dto.remote.channels.response.StreamsItem
-import com.chocolate.repository.dto.remote.channels.response.SubscribeToStreamDto
-import com.chocolate.repository.dto.remote.channels.response.SubscriptionSettingsDto
-import com.chocolate.repository.dto.remote.channels.response.SubscriptionStatusDto
-import com.chocolate.repository.dto.remote.channels.response.SubscriptionsItemDto
-import com.chocolate.repository.dto.remote.channels.response.TopicsInStreamDto
-import com.chocolate.repository.dto.remote.channels.response.TopicsItemDto
-import com.chocolate.repository.dto.remote.channels.response.UnsubscribeFromStreamDto
+import com.chocolate.repository.model.dto.channels.response.AllSubscribersDto
+import com.chocolate.repository.model.dto.channels.response.DefaultStreamDto
+import com.chocolate.repository.model.dto.channels.response.StreamDto
+import com.chocolate.repository.model.dto.channels.response.StreamsIdDto
+import com.chocolate.repository.model.dto.channels.response.StreamsItem
+import com.chocolate.repository.model.dto.channels.response.SubscribeToStreamDto
+import com.chocolate.repository.model.dto.channels.response.SubscriptionSettingsDto
+import com.chocolate.repository.model.dto.channels.response.SubscriptionStatusDto
+import com.chocolate.repository.model.dto.channels.response.SubscriptionsItemDto
+import com.chocolate.repository.model.dto.channels.response.TopicsInStreamDto
+import com.chocolate.repository.model.dto.channels.response.TopicsItemDto
+import com.chocolate.repository.model.dto.channels.response.UnsubscribeFromStreamDto
 
 fun SubscriptionsItemDto.toStreamInfo(): StreamItem {
     return StreamItem(

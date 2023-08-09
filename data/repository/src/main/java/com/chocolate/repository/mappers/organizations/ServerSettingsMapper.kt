@@ -3,7 +3,7 @@ package com.chocolate.repository.mappers.organizations
 import com.chocolate.entities.server_and_organizations.AuthenticationMethodsEntity
 import com.chocolate.entities.server_and_organizations.ExternalAuthenticationMethodEntity
 import com.chocolate.entities.server_and_organizations.ServerSettings
-import com.chocolate.repository.dto.remote.server_and_organizations.response.ServerSettingsDto
+import com.chocolate.repository.model.dto.server_and_organizations.response.ServerSettingsDto
 
 fun ServerSettingsDto.toEntity(): ServerSettings {
     val authenticationMethodsEntity = AuthenticationMethodsEntity(

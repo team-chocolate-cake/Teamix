@@ -1,7 +1,7 @@
 package com.chocolate.repository.mappers.scheduled
 
 import com.chocolate.entities.scheduled_messages.BaseScheduledMessage
-import com.chocolate.repository.dto.remote.scheduled_message.response.BaseScheduledMessageResponse
+import com.chocolate.repository.model.dto.scheduled_message.response.BaseScheduledMessageResponse
 
 fun BaseScheduledMessageResponse.toBaseScheduledMessage(): BaseScheduledMessage {
     return BaseScheduledMessage(

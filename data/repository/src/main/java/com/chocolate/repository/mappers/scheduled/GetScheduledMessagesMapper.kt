@@ -2,7 +2,7 @@ package com.chocolate.repository.mappers.scheduled
 
 import com.chocolate.entities.scheduled_messages.ScheduledMessageContent
 import com.chocolate.entities.scheduled_messages.ScheduledMessages
-import com.chocolate.repository.dto.remote.scheduled_message.response.ScheduledMessagesDto
+import com.chocolate.repository.model.dto.scheduled_message.response.ScheduledMessagesDto
 
 fun ScheduledMessagesDto.toScheduledMessages(): ScheduledMessages {
     val scheduledMessageContents = scheduledMessages?.map { scheduledMessageContentDto ->

@@ -1,7 +1,7 @@
 package com.chocolate.repository.mappers.messages
 
 import com.chocolate.entities.messages.MessageEditHistory
-import com.chocolate.repository.dto.remote.message.response.MessageEditHistoryDto
+import com.chocolate.repository.model.dto.message.response.MessageEditHistoryDto
 
 fun MessageEditHistoryDto.toMessageEditHistory(): List<MessageEditHistory> {
     return this.messageHistory?.map { messageHistory ->

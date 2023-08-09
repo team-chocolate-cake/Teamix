@@ -1,7 +1,7 @@
 package com.chocolate.repository.mappers.messages
 
 import com.chocolate.entities.messages.RenderMessage
-import com.chocolate.repository.dto.remote.message.response.RenderMessageDto
+import com.chocolate.repository.model.dto.message.response.RenderMessageDto
 
 fun RenderMessageDto.toRenderMessage(): RenderMessage {
     return RenderMessage(

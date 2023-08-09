@@ -1,8 +1,8 @@
 package com.chocolate.repository.service.local
 
-import com.chocolate.repository.dto.local.users.StoriesLocalDto
+import com.chocolate.repository.model.localDto.users.StoriesLocalDto
 
-interface UserLocalDataSource {
+interface UserRoomDataSource {
     suspend fun insertStory(story: StoriesLocalDto)
 
     suspend fun getStoryById(id: String): StoriesLocalDto?

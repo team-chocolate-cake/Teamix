@@ -2,7 +2,7 @@ package com.chocolate.repository.model.dto.users.request
 
 import com.google.gson.annotations.SerializedName
 
-data class UserGroupUpdateRequest(
+data class UserGroupUpdateDto(
     @SerializedName("name")
     val name: String,
     @SerializedName("description")

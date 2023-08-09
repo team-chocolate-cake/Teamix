@@ -34,6 +34,9 @@ import com.chocolate.presentation.profile.component.MultiChoiceDialog
 import com.chocolate.presentation.profile.component.OrganizationImageSheet
 import com.chocolate.presentation.profile.component.OrganizationNameSheet
 import com.chocolate.presentation.profile.component.SettingCard
+import com.chocolate.presentation.theme.Space12
+import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 
@@ -88,7 +91,7 @@ fun OwnerPowerContent() {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal =Space16)
             ) {
                 item {
                     Text(
@@ -98,8 +101,8 @@ fun OwnerPowerContent() {
                     Box(
                         Modifier
                             .fillMaxWidth()
-                            .padding(top = 8.dp)
-                            .clip(RoundedCornerShape(12.dp))
+                            .padding(top = Space8)
+                            .clip(RoundedCornerShape(Space12))
                             .wrapContentHeight()
                             .background(color.card)
                     ) {
@@ -132,8 +135,8 @@ fun OwnerPowerContent() {
                     Box(
                         Modifier
                             .fillMaxWidth()
-                            .padding(top = 8.dp)
-                            .clip(RoundedCornerShape(12.dp))
+                            .padding(top = Space8)
+                            .clip(RoundedCornerShape(Space12))
                             .wrapContentHeight()
                             .background(color.card)
                     ) {
@@ -167,13 +170,13 @@ fun OwnerPowerContent() {
                 item {
                     Text(
                         text = "Channel", style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.padding(top = 16.dp)
+                        modifier = Modifier.padding(top =Space16)
                     )
                     Box(
                         Modifier
                             .fillMaxWidth()
-                            .padding(top = 8.dp)
-                            .clip(RoundedCornerShape(12.dp))
+                            .padding(top =Space8)
+                            .clip(RoundedCornerShape(Space12))
                             .wrapContentHeight()
                             .background(color.card)
                     ) {

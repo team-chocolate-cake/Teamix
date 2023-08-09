@@ -20,26 +20,28 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.CustomColorsPalette
+import com.chocolate.presentation.theme.Space12
+import com.chocolate.presentation.theme.Space16
 
 @Composable
 fun OrganizationImageSheet(onClick:()->Unit,color: CustomColorsPalette){
     ProfileBottomSheet(
         colors = color,
         onDismissBottomSheet = { onClick() }) {
-        Column(modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)) {
+        Column(modifier = Modifier.padding(start = Space16, bottom =Space16)) {
             Text(
                 text = "Select Organization Image",
                 style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier,
                 color = color.onBackground87
             )
-            LazyRow(modifier = Modifier.padding(vertical = 16.dp)) {
+            LazyRow(modifier = Modifier.padding(vertical = Space16)) {
                 item {
                     Box(
                         modifier = Modifier
-                            .padding(end = 16.dp)
+                            .padding(end = Space16)
                             .size(56.dp)
-                            .clip(RoundedCornerShape(12.dp))
+                            .clip(RoundedCornerShape(Space12))
                             .background(color.primary)
                             .clickable { }
                     ) {

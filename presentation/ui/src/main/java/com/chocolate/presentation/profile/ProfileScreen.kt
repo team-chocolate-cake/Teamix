@@ -50,6 +50,10 @@ import com.chocolate.presentation.profile.component.MultiChoiceDialog
 import com.chocolate.presentation.profile.component.ProfileDialog
 import com.chocolate.presentation.profile.component.ProfileTextField
 import com.chocolate.presentation.profile.component.SettingCard
+import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.Space26
+import com.chocolate.presentation.theme.Space32
+import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.profile.ProfileUiState
@@ -85,12 +89,12 @@ fun ProfileContent(state:ProfileUiState) {
             modifier = Modifier
                 .fillMaxSize()
                 .background(color.background)
-                .padding(top = 26.dp), horizontalAlignment = Alignment.CenterHorizontally
+                .padding(top =Space26), horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(Modifier.height(158.dp)) {
                 Box(
                     modifier = Modifier
-                        .padding(top = 32.dp)
+                        .padding(top =Space32)
                         .size(130.dp)
                         .clip(CircleShape)
                         .border(2.dp, color.primary, CircleShape),
@@ -124,7 +128,7 @@ fun ProfileContent(state:ProfileUiState) {
             }
 
             Text(
-                state.name, modifier = Modifier.padding(top = 16.dp),
+                state.name, modifier = Modifier.padding(top = Space16),
                 style = MaterialTheme.typography.titleMedium,
                 color = color.onBackground87
             )
@@ -168,16 +172,16 @@ fun ProfileContent(state:ProfileUiState) {
             Spacer(modifier = Modifier.weight(1f))
             Box(
                 Modifier
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = Space16)
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(8.dp))
+                    .clip(RoundedCornerShape(Space8))
                     .height(400.dp)
                     .background(color.card)
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = 16.dp),
+                        .padding(top = Space16),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Row(
@@ -189,7 +193,7 @@ fun ProfileContent(state:ProfileUiState) {
                     ) {
                         Button(
                             onClick = { pageNumber = 0 }, modifier = Modifier
-                                .padding(start = 16.dp)
+                                .padding(start = Space16)
                                 .width(110.dp),
                             colors = ButtonDefaults.buttonColors(
                                 if (pageState.currentPage == 0) color.primary.copy(alpha = 1f) else
@@ -204,7 +208,7 @@ fun ProfileContent(state:ProfileUiState) {
                         }
                         Button(
                             onClick = { pageNumber = 1 }, modifier = Modifier
-                                .padding(end = 16.dp)
+                                .padding(end = Space16)
                                 .width(110.dp),
                             colors = ButtonDefaults.buttonColors(
                                 if (pageState.currentPage == 1) color.primary.copy(alpha = 1f) else
@@ -222,7 +226,7 @@ fun ProfileContent(state:ProfileUiState) {
 
                     HorizontalPager(state = pageState, pageCount = 2) {
                         if (pageState.currentPage == 0) {
-                            LazyColumn(modifier = Modifier.padding(horizontal = 16.dp)) {
+                            LazyColumn(modifier = Modifier.padding(horizontal = Space16)) {
                                 item {
                                     ProfileTextField(
                                         text = "name",

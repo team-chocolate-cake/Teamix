@@ -20,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.chocolate.presentation.theme.Space12
+import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.customColors
 
 @Composable
@@ -41,14 +43,14 @@ fun MultiChoiceDialog(onClick: () -> Unit, list: List<String>) {
             Column(
                 modifier = Modifier
                     .size(width = 300.dp, height = 350.dp)
-                    .clip(RoundedCornerShape(12.dp)),
+                    .clip(RoundedCornerShape(Space12)),
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 list.forEach { text ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
+                            .padding(horizontal = Space16),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {

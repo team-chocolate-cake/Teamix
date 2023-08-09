@@ -17,6 +17,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.theme.CustomColorsPalette
+import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.Space8
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -26,7 +28,7 @@ fun ChannelNameSheet(onClick:()->Unit,color: CustomColorsPalette){
         mutableStateOf(0)
     }
     ProfileBottomSheet(colors = color, onDismissBottomSheet = { onClick() }) {
-        Column(modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)) {
+        Column(modifier = Modifier.padding(start = Space16, bottom = Space16)) {
             Text(
                 text = "Channel Name", style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier,
@@ -41,12 +43,12 @@ fun ChannelNameSheet(onClick:()->Unit,color: CustomColorsPalette){
             )
             Text(
                 text = "Channel Name", style = MaterialTheme.typography.labelMedium,
-                modifier = Modifier.padding(top = 16.dp),
+                modifier = Modifier.padding(top = Space16),
                 color = color.onBackground87
             )
             Row(modifier = Modifier.fillMaxWidth()) {
                 InputChip(
-                    modifier = Modifier.padding(end = 8.dp),
+                    modifier = Modifier.padding(end =Space8),
                     selected = selectedItem == 0,
                     onClick = { selectedItem = 0 },
                     label = { Text(text = "private") },

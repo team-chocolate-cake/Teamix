@@ -23,6 +23,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.chocolate.presentation.theme.Space12
+import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.Space8
 
 @Composable
 fun ChangeThemeDialog() {
@@ -40,14 +43,14 @@ fun ChangeThemeDialog() {
     Column(
         modifier = Modifier
             .size(width = 300.dp, height = 350.dp)
-            .clip(RoundedCornerShape(12.dp)),
+            .clip(RoundedCornerShape(Space12)),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         textColors.forEach { text ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+                    .padding(horizontal = Space16),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Box(
@@ -56,7 +59,7 @@ fun ChangeThemeDialog() {
                         .clip(CircleShape)
                         .background(colors[textColors.indexOf(text)])
                 )
-                Text(text = text, modifier = Modifier.padding(start = 8.dp))
+                Text(text = text, modifier = Modifier.padding(start =Space8))
                 Spacer(modifier = Modifier.weight(1f))
                 RadioButton(selected = (text == selected.value), onClick = {
                     selected.value = text

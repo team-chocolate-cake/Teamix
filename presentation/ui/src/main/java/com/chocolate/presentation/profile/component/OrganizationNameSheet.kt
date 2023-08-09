@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.theme.CustomColorsPalette
+import com.chocolate.presentation.theme.Space16
 
 
 @Composable
@@ -15,7 +16,7 @@ fun OrganizationNameSheet(onClick:()->Unit,color: CustomColorsPalette){
     ProfileBottomSheet(
         colors = color,
         onDismissBottomSheet = { onClick()}) {
-        Column(modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)) {
+        Column(modifier = Modifier.padding(start =Space16, bottom = Space16)) {
             Text(
                 text = "Select Organization Image",
                 style = MaterialTheme.typography.labelMedium,

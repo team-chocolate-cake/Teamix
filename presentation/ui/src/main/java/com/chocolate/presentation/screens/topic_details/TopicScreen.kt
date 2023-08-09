@@ -24,32 +24,54 @@ import com.chocolate.presentation.theme.customColors
 @Composable
 fun TopicScreen() {
     TopicContent(
+        topicScreenUiState = TopicScreenUiState(),
         navigationBack = {},
+        openEmojisTile = {},
+        onMessageInputChanged = {},
+        OnSendMessage = {},
+        OnStartVoiceRecording = {},
+        onClickPhotoOrVideo = {},
+        onClickCamera = {},
     )
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun TopicContent(
-    topicName: String = "Topic Name",
+    topicScreenUiState: TopicScreenUiState,
     navigationBack: () -> Unit,
-) {
+    openEmojisTile: () -> Unit,
+    onMessageInputChanged: (String) -> Unit,
+    OnSendMessage: () -> Unit,
+    OnStartVoiceRecording: () -> Unit,
+    onClickCamera: () -> Unit,
+    onClickPhotoOrVideo: (Int) -> Unit,
+
+    ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = MaterialTheme.customColors().background,//todo change this color to be in dark theme
         topBar = {
             //todo this app bar must be changed to be one composable for all screens
             CustomAppBar(
-                title = topicName,
+                title = topicScreenUiState.topicName,
                 navigationBack = navigationBack,
             )
         },
         bottomBar = {
             StartNewMessage(
-                modifier = Modifier
+                openEmojisTile = openEmojisTile,
+                onMessageInputChanged = onMessageInputChanged,
+                onSendMessage = OnSendMessage,
+                onStartVoiceRecording = OnStartVoiceRecording,
+                onClickCamera = onClickCamera,
+                onClickPhotoOrVideo = onClickPhotoOrVideo,
+                photoOrVideoList = topicScreenUiState.photoAndVideo,
+                modifier = Modifier,
+                messageInput = topicScreenUiState.topicName,
             )
         }
-        ) { padding ->
+    ) { padding ->
         ConstraintLayout(
             modifier = Modifier
                 .padding(padding)
@@ -64,11 +86,11 @@ fun TopicContent(
                     },
                 reverseLayout = true,
                 verticalArrangement = Arrangement.spacedBy(Space16),
-                contentPadding = PaddingValues(bottom = Space16 )
+                contentPadding = PaddingValues(bottom = Space16)
             ) {
-                items(6) {
+                items(topicScreenUiState.messages.size) {
                     ReplyMessage(
-                        isMyReplay = it%2==0
+                        messageUiState = topicScreenUiState.messages[it]
                     )
                 }
             }

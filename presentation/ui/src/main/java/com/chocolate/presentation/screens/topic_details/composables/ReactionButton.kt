@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.chocolate.presentation.screens.topic_details.ReactionUiState
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.Space4
@@ -27,7 +28,7 @@ import com.chocolate.presentation.theme.customColors
 
 @Composable
 fun ReactionButton(
-    reaction: Reaction,
+    reaction: ReactionUiState,
     onReactionClicked:(Boolean)->Unit
 ) {
     var reactionCount by remember {
@@ -45,8 +46,6 @@ fun ReactionButton(
                 else MaterialTheme.customColors().lightGray
             )
             .clickable {
-                reactionclicked = !reactionclicked
-                if (reactionclicked) reactionCount++ else reactionCount--
                 onReactionClicked(reactionclicked)
             }
             .padding(vertical = Space4, horizontal = Space8)
@@ -68,9 +67,3 @@ fun ReactionButton(
         }
     }
 }
-
-
-data class Reaction(
-    val reaction: Int,
-    val count: Int
-)

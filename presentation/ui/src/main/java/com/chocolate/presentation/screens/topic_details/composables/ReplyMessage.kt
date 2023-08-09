@@ -39,6 +39,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.chocolate.presentation.R
+import com.chocolate.presentation.screens.topic_details.MessageUiState
 import com.chocolate.presentation.theme.Space0
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space24
@@ -51,16 +52,7 @@ import com.chocolate.presentation.theme.customColors
 @OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun ReplyMessage(
-    username: String = "Mimo Mimo",
-    userImage: Int = R.drawable.person,
-    replayDate: String = "16:46",
-    messageImage: Int? = R.drawable.image_placeholder,
-    reactions: List<Reaction> = listOf(
-        Reaction(R.drawable.heart, 12),
-        Reaction(R.drawable.heart, 12),
-    ),
-    isMyReplay: Boolean = false,
-    message: String = "----- New day ----\nGood Things Take Time A few men were despatched to poke around in the warm, dark tunnels on either side of Odéon station, where "
+    messageUiState: MessageUiState
 ) {
     var showSheet by remember { mutableStateOf(false) }
 
@@ -73,47 +65,47 @@ fun ReplyMessage(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                end = if (!isMyReplay) Space24 else Space0,
-                start = if (!isMyReplay) Space0 else Space24,
+                end = if (!messageUiState.isMyReplay) Space24 else Space0,
+                start = if (!messageUiState.isMyReplay) Space0 else Space24,
             )
             .padding(horizontal = Space8)
     ) {
         val (image, messageCard, emojis) = createRefs()
 
-        if (!isMyReplay) {
+        if (!messageUiState.isMyReplay) {
             AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current).data(userImage).build(),
+                model = ImageRequest.Builder(LocalContext.current).data(messageUiState.userImage).build(),
                 modifier = Modifier
                     .padding(end = Space8)
                     .clip(CircleShape)
                     .size(Space40)
                     .constrainAs(image) {
                         start.linkTo(parent.start)
-                        if (!reactions.isEmpty()) bottom.linkTo(emojis.top)
+                        if (!messageUiState.reactions.isEmpty()) bottom.linkTo(emojis.top)
                         else bottom.linkTo(parent.bottom)
                     },
                 contentDescription = ""
             )
         }
         Card(colors = CardDefaults.cardColors(
-            containerColor = if (!isMyReplay) Color.White else MaterialTheme.customColors().primary //todo must be changed
+            containerColor = if (!messageUiState.isMyReplay) Color.White else MaterialTheme.customColors().primary //todo must be changed
         ),
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentSize(align = if (!isMyReplay) Alignment.CenterStart else Alignment.CenterEnd)
+                .wrapContentSize(align = if (!messageUiState.isMyReplay) Alignment.CenterStart else Alignment.CenterEnd)
                 .padding(
-                    end = if (!isMyReplay) Space24 else 0.dp
+                    end = if (!messageUiState.isMyReplay) Space24 else 0.dp
                 )
                 .constrainAs(messageCard) {
-                    if (!isMyReplay) start.linkTo(image.end)
+                    if (!messageUiState.isMyReplay) start.linkTo(image.end)
                     else end.linkTo(parent.end)
                 }
                 .clip(
                     RoundedCornerShape(
                         topStart = 12.dp,
                         topEnd = 12.dp,
-                        bottomEnd = if (!isMyReplay) 12.dp else 0.dp,
-                        bottomStart = if (!isMyReplay) 0.dp else 12.dp
+                        bottomEnd = if (!messageUiState.isMyReplay) 12.dp else 0.dp,
+                        bottomStart = if (!messageUiState.isMyReplay) 0.dp else 12.dp
                     )
                 )
                 .combinedClickable(onClick = {}, onLongClick = {
@@ -122,23 +114,24 @@ fun ReplyMessage(
             shape = RoundedCornerShape(
                 topStart = 12.dp,
                 topEnd = 12.dp,
-                bottomEnd = if (!isMyReplay) 12.dp else 0.dp,
-                bottomStart = if (!isMyReplay) 0.dp else 12.dp
+                bottomEnd = if (!messageUiState.isMyReplay) 12.dp else 0.dp,
+                bottomStart = if (!messageUiState.isMyReplay) 0.dp else 12.dp
             )
         ) {
             Column(
                 modifier = Modifier.padding(Space8)
             ) {
-                if (!isMyReplay) {
+                if (!messageUiState.isMyReplay) {
                     Text(
-                        text = username,
+                        text = messageUiState.username,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.customColors().primary
                     )
                 }
-                if (messageImage != null) {
+                if (messageUiState.messageImage != null) {
                     AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current).data(messageImage).build(),
+                        model = ImageRequest.Builder(LocalContext.current).data(messageUiState.messageImage)
+                            .build(),
                         modifier = Modifier
                             .padding(bottom = Space4)
                             .fillMaxWidth()
@@ -150,34 +143,36 @@ fun ReplyMessage(
                 }
 
                 Text(
-                    textAlign = if(!isMyReplay) TextAlign.Start else TextAlign.End,
-                    text = message,
+                    textAlign = if (!messageUiState.isMyReplay) TextAlign.Start else TextAlign.End,
+                    text = messageUiState.message,
                     style = MaterialTheme.typography.bodySmall,
-                    color = if (!isMyReplay) MaterialTheme.customColors().onBackground87 else Color.White
+                    color = if (!messageUiState.isMyReplay) MaterialTheme.customColors().onBackground87 else Color.White
                 )
                 Text(
-                    modifier = Modifier.fillMaxWidth().padding(top = Space4),
-                    textAlign = if(!isMyReplay) TextAlign.Start else TextAlign.End,
-                    text = replayDate,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = Space4),
+                    textAlign = if (!messageUiState.isMyReplay) TextAlign.Start else TextAlign.End,
+                    text = messageUiState.replayDate,
                     style = MaterialTheme.typography.bodySmall,
-                    color = if (!isMyReplay) MaterialTheme.customColors().onBackground87 else Color.White
+                    color = if (!messageUiState.isMyReplay) MaterialTheme.customColors().onBackground87 else Color.White
                 )
             }
 
         }
 
-        if (!reactions.isEmpty()) {
+        if (!messageUiState.reactions.isEmpty()) {
             FlowRow(horizontalArrangement = Arrangement.spacedBy(Space8),
                 modifier = Modifier.constrainAs(emojis) {
                     start.linkTo(image.end)
                     top.linkTo(messageCard.bottom)
                 }) {
-                reactions.forEach { reaction ->
+                messageUiState.reactions.forEach { reaction ->
                     ReactionButton(reaction) { onclick ->
 
                     }
                 }
-                if (!isMyReplay) {
+                if (!messageUiState.isMyReplay) {
                     Box(contentAlignment = Alignment.Center,
                         modifier = Modifier
                             .padding(vertical = Space4)
@@ -201,12 +196,4 @@ fun ReplyMessage(
         }
     }
 
-}
-
-@Composable
-@Preview(showSystemUi = true)
-fun ReplyMessageReview() {
-    TeamixTheme {
-        ReplyMessage()
-    }
 }

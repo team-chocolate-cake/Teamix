@@ -2,6 +2,7 @@ package com.chocolate.viewmodel.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.chocolate.usecases.organization.GetNameOrganizationsUseCase
 import com.chocolate.usecases.user.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase
+    private val loginUseCase: LoginUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(LoginUiState())
@@ -35,9 +36,9 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun login(userName: String, password: String){
+    fun login(email: String, password: String) {
         viewModelScope.launch {
-            loginUseCase(userName, password)
+            loginUseCase(email, password)
         }
     }
 }

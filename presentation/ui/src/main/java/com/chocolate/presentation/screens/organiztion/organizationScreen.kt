@@ -48,7 +48,8 @@ fun OrganizationScreen(
     val state by viewModel.state.collectAsState()
 
     OrganizationContent(
-        navigateToLogin = {navController.navigateToLogin()},
+        navigateToLogin = { navController.navigateToLogin() },
+        saveNameOrganization = viewModel::saveNameOrganization,
         updateOrganizationName = viewModel::updateOrganizationName,
         state
     )
@@ -58,6 +59,7 @@ fun OrganizationScreen(
 @Composable
 fun OrganizationContent(
     navigateToLogin: () -> Unit,
+    saveNameOrganization: (String) -> Unit,
     updateOrganizationName: (String) -> Unit,
     state: OrganizationNameUiState
 ) {
@@ -112,6 +114,7 @@ fun OrganizationContent(
                     .height(48.dp)
                     .padding(horizontal = 16.dp),
                 onClick = {
+                    saveNameOrganization(state.nameOrganization)
                     navigateToLogin()
                 },
                 colors = ButtonDefaults.buttonColors(

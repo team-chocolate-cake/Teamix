@@ -49,7 +49,7 @@ object NetworkModule {
     ): Retrofit =
         Retrofit.Builder()
             .client(client)
-            .baseUrl("https://$nameOrganization.zulipchat.com/api/v1/")
+            .baseUrl("https://${nameOrganization.trim()}.zulipchat.com/api/v1/")
             .addConverterFactory(factory)
             .build()
 
@@ -90,6 +90,6 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideNameOrganization(prefs: OrganizationDataStoreDataSource): String =
-        prefs.currentOrganization ?: ""
+        prefs.currentOrganization.toString()
 
 }

@@ -52,7 +52,7 @@ import com.chocolate.presentation.theme.customColors
 @OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun ReplyMessage(
-    messageUiState: MessageUiState
+    messageUiState: MessageUiState,
     onAddReactionToMessage: (Int) -> Unit,
     onSaveMessage: () -> Unit,
     onGetNotification: () -> Unit,

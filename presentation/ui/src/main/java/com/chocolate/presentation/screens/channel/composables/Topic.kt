@@ -66,9 +66,7 @@ fun Topic(
             modifier = Modifier.fillMaxWidth()
         ) {
             Column {
-                ReplyMessage()
                 Spacer(modifier = Modifier.height(Space8))
-                ReplyMessage()
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()

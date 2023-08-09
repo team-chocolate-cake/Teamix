@@ -76,7 +76,7 @@ fun TopicContent(
                 onClickPhotoOrVideo = onClickPhotoOrVideo,
                 photoOrVideoList = topicScreenUiState.photoAndVideo,
                 modifier = Modifier,
-                messageInput = topicScreenUiState.topicName,
+                messageInput = topicScreenUiState.messageInput,
             )
         }
     ) { padding ->

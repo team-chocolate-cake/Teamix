@@ -43,9 +43,20 @@ import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 
 @Composable
-fun StartNewMessage(modifier: Modifier = Modifier) {
+fun StartNewMessage(
+    modifier: Modifier = Modifier
+) {
     var message by remember {
         mutableStateOf("")
+    }
+    var showSheet by remember { mutableStateOf(false) }
+
+    if (showSheet) {
+        AttachmentBottomSheet(
+            {} , {}
+        ) {
+            showSheet = false
+        }
     }
     Box(
         modifier = modifier
@@ -69,7 +80,7 @@ fun StartNewMessage(modifier: Modifier = Modifier) {
                         .padding(end = Space8 + Space4)
                         .size(Space32)
                         .clickable {
-                            //todo attachment bottom sheet
+                            showSheet = true
                         }
                 )
 

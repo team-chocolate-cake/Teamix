@@ -144,4 +144,8 @@ import javax.inject.Inject
 
         override suspend fun unmuteUser(mutedUserId: Int) = userService.unmuteUser(mutedUserId)
 
+        override suspend fun fetchApiKey(userName: String, password: String): Response<FetchApiKeyDto> {
+            return userService.fetchApiKey(userName, password)
+        }
+
     }

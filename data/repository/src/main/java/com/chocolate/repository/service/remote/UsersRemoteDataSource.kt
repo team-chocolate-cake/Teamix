@@ -139,4 +139,6 @@ interface UsersRemoteDataSource {
 
     suspend fun unmuteUser(mutedUserId: Int): Response<MuteUserResponseDto>
 
+    suspend fun fetchApiKey(userName: String, password: String): Response<FetchApiKeyDto>
+
 }

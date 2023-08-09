@@ -53,11 +53,20 @@ import com.chocolate.presentation.theme.customColors
 @Composable
 fun ReplyMessage(
     messageUiState: MessageUiState
+    onAddReactionToMessage: (Int) -> Unit,
+    onSaveMessage: () -> Unit,
+    onGetNotification: () -> Unit,
+    onPinMessage: () -> Unit,
 ) {
     var showSheet by remember { mutableStateOf(false) }
 
     if (showSheet) {
-        MessageOptionsBottomSheet() {
+        MessageOptionsBottomSheet(
+            onAddReactionToMessage = onAddReactionToMessage,
+            onGetNotification =onGetNotification ,
+            onPinMessage = onPinMessage,
+            onSaveMessage =onSaveMessage
+        ) {
             showSheet = false
         }
     }

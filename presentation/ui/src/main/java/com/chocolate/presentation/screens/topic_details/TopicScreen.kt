@@ -32,6 +32,10 @@ fun TopicScreen() {
         OnStartVoiceRecording = {},
         onClickPhotoOrVideo = {},
         onClickCamera = {},
+        onAddReactionToMessage = {},
+        onGetNotification ={} ,
+        onPinMessage = {},
+        onSaveMessage ={}
     )
 }
 
@@ -46,6 +50,10 @@ fun TopicContent(
     OnStartVoiceRecording: () -> Unit,
     onClickCamera: () -> Unit,
     onClickPhotoOrVideo: (Int) -> Unit,
+    onAddReactionToMessage: (Int) -> Unit,
+    onSaveMessage: () -> Unit,
+    onGetNotification: () -> Unit,
+    onPinMessage: () -> Unit,
 
     ) {
     Scaffold(
@@ -90,7 +98,12 @@ fun TopicContent(
             ) {
                 items(topicScreenUiState.messages.size) {
                     ReplyMessage(
-                        messageUiState = topicScreenUiState.messages[it]
+                        messageUiState = topicScreenUiState.messages[it],
+                        onAddReactionToMessage = onAddReactionToMessage,
+                        onGetNotification =onGetNotification ,
+                        onPinMessage = onPinMessage,
+                        onSaveMessage =onSaveMessage
+
                     )
                 }
             }

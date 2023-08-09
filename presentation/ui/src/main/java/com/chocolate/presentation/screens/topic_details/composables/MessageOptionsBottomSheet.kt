@@ -26,7 +26,14 @@ import com.chocolate.presentation.theme.Space4
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MessageOptionsBottomSheet(onDismiss: () -> Unit) {
+fun MessageOptionsBottomSheet(
+    onAddReactionToMessage: (Int) -> Unit,
+    onSaveMessage: () -> Unit,
+    onGetNotification: () -> Unit,
+    onPinMessage: () -> Unit,
+    onDismiss: () -> Unit,
+
+) {
     val modalBottomSheetState = rememberModalBottomSheetState()
     val reacts = listOf(
         R.drawable.red_heart,
@@ -62,7 +69,7 @@ fun MessageOptionsBottomSheet(onDismiss: () -> Unit) {
                             .size(Space32)
                             .clip(CircleShape)
                             .clickable {
-                                //todo add reaction
+                                onAddReactionToMessage(reacts[it])
                             }
                             .padding(end = Space4)
                     )
@@ -73,21 +80,21 @@ fun MessageOptionsBottomSheet(onDismiss: () -> Unit) {
                 icon = R.drawable.bookmark,
                 text = "Add to saved items" ,
                 onClickItem = {
-                    //todo save item
+                    onSaveMessage()
                 }
             )
             BottomSheetItem(
                 icon = R.drawable.notification_notes,
                 text = "Get notified about new replies" ,
                 onClickItem = {
-                    //todo notification
+                    onGetNotification()
                 }
             )
             BottomSheetItem(
                 icon = R.drawable.bin_message,
                 text = "Pin to conversation" ,
                 onClickItem = {
-                    //todo pin
+                    onPinMessage()
                 }
             )
         }

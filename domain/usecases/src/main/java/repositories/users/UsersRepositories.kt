@@ -34,5 +34,6 @@ interface UsersRepositories {
     suspend fun removeAlertWords()
     suspend fun addOrganizations(nameOrganizations: String)
     suspend fun getOrganizations(): String?
+    suspend fun userLogin(userName: String, password: String): Boolean
 
 }

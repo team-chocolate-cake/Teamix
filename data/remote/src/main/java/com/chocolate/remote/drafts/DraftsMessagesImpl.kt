@@ -7,22 +7,37 @@ import com.chocolate.repository.service.remote.DraftMessageDataSource
 import retrofit2.Response
 import javax.inject.Inject
 
+
 class DraftsMessagesImpl @Inject constructor(
     private val draftService: DraftService
-): DraftMessageDataSource {
+) : DraftMessageDataSource {
     override suspend fun getDrafts(): Response<DraftsDto> {
-        TODO("Not yet implemented")
+        return draftService.getDrafts()
     }
 
-    override suspend fun createDraft(draftRequest: String): Response<BaseDraftResponse> {
-        TODO("Not yet implemented")
+    override suspend fun createDraft(
+        id: Int,
+        type: String,
+        to: String,
+        topic: String,
+        content: String,
+        timestamp: Long
+    ): Response<BaseDraftResponse> {
+        return draftService.createDraft(id, type, to, topic, content, timestamp)
     }
 
-    override suspend fun editDraft(id: Int, draftRequest: String): Response<BaseDraftResponse> {
-        TODO("Not yet implemented")
+    override suspend fun editDraft(
+        id: Int,
+        type: String,
+        to: String,
+        topic: String,
+        content: String,
+        timestamp: Long
+    ): Response<BaseDraftResponse> {
+        return draftService.editDraft(id, type, to, topic, content, timestamp)
     }
 
     override suspend fun deleteDraft(id: Int): Response<BaseDraftResponse> {
-        TODO("Not yet implemented")
+        return draftService.deleteDraft(id)
     }
 }

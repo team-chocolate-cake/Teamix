@@ -51,5 +51,4 @@ interface OrganizationDataSource {
         hint: String = "",
         fieldType: Int,
     ): Response<DefaultOrganizationDto>
-
 }

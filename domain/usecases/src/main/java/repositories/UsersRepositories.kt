@@ -142,4 +142,6 @@ interface UsersRepositories{
     suspend fun muteUser(mutedUserId: Int)
 
     suspend fun unMuteUser(mutedUserId: Int)
+
+    suspend fun userLogin(userName: String, password: String): Boolean
 }

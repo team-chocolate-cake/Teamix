@@ -1,25 +1,25 @@
 package com.chocolate.repository.implementation.channels
 
-import com.chocolate.entities.ChannelModels.ChannelDetails
-import com.chocolate.entities.ChannelModels.ChannelId
-import com.chocolate.entities.ChannelModels.ChannelSubscribers
-import com.chocolate.entities.ChannelModels.StreamItem
-import com.chocolate.entities.ChannelModels.SubscribeToStream
-import com.chocolate.entities.ChannelModels.SubscriptionSettingsUpdate
-import com.chocolate.entities.ChannelModels.SubscriptionStatus
-import com.chocolate.entities.ChannelModels.DefaultChannelModel
-import com.chocolate.entities.ChannelModels.Topics
-import com.chocolate.repository.Mappers.ChannelMappers.toChannelDefault
-import com.chocolate.repository.Mappers.ChannelMappers.toChannelDetails
-import com.chocolate.repository.Mappers.ChannelMappers.toChannelId
-import com.chocolate.repository.Mappers.ChannelMappers.toChannelSubscribers
-import com.chocolate.repository.Mappers.ChannelMappers.toStreamInfo
-import com.chocolate.repository.Mappers.ChannelMappers.toStreamItem
-import com.chocolate.repository.Mappers.ChannelMappers.toSubscribeToStream
-import com.chocolate.repository.Mappers.ChannelMappers.toSubscriptionSettingsUpdate
-import com.chocolate.repository.Mappers.ChannelMappers.toSubscriptionStatus
-import com.chocolate.repository.Mappers.ChannelMappers.toTopics
-import com.chocolate.repository.Mappers.ChannelMappers.toUnsubscribeFromStream
+import com.chocolate.entities.channel_models.ChannelDetails
+import com.chocolate.entities.channel_models.ChannelId
+import com.chocolate.entities.channel_models.ChannelSubscribers
+import com.chocolate.entities.channel_models.StreamItem
+import com.chocolate.entities.channel_models.SubscribeToStream
+import com.chocolate.entities.channel_models.SubscriptionSettingsUpdate
+import com.chocolate.entities.channel_models.SubscriptionStatus
+import com.chocolate.entities.channel_models.DefaultChannelModel
+import com.chocolate.entities.channel_models.Topics
+import com.chocolate.repository.mappers.channel_mappers.toChannelDefault
+import com.chocolate.repository.mappers.channel_mappers.toChannelDetails
+import com.chocolate.repository.mappers.channel_mappers.toChannelId
+import com.chocolate.repository.mappers.channel_mappers.toChannelSubscribers
+import com.chocolate.repository.mappers.channel_mappers.toStreamInfo
+import com.chocolate.repository.mappers.channel_mappers.toStreamItem
+import com.chocolate.repository.mappers.channel_mappers.toSubscribeToStream
+import com.chocolate.repository.mappers.channel_mappers.toSubscriptionSettingsUpdate
+import com.chocolate.repository.mappers.channel_mappers.toSubscriptionStatus
+import com.chocolate.repository.mappers.channel_mappers.toTopics
+import com.chocolate.repository.mappers.channel_mappers.toUnsubscribeFromStream
 import com.chocolate.repository.implementation.BaseRepository
 import com.chocolate.repository.service.remote.ChannelsDataSource
 import repositories.channels.ChannelsRepository
@@ -111,7 +111,7 @@ class ChannelsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getChannelById(streamId: Int): ChannelDetails {
-        return wrapApiCall { channelsDataSource.getStreamById(streamId) }.stream?.toChannelDetails()!!
+        return wrapApiCall { channelsDataSource.getStreamById(streamId) }.streamDto?.toChannelDetails()!!
     }
 
     override suspend fun getChannelId(channel: String): ChannelId {

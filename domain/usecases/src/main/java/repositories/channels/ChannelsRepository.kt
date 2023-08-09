@@ -1,14 +1,14 @@
 package repositories.channels
 
-import com.chocolate.entities.ChannelModels.ChannelDetails
-import com.chocolate.entities.ChannelModels.ChannelId
-import com.chocolate.entities.ChannelModels.ChannelSubscribers
-import com.chocolate.entities.ChannelModels.StreamItem
-import com.chocolate.entities.ChannelModels.SubscribeToStream
-import com.chocolate.entities.ChannelModels.SubscriptionSettingsUpdate
-import com.chocolate.entities.ChannelModels.SubscriptionStatus
-import com.chocolate.entities.ChannelModels.DefaultChannelModel
-import com.chocolate.entities.ChannelModels.Topics
+import com.chocolate.entities.channel_models.ChannelDetails
+import com.chocolate.entities.channel_models.ChannelId
+import com.chocolate.entities.channel_models.ChannelSubscribers
+import com.chocolate.entities.channel_models.StreamItem
+import com.chocolate.entities.channel_models.SubscribeToStream
+import com.chocolate.entities.channel_models.SubscriptionSettingsUpdate
+import com.chocolate.entities.channel_models.SubscriptionStatus
+import com.chocolate.entities.channel_models.DefaultChannelModel
+import com.chocolate.entities.channel_models.Topics
 
 interface ChannelsRepository {
     suspend fun getUserSubscriptions(): List<StreamItem?>?

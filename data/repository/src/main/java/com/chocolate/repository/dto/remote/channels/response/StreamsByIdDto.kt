@@ -11,5 +11,5 @@ data class StreamsByIdDto(
 	@field:SerializedName("result")
 	val result: String? = null,
 	@field:SerializedName("stream")
-	val stream: Stream? = null
+	val streamDto: StreamDto? = null
 )

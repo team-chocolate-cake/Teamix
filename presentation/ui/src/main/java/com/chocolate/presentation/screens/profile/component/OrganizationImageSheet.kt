@@ -1,4 +1,4 @@
-package com.chocolate.presentation.profile.component
+package com.chocolate.presentation.screens.profile.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,9 +17,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.CustomColorsPalette
+import com.chocolate.presentation.theme.IconSize24
+import com.chocolate.presentation.theme.IconSize56
+import com.chocolate.presentation.theme.ImageSize56
 import com.chocolate.presentation.theme.Space12
 import com.chocolate.presentation.theme.Space16
 
@@ -30,7 +34,7 @@ fun OrganizationImageSheet(onClick:()->Unit,color: CustomColorsPalette){
         onDismissBottomSheet = { onClick() }) {
         Column(modifier = Modifier.padding(start = Space16, bottom =Space16)) {
             Text(
-                text = "Select Organization Image",
+                text = stringResource(R.string.select_organization_image),
                 style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier,
                 color = color.onBackground87
@@ -40,7 +44,7 @@ fun OrganizationImageSheet(onClick:()->Unit,color: CustomColorsPalette){
                     Box(
                         modifier = Modifier
                             .padding(end = Space16)
-                            .size(56.dp)
+                            .size(IconSize56)
                             .clip(RoundedCornerShape(Space12))
                             .background(color.primary)
                             .clickable { }
@@ -50,7 +54,7 @@ fun OrganizationImageSheet(onClick:()->Unit,color: CustomColorsPalette){
                             contentDescription = null,
                             modifier = Modifier
                                 .align(Alignment.Center)
-                                .size(24.dp),
+                                .size(IconSize24),
                             tint = color.onPrimary
                         )
                     }
@@ -60,7 +64,7 @@ fun OrganizationImageSheet(onClick:()->Unit,color: CustomColorsPalette){
                 item {
                     Image(
                         modifier = Modifier
-                            .size(56.dp)
+                            .size(ImageSize56)
                             .clip(RoundedCornerShape(12.dp)),
                         painter = painterResource(id = R.drawable.deb),
                         contentDescription = null

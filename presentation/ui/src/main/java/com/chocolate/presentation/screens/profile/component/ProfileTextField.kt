@@ -1,4 +1,4 @@
-package com.chocolate.presentation.profile.component
+package com.chocolate.presentation.screens.profile.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

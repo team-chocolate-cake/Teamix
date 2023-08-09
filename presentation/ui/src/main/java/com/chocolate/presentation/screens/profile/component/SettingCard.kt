@@ -1,4 +1,4 @@
-package com.chocolate.presentation.profile.component
+package com.chocolate.presentation.screens.profile.component
 
 
 import androidx.compose.foundation.Image
@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
+import com.chocolate.presentation.theme.CardHeight56
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
@@ -41,7 +42,7 @@ fun SettingCard(click: () -> Unit, text: String, icon: Painter
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .height(CardHeight56)
                 .padding(horizontal = Space16),
             verticalAlignment = Alignment.CenterVertically,
         ) {

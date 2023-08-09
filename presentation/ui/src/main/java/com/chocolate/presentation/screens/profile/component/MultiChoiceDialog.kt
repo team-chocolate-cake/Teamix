@@ -1,4 +1,4 @@
-package com.chocolate.presentation.profile.component
+package com.chocolate.presentation.screens.profile.component
 
 
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.chocolate.presentation.theme.RadioButtonsHeight350
+import com.chocolate.presentation.theme.RadioButtonsWidth300
 import com.chocolate.presentation.theme.Space12
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.customColors
@@ -42,7 +44,7 @@ fun MultiChoiceDialog(onClick: () -> Unit, list: List<String>) {
         text = {
             Column(
                 modifier = Modifier
-                    .size(width = 300.dp, height = 350.dp)
+                    .size(width = RadioButtonsWidth300, height = RadioButtonsHeight350)
                     .clip(RoundedCornerShape(Space12)),
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {

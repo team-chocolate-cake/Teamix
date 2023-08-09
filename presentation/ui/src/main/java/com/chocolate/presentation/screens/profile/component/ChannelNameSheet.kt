@@ -1,4 +1,4 @@
-package com.chocolate.presentation.profile.component
+package com.chocolate.presentation.screens.profile.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,7 +15,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
@@ -30,19 +32,19 @@ fun ChannelNameSheet(onClick:()->Unit,color: CustomColorsPalette){
     ProfileBottomSheet(colors = color, onDismissBottomSheet = { onClick() }) {
         Column(modifier = Modifier.padding(start = Space16, bottom = Space16)) {
             Text(
-                text = "Channel Name", style = MaterialTheme.typography.labelMedium,
+                text = stringResource(id = R.string.channel_name), style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier,
                 color = color.onBackground87
             )
 
             ProfileTextField(
-                text = "chocolate-cake",
+                text =stringResource(id = R.string.channel_name),
                 colorFocused = color.card,
                 colorUnFocused = color.card,
                 colorIcon = color.card
             )
             Text(
-                text = "Channel Name", style = MaterialTheme.typography.labelMedium,
+                text =stringResource(id = R.string.channel_status) , style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier.padding(top = Space16),
                 color = color.onBackground87
             )
@@ -51,7 +53,7 @@ fun ChannelNameSheet(onClick:()->Unit,color: CustomColorsPalette){
                     modifier = Modifier.padding(end =Space8),
                     selected = selectedItem == 0,
                     onClick = { selectedItem = 0 },
-                    label = { Text(text = "private") },
+                    label = { Text(text = stringResource(R.string.private_text)) },
                     colors = InputChipDefaults.inputChipColors(
                         selectedContainerColor = color.primary,
                         disabledContainerColor = color.card,
@@ -60,7 +62,7 @@ fun ChannelNameSheet(onClick:()->Unit,color: CustomColorsPalette){
                     )
                 )
                 InputChip(selected = selectedItem == 1,
-                    onClick = { selectedItem = 1 }, label = { Text(text = "Public") },
+                    onClick = { selectedItem = 1 }, label = { Text(text = stringResource(R.string.public_text)) },
                     colors = InputChipDefaults.inputChipColors(
                         selectedContainerColor = color.primary,
                         disabledContainerColor = color.card,

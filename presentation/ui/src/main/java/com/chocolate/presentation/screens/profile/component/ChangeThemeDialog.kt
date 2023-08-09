@@ -1,4 +1,4 @@
-package com.chocolate.presentation.profile.component
+package com.chocolate.presentation.screens.profile.component
 
 
 import androidx.compose.foundation.background
@@ -21,15 +21,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.chocolate.presentation.R
+import com.chocolate.presentation.theme.IconSize12
+import com.chocolate.presentation.theme.RadioButtonsHeight350
+import com.chocolate.presentation.theme.RadioButtonsWidth300
 import com.chocolate.presentation.theme.Space12
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
 
 @Composable
 fun ChangeThemeDialog() {
-    val textColors = listOf("Blue", "Orange", "Mauve", "Green", "Red")
+    val textColors = listOf(
+        stringResource(id = R.string.blue), stringResource(id = R.string.orange),
+        stringResource(id = R.string.mauve),
+        stringResource(id = R.string.green),
+        stringResource(id = R.string.red)
+    )
     val colors = listOf(
         Color.Blue, Color.Yellow,
         Color.Magenta, Color.Green, Color.Red
@@ -42,7 +52,7 @@ fun ChangeThemeDialog() {
 
     Column(
         modifier = Modifier
-            .size(width = 300.dp, height = 350.dp)
+            .size(width = RadioButtonsWidth300, height = RadioButtonsHeight350)
             .clip(RoundedCornerShape(Space12)),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -55,11 +65,11 @@ fun ChangeThemeDialog() {
             ) {
                 Box(
                     Modifier
-                        .size(12.dp)
+                        .size(IconSize12)
                         .clip(CircleShape)
                         .background(colors[textColors.indexOf(text)])
                 )
-                Text(text = text, modifier = Modifier.padding(start =Space8))
+                Text(text = text, modifier = Modifier.padding(start = Space8))
                 Spacer(modifier = Modifier.weight(1f))
                 RadioButton(selected = (text == selected.value), onClick = {
                     selected.value = text

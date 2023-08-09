@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class UsersDto(
     @SerializedName("members")
-    val members: List<Member?>?,
+    val memberDto: List<MemberDto?>?,
     @SerializedName("msg")
     val message: String?,
     @SerializedName("result")

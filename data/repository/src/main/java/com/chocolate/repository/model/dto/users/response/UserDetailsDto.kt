@@ -2,7 +2,7 @@ package com.chocolate.repository.model.dto.users.response
 
 import com.google.gson.annotations.SerializedName
 
-data class OwnerUserDto(
+data class UserDetailsDto(
     @SerializedName("avatar_url")
     val avatarUrl: String?,
     @SerializedName("avatar_version")
@@ -10,7 +10,7 @@ data class OwnerUserDto(
     @SerializedName("date_joined")
     val dateJoined: String?,
     @SerializedName("delivery_email")
-    val deliveryEmail: String?,
+    val deliveryEmail: Any?,
     @SerializedName("email")
     val email: String?,
     @SerializedName("full_name")
@@ -27,14 +27,6 @@ data class OwnerUserDto(
     val isGuest: Boolean?,
     @SerializedName("is_owner")
     val isOwner: Boolean?,
-    @SerializedName("max_message_id")
-    val maxMessageId: Int?,
-    @SerializedName("msg")
-    val message: String?,
-    @SerializedName("profile_data")
-    val profileData: Map<String, ProfileFieldDto>?,
-    @SerializedName("result")
-    val result: String?,
     @SerializedName("role")
     val role: Int?,
     @SerializedName("timezone")

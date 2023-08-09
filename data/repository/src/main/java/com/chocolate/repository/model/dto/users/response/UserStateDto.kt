@@ -6,7 +6,7 @@ data class UserStateDto(
     @SerializedName("msg")
     val message: String?,
     @SerializedName("presence")
-    val presence: Presence?,
+    val presenceDto: PresenceDto?,
     @SerializedName("result")
     val result: String?
 )

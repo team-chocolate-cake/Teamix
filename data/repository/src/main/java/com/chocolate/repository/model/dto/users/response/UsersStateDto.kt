@@ -6,7 +6,7 @@ data class UsersStateDto(
     @SerializedName("msg")
     val message: String?,
     @SerializedName("presences")
-    val presences: Presences?,
+    val presencesDto: PresencesDto?,
     @SerializedName("result")
     val result: String?,
     @SerializedName("server_timestamp")

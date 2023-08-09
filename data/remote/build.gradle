@@ -35,11 +35,6 @@ dependencies {
 
     implementation project(Modules.DATA_REPO)
 
-    implementation(DependencyProject.androidxCore)
-    testImplementation(DependencyProject.junit)
-    androidTestImplementation(DependencyProject.junitExtension)
-    androidTestImplementation(DependencyProject.espresso)
-
     implementation(DependencyProject.retrofit)
     implementation(DependencyProject.gsonConverter)
 

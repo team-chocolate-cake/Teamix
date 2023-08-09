@@ -28,20 +28,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.chocolate.presentation.R
-import com.chocolate.presentation.screens.profile.component.ChannelNameSheet
-import com.chocolate.presentation.screens.profile.component.MultiChoiceDialog
-import com.chocolate.presentation.screens.profile.component.OrganizationImageSheet
-import com.chocolate.presentation.screens.profile.component.OrganizationNameSheet
-import com.chocolate.presentation.screens.profile.component.SettingCard
+import com.chocolate.presentation.screens.profile.composable.ChannelNameSheet
+import com.chocolate.presentation.screens.profile.composable.MultiChoiceDialog
+import com.chocolate.presentation.screens.profile.composable.OrganizationImageSheet
+import com.chocolate.presentation.screens.profile.composable.OrganizationNameSheet
+import com.chocolate.presentation.screens.profile.composable.SettingCard
 import com.chocolate.presentation.theme.Space12
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.Space80
-import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.Thickness2
 import com.chocolate.presentation.theme.customColors
 

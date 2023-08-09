@@ -228,8 +228,7 @@ fun SavedItemRow(savedItem: SavedItemUiState, viewModel: SaveLaterViewModel) {
                             ManageChannelBottomSheet(
                                 colors = CustomColorsPalette(),
                                 onDismiss = { isBottomSheetShowing.value = false },
-                                savedItem = savedItem,
-                                viewModel = viewModel,
+                             
                                 onArchiveClicked = { viewModel.moveToArchive(savedItem) },
                                 moveToInProgress = { viewModel.moveToInProgress(savedItem) },
                                 removeFromLater = { viewModel.removeFromCompleted(savedItem) }
@@ -300,13 +299,6 @@ private fun InProgressButtons(onComplete: () -> Unit) {
         }
     }
 }
-//Icon(
-//painter = painterResource(id = R.drawable.baseline_access_time_24),
-//contentDescription = null,
-//modifier = Modifier
-//.size(32.dp)
-//.padding(start = 16.dp)
-//)
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)

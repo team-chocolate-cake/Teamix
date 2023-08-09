@@ -17,7 +17,6 @@ class SaveLaterViewModel @Inject constructor() : ViewModel() {
 
     private val _state = MutableStateFlow(SavedLaterUISate())
     val state = _state.asStateFlow()
-
     private val isBottomSheetShowing = mutableStateOf(false)
     private val selectedSavedItem = mutableStateOf<SavedItemUiState?>(null)
 
@@ -30,17 +29,9 @@ class SaveLaterViewModel @Inject constructor() : ViewModel() {
     private fun initData() {
         _state.update {
             it.copy(
-                inProgressSavedItem = useCase.getInProgressSavedItem().toUIState(
-                    onComplete = ::completeItem
-                ),
-                archivedSavedItem = useCase.getArchivedSavedItem().toUIState(
-                    onUnArchive = ::unarchiveItem
-                ),
-                completedSavedItem = useCase.getCompletedSavedItem().toUIState(
-                    onArchive = ::moveToArchive,
-                    moveToInProgress = ::moveToInProgress,
-                    removeFromLater = ::removeFromCompleted
-                ),
+                inProgressSavedItem = useCase.getInProgressSavedItem(),
+                archivedSavedItem = useCase.getArchivedSavedItem(),
+                completedSavedItem = useCase.getCompletedSavedItem(),
             )
         }
     }
@@ -149,7 +140,6 @@ class SaveLaterViewModel @Inject constructor() : ViewModel() {
         }
     }
 }
-
 
 
 inline fun <T> MutableList<T>.removeIfAndTransform(index: Int, predicate: (T) -> Boolean): T? {

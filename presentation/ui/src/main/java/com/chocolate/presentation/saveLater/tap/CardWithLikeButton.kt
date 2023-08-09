@@ -53,8 +53,7 @@ fun ManageChannelBottomSheet(
     onArchiveClicked: () -> Unit,
     moveToInProgress: () ->Unit,
     removeFromLater: () -> Unit,
-    savedItem: SavedItemUiState?,
-    viewModel: SaveLaterViewModel
+
 ) {
     val modelBottomSheetScaffoldState = rememberModalBottomSheetState()
     ModalBottomSheet(

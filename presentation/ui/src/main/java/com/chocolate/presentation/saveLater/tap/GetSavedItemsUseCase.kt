@@ -152,15 +152,4 @@ class GetSavedItemsUseCase {
     }
 
 
-    private inline fun <T> MutableList<T>.removeIfAndTransform(index: Int, predicate: (T) -> Boolean): T? {
-        return if (predicate(this[index])) removeAt(index) else null
-    }
-
-    private fun SavedItemUiState.matches(other: SavedItemUiState): Boolean =
-        name == other.name && title == other.title && date == other.date && description == other.description
-
-
-
-
-
 }

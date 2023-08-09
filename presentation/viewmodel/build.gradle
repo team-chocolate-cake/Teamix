@@ -37,9 +37,6 @@ dependencies {
 
     implementation(project(Modules.DOMAIN_USE_CASE))
 
-    testImplementation(DependencyProject.junit)
-    androidTestImplementation(DependencyProject.junitExtension)
-
     implementation(DependencyProject.coroutines)
     implementation(DependencyProject.lifecycleRuntime)
     implementation(DependencyProject.lifecycleViewModel)

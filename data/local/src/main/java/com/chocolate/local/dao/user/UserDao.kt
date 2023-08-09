@@ -3,7 +3,7 @@ package com.chocolate.local.dao.user
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.chocolate.repository.dto.local.users.StoriesLocalDto
+import com.chocolate.repository.model.localDto.users.StoriesLocalDto
 
 @Dao
 interface UserDao {

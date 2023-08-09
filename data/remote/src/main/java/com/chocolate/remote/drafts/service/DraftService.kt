@@ -1,7 +1,7 @@
 package com.chocolate.remote.drafts.service
 
-import com.chocolate.repository.dto.remote.draft.response.BaseDraftResponse
-import com.chocolate.repository.dto.remote.draft.response.DraftsDto
+import com.chocolate.repository.model.dto.draft.response.BaseDraftResponse
+import com.chocolate.repository.model.dto.draft.response.DraftsDto
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET

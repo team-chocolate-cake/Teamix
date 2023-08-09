@@ -1,9 +1,9 @@
 package com.chocolate.repository.mappers.messages
 
 import com.chocolate.entities.messages.MessageReadReceipts
-import com.chocolate.repository.dto.remote.message.response.MessageReadReceiptsRemoteDto
+import com.chocolate.repository.model.dto.message.response.MessageReadReceiptsDto
 
-fun MessageReadReceiptsRemoteDto.toEntity(): MessageReadReceipts {
+fun MessageReadReceiptsDto.toMessageReadReceipts(): MessageReadReceipts {
     return MessageReadReceipts(
         usersID = this.userIds ?: emptyList()
     )

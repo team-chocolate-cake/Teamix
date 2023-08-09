@@ -7,7 +7,7 @@ import com.chocolate.remote.messages.service.MessageService
 import com.chocolate.remote.scheduled_message.service.ScheduledMessageService
 import com.chocolate.remote.server_and_organizations.service.OrganizationService
 import com.chocolate.remote.users.service.UsersService
-import com.chocolate.repository.datastore.OrganizationPreferenceDataSource
+import com.chocolate.repository.datastore.OrganizationDataStoreDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -89,7 +89,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideNameOrganization(prefs: OrganizationPreferenceDataSource): String =
+    fun provideNameOrganization(prefs: OrganizationDataStoreDataSource): String =
         prefs.currentOrganization ?: ""
 
 }

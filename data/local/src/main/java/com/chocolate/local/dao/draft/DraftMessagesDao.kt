@@ -3,7 +3,7 @@ package com.chocolate.local.dao.draft
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.chocolate.repository.dto.local.draft.DraftLocalDto
+import com.chocolate.repository.model.localDto.draft.DraftLocalDto
 
 @Dao
 interface DraftMessagesDao {

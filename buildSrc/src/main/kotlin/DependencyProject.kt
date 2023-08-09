@@ -51,6 +51,7 @@ object DependencyProject {
     const val activityCompose = "androidx.activity:activity-compose:$ACTIVITY_COMPOSE"
     const val composeBom = "androidx.compose:compose-bom:$COMPOSE_BOM"
     const val composeUi = "androidx.compose.ui:ui"
+    const val composeRuntime = "androidx.compose.runtime:runtime"
     const val composeUiGraphics = "androidx.compose.ui:ui-graphics"
     const val composeUiPreviewTool = "androidx.compose.ui:ui-tooling-preview"
     const val composeMaterial3 = "androidx.compose.material3:material3:$MATERIAL3_VERSION"
@@ -68,7 +69,6 @@ object DependencyProject {
     const val dataStore = "androidx.datastore:datastore-preferences:$DATASTORE_VERSION"
     const val roomRuntime = "androidx.room:room-runtime:$ROOM_VERSION"
     const val roomCompiler = "androidx.room:room-compiler:$ROOM_VERSION"
-    const val room = "androidx.room:room-compiler:$ROOM_VERSION"
     const val roomKtx = "androidx.room:room-ktx:$ROOM_VERSION"
 
     const val splashScreen = "androidx.core:core-splashscreen:$SPLASH_SCREEN_VERSION-beta02"

@@ -1,7 +1,7 @@
 package com.chocolate.remote.scheduled_message.service
 
-import com.chocolate.repository.dto.remote.scheduled_message.response.BaseScheduledMessageResponse
-import com.chocolate.repository.dto.remote.scheduled_message.response.ScheduledMessagesDto
+import com.chocolate.repository.model.dto.scheduled_message.response.BaseScheduledMessageResponse
+import com.chocolate.repository.model.dto.scheduled_message.response.ScheduledMessagesDto
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET

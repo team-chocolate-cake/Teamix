@@ -1,6 +1,6 @@
 package com.chocolate.remote
 
-import com.chocolate.repository.datastore.UserEncryptedSharedPreference
+import com.chocolate.repository.datastore.UserDataStoreDataSource
 import okhttp3.Credentials
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -9,7 +9,7 @@ import javax.inject.Singleton
 
 @Singleton
 class AuthInterceptor @Inject constructor(
-    private val sharedPreference: UserEncryptedSharedPreference
+    private val sharedPreference: UserDataStoreDataSource
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {

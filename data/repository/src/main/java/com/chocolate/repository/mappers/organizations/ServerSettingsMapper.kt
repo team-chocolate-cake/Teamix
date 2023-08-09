@@ -3,35 +3,35 @@ package com.chocolate.repository.mappers.organizations
 import com.chocolate.entities.server_and_organizations.AuthenticationMethodsEntity
 import com.chocolate.entities.server_and_organizations.ExternalAuthenticationMethodEntity
 import com.chocolate.entities.server_and_organizations.ServerSettings
-import com.chocolate.repository.dto.remote.server_and_organizations.response.ServerSettingsDto
+import com.chocolate.repository.model.dto.server_and_organizations.response.ServerSettingsDto
 
 fun ServerSettingsDto.toEntity(): ServerSettings {
     val authenticationMethodsEntity = AuthenticationMethodsEntity(
-        dev = authenticationMethods?.dev,
-        email = authenticationMethods?.email,
-        github = authenticationMethods?.github,
-        google = authenticationMethods?.google,
-        ldap = authenticationMethods?.ldap,
-        password = authenticationMethods?.password,
-        remoteUser = authenticationMethods?.remoteUser,
+        dev = authenticationMethodsDto?.dev ?: false,
+        email = authenticationMethodsDto?.email ?: true,
+        github = authenticationMethodsDto?.github ?: false,
+        google = authenticationMethodsDto?.google ?: false,
+        ldap = authenticationMethodsDto?.ldap ?: false,
+        password = authenticationMethodsDto?.password ?: true,
+        remoteUser = authenticationMethodsDto?.remoteUser ?: false,
     )
 
     val externalAuthenticationMethodsEntity =
-        externalAuthenticationMethods?.map { externalAuthDto ->
+        externalAuthenticationMethodDtos?.map { externalAuthDto ->
             ExternalAuthenticationMethodEntity(
-                displayIcon = externalAuthDto.displayIcon,
-                displayName = externalAuthDto.displayName,
-                loginUrl = externalAuthDto.loginUrl,
-                name = externalAuthDto.name,
-                signupUrl = externalAuthDto.signupUrl
+                displayIcon = externalAuthDto.displayIcon ?: "",
+                displayName = externalAuthDto.displayName ?: "",
+                loginUrl = externalAuthDto.loginUrl ?: "",
+                name = externalAuthDto.name ?: "",
+                signupUrl = externalAuthDto.signupUrl ?: ""
             )
         } ?: emptyList()
 
     return ServerSettings(
         authenticationMethods = authenticationMethodsEntity,
-        emailAuthEnabled = emailAuthEnabled,
+        emailAuthEnabled = emailAuthEnabled ?: true,
         externalAuthenticationMethods = externalAuthenticationMethodsEntity,
-        isIncompatible = isIncompatible,
-        pushNotificationsEnabled = pushNotificationsEnabled
+        isIncompatible = isIncompatible ?: false,
+        pushNotificationsEnabled = pushNotificationsEnabled ?: false
     )
 }

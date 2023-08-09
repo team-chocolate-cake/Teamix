@@ -101,7 +101,7 @@ fun HomeContent(
                 colors = colors
             )
         },
-        contentColor = colors.background
+        containerColor = colors.background
     ) {
         LazyColumn(
             modifier = Modifier

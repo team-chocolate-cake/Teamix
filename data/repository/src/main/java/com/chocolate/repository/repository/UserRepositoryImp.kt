@@ -18,7 +18,7 @@ import com.chocolate.entities.user.UsersState
 import com.chocolate.repository.mappers.users.toCreateUser
 import com.chocolate.repository.mappers.users.toOwnerUser
 import com.chocolate.repository.mappers.users.toProfileDataDto
-import com.chocolate.repository.mappers.users.toSettingsRequestDto
+import com.chocolate.repository.mappers.users.toSettingsDto
 import com.chocolate.repository.mappers.users.toAlertWords
 import com.chocolate.repository.mappers.users.toSubgroupsOfUserGroup
 import com.chocolate.repository.mappers.users.toUser
@@ -157,7 +157,7 @@ class UserRepositoryImp @Inject constructor(
 
     override suspend fun updateSettings(settings: Settings): UserSettings {
         return wrapApiCall {
-            userDataSource.updateSettings(settings.toSettingsRequestDto())
+            userDataSource.updateSettings(settings.toSettingsDto())
         }.toUserSettings()
 
     }

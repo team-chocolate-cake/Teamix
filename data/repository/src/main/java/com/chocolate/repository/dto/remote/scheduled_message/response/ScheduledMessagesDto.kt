@@ -8,5 +8,5 @@ data class ScheduledMessagesDto(
     @SerializedName("result")
     val result: String?,
     @SerializedName("scheduled_messages")
-    val scheduledMessages: List<ScheduledMessageContentDto?>?
+    val scheduledMessages: List<ScheduledMessageContentDto>?
 )

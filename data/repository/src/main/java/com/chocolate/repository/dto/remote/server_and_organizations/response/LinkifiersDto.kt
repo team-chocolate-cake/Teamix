@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class LinkifiersDto(
     @SerializedName("linkifiers")
-    val linkifiers: List<Linkifier>?,
+    val linkifierDtos: List<LinkifierDto>?,
     @SerializedName("msg")
     val message: String?,
     @SerializedName("result")

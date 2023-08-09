@@ -2,7 +2,7 @@ package com.chocolate.repository.dto.remote.server_and_organizations.response
 
 import com.google.gson.annotations.SerializedName
 
-data class Emoji(
+data class EmojiDto(
     @SerializedName("author_id")
     val authorId: Int?,
     @SerializedName("deactivated")

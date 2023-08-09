@@ -1,7 +1,8 @@
 package com.chocolate.repository.service.remote
 
-import com.chocolate.repository.model.dto.users.request.ProfileData
-import com.chocolate.repository.model.dto.users.request.SettingsRequest
+import com.chocolate.entities.user.ProfileData
+import com.chocolate.repository.model.dto.users.request.ProfileDataDto
+import com.chocolate.repository.model.dto.users.request.SettingsDto
 import com.chocolate.repository.model.dto.users.response.AlertWordsDto
 import com.chocolate.repository.model.dto.users.response.CreateUserDto
 import com.chocolate.repository.model.dto.users.response.FetchApiKeyDto
@@ -44,7 +45,7 @@ interface UsersRemoteDataSource {
         id: Int,
         fullName: String? = null,
         role: Int? = null,
-        profileData: List<ProfileData>? = null
+        profileData: List<ProfileDataDto>? = null
     ): Response<ResponseStateDto>
 
     suspend fun updateUserStatus(
@@ -82,7 +83,7 @@ interface UsersRemoteDataSource {
 
     suspend fun deleteAttachment(attachmentId: Int): Response<ResponseStateDto>
 
-    suspend fun updateSettings(settings: SettingsRequest): Response<UserSettingsDto>
+    suspend fun updateSettings(settings: SettingsDto): Response<UserSettingsDto>
 
     suspend fun getUserGroups(): Response<UserGroupsDto>
 
@@ -138,5 +139,4 @@ interface UsersRemoteDataSource {
 
     suspend fun unmuteUser(mutedUserId: Int): Response<MuteUserResponseDto>
 
-    suspend fun fetchApiKey(userName: String, password: String): Response<FetchApiKeyDto>
 }

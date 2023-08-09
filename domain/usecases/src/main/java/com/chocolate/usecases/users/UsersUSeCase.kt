@@ -7,14 +7,13 @@ import com.chocolate.entities.user.UserGroups
 import com.chocolate.entities.user.UserSettings
 import com.chocolate.entities.user.UserState
 import com.chocolate.entities.user.Users
-import repositories.users.UsersRepositories
+import repositories.UsersRepositories
 import javax.inject.Inject
 
 class UsersUSeCase @Inject constructor(private val usersRepositories: UsersRepositories) {
 
 
     suspend operator fun invoke()  {
-     usersRepositories
-       .createUserGroup()
+     usersRepositories.getOwnUser()
     }
 }

@@ -24,5 +24,6 @@ data class MessageUiState(
 
 data class ReactionUiState(
     val reaction: Int,
-    val count: Int
+    val count: Int,
+    val clicked:Boolean = false
 )

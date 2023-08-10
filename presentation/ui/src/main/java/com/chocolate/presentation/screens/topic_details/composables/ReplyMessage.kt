@@ -40,6 +40,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.chocolate.presentation.R
 import com.chocolate.presentation.screens.topic_details.MessageUiState
+import com.chocolate.presentation.screens.topic_details.ReactionUiState
 import com.chocolate.presentation.theme.Space0
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space24
@@ -58,6 +59,7 @@ fun ReplyMessage(
     onGetNotification: () -> Unit,
     onPinMessage: () -> Unit,
     onOpenReactTile: () -> Unit,
+    onClickReact: (Boolean,ReactionUiState) -> Unit,
 ) {
     var showSheet by remember { mutableStateOf(false) }
 
@@ -178,8 +180,8 @@ fun ReplyMessage(
                     top.linkTo(messageCard.bottom)
                 }) {
                 messageUiState.reactions.forEach { reaction ->
-                    ReactionButton(reaction) { onclick ->
-
+                    ReactionButton(reaction) { clicked, reaction ->
+                        onClickReact(clicked,reaction)
                     }
                 }
                 if (!messageUiState.isMyReplay) {

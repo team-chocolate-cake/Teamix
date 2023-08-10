@@ -19,7 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.chocolate.presentation.R
-import com.chocolate.presentation.screens.channel.composables.BottomSheetItem
+import com.chocolate.presentation.composables.BottomSheetItem
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.Space4

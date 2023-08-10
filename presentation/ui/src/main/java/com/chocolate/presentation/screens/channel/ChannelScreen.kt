@@ -18,27 +18,37 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
-import com.chocolate.presentation.screens.channel.composables.CustomAppBar
+import com.chocolate.presentation.composables.CustomAppBar
 import com.chocolate.presentation.screens.channel.composables.Topic
+import com.chocolate.presentation.screens.topic_details.ReactionUiState
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
+import java.util.Date
 
 @Composable
 fun ChannelScreen() {
     ChannelContent(
+        channelScreenUiState = ChannelScreenUiState(),
         navigationBack = {},
         meetingButtonClick = {},
-        viewAllClick = {}
+        onOpenReactTile = {},
+        onSeeAll = {},
+        onClickReact = { clicked, react ->
+
+        }
     )
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ChannelContent(
+    channelScreenUiState: ChannelScreenUiState,
     navigationBack: () -> Unit,
     meetingButtonClick: () -> Unit,
-    viewAllClick: () -> Unit,
+    onOpenReactTile: () -> Unit,
+    onSeeAll: () -> Unit,
+    onClickReact: (Boolean, ReactionUiState) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -79,10 +89,15 @@ fun ChannelContent(
                 .fillMaxSize()
                 .padding(padding),
             verticalArrangement = Arrangement.spacedBy(Space16),
-            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 20.dp)
+            contentPadding = PaddingValues(Space16)
         ) {
-            items(3) {
-                Topic(viewAllClick = viewAllClick)
+            items(channelScreenUiState.topics.size) {
+                Topic(
+                    topicUiSate = channelScreenUiState.topics[it],
+                    onClickReact = onClickReact,
+                    onOpenReactTile = onOpenReactTile,
+                    onSeeAll = onSeeAll,
+                )
             }
         }
     }

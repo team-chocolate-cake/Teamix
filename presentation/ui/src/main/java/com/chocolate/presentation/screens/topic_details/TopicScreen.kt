@@ -11,10 +11,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.chocolate.presentation.screens.channel.composables.CustomAppBar
+import com.chocolate.presentation.composables.CustomAppBar
 import com.chocolate.presentation.screens.topic_details.composables.ReplyMessage
 import com.chocolate.presentation.screens.topic_details.composables.StartNewMessage
 import com.chocolate.presentation.theme.Space16
@@ -37,6 +36,9 @@ fun TopicScreen() {
         onPinMessage = {},
         onSaveMessage ={},
         onOpenReactTile ={},
+        onClickReact ={clicked , react->
+
+        },
     )
 }
 
@@ -56,7 +58,7 @@ fun TopicContent(
     onGetNotification: () -> Unit,
     onPinMessage: () -> Unit,
     onOpenReactTile: () -> Unit,
-
+    onClickReact: (Boolean,ReactionUiState) -> Unit,
     ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -105,7 +107,8 @@ fun TopicContent(
                         onGetNotification =onGetNotification ,
                         onPinMessage = onPinMessage,
                         onSaveMessage =onSaveMessage,
-                        onOpenReactTile =onOpenReactTile
+                        onOpenReactTile =onOpenReactTile,
+                        onClickReact = onClickReact
                     )
                 }
             }

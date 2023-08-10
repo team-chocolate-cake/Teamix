@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.channel.composables
+package com.chocolate.presentation.composables
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable

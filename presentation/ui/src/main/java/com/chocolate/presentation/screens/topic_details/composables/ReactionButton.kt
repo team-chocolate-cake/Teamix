@@ -29,24 +29,18 @@ import com.chocolate.presentation.theme.customColors
 @Composable
 fun ReactionButton(
     reaction: ReactionUiState,
-    onReactionClicked:(Boolean)->Unit
+    onReactionClicked:(Boolean, ReactionUiState)->Unit
 ) {
-    var reactionCount by remember {
-        mutableStateOf(reaction.count)
-    }
-    var reactionclicked by remember {
-        mutableStateOf(false)
-    }
     Box(
         modifier = Modifier
             .padding(vertical = Space4)
             .clip(RoundedCornerShape(Space32))
             .background(
-                if (reactionclicked) MaterialTheme.customColors().gray
+                if (reaction.clicked) MaterialTheme.customColors().gray
                 else MaterialTheme.customColors().lightGray
             )
             .clickable {
-                onReactionClicked(reactionclicked)
+                onReactionClicked(reaction.clicked , reaction)
             }
             .padding(vertical = Space4, horizontal = Space8)
     ) {
@@ -60,7 +54,7 @@ fun ReactionButton(
                     .padding(end = Space4)
             )
             Text(
-                text = reactionCount.toString(),
+                text = reaction.count.toString(),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.customColors().onBackground87
             )

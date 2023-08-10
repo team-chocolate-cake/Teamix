@@ -22,7 +22,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -43,7 +42,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
-import com.chocolate.presentation.screens.channel.composables.CustomAppBar
+import com.chocolate.presentation.composables.CustomAppBar
 import com.chocolate.presentation.screens.channel_details.compasbles.ChannelAction
 import com.chocolate.presentation.screens.channel_details.compasbles.Member
 import com.chocolate.presentation.theme.Space16

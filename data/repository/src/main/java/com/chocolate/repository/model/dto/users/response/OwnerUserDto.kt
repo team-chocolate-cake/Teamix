@@ -32,7 +32,7 @@ data class OwnerUserDto(
     @SerializedName("msg")
     val message: String?,
     @SerializedName("profile_data")
-    val profileData: Map<String, ProfileField>?,
+    val profileData: Map<String, ProfileFieldDto>?,
     @SerializedName("result")
     val result: String?,
     @SerializedName("role")

@@ -126,7 +126,6 @@ fun TeamixTheme(
             content = content
         )
     }
-
 }
 
 @Composable

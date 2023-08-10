@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -33,7 +32,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
@@ -47,7 +45,6 @@ import com.chocolate.presentation.theme.Space24
 import com.chocolate.presentation.theme.Space4
 import com.chocolate.presentation.theme.Space40
 import com.chocolate.presentation.theme.Space8
-import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
@@ -140,9 +137,9 @@ fun ReplyMessage(
                         color = MaterialTheme.customColors().primary
                     )
                 }
-                if (messageUiState.messageImage != null) {
+                if (messageUiState.messageImageUrl != null) {
                     AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current).data(messageUiState.messageImage)
+                        model = ImageRequest.Builder(LocalContext.current).data(messageUiState.messageImageUrl)
                             .build(),
                         modifier = Modifier
                             .padding(bottom = Space4)

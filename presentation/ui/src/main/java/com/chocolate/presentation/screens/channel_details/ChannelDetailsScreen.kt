@@ -112,7 +112,10 @@ fun ChannelDetailsContent(
             },
             dismissButton = {
                 TextButton(onClick = { showDialog = false }) {
-                    Text(stringResource(R.string.dismiss_btn), color = MaterialTheme.customColors().onBackground87)
+                    Text(
+                        stringResource(R.string.dismiss_btn),
+                        color = MaterialTheme.customColors().onBackground87
+                    )
                 }
             },
         )
@@ -145,19 +148,23 @@ fun ChannelDetailsContent(
                 ) {
                     item {
                         ChannelAction(
-                            text = stringResource(R.string.add_user), icon = R.drawable.add_user, onItemClicked = onAddUser
+                            text = stringResource(R.string.add_user),
+                            icon = painterResource(R.drawable.add_user),
+                            onItemClicked = onAddUser
                         )
                     }
                     item {
                         ChannelAction(
                             text = stringResource(R.string.meet_action),
-                            icon = R.drawable.meeting_call,
+                            icon = painterResource(id = R.drawable.meeting_call),
                             onItemClicked = onMeetingCall
                         )
                     }
                     item {
                         ChannelAction(
-                            text = stringResource(R.string.search_action), icon = R.drawable.search, onItemClicked = onSearch
+                            text = stringResource(R.string.search_action),
+                            icon = painterResource(R.drawable.search),
+                            onItemClicked = onSearch
                         )
                     }
                 }

@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
@@ -26,7 +27,7 @@ import com.chocolate.presentation.theme.customColors
 
 @Composable
 fun ChannelAction(
-    @DrawableRes icon:Int,
+    icon:Painter,
     text:String,
     onItemClicked:()->Unit
 ) {
@@ -42,7 +43,7 @@ fun ChannelAction(
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
-                painter = painterResource(id = icon),
+                painter = icon,
                 contentDescription = "",
                 tint = MaterialTheme.customColors().onBackground60,
                 modifier = Modifier.padding(bottom = Space4)

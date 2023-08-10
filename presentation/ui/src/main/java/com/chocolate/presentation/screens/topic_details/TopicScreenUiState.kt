@@ -8,8 +8,8 @@ data class TopicScreenUiState(
 )
 
 data class PhotoOrVideoUiState(
-    var isSelected: Boolean,
-    val file: String,
+    var isSelected: Boolean = false,
+    val file: String = "",
     val isLoading:Boolean = false,
     val error : String? = null
 )
@@ -18,7 +18,7 @@ data class MessageUiState(
     val username: String = "",
     val replayDate: String = "",
     val userImage: String = "",
-    val messageImage: String? = null,
+    val messageImageUrl: String = "",
     val reactions: List<ReactionUiState> = emptyList(),
     val isMyReplay: Boolean = false,
     val message: String = "",

@@ -256,12 +256,7 @@ fun Topic(
 fun TopicReview() {
     TeamixTheme {
         Topic(
-            topicUiSate = TopicUiSate(
-                creatorName = "Maro",
-                creatorImage = "",
-                topicName = "Lets do it",
-                topicCreationDate = "6:08 AM",
-            ),
+            topicUiSate = TopicUiSate(),
             onClickReact = { clicked, react -> },
             onOpenReactTile = {},
             onSeeAll = {}

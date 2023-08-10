@@ -3,7 +3,7 @@ package com.chocolate.presentation.screens.channel_details
 import androidx.annotation.DrawableRes
 
 data class ChannelDetailsUiState(
-    val channelName: String = "Channel Name",
+    val channelName: String = "",
     val channelMuted: Boolean = false,
     val memberUiState: List<MemberUiState> = emptyList(),
     val pinCount: Int = 0,

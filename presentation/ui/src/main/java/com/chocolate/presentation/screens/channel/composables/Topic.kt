@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -230,7 +231,7 @@ fun Topic(
                             .padding(vertical = Space4, horizontal = Space8)
                     ) {
                         Text(
-                            text = "See All",
+                            text = stringResource(R.string.see_all),
                             style = MaterialTheme.typography.labelSmall,
                             color = Color.White
                         )
@@ -257,7 +258,7 @@ fun TopicReview() {
         Topic(
             topicUiSate = TopicUiSate(
                 creatorName = "Maro",
-                creatorImage = R.drawable.person,
+                creatorImage = "",
                 topicName = "Lets do it",
                 topicCreationDate = "6:08 AM",
             ),

@@ -54,7 +54,7 @@ fun ChannelContent(
         topBar = {
             //todo this app bar must be changed to be one composable for all screens
             CustomAppBar(
-                title = "Chocolate Team",
+                title = channelScreenUiState.channelName,
                 navigationBack = navigationBack,
                 actions = {
                     IconButton(
@@ -63,7 +63,7 @@ fun ChannelContent(
                         Icon(
                             painter = painterResource(id = R.drawable.meeting_call),
                             tint = MaterialTheme.customColors().onBackground60,
-                            contentDescription = "Meeting Call"
+                            contentDescription = ""
                         )
                     }
                 }
@@ -77,7 +77,7 @@ fun ChannelContent(
                 Icon(
                     painter = painterResource(id = R.drawable.add),
                     tint = Color.White,
-                    contentDescription = "add button"
+                    contentDescription = ""
                 )
             }
         }

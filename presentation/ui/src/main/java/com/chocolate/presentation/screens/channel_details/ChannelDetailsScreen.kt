@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
@@ -90,14 +91,14 @@ fun ChannelDetailsContent(
             onDismissRequest = { showDialog = false },
             title = {
                 Text(
-                    "Do you want to leave channel",
+                    stringResource(R.string.do_you_want_to_leave_channel),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.customColors().onBackground87
                 )
             },
             text = {
                 Text(
-                    "This action cannot be undoneBy leaving the channel, you will no longer receive updates or messages from this channel",
+                    stringResource(R.string.leave_discription),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.customColors().onBackground60
                 )
@@ -106,12 +107,12 @@ fun ChannelDetailsContent(
                 TextButton(
                     onClick = onLeaveChannel
                 ) {
-                    Text("Leave", color = MaterialTheme.customColors().red60)
+                    Text(stringResource(R.string.leave), color = MaterialTheme.customColors().red60)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDialog = false }) {
-                    Text("Dismiss", color = MaterialTheme.customColors().onBackground87)
+                    Text(stringResource(R.string.dismiss_btn), color = MaterialTheme.customColors().onBackground87)
                 }
             },
         )
@@ -144,23 +145,19 @@ fun ChannelDetailsContent(
                 ) {
                     item {
                         ChannelAction(
-                            text = "Add",
-                            icon = R.drawable.add_user,
-                            onItemClicked = onAddUser
+                            text = stringResource(R.string.add_user), icon = R.drawable.add_user, onItemClicked = onAddUser
                         )
                     }
                     item {
                         ChannelAction(
-                            text = "Meet",
+                            text = stringResource(R.string.meet_action),
                             icon = R.drawable.meeting_call,
                             onItemClicked = onMeetingCall
                         )
                     }
                     item {
                         ChannelAction(
-                            text = "Search",
-                            icon = R.drawable.search,
-                            onItemClicked = onSearch
+                            text = stringResource(R.string.search_action), icon = R.drawable.search, onItemClicked = onSearch
                         )
                     }
                 }
@@ -179,7 +176,9 @@ fun ChannelDetailsContent(
                         modifier = Modifier.clickable {
                             onSeeAll()
                         },
-                        text = "See All",
+                        text = stringResource(
+                            R.string.see_all
+                        ),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.customColors().primary
                     )
@@ -221,13 +220,17 @@ fun ChannelDetailsContent(
                             Column(modifier = Modifier.padding(start = Space8)) {
                                 Text(
                                     modifier = Modifier.padding(top = Space4),
-                                    text = "Pinned Messages",
+                                    text = stringResource(
+                                        R.string.pinned_message
+                                    ),
                                     style = MaterialTheme.typography.labelMedium,
                                     color = MaterialTheme.customColors().onBackground87
                                 )
                                 Text(
                                     modifier = Modifier,
-                                    text = "${channelDetailsUiState.pinCount} Pinned Message",
+                                    text = channelDetailsUiState.pinCount.toString() + " " + stringResource(
+                                        R.string.pinned_message
+                                    ),
                                     style = MaterialTheme.typography.labelMedium,
                                     color = MaterialTheme.customColors().onBackground60
                                 )
@@ -256,13 +259,13 @@ fun ChannelDetailsContent(
                     ) {
                         Text(
                             modifier = Modifier.padding(top = Space4),
-                            text = "Mute Channel",
+                            text = stringResource(R.string.mute_channel),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.customColors().onBackground87
                         )
                         Text(
                             modifier = Modifier.fillMaxWidth(0.6f),
-                            text = "muted channel will always appear read and you won't to receive any notifications from them",
+                            text = stringResource(R.string.muted_channel_description),
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.customColors().onBackground60
                         )
@@ -273,8 +276,7 @@ fun ChannelDetailsContent(
                         onCheckedChange = onMuteChannel
                     )
                 }
-                Box(
-                    contentAlignment = Alignment.Center,
+                Box(contentAlignment = Alignment.Center,
                     modifier = Modifier
                         .padding(vertical = Space8)
                         .fillMaxWidth()
@@ -288,8 +290,7 @@ fun ChannelDetailsContent(
                         .clip(RoundedCornerShape(Space16))
                         .clickable {
                             showDialog = true
-                        }
-                ) {
+                        }) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             painter = painterResource(id = R.drawable.logout),
@@ -298,7 +299,7 @@ fun ChannelDetailsContent(
                         )
                         Spacer(modifier = Modifier.width(Space8))
                         Text(
-                            text = "Leave Channel",
+                            text = stringResource(R.string.leave_channel),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.customColors().red
                         )

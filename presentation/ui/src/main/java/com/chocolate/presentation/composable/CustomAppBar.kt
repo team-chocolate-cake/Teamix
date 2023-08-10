@@ -39,7 +39,7 @@ fun CustomAppBar(
                 Icon(
                     painter = painterResource(id = R.drawable.alt_arrow_left),
                     tint = MaterialTheme.customColors().onBackground87,
-                    contentDescription = "Back button"
+                    contentDescription = ""
                 )
             }
         },

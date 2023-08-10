@@ -1,16 +1,17 @@
 package com.chocolate.remote.channels.service
 
-import com.chocolate.repository.dto.channels.response.AllStreamsDto
-import com.chocolate.repository.dto.channels.response.AllSubscribersDto
-import com.chocolate.repository.dto.channels.response.DefaultStreamDto
-import com.chocolate.repository.dto.channels.response.StreamsByIdDto
-import com.chocolate.repository.dto.channels.response.StreamsIdDto
-import com.chocolate.repository.dto.channels.response.SubscribeToStreamDto
-import com.chocolate.repository.dto.channels.response.SubscribedStreamDto
-import com.chocolate.repository.dto.channels.response.SubscriptionSettingsDto
-import com.chocolate.repository.dto.channels.response.SubscriptionStatusDto
-import com.chocolate.repository.dto.channels.response.TopicsInStreamDto
-import com.chocolate.repository.dto.channels.response.UnsubscribeFromStreamDto
+
+import com.chocolate.repository.model.dto.channels.response.AllStreamsDto
+import com.chocolate.repository.model.dto.channels.response.AllSubscribersDto
+import com.chocolate.repository.model.dto.channels.response.DefaultStreamDto
+import com.chocolate.repository.model.dto.channels.response.StreamsByIdDto
+import com.chocolate.repository.model.dto.channels.response.StreamsIdDto
+import com.chocolate.repository.model.dto.channels.response.SubscribeToStreamDto
+import com.chocolate.repository.model.dto.channels.response.SubscribedStreamDto
+import com.chocolate.repository.model.dto.channels.response.SubscriptionSettingsDto
+import com.chocolate.repository.model.dto.channels.response.SubscriptionStatusDto
+import com.chocolate.repository.model.dto.channels.response.TopicsInStreamDto
+import com.chocolate.repository.model.dto.channels.response.UnsubscribeFromStreamDto
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET

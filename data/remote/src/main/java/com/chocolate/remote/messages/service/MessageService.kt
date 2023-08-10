@@ -1,16 +1,16 @@
 package com.chocolate.remote.messages.service
 
-import com.chocolate.repository.dto.message.response.DefaultMessageRemoteDto
-import com.chocolate.repository.dto.message.response.FileRemoteDto
-import com.chocolate.repository.dto.message.response.MatchNarrowRemoteDto
-import com.chocolate.repository.dto.message.response.MessageEditHistoryRemoteDto
-import com.chocolate.repository.dto.message.response.MessageReadReceiptsRemoteDto
-import com.chocolate.repository.dto.message.response.MessagesRemoteDto
-import com.chocolate.repository.dto.message.response.PersonalMessageFlags
-import com.chocolate.repository.dto.message.response.PersonalMessageForNarrowRemoteDto
-import com.chocolate.repository.dto.message.response.RenderMessageRemoteDto
-import com.chocolate.repository.dto.message.response.SendMessageRemoteDto
-import com.chocolate.repository.dto.message.response.SingleMessageRemoteDto
+import com.chocolate.repository.model.dto.message.response.DefaultMessageRemoteDto
+import com.chocolate.repository.model.dto.message.response.FileRemoteDto
+import com.chocolate.repository.model.dto.message.response.MatchNarrowDto
+import com.chocolate.repository.model.dto.message.response.MessageEditHistoryDto
+import com.chocolate.repository.model.dto.message.response.MessageReadReceiptsDto
+import com.chocolate.repository.model.dto.message.response.MessagesRemoteDto
+import com.chocolate.repository.model.dto.message.response.PersonalMessageFlagsDto
+import com.chocolate.repository.model.dto.message.response.PersonalMessageForNarrowDto
+import com.chocolate.repository.model.dto.message.response.RenderMessageDto
+import com.chocolate.repository.model.dto.message.response.SendMessageDto
+import com.chocolate.repository.model.dto.message.response.SingleMessageDto
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.DELETE
@@ -32,7 +32,7 @@ interface MessageService {
         @Query("content") content: String,
         @Query("queue_id") queueId: String?,
         @Query("local_id") localId: String?,
-    ): Response<SendMessageRemoteDto>
+    ): Response<SendMessageDto>
 
     @POST("messages")
     suspend fun sendDirectMessage(
@@ -41,7 +41,7 @@ interface MessageService {
         @Query("content") content: String,
         @Query("queue_id") queueId: String?,
         @Query("local_id") localId: String?,
-    ): Response<SendMessageRemoteDto>
+    ): Response<SendMessageDto>
 
     @Multipart
     @POST("user_uploads")
@@ -92,30 +92,30 @@ interface MessageService {
     @POST("messages/render")
     suspend fun renderMessage(
         @Query("content") content: String,
-    ): Response<RenderMessageRemoteDto>
+    ): Response<RenderMessageDto>
 
     @GET("messages/{message_id}")
     suspend fun fetchSingleMessage(
         @Path("message_id") messageId: Int
-    ): Response<SingleMessageRemoteDto>
+    ): Response<SingleMessageDto>
 
     @GET("messages/matches_narrow")
     suspend fun checkIfMessagesMatchNarrow(
         @Query("msg_ids") messageIds: String,
         @Query("narrow") narrow: String
-    ): Response<MatchNarrowRemoteDto>
+    ): Response<MatchNarrowDto>
 
     @GET("messages/{message_id}/history")
     suspend fun getMessagesEditHistory(
         @Path("message_id") messageId: Int
-    ): Response<MessageEditHistoryRemoteDto>
+    ): Response<MessageEditHistoryDto>
 
     @POST("messages/flags")
     suspend fun updateMessageFlags(
         @Query("messages") messages: List<Int>,
         @Query("op") op: String,
         @Query("flag") flag: String,
-    ): Response<PersonalMessageFlags>
+    ): Response<PersonalMessageFlagsDto>
 
     @POST("messages/flags/narrow")
     suspend fun updatePersonalMessageFlagsForNarrow(
@@ -126,7 +126,7 @@ interface MessageService {
         @Query("narrow") narrow: String,
         @Query("op") op: String,
         @Query("flag") flag: String
-    ): Response<PersonalMessageForNarrowRemoteDto>
+    ): Response<PersonalMessageForNarrowDto>
 
     @POST("mark_all_as_read")
     suspend fun markAllMessagesAsRead(): Response<DefaultMessageRemoteDto>
@@ -145,6 +145,6 @@ interface MessageService {
     @GET("messages/{message_id}/read_receipts")
     suspend fun getMessageReadReceipts(
         @Path("message_id") messageId: Int
-    ): Response<MessageReadReceiptsRemoteDto>
+    ): Response<MessageReadReceiptsDto>
 
 }

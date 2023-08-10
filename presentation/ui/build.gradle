@@ -2,6 +2,7 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -37,10 +38,7 @@ android {
 dependencies {
     implementation(project(Modules.PRESENTATION_VIEW_MODEL))
 
-    implementation(DependencyProject.androidxCore)
-    testImplementation(DependencyProject.junit)
-    androidTestImplementation(DependencyProject.junitExtension)
-    androidTestImplementation(DependencyProject.espresso)
+
     implementation(DependencyProject.constraintLayout)
 
     implementation(DependencyProject.composeMaterial3)
@@ -53,6 +51,7 @@ dependencies {
     implementation(DependencyProject.composeUiPreviewTool)
     implementation(DependencyProject.composeBom)
     implementation(DependencyProject.composeTestManifest)
+    implementation(DependencyProject.composeRuntime)
 
     implementation(DependencyProject.coroutines)
     implementation(DependencyProject.lifecycleRuntime)
@@ -63,6 +62,11 @@ dependencies {
     kapt(DependencyProject.hiltCompiler)
 
     implementation(DependencyProject.coil)
+    implementation(DependencyProject.hiltNavigation)
 
     implementation(DependencyProject.lottie)
+    implementation(DependencyProject.splashScreen)
+
+    implementation(DependencyProject.composeFoundation)
+
 }

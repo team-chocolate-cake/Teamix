@@ -3,17 +3,20 @@ package com.chocolate.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.chocolate.presentation.screens.channel.ChannelScreen
-import com.chocolate.presentation.screens.channel_details.ChannelDetailsScreen
-import com.chocolate.presentation.screens.topic_details.TopicScreen
+import androidx.compose.material3.MaterialTheme
 import com.chocolate.presentation.theme.TeamixTheme
+import com.chocolate.presentation.theme.customColors
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         setContent {
             TeamixTheme {
-
+                SetUpNavGraph()
             }
         }
     }

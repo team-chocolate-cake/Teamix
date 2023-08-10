@@ -35,7 +35,8 @@ fun TopicScreen() {
         onAddReactionToMessage = {},
         onGetNotification ={} ,
         onPinMessage = {},
-        onSaveMessage ={}
+        onSaveMessage ={},
+        onOpenReactTile ={},
     )
 }
 
@@ -54,11 +55,12 @@ fun TopicContent(
     onSaveMessage: () -> Unit,
     onGetNotification: () -> Unit,
     onPinMessage: () -> Unit,
+    onOpenReactTile: () -> Unit,
 
     ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        containerColor = MaterialTheme.customColors().background,//todo change this color to be in dark theme
+        containerColor = MaterialTheme.customColors().background,
         topBar = {
             //todo this app bar must be changed to be one composable for all screens
             CustomAppBar(
@@ -102,8 +104,8 @@ fun TopicContent(
                         onAddReactionToMessage = onAddReactionToMessage,
                         onGetNotification =onGetNotification ,
                         onPinMessage = onPinMessage,
-                        onSaveMessage =onSaveMessage
-
+                        onSaveMessage =onSaveMessage,
+                        onOpenReactTile =onOpenReactTile
                     )
                 }
             }

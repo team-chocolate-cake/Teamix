@@ -26,36 +26,32 @@ import com.chocolate.presentation.theme.customColors
 
 @Composable
 fun ChannelAction(
-    channelAction: ChannelAction
+    @DrawableRes icon:Int,
+    text:String,
+    onItemClicked:()->Unit
 ) {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(Space16))
             .background(Color.White)
             .clickable {
-                channelAction.action()
+                onItemClicked()
             }
             .padding(vertical = Space16),
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
-                painter = painterResource(id = channelAction.icon),
+                painter = painterResource(id = icon),
                 contentDescription = "",
                 tint = MaterialTheme.customColors().onBackground60,
                 modifier = Modifier.padding(bottom = Space4)
             )
             Text(
-                text = channelAction.text,
+                text = text,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.customColors().onBackground60
             )
         }
     }
 }
-
-data class ChannelAction(
-    @DrawableRes val icon: Int,
-    val text: String,
-    val action: () -> Unit
-)

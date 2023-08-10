@@ -91,7 +91,7 @@ fun MessageOptionsBottomSheet(
                 }
             )
             BottomSheetItem(
-                icon = R.drawable.bin_message,
+                icon = R.drawable.pin_message,
                 text = "Pin to conversation" ,
                 onClickItem = {
                     onPinMessage()

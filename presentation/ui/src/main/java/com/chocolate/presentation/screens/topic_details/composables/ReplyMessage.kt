@@ -57,6 +57,7 @@ fun ReplyMessage(
     onSaveMessage: () -> Unit,
     onGetNotification: () -> Unit,
     onPinMessage: () -> Unit,
+    onOpenReactTile: () -> Unit,
 ) {
     var showSheet by remember { mutableStateOf(false) }
 
@@ -97,7 +98,7 @@ fun ReplyMessage(
             )
         }
         Card(colors = CardDefaults.cardColors(
-            containerColor = if (!messageUiState.isMyReplay) Color.White else MaterialTheme.customColors().primary //todo must be changed
+            containerColor = if (!messageUiState.isMyReplay) Color.White else MaterialTheme.customColors().primary
         ),
             modifier = Modifier
                 .fillMaxWidth()
@@ -190,7 +191,7 @@ fun ReplyMessage(
                                 MaterialTheme.customColors().lightGray
                             )
                             .clickable {
-                                //todo open reaction list
+                                onOpenReactTile()
                             }
                             .padding(vertical = Space4, horizontal = Space8)) {
                         AsyncImage(

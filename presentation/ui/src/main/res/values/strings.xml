@@ -4,6 +4,14 @@
     <string name="suggested">Suggested</string>
     <string name="arrow_back">Arrow Back</string>
     <string name="mentions">Mentions</string>
+    <string name="enter_your_name_organization">Enter your Name Organization</string>
+    <string name="create_new_organization">Create New Organization</string>
+    <string name="create_new_organizat">Create New Organization</string>
+    <string name="welcome_to">Welcome To</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forget_password">Forget Password</string>
+    <string name="sign_in">Sign in</string>
     <string name="blue">Blue</string>
     <string name="orange">Orange</string>
     <string name="mauve">Mauve</string>
@@ -60,6 +68,5 @@
     <string name="leave">Leave</string>
     <string name="leave_discription">This action cannot be undoneBy leaving the channel, you will no longer receive updates or messages from this channel</string>
     <string name="do_you_want_to_leave_channel">Do you want to leave channel</string>
-
-
+    <string name="enter">Enter</string>
 </resources>

@@ -3,6 +3,8 @@ package com.chocolate.presentation
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.chocolate.presentation.screens.login.loginRoute
+import com.chocolate.presentation.screens.organiztion.organizationNameRoute
 import com.chocolate.presentation.screens.on_boarding.onboardingRoute
 import com.chocolate.presentation.screens.profile.ownerPowerRoute
 import com.chocolate.presentation.screens.profile.profileRoute
@@ -14,6 +16,8 @@ fun SetUpNavGraph() {
     NavHost(navController = navController, startDestination = Screen.Welcome.route) {
         welcomeRoute(navController)
         onboardingRoute(navController)
+        organizationNameRoute(navController)
+        loginRoute(navController)
         profileRoute(navController)
         ownerPowerRoute(navController)
 

@@ -5,6 +5,7 @@ import com.chocolate.entities.server_and_organizations.CustomProfileFields
 import com.chocolate.entities.server_and_organizations.DefaultOrganization
 import com.chocolate.entities.server_and_organizations.Linkifiers
 import com.chocolate.entities.server_and_organizations.ServerSettings
+import com.chocolate.repository.datastore.OrganizationDataStoreDataSource
 import com.chocolate.repository.mappers.organizations.toEntity
 import com.chocolate.repository.mappers.organizations.toLinkifiers
 import com.chocolate.repository.mappers.organizations.toDefaultOrganization
@@ -15,7 +16,8 @@ import repositories.ServerAndOrganizationsRepository
 import javax.inject.Inject
 
 class ServerAndOrganizationsRepositoryImpl @Inject constructor(
-    private val organizationRemoteDataSource: OrganizationRemoteDataSource
+    private val organizationRemoteDataSource: OrganizationRemoteDataSource,
+    private val organizationDataStoreDataSource: OrganizationDataStoreDataSource
 ) : ServerAndOrganizationsRepository, BaseRepository() {
     override suspend fun getServiceSettings(): ServerSettings {
         return wrapApiCall { organizationRemoteDataSource.getServerSettings() }.toEntity()
@@ -85,5 +87,13 @@ class ServerAndOrganizationsRepositoryImpl @Inject constructor(
         return wrapApiCall {
             organizationRemoteDataSource.createCustomProfileField(name, hint, fieldType)
         }.toDefaultOrganization()
+    }
+
+    override suspend fun saveNameOrganizations(nameOrganizations: String) {
+        organizationDataStoreDataSource.setNameOrganization(nameOrganizations)
+    }
+
+    override suspend fun getNameOrganizations(): String {
+        return organizationDataStoreDataSource.currentOrganization.toString()
     }
 }

@@ -56,5 +56,17 @@
     <string name="create_channel">Create Channel</string>
     <string name="public_text">Public</string>
     <string name="private_text">private</string>
+    <string name="see_all">See All</string>
+    <string name="mute_channel">Mute Channel</string>
+    <string name="muted_channel_description">muted channel will always appear read and you won\'t to receive any notifications from them</string>
+    <string name="leave_channel">Leave Channel</string>
+    <string name="pinned_message">"Pinned Message"</string>
+    <string name="search_action">Search</string>
+    <string name="meet_action">Meet</string>
+    <string name="add_user">Add</string>
+    <string name="dismiss_btn">Dismiss</string>
+    <string name="leave">Leave</string>
+    <string name="leave_discription">This action cannot be undoneBy leaving the channel, you will no longer receive updates or messages from this channel</string>
+    <string name="do_you_want_to_leave_channel">Do you want to leave channel</string>
     <string name="enter">Enter</string>
 </resources>

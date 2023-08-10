@@ -42,7 +42,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composables.CustomAppBar
+import com.chocolate.presentation.composable.CustomAppBar
 import com.chocolate.presentation.screens.channel_details.compasbles.ChannelAction
 import com.chocolate.presentation.screens.channel_details.compasbles.Member
 import com.chocolate.presentation.theme.Space16

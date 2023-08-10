@@ -1,4 +1,4 @@
-package com.chocolate.presentation.composables
+package com.chocolate.presentation.composable
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable

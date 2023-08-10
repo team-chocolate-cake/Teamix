@@ -1,4 +1,4 @@
-package com.chocolate.presentation.composables
+package com.chocolate.presentation.composable
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border

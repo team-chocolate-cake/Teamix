@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.chocolate.presentation.composables.CustomAppBar
+import com.chocolate.presentation.composable.CustomAppBar
 import com.chocolate.presentation.screens.topic_details.composables.ReplyMessage
 import com.chocolate.presentation.screens.topic_details.composables.StartNewMessage
 import com.chocolate.presentation.theme.Space16

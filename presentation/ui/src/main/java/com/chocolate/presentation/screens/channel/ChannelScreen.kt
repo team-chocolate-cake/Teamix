@@ -16,15 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composables.CustomAppBar
+import com.chocolate.presentation.composable.CustomAppBar
 import com.chocolate.presentation.screens.channel.composables.Topic
 import com.chocolate.presentation.screens.topic_details.ReactionUiState
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
-import java.util.Date
 
 @Composable
 fun ChannelScreen() {

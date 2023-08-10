@@ -89,7 +89,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideNameOrganization(prefs: OrganizationDataStoreDataSource): String =
-        prefs.currentOrganization.toString()
+    fun provideBaseUrl(prefs: OrganizationDataStoreDataSource): String =
+        "https://${prefs.currentOrganization}.zulipchat.com/api/v1/"
 
 }

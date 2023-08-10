@@ -7,10 +7,10 @@ data class ChannelDetailsUiState(
     val channelMuted: Boolean = false,
     val memberUiState: List<MemberUiState> = emptyList(),
     val pinCount: Int = 0,
-
-
+    val isLoading:Boolean = false,
+    val error : String? = null
 )
 data class MemberUiState(
-    val name: String = "Mimo Mimo",
+    val name: String = "",
     val Image: String = "",
 )

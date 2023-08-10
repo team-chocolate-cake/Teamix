@@ -45,11 +45,11 @@ object NetworkModule {
     fun provideRetrofitBuilder(
         client: OkHttpClient,
         factory: GsonConverterFactory,
-        nameOrganization: String
+        baseUrl: String
     ): Retrofit =
         Retrofit.Builder()
+            .baseUrl(baseUrl)
             .client(client)
-            .baseUrl("https://${nameOrganization.trim()}.zulipchat.com/api/v1/")
             .addConverterFactory(factory)
             .build()
 

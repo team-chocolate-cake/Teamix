@@ -6,15 +6,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -28,15 +24,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.chocolate.presentation.R
+import com.chocolate.presentation.composable.Button
 import com.chocolate.presentation.screens.login.navigateToLogin
-import com.chocolate.presentation.theme.DarkPrimary
 import com.chocolate.presentation.theme.LightBackground
-import com.chocolate.presentation.theme.OnLightSecondary38
+import com.chocolate.presentation.theme.Space32
+import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.organization_name.OrganizationNameUiState
 import com.chocolate.viewmodel.organization_name.OrganizationNameViewModel
 
@@ -50,8 +48,8 @@ fun OrganizationScreen(
     OrganizationContent(
         navigateToLogin = { navController.navigateToLogin() },
         saveNameOrganization = viewModel::saveNameOrganization,
-        updateOrganizationName = viewModel::updateOrganizationName,
-        state
+        onOrganizationNameChange = viewModel::onOrganizationNameChange,
+        state = state
     )
 }
 
@@ -60,90 +58,80 @@ fun OrganizationScreen(
 fun OrganizationContent(
     navigateToLogin: () -> Unit,
     saveNameOrganization: (String) -> Unit,
-    updateOrganizationName: (String) -> Unit,
+    onOrganizationNameChange: (String) -> Unit,
     state: OrganizationNameUiState
 ) {
-
-    val buttonColor = if (state.nameOrganization.isNotEmpty()) DarkPrimary else OnLightSecondary38
-
+    val colors = MaterialTheme.customColors()
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(color = LightBackground)
     ) {
-        Column(
-
-
-        ) {
-            Spacer(modifier = Modifier.height(16.dp))
+        Column {
             Image(
                 painter = painterResource(id = R.drawable.start__5_),
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier.padding(top = 28.dp)
             )
-            Spacer(modifier = Modifier.height(32.dp))
-            Text(modifier = Modifier.padding(horizontal = 16.dp),
+            Text(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(top = Space32),
                 text = stringResource(R.string.enter_your_name_organization),
-                style = MaterialTheme.typography.labelMedium)
-
-
-            Spacer(modifier = Modifier.height(8.dp))
-
+                style = MaterialTheme.typography.labelMedium,
+            )
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                value = state.nameOrganization,
-                onValueChange = { nameorganiztion ->
-                    updateOrganizationName(nameorganiztion)
-
+                    .padding(horizontal = 16.dp).padding(bottom = 24.dp)
+                    .padding(top = Space8),
+                value = state.organizationName,
+                onValueChange = { nameOrganization ->
+                    onOrganizationNameChange(nameOrganization)
                 },
                 placeholder = { Text("", color = Color.Black.copy(alpha = 0.6f)) },
                 shape = RoundedCornerShape(12.dp),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.White,
                     focusedBorderColor = Color.Transparent,
-                    unfocusedBorderColor = Color.Transparent
+                    unfocusedBorderColor = Color.Transparent,
+                    cursorColor = colors.black
                 )
             )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
             Button(
+                onClick = {
+                    saveNameOrganization(state.organizationName)
+                    navigateToLogin()
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp)
                     .padding(horizontal = 16.dp),
-                onClick = {
-                    saveNameOrganization(state.nameOrganization)
-                    navigateToLogin()
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = buttonColor
-                )
-            ) {
-                Text("Enter")
-            }
-
-            Spacer(modifier = Modifier.height(42.dp))
-            SeparatorWithText()
-            Spacer(modifier = Modifier.height(18.dp))
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
+                colors = colors,
+                enabled = state.organizationName.isNotEmpty()
             ) {
                 Text(
-                    stringResource(R.string.create_new_organizat),
-                    fontSize = 14.sp,
-                    style = MaterialTheme.typography.bodyMedium
+                    text = stringResource(R.string.enter),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = colors.onPrimary
                 )
-            }        }
+            }
+            SeparatorWithText(modifier = Modifier.padding(bottom = Space8, top = Space32))
+            Text(
+                text = stringResource(R.string.create_new_organizat),
+                color = colors.primary,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }
 
 @Composable
-fun SeparatorWithText(text: String = "OR") {
+fun SeparatorWithText(modifier: Modifier = Modifier) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.Center,
@@ -154,22 +142,21 @@ fun SeparatorWithText(text: String = "OR") {
                 .weight(1f)
                 .height(1.dp)
                 .background(Color.Gray)
+                .padding(horizontal = Space8)
         )
-        Spacer(modifier = Modifier.width(8.dp))
-
         Text(
-            text = text,
+            text = "OR",
             color = Color.Gray,
             modifier = Modifier
                 .background(Color.Transparent, shape = RoundedCornerShape(4.dp))
                 .padding(horizontal = 8.dp)
         )
-        Spacer(modifier = Modifier.width(8.dp))
         Box(
             modifier = Modifier
                 .weight(1f)
                 .height(1.dp)
                 .background(Color.Gray)
+                .padding(horizontal = Space8)
         )
     }
 }

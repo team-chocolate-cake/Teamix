@@ -56,4 +56,5 @@
     <string name="create_channel">Create Channel</string>
     <string name="public_text">Public</string>
     <string name="private_text">private</string>
+    <string name="enter">Enter</string>
 </resources>

@@ -18,6 +18,10 @@ class AuthInterceptor @Inject constructor(
         val requestUrl = chain.request().url
         val request = chain.request()
             .newBuilder()
+            .url(
+                requestUrl.toString()
+                    .replace("null", datastorePreference.currentOrganization ?: "")
+            )
             .header(
                 AUTHORIZATION, Credentials.basic(
                     username = userSharedPreference.getEmail(),

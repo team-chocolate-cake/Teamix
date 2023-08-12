@@ -1,4 +1,4 @@
-object DependencyProject {
+object ProjectDependencies {
 
     private const val CORE_VERSION = "1.8.0"
     private const val CONSTRAINT_LAYOUT_VERSION = "1.0.1"

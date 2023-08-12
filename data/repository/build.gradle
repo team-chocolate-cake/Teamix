@@ -23,11 +23,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility Configurations.JAVA_VERSION
+        targetCompatibility Configurations.JAVA_VERSION
     }
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = Configurations.JVM_TARGET
     }
 }
 
@@ -35,11 +35,11 @@ dependencies {
 
     implementation(project(Modules.DOMAIN_USE_CASE))
 
-    implementation(DependencyProject.hilt)
-    implementation(DependencyProject.gsonConverter)
+    implementation(ProjectDependencies.hilt)
+    implementation(ProjectDependencies.gsonConverter)
 
-    implementation(DependencyProject.roomRuntime)
-    implementation(DependencyProject.roomKtx)
-    annotationProcessor(DependencyProject.roomCompiler)
-    kapt(DependencyProject.roomCompiler)
+    implementation(ProjectDependencies.roomRuntime)
+    implementation(ProjectDependencies.roomKtx)
+    annotationProcessor(ProjectDependencies.roomCompiler)
+    kapt(ProjectDependencies.roomCompiler)
 }

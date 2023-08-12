@@ -36,11 +36,11 @@ dependencies {
 
     implementation(project(Modules.DOMAIN_USE_CASE))
 
-    implementation(DependencyProject.coroutines)
-    implementation(DependencyProject.lifecycleRuntime)
-    implementation(DependencyProject.lifecycleViewModel)
-    implementation(DependencyProject.lifecycleLiveData)
+    implementation(ProjectDependencies.coroutines)
+    implementation(ProjectDependencies.lifecycleRuntime)
+    implementation(ProjectDependencies.lifecycleViewModel)
+    implementation(ProjectDependencies.lifecycleLiveData)
 
-    implementation(DependencyProject.hilt)
-    kapt(DependencyProject.hiltCompiler)
+    implementation(ProjectDependencies.hilt)
+    kapt(ProjectDependencies.hiltCompiler)
 }

@@ -12,5 +12,6 @@ fun NavGraphBuilder.welcomeRoute(navController: NavController) {
 }
 
 fun NavController.navigateToWelcome() {
+    popBackStack()
     navigate(Screen.Welcome.route)
 }

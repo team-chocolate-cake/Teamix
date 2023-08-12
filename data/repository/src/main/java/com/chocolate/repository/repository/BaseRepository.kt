@@ -8,6 +8,12 @@ import com.chocolate.entities.exceptions.UnAuthorizedException
 import com.chocolate.entities.exceptions.UnknownException
 import com.chocolate.entities.exceptions.UserDeactivatedException
 import com.chocolate.repository.utils.HttpStatusCodes
+import com.chocolate.repository.utils.NoInternetException
+import com.chocolate.repository.utils.NotFoundException
+import com.chocolate.repository.utils.NullResultException
+import com.chocolate.repository.utils.TooManyRequestsException
+import com.chocolate.repository.utils.USerDeactivatedException
+import com.chocolate.repository.utils.ValidationException
 import retrofit2.Response
 import java.net.UnknownHostException
 
@@ -18,15 +24,15 @@ abstract class BaseRepository {
 
             when (result.code()) {
                 HttpStatusCodes.BAD_REQUEST.code -> throw NetworkException(result.message())
-                HttpStatusCodes.UNAUTHORIZED.code -> throw UnAuthorizedException(result.message())
-                HttpStatusCodes.USER_DEACTIVATED.code -> throw UserDeactivatedException(result.message())
-                HttpStatusCodes.TOO_MANY_REQUESTS.code -> throw RateLimitExceededException(result.message())
-                HttpStatusCodes.NO_CONNECTION.code -> throw NoConnectionException(result.message())
-                else -> result.body() ?: throw UnknownException(result.message())
+                HttpStatusCodes.UNAUTHORIZED.code -> throw ValidationException(result.message())
+                HttpStatusCodes.USER_DEACTIVATED.code -> throw USerDeactivatedException(result.message())
+                HttpStatusCodes.TOO_MANY_REQUESTS.code -> throw TooManyRequestsException(result.message())
+                HttpStatusCodes.NO_CONNECTION.code -> throw NotFoundException(result.message())
+                else -> result.body() ?: throw NullResultException(result.message())
             }
 
         } catch (exception: UnknownHostException) {
-            throw UnknownException(exception.message.toString())
+            throw NoInternetException(exception.message.toString())
         } catch (exception: TeamixException) {
             throw UnknownException(exception.message.toString())
         }

@@ -60,6 +60,20 @@ object DependencyProject {
     const val composeTestManifest = "androidx.compose.ui:ui-tooling"
     const val navigationCompose = "androidx.navigation:navigation-compose:$NAVIGATION_COMPOSE"
 
+    @JvmField val composeGroup = listOf(
+        activityCompose,
+        composeBom,
+        composeUi,
+        composeRuntime,
+        composeUiGraphics,
+        composeUiPreviewTool,
+        composeMaterial3,
+        composeJunit,
+        composeUiTooling,
+        composeTestManifest,
+        navigationCompose
+    )
+
     const val kotlinxSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:$KOTLIN_SERIALIZATION_VERSION"
 
     const val lottie = "com.airbnb.android:lottie-compose:$LOTTIE_VERSION"

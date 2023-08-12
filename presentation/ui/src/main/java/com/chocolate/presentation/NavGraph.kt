@@ -7,14 +7,14 @@ import com.chocolate.presentation.screens.login.loginRoute
 import com.chocolate.presentation.screens.organiztion.organizationNameRoute
 import com.chocolate.presentation.screens.profile.ownerPowerRoute
 import com.chocolate.presentation.screens.profile.profileRoute
-import com.chocolate.presentation.on_boarding.onboardingRoute
 import com.chocolate.presentation.screens.home.homeRoute
-import com.chocolate.presentation.welcome.welcomeRoute
+import com.chocolate.presentation.screens.on_boarding.onboardingRoute
+import com.chocolate.presentation.screens.welcome.welcomeRoute
 
 @Composable
 fun SetUpNavGraph() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screen.Welcome.route) {
+    NavHost(navController = navController, startDestination = Screen.Home.route) {
         welcomeRoute(navController)
         onboardingRoute(navController)
         homeRoute(navController)

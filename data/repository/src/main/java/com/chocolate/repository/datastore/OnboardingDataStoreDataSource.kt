@@ -6,4 +6,8 @@ interface OnboardingDataStoreDataSource {
 
     suspend fun setOnboardingShown()
 
+    suspend fun setOnboardingState(isComplete: Boolean)
+
+    suspend fun getOnboardingState(): Boolean
+
 }

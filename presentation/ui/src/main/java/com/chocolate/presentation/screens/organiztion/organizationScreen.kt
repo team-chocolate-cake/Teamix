@@ -1,5 +1,6 @@
 package com.chocolate.presentation.screens.organiztion
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +18,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -31,6 +33,7 @@ import androidx.navigation.NavController
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.Button
 import com.chocolate.presentation.screens.login.navigateToLogin
+import com.chocolate.presentation.screens.on_boarding.navigateToOnboarding
 import com.chocolate.presentation.theme.LightBackground
 import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.Space8
@@ -41,16 +44,21 @@ import com.chocolate.viewmodel.organization_name.OrganizationNameViewModel
 @Composable
 fun OrganizationScreen(
     navController: NavController,
-    viewModel: OrganizationNameViewModel = hiltViewModel()
+    viewModel: OrganizationNameViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
+    Log.d("123123123", "OrganizationScreen: ${state.isShowOnBorading}")
+    if (state.isShowOnBorading) {
+        OrganizationContent(
+            navigateToLogin = { navController.navigateToLogin() },
+            saveNameOrganization = viewModel::saveNameOrganization,
+            onOrganizationNameChange = viewModel::onOrganizationNameChange,
+            state = state
+        )
+    } else {
+        LaunchedEffect(Unit) { navController.navigateToOnboarding() }
+    }
 
-    OrganizationContent(
-        navigateToLogin = { navController.navigateToLogin() },
-        saveNameOrganization = viewModel::saveNameOrganization,
-        onOrganizationNameChange = viewModel::onOrganizationNameChange,
-        state = state
-    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -83,7 +91,8 @@ fun OrganizationContent(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp).padding(bottom = 24.dp)
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 24.dp)
                     .padding(top = Space8),
                 value = state.organizationName,
                 onValueChange = { nameOrganization ->

@@ -6,6 +6,7 @@ data class HomeUiState(
     val badgeCountsUiState: BadgeCountsUiState = BadgeCountsUiState(),
     val channelsUIState: List<ChannelUIState> = emptyList(),
     val isLoading: Boolean = false,
+    val isLogged: Boolean = true,
     val error: String? = null
 )
 

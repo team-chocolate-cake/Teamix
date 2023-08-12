@@ -19,8 +19,17 @@ class OnboardingPreferencesDataSource @Inject constructor(
         dataStore.edit { it[booleanPreferencesKey(ONBOARDING_SHOWN)] = true }
     }
 
+    override suspend fun setOnboardingState(isComplete: Boolean) {
+        dataStore.edit { it[booleanPreferencesKey(ONBOARDING_STATE)] = isComplete }
+    }
+
+    override suspend fun getOnboardingState(): Boolean {
+        return dataStore.data.map { it[booleanPreferencesKey(ONBOARDING_STATE)] == true }.first()
+    }
+
     companion object {
         const val ONBOARDING_SHOWN = "onboarding_shown"
+        const val ONBOARDING_STATE = "ONBOARDING_STATE"
     }
 
 }

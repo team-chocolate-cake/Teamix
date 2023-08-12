@@ -15,6 +15,16 @@ class UserPreferencesDataSource @Inject constructor(
         editor.apply()
     }
 
+    override fun setUserLoginState(isComplete: Boolean) {
+        val editor = sharedPreferences.edit()
+        editor.putBoolean(LOGIN_STATE, isComplete)
+        editor.apply()
+    }
+
+    override fun getUserLoginState(): Boolean {
+        return sharedPreferences.getBoolean(LOGIN_STATE, false)
+    }
+
     override fun getApiKey(): String {
         return sharedPreferences.getString(API_KEY, null) ?: ""
     }
@@ -31,6 +41,7 @@ class UserPreferencesDataSource @Inject constructor(
     private companion object {
         const val API_KEY = "API_KEY"
         const val EMAIL = "EMAIL"
+        const val LOGIN_STATE = "LOGIN_STATE"
     }
 
 }

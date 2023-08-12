@@ -10,6 +10,7 @@ import com.chocolate.entities.user.User
 import com.chocolate.entities.user.UserAttachments
 import com.chocolate.entities.user.UserGroupMemberships
 import com.chocolate.entities.user.UserGroups
+import com.chocolate.entities.user.UserInformation
 import com.chocolate.entities.user.UserMembershipState
 import com.chocolate.entities.user.UserSettings
 import com.chocolate.entities.user.UserState
@@ -271,6 +272,14 @@ class UserRepositoryImp @Inject constructor(
                 )
                 true
             } ?: false
+    }
+
+    override suspend fun setUserLoginState(isComplete: Boolean) {
+        return userDataStoreDataSource.setUserLoginState(isComplete)
+    }
+
+    override suspend fun getUserLoginState(): Boolean {
+        return userDataStoreDataSource.getUserLoginState()
     }
 
 }

@@ -10,6 +10,7 @@ import com.chocolate.entities.user.User
 import com.chocolate.entities.user.UserAttachments
 import com.chocolate.entities.user.UserGroupMemberships
 import com.chocolate.entities.user.UserGroups
+import com.chocolate.entities.user.UserInformation
 import com.chocolate.entities.user.UserMembershipState
 import com.chocolate.entities.user.UserSettings
 import com.chocolate.entities.user.UserState
@@ -144,4 +145,9 @@ interface UsersRepositories{
     suspend fun unMuteUser(mutedUserId: Int)
 
     suspend fun userLogin(userName: String, password: String): Boolean
+
+    suspend fun setUserLoginState(isComplete: Boolean)
+
+    suspend fun getUserLoginState(): Boolean
+
 }

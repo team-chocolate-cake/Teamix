@@ -2,6 +2,7 @@ package com.chocolate.presentation.screens.home
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,6 +48,7 @@ import com.chocolate.presentation.screens.home.compose.BadgeHome
 import com.chocolate.presentation.screens.home.compose.ChannelItem
 import com.chocolate.presentation.screens.home.compose.ManageChannelBottomSheet
 import com.chocolate.presentation.screens.home.compose.TeamixTopAppBar
+import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space24
@@ -64,14 +67,19 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by homeViewModel.state.collectAsState()
-    HomeContent(
-        state = state,
-        navigationToMention = {},
-        navigationToDrafts = {},
-        navigationToStarred = {},
-        navigationToSavedLater = {},
-        navigateToChannel = {},
-    )
+
+    if(state.isLogged){
+        HomeContent(
+            state = state,
+            navigationToMention = {},
+            navigationToDrafts = {},
+            navigationToStarred = {},
+            navigationToSavedLater = {},
+            navigateToChannel = {},
+        )
+    }else{
+        LaunchedEffect(Unit){navController.navigateToOrganizationName()}
+    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)

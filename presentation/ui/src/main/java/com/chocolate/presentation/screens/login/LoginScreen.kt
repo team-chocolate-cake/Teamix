@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.chocolate.presentation.R
+import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.login.LoginUiState
 import com.chocolate.viewmodel.login.LoginViewModel
@@ -42,6 +43,7 @@ fun LoginScreen(
         updateEmailState = loginViewModel::updateEmailState,
         updatePasswordState = loginViewModel::updatePasswordState,
         login = loginViewModel::login,
+        navigateToHome = { navController.navigateToHome() },
         state = state
     )
 }
@@ -52,6 +54,7 @@ fun LoginContent(
     updateEmailState: (String) -> Unit,
     updatePasswordState: (String) -> Unit,
     login: (String, String) -> Unit,
+    navigateToHome: () -> Unit,
     state: LoginUiState
 ) {
     val colors = MaterialTheme.customColors()
@@ -136,7 +139,10 @@ fun LoginContent(
                 .fillMaxWidth()
                 .height(48.dp)
                 .padding(horizontal = 16.dp),
-            onClick = { login(state.email, state.password) },
+            onClick = {
+                login(state.email, state.password)
+                navigateToHome()
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = colors.primary
             ),
@@ -150,5 +156,5 @@ fun LoginContent(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LogInPreview() {
-    LoginContent({}, {}, { _, _ -> }, LoginUiState())
+    LoginContent({}, {}, { _, _ -> }, {}, LoginUiState())
 }

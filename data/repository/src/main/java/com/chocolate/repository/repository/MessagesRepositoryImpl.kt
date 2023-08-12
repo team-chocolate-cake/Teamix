@@ -20,7 +20,6 @@ import com.chocolate.repository.mappers.messages.toMessageEditHistory
 import com.chocolate.repository.mappers.messages.toMatchNarrow
 import com.chocolate.repository.mappers.messages.toAttachmentMessage
 import com.chocolate.repository.mappers.messages.toPersonalMessageForNarrow
-import com.chocolate.repository.service.remote.MessagesRemoteDataSource
 import com.chocolate.repository.service.remote.RemoteDataSource
 import okhttp3.MediaType
 import okhttp3.MultipartBody

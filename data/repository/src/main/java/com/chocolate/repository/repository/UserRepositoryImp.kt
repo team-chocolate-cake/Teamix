@@ -32,7 +32,6 @@ import com.chocolate.repository.mappers.users.toUserState
 import com.chocolate.repository.mappers.users.toUsers
 import com.chocolate.repository.mappers.users.toUsersState
 import com.chocolate.repository.service.remote.RemoteDataSource
-import com.chocolate.repository.service.remote.UsersRemoteDataSource
 
 import repositories.UsersRepositories
 import javax.inject.Inject

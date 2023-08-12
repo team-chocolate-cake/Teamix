@@ -11,7 +11,6 @@ import com.chocolate.repository.mappers.organizations.toLinkifiers
 import com.chocolate.repository.mappers.organizations.toDefaultOrganization
 import com.chocolate.repository.mappers.organizations.toCustomProfileFields
 import com.chocolate.repository.mappers.organizations.toCustomEmoji
-import com.chocolate.repository.service.remote.OrganizationRemoteDataSource
 import com.chocolate.repository.service.remote.RemoteDataSource
 import repositories.ServerAndOrganizationsRepository
 import javax.inject.Inject

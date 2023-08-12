@@ -5,7 +5,6 @@ import com.chocolate.entities.scheduled_messages.ScheduledMessages
 import com.chocolate.repository.mappers.scheduled.toBaseScheduledMessage
 import com.chocolate.repository.mappers.scheduled.toScheduledMessages
 import com.chocolate.repository.service.remote.RemoteDataSource
-import com.chocolate.repository.service.remote.ScheduledMessageRemoteDataSource
 import repositories.ScheduledMessageRepository
 import javax.inject.Inject
 

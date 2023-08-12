@@ -20,7 +20,6 @@ import com.chocolate.repository.mappers.channel_mappers.toSubscriptionSettingsUp
 import com.chocolate.repository.mappers.channel_mappers.toSubscriptionStatus
 import com.chocolate.repository.mappers.channel_mappers.toTopics
 import com.chocolate.repository.mappers.channel_mappers.toUnsubscribeFromStream
-import com.chocolate.repository.service.remote.ChannelsRemoteDataSource
 import com.chocolate.repository.service.remote.RemoteDataSource
 import repositories.ChannelsRepository
 import javax.inject.Inject

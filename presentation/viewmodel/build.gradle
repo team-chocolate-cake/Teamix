@@ -3,16 +3,15 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
-
 }
 
 android {
     namespace 'com.chocolate.viewmodel'
-    compileSdk 33
+    compileSdk Configurations.COMPILE_SDK
 
     defaultConfig {
-        minSdk 24
-        targetSdk 33
+        minSdk Configurations.MIN_SDK
+        targetSdk Configurations.TARGET_SDK
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"

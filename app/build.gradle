@@ -7,14 +7,14 @@ plugins {
 
 android {
     namespace 'com.chocolate.teamix'
-    compileSdk 33
+    compileSdk Configurations.COMPILE_SDK
 
     defaultConfig {
         applicationId "com.chocolate.teamix"
-        minSdk 24
-        targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        minSdk Configurations.MIN_SDK
+        targetSdk Configurations.TARGET_SDK
+        versionCode Configurations.VERSION_CODE
+        versionName Configurations.VERSION_NAME
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

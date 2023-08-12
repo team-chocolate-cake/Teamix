@@ -5,7 +5,7 @@ import com.chocolate.repository.datastore.UserDataStoreDataSource
 import javax.inject.Inject
 
 class UserPreferencesDataSource @Inject constructor(
-        private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences
 ): UserDataStoreDataSource {
 
     override fun putAuthenticationData(apikey: String, email: String) {
@@ -22,7 +22,7 @@ class UserPreferencesDataSource @Inject constructor(
     }
 
     override fun getUserLoginState(): Boolean {
-        return sharedPreferences.getBoolean(LOGIN_STATE, false)
+        return sharedPreferences.getBoolean(LOGIN_STATE, true)
     }
 
     override fun getApiKey(): String {

@@ -2,7 +2,6 @@ package com.chocolate.presentation.screens.home
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -78,7 +77,7 @@ fun HomeScreen(
             navigateToChannel = {},
         )
     }else{
-        LaunchedEffect(Unit){navController.navigateToOrganizationName()}
+        LaunchedEffect(Unit){ navController.navigateToOrganizationName() }
     }
 }
 

@@ -33,7 +33,7 @@ import androidx.navigation.NavController
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.Button
 import com.chocolate.presentation.screens.login.navigateToLogin
-import com.chocolate.presentation.screens.on_boarding.navigateToOnboarding
+import com.chocolate.presentation.screens.welcome.navigateToWelcome
 import com.chocolate.presentation.theme.LightBackground
 import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.Space8
@@ -47,8 +47,8 @@ fun OrganizationScreen(
     viewModel: OrganizationNameViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
-    Log.d("123123123", "OrganizationScreen: ${state.isShowOnBorading}")
-    if (state.isShowOnBorading) {
+    Log.d("123123123", "OrganizationScreen: ${state.onboardingState}")
+    if (state.onboardingState) {
         OrganizationContent(
             navigateToLogin = { navController.navigateToLogin() },
             saveNameOrganization = viewModel::saveNameOrganization,
@@ -56,7 +56,7 @@ fun OrganizationScreen(
             state = state
         )
     } else {
-        LaunchedEffect(Unit) { navController.navigateToOnboarding() }
+        LaunchedEffect(Unit) { navController.navigateToWelcome() }
     }
 
 }

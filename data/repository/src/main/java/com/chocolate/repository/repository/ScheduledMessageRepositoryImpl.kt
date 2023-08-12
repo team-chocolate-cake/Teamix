@@ -4,15 +4,16 @@ import com.chocolate.entities.scheduled_messages.BaseScheduledMessage
 import com.chocolate.entities.scheduled_messages.ScheduledMessages
 import com.chocolate.repository.mappers.scheduled.toBaseScheduledMessage
 import com.chocolate.repository.mappers.scheduled.toScheduledMessages
+import com.chocolate.repository.service.remote.RemoteDataSource
 import com.chocolate.repository.service.remote.ScheduledMessageRemoteDataSource
 import repositories.ScheduledMessageRepository
 import javax.inject.Inject
 
 class ScheduledMessageRepositoryImpl @Inject constructor(
-    private val scheduledMessageRemoteDataSource: ScheduledMessageRemoteDataSource
+    private val scheduledMessageRemoteDataSource: RemoteDataSource
 ) : ScheduledMessageRepository, BaseRepository() {
     override suspend fun getScheduledMessages(): ScheduledMessages {
-        return wrapApiCall { scheduledMessageRemoteDataSource.getScheduledMessages() }.toScheduledMessages()
+        return wrapCall { scheduledMessageRemoteDataSource.getScheduledMessages() }.toScheduledMessages()
     }
 
     override suspend fun createScheduledMessage(
@@ -22,7 +23,7 @@ class ScheduledMessageRepositoryImpl @Inject constructor(
         topic: String,
         scheduledDeliveryTimestamp: Long
     ): BaseScheduledMessage {
-        return wrapApiCall {
+        return wrapCall {
             scheduledMessageRemoteDataSource.createScheduledMessage(
                 type, to, content, topic, scheduledDeliveryTimestamp
             )
@@ -37,7 +38,7 @@ class ScheduledMessageRepositoryImpl @Inject constructor(
         topic: String,
         scheduledDeliveryTimestamp: Long
     ): BaseScheduledMessage {
-        return wrapApiCall {
+        return wrapCall {
             scheduledMessageRemoteDataSource.editScheduledMessage(
                 id, type, to, content, topic, scheduledDeliveryTimestamp
             )
@@ -45,6 +46,6 @@ class ScheduledMessageRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteScheduledMessage(id: Int): BaseScheduledMessage {
-        return wrapApiCall { scheduledMessageRemoteDataSource.deleteScheduledMessage(id) }.toBaseScheduledMessage()
+        return wrapCall { scheduledMessageRemoteDataSource.deleteScheduledMessage(id) }.toBaseScheduledMessage()
     }
 }

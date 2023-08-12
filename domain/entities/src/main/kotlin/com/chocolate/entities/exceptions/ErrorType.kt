@@ -6,17 +6,10 @@ open class ValidationException(message: String?) : TeamixException(message)
 open class NullDataException(message: String?) : TeamixException(message)
 
 
-
-
 class NoConnectionException(message: String?) : NetworkException(message)
 open class ServerException(message: String?) : NetworkException(message)
-class UserDeactivatedException(message: String?) : ServerException(message)
 class RateLimitExceededException(message: String?) : ServerException(message)
-
-
-class UnAuthorizedException(message: String?) : ValidationException(message)
-class InvalidUserNameAndPassword(message: String?) : ValidationException(message)
-
+class RequestException(message: String?) : NetworkException(message)
 
 
 class UnknownException(message: String) : TeamixException(message)

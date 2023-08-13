@@ -1,4 +1,4 @@
-object DependencyProject {
+object ProjectDependencies {
 
     private const val CORE_VERSION = "1.8.0"
     private const val CONSTRAINT_LAYOUT_VERSION = "1.0.1"
@@ -59,6 +59,20 @@ object DependencyProject {
     const val composeUiTooling = "androidx.compose.ui:ui-tooling"
     const val composeTestManifest = "androidx.compose.ui:ui-tooling"
     const val navigationCompose = "androidx.navigation:navigation-compose:$NAVIGATION_COMPOSE"
+
+    @JvmField val composeGroup = listOf(
+        activityCompose,
+        composeBom,
+        composeUi,
+        composeRuntime,
+        composeUiGraphics,
+        composeUiPreviewTool,
+        composeMaterial3,
+        composeJunit,
+        composeUiTooling,
+        composeTestManifest,
+        navigationCompose
+    )
 
     const val kotlinxSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:$KOTLIN_SERIALIZATION_VERSION"
 

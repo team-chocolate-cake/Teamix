@@ -61,6 +61,6 @@ dependencies {
 
     implementation(ProjectDependencies.composeFoundation)
 
-    implementation(DependencyProject.webView)
+    implementation(ProjectDependencies.webView)
 
 }

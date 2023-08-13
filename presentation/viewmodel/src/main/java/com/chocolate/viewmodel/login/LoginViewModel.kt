@@ -27,6 +27,10 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    fun onClickForgetPassword(){
+        sendUiEffect(LoginUiEffect.NavigateToForgetPassword)
+    }
+
     override fun updateEmailState(email: String) {
         _state.update { it.copy(email = email) }
     }
@@ -36,21 +40,28 @@ class LoginViewModel @Inject constructor(
     }
 
     override fun login(email: String, password: String) {
+        _state.update { it.copy(isLoading = true) }
         tryToExecute({ loginUseCase(email, password) }, ::onSuccess, ::onError)
     }
 
+    override fun onClickRetry() {
+        login(_state.value.email, _state.value.password)
+    }
+
     private fun onSuccess(isUserLogin: Boolean) {
+        _state.update { it.copy(isLoading = false) }
         viewModelScope.launch {
             if (isUserLogin) {
                 setUserLoginStateUseCase(true)
                 sendUiEffect(LoginUiEffect.NavigationToHome)
             }
         }
+
     }
 
     private fun onError(throwable: Throwable) {
         _state.update {
-            it.copy()
+            it.copy(isLoading = false, error = "Invalid email or password")
         }
     }
 }

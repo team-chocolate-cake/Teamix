@@ -79,4 +79,5 @@
     <string name="leave_discription">This action cannot be undoneBy leaving the channel, you will no longer receive updates or messages from this channel</string>
     <string name="do_you_want_to_leave_channel">Do you want to leave channel</string>
     <string name="enter">Enter</string>
+    <string name="default_error_message">A mistake happened, please attempt again at a later time.</string>
 </resources>

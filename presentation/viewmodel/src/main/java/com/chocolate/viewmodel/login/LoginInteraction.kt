@@ -4,4 +4,5 @@ interface LoginInteraction {
     fun updateEmailState(email: String)
     fun updatePasswordState(password: String)
     fun login(email: String, password: String)
+    fun onClickRetry()
 }

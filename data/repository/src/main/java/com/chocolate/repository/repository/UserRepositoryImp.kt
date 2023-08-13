@@ -16,7 +16,7 @@ import com.chocolate.entities.user.UserSettings
 import com.chocolate.entities.user.UserState
 import com.chocolate.entities.user.Users
 import com.chocolate.entities.user.UsersState
-import com.chocolate.repository.datastore.UserDataStoreDataSource
+import com.chocolate.repository.datastore.DataStoreDataSource
 import com.chocolate.repository.mappers.users.toCreateUser
 import com.chocolate.repository.mappers.users.toOwnerUser
 import com.chocolate.repository.mappers.users.toProfileDataDto
@@ -33,13 +33,14 @@ import com.chocolate.repository.mappers.users.toUserState
 import com.chocolate.repository.mappers.users.toUsers
 import com.chocolate.repository.mappers.users.toUsersState
 import com.chocolate.repository.service.remote.UsersRemoteDataSource
+import kotlinx.coroutines.flow.Flow
 
 import repositories.UsersRepositories
 import javax.inject.Inject
 
 class UserRepositoryImp @Inject constructor(
     private val userDataSource: UsersRemoteDataSource,
-    private val userDataStoreDataSource: UserDataStoreDataSource
+    private val dataStoreDataSource: DataStoreDataSource
 ) : UsersRepositories, BaseRepository() {
     override suspend fun getAllUsers(
         clientGravatar: Boolean, includeCustomProfileFields: Boolean
@@ -266,7 +267,7 @@ class UserRepositoryImp @Inject constructor(
     override suspend fun userLogin(userName: String, password: String): Boolean {
         return wrapApiCall { userDataSource.fetchApiKey(userName, password) }
             .takeIf { it.result == "success" }?.run {
-                userDataStoreDataSource.putAuthenticationData(
+                dataStoreDataSource.putAuthenticationData(
                     apikey = apiKey ?: "",
                     email = email ?: ""
                 )
@@ -275,11 +276,11 @@ class UserRepositoryImp @Inject constructor(
     }
 
     override suspend fun setUserLoginState(isComplete: Boolean) {
-        return userDataStoreDataSource.setUserLoginState(isComplete)
+        return dataStoreDataSource.setUserLoginState(isComplete)
     }
 
-    override suspend fun getUserLoginState(): Boolean {
-        return userDataStoreDataSource.getUserLoginState()
+    override suspend fun getUserLoginState(): Flow<Boolean> {
+        return dataStoreDataSource.currentUserLoginState
     }
 
 }

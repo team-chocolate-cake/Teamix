@@ -16,6 +16,7 @@ import com.chocolate.entities.user.UserSettings
 import com.chocolate.entities.user.UserState
 import com.chocolate.entities.user.Users
 import com.chocolate.entities.user.UsersState
+import kotlinx.coroutines.flow.Flow
 
 interface UsersRepositories{
 
@@ -148,6 +149,6 @@ interface UsersRepositories{
 
     suspend fun setUserLoginState(isComplete: Boolean)
 
-    suspend fun getUserLoginState(): Boolean
+    suspend fun getUserLoginState(): Flow<Boolean>
 
 }

@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,18 +15,16 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()) {
 
     init {
-        getUserLoginState()
+        viewModelScope.launch(Dispatchers.Main) {
+            getUserLoginState()
+        }
     }
 
-     private fun getUserLoginState() {
-        viewModelScope.launch {
-            val isLogin = getUserLoginStatusUseCase()
-            Log.d("123123123", "getUserLoginState: $isLogin")
-            _state.update {
-                it.copy(
-                    isLogged = getUserLoginStatusUseCase()
-                )
-            }
+    private suspend fun getUserLoginState() {
+        collectFlow(getUserLoginStatusUseCase()) {
+            this.copy(
+                isLogged = it,
+            )
         }
     }
 }

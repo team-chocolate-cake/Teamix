@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,6 +19,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,11 +38,15 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.chocolate.presentation.R
+import com.chocolate.presentation.composable.Button
 import com.chocolate.presentation.screens.forget_password.navigateToForgetPassword
 import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.viewmodel.login.LoginInteraction
+import com.chocolate.viewmodel.login.LoginUiEffect
 import com.chocolate.viewmodel.login.LoginUiState
 import com.chocolate.viewmodel.login.LoginViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun LoginScreen(
@@ -51,11 +54,16 @@ fun LoginScreen(
     loginViewModel: LoginViewModel = hiltViewModel()
 ) {
     val state by loginViewModel.state.collectAsState()
+    LaunchedEffect(key1 = Unit ){
+        loginViewModel.effect.collectLatest { effect ->
+            when(effect){
+                LoginUiEffect.NavigateToForgetPassword -> navController.navigateToForgetPassword()
+                LoginUiEffect.NavigationToHome -> navController.navigateToHome()
+            }
+        }
+    }
     LoginContent(
-        updateEmailState = loginViewModel::updateEmailState,
-        updatePasswordState = loginViewModel::updatePasswordState,
-        login = loginViewModel::login,
-        navigateToHome = { navController.navigateToHome() },
+        loginInteraction = loginViewModel,
         navigateToForgetPassword = { navController.navigateToForgetPassword() },
         state = state
     )
@@ -64,10 +72,7 @@ fun LoginScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginContent(
-    updateEmailState: (String) -> Unit,
-    updatePasswordState: (String) -> Unit,
-    login: (String, String) -> Unit,
-    navigateToHome: () -> Unit,
+    loginInteraction: LoginInteraction,
     navigateToForgetPassword: () -> Unit,
     state: LoginUiState
 ) {
@@ -103,7 +108,7 @@ fun LoginContent(
                 .padding(top = 8.dp),
             value = state.email,
             onValueChange = { email ->
-                updateEmailState(email)
+                loginInteraction.updateEmailState(email)
             },
             placeholder = { Text("", color = Color.Black.copy(alpha = 0.6f)) },
             shape = RoundedCornerShape(12.dp),
@@ -129,7 +134,7 @@ fun LoginContent(
                 .padding(top = 8.dp),
             value = state.password,
             onValueChange = { password ->
-                updatePasswordState(password)
+                loginInteraction.updatePasswordState(password)
             },
             placeholder = { Text("", color = Color.Black.copy(alpha = 0.6f)) },
             shape = RoundedCornerShape(12.dp),
@@ -162,20 +167,20 @@ fun LoginContent(
             )
         }
         Button(
+            onClick = {
+                loginInteraction.login(state.email, state.password)
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
                 .padding(horizontal = 16.dp),
-            onClick = {
-                login(state.email, state.password)
-                navigateToHome()
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = colors.primary
-            ),
-            shape = RoundedCornerShape(12.dp)
+            colors = colors
         ) {
-            Text(stringResource(R.string.sign_in))
+            Text(
+                text = stringResource(R.string.sign_in),
+                style = MaterialTheme.typography.bodyLarge,
+                color = colors.onPrimary
+            )
         }
     }
 }
@@ -183,5 +188,6 @@ fun LoginContent(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LogInPreview() {
-    LoginContent({}, {}, { _, _ -> }, {}, {}, LoginUiState())
+    val viewModel: LoginViewModel = hiltViewModel()
+    LoginContent(viewModel, {}, LoginUiState())
 }

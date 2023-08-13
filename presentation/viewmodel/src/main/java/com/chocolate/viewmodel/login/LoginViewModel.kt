@@ -15,7 +15,7 @@ class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val setUserLoginStateUseCase: SetUserLoginStateUseCase,
     private val getNameOrganizationsUseCase: GetNameOrganizationsUseCase
-) : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState()) {
+) : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState()),LoginInteraction {
 
     init {
         getNameOrganization()
@@ -27,15 +27,15 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun updateEmailState(email: String) {
+    override fun updateEmailState(email: String) {
         _state.update { it.copy(email = email) }
     }
 
-    fun updatePasswordState(password: String) {
+    override fun updatePasswordState(password: String) {
         _state.update { it.copy(password = password) }
     }
 
-    fun login(email: String, password: String) {
+    override fun login(email: String, password: String) {
         tryToExecute({ loginUseCase(email, password) }, ::onSuccess, ::onError)
     }
 

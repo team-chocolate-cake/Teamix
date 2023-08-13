@@ -50,7 +50,7 @@ class PreferencesDataSource @Inject constructor(
     }
 
     override val currentUserLoginState: Flow<Boolean>
-        get() = runBlocking { dataStore.data.map { it[LOGIN_STATE] ?: false } }
+        get() = dataStore.data.map { it[LOGIN_STATE] ?: false }
 
     override suspend fun putAuthenticationData(apikey: String, email: String) {
         val editor = sharedPreferences.edit()

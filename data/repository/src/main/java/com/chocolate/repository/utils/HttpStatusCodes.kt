@@ -7,3 +7,4 @@ enum class HttpStatusCodes(val code: Int) {
     USER_DEACTIVATED(403),
     TOO_MANY_REQUESTS(429)
 }
+

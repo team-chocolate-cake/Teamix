@@ -1,35 +1,38 @@
 package com.chocolate.repository.repository
 
-import com.chocolate.entities.NetworkException
-import com.chocolate.entities.NoConnectionException
-import com.chocolate.entities.RateLimitExceededException
-import com.chocolate.entities.TeamixException
-import com.chocolate.entities.UnAuthorizedException
-import com.chocolate.entities.UnknownException
-import com.chocolate.entities.UserDeactivatedException
-import com.chocolate.repository.utils.HttpStatusCodes
-import retrofit2.Response
-import java.net.UnknownHostException
+import android.os.RemoteException
+import com.chocolate.entities.exceptions.NoConnectionException
+import com.chocolate.entities.exceptions.NullDataException
+import com.chocolate.entities.exceptions.RateLimitExceededException
+import com.chocolate.entities.exceptions.RequestException
+import com.chocolate.entities.exceptions.TeamixException
+import com.chocolate.repository.utils.NullResultException
+import com.chocolate.repository.utils.ValidationError
+import com.chocolate.entities.exceptions.ValidationException
+import com.chocolate.repository.utils.NetworkException
+import com.chocolate.repository.utils.NotFoundException
+import com.chocolate.repository.utils.ServerException
+import com.chocolate.repository.utils.TooManyRequestsException
+import com.chocolate.repository.utils.UserDeactivatedException
 
 abstract class BaseRepository {
-    protected suspend fun <T> wrapApiCall(call: suspend () -> Response<T>): T {
+    protected suspend fun <T> wrapCall(response: suspend () -> T): T {
         return try {
-            val result = call()
-
-            when (result.code()) {
-                HttpStatusCodes.BAD_REQUEST.code -> throw NetworkException(result.message())
-                HttpStatusCodes.UNAUTHORIZED.code -> throw UnAuthorizedException(result.message())
-                HttpStatusCodes.USER_DEACTIVATED.code -> throw UserDeactivatedException(result.message())
-                HttpStatusCodes.TOO_MANY_REQUESTS.code -> throw RateLimitExceededException(result.message())
-                HttpStatusCodes.NO_CONNECTION.code -> throw NoConnectionException(result.message())
-
-                else -> result.body() ?: throw UnknownException(result.message())
-            }
-
-        } catch (exception: UnknownHostException) {
-            throw UnknownException(exception.message.toString())
-        } catch (exception: TeamixException) {
-            throw UnknownException(exception.message.toString())
+            response()
+        } catch (e: NetworkException) {
+            throw RequestException(e.message)
+        } catch (e: NotFoundException) {
+            throw NoConnectionException(e.message)
+        } catch (e: TooManyRequestsException) {
+            throw RateLimitExceededException(e.message)
+        } catch (e: UserDeactivatedException) {
+            throw ServerException(e.message)
+        } catch (e: ValidationError) {
+            throw ValidationException(e.message)
+        } catch (exception: NullResultException) {
+            throw NullDataException(exception.message)
+        } catch (exception: RemoteException) {
+            throw TeamixException(exception.message.toString())
         }
     }
 

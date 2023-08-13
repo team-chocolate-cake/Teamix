@@ -3,16 +3,15 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
-
 }
 
 android {
     namespace 'com.chocolate.viewmodel'
-    compileSdk 33
+    compileSdk Configurations.COMPILE_SDK
 
     defaultConfig {
-        minSdk 24
-        targetSdk 33
+        minSdk Configurations.MIN_SDK
+        targetSdk Configurations.TARGET_SDK
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -37,11 +36,11 @@ dependencies {
 
     implementation(project(Modules.DOMAIN_USE_CASE))
 
-    implementation(DependencyProject.coroutines)
-    implementation(DependencyProject.lifecycleRuntime)
-    implementation(DependencyProject.lifecycleViewModel)
-    implementation(DependencyProject.lifecycleLiveData)
+    implementation(ProjectDependencies.coroutines)
+    implementation(ProjectDependencies.lifecycleRuntime)
+    implementation(ProjectDependencies.lifecycleViewModel)
+    implementation(ProjectDependencies.lifecycleLiveData)
 
-    implementation(DependencyProject.hilt)
-    kapt(DependencyProject.hiltCompiler)
+    implementation(ProjectDependencies.hilt)
+    kapt(ProjectDependencies.hiltCompiler)
 }

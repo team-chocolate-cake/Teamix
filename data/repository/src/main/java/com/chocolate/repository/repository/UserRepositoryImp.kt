@@ -10,13 +10,12 @@ import com.chocolate.entities.user.User
 import com.chocolate.entities.user.UserAttachments
 import com.chocolate.entities.user.UserGroupMemberships
 import com.chocolate.entities.user.UserGroups
-import com.chocolate.entities.user.UserInformation
 import com.chocolate.entities.user.UserMembershipState
 import com.chocolate.entities.user.UserSettings
 import com.chocolate.entities.user.UserState
 import com.chocolate.entities.user.Users
 import com.chocolate.entities.user.UsersState
-import com.chocolate.repository.datastore.DataStoreDataSource
+import com.chocolate.repository.datastore.UserDataStoreDataSource
 import com.chocolate.repository.mappers.users.toCreateUser
 import com.chocolate.repository.mappers.users.toOwnerUser
 import com.chocolate.repository.mappers.users.toProfileDataDto
@@ -32,20 +31,19 @@ import com.chocolate.repository.mappers.users.toUserSettings
 import com.chocolate.repository.mappers.users.toUserState
 import com.chocolate.repository.mappers.users.toUsers
 import com.chocolate.repository.mappers.users.toUsersState
-import com.chocolate.repository.service.remote.UsersRemoteDataSource
-import kotlinx.coroutines.flow.Flow
+import com.chocolate.repository.service.remote.RemoteDataSource
 
 import repositories.UsersRepositories
 import javax.inject.Inject
 
 class UserRepositoryImp @Inject constructor(
-    private val userDataSource: UsersRemoteDataSource,
-    private val dataStoreDataSource: DataStoreDataSource
+    private val userDataSource: RemoteDataSource,
+    private val userDataStoreDataSource: UserDataStoreDataSource
 ) : UsersRepositories, BaseRepository() {
     override suspend fun getAllUsers(
         clientGravatar: Boolean, includeCustomProfileFields: Boolean
     ): Users {
-        return wrapApiCall {
+        return wrapCall {
             userDataSource.getAllUsers(
                 clientGravatar, includeCustomProfileFields
             )
@@ -53,7 +51,7 @@ class UserRepositoryImp @Inject constructor(
     }
 
     override suspend fun getOwnUser(): OwnerUser {
-        return wrapApiCall {
+        return wrapCall {
             userDataSource.getOwnUser()
         }.toOwnerUser()
 
@@ -62,7 +60,7 @@ class UserRepositoryImp @Inject constructor(
     override suspend fun getUserById(
         userId: Int, clientGravatar: Boolean, includeCustomProfileFields: Boolean
     ): User {
-        return wrapApiCall {
+        return wrapCall {
             userDataSource.getUserById(userId, clientGravatar, includeCustomProfileFields)
         }.toUser()
     }
@@ -70,7 +68,7 @@ class UserRepositoryImp @Inject constructor(
     override suspend fun getUserByEmail(
         email: String, clientGravatar: Boolean, includeCustomProfileFields: Boolean
     ): User {
-        return wrapApiCall {
+        return wrapCall {
             userDataSource.getUserByEmail(email, clientGravatar, includeCustomProfileFields)
         }.toUser()
     }
@@ -79,7 +77,7 @@ class UserRepositoryImp @Inject constructor(
         id: Int, fullName: String, role: Int, profileData: List<ProfileData>
     ) {
 
-        wrapApiCall {
+        wrapCall {
             userDataSource.updateUserById(
                 id,
                 fullName,
@@ -95,7 +93,7 @@ class UserRepositoryImp @Inject constructor(
         emojiCode: String,
         reactionType: String
     ) {
-        wrapApiCall {
+        wrapCall {
             userDataSource.updateUserStatus(
                 statusText, away, emojiName, emojiCode, reactionType
             )
@@ -103,26 +101,26 @@ class UserRepositoryImp @Inject constructor(
     }
 
     override suspend fun createUser(email: String, password: String, fullName: String): CreateUser {
-        return wrapApiCall {
+        return wrapCall {
             userDataSource.createUser(email, password, fullName)
         }.toCreateUser()
     }
 
     override suspend fun deactivateUserAccount(id: Int) {
 
-        wrapApiCall {
+        wrapCall {
             userDataSource.deactivateUserAccount(id)
         }
     }
 
     override suspend fun reactivateUserAccount(id: Int) {
-        wrapApiCall {
+        wrapCall {
             userDataSource.reactivateUserAccount(id)
         }
     }
 
     override suspend fun deactivateOwnUserAccount() {
-        wrapApiCall {
+        wrapCall {
             userDataSource.deactivateOwnUserAccount()
         }
     }
@@ -130,44 +128,44 @@ class UserRepositoryImp @Inject constructor(
     override suspend fun setTypingStatus(
         op: String, to: String, type: String, topic: String
     ) {
-        wrapApiCall {
+        wrapCall {
             userDataSource.setTypingStatus(op, to, type, topic)
         }
     }
 
     override suspend fun getUserPresence(email: String): UserState {
-        return wrapApiCall {
+        return wrapCall {
             userDataSource.getUserPresence(email)
         }.toUserState()
     }
 
     override suspend fun getRealmPresence(): UsersState {
-        return wrapApiCall {
+        return wrapCall {
             userDataSource.getRealmPresence()
         }.toUsersState()
     }
 
     override suspend fun getAttachments(): UserAttachments {
-        return wrapApiCall {
+        return wrapCall {
             userDataSource.getAttachments()
         }.toUserAttachments()
     }
 
     override suspend fun deleteAttachment(attachmentId: Int) {
-        wrapApiCall {
+        wrapCall {
             userDataSource.deleteAttachment(attachmentId)
         }
     }
 
     override suspend fun updateSettings(settings: Settings): UserSettings {
-        return wrapApiCall {
+        return wrapCall {
             userDataSource.updateSettings(settings.toSettingsDto())
         }.toUserSettings()
 
     }
 
     override suspend fun getUserGroups(): UserGroups {
-        return wrapApiCall {
+        return wrapCall {
             userDataSource.getUserGroups()
         }.toUserGroups()
     }
@@ -175,7 +173,7 @@ class UserRepositoryImp @Inject constructor(
     override suspend fun createUserGroup(
         name: String, description: String, members: String
     ) {
-        wrapApiCall {
+        wrapCall {
             userDataSource.createUserGroup(name, description, members)
         }
     }
@@ -183,13 +181,13 @@ class UserRepositoryImp @Inject constructor(
     override suspend fun updateUserGroup(
         userGroupId: Int, name: String, description: String
     ) {
-        wrapApiCall {
+        wrapCall {
             userDataSource.updateUserGroup(userGroupId, name, description)
         }
     }
 
     override suspend fun removeUserGroup(userGroupId: Int) {
-        wrapApiCall {
+        wrapCall {
             userDataSource.removeUserGroup(userGroupId)
         }
     }
@@ -197,7 +195,7 @@ class UserRepositoryImp @Inject constructor(
     override suspend fun updateUserGroupMembers(
         id: Int, add: List<Int>, delete: List<Int>
     ) {
-        wrapApiCall {
+        wrapCall {
             userDataSource.updateUserGroupMembers(id, add, delete)
         }
     }
@@ -205,7 +203,7 @@ class UserRepositoryImp @Inject constructor(
     override suspend fun updateUserGroupSubgroups(
         userGroupId: Int, add: List<Int>, delete: List<Int>
     ): SubgroupsOfUserGroup {
-        return wrapApiCall {
+        return wrapCall {
             userDataSource.updateUserGroupSubgroups(userGroupId, add, delete)
         }.toSubgroupsOfUserGroup()
     }
@@ -213,7 +211,7 @@ class UserRepositoryImp @Inject constructor(
     override suspend fun getUserMembership(
         groupId: Int, userId: Int, directMemberOnly: Boolean
     ): UserMembershipState {
-        return wrapApiCall {
+        return wrapCall {
             userDataSource.getUserMembership(groupId, userId, directMemberOnly)
         }.toUserMembershipState()
     }
@@ -221,7 +219,7 @@ class UserRepositoryImp @Inject constructor(
     override suspend fun getUserGroupMemberships(
         groupId: Int, directMemberOnly: Boolean
     ): UserGroupMemberships {
-        return wrapApiCall {
+        return wrapCall {
             userDataSource.getUserGroupMemberships(groupId, directMemberOnly)
         }.toUserGroupMemberships()
     }
@@ -229,58 +227,50 @@ class UserRepositoryImp @Inject constructor(
     override suspend fun getSubgroupsOfUserGroup(
         id: Int, directSubgroupOnly: Boolean
     ): SubgroupsOfUserGroup {
-        return wrapApiCall {
+        return wrapCall {
             userDataSource.getSubgroupsOfUserGroup(id, directSubgroupOnly)
         }.toSubgroupsOfUserGroup()
     }
 
     override suspend fun getAlertWords(): AlertWords {
-        return wrapApiCall {
+        return wrapCall {
             userDataSource.getAlertWords()
         }.toAlertWords()
     }
 
     override suspend fun addAlertWords(alertWords: String): AlertWords {
-        return wrapApiCall {
+        return wrapCall {
             userDataSource.addAlertWords(alertWords)
         }.toAlertWords()
     }
 
     override suspend fun removeAlertWords(alertWords: String): AlertWords {
-        return wrapApiCall {
+        return wrapCall {
             userDataSource.removeAlertWords(alertWords)
         }.toAlertWords()
     }
 
     override suspend fun muteUser(mutedUserId: Int) {
-        wrapApiCall {
+        wrapCall {
             userDataSource.muteUser(mutedUserId)
         }
     }
 
     override suspend fun unMuteUser(mutedUserId: Int) {
-        wrapApiCall {
+        wrapCall {
             userDataSource.unmuteUser(mutedUserId)
         }
     }
 
     override suspend fun userLogin(userName: String, password: String): Boolean {
-        return wrapApiCall { userDataSource.fetchApiKey(userName, password) }
+        return wrapCall { userDataSource.fetchApiKey(userName, password) }
             .takeIf { it.result == "success" }?.run {
-                dataStoreDataSource.putAuthenticationData(
+                userDataStoreDataSource.putAuthenticationData(
                     apikey = apiKey ?: "",
                     email = email ?: ""
                 )
                 true
             } ?: false
-    }
-
-    override suspend fun setUserLoginState(isComplete: Boolean) {
-        return dataStoreDataSource.setUserLoginState(isComplete)
-    }
-
-    override suspend fun getUserLoginState(): Flow<Boolean> {
-        return dataStoreDataSource.currentUserLoginState
     }
 
 }

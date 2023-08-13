@@ -5,12 +5,12 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = Configurations.JAVA_VERSION
+    targetCompatibility = Configurations.JAVA_VERSION
 }
 
 dependencies {
     api(project(Modules.ENTITIES_MODEL))
-    implementation(DependencyProject.dagger)
-    implementation(DependencyProject.coroutines)
+    implementation(ProjectDependencies.dagger)
+    implementation(ProjectDependencies.coroutines)
 }

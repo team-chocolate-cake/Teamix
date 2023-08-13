@@ -2,6 +2,13 @@ package com.chocolate.viewmodel.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.chocolate.entities.exceptions.NetworkException
+import com.chocolate.entities.exceptions.NullDataException
+import com.chocolate.entities.exceptions.RateLimitExceededException
+import com.chocolate.entities.exceptions.RequestException
+import com.chocolate.entities.exceptions.ServerException
+import com.chocolate.entities.exceptions.TeamixException
+import com.chocolate.entities.exceptions.ValidationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -30,6 +37,18 @@ abstract class BaseViewModel<STATE, UiEffect>(initialState: STATE) : ViewModel()
                 call().also(onSuccess)
             } catch (throwable: Throwable) {
                 onError(throwable)
+            }catch (e: RequestException){
+
+            }catch (e: RateLimitExceededException){
+
+            }catch (e: ServerException){
+
+            }catch (e: NullDataException){
+
+            }catch (e: ValidationException){
+
+            }catch (e: TeamixException){
+
             }
         }
     }

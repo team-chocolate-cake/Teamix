@@ -2,16 +2,16 @@ package com.chocolate.repository.datastore
 
 interface UserDataStoreDataSource {
 
-    fun putAuthenticationData(apikey: String, email: String)
+    suspend fun putAuthenticationData(apikey: String, email: String)
 
-    fun setUserLoginState(isComplete: Boolean)
+    suspend fun setUserLoginState(isComplete: Boolean)
 
-    fun getUserLoginState(): Boolean
+    suspend fun getUserLoginState(): Boolean
 
     fun getApiKey(): String
 
     fun getEmail(): String
 
-    fun deleteAuthenticationData()
+    suspend fun deleteAuthenticationData()
 
 }

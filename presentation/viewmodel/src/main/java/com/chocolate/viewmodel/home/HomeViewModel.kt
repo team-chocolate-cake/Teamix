@@ -1,5 +1,6 @@
 package com.chocolate.viewmodel.home
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
@@ -19,6 +20,8 @@ class HomeViewModel @Inject constructor(
 
      private fun getUserLoginState() {
         viewModelScope.launch {
+            val isLogin = getUserLoginStatusUseCase()
+            Log.d("123123123", "getUserLoginState: $isLogin")
             _state.update {
                 it.copy(
                     isLogged = getUserLoginStatusUseCase()

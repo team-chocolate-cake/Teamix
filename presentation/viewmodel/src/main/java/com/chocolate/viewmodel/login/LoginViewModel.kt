@@ -1,7 +1,7 @@
 package com.chocolate.viewmodel.login
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.chocolate.usecases.organization.GetNameOrganizationsUseCase
 import com.chocolate.usecases.user.LoginUseCase
 import com.chocolate.usecases.user.SetUserLoginStateUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
@@ -13,9 +13,19 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-    private val setUserLoginStateUseCase: SetUserLoginStateUseCase
+    private val setUserLoginStateUseCase: SetUserLoginStateUseCase,
+    private val getNameOrganizationsUseCase: GetNameOrganizationsUseCase
 ) : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState()) {
 
+    init {
+        getNameOrganization()
+    }
+
+    private fun getNameOrganization() {
+        viewModelScope.launch {
+            _state.update { it.copy(nameOrganization = getNameOrganizationsUseCase()) }
+        }
+    }
 
     fun updateEmailState(email: String) {
         _state.update { it.copy(email = email) }
@@ -39,6 +49,8 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun onError(throwable: Throwable) {
-        Log.d("123123123", "onError: ${throwable.message}")
+        _state.update {
+            it.copy()
+        }
     }
 }

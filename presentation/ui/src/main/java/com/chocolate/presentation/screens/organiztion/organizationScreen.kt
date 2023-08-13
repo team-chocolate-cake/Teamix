@@ -1,8 +1,8 @@
 package com.chocolate.presentation.screens.organiztion
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,6 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.Button
+import com.chocolate.presentation.screens.create_organization.navigateToCreateOrganization
 import com.chocolate.presentation.screens.login.navigateToLogin
 import com.chocolate.presentation.screens.welcome.navigateToWelcome
 import com.chocolate.presentation.theme.LightBackground
@@ -47,13 +48,13 @@ fun OrganizationScreen(
     viewModel: OrganizationNameViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
-    Log.d("123123123", "OrganizationScreen: ${state.onboardingState}")
     if (state.onboardingState) {
         OrganizationContent(
             navigateToLogin = { navController.navigateToLogin() },
             saveNameOrganization = viewModel::saveNameOrganization,
             onOrganizationNameChange = viewModel::onOrganizationNameChange,
-            state = state
+            navigateToCreateOrganization = {navController.navigateToCreateOrganization()} ,
+            state = state,
         )
     } else {
         LaunchedEffect(Unit) { navController.navigateToWelcome() }
@@ -67,6 +68,7 @@ fun OrganizationContent(
     navigateToLogin: () -> Unit,
     saveNameOrganization: (String) -> Unit,
     onOrganizationNameChange: (String) -> Unit,
+    navigateToCreateOrganization: () -> Unit,
     state: OrganizationNameUiState
 ) {
     val colors = MaterialTheme.customColors()
@@ -130,7 +132,9 @@ fun OrganizationContent(
                 text = stringResource(R.string.create_new_organizat),
                 color = colors.primary,
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .clickable { navigateToCreateOrganization() },
                 textAlign = TextAlign.Center
             )
         }

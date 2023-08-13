@@ -9,6 +9,8 @@ import com.chocolate.presentation.screens.profile.ownerPowerRoute
 import com.chocolate.presentation.screens.profile.profileRoute
 import com.chocolate.presentation.screens.home.homeRoute
 import com.chocolate.presentation.screens.on_boarding.onboardingRoute
+import com.chocolate.presentation.screens.create_organization.createOrganizationWebViewRoute
+import com.chocolate.presentation.screens.forget_password.forgetPasswordWebViewRoute
 import com.chocolate.presentation.screens.welcome.welcomeRoute
 
 @Composable
@@ -19,7 +21,9 @@ fun SetUpNavGraph() {
         onboardingRoute(navController)
         homeRoute(navController)
         organizationNameRoute(navController)
+        createOrganizationWebViewRoute(navController)
         loginRoute(navController)
+        forgetPasswordWebViewRoute(navController)
         profileRoute(navController)
         ownerPowerRoute(navController)
     }

@@ -46,7 +46,4 @@ class OrganizationNameViewModel @Inject constructor(
         }
     }
 
-    override fun onClickCreateNewOrganization() {
-        // Open web view to create new organization
-    }
 }

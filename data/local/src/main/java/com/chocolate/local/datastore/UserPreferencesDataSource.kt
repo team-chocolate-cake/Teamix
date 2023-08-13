@@ -8,21 +8,21 @@ class UserPreferencesDataSource @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ): UserDataStoreDataSource {
 
-    override fun putAuthenticationData(apikey: String, email: String) {
+    override suspend fun putAuthenticationData(apikey: String, email: String) {
         val editor = sharedPreferences.edit()
         editor.putString(API_KEY, apikey)
         editor.putString(EMAIL, email)
         editor.apply()
     }
 
-    override fun setUserLoginState(isComplete: Boolean) {
+    override suspend fun setUserLoginState(isComplete: Boolean) {
         val editor = sharedPreferences.edit()
         editor.putBoolean(LOGIN_STATE, isComplete)
         editor.apply()
     }
 
-    override fun getUserLoginState(): Boolean {
-        return sharedPreferences.getBoolean(LOGIN_STATE, true)
+    override suspend fun getUserLoginState(): Boolean {
+        return sharedPreferences.getBoolean(LOGIN_STATE, false)
     }
 
     override fun getApiKey(): String {
@@ -33,7 +33,7 @@ class UserPreferencesDataSource @Inject constructor(
         return sharedPreferences.getString(EMAIL, null) ?: ""
     }
 
-    override fun deleteAuthenticationData() {
+    override suspend fun deleteAuthenticationData() {
         val editor = sharedPreferences.edit()
         editor.clear().apply()
     }

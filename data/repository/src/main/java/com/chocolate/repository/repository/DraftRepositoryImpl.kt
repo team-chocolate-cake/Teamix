@@ -2,16 +2,16 @@ package com.chocolate.repository.repository
 
 import com.chocolate.entities.draft.Draft
 import com.chocolate.repository.mappers.draft.toEntity
-import com.chocolate.repository.service.remote.DraftMessageRemoteDataSource
+import com.chocolate.repository.service.remote.RemoteDataSource
 import com.google.gson.Gson
 import repositories.DraftRepository
 import javax.inject.Inject
 
 class DraftRepositoryImpl @Inject constructor(
-    private val draftDataSource: DraftMessageRemoteDataSource
+    private val draftDataSource: RemoteDataSource
 ) : DraftRepository, BaseRepository() {
     override suspend fun getDrafts():List<Draft> {
-        return wrapApiCall { draftDataSource.getDrafts() }.drafts.toEntity()
+        return wrapCall { draftDataSource.getDrafts() }.drafts.toEntity()
     }
 
     override suspend fun createDraft(
@@ -23,7 +23,7 @@ class DraftRepositoryImpl @Inject constructor(
         timestamp: Long
     ):List<Int> {
 
-        return wrapApiCall {
+        return wrapCall {
             draftDataSource.createDraft(
                 id = id,
                 type = type,
@@ -43,7 +43,7 @@ class DraftRepositoryImpl @Inject constructor(
         content: String,
         timestamp: Long
     ) {
-        wrapApiCall {
+        wrapCall {
             draftDataSource.editDraft(
                 id = id,
                 type = type,
@@ -56,7 +56,7 @@ class DraftRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteDraft(id: Int) {
-        wrapApiCall { draftDataSource.deleteDraft(id) }
+        wrapCall { draftDataSource.deleteDraft(id) }
     }
 }
 

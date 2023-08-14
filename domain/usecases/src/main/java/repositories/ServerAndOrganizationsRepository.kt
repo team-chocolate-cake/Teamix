@@ -24,4 +24,6 @@ interface ServerAndOrganizationsRepository {
         hint: String,
         fieldType: Int
     ): DefaultOrganization
+    suspend fun saveNameOrganizations(nameOrganizations: String)
+    suspend fun getNameOrganizations(): String
 }

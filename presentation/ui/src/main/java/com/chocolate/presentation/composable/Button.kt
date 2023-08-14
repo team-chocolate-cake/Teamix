@@ -26,7 +26,7 @@ fun Button(
     Surface(
         onClick = onClick,
         modifier = modifier,
-        color = if (enabled) colors.primary else colors.secondary,
+        color = if (enabled) colors.primary else colors.onSecondary38,
         shape = RoundedCornerShape(12f)
     ) {
         Row(

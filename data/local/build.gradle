@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace 'com.chocolate.local'
-    compileSdk 33
+    compileSdk Configurations.COMPILE_SDK
 
     defaultConfig {
-        minSdk 24
-        targetSdk 33
+        minSdk Configurations.MIN_SDK
+        targetSdk Configurations.TARGET_SDK
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -23,11 +23,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility Configurations.JAVA_VERSION
+        targetCompatibility Configurations.JAVA_VERSION
     }
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = Configurations.JVM_TARGET
     }
 }
 
@@ -35,13 +35,13 @@ dependencies {
 
     implementation project(Modules.DATA_REPO)
 
-    implementation(DependencyProject.hilt)
-    kapt(DependencyProject.hiltCompiler)
-    implementation(DependencyProject.dataStore)
-    implementation(DependencyProject.roomRuntime)
-    implementation(DependencyProject.roomKtx)
-    annotationProcessor(DependencyProject.roomCompiler)
+    implementation(ProjectDependencies.hilt)
+    kapt(ProjectDependencies.hiltCompiler)
+    implementation(ProjectDependencies.dataStore)
+    implementation(ProjectDependencies.roomRuntime)
+    implementation(ProjectDependencies.roomKtx)
+    annotationProcessor(ProjectDependencies.roomCompiler)
 
-    implementation(DependencyProject.encryptedSharedPreference)
+    implementation(ProjectDependencies.encryptedSharedPreference)
 
 }

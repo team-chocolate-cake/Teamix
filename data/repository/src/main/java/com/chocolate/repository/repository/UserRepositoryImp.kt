@@ -265,7 +265,8 @@ class UserRepositoryImp @Inject constructor(
     override suspend fun userLogin(userName: String, password: String): Boolean {
         return wrapCall { userDataSource.fetchApiKey(userName, password) }
             .takeIf {
-                it.result == "success" }?.run {
+                it.result == "success"
+            }?.run {
                 preferencesDataSource.putAuthenticationData(
                     apikey = apiKey ?: "",
                     email = email ?: ""
@@ -282,8 +283,7 @@ class UserRepositoryImp @Inject constructor(
         return preferencesDataSource.currentUserLoginState
     }
 
-    override suspend fun clearLoginInformation() {
-        preferencesDataSource.deleteAuthenticationData()
-    }
+    override suspend fun clearLoginInformation() = preferencesDataSource.deleteAuthenticationData()
+
 
 }

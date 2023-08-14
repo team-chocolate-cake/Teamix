@@ -48,7 +48,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.R
-import com.chocolate.presentation.screens.login.navigateToLogin
+import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.screens.profile.composable.ChangeThemeDialog
 import com.chocolate.presentation.screens.profile.composable.MultiChoiceDialog
 import com.chocolate.presentation.screens.profile.composable.ProfileDialog
@@ -86,7 +86,10 @@ fun ProfileScreen(
         viewModel.effect.collectLatest { effect ->
             when (effect) {
                 ProfileEffect.NavigateToOwnerPower -> navController.navigateToOwnerPower()
-                ProfileEffect.NavigateToLoginScreen -> navController.navigateToLogin()
+                ProfileEffect.NavigateToLoginScreen -> {
+                    navController.navigateToOrganizationName()
+                }
+
             }
         }
     }

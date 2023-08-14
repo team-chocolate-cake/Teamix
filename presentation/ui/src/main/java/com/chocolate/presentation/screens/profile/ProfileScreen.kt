@@ -23,6 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -48,6 +49,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.R
+import com.chocolate.presentation.composable.TeamixSnackBar
 import com.chocolate.presentation.screens.profile.composable.ChangeThemeDialog
 import com.chocolate.presentation.screens.profile.composable.MultiChoiceDialog
 import com.chocolate.presentation.screens.profile.composable.ProfileDialog
@@ -65,6 +67,7 @@ import com.chocolate.presentation.theme.Radius24
 import com.chocolate.presentation.theme.RowWidth250
 import com.chocolate.presentation.theme.Space1
 import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.Space24
 import com.chocolate.presentation.theme.Space26
 import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.Thickness2
@@ -81,6 +84,7 @@ fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+    val colors = MaterialTheme.customColors()
     LaunchedEffect(key1 = Unit) {
         viewModel.effect.collectLatest { effect ->
             when (effect) {
@@ -88,10 +92,20 @@ fun ProfileScreen(
             }
         }
     }
-    ProfileContent(
-        state,
-        viewModel
-    )
+    if (!state.isLoading) {
+        ProfileContent(
+            state = state,
+            profileInteraction = viewModel
+        )
+    } else {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CircularProgressIndicator(color = colors.primary)
+        }
+    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -158,7 +172,7 @@ fun ProfileContent(
             color = color.onBackground87
         )
         Text(
-            state.job, modifier = Modifier,
+            state.status, modifier = Modifier,
             style = MaterialTheme.typography.titleMedium,
             color = color.onBackground60
         )
@@ -263,32 +277,19 @@ fun ProfileContent(
                             item {
                                 ProfileTextField(
                                     text = state.name,
-                                    color.primary,
-                                    color.background,
-                                    colorIcon = color.primary
-                                )
-                                ProfileTextField(
-                                    text = state.job,
-                                    color.primary,
-                                    color.background,
-                                    colorIcon = color.primary
-                                )
-                                ProfileTextField(
-                                    text = state.number,
-                                    color.primary,
-                                    color.background,
-                                    colorIcon = color.primary
-                                )
-                                ProfileTextField(
-                                    text = state.team,
-                                    color.primary,
-                                    color.background,
+                                    onValueChange = { username ->
+                                        profileInteraction.onUsernameChange(username)
+                                    },
+                                    onDone = {profileInteraction.onClickDone()},
+                                    colorFocused = color.primary,
+                                    colorUnFocused = color.background,
                                     colorIcon = color.primary
                                 )
                                 ProfileTextField(
                                     text = state.status,
-                                    color.primary,
-                                    color.background,
+                                    onValueChange = {},
+                                    colorFocused=color.primary,
+                                    colorUnFocused=color.background,
                                     colorIcon = color.primary
                                 )
                             }
@@ -332,6 +333,21 @@ fun ProfileContent(
                     }
                 }
             }
+        }
+        Spacer(modifier = Modifier.weight(1f))
+        if (state.error != null) {
+            TeamixSnackBar(
+                text = state.error ?: stringResource(R.string.default_error_message),
+                state = "Retry",
+                onClickButton = { profileInteraction.onClickRetry() },
+                modifier = Modifier.padding(bottom = Space24).padding(horizontal = 16.dp)
+            )
+        }
+        if(state.message.isNotEmpty()){
+            TeamixSnackBar(
+                text = state.message,
+                onClickButton = { },
+                modifier = Modifier.padding(bottom = Space24).padding(horizontal = 16.dp))
         }
     }
 }

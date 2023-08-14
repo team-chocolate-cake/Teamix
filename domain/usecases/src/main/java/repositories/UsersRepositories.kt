@@ -87,7 +87,7 @@ interface UsersRepositories{
     suspend fun deleteAttachment(attachmentId: Int)
 
     //need to review
-    suspend fun updateSettings(settings: Settings): UserSettings
+    suspend fun updateSettings(settings: Settings)
 
     suspend fun getUserGroups(): UserGroups
 

@@ -3,6 +3,7 @@ package com.chocolate.presentation.screens.profile.composable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -22,18 +23,13 @@ import com.chocolate.presentation.theme.customColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileTextField(text: String, colorFocused: Color, colorUnFocused: Color, colorIcon: Color) {
-    val textState = remember {
-        mutableStateOf("")
-    }
+fun ProfileTextField(text: String,onValueChange: (String) -> Unit,onDone: (() -> Unit)? = null, colorFocused: Color, colorUnFocused: Color, colorIcon: Color) {
     val colors = MaterialTheme.customColors()
     OutlinedTextField(modifier = Modifier
         .fillMaxWidth()
         .padding(top = Space16),
-        value = textState.value,
-        onValueChange = {
-            textState.value = it
-        },
+        value = text,
+        onValueChange = { onValueChange(it)},
         placeholder = { Text(text, color = colors.onBackground60.copy(alpha = 0.6f)) },
         shape = RoundedCornerShape(Space12),
         colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -47,7 +43,12 @@ fun ProfileTextField(text: String, colorFocused: Color, colorUnFocused: Color, c
                 contentDescription = null,
                 tint = colorIcon,
             )
-        }
-
+        },
+        singleLine = true,
+        keyboardActions = KeyboardActions( onDone = {
+            if (onDone != null) {
+                onDone()
+            }
+        })
     )
 }

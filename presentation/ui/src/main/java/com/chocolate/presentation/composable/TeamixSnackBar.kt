@@ -9,12 +9,19 @@ import androidx.compose.ui.Modifier
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun TeamixSnackBar(text: String, onClickRetry: () -> Unit,modifier: Modifier = Modifier) {
+fun TeamixSnackBar(
+    text: String,
+    onClickButton: () -> Unit,
+    modifier: Modifier = Modifier,
+    state: String = ""
+) {
+
     Snackbar(
         modifier = modifier,
         action = {
-            Text(text = "Retry", modifier = Modifier.clickable { onClickRetry() })
-        }) {
+            Text(text = state, modifier = Modifier.clickable { onClickButton() })
+        },
+        dismissAction = {}) {
         Text(text = text)
     }
 }

@@ -46,6 +46,7 @@ class LoginViewModel @Inject constructor(
 
     override fun onClickRetry() {
         login(_state.value.email, _state.value.password)
+        sendUiEffect(LoginUiEffect.NavigateToForgetPassword)
     }
 
     private fun onSuccess(isUserLogin: Boolean) {

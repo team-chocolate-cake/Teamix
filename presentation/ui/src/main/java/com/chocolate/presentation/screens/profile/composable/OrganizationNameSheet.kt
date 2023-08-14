@@ -24,14 +24,13 @@ fun OrganizationNameSheet(onClick:()->Unit,color: CustomColorsPalette){
                 modifier = Modifier,
                 color = color.onBackground87
             )
-
             ProfileTextField(
                 text = stringResource(R.string.name),
+                onValueChange = {},
                 colorFocused = color.card,
                 colorUnFocused = color.card,
                 colorIcon = color.card
             )
-
         }
     }
 }

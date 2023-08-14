@@ -178,7 +178,8 @@ fun LoginContent(
         if (state.error != null) {
             TeamixSnackBar(
                 text = state.error ?: stringResource(R.string.default_error_message),
-                onClickRetry = { loginInteraction.onClickRetry() },
+                state = "Retry",
+                onClickButton = { loginInteraction.onClickRetry() },
                 modifier = Modifier.padding(bottom = Space24)
             )
         }

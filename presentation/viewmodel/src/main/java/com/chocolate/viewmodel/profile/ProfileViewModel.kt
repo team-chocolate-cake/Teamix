@@ -1,34 +1,80 @@
 package com.chocolate.viewmodel.profile
 
-import androidx.lifecycle.ViewModel
+import com.chocolate.entities.user.OwnerUser
+import com.chocolate.entities.user.Settings
+import com.chocolate.usecases.user.GetOwnUserUseCase
+import com.chocolate.usecases.user.UpdateUsernameUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-
+    private val getOwnUserUseCase: GetOwnUserUseCase,
+    private val updateUsernameUseCase: UpdateUsernameUseCase
 ):BaseViewModel<ProfileUiState,ProfileEffect>(ProfileUiState()), ProfileInteraction {
 
-    override fun updateLanguageDialogState(showDialog:Boolean){
-        _state.update { ProfileUiState(showLanguageDialog = showDialog)}
+    init {
+        getOwnUser()
     }
-    override fun updateThemeDialogState(showDialog:Boolean){
-        _state.update { ProfileUiState(showThemeDialog = showDialog)}
+    private fun getOwnUser() {
+        _state.update { it.copy(isLoading = true) }
+        tryToExecute({ getOwnUserUseCase() }, ::onGetOwnUserSuccess, ::onError)
     }
-    override fun updateLogoutDialogState(showDialog:Boolean){
-        _state.update { ProfileUiState(showLogoutDialog = showDialog)}
+
+    private fun onGetOwnUserSuccess(ownerUser: OwnerUser) {
+        val ownerUserUi = ownerUser.toOwnerUserUiState()
+        _state.update {
+            it.copy(
+                name = ownerUserUi.name,
+                image = ownerUserUi.image,
+                isLoading = false,
+                error = null
+            )
+        }
+    }
+
+    private fun onError(throwable: Throwable) {
+        _state.update { it.copy(isLoading = false, error = throwable.message) }
+    }
+
+    override fun updateLanguageDialogState(showDialog: Boolean) {
+        _state.update { ProfileUiState(showLanguageDialog = showDialog) }
+    }
+
+    override fun updateThemeDialogState(showDialog: Boolean) {
+        _state.update { ProfileUiState(showThemeDialog = showDialog) }
+    }
+
+    override fun updateLogoutDialogState(showDialog: Boolean) {
+        _state.update { ProfileUiState(showLogoutDialog = showDialog) }
     }
 
     override fun onClickOwnerPower() {
         sendUiEffect(ProfileEffect.NavigateToOwnerPower)
     }
 
-    override fun updateClearHistoryState(showDialog:Boolean){
-        _state.update { ProfileUiState(showClearHistoryDialog = showDialog)}
+    override fun onUsernameChange(username: String) {
+        _state.update { it.copy(name = username) }
+
+    }
+
+    override fun onClickDone() {
+        val settingsState = Settings(fullName = _state.value.name)
+        tryToExecute({updateUsernameUseCase(settingsState)},::onUpdateUsernameSuccess,::onError)
+    }
+
+    override fun onClickRetry() {
+        onClickDone()
+    }
+
+    private fun onUpdateUsernameSuccess(unit: Unit) {
+            _state.update { it.copy(isLoading = false, error = null, message = "success") }
+    }
+
+    override fun updateClearHistoryState(showDialog: Boolean) {
+        _state.update { ProfileUiState(showClearHistoryDialog = showDialog) }
     }
 
 }

@@ -157,8 +157,8 @@ class UserRepositoryImp @Inject constructor(
         }
     }
 
-    override suspend fun updateSettings(settings: Settings): UserSettings {
-        return wrapCall {
+    override suspend fun updateSettings(settings: Settings) {
+         wrapCall {
             userDataSource.updateSettings(settings.toSettingsDto())
         }.toUserSettings()
 

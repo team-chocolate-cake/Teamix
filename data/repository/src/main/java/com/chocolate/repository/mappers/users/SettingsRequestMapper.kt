@@ -5,6 +5,6 @@ import com.chocolate.repository.model.dto.users.request.SettingsDto
 
 fun Settings.toSettingsDto(): SettingsDto {
 return SettingsDto(
-    offlineNotifications, onlineNotifications, emojiSet
+    fullName
 )
 }

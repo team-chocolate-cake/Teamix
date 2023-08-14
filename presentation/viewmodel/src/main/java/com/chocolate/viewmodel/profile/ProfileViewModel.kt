@@ -1,6 +1,7 @@
 package com.chocolate.viewmodel.profile
 
 import androidx.lifecycle.ViewModel
+import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -10,20 +11,23 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
 
-):ViewModel() {
-    private val _state= MutableStateFlow(ProfileUiState())
-    val state=_state.asStateFlow()
+):BaseViewModel<ProfileUiState,ProfileEffect>(ProfileUiState()), ProfileInteraction {
 
-    fun updateLanguageDialogState(showDialog:Boolean){
+    override fun updateLanguageDialogState(showDialog:Boolean){
         _state.update { ProfileUiState(showLanguageDialog = showDialog)}
     }
-    fun updateThemeDialogState(showDialog:Boolean){
+    override fun updateThemeDialogState(showDialog:Boolean){
         _state.update { ProfileUiState(showThemeDialog = showDialog)}
     }
-    fun updateLogoutDialogState(showDialog:Boolean){
+    override fun updateLogoutDialogState(showDialog:Boolean){
         _state.update { ProfileUiState(showLogoutDialog = showDialog)}
     }
-    fun updateClearHistoryState(showDialog:Boolean){
+
+    override fun onClickOwnerPower() {
+        sendUiEffect(ProfileEffect.NavigateToOwnerPower)
+    }
+
+    override fun updateClearHistoryState(showDialog:Boolean){
         _state.update { ProfileUiState(showClearHistoryDialog = showDialog)}
     }
 

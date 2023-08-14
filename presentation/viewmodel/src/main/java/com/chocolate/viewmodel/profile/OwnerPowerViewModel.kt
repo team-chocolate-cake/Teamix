@@ -10,21 +10,21 @@ import javax.inject.Inject
 @HiltViewModel
 class OwnerPowerViewModel @Inject constructor(
 
-):ViewModel() {
+):ViewModel(),OwnerPowerInteraction {
 
     private val _state= MutableStateFlow(OwnerPowerUiState())
     val state=_state.asStateFlow()
 
-    fun updateOrganizationNameSheetState(showSheet:Boolean){
+    override fun updateOrganizationNameSheetState(showSheet:Boolean){
         _state.update { OwnerPowerUiState(showOrganizationNameSheet = showSheet) }
     }
-    fun updateOrganizationImageState(showSheet:Boolean){
+    override fun updateOrganizationImageState(showSheet:Boolean){
         _state.update { OwnerPowerUiState(showOrganizationImageSheet = showSheet)}
     }
-    fun updateChangeMemberRoleDialogState(showDialog:Boolean){
+    override fun updateChangeMemberRoleDialogState(showDialog:Boolean){
         _state.update { OwnerPowerUiState(showChangeMemberRoleDialog = showDialog)}
     }
-    fun updateCreateChannelSheetState(showSheet:Boolean){
+    override fun updateCreateChannelSheetState(showSheet:Boolean){
         _state.update { OwnerPowerUiState(showCreateChannelSheet = showSheet)}
     }
 

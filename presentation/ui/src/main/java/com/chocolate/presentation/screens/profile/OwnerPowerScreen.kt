@@ -41,6 +41,7 @@ import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.Space80
 import com.chocolate.presentation.theme.Thickness2
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.viewmodel.profile.OwnerPowerInteraction
 import com.chocolate.viewmodel.profile.OwnerPowerUiState
 import com.chocolate.viewmodel.profile.OwnerPowerViewModel
 
@@ -50,12 +51,7 @@ fun OwnerPowerScreen(
     viewModel: OwnerPowerViewModel= hiltViewModel()){
     val state by viewModel.state.collectAsState()
 
-    OwnerPowerContent(state,
-        viewModel::updateChangeMemberRoleDialogState,
-        viewModel::updateOrganizationImageState,
-        viewModel::updateOrganizationNameSheetState,
-        viewModel::updateCreateChannelSheetState
-        )
+    OwnerPowerContent(state, viewModel)
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -63,17 +59,14 @@ fun OwnerPowerScreen(
 @Composable
 fun OwnerPowerContent(
     state: OwnerPowerUiState,
-    changeMemberRoleDialog:(Boolean)->Unit,
-    organizationImageSheet:(Boolean)->Unit,
-    organizationNameSheet:(Boolean)->Unit,
-    channelNameSheet:(Boolean)->Unit,
+    ownerPowerInteraction: OwnerPowerInteraction
     ){
     val color = MaterialTheme.customColors()
 
 
     if (state.showChangeMemberRoleDialog) {
         MultiChoiceDialog(
-            onClick = { changeMemberRoleDialog(false)},
+            onClick = { ownerPowerInteraction.updateChangeMemberRoleDialogState(false)},
             list = listOf(stringResource(R.string.guest),
                 stringResource(R.string.member), stringResource(R.string.administrator),
                 stringResource(
@@ -83,13 +76,13 @@ fun OwnerPowerContent(
         )
     }
     if (state.showOrganizationNameSheet) {
-        OrganizationNameSheet(onClick = { organizationNameSheet(false) }, color = color)
+        OrganizationNameSheet(onClick = { ownerPowerInteraction.updateOrganizationNameSheetState(false) }, color = color)
     }
     if (state.showCreateChannelSheet) {
-        ChannelNameSheet(onClick = { channelNameSheet(false) }, color = color)
+        ChannelNameSheet(onClick = { ownerPowerInteraction.updateCreateChannelSheetState(false) }, color = color)
     }
     if (state.showOrganizationImageSheet) {
-        OrganizationImageSheet(onClick = { organizationImageSheet(false) }, color = color)
+        OrganizationImageSheet(onClick = { ownerPowerInteraction.updateOrganizationImageState(false) }, color = color)
     }
     Scaffold(
         topBar = {
@@ -134,13 +127,13 @@ fun OwnerPowerContent(
                         )
                         Divider(color = color.background, thickness = Thickness2)
                         SettingCard(
-                            click = { organizationNameSheet(true) },
+                            click = { ownerPowerInteraction.updateOrganizationNameSheetState(true) },
                             text = stringResource(R.string.edit_organization_name),
                             icon = painterResource(id = R.drawable.editorganizationname)
                         )
                         Divider(color = color.background, thickness = Thickness2)
                         SettingCard(
-                            click = { organizationImageSheet(true) },
+                            click = { ownerPowerInteraction.updateOrganizationNameSheetState(true) },
                             text = stringResource(R.string.edit_organization_image),
                             icon = painterResource(id = R.drawable.organizationimage)
                         )
@@ -162,7 +155,7 @@ fun OwnerPowerContent(
                 ) {
                     Column {
                         SettingCard(
-                            click = { changeMemberRoleDialog(true) },
+                            click = { ownerPowerInteraction.updateChangeMemberRoleDialogState(true) },
                             text = stringResource(R.string.change_member_role),
                             icon = painterResource(id = R.drawable.ownerpowers)
                         )
@@ -205,7 +198,7 @@ fun OwnerPowerContent(
                 ) {
                     Column {
                         SettingCard(
-                            click = { channelNameSheet(true) },
+                            click = { ownerPowerInteraction.updateCreateChannelSheetState(true) },
                             text = stringResource(R.string.create_channel),
                             icon = painterResource(id = R.drawable.channel)
                         )

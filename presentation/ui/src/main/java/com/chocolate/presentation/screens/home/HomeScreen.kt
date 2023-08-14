@@ -104,7 +104,7 @@ fun HomeContent(
         topBar = {
             TeamixTopAppBar(
                 imageUrl = state.imageUrl,
-                title = state.titleOrganization,
+                title = state.organizationTitle,
                 colors = colors
             )
         },

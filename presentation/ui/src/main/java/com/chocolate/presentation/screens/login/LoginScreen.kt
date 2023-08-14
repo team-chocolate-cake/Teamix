@@ -44,6 +44,8 @@ import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space24
 import com.chocolate.presentation.theme.Space4
+import com.chocolate.presentation.theme.Space48
+import com.chocolate.presentation.theme.Space56
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.login.LoginInteraction
@@ -86,7 +88,7 @@ fun LoginContent(
         modifier = Modifier
             .fillMaxSize()
             .background(color = colors.background)
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = Space16),
     ) {
         Text(
             modifier = Modifier.padding(top = 42.dp),
@@ -95,7 +97,7 @@ fun LoginContent(
             color = colors.onBackground87
         )
         Text(
-            modifier = Modifier.padding(bottom = 48.dp),
+            modifier = Modifier.padding(bottom = Space48),
             text = state.nameOrganization,
             style = MaterialTheme.typography.titleLarge,
             color = colors.primary
@@ -110,7 +112,7 @@ fun LoginContent(
         TeamixTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 8.dp),
+                .padding(top = Space8),
             value = state.email,
             onValueChange = { email ->
                 loginInteraction.updateEmailState(email)
@@ -119,7 +121,7 @@ fun LoginContent(
             placeholder = {})
 
         Text(
-            modifier = Modifier.padding(top = 16.dp),
+            modifier = Modifier.padding(top = Space16),
             text = stringResource(R.string.password),
             style = MaterialTheme.typography.labelMedium
         )
@@ -158,8 +160,8 @@ fun LoginContent(
             onClick = { loginInteraction.login(state.email, state.password)},
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
-                .padding(horizontal = 16.dp),
+                .height(Space56)
+                .padding(horizontal = Space16),
             colors = colors,
             ) {
             if (state.isLoading) {
@@ -177,7 +179,7 @@ fun LoginContent(
             TeamixSnackBar(
                 text = state.error ?: stringResource(R.string.default_error_message),
                 onClickRetry = { loginInteraction.onClickRetry() },
-                modifier = Modifier.padding(bottom = 24.dp)
+                modifier = Modifier.padding(bottom = Space24)
             )
         }
     }

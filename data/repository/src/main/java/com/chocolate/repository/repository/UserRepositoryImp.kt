@@ -1,6 +1,5 @@
 package com.chocolate.repository.repository
 
-import android.util.Log
 import com.chocolate.entities.user.AlertWords
 import com.chocolate.entities.user.CreateUser
 import com.chocolate.entities.user.OwnerUser
@@ -16,7 +15,7 @@ import com.chocolate.entities.user.UserSettings
 import com.chocolate.entities.user.UserState
 import com.chocolate.entities.user.Users
 import com.chocolate.entities.user.UsersState
-import com.chocolate.repository.datastore.DataStoreDataSource
+import com.chocolate.repository.datastore.PreferencesDataSource
 import com.chocolate.repository.mappers.users.toAlertWords
 import com.chocolate.repository.mappers.users.toCreateUser
 import com.chocolate.repository.mappers.users.toOwnerUser
@@ -39,7 +38,7 @@ import javax.inject.Inject
 
 class UserRepositoryImp @Inject constructor(
     private val userDataSource: RemoteDataSource,
-    private val dataStoreDataSource: DataStoreDataSource
+    private val preferencesDataSource: PreferencesDataSource
 ) : UsersRepositories, BaseRepository() {
     override suspend fun getAllUsers(
         clientGravatar: Boolean, includeCustomProfileFields: Boolean
@@ -267,7 +266,7 @@ class UserRepositoryImp @Inject constructor(
         return wrapCall { userDataSource.fetchApiKey(userName, password) }
             .takeIf {
                 it.result == "success" }?.run {
-                dataStoreDataSource.putAuthenticationData(
+                preferencesDataSource.putAuthenticationData(
                     apikey = apiKey ?: "",
                     email = email ?: ""
                 )
@@ -276,11 +275,11 @@ class UserRepositoryImp @Inject constructor(
     }
 
     override suspend fun setUserLoginState(isComplete: Boolean) {
-        dataStoreDataSource.setUserLoginState(isComplete)
+        preferencesDataSource.setUserLoginState(isComplete)
     }
 
     override suspend fun getUserLoginState(): Flow<Boolean> {
-        return dataStoreDataSource.currentUserLoginState
+        return preferencesDataSource.currentUserLoginState
     }
 
 }

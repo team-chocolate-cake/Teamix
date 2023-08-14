@@ -1,20 +1,20 @@
 package com.chocolate.repository.repository
 
-import com.chocolate.repository.datastore.DataStoreDataSource
+import com.chocolate.repository.datastore.PreferencesDataSource
 import kotlinx.coroutines.flow.Flow
 import repositories.OnboardingRepository
 import javax.inject.Inject
 
 class OnboardingRepositoryImpl @Inject constructor(
-    private val dataStoreDataSource: DataStoreDataSource
+    private val preferencesDataSource: PreferencesDataSource
 ) : OnboardingRepository {
 
     override suspend fun getOnboardingState(): Flow<Boolean> {
-        return dataStoreDataSource.getOnboardingState()
+        return preferencesDataSource.getOnboardingState()
     }
 
     override suspend fun setOnboardingState(isComplete: Boolean) {
-        dataStoreDataSource.setOnboardingState(isComplete)
+        preferencesDataSource.setOnboardingState(isComplete)
     }
 
 }

@@ -36,11 +36,16 @@ import com.chocolate.presentation.screens.create_organization.navigateToCreateOr
 import com.chocolate.presentation.screens.login.navigateToLogin
 import com.chocolate.presentation.screens.welcome.navigateToWelcome
 import com.chocolate.presentation.theme.LightBackground
+import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space32
+import com.chocolate.presentation.theme.Space48
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.viewmodel.organization_name.OrganizationNameInteraction
+import com.chocolate.viewmodel.organization_name.OrganizationNameUiEffect
 import com.chocolate.viewmodel.organization_name.OrganizationNameUiState
 import com.chocolate.viewmodel.organization_name.OrganizationNameViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun OrganizationScreen(
@@ -48,27 +53,28 @@ fun OrganizationScreen(
     viewModel: OrganizationNameViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
+    LaunchedEffect(key1 = Unit) {
+        viewModel.effect.collectLatest { effect ->
+            when (effect) {
+                OrganizationNameUiEffect.NavigateToCreateOrganization -> navController.navigateToCreateOrganization()
+                OrganizationNameUiEffect.NavigateToLoginScreen -> navController.navigateToLogin()
+            }
+        }
+    }
     if (state.onboardingState) {
         OrganizationContent(
-            navigateToLogin = { navController.navigateToLogin() },
-            saveNameOrganization = viewModel::saveNameOrganization,
-            onOrganizationNameChange = viewModel::onOrganizationNameChange,
-            navigateToCreateOrganization = {navController.navigateToCreateOrganization()} ,
+            organizationNameInteraction = viewModel,
             state = state,
         )
     } else {
         LaunchedEffect(Unit) { navController.navigateToWelcome() }
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OrganizationContent(
-    navigateToLogin: () -> Unit,
-    saveNameOrganization: (String) -> Unit,
-    onOrganizationNameChange: (String) -> Unit,
-    navigateToCreateOrganization: () -> Unit,
+    organizationNameInteraction: OrganizationNameInteraction,
     state: OrganizationNameUiState
 ) {
     val colors = MaterialTheme.customColors()
@@ -98,7 +104,7 @@ fun OrganizationContent(
                     .padding(top = Space8),
                 value = state.organizationName,
                 onValueChange = { nameOrganization ->
-                    onOrganizationNameChange(nameOrganization)
+                    organizationNameInteraction.onOrganizationNameChange(nameOrganization)
                 },
                 placeholder = { Text("", color = Color.Black.copy(alpha = 0.6f)) },
                 shape = RoundedCornerShape(12.dp),
@@ -111,13 +117,12 @@ fun OrganizationContent(
             )
             Button(
                 onClick = {
-                    saveNameOrganization(state.organizationName)
-                    navigateToLogin()
+                    organizationNameInteraction.onClickActionButton(state.organizationName)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(48.dp)
-                    .padding(horizontal = 16.dp),
+                    .height(Space48)
+                    .padding(horizontal = Space16),
                 colors = colors,
                 enabled = state.organizationName.isNotEmpty()
             ) {
@@ -134,7 +139,7 @@ fun OrganizationContent(
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .clickable { navigateToCreateOrganization() },
+                    .clickable { organizationNameInteraction.onClickCreateOrganization() },
                 textAlign = TextAlign.Center
             )
         }
@@ -146,7 +151,7 @@ fun SeparatorWithText(modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = Space16),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -162,7 +167,7 @@ fun SeparatorWithText(modifier: Modifier = Modifier) {
             color = Color.Gray,
             modifier = Modifier
                 .background(Color.Transparent, shape = RoundedCornerShape(4.dp))
-                .padding(horizontal = 8.dp)
+                .padding(horizontal = Space8)
         )
         Box(
             modifier = Modifier

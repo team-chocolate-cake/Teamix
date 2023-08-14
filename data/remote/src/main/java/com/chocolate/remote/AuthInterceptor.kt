@@ -1,6 +1,6 @@
 package com.chocolate.remote
 
-import com.chocolate.repository.datastore.DataStoreDataSource
+import com.chocolate.repository.datastore.PreferencesDataSource
 import okhttp3.Credentials
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -9,7 +9,7 @@ import javax.inject.Singleton
 
 @Singleton
 class AuthInterceptor @Inject constructor(
-    private val dataStoreDataSource: DataStoreDataSource
+    private val preferencesDataSource: PreferencesDataSource
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -18,12 +18,12 @@ class AuthInterceptor @Inject constructor(
             .newBuilder()
             .url(
                 requestUrl.toString()
-                    .replace("null", dataStoreDataSource.currentOrganization ?: "")
+                    .replace("null", preferencesDataSource.currentOrganization ?: "")
             )
             .header(
                 AUTHORIZATION, Credentials.basic(
-                    username = dataStoreDataSource.getEmail(),
-                    password = dataStoreDataSource.getApiKey()
+                    username = preferencesDataSource.getEmail(),
+                    password = preferencesDataSource.getApiKey()
                 )
             )
             .build()

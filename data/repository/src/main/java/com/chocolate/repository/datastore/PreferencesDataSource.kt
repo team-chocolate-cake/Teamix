@@ -2,7 +2,7 @@ package com.chocolate.repository.datastore
 
 import kotlinx.coroutines.flow.Flow
 
-interface DataStoreDataSource {
+interface PreferencesDataSource {
 
     suspend fun setOnboardingState(isComplete: Boolean)
 

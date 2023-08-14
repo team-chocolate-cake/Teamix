@@ -5,9 +5,9 @@ import com.chocolate.local.dao.organization.OrganizationsLocalDataSource
 import com.chocolate.local.dao.stream.StreamLocalDataSource
 import com.chocolate.local.dao.trend.TrendLocalDataSource
 import com.chocolate.local.dao.user.UserLocalDataSource
-import com.chocolate.local.datastore.PreferencesDataSource
+import com.chocolate.local.datastore.DataStoreDataSource
 import com.chocolate.remote.RetrofitDataSource
-import com.chocolate.repository.datastore.DataStoreDataSource
+import com.chocolate.repository.datastore.PreferencesDataSource
 import com.chocolate.repository.service.local.DraftMessagesRoomDataSource
 import com.chocolate.repository.service.local.OrganizationsRoomDataSource
 import com.chocolate.repository.service.local.StreamRoomDataSource
@@ -58,8 +58,8 @@ abstract class DataSourceModule {
     @Singleton
     @Binds
     abstract fun bindPreferencesDataSource(
-        preferencesDataSource: PreferencesDataSource
-    ): DataStoreDataSource
+        dataStoreDataSource: DataStoreDataSource
+    ): PreferencesDataSource
 
     @Singleton
     @Binds

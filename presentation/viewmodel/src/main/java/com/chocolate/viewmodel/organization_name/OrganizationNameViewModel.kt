@@ -19,13 +19,18 @@ class OrganizationNameViewModel @Inject constructor(
         getOnboardingState()
     }
 
-    fun saveNameOrganization(nameOrganization: String) {
-        viewModelScope.launch {
-            saveNameOrganizationsUseCase(nameOrganization)
-        }
+    override fun onClickCreateOrganization() {
+        sendUiEffect(OrganizationNameUiEffect.NavigateToCreateOrganization)
     }
 
-    private fun getOnboardingState(){
+    override fun onClickActionButton(organizationName: String) {
+        viewModelScope.launch {
+            saveNameOrganizationsUseCase(organizationName)
+        }
+        sendUiEffect(OrganizationNameUiEffect.NavigateToLoginScreen)
+    }
+
+    private fun getOnboardingState() {
         viewModelScope.launch {
             collectFlow(getOnboardingStateUseCase()) {
                 this.copy(
@@ -33,7 +38,6 @@ class OrganizationNameViewModel @Inject constructor(
                 )
             }
         }
-
     }
 
     override fun onOrganizationNameChange(organizationName: String) {
@@ -45,5 +49,4 @@ class OrganizationNameViewModel @Inject constructor(
             )
         }
     }
-
 }

@@ -7,20 +7,19 @@ data class ProfileUiState(
     val team:String="team",
     val number:String="number",
     val status:String="status",
+    val showLanguageDialog:Boolean=false,
+    val showThemeDialog:Boolean=false,
+    val showClearHistoryDialog:Boolean=false,
+    val showLogoutDialog:Boolean=false,
     val isLoading:Boolean=false,
     val error:List<String>?=null
 )
-data class SettingUiState(
-    val showLanguageDialog:Boolean,
-    val showThemeColorDialog:Boolean,
-    val showClearHistoryDialog:Boolean,
-    val showLogoutDialog:Boolean,
-)
+
 data class OwnerPowerUiState(
-    val showOrganizationNameSheet:Boolean,
-    val showOrganizationImageSheet:Boolean,
-    val showChangeMemberRoleSheet:Boolean,
-    val showCreateChannelSheet:Boolean,
+    val showOrganizationNameSheet:Boolean=false,
+    val showOrganizationImageSheet:Boolean=false,
+    val showChangeMemberRoleDialog:Boolean=false,
+    val showCreateChannelSheet:Boolean=false,
 )
 
 

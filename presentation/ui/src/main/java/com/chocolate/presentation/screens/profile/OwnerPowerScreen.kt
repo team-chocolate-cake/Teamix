@@ -19,15 +19,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.chocolate.presentation.R
@@ -42,26 +41,39 @@ import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.Space80
 import com.chocolate.presentation.theme.Thickness2
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.viewmodel.profile.OwnerPowerUiState
+import com.chocolate.viewmodel.profile.OwnerPowerViewModel
 
 @Composable
-fun OwnerPowerScreen(navController: NavController) {
-    OwnerPowerContent()
+fun OwnerPowerScreen(
+    navController: NavController,
+    viewModel: OwnerPowerViewModel= hiltViewModel()){
+    val state by viewModel.state.collectAsState()
+
+    OwnerPowerContent(state,
+        viewModel::updateChangeMemberRoleDialogState,
+        viewModel::updateOrganizationImageState,
+        viewModel::updateOrganizationNameSheetState,
+        viewModel::updateCreateChannelSheetState
+        )
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OwnerPowerContent() {
+fun OwnerPowerContent(
+    state: OwnerPowerUiState,
+    changeMemberRoleDialog:(Boolean)->Unit,
+    organizationImageSheet:(Boolean)->Unit,
+    organizationNameSheet:(Boolean)->Unit,
+    channelNameSheet:(Boolean)->Unit,
+    ){
     val color = MaterialTheme.customColors()
-    var showDialog by remember { mutableStateOf(false) }
-    var organizationImageSheet by remember { mutableStateOf(false) }
-    var organizationNameSheet by remember { mutableStateOf(false) }
-    var channelNameSheet by remember { mutableStateOf(false) }
 
 
-    if (showDialog) {
+    if (state.showChangeMemberRoleDialog) {
         MultiChoiceDialog(
-            onClick = { showDialog = false },
+            onClick = { changeMemberRoleDialog(false)},
             list = listOf(stringResource(R.string.guest),
                 stringResource(R.string.member), stringResource(R.string.administrator),
                 stringResource(
@@ -70,14 +82,14 @@ fun OwnerPowerContent() {
             )
         )
     }
-    if (organizationNameSheet) {
-        OrganizationNameSheet(onClick = { organizationNameSheet = false }, color = color)
+    if (state.showOrganizationNameSheet) {
+        OrganizationNameSheet(onClick = { organizationNameSheet(false) }, color = color)
     }
-    if (channelNameSheet) {
-        ChannelNameSheet(onClick = { channelNameSheet = false }, color = color)
+    if (state.showCreateChannelSheet) {
+        ChannelNameSheet(onClick = { channelNameSheet(false) }, color = color)
     }
-    if (organizationImageSheet) {
-        OrganizationImageSheet(onClick = { organizationImageSheet = false }, color = color)
+    if (state.showOrganizationImageSheet) {
+        OrganizationImageSheet(onClick = { organizationImageSheet(false) }, color = color)
     }
     Scaffold(
         topBar = {
@@ -122,13 +134,13 @@ fun OwnerPowerContent() {
                         )
                         Divider(color = color.background, thickness = Thickness2)
                         SettingCard(
-                            click = { organizationNameSheet = true },
+                            click = { organizationNameSheet(true) },
                             text = stringResource(R.string.edit_organization_name),
                             icon = painterResource(id = R.drawable.editorganizationname)
                         )
                         Divider(color = color.background, thickness = Thickness2)
                         SettingCard(
-                            click = { organizationImageSheet = true },
+                            click = { organizationImageSheet(true) },
                             text = stringResource(R.string.edit_organization_image),
                             icon = painterResource(id = R.drawable.organizationimage)
                         )
@@ -150,7 +162,7 @@ fun OwnerPowerContent() {
                 ) {
                     Column {
                         SettingCard(
-                            click = { showDialog = true },
+                            click = { changeMemberRoleDialog(true) },
                             text = stringResource(R.string.change_member_role),
                             icon = painterResource(id = R.drawable.ownerpowers)
                         )
@@ -193,7 +205,7 @@ fun OwnerPowerContent() {
                 ) {
                     Column {
                         SettingCard(
-                            click = { channelNameSheet = true },
+                            click = { channelNameSheet(true) },
                             text = stringResource(R.string.create_channel),
                             icon = painterResource(id = R.drawable.channel)
                         )

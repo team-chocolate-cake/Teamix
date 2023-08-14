@@ -53,13 +53,14 @@ import com.chocolate.presentation.screens.profile.composable.MultiChoiceDialog
 import com.chocolate.presentation.screens.profile.composable.ProfileDialog
 import com.chocolate.presentation.screens.profile.composable.ProfileTextField
 import com.chocolate.presentation.screens.profile.composable.SettingCard
-import com.chocolate.presentation.theme.BoxHeight400
+import com.chocolate.presentation.theme.BoxHeight440
 import com.chocolate.presentation.theme.ButtonSize110
 import com.chocolate.presentation.theme.IconSize24
 import com.chocolate.presentation.theme.IconSize30
 import com.chocolate.presentation.theme.ImageSize110
 import com.chocolate.presentation.theme.ImageSize130
 import com.chocolate.presentation.theme.ImageSize158
+import com.chocolate.presentation.theme.Radius16
 import com.chocolate.presentation.theme.Radius24
 import com.chocolate.presentation.theme.RowWidth250
 import com.chocolate.presentation.theme.Space1
@@ -75,29 +76,34 @@ import com.chocolate.viewmodel.profile.ProfileViewModel
 @Composable
 fun ProfileScreen(
     navController: NavController,
-    profileViewModel: ProfileViewModel = hiltViewModel()
+    viewModel: ProfileViewModel = hiltViewModel()
 ) {
-    val state by profileViewModel.state.collectAsState()
-    ProfileContent(navController, state = state)
+    val state by viewModel.state.collectAsState()
+    ProfileContent(navController, state,
+        viewModel::updateLanguageDialogState,
+        viewModel::updateThemeDialogState,
+        viewModel::updateClearHistoryState,
+        viewModel::updateLogoutDialogState
+        )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ProfileContent(navController: NavController, state: ProfileUiState) {
+fun ProfileContent(
+    navController: NavController,
+    state: ProfileUiState,
+    showLanguageDialog:(Boolean)->Unit,
+    showThemeDialog:(Boolean)->Unit,
+    showClearHistoryDialog:(Boolean)->Unit,
+    showLogoutDialog:(Boolean)->Unit,
+    ){
     val color = MaterialTheme.customColors()
     var pageNumber by remember { mutableStateOf(0) }
+
     val pageState = rememberPagerState(initialPage = 0)
-    var showLanguageDialog by remember { mutableStateOf(false) }
-    var showThemeDialog by remember { mutableStateOf(false) }
-    var showLogoutDialog by remember { mutableStateOf(false) }
-    var showClearHistoryDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(pageNumber) {
-        if (pageNumber == 0) {
-            pageState.scrollToPage(0)
-        } else {
-            pageState.scrollToPage(1)
-        }
+       pageState.animateScrollToPage(pageNumber)
     }
 
     Column(
@@ -154,9 +160,9 @@ fun ProfileContent(navController: NavController, state: ProfileUiState) {
             color = color.onBackground60
         )
 
-        if (showLanguageDialog) {
+        if (state.showLanguageDialog) {
             MultiChoiceDialog(
-                { showLanguageDialog = false },
+                { showLanguageDialog(false)},
                 listOf(
                     stringResource(R.string.english),
                     stringResource(R.string.arabic),
@@ -164,10 +170,10 @@ fun ProfileContent(navController: NavController, state: ProfileUiState) {
                 )
             )
         }
-        if (showThemeDialog) {
+        if (state.showThemeDialog) {
             AlertDialog(
                 modifier = Modifier,
-                onDismissRequest = { showThemeDialog = false },
+                onDismissRequest = { showThemeDialog(false) },
                 confirmButton = {},
                 dismissButton = {},
                 text = {
@@ -175,24 +181,25 @@ fun ProfileContent(navController: NavController, state: ProfileUiState) {
                 }, containerColor = color.background
             )
         }
-        if (showClearHistoryDialog) {
+        if (state.showClearHistoryDialog) {
             ProfileDialog(title = stringResource(R.string.clear_history_title),
                 text =
                 stringResource(R.string.clear_history_text),
-                onClick = { showClearHistoryDialog = false })
+                onClick = { showClearHistoryDialog(false) })
 
         }
-        if (showLogoutDialog) {
+        if (state.showLogoutDialog) {
             ProfileDialog(title = stringResource(R.string.logout_title), text =
-            "", onClick = { showLogoutDialog = false })
+            "", onClick = { showLogoutDialog(false)})
         }
         Spacer(modifier = Modifier.weight(1f))
+
         Box(
             Modifier
                 .padding(horizontal = Space16)
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(Space8))
-                .height(BoxHeight400)
+                .clip(RoundedCornerShape(Radius16,Radius16,0.dp,0.dp))
+                .height(BoxHeight440)
                 .background(color.card)
         ) {
             Column(
@@ -241,7 +248,8 @@ fun ProfileContent(navController: NavController, state: ProfileUiState) {
                     }
                 }
 
-                HorizontalPager(state = pageState, pageCount = 2) {
+                HorizontalPager(state = pageState, pageCount = 2,
+                    modifier = Modifier.padding(bottom = 8.dp)) {
                     if (pageState.currentPage == 0) {
                         LazyColumn(
                             modifier = Modifier.padding(
@@ -294,25 +302,25 @@ fun ProfileContent(navController: NavController, state: ProfileUiState) {
                                 )
                                 Divider(color = color.background, thickness =Thickness2)
                                 SettingCard(
-                                    click = { showLanguageDialog = true },
+                                    click = {showLanguageDialog(true)},
                                     text = stringResource(R.string.language),
                                     icon = painterResource(id = R.drawable.language)
                                 )
                                 Divider(color = color.background, thickness = Thickness2)
                                 SettingCard(
-                                    click = { showThemeDialog = true },
+                                    click = { showThemeDialog(true) },
                                     text = stringResource(R.string.change_theme),
                                     icon = painterResource(id = R.drawable.changetheme)
                                 )
                                 Divider(color = color.background, thickness =Thickness2)
                                 SettingCard(
-                                    click = { showClearHistoryDialog = true },
+                                    click = { showClearHistoryDialog(true) },
                                     text = stringResource(R.string.clear_history),
                                     icon = painterResource(id = R.drawable.clearhistory)
                                 )
                                 Divider(color = color.background, thickness = Thickness2)
                                 SettingCard(
-                                    click = { showLogoutDialog = true },
+                                    click = { showLogoutDialog(true) },
                                     text = stringResource(R.string.log_out),
                                     icon = painterResource(id = R.drawable.logout)
                                 )

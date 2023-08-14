@@ -16,23 +16,25 @@ import com.chocolate.presentation.theme.customColors
 fun ProfileDialog(
     title: String,
     text: String,
-    onClick: () -> Unit,
+    onDismissButtonClick: () -> Unit,
+    onConfirmButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val color = MaterialTheme.customColors()
+    val typography = MaterialTheme.typography
     AlertDialog(
         modifier = modifier,
-        onDismissRequest = { onClick() },
-        title = { Text(text = title) },
-        text = { Text(text = text) },
+        onDismissRequest = { onDismissButtonClick() },
+        title = { Text(text = title, style = typography.titleMedium, color = color.onBackground87) },
+        text = { Text(text = text, style = typography.bodySmall, color = color.onBackground60) },
         confirmButton = {
-            TextButton(onClick = { }) {
-                Text(text = stringResource(R.string.confirm))
+            TextButton(onClick = { onConfirmButtonClick() }) {
+                Text(text = stringResource(R.string.confirm), style = typography.bodySmall, color = color.onBackground87)
             }
         },
         dismissButton = {
-            TextButton(onClick = { onClick() }) {
-                Text(text = stringResource(R.string.dismiss))
+            TextButton(onClick = { onDismissButtonClick() }) {
+                Text(text = stringResource(R.string.dismiss), style = typography.bodySmall, color = color.onBackground87)
 
             }
         },
@@ -44,5 +46,5 @@ fun ProfileDialog(
 @Preview(showBackground = true)
 @Composable
 fun ProfileDialogPreview() {
-    ProfileDialog("title", "content", {})
+    ProfileDialog("title", "content", {}, {})
 }

@@ -6,4 +6,6 @@ interface ProfileInteraction {
     fun updateClearHistoryState(showDialog:Boolean)
     fun updateLogoutDialogState(showDialog:Boolean)
     fun onClickOwnerPower()
+
+    fun onLogoutButtonClicked()
 }

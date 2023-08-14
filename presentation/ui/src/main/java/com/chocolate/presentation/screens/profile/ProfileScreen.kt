@@ -48,6 +48,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.R
+import com.chocolate.presentation.screens.login.navigateToLogin
 import com.chocolate.presentation.screens.profile.composable.ChangeThemeDialog
 import com.chocolate.presentation.screens.profile.composable.MultiChoiceDialog
 import com.chocolate.presentation.screens.profile.composable.ProfileDialog
@@ -85,13 +86,11 @@ fun ProfileScreen(
         viewModel.effect.collectLatest { effect ->
             when (effect) {
                 ProfileEffect.NavigateToOwnerPower -> navController.navigateToOwnerPower()
+                ProfileEffect.NavigateToLoginScreen -> navController.navigateToLogin()
             }
         }
     }
-    ProfileContent(
-        state,
-        viewModel
-    )
+    ProfileContent(state, viewModel)
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -99,14 +98,14 @@ fun ProfileScreen(
 fun ProfileContent(
     state: ProfileUiState,
     profileInteraction: ProfileInteraction
-    ){
+) {
     val color = MaterialTheme.customColors()
     var pageNumber by remember { mutableStateOf(0) }
 
     val pageState = rememberPagerState(initialPage = 0)
 
     LaunchedEffect(pageNumber) {
-       pageState.animateScrollToPage(pageNumber)
+        pageState.animateScrollToPage(pageNumber)
     }
 
     Column(
@@ -134,7 +133,7 @@ fun ProfileContent(
             }
             IconButton(
                 onClick = { //open camera
-                     },
+                },
                 modifier = Modifier
                     .size(IconSize30)
                     .align(Alignment.BottomEnd)
@@ -185,15 +184,24 @@ fun ProfileContent(
             )
         }
         if (state.showClearHistoryDialog) {
-            ProfileDialog(title = stringResource(R.string.clear_history_title),
-                text =
-                stringResource(R.string.clear_history_text),
-                onClick = { profileInteraction.updateClearHistoryState(false) })
+            ProfileDialog(
+                title = stringResource(R.string.clear_history_title),
+                text = stringResource(R.string.clear_history_text),
+                onDismissButtonClick = { profileInteraction.updateClearHistoryState(false) },
+                onConfirmButtonClick = { },
+            )
 
         }
         if (state.showLogoutDialog) {
-            ProfileDialog(title = stringResource(R.string.logout_title), text =
-            "", onClick = { profileInteraction.updateLogoutDialogState(false) })
+            ProfileDialog(
+                title = stringResource(R.string.logout_title),
+                text = stringResource(R.string.logout_content_message),
+                onDismissButtonClick = { profileInteraction.updateLogoutDialogState(false) },
+                onConfirmButtonClick = {
+                    profileInteraction.updateLogoutDialogState(false)
+                    profileInteraction.onLogoutButtonClicked()
+                },
+            )
         }
         Spacer(modifier = Modifier.weight(1f))
 
@@ -251,8 +259,10 @@ fun ProfileContent(
                     }
                 }
 
-                HorizontalPager(state = pageState, pageCount = 2,
-                    modifier = Modifier.padding(bottom = 8.dp)) {
+                HorizontalPager(
+                    state = pageState, pageCount = 2,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                ) {
                     if (pageState.currentPage == 0) {
                         LazyColumn(
                             modifier = Modifier.padding(
@@ -303,7 +313,7 @@ fun ProfileContent(
                                     text = stringResource(R.string.owner_powers),
                                     icon = painterResource(id = R.drawable.ownerpowers)
                                 )
-                                Divider(color = color.background, thickness =Thickness2)
+                                Divider(color = color.background, thickness = Thickness2)
                                 SettingCard(
                                     click = { profileInteraction.updateLanguageDialogState(true) },
                                     text = stringResource(R.string.language),
@@ -315,7 +325,7 @@ fun ProfileContent(
                                     text = stringResource(R.string.change_theme),
                                     icon = painterResource(id = R.drawable.changetheme)
                                 )
-                                Divider(color = color.background, thickness =Thickness2)
+                                Divider(color = color.background, thickness = Thickness2)
                                 SettingCard(
                                     click = { profileInteraction.updateClearHistoryState(true) },
                                     text = stringResource(R.string.clear_history),

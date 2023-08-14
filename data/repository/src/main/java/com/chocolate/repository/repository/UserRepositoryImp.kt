@@ -282,4 +282,8 @@ class UserRepositoryImp @Inject constructor(
         return preferencesDataSource.currentUserLoginState
     }
 
+    override suspend fun clearLoginInformation() {
+        preferencesDataSource.deleteAuthenticationData()
+    }
+
 }

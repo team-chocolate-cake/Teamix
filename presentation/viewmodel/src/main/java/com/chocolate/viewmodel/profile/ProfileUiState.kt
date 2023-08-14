@@ -12,7 +12,7 @@ data class ProfileUiState(
     val showClearHistoryDialog:Boolean=false,
     val showLogoutDialog:Boolean=false,
     val isLoading:Boolean=false,
-    val error:List<String>?=null
+    val error: String? = null
 )
 
 data class OwnerPowerUiState(

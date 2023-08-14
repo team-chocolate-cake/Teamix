@@ -80,4 +80,5 @@
     <string name="do_you_want_to_leave_channel">Do you want to leave channel</string>
     <string name="enter">Enter</string>
     <string name="default_error_message">A mistake happened, please attempt again at a later time.</string>
+    <string name="logout_content_message">Logging out will sign you out of your account and you\'ll need to re-enter your credentials to access the app again.</string>
 </resources>

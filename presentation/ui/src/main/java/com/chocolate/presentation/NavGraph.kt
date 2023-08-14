@@ -16,6 +16,5 @@ fun SetUpNavGraph() {
         onboardingRoute(navController)
         profileRoute(navController)
         ownerPowerRoute(navController)
-
     }
 }

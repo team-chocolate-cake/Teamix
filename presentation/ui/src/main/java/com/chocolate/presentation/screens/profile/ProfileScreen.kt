@@ -40,6 +40,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -172,7 +173,7 @@ fun ProfileContent(
             color = color.onBackground87
         )
         Text(
-            state.status, modifier = Modifier,
+            state.email, modifier = Modifier,
             style = MaterialTheme.typography.titleMedium,
             color = color.onBackground60
         )
@@ -280,14 +281,17 @@ fun ProfileContent(
                                     onValueChange = { username ->
                                         profileInteraction.onUsernameChange(username)
                                     },
-                                    onDone = {profileInteraction.onClickDone()},
+                                    onDone = {profileInteraction.onUsernameFocusChange()},
                                     colorFocused = color.primary,
                                     colorUnFocused = color.background,
                                     colorIcon = color.primary
                                 )
                                 ProfileTextField(
-                                    text = state.status,
-                                    onValueChange = {},
+                                    text = state.email,
+                                    onValueChange = {email ->
+                                        
+                                    },
+                                    onDone = {profileInteraction.onEmailFocusChange()},
                                     colorFocused=color.primary,
                                     colorUnFocused=color.background,
                                     colorIcon = color.primary

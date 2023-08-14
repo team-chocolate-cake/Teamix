@@ -694,7 +694,7 @@ class RetrofitDataSource @Inject constructor(
     }
 
     override suspend fun updateSettings(settings: SettingsDto) = wrapApiCall {
-        userService.updateSettings(settings.fullName)
+        userService.updateSettings(settings.fullName,settings.email)
     }
 
     override suspend fun getUserGroups() = wrapApiCall {

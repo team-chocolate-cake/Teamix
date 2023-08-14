@@ -29,6 +29,7 @@ class ProfileViewModel @Inject constructor(
             it.copy(
                 name = ownerUserUi.name,
                 image = ownerUserUi.image,
+                email = ownerUser.email,
                 isLoading = false,
                 error = null
             )
@@ -60,13 +61,26 @@ class ProfileViewModel @Inject constructor(
 
     }
 
-    override fun onClickDone() {
+    override fun onEmailChange(email: String) {
+        _state.update { it.copy(name = email) }
+    }
+
+    override fun onUsernameFocusChange() {
         val settingsState = Settings(fullName = _state.value.name)
         tryToExecute({updateUsernameUseCase(settingsState)},::onUpdateUsernameSuccess,::onError)
     }
 
+    override fun onEmailFocusChange() {
+        val settingsState = Settings(fullName = _state.value.email)
+        tryToExecute({updateUsernameUseCase(settingsState)},::onUpdateEmailSuccess,::onError)
+    }
+
+    private fun onUpdateEmailSuccess(unit: Unit) {
+        _state.update { it.copy(isLoading = false, error = null, message = "success") }
+    }
+
     override fun onClickRetry() {
-        onClickDone()
+        onUsernameFocusChange()
     }
 
     private fun onUpdateUsernameSuccess(unit: Unit) {

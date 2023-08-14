@@ -7,6 +7,8 @@ interface ProfileInteraction {
     fun updateLogoutDialogState(showDialog:Boolean)
     fun onClickOwnerPower()
     fun onUsernameChange(username: String)
-    fun onClickDone()
+    fun onEmailChange(email: String)
+    fun onUsernameFocusChange()
+    fun onEmailFocusChange()
     fun onClickRetry()
 }

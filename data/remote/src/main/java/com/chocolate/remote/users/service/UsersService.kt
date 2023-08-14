@@ -105,7 +105,10 @@ interface UsersService {
     suspend fun deleteAttachment(@Path("attachment_id") attachmentId: Int): Response<ResponseStateDto>
 
     @PATCH("settings")
-    suspend fun updateSettings(@Query("full_name") fullName: String): Response<UserSettingsDto>
+    suspend fun updateSettings(
+        @Query("full_name") fullName: String,
+        @Query("email") email: String
+    ): Response<UserSettingsDto>
 
     @GET("user_groups")
     suspend fun getUserGroups(): Response<UserGroupsDto>

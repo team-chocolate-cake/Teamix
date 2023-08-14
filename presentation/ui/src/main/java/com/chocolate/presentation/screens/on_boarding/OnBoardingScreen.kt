@@ -21,6 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.chocolate.presentation.composable.Button
+import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.onboarding.OnboardingEffect
@@ -33,13 +34,16 @@ fun OnboardingScreen(
     onboardingViewModel: OnboardingViewModel = hiltViewModel()
 ) {
     // navigate To Home here using the navController
-    OnboardingContent({  }, onboardingViewModel)
+    OnboardingContent(
+        navigateToOrganization = { navController.navigateToOrganizationName() },
+        onboardingViewModel
+    )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnboardingContent(
-    navigateToHome: () -> Unit,
+    navigateToOrganization: () -> Unit,
     onboardingEffect: OnboardingEffect
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -80,8 +84,8 @@ fun OnboardingContent(
                             pagerState.scrollToPage(pagerState.currentPage + 1)
                         }
                     } else {
-                        navigateToHome()
                         onboardingEffect.setOnboardingShown()
+                        navigateToOrganization()
                     }
                 },
                 modifier = Modifier,

@@ -12,6 +12,7 @@ fun NavGraphBuilder.organizationNameRoute(navController: NavController) {
 }
 
 fun NavController.navigateToOrganizationName() {
+    popBackStack()
     navigate(Screen.OrganizationName.route)
 }
 

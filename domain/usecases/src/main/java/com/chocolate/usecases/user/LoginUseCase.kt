@@ -8,7 +8,10 @@ class LoginUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(email: String, password: String): Boolean {
-        return usersRepositories.userLogin(email, password)
+       if(email.isNotEmpty() && password.isNotEmpty()){
+           return usersRepositories.userLogin(email,password)
+       }
+        return false
     }
 
 }

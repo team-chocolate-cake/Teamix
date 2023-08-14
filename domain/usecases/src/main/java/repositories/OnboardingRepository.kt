@@ -1,7 +1,9 @@
 package repositories
 
-interface OnboardingRepository {
-    suspend fun shouldShowOnboarding(): Boolean
+import kotlinx.coroutines.flow.Flow
 
-    suspend fun setOnboardingShown()
+interface OnboardingRepository {
+    suspend fun getOnboardingState(): Flow<Boolean>
+
+    suspend fun setOnboardingState(isComplete: Boolean)
 }

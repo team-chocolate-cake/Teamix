@@ -1,5 +1,19 @@
 <resources>
     <string name="app_name">Teamix</string>
+    <string name="mute">Mute</string>
+    <string name="star">Star</string>
+    <string name="leave">Leave</string>
+    <string name="unknown">Unknown</string>
+    <string name="mute_channel">Mute Channel</string>
+    <string name="star_channel">Star Channel</string>
+    <string name="copy_link">Copy Link</string>
+    <string name="copy_name">Copy Name</string>
+    <string name="leave_channel">Leave Channel</string>
+    <string name="image_stream">image stream</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="title_subtitle">By leaving the channel, you will no longer receive updates or messages from this channel</string>
+    <string name="na">NA</string>
+    <string name="channels">Channels</string>
     <string name="search">Search</string>
     <string name="suggested">Suggested</string>
     <string name="arrow_back">Arrow Back</string>
@@ -37,7 +51,6 @@
     <string name="select_organization_name">Select Organization Name</string>
     <string name="name">name</string>
     <string name="confirm">confirm</string>
-    <string name="dismiss">dismiss</string>
     <string name="organization">Organization</string>
     <string name="guest">Guest</string>
     <string name="member">Member</string>
@@ -57,16 +70,14 @@
     <string name="public_text">Public</string>
     <string name="private_text">private</string>
     <string name="see_all">See All</string>
-    <string name="mute_channel">Mute Channel</string>
     <string name="muted_channel_description">muted channel will always appear read and you won\'t to receive any notifications from them</string>
-    <string name="leave_channel">Leave Channel</string>
     <string name="pinned_message">"Pinned Message"</string>
     <string name="search_action">Search</string>
     <string name="meet_action">Meet</string>
     <string name="add_user">Add</string>
     <string name="dismiss_btn">Dismiss</string>
-    <string name="leave">Leave</string>
     <string name="leave_discription">This action cannot be undoneBy leaving the channel, you will no longer receive updates or messages from this channel</string>
     <string name="do_you_want_to_leave_channel">Do you want to leave channel</string>
     <string name="enter">Enter</string>
+    <string name="default_error_message">A mistake happened, please attempt again at a later time.</string>
 </resources>

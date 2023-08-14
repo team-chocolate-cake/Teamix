@@ -24,6 +24,7 @@ object ProjectDependencies {
     private const val HILT_NAVIGATION_VERSION = "1.0.0"
     private const val MATERIAL3_VERSION = "1.1.0-beta01"
     private const val COMPOSE_FOUNDATION_VERSION = "1.4.3"
+    private const val ACCOMPANIST = "0.31.0-alpha"
 
     const val androidxCore = "androidx.core:core-ktx:$CORE_VERSION"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:$CONSTRAINT_LAYOUT_VERSION"
@@ -90,5 +91,7 @@ object ProjectDependencies {
     const val composeFoundation = "androidx.compose.foundation:foundation:$COMPOSE_FOUNDATION_VERSION"
 
     const val encryptedSharedPreference = "androidx.security:security-crypto:1.1.0-alpha06"
+
+    const val webView = "com.google.accompanist:accompanist-webview:$ACCOMPANIST"
 
 }

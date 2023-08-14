@@ -2,6 +2,7 @@ package com.chocolate.presentation.screens.organiztion
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -30,35 +32,49 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.Button
+import com.chocolate.presentation.screens.create_organization.navigateToCreateOrganization
 import com.chocolate.presentation.screens.login.navigateToLogin
+import com.chocolate.presentation.screens.welcome.navigateToWelcome
 import com.chocolate.presentation.theme.LightBackground
+import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space32
+import com.chocolate.presentation.theme.Space48
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.viewmodel.organization_name.OrganizationNameInteraction
+import com.chocolate.viewmodel.organization_name.OrganizationNameUiEffect
 import com.chocolate.viewmodel.organization_name.OrganizationNameUiState
 import com.chocolate.viewmodel.organization_name.OrganizationNameViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun OrganizationScreen(
     navController: NavController,
-    viewModel: OrganizationNameViewModel = hiltViewModel()
+    viewModel: OrganizationNameViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
-
-    OrganizationContent(
-        navigateToLogin = { navController.navigateToLogin() },
-        saveNameOrganization = viewModel::saveNameOrganization,
-        onOrganizationNameChange = viewModel::onOrganizationNameChange,
-        state = state
-    )
+    LaunchedEffect(key1 = Unit) {
+        viewModel.effect.collectLatest { effect ->
+            when (effect) {
+                OrganizationNameUiEffect.NavigateToCreateOrganization -> navController.navigateToCreateOrganization()
+                OrganizationNameUiEffect.NavigateToLoginScreen -> navController.navigateToLogin()
+            }
+        }
+    }
+    if (state.onboardingState) {
+        OrganizationContent(
+            organizationNameInteraction = viewModel,
+            state = state,
+        )
+    } else {
+        LaunchedEffect(Unit) { navController.navigateToWelcome() }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OrganizationContent(
-    navigateToLogin: () -> Unit,
-    saveNameOrganization: (String) -> Unit,
-    onOrganizationNameChange: (String) -> Unit,
+    organizationNameInteraction: OrganizationNameInteraction,
     state: OrganizationNameUiState
 ) {
     val colors = MaterialTheme.customColors()
@@ -83,11 +99,12 @@ fun OrganizationContent(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp).padding(bottom = 24.dp)
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 24.dp)
                     .padding(top = Space8),
                 value = state.organizationName,
                 onValueChange = { nameOrganization ->
-                    onOrganizationNameChange(nameOrganization)
+                    organizationNameInteraction.onOrganizationNameChange(nameOrganization)
                 },
                 placeholder = { Text("", color = Color.Black.copy(alpha = 0.6f)) },
                 shape = RoundedCornerShape(12.dp),
@@ -100,13 +117,12 @@ fun OrganizationContent(
             )
             Button(
                 onClick = {
-                    saveNameOrganization(state.organizationName)
-                    navigateToLogin()
+                    organizationNameInteraction.onClickActionButton(state.organizationName)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(48.dp)
-                    .padding(horizontal = 16.dp),
+                    .height(Space48)
+                    .padding(horizontal = Space16),
                 colors = colors,
                 enabled = state.organizationName.isNotEmpty()
             ) {
@@ -121,7 +137,9 @@ fun OrganizationContent(
                 text = stringResource(R.string.create_new_organizat),
                 color = colors.primary,
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .clickable { organizationNameInteraction.onClickCreateOrganization() },
                 textAlign = TextAlign.Center
             )
         }
@@ -133,7 +151,7 @@ fun SeparatorWithText(modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = Space16),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -149,7 +167,7 @@ fun SeparatorWithText(modifier: Modifier = Modifier) {
             color = Color.Gray,
             modifier = Modifier
                 .background(Color.Transparent, shape = RoundedCornerShape(4.dp))
-                .padding(horizontal = 8.dp)
+                .padding(horizontal = Space8)
         )
         Box(
             modifier = Modifier

@@ -1,36 +1,58 @@
 package com.chocolate.presentation.screens.login
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.chocolate.presentation.R
+import com.chocolate.presentation.composable.Button
+import com.chocolate.presentation.composable.TeamixSnackBar
+import com.chocolate.presentation.composable.TeamixTextField
+import com.chocolate.presentation.screens.forget_password.navigateToForgetPassword
+import com.chocolate.presentation.screens.home.navigateToHome
+import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.Space24
+import com.chocolate.presentation.theme.Space4
+import com.chocolate.presentation.theme.Space48
+import com.chocolate.presentation.theme.Space56
+import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.viewmodel.login.LoginInteraction
+import com.chocolate.viewmodel.login.LoginUiEffect
 import com.chocolate.viewmodel.login.LoginUiState
 import com.chocolate.viewmodel.login.LoginViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun LoginScreen(
@@ -38,20 +60,26 @@ fun LoginScreen(
     loginViewModel: LoginViewModel = hiltViewModel()
 ) {
     val state by loginViewModel.state.collectAsState()
+    LaunchedEffect(key1 = Unit ){
+        loginViewModel.effect.collectLatest { effect ->
+            when(effect){
+                LoginUiEffect.NavigateToForgetPassword -> navController.navigateToForgetPassword()
+                LoginUiEffect.NavigationToHome -> navController.navigateToHome()
+            }
+        }
+    }
     LoginContent(
-        updateEmailState = loginViewModel::updateEmailState,
-        updatePasswordState = loginViewModel::updatePasswordState,
-        login = loginViewModel::login,
+        loginInteraction = loginViewModel,
+        navigateToForgetPassword = loginViewModel::onClickForgetPassword,
         state = state
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun LoginContent(
-    updateEmailState: (String) -> Unit,
-    updatePasswordState: (String) -> Unit,
-    login: (String, String) -> Unit,
+    loginInteraction: LoginInteraction,
+    navigateToForgetPassword: () -> Unit,
     state: LoginUiState
 ) {
     val colors = MaterialTheme.customColors()
@@ -60,7 +88,7 @@ fun LoginContent(
         modifier = Modifier
             .fillMaxSize()
             .background(color = colors.background)
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = Space16),
     ) {
         Text(
             modifier = Modifier.padding(top = 42.dp),
@@ -69,7 +97,7 @@ fun LoginContent(
             color = colors.onBackground87
         )
         Text(
-            modifier = Modifier.padding(bottom = 48.dp),
+            modifier = Modifier.padding(bottom = Space48),
             text = state.nameOrganization,
             style = MaterialTheme.typography.titleLarge,
             color = colors.primary
@@ -80,69 +108,79 @@ fun LoginContent(
             text = stringResource(R.string.email),
             style = MaterialTheme.typography.labelMedium
         )
-        OutlinedTextField(
+
+        TeamixTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 8.dp),
+                .padding(top = Space8),
             value = state.email,
             onValueChange = { email ->
-                updateEmailState(email)
+                loginInteraction.updateEmailState(email)
             },
-            placeholder = { Text("", color = Color.Black.copy(alpha = 0.6f)) },
-            shape = RoundedCornerShape(12.dp),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                containerColor = colors.card,
-                focusedBorderColor = Color.Transparent,
-                unfocusedBorderColor = Color.Transparent
-            )
-        )
+            trailingIcon = {},
+            placeholder = {})
 
         Text(
-            modifier = Modifier.padding(top = 16.dp),
+            modifier = Modifier.padding(top = Space16),
             text = stringResource(R.string.password),
             style = MaterialTheme.typography.labelMedium
         )
-        OutlinedTextField(
+        var passwordVisibility: Boolean by remember { mutableStateOf(false) }
+        val passwordIcon = if (passwordVisibility) R.drawable.ic_eye else R.drawable.ic_eye_closed
+        TeamixTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 8.dp),
+                .padding(top = Space8),
             value = state.password,
-            onValueChange = { password ->
-                updatePasswordState(password)
+            onValueChange = { password -> loginInteraction.updatePasswordState(password) },
+            placeholder = {},
+            trailingIcon = {
+                IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
+                    Icon(painter = painterResource(id = passwordIcon), contentDescription = null)
+                }
             },
-            placeholder = { Text("", color = Color.Black.copy(alpha = 0.6f)) },
-            shape = RoundedCornerShape(12.dp),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                containerColor = colors.card,
-                focusedBorderColor = Color.Transparent,
-                unfocusedBorderColor = Color.Transparent
-            )
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
         )
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 4.dp, bottom = 24.dp, end = 16.dp),
+                .padding(top = Space4, bottom = Space24, end = Space16),
             horizontalArrangement = Arrangement.End
         ) {
             Text(
                 stringResource(R.string.forget_password),
                 fontSize = 14.sp,
                 style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.clickable { navigateToForgetPassword() }
             )
         }
         Button(
+            onClick = { loginInteraction.login(state.email, state.password)},
             modifier = Modifier
                 .fillMaxWidth()
-                .height(48.dp)
-                .padding(horizontal = 16.dp),
-            onClick = { login(state.email, state.password) },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = colors.primary
-            ),
-            shape = RoundedCornerShape(12.dp)
-        ) {
-            Text(stringResource(R.string.sign_in))
+                .height(Space56)
+                .padding(horizontal = Space16),
+            colors = colors,
+            ) {
+            if (state.isLoading) {
+                CircularProgressIndicator(color = colors.card)
+            } else {
+                Text(
+                    text = stringResource(R.string.sign_in),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = colors.onPrimary
+                )
+            }
+        }
+        Spacer(modifier = Modifier.weight(1f))
+        if (state.error != null) {
+            TeamixSnackBar(
+                text = state.error ?: stringResource(R.string.default_error_message),
+                onClickRetry = { loginInteraction.onClickRetry() },
+                modifier = Modifier.padding(bottom = Space24)
+            )
         }
     }
 }
@@ -150,5 +188,6 @@ fun LoginContent(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LogInPreview() {
-    LoginContent({}, {}, { _, _ -> }, LoginUiState())
+    val viewModel: LoginViewModel = hiltViewModel()
+    LoginContent(viewModel, {}, LoginUiState())
 }

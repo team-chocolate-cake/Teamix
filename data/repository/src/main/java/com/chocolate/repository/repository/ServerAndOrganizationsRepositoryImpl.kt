@@ -18,17 +18,17 @@ import javax.inject.Inject
 class ServerAndOrganizationsRepositoryImpl @Inject constructor(
     private val organizationRemoteDataSource: RemoteDataSource,
     private val preferencesDataSource: PreferencesDataSource
-) : ServerAndOrganizationsRepository, BaseRepository() {
+) : ServerAndOrganizationsRepository{
     override suspend fun getServiceSettings(): ServerSettings {
-        return wrapCall { organizationRemoteDataSource.getServerSettings() }.toEntity()
+        return organizationRemoteDataSource.getServerSettings().toEntity()
     }
 
     override suspend fun getLinkifiers(): Linkifiers {
-        return wrapCall { organizationRemoteDataSource.getLinkifiers() }.toLinkifiers()
+        return organizationRemoteDataSource.getLinkifiers().toLinkifiers()
     }
 
     override suspend fun addLinkifiers(pattern: String, url: String): DefaultOrganization {
-        return wrapCall { organizationRemoteDataSource.addLinkifiers(pattern, url) }.toDefaultOrganization()
+        return organizationRemoteDataSource.addLinkifiers(pattern, url).toDefaultOrganization()
     }
 
     override suspend fun updateLinkifiers(
@@ -36,13 +36,11 @@ class ServerAndOrganizationsRepositoryImpl @Inject constructor(
         pattern: String,
         url: String
     ): DefaultOrganization {
-        return wrapCall {
-            organizationRemoteDataSource.updateLinkifiers(filterId, pattern, url)
-        }.toDefaultOrganization()
+        return organizationRemoteDataSource.updateLinkifiers(filterId, pattern, url).toDefaultOrganization()
     }
 
     override suspend fun deleteLinkifier(filterId: Int): DefaultOrganization {
-        return wrapCall { organizationRemoteDataSource.deleteLinkifiers(filterId) }.toDefaultOrganization()
+        return organizationRemoteDataSource.deleteLinkifiers(filterId).toDefaultOrganization()
     }
 
     override suspend fun addCodePlayGround(
@@ -50,33 +48,31 @@ class ServerAndOrganizationsRepositoryImpl @Inject constructor(
         language: String,
         url: String
     ): DefaultOrganization {
-        return wrapCall {
-            organizationRemoteDataSource.addCodePlayGround(name, language, url)
-        }.toDefaultOrganization()
+        return organizationRemoteDataSource.addCodePlayGround(name, language, url).toDefaultOrganization()
     }
 
     override suspend fun deleteCodePlayGround(playGRound: Int): DefaultOrganization {
-        return wrapCall { organizationRemoteDataSource.deleteCodePlayground(playGRound) }.toDefaultOrganization()
+        return organizationRemoteDataSource.deleteCodePlayground(playGRound).toDefaultOrganization()
     }
 
     override suspend fun getAllCustomEmojis(): CustomEmoji {
-        return wrapCall { organizationRemoteDataSource.getAllCustomEmojis() }.toCustomEmoji()
+        return organizationRemoteDataSource.getAllCustomEmojis().toCustomEmoji()
     }
 
     override suspend fun addCustomEmoji(emojiName: String): DefaultOrganization {
-        return wrapCall { organizationRemoteDataSource.addCustomEmoji(emojiName) }.toDefaultOrganization()
+        return organizationRemoteDataSource.addCustomEmoji(emojiName).toDefaultOrganization()
     }
 
     override suspend fun deActivateCustomEmoji(emojiName: String): DefaultOrganization {
-        return wrapCall { organizationRemoteDataSource.deactivateCustomEmoji(emojiName) }.toDefaultOrganization()
+        return organizationRemoteDataSource.deactivateCustomEmoji(emojiName).toDefaultOrganization()
     }
 
     override suspend fun getAllCustomProfileFields(): CustomProfileFields {
-        return wrapCall { organizationRemoteDataSource.getAllCustomProfileFields() }.toCustomProfileFields()
+        return organizationRemoteDataSource.getAllCustomProfileFields().toCustomProfileFields()
     }
 
     override suspend fun reorderCustomProfileFields(order: String): DefaultOrganization {
-        return wrapCall { organizationRemoteDataSource.reorderCustomProfileFields(order) }.toDefaultOrganization()
+        return organizationRemoteDataSource.reorderCustomProfileFields(order).toDefaultOrganization()
     }
 
     override suspend fun createCustomProfileField(
@@ -84,10 +80,9 @@ class ServerAndOrganizationsRepositoryImpl @Inject constructor(
         hint: String,
         fieldType: Int
     ): DefaultOrganization {
-        return wrapCall {
-            organizationRemoteDataSource.createCustomProfileField(name, hint, fieldType)
-        }.toDefaultOrganization()
+        return organizationRemoteDataSource.createCustomProfileField(name, hint, fieldType).toDefaultOrganization()
     }
+
 
     override suspend fun saveNameOrganizations(nameOrganizations: String) {
         preferencesDataSource.setNameOrganization(nameOrganizations)

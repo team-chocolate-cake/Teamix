@@ -30,7 +30,7 @@ import javax.inject.Inject
 
 class MessagesRepositoryImpl @Inject constructor(
     private val messageDataSource: RemoteDataSource
-) : MessagesRepository, BaseRepository() {
+) : MessagesRepository{
     override suspend fun sendStreamMessage(
         type: String,
         to: Any,
@@ -39,16 +39,14 @@ class MessagesRepositoryImpl @Inject constructor(
         queueId: String?,
         localId: String?
     ): SendMessage {
-        val sendSteamMessageDto = wrapCall {
-            messageDataSource.sendStreamMessage(
-                type,
-                to,
-                topic,
-                content,
-                queueId,
-                localId
-            )
-        }
+        val sendSteamMessageDto = messageDataSource.sendStreamMessage(
+            type,
+            to,
+            topic,
+            content,
+            queueId,
+            localId
+        )
         return sendSteamMessageDto.toSendMessage()
     }
 
@@ -59,8 +57,7 @@ class MessagesRepositoryImpl @Inject constructor(
         queueId: String?,
         localId: String?
     ): SendMessage {
-        val sendDirectMessageDto =
-            wrapCall { messageDataSource.sendDirectMessage(type, to, content, queueId, localId) }
+        val sendDirectMessageDto = messageDataSource.sendDirectMessage(type, to, content, queueId, localId)
         return sendDirectMessageDto.toSendMessage()
     }
 
@@ -72,20 +69,18 @@ class MessagesRepositoryImpl @Inject constructor(
         sendNotificationToOldThread: Boolean,
         sendNotificationToNewThread: Boolean
     ) {
-        wrapCall {
-            messageDataSource.editMessage(
-                messageId,
-                content,
-                topic,
-                propagateMode,
-                sendNotificationToOldThread,
-                sendNotificationToNewThread
-            )
-        }
+        messageDataSource.editMessage(
+            messageId,
+            content,
+            topic,
+            propagateMode,
+            sendNotificationToOldThread,
+            sendNotificationToNewThread
+        )
     }
 
     override suspend fun deleteMessage(messageId: Int) {
-        wrapCall { messageDataSource.deleteMessage(messageId) }
+        messageDataSource.deleteMessage(messageId)
     }
 
     override suspend fun getMessages(
@@ -97,17 +92,15 @@ class MessagesRepositoryImpl @Inject constructor(
         clientGravatar: Boolean,
         applyMarkdown: Boolean
     ): Messages {
-        val messagesDto = wrapCall {
-            messageDataSource.getMessages(
-                anchor,
-                includeAnchor,
-                numBefore,
-                numAfter,
-                narrow,
-                clientGravatar,
-                applyMarkdown
-            )
-        }
+        val messagesDto = messageDataSource.getMessages(
+            anchor,
+            includeAnchor,
+            numBefore,
+            numAfter,
+            narrow,
+            clientGravatar,
+            applyMarkdown
+        )
         return messagesDto.toMessages()
     }
 
@@ -117,14 +110,12 @@ class MessagesRepositoryImpl @Inject constructor(
         emojiCode: String?,
         reactionType: String?
     ) {
-        wrapCall {
-            messageDataSource.addEmojiReaction(
-                messageId,
-                emojiName,
-                emojiCode,
-                reactionType
-            )
-        }
+        messageDataSource.addEmojiReaction(
+            messageId,
+            emojiName,
+            emojiCode,
+            reactionType
+        )
     }
 
     override suspend fun deleteEmojiReaction(
@@ -133,14 +124,12 @@ class MessagesRepositoryImpl @Inject constructor(
         emojiCode: String?,
         reactionType: String?
     ) {
-        wrapCall {
-            messageDataSource.deleteEmojiReaction(
-                messageId,
-                emojiName,
-                emojiCode,
-                reactionType
-            )
-        }
+        messageDataSource.deleteEmojiReaction(
+            messageId,
+            emojiName,
+            emojiCode,
+            reactionType
+        )
     }
 
     override suspend fun updateMessageFlags(
@@ -148,58 +137,53 @@ class MessagesRepositoryImpl @Inject constructor(
         op: String,
         flag: String
     ): PersonalMessage {
-        val personalMessageDto =
-            wrapCall { messageDataSource.updateMessageFlags(messages, op, flag) }
+        val personalMessageDto = messageDataSource.updateMessageFlags(messages, op, flag)
         return personalMessageDto.toPersonalMessage()
     }
 
     override suspend fun markAllMessagesAsRead() {
-        wrapCall { messageDataSource.markAllMessagesAsRead() }
+        messageDataSource.markAllMessagesAsRead()
     }
 
     override suspend fun markStreamAsRead(steamId: Int) {
-        wrapCall { messageDataSource.markStreamAsRead(steamId) }
+        messageDataSource.markStreamAsRead(steamId)
     }
 
     override suspend fun markTopicAsRead(steamId: Int, topicName: String) {
-        wrapCall { messageDataSource.markTopicAsRead(steamId, topicName) }
+        messageDataSource.markTopicAsRead(steamId, topicName)
     }
 
     override suspend fun getMessageReadReceipts(messageId: Int): MessageReadReceipts {
-        val messageReadReceiptsDto =
-            wrapCall { messageDataSource.getMessageReadReceipts(messageId) }
+        val messageReadReceiptsDto = messageDataSource.getMessageReadReceipts(messageId)
         return messageReadReceiptsDto.toMessageReadReceipts()
     }
 
     override suspend fun uploadFile(file: File): AttachmentMessage {
         val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
         val filePart = MultipartBody.Part.createFormData("file", file.name, requestFile)
-        return wrapCall { messageDataSource.uploadFile(filePart) }.toAttachmentMessage()
+        return messageDataSource.uploadFile(filePart).toAttachmentMessage()
     }
 
-
     override suspend fun renderMessage(content: String): RenderMessage {
-        return wrapCall { messageDataSource.renderMessage(content) }.toRenderMessage()
+        return messageDataSource.renderMessage(content).toRenderMessage()
     }
 
     override suspend fun fetchSingleMethod(messageId: Int): SingleMessage {
-        return wrapCall { messageDataSource.fetchSingleMessage(messageId) }.toSingleMessage()
+        return messageDataSource.fetchSingleMessage(messageId).toSingleMessage()
     }
 
     override suspend fun checkIfMessagesMatchNarrow(
         messagesIds: String,
         narrow: String
     ): MatchNarrow {
-        return wrapCall {
-            messageDataSource.checkIfMessagesMatchNarrow(
-                messagesIds,
-                narrow
-            )
-        }.toMatchNarrow()
+        return messageDataSource.checkIfMessagesMatchNarrow(
+            messagesIds,
+            narrow
+        ).toMatchNarrow()
     }
 
     override suspend fun getMessagesEditHistory(messageId: Int): List<MessageEditHistory> {
-        return wrapCall { messageDataSource.getMessagesEditHistory(messageId) }.toMessageEditHistory()
+        return messageDataSource.getMessagesEditHistory(messageId).toMessageEditHistory()
     }
 
     override suspend fun updatePersonalMessageFlagsForNarrow(
@@ -211,11 +195,8 @@ class MessagesRepositoryImpl @Inject constructor(
         op: String,
         flag: String
     ): PersonalMessageForNarrow {
-        return wrapCall {
-            messageDataSource.updatePersonalMessageFlagsForNarrow(
-                anchor, numBefore, numAfter, includeAnchor, narrow, op, flag
-            )
-        }.toPersonalMessageForNarrow()
+        return messageDataSource.updatePersonalMessageFlagsForNarrow(
+            anchor, numBefore, numAfter, includeAnchor, narrow, op, flag
+        ).toPersonalMessageForNarrow()
     }
-
 }

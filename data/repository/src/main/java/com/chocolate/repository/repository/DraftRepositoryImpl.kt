@@ -9,9 +9,9 @@ import javax.inject.Inject
 
 class DraftRepositoryImpl @Inject constructor(
     private val draftDataSource: RemoteDataSource
-) : DraftRepository, BaseRepository() {
-    override suspend fun getDrafts():List<Draft> {
-        return wrapCall { draftDataSource.getDrafts() }.drafts.toEntity()
+) : DraftRepository{
+    override suspend fun getDrafts(): List<Draft> {
+        return draftDataSource.getDrafts().drafts.toEntity()
     }
 
     override suspend fun createDraft(
@@ -21,18 +21,15 @@ class DraftRepositoryImpl @Inject constructor(
         topic: String,
         content: String,
         timestamp: Long
-    ):List<Int> {
-
-        return wrapCall {
-            draftDataSource.createDraft(
-                id = id,
-                type = type,
-                content = content,
-                topic = topic,
-                to = to.toJson(),
-                timestamp = timestamp
-            )
-        }.ids?: emptyList()
+    ): List<Int> {
+        return draftDataSource.createDraft(
+            id = id,
+            type = type,
+            content = content,
+            topic = topic,
+            to = to.toJson(),
+            timestamp = timestamp
+        ).ids ?: emptyList()
     }
 
     override suspend fun editDraft(
@@ -43,20 +40,18 @@ class DraftRepositoryImpl @Inject constructor(
         content: String,
         timestamp: Long
     ) {
-        wrapCall {
-            draftDataSource.editDraft(
-                id = id,
-                type = type,
-                content = content,
-                topic = topic,
-                to = to.toJson(),
-                timestamp = timestamp
-            )
-        }
+        draftDataSource.editDraft(
+            id = id,
+            type = type,
+            content = content,
+            topic = topic,
+            to = to.toJson(),
+            timestamp = timestamp
+        )
     }
 
     override suspend fun deleteDraft(id: Int) {
-        wrapCall { draftDataSource.deleteDraft(id) }
+        draftDataSource.deleteDraft(id)
     }
 }
 

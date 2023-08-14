@@ -1,19 +1,20 @@
 package com.chocolate.remote
 
+import com.chocolate.entities.exceptions.CertificateException
+import com.chocolate.entities.exceptions.NetworkException
+import com.chocolate.entities.exceptions.NoConnectionException
+import com.chocolate.entities.exceptions.NotFoundException
+import com.chocolate.entities.exceptions.NullResultException
+import com.chocolate.entities.exceptions.TimeoutException
+import com.chocolate.entities.exceptions.TooManyRequestsException
+import com.chocolate.entities.exceptions.UserDeactivatedException
+import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.remote.channels.service.ChannelsService
 import com.chocolate.remote.drafts.service.DraftService
 import com.chocolate.remote.messages.service.MessageService
 import com.chocolate.remote.scheduled_message.service.ScheduledMessageService
 import com.chocolate.remote.server_and_organizations.service.OrganizationService
 import com.chocolate.remote.users.service.UsersService
-import com.chocolate.repository.utils.NetworkException
-import com.chocolate.repository.utils.NoInternetException
-import com.chocolate.repository.utils.NotFoundException
-import com.chocolate.repository.utils.NullResultException
-import com.chocolate.repository.utils.RemoteException
-import com.chocolate.repository.utils.TooManyRequestsException
-import com.chocolate.repository.utils.UserDeactivatedException
-import com.chocolate.repository.utils.ValidationError
 import com.chocolate.repository.model.dto.channels.response.AllStreamsDto
 import com.chocolate.repository.model.dto.channels.response.AllSubscribersDto
 import com.chocolate.repository.model.dto.channels.response.DefaultStreamDto
@@ -52,8 +53,10 @@ import com.chocolate.repository.service.remote.RemoteDataSource
 import com.chocolate.repository.utils.HttpStatusCodes
 import okhttp3.MultipartBody
 import retrofit2.Response
+import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import javax.inject.Inject
+import javax.net.ssl.SSLException
 
 class RetrofitDataSource @Inject constructor(
     private val channelsService: ChannelsService,
@@ -791,17 +794,19 @@ class RetrofitDataSource @Inject constructor(
 
             when (result.code()) {
                 HttpStatusCodes.BAD_REQUEST.code -> throw NetworkException(result.message())
-                HttpStatusCodes.UNAUTHORIZED.code -> throw ValidationError(result.message())
+                HttpStatusCodes.UNAUTHORIZED.code -> throw ValidationException(result.message())
                 HttpStatusCodes.USER_DEACTIVATED.code -> throw UserDeactivatedException(result.message())
                 HttpStatusCodes.TOO_MANY_REQUESTS.code -> throw TooManyRequestsException(result.message())
                 HttpStatusCodes.NO_CONNECTION.code -> throw NotFoundException(result.message())
                 else -> result.body() ?: throw NullResultException(result.message())
             }
 
+        } catch (exception: SSLException) {
+            throw CertificateException(exception.message)
         } catch (exception: UnknownHostException) {
-            throw NoInternetException(exception.message.toString())
-        } catch (exception: RemoteException) {
-            throw UnknownHostException(exception.message.toString())
+            throw NoConnectionException(exception.message)
+        } catch (exception: SocketTimeoutException) {
+            throw TimeoutException(exception.message.toString())
         }
     }
 }

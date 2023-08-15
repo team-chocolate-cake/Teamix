@@ -4,8 +4,8 @@ data class HomeUiState(
     val organizationTitle: String = "",
     val imageUrl: String = "",
     val badgeCountsUiState: BadgeCountsUiState = BadgeCountsUiState(),
-    val channelsUIState: List<ChannelUIState> = emptyList(),
-    val isLoading: Boolean = false,
+    val channels: List<ChannelUiState> = emptyList(),
+    val isLoading: Boolean = true,
     val isLogged: Boolean = true,
     val error: String? = null
 )
@@ -17,7 +17,7 @@ data class BadgeCountsUiState(
     val saved: Int = 0
 )
 
-data class ChannelUIState(
+data class ChannelUiState(
     val channelId: Int = 0,
     val name: String = "",
     val topics: List<TopicsUIState> = emptyList(),

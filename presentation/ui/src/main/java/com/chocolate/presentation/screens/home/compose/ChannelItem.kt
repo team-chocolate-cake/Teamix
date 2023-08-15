@@ -37,12 +37,12 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
-import com.chocolate.viewmodel.home.ChannelUIState
+import com.chocolate.viewmodel.home.ChannelUiState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ChannelItem(
-    state: ChannelUIState,
+    state: ChannelUiState,
     colors: CustomColorsPalette,
     onLongClickChannel: () -> Unit,
     onClickItemChannel: (Int) -> Unit,

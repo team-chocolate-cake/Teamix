@@ -171,7 +171,7 @@ fun HomeContent(
                         .padding(horizontal = Space16)
                 )
             }
-            items(items = state.channelsUIState, key = { currentChannel ->
+            items(items = state.channels, key = { currentChannel ->
                 currentChannel.name
             }) { channelUIState ->
                 ChannelItem(

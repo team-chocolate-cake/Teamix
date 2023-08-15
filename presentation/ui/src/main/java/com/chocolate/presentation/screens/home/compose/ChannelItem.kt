@@ -50,16 +50,10 @@ fun ChannelItem(
 ) {
     val haptics = LocalHapticFeedback.current
     var isExpanded by remember { mutableStateOf(false) }
-    val animateIcon by animateFloatAsState(targetValue = if (isExpanded) 180f else 0f)
+    val animateIcon by animateFloatAsState(targetValue = if (isExpanded) 180f else 0f, label = "")
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .animateContentSize(
-                animationSpec = tween(
-                    durationMillis = 300,
-                )
-            )
+        modifier = modifier.fillMaxWidth().wrapContentHeight()
+            .animateContentSize(animationSpec = tween(durationMillis = 300))
             .clip(RoundedCornerShape(12.dp))
             .background(color = colors.onPrimary)
             .padding(Space16)
@@ -94,26 +88,18 @@ fun ChannelItem(
                 painter = painterResource(id = R.drawable.ic_arrow_down),
                 contentDescription = null,
                 tint = colors.onBackground60,
-                modifier = Modifier
-                    .rotate(animateIcon)
-                    .clickable {
-                        isExpanded = !isExpanded
-                    }
+                modifier = Modifier.rotate(animateIcon).clickable { isExpanded = !isExpanded }
             )
         }
         if (isExpanded) {
             state.topics.forEach { topicUIState ->
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center
                 ) {
                     Divider(modifier = Modifier.padding(Space8), color = colors.border)
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight()
-                            .padding(vertical = 8.dp),
+                        modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {

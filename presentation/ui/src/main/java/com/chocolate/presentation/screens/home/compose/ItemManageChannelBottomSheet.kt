@@ -26,9 +26,7 @@ fun ItemManageChannelBottomSheet(
     onClickItemManageChannelBottomSheet: () -> Unit
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(Space16)
+        modifier = modifier.fillMaxWidth().padding(Space16)
             .clickable { onClickItemManageChannelBottomSheet() },
         verticalAlignment = Alignment.CenterVertically
     ) {

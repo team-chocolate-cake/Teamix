@@ -20,11 +20,11 @@ data class BadgeCountsUiState(
 data class ChannelUiState(
     val channelId: Int = 0,
     val name: String = "",
-    val topics: List<TopicsUIState> = emptyList(),
+    val topics: List<TopicUiState> = emptyList(),
     val isPrivateChannel: Boolean = false,
 )
 
-data class TopicsUIState(
+data class TopicUiState(
     val name: String = "",
     val topicBadge: Int = 0
 )

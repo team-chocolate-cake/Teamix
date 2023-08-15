@@ -106,7 +106,8 @@ fun LoginContent(
         Text(
             modifier = Modifier,
             text = stringResource(R.string.email),
-            style = MaterialTheme.typography.labelMedium
+            style = MaterialTheme.typography.labelMedium,
+            color = colors.onBackground87
         )
 
         TeamixTextField(
@@ -123,7 +124,8 @@ fun LoginContent(
         Text(
             modifier = Modifier.padding(top = Space16),
             text = stringResource(R.string.password),
-            style = MaterialTheme.typography.labelMedium
+            style = MaterialTheme.typography.labelMedium,
+            color = colors.onBackground87
         )
         var passwordVisibility: Boolean by remember { mutableStateOf(false) }
         val passwordIcon = if (passwordVisibility) R.drawable.ic_eye else R.drawable.ic_eye_closed
@@ -153,7 +155,8 @@ fun LoginContent(
                 stringResource(R.string.forget_password),
                 fontSize = 14.sp,
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.clickable { navigateToForgetPassword() }
+                modifier = Modifier.clickable { navigateToForgetPassword() },
+                color = colors.primary
             )
         }
         Button(

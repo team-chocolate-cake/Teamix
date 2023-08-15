@@ -25,9 +25,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -57,15 +54,12 @@ import com.chocolate.presentation.screens.profile.composable.ProfileTextField
 import com.chocolate.presentation.screens.profile.composable.SettingCard
 import com.chocolate.presentation.theme.BoxHeight440
 import com.chocolate.presentation.theme.ButtonSize110
-import com.chocolate.presentation.theme.IconSize24
-import com.chocolate.presentation.theme.IconSize30
 import com.chocolate.presentation.theme.ImageSize110
 import com.chocolate.presentation.theme.ImageSize130
 import com.chocolate.presentation.theme.ImageSize158
 import com.chocolate.presentation.theme.Radius16
 import com.chocolate.presentation.theme.Radius24
 import com.chocolate.presentation.theme.RowWidth250
-import com.chocolate.presentation.theme.Space1
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space24
 import com.chocolate.presentation.theme.Space26
@@ -144,24 +138,6 @@ fun ProfileContent(
                         .clip(CircleShape),
                     painter = rememberAsyncImagePainter(state.image),
                     contentDescription = null
-                )
-            }
-            IconButton(
-                onClick = { //open camera
-                     },
-                modifier = Modifier
-                    .size(IconSize30)
-                    .align(Alignment.BottomEnd)
-                    .clip(CircleShape),
-                colors = IconButtonDefaults.iconButtonColors(color.primary)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.camera),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(IconSize24)
-                        .padding(bottom = Space1),
-                    tint = color.onPrimary
                 )
             }
         }
@@ -371,4 +347,3 @@ fun ProfileContent(
 fun ProfileScreenPreview() {
     ProfileScreen(rememberNavController())
 }
-

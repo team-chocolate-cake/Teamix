@@ -21,8 +21,8 @@ class OwnerPowerViewModel @Inject constructor(
     override fun updateOrganizationImageState(showSheet:Boolean){
         _state.update { OwnerPowerUiState(showOrganizationImageSheet = showSheet)}
     }
-    override fun updateChangeMemberRoleDialogState(showDialog:Boolean){
-        _state.update { OwnerPowerUiState(showChangeMemberRoleDialog = showDialog)}
+    override fun updateChangeMemberRoleDialogState(showSheet:Boolean){
+        _state.update { OwnerPowerUiState(showChangeMemberRoleDialog = showSheet)}
     }
     override fun updateCreateChannelSheetState(showSheet:Boolean){
         _state.update { OwnerPowerUiState(showCreateChannelSheet = showSheet)}

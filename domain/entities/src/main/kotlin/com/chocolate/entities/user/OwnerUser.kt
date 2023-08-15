@@ -14,13 +14,14 @@ data class OwnerUser (
     val isGuest: Boolean,
     val isOwner: Boolean,
     val maxMessageId: Int,
-    val profileData: Map<String, ProfileField>,
     val role: Int,
     val timezone: String,
     val userId: Int
 )
 
-data class ProfileField(
-    val renderedValue: String ,
-    val value: String
-)
+enum class UserRole(val value: Int, val stringValue: String) {
+    OWNER(100, "Owner"),
+    ADMIN(200, "Administrator"),
+    MODERATOR(300, "Moderator"),
+    MEMBER(400, "Member"),
+}

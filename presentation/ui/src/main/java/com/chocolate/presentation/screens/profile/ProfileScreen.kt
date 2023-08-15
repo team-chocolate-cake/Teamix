@@ -172,7 +172,12 @@ fun ProfileContent(
             color = color.onBackground87
         )
         Text(
-            state.email, modifier = Modifier,
+            state.email,
+            style = MaterialTheme.typography.titleMedium,
+            color = color.onBackground60
+        )
+        Text(
+            state.role,
             style = MaterialTheme.typography.titleMedium,
             color = color.onBackground60
         )
@@ -183,7 +188,8 @@ fun ProfileContent(
                 listOf(
                     stringResource(R.string.english),
                     stringResource(R.string.arabic),
-                    stringResource(R.string.french), stringResource(R.string.spanish)
+                    stringResource(R.string.french),
+                    stringResource(R.string.spanish)
                 )
             )
         }
@@ -200,14 +206,14 @@ fun ProfileContent(
         }
         if (state.showClearHistoryDialog) {
             ProfileDialog(title = stringResource(R.string.clear_history_title),
-                text =
-                stringResource(R.string.clear_history_text),
+                text = stringResource(R.string.clear_history_text),
                 onClick = { profileInteraction.updateClearHistoryState(false) })
 
         }
         if (state.showLogoutDialog) {
-            ProfileDialog(title = stringResource(R.string.logout_title), text =
-            "", onClick = { profileInteraction.updateLogoutDialogState(false) })
+            ProfileDialog(title = stringResource(R.string.logout_title),
+                text = "",
+                onClick = { profileInteraction.updateLogoutDialogState(false) })
         }
         Spacer(modifier = Modifier.weight(1f))
 
@@ -343,14 +349,19 @@ fun ProfileContent(
                 text = state.error ?: stringResource(R.string.default_error_message),
                 action = "Retry",
                 onClickButton = { profileInteraction.onClickRetry() },
-                modifier = Modifier.padding(bottom = Space24).padding(horizontal = 16.dp)
+                modifier = Modifier
+                    .padding(bottom = Space24)
+                    .padding(horizontal = 16.dp)
             )
         }
         if(state.message.isNotEmpty()){
             TeamixSnackBar(
                 text = state.message,
                 onClickButton = { },
-                modifier = Modifier.padding(bottom = Space24).padding(horizontal = 16.dp))
+                modifier = Modifier
+                    .padding(bottom = Space24)
+                    .padding(horizontal = 16.dp)
+            )
         }
     }
 }

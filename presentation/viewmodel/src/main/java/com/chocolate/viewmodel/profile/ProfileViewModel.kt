@@ -27,7 +27,8 @@ class ProfileViewModel @Inject constructor(
             it.copy(
                 name = ownerUserUi.name,
                 image = ownerUserUi.image,
-                email = ownerUser.email,
+                email = ownerUserUi.email,
+                role = ownerUserUi.role,
                 isLoading = false,
                 error = null
             )
@@ -39,15 +40,15 @@ class ProfileViewModel @Inject constructor(
     }
 
     override fun updateLanguageDialogState(showDialog: Boolean) {
-        _state.update { ProfileUiState(showLanguageDialog = showDialog) }
+        _state.update {it.copy(showLanguageDialog = showDialog) }
     }
 
     override fun updateThemeDialogState(showDialog: Boolean) {
-        _state.update { ProfileUiState(showThemeDialog = showDialog) }
+        _state.update { it.copy(showThemeDialog = showDialog) }
     }
 
     override fun updateLogoutDialogState(showDialog: Boolean) {
-        _state.update { ProfileUiState(showLogoutDialog = showDialog) }
+        _state.update { it.copy(showLogoutDialog = showDialog) }
     }
 
     override fun onClickOwnerPower() {
@@ -86,7 +87,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     override fun updateClearHistoryState(showDialog: Boolean) {
-        _state.update { ProfileUiState(showClearHistoryDialog = showDialog) }
+        _state.update { it.copy(showClearHistoryDialog = showDialog) }
     }
 
 }

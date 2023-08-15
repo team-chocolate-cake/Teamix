@@ -1,5 +1,6 @@
 package com.chocolate.viewmodel.profile
 
+import android.util.Log
 import com.chocolate.entities.exceptions.EmptyEmailException
 import com.chocolate.entities.exceptions.EmptyFullNameException
 import com.chocolate.entities.exceptions.SameUserDataException
@@ -9,6 +10,7 @@ import com.chocolate.usecases.user.GetCurrentUserDataUseCase
 import com.chocolate.usecases.user.UpdateUserInformationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 

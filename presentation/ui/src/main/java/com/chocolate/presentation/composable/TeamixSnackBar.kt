@@ -1,17 +1,18 @@
 package com.chocolate.presentation.composable
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.Text
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "CoroutineCreationDuringComposition")
 @Composable
 fun TeamixSnackBar(
     text: String,
@@ -19,24 +20,28 @@ fun TeamixSnackBar(
     modifier: Modifier = Modifier,
     action: String = ""
 ) {
-    var (snackbarVisibleState, setSnackBarState) = remember { mutableStateOf(true) }
-    if (snackbarVisibleState) {
-        Snackbar(
-            modifier = modifier,
-            action = {
-                Text(text = action, modifier = Modifier
-                    .padding(end = 8.dp)
-                    .clickable { onClickButton() })
-            },
-            dismissAction = {
-                Text(
-                    text = "Ok",
-                    modifier = Modifier
-                        .padding(end = 8.dp)
-                        .clickable {!snackbarVisibleState })
-            }) {
-            Text(text = text)
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+    Scaffold(
+        modifier = modifier,
+        snackbarHost = {
+            SnackbarHost(snackbarHostState)
+        },
+        content = { innerPadding ->
+            scope.launch {
+                val snackbar = snackbarHostState.showSnackbar(
+                    message = text,
+                    actionLabel = action,
+                    duration = SnackbarDuration.Short
+                    )
+                when(snackbar){
+                    SnackbarResult.Dismissed -> {}
+                    SnackbarResult.ActionPerformed -> onClickButton()
+                }
+
+            }
         }
-    }
+    )
 
 }

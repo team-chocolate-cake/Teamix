@@ -13,10 +13,11 @@ import com.chocolate.repository.model.dto.channels.response.TopicsItemDto
 
 fun SubscriptionsItemDto.toEntity(): Channel {
     return Channel(
-        streamId = streamId ?: 0,
-        streamName = name ?: "",
+        channelId = streamId ?: 0,
+        channelName = name ?: "",
         description = description ?: "",
         invitationONly = inviteOnly ?: false,
+        emptyList()
     )
 }
 
@@ -29,7 +30,8 @@ fun StreamsByIdDto.toEntity(): Channel {
         this.streamDto?.streamId ?: 0,
         this.streamDto?.name ?: "",
         this.streamDto?.description ?: "",
-        this.streamDto?.inviteOnly ?: false
+        this.streamDto?.inviteOnly ?: false,
+        emptyList()
     )
 }
 
@@ -40,7 +42,8 @@ fun StreamDto.toEntity(): Channel {
         streamId ?: 0,
         name ?: "",
         description ?: "",
-        inviteOnly ?: false
+        inviteOnly ?: false,
+        emptyList()
     )
 }
 

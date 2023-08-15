@@ -1,25 +1,10 @@
 package com.chocolate.repository.repository
 
-import com.chocolate.entities.channel_models.ChannelDetails
-import com.chocolate.entities.channel_models.ChannelId
-import com.chocolate.entities.channel_models.ChannelSubscribers
-import com.chocolate.entities.channel_models.StreamItem
-import com.chocolate.entities.channel_models.SubscribeToStream
-import com.chocolate.entities.channel_models.SubscriptionSettingsUpdate
-import com.chocolate.entities.channel_models.SubscriptionStatus
-import com.chocolate.entities.channel_models.DefaultChannelModel
-import com.chocolate.entities.channel_models.Topics
-import com.chocolate.repository.mappers.channel_mappers.toChannelDefault
-import com.chocolate.repository.mappers.channel_mappers.toChannelDetails
-import com.chocolate.repository.mappers.channel_mappers.toChannelId
-import com.chocolate.repository.mappers.channel_mappers.toChannelSubscribers
-import com.chocolate.repository.mappers.channel_mappers.toStreamInfo
-import com.chocolate.repository.mappers.channel_mappers.toStreamItem
-import com.chocolate.repository.mappers.channel_mappers.toSubscribeToStream
-import com.chocolate.repository.mappers.channel_mappers.toSubscriptionSettingsUpdate
-import com.chocolate.repository.mappers.channel_mappers.toSubscriptionStatus
-import com.chocolate.repository.mappers.channel_mappers.toTopics
-import com.chocolate.repository.mappers.channel_mappers.toUnsubscribeFromStream
+import com.chocolate.entities.channel.Channel
+import com.chocolate.entities.channel.MutingStatus
+import com.chocolate.entities.channel.Topic
+import com.chocolate.repository.mappers.channel_mappers.toEntity
+import com.chocolate.repository.mappers.channel_mappers.toSuccessOrFail
 import com.chocolate.repository.service.remote.RemoteDataSource
 import repositories.ChannelsRepository
 import javax.inject.Inject
@@ -27,94 +12,53 @@ import javax.inject.Inject
 class ChannelsRepositoryImpl @Inject constructor(
     private val channelsRemoteDataSource: RemoteDataSource,
 ) : ChannelsRepository, BaseRepository() {
-    override suspend fun getUserSubscriptions(): List<StreamItem?>? {
-        return channelsRemoteDataSource.getUserSubscriptions()
-            .subscriptions.let { items -> items?.map { it.toStreamInfo() } }
+
+    override suspend fun getChannels(): List<Channel> =
+        channelsRemoteDataSource.getChannels().toEntity()
+
+    override suspend fun getSubscribedChannels(): List<Channel> =
+        channelsRemoteDataSource.getSubscribedChannels().toEntity()
+
+    override suspend fun subscribeToChannel(channelName: String): Boolean {
+        return wrapCall {
+            channelsRemoteDataSource.subscribeToChannels(
+                listOf(Pair("name", channelName))
+            )
+        }.result?.equals("success") ?: false
     }
 
-    override suspend fun addSubscribes(
-        subscribeToStream: String,
-        principals: List<String>?,
-        authorizationErrorsFatal: Boolean,
-        announce: Boolean,
-        inviteOnly: Boolean,
-        isWebPublic: Boolean,
-        historyPublicToSubscribers: Boolean,
-        streamPostPolicy: Int?,
-        messageRetentionDays: String?,
-        canRemoveSubscribersGroupId: Int?
-    ): SubscribeToStream {
+    override suspend fun unsubscribeFromChannel(
+        channelName: String,
+    ): Boolean {
         return wrapCall {
-            channelsRemoteDataSource.addSubscribesToStream(
-                subscribeToStream,
-                principals,
-                authorizationErrorsFatal,
-                announce,
-                inviteOnly,
-                isWebPublic,
-                historyPublicToSubscribers,
-                streamPostPolicy,
-                messageRetentionDays,
-                canRemoveSubscribersGroupId,
+            channelsRemoteDataSource.unsubscribeFromChannels(
+                listOf(channelName)
             )
-        }.toSubscribeToStream()
-    }
-
-
-    override suspend fun deleteSubscriber(
-        subscriptions: String,
-        principals: List<String>?
-    ): DefaultChannelModel {
-        return wrapCall {
-            channelsRemoteDataSource.deleteSubscriberFromStream(
-                subscriptions,
-                principals
-            )
-        }.toUnsubscribeFromStream()
+        }.result?.equals("success") ?: false
     }
 
     override suspend fun getSubscriptionStatus(
         userId: Int,
-        streamId: Int
-    ): SubscriptionStatus {
-        return wrapCall { channelsRemoteDataSource.getSubscriptionStatus(userId, streamId) }
-            .toSubscriptionStatus()
-    }
-
-    override suspend fun getAllSubscriber(streamId: Int): ChannelSubscribers {
-        return wrapCall { channelsRemoteDataSource.getAllSubscribers(streamId) }.toChannelSubscribers()
-    }
-
-    override suspend fun updateSubscriptionSettings(subscriptionData: String): SubscriptionSettingsUpdate {
-        return wrapCall { channelsRemoteDataSource.updateSubscriptionSettings(subscriptionData) }.toSubscriptionSettingsUpdate()
-    }
-
-    override suspend fun getAllChannels(
-        includePublic: Boolean,
-        includeWebPublic: Boolean,
-        includeSubscribed: Boolean,
-        includeAllActive: Boolean,
-        includeDefault: Boolean,
-        includeOwnerSubscribed: Boolean
-    ): List<StreamItem> {
+        channelId: Int
+    ): Boolean {
         return wrapCall {
-            channelsRemoteDataSource.getAllStreams(
-                includePublic,
-                includeWebPublic,
-                includeSubscribed,
-                includeAllActive,
-                includeDefault,
-                includeOwnerSubscribed
-            )
-        }.streams?.let { streamsItems -> streamsItems.map { it.toStreamItem() } }!!
+            channelsRemoteDataSource.getSubscriptionStatus(userId, channelId)
+        }.isSubscribed ?: false
     }
 
-    override suspend fun getChannelById(streamId: Int): ChannelDetails {
-        return wrapCall { channelsRemoteDataSource.getStreamById(streamId) }.streamDto?.toChannelDetails()!!
+    /**
+     * @return A list containing the IDs of all active users who are subscribed to the channel.
+     */
+    override suspend fun getSubscribersByChannelId(channelId: Int): List<Int> =
+        wrapCall { channelsRemoteDataSource.getSubscribersInChannel(channelId) }.subscribers
+            ?: emptyList()
+
+    override suspend fun getChannelById(channelId: Int): Channel {
+        return wrapCall { channelsRemoteDataSource.getChannelById(channelId) }.toEntity()
     }
 
-    override suspend fun getChannelId(channel: String): ChannelId {
-        return wrapCall { channelsRemoteDataSource.getStreamId(channel) }.toChannelId()
+    override suspend fun getChannelIdByName(channel: String): Int {
+        return wrapCall { channelsRemoteDataSource.getChannelIdByName(channel) }.streamId ?: 0
     }
 
     override suspend fun updateChannel(
@@ -127,7 +71,7 @@ class ChannelsRepositoryImpl @Inject constructor(
         streamPostPolicy: Int?,
         messageRetentionDays: String?,
         canRemoveSubscribersGroupId: Int?
-    ): DefaultChannelModel {
+    ): Boolean {
         return wrapCall {
             channelsRemoteDataSource.updateStream(
                 streamId,
@@ -140,46 +84,54 @@ class ChannelsRepositoryImpl @Inject constructor(
                 messageRetentionDays,
                 canRemoveSubscribersGroupId
             )
-        }.toChannelDefault()
+        }.toSuccessOrFail()
     }
 
-    override suspend fun archiveChannel(channelId: Int): DefaultChannelModel {
-        return wrapCall { channelsRemoteDataSource.archiveStream(channelId) }.toChannelDefault()
+    override suspend fun archiveChannel(channelId: Int): Boolean {
+        return wrapCall { channelsRemoteDataSource.archiveChannel(channelId) }.toSuccessOrFail()
     }
 
-    override suspend fun getTopicsInChannel(channelId: Int): Topics {
-        return wrapCall { channelsRemoteDataSource.getTopicsInStream(channelId) }.toTopics()
+    override suspend fun getTopicsInChannel(channelId: Int): List<Topic> {
+        return wrapCall { channelsRemoteDataSource.getTopicsInChannel(channelId) }.toEntity()
     }
 
     override suspend fun setTopicMuting(
         topic: String,
-        status: String,
+        status: MutingStatus,
         streamId: Int?,
-        stream: String?
-    ): DefaultChannelModel {
-        return wrapCall { channelsRemoteDataSource.setTopicMuting(topic, status, streamId, stream) }
-            .toChannelDefault()
+    ): Boolean {
+        return wrapCall {
+            channelsRemoteDataSource.setTopicMuting(topic, status.value, streamId)
+        }.toSuccessOrFail()
     }
 
     override suspend fun updatePersonalPreferenceTopic(
-        streamId: Int,
+        channelId: Int,
         topic: String,
         visibilityPolicy: Int
-    ): DefaultChannelModel {
+    ): Boolean {
         return wrapCall {
-            channelsRemoteDataSource.updatePersonalPreferenceTopic(streamId, topic, visibilityPolicy)
-        }.toChannelDefault()
+            channelsRemoteDataSource.updatePersonalPreferenceTopic(
+                channelId,
+                topic,
+                visibilityPolicy
+            )
+        }.toSuccessOrFail()
     }
 
-    override suspend fun deleteTopic(channelId: Int, topicName: String): DefaultChannelModel {
-        return wrapCall {  channelsRemoteDataSource.deleteTopic(channelId, topicName)}.toChannelDefault()
+    override suspend fun deleteTopic(channelId: Int, topicName: String): Boolean {
+        return wrapCall {
+            channelsRemoteDataSource.deleteTopic(channelId, topicName)
+        }.toSuccessOrFail()
     }
 
-    override suspend fun addDefaultChannel(channelId: Int): DefaultChannelModel {
-        return wrapCall {  channelsRemoteDataSource.addDefaultStream(channelId)}.toChannelDefault()
+    override suspend fun addDefaultChannel(channelId: Int): Boolean {
+        return wrapCall { channelsRemoteDataSource.addDefaultStream(channelId) }.toSuccessOrFail()
     }
 
-    override suspend fun deleteDefaultChannel(channelId: Int): DefaultChannelModel {
-        return wrapCall {   channelsRemoteDataSource.deleteDefaultStream(channelId)}.toChannelDefault()
+    override suspend fun deleteDefaultChannel(channelId: Int): Boolean {
+        return wrapCall {
+            channelsRemoteDataSource.deleteDefaultStream(channelId)
+        }.toSuccessOrFail()
     }
 }

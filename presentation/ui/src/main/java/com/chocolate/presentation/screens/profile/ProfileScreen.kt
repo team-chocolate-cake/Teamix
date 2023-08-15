@@ -40,7 +40,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -289,7 +288,7 @@ fun ProfileContent(
                                 ProfileTextField(
                                     text = state.email,
                                     onValueChange = {email ->
-                                        
+                                        profileInteraction.onEmailChange(email)
                                     },
                                     onDone = {profileInteraction.onEmailFocusChange()},
                                     colorFocused=color.primary,
@@ -342,7 +341,7 @@ fun ProfileContent(
         if (state.error != null) {
             TeamixSnackBar(
                 text = state.error ?: stringResource(R.string.default_error_message),
-                state = "Retry",
+                action = "Retry",
                 onClickButton = { profileInteraction.onClickRetry() },
                 modifier = Modifier.padding(bottom = Space24).padding(horizontal = 16.dp)
             )

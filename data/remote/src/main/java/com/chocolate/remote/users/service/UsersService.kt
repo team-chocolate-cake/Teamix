@@ -1,9 +1,6 @@
 package com.chocolate.remote.users.service
 
 
-import com.chocolate.repository.model.dto.users.request.ProfileDataDto
-import com.chocolate.repository.model.dto.users.response.AlertWordsDto
-import com.chocolate.repository.model.dto.users.response.CreateUserDto
 import com.chocolate.repository.model.dto.users.response.FetchApiKeyDto
 import com.chocolate.repository.model.dto.users.response.MuteUserResponseDto
 import com.chocolate.repository.model.dto.users.response.OwnerUserDto
@@ -56,24 +53,7 @@ interface UsersService {
         @Path("id") id: Int,
         @Query("full_name") fullName: String? = null,
         @Query("role") role: Int? = null,
-        @Query("profile_data") profileData: List<ProfileDataDto>? = null
     ): Response<ResponseStateDto>
-
-    @POST("users/me/status")
-    suspend fun updateUserStatus(
-        @Query("status_text") statusText: String? = null,
-        @Query("away") away: Boolean? = null,
-        @Query("emoji_name") emojiName: String? = null,
-        @Query("emoji_code") emojiCode: String? = null,
-        @Query("reaction_type") reactionType: String? = null
-    ): Response<ResponseStateDto>
-
-    @POST("users")
-    suspend fun createUser(
-        @Query("email") email: String,
-        @Query("password") password: String,
-        @Query("full_name") fullName: String
-    ): Response<CreateUserDto>
 
     @DELETE("users/{id}")
     suspend fun deactivateUser(@Path("id") id: Int): Response<ResponseStateDto>
@@ -83,14 +63,6 @@ interface UsersService {
 
     @DELETE("users/me")
     suspend fun deactivateOwnUser(): Response<ResponseStateDto>
-
-    @POST("typing")
-    suspend fun setTypingStatus(
-        @Query("op") op: String,
-        @Query("to") to: String,
-        @Query("type") type: String? = "direct",
-        @Query("topic") topic: String? = null
-    ): Response<ResponseStateDto>
 
     @GET("users/{email}/presence")
     suspend fun getUserPresence(@Path("email") email: String): Response<UserStateDto>
@@ -106,8 +78,8 @@ interface UsersService {
 
     @PATCH("settings")
     suspend fun updateSettings(
-        @Query("full_name") fullName: String,
-        @Query("email") email: String
+        @Query("full_name") fullName: String? = null,
+        @Query("email") email: String? = null
     ): Response<UserSettingsDto>
 
     @GET("user_groups")
@@ -162,22 +134,13 @@ interface UsersService {
         @Query("direct_subgroup_only") directSubgroupOnly: Boolean
     ): Response<SubgroupsOfUserGroupDto>
 
-    @GET("users/me/alert_words")
-    suspend fun getAlertWords(): Response<AlertWordsDto>
-
-    @POST("users/me/alert_words")
-    suspend fun addAlertWords(@Query("alert_words") alertWords: String): Response<AlertWordsDto>
-
-    @DELETE("users/me/alert_words")
-    suspend fun removeAlertWords(@Query("alert_words") alertWords: String): Response<AlertWordsDto>
-
     @POST("users/me/muted_users/{muted_user_id}")
     suspend fun muteUser(
         @Path("muted_user_id") mutedUserId: Int
     ): Response<MuteUserResponseDto>
 
     @DELETE("users/me/muted_users/{muted_user_id}")
-    suspend fun unmuteUser(
+    suspend fun unMuteUser(
         @Path("muted_user_id") mutedUserId: Int
     ): Response<MuteUserResponseDto>
 

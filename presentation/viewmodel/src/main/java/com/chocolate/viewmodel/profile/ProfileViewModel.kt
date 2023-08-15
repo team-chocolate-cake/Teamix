@@ -2,8 +2,7 @@ package com.chocolate.viewmodel.profile
 
 import com.chocolate.entities.user.OwnerUser
 import com.chocolate.entities.user.Settings
-import com.chocolate.usecases.user.GetOwnUserUseCase
-import com.chocolate.usecases.user.UpdateUsernameUseCase
+import com.chocolate.usecases.user.UserInformationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
@@ -11,8 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val getOwnUserUseCase: GetOwnUserUseCase,
-    private val updateUsernameUseCase: UpdateUsernameUseCase
+    private val userInformationUseCase: UserInformationUseCase
 ):BaseViewModel<ProfileUiState,ProfileEffect>(ProfileUiState()), ProfileInteraction {
 
     init {
@@ -20,7 +18,7 @@ class ProfileViewModel @Inject constructor(
     }
     private fun getOwnUser() {
         _state.update { it.copy(isLoading = true) }
-        tryToExecute({ getOwnUserUseCase() }, ::onGetOwnUserSuccess, ::onError)
+        tryToExecute({userInformationUseCase() }, ::onGetOwnUserSuccess, ::onError)
     }
 
     private fun onGetOwnUserSuccess(ownerUser: OwnerUser) {
@@ -66,13 +64,13 @@ class ProfileViewModel @Inject constructor(
     }
 
     override fun onUsernameFocusChange() {
-        val settingsState = Settings(fullName = _state.value.name)
-        tryToExecute({updateUsernameUseCase(settingsState)},::onUpdateUsernameSuccess,::onError)
+        val settingsState = Settings(fullName = _state.value.name, email = _state.value.email)
+        tryToExecute({userInformationUseCase.updateUserInformation(settingsState)},::onUpdateUsernameSuccess,::onError)
     }
 
     override fun onEmailFocusChange() {
-        val settingsState = Settings(fullName = _state.value.email)
-        tryToExecute({updateUsernameUseCase(settingsState)},::onUpdateEmailSuccess,::onError)
+        val settingsState = Settings(fullName = _state.value.name,email = _state.value.email,)
+        tryToExecute({userInformationUseCase.updateUserInformation(settingsState)},::onUpdateEmailSuccess,::onError)
     }
 
     private fun onUpdateEmailSuccess(unit: Unit) {

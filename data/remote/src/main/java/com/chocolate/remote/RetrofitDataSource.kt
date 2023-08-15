@@ -6,14 +6,6 @@ import com.chocolate.remote.messages.service.MessageService
 import com.chocolate.remote.scheduled_message.service.ScheduledMessageService
 import com.chocolate.remote.server_and_organizations.service.OrganizationService
 import com.chocolate.remote.users.service.UsersService
-import com.chocolate.repository.utils.NetworkException
-import com.chocolate.repository.utils.NoInternetException
-import com.chocolate.repository.utils.NotFoundException
-import com.chocolate.repository.utils.NullResultException
-import com.chocolate.repository.utils.RemoteException
-import com.chocolate.repository.utils.TooManyRequestsException
-import com.chocolate.repository.utils.UserDeactivatedException
-import com.chocolate.repository.utils.ValidationError
 import com.chocolate.repository.model.dto.channels.response.AllStreamsDto
 import com.chocolate.repository.model.dto.channels.response.AllSubscribersDto
 import com.chocolate.repository.model.dto.channels.response.DefaultStreamDto
@@ -45,11 +37,18 @@ import com.chocolate.repository.model.dto.server_and_organizations.response.Cust
 import com.chocolate.repository.model.dto.server_and_organizations.response.DefaultOrganizationDto
 import com.chocolate.repository.model.dto.server_and_organizations.response.LinkifiersDto
 import com.chocolate.repository.model.dto.server_and_organizations.response.ServerSettingsDto
-import com.chocolate.repository.model.dto.users.request.ProfileDataDto
 import com.chocolate.repository.model.dto.users.request.SettingsDto
 import com.chocolate.repository.model.dto.users.response.FetchApiKeyDto
 import com.chocolate.repository.service.remote.RemoteDataSource
 import com.chocolate.repository.utils.HttpStatusCodes
+import com.chocolate.repository.utils.NetworkException
+import com.chocolate.repository.utils.NoInternetException
+import com.chocolate.repository.utils.NotFoundException
+import com.chocolate.repository.utils.NullResultException
+import com.chocolate.repository.utils.RemoteException
+import com.chocolate.repository.utils.TooManyRequestsException
+import com.chocolate.repository.utils.UserDeactivatedException
+import com.chocolate.repository.utils.ValidationError
 import okhttp3.MultipartBody
 import retrofit2.Response
 import java.net.UnknownHostException
@@ -633,27 +632,8 @@ class RetrofitDataSource @Inject constructor(
         id: Int,
         fullName: String?,
         role: Int?,
-        profileData: List<ProfileDataDto>?
     ) = wrapApiCall {
-        userService.updateUserById(id, fullName, role, profileData)
-    }
-
-    override suspend fun updateUserStatus(
-        statusText: String?,
-        away: Boolean?,
-        emojiName: String?,
-        emojiCode: String?,
-        reactionType: String?
-    ) = wrapApiCall {
-        userService.updateUserStatus(statusText, away, emojiName, emojiCode, reactionType)
-    }
-
-    override suspend fun createUser(
-        email: String,
-        password: String,
-        fullName: String
-    ) = wrapApiCall {
-        userService.createUser(email, password, fullName)
+        userService.updateUserById(id, fullName, role)
     }
 
     override suspend fun deactivateUserAccount(id: Int) = wrapApiCall {
@@ -666,15 +646,6 @@ class RetrofitDataSource @Inject constructor(
 
     override suspend fun deactivateOwnUserAccount() = wrapApiCall {
         userService.deactivateOwnUser()
-    }
-
-    override suspend fun setTypingStatus(
-        op: String,
-        to: String,
-        type: String?,
-        topic: String?
-    ) = wrapApiCall {
-        userService.setTypingStatus(op, to, type, topic)
     }
 
     override suspend fun getUserPresence(email: String) = wrapApiCall {
@@ -759,24 +730,12 @@ class RetrofitDataSource @Inject constructor(
         userService.getSubgroupsOfUserGroup(id, directSubgroupOnly)
     }
 
-    override suspend fun getAlertWords() = wrapApiCall {
-        userService.getAlertWords()
-    }
-
-    override suspend fun addAlertWords(alertWords: String) = wrapApiCall {
-        userService.addAlertWords(alertWords)
-    }
-
-    override suspend fun removeAlertWords(alertWords: String) = wrapApiCall {
-        userService.removeAlertWords(alertWords)
-    }
-
     override suspend fun muteUser(mutedUserId: Int) = wrapApiCall {
         userService.muteUser(mutedUserId)
     }
 
     override suspend fun unmuteUser(mutedUserId: Int) = wrapApiCall {
-        userService.unmuteUser(mutedUserId)
+        userService.unMuteUser(mutedUserId)
     }
 
     override suspend fun fetchApiKey(userName: String, password: String): FetchApiKeyDto {

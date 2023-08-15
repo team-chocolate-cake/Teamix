@@ -17,7 +17,7 @@ import repositories.MessagesRepository
 import repositories.OnboardingRepository
 import repositories.ScheduledMessageRepository
 import repositories.ServerAndOrganizationsRepository
-import repositories.UsersRepositories
+import repositories.UsersRepository
 import javax.inject.Singleton
 
 @Module
@@ -34,7 +34,7 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindUserRepository(userRepositoriesImp: UserRepositoryImp): UsersRepositories
+    abstract fun bindUserRepository(userRepositoriesImp: UserRepositoryImp): UsersRepository
 
     @Binds
     @Singleton

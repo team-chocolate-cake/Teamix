@@ -21,7 +21,6 @@ import com.chocolate.repository.model.dto.channels.response.StreamsByIdDto
 import com.chocolate.repository.model.dto.channels.response.StreamsIdDto
 import com.chocolate.repository.model.dto.channels.response.SubscribeToStreamDto
 import com.chocolate.repository.model.dto.channels.response.SubscribedStreamDto
-import com.chocolate.repository.model.dto.channels.response.SubscriptionSettingsDto
 import com.chocolate.repository.model.dto.channels.response.SubscriptionStatusDto
 import com.chocolate.repository.model.dto.channels.response.TopicsInStreamDto
 import com.chocolate.repository.model.dto.channels.response.UnsubscribeFromStreamDto
@@ -62,108 +61,46 @@ class RetrofitDataSource @Inject constructor(
     private val scheduledMessageService: ScheduledMessageService,
     private val organizationService: OrganizationService,
     private val userService: UsersService,
-
     ) : RemoteDataSource {
 
-    override suspend fun getUserSubscriptions(
-        includeSubscribers: Boolean
-    ): SubscribedStreamDto {
-        return wrapApiCall { channelsService.getUserSubscriptions(includeSubscribers) }
+    override suspend fun getSubscribedChannels(): SubscribedStreamDto {
+        return wrapApiCall { channelsService.getSubscribedChannels() }
     }
 
-    override suspend fun addSubscribesToStream(
-        subscribeToStream: String,
-        principals: List<String>?,
-        authorizationErrorsFatal: Boolean,
-        announce: Boolean,
-        inviteOnly: Boolean,
-        isWebPublic: Boolean,
-        historyPublicToSubscribers: Boolean,
-        streamPostPolicy: Int?,
-        messageRetentionDays: String?,
-        canRemoveSubscribersGroupId: Int?
+    override suspend fun subscribeToChannels(
+        channelsName: List<Pair<String, String>>
     ): SubscribeToStreamDto {
-        return wrapApiCall {
-            channelsService.addSubscribesToStream(
-                subscribeToStream,
-                principals,
-                authorizationErrorsFatal,
-                announce,
-                inviteOnly,
-                isWebPublic,
-                historyPublicToSubscribers,
-                streamPostPolicy,
-                messageRetentionDays,
-                canRemoveSubscribersGroupId,
-            )
-        }
+        return wrapApiCall { channelsService.subscribeToChannels(channelsName) }
     }
 
 
-    override suspend fun deleteSubscriberFromStream(
-        subscriptions: String,
-        principals: List<String>?
+    override suspend fun unsubscribeFromChannels(
+        channelsName: List<String>
     ): UnsubscribeFromStreamDto {
-        return wrapApiCall {
-            channelsService.deleteSubscriberFromStream(
-                subscriptions,
-                principals
-            )
-        }
+        return wrapApiCall { channelsService.unsubscribeFromChannels(channelsName) }
     }
 
     override suspend fun getSubscriptionStatus(
-        userId: Int,
-        streamId: Int
+        userId: Int, channelId: Int
     ): SubscriptionStatusDto {
-        return wrapApiCall {
-            channelsService.getSubscriptionStatus(userId, streamId)
-        }
+        return wrapApiCall { channelsService.getSubscriptionStatus(userId, channelId) }
     }
 
-
-    override suspend fun getAllSubscribers(streamId: Int): AllSubscribersDto {
-        return wrapApiCall {
-            channelsService.getAllSubscriber(streamId)
-        }
+    // the return type is wrong for this end point
+    override suspend fun getSubscribersInChannel(channelId: Int): AllSubscribersDto {
+        return wrapApiCall { channelsService.getSubscribersInChannel(channelId) }
     }
 
-    override suspend fun updateSubscriptionSettings(subscriptionData: String): SubscriptionSettingsDto {
-        return wrapApiCall {
-            channelsService.updateSubscriptionSettings(subscriptionData)
-        }
+    override suspend fun getChannels(): AllStreamsDto {
+        return wrapApiCall { channelsService.getChannels() }
     }
 
-    override suspend fun getAllStreams(
-        includePublic: Boolean,
-        includeWebPublic: Boolean,
-        includeSubscribed: Boolean,
-        includeAllActive: Boolean,
-        includeDefault: Boolean,
-        includeOwnerSubscribed: Boolean
-    ): AllStreamsDto {
-        return wrapApiCall {
-            channelsService.getAllStreams(
-                includePublic,
-                includeWebPublic,
-                includeSubscribed,
-                includeAllActive,
-                includeDefault,
-                includeOwnerSubscribed
-            )
-        }
+    override suspend fun getChannelById(channelId: Int): StreamsByIdDto {
+        return wrapApiCall { channelsService.getChannelById(channelId) }
     }
 
-    override suspend fun getStreamById(streamId: Int): StreamsByIdDto {
-        return wrapApiCall {
-            channelsService.getStreamById(streamId)
-        }
-    }
-
-    override suspend fun getStreamId(stream: String): StreamsIdDto {
-        return wrapApiCall {
-            channelsService.getStreamId(stream)
-        }
+    override suspend fun getChannelIdByName(channelName: String): StreamsIdDto {
+        return wrapApiCall { channelsService.getChannelIdByName(channelName) }
     }
 
     override suspend fun updateStream(
@@ -178,7 +115,7 @@ class RetrofitDataSource @Inject constructor(
         canRemoveSubscribersGroupId: Int?
     ): DefaultStreamDto {
         return wrapApiCall {
-            channelsService.updateStream(
+            channelsService.updateChannel(
                 streamId,
                 description,
                 newName,
@@ -192,27 +129,20 @@ class RetrofitDataSource @Inject constructor(
         }
     }
 
-    override suspend fun archiveStream(streamId: Int): DefaultStreamDto {
-        return wrapApiCall {
-            channelsService.archiveStream(streamId)
-        }
+    override suspend fun archiveChannel(channelId: Int): DefaultStreamDto {
+        return wrapApiCall { channelsService.archiveChannel(channelId) }
     }
 
-    override suspend fun getTopicsInStream(streamId: Int): TopicsInStreamDto {
-        return wrapApiCall {
-            channelsService.getTopicsInStream(streamId)
-        }
+    override suspend fun getTopicsInChannel(channelId: Int): TopicsInStreamDto {
+        return wrapApiCall { channelsService.getTopicsInChannel(channelId) }
     }
 
     override suspend fun setTopicMuting(
         topic: String,
         status: String,
         streamId: Int?,
-        stream: String?
     ): DefaultStreamDto {
-        return wrapApiCall {
-            channelsService.setTopicMuting(topic, status, streamId, stream)
-        }
+        return wrapApiCall { channelsService.setTopicMuting(topic, status, streamId) }
     }
 
     override suspend fun updatePersonalPreferenceTopic(
@@ -225,22 +155,18 @@ class RetrofitDataSource @Inject constructor(
         }
     }
 
-    override suspend fun deleteTopic(streamId: Int, topicName: String): DefaultStreamDto {
+    override suspend fun deleteTopic(channelId: Int, topicName: String): DefaultStreamDto {
+        return wrapApiCall { channelsService.deleteTopic(channelId, topicName) }
+    }
+
+    override suspend fun addDefaultStream(channelId: Int): DefaultStreamDto {
         return wrapApiCall {
-            channelsService.deleteTopic(streamId, topicName)
+            channelsService.addDefaultChannel(channelId)
         }
     }
 
-    override suspend fun addDefaultStream(streamId: Int): DefaultStreamDto {
-        return wrapApiCall {
-            channelsService.addDefaultStream(streamId)
-        }
-    }
-
-    override suspend fun deleteDefaultStream(streamId: Int): DefaultStreamDto {
-        return wrapApiCall {
-            channelsService.deleteDefaultStream(streamId)
-        }
+    override suspend fun deleteDefaultStream(channelId: Int): DefaultStreamDto {
+        return wrapApiCall { channelsService.deleteDefaultChannel(channelId) }
     }
 
     override suspend fun getDrafts(): DraftsDto {
@@ -504,7 +430,6 @@ class RetrofitDataSource @Inject constructor(
 
     override suspend fun deleteScheduledMessage(id: Int): BaseScheduledMessageResponse {
         return wrapApiCall {
-
             scheduledMessageService.deleteScheduledMessage(id)
         }
     }

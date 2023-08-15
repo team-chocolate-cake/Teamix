@@ -70,7 +70,6 @@ fun HomeScreen(
     if(state.isLogged){
         HomeContent(
             state = state,
-            navigationToMention = {},
             navigationToDrafts = {},
             navigationToStarred = {},
             navigationToSavedLater = {},
@@ -86,7 +85,6 @@ fun HomeScreen(
 @Composable
 fun HomeContent(
     state: HomeUiState,
-    navigationToMention: () -> Unit,
     navigationToDrafts: () -> Unit,
     navigationToStarred: () -> Unit,
     navigationToSavedLater: () -> Unit,
@@ -111,17 +109,13 @@ fun HomeContent(
         containerColor = colors.background
     ) {
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = Space64),
+            modifier = Modifier.fillMaxSize().padding(top = Space64),
             contentPadding = PaddingValues(vertical = Space16),
             verticalArrangement = Arrangement.spacedBy(Space8),
         ) {
             item {
                 LazyRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
+                    modifier = Modifier.fillMaxWidth().wrapContentHeight(),
                     horizontalArrangement = Arrangement.SpaceAround,
                     contentPadding = PaddingValues(horizontal = Space16)
                 ) {
@@ -150,10 +144,9 @@ fun HomeContent(
                             colors = colors,
                             onClickItemCard = {
                                 when (it) {
-                                    0 -> {navigationToMention()}
-                                    1 -> {navigationToDrafts()}
-                                    2 -> {navigationToStarred()}
-                                    3 -> {navigationToSavedLater()}
+                                    0 -> {navigationToDrafts()}
+                                    1 -> {navigationToStarred()}
+                                    2 -> {navigationToSavedLater()}
                                 }
                             },
                             modifier = Modifier.padding(end = Space8)
@@ -166,9 +159,7 @@ fun HomeContent(
                     text = stringResource(R.string.channels),
                     style = MaterialTheme.typography.bodyLarge,
                     color = colors.onBackground87,
-                    modifier = Modifier
-                        .padding(top = Space8)
-                        .padding(horizontal = Space16)
+                    modifier = Modifier.padding(top = Space8).padding(horizontal = Space16)
                 )
             }
             items(items = state.channels, key = { currentChannel ->
@@ -179,9 +170,7 @@ fun HomeContent(
                     colors,
                     onLongClickChannel = { isShowSheet = true },
                     onClickItemChannel = { navigateToChannel(channelUIState.channelId) },
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .animateItemPlacement()
+                    modifier = Modifier.padding(horizontal = 16.dp).animateItemPlacement()
                 )
             }
         }
@@ -199,10 +188,7 @@ private fun CardItem(
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier
-            .wrapContentSize()
-            .height(96.dp)
-            .clip(RoundedCornerShape(12.dp))
+        modifier = modifier.wrapContentSize().height(96.dp).clip(RoundedCornerShape(12.dp))
             .background(colors.card)
             .clickable { onClickItemCard(clickIndex) },
         contentAlignment = Alignment.Center
@@ -212,17 +198,13 @@ private fun CardItem(
                 number = badge,
                 textColor = colors.onPrimary,
                 cardColor = colors.primary,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.End)
+                modifier = Modifier.fillMaxWidth().align(Alignment.End)
                     .padding(end = Space4, top = Space4)
             )
             Icon(
                 painter = painter,
                 contentDescription = "icons",
-                modifier = Modifier
-                    .wrapContentSize()
-                    .padding(bottom = Space8)
+                modifier = Modifier.wrapContentSize().padding(bottom = Space8)
                     .align(Alignment.CenterHorizontally),
                 tint = colors.onBackground60,
             )
@@ -230,8 +212,7 @@ private fun CardItem(
                 text = title,
                 color = colors.onBackground60,
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier
-                    .fillMaxSize()
+                modifier = Modifier.fillMaxSize()
                     .padding(bottom = Space24)
                     .padding(horizontal = 26.dp),
                 textAlign = TextAlign.Center
@@ -249,7 +230,6 @@ fun HomePreview() {
     TeamixTheme {
         HomeContent(
             state = HomeUiState(),
-            navigationToMention = { /*TODO*/ },
             navigationToDrafts = { /*TODO*/ },
             navigationToStarred = { /*TODO*/ },
             navigationToSavedLater = { /*TODO*/ },

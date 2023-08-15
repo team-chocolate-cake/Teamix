@@ -23,7 +23,7 @@ import com.chocolate.presentation.theme.Space8
 fun BadgeHome(number: Int, textColor: Color, cardColor: Color, modifier: Modifier = Modifier) {
     val badgeAlpha by animateFloatAsState(
         targetValue = if (number != 0) 1f else 0f,
-        animationSpec = tween(durationMillis = 300)
+        animationSpec = tween(durationMillis = 300), label = ""
     )
     Card(
         modifier = modifier

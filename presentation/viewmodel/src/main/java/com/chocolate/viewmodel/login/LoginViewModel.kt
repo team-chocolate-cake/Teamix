@@ -2,7 +2,8 @@ package com.chocolate.viewmodel.login
 
 import androidx.lifecycle.viewModelScope
 import com.chocolate.usecases.organization.GetNameOrganizationsUseCase
-import com.chocolate.usecases.user.UserInformationUseCase
+import com.chocolate.usecases.user.AttemptUserLoginUseCase
+import com.chocolate.usecases.user.SetUserLoginStateUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
@@ -11,7 +12,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val userInformationUseCase: UserInformationUseCase,
+    private val attemptUserLoginUseCase: AttemptUserLoginUseCase,
+    private val setUserLoginStateUseCase: SetUserLoginStateUseCase,
     private val getNameOrganizationsUseCase: GetNameOrganizationsUseCase
 ) : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState()),LoginInteraction {
 
@@ -40,7 +42,7 @@ class LoginViewModel @Inject constructor(
     override fun login(email: String, password: String) {
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
-            { userInformationUseCase.attemptUserLogin(email, password) },
+            { attemptUserLoginUseCase(email, password) },
             ::onSuccess,
             ::onError
         )
@@ -55,7 +57,7 @@ class LoginViewModel @Inject constructor(
         _state.update { it.copy(isLoading = false) }
         viewModelScope.launch {
             if (isUserLogin) {
-                userInformationUseCase.setUserLoginState(true)
+                setUserLoginStateUseCase(true)
                 sendUiEffect(LoginUiEffect.NavigationToHome)
             }
         }

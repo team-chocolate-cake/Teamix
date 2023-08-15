@@ -1,8 +1,12 @@
 package com.chocolate.viewmodel.profile
 
+import com.chocolate.entities.exceptions.EmptyEmailException
+import com.chocolate.entities.exceptions.EmptyFullNameException
+import com.chocolate.entities.exceptions.SameUserDataException
 import com.chocolate.entities.user.OwnerUser
 import com.chocolate.entities.user.Settings
-import com.chocolate.usecases.user.UserInformationUseCase
+import com.chocolate.usecases.user.GetCurrentUserDataUseCase
+import com.chocolate.usecases.user.UpdateUserInformationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
@@ -10,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val userInformationUseCase: UserInformationUseCase
+    private val getCurrentUserDataUseCase: GetCurrentUserDataUseCase,
+    private val updateUserInformationUseCase: UpdateUserInformationUseCase
 ):BaseViewModel<ProfileUiState,ProfileEffect>(ProfileUiState()), ProfileInteraction {
 
     init {
@@ -18,7 +23,7 @@ class ProfileViewModel @Inject constructor(
     }
     private fun getOwnUser() {
         _state.update { it.copy(isLoading = true) }
-        tryToExecute({userInformationUseCase() }, ::onGetOwnUserSuccess, ::onError)
+        tryToExecute({ getCurrentUserDataUseCase() }, ::onGetOwnUserSuccess, ::onError)
     }
 
     private fun onGetOwnUserSuccess(ownerUser: OwnerUser) {
@@ -36,7 +41,13 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun onError(throwable: Throwable) {
-        _state.update { it.copy(isLoading = false, error = throwable.message) }
+        val error = when (throwable) {
+            EmptyEmailException -> "Email can't be empty"
+            EmptyFullNameException -> "Full name can't be empty"
+            SameUserDataException -> "User Information can't be the same"
+            else -> throwable.localizedMessage
+        }
+        _state.update { it.copy(isLoading = false, error = error) }
     }
 
     override fun updateLanguageDialogState(showDialog: Boolean) {
@@ -66,12 +77,20 @@ class ProfileViewModel @Inject constructor(
 
     override fun onUsernameFocusChange() {
         val settingsState = Settings(fullName = _state.value.name, email = _state.value.email)
-        tryToExecute({userInformationUseCase.updateUserInformation(settingsState)},::onUpdateUsernameSuccess,::onError)
+        tryToExecute(
+            { updateUserInformationUseCase(settingsState) },
+            ::onUpdateUsernameSuccess,
+            ::onError
+        )
     }
 
     override fun onEmailFocusChange() {
-        val settingsState = Settings(fullName = _state.value.name,email = _state.value.email,)
-        tryToExecute({userInformationUseCase.updateUserInformation(settingsState)},::onUpdateEmailSuccess,::onError)
+        val settingsState = Settings(fullName = _state.value.name, email = _state.value.email)
+        tryToExecute(
+            { updateUserInformationUseCase(settingsState) },
+            ::onUpdateEmailSuccess,
+            ::onError
+        )
     }
 
     private fun onUpdateEmailSuccess(unit: Unit) {

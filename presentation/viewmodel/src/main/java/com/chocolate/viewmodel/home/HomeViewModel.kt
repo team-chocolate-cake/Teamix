@@ -1,7 +1,7 @@
 package com.chocolate.viewmodel.home
 
 import androidx.lifecycle.viewModelScope
-import com.chocolate.usecases.user.UserInformationUseCase
+import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val userInformationUseCase: UserInformationUseCase
+    private val getUserLoginStatusUseCase: GetUserLoginStatusUseCase
 ) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()) {
 
     init {
@@ -20,7 +20,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun getUserLoginState() {
-        collectFlow(userInformationUseCase.getUserLoginStatus()) {
+        collectFlow(getUserLoginStatusUseCase()) {
             this.copy(
                 isLogged = it,
             )

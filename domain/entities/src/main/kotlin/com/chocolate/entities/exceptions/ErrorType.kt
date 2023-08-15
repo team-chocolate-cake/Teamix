@@ -12,6 +12,11 @@ class RateLimitExceededException(message: String?) : ServerException(message)
 class RequestException(message: String?) : NetworkException(message)
 
 
+object EmptyEmailException: TeamixException(null)
+object EmptyFullNameException: TeamixException(null)
+object SameUserDataException: TeamixException(null)
+
+
 class UnknownException(message: String) : TeamixException(message)
 
 

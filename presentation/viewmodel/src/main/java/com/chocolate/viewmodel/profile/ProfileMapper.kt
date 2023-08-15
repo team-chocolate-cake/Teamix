@@ -6,7 +6,7 @@ import com.chocolate.entities.user.Settings
 fun OwnerUser.toOwnerUserUiState(): ProfileUiState{
     return ProfileUiState(
         image = this.avatarUrl,
-        name = this.fullName
+        name = this.fullName,
     )
 }
 

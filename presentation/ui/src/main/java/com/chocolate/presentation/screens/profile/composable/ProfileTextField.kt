@@ -30,7 +30,7 @@ fun ProfileTextField(text: String,onValueChange: (String) -> Unit,onDone: (() ->
         .padding(top = Space16),
         value = text,
         onValueChange = { onValueChange(it)},
-        placeholder = { Text(text, color = colors.onBackground60.copy(alpha = 0.6f)) },
+//        placeholder = { Text(text, color = colors.onBackground60.copy(alpha = 0.6f)) },
         shape = RoundedCornerShape(Space12),
         colors = TextFieldDefaults.outlinedTextFieldColors(
             containerColor = colors.card,

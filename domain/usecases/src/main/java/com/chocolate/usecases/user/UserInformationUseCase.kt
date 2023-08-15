@@ -2,12 +2,14 @@ package com.chocolate.usecases.user
 
 import com.chocolate.entities.exceptions.TeamixException
 import com.chocolate.entities.user.Settings
+import com.chocolate.entities.user.UserState
 import kotlinx.coroutines.flow.Flow
 import repositories.UsersRepository
 import javax.inject.Inject
 
 class UserInformationUseCase @Inject constructor(
-    private val usersRepository: UsersRepository
+    private val usersRepository: UsersRepository,
+
 ) {
     suspend operator fun invoke() = usersRepository.getOwnUser()
 

@@ -1,6 +1,5 @@
 package com.chocolate.viewmodel.profile
 
-import android.util.Log
 import com.chocolate.entities.exceptions.EmptyEmailException
 import com.chocolate.entities.exceptions.EmptyFullNameException
 import com.chocolate.entities.exceptions.SameUserDataException
@@ -10,7 +9,6 @@ import com.chocolate.usecases.user.GetCurrentUserDataUseCase
 import com.chocolate.usecases.user.UpdateUserInformationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
@@ -93,30 +91,17 @@ class ProfileViewModel @Inject constructor(
         _state.update { it.copy(email = email) }
     }
 
-    override fun onUsernameFocusChange() {
+    override fun onUserInformationFocusChange() {
+        _state.update { it.copy(showWarningDialog = false) }
         val settingsState = Settings(fullName = _state.value.name, email = _state.value.email)
         tryToExecute(
             { updateUserInformationUseCase(settingsState) },
-            ::onUpdateUsernameSuccess,
+            ::onUpdateUserInformationSuccess,
             ::onError
         )
     }
-
-    override fun onEmailFocusChange() {
-        val settingsState = Settings(fullName = _state.value.name, email = _state.value.email)
-        tryToExecute(
-            { updateUserInformationUseCase(settingsState) },
-            ::onUpdateEmailSuccess,
-            ::onError
-        )
-    }
-
-    private fun onUpdateEmailSuccess(unit: Unit) {
-        _state.update { it.copy(isLoading = false, error = null, message = "success") }
-    }
-
     override fun onClickRetry() {
-        onUsernameFocusChange()
+        onUserInformationFocusChange()
     }
 
     override fun areUserDataEqual(): Boolean {
@@ -127,14 +112,14 @@ class ProfileViewModel @Inject constructor(
     override fun onRevertChange() {
         val currentState = _state.value
         val updatedState = currentState.copy(
-            name = originalName,
-            email = originalEmail
+            name = if(originalName == "") _state.value.name else originalName,
+            email = if(originalEmail == "") _state.value.email else originalEmail
         )
         _state.update { updatedState }
         updateWarningDialog(false)
     }
 
-    private fun onUpdateUsernameSuccess(unit: Unit) {
+    private fun onUpdateUserInformationSuccess(unit: Unit) {
             _state.update { it.copy(isLoading = false, error = null, message = "success") }
     }
 

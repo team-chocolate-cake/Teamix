@@ -9,8 +9,7 @@ interface ProfileInteraction {
     fun onClickOwnerPower()
     fun onUsernameChange(username: String)
     fun onEmailChange(email: String)
-    fun onUsernameFocusChange()
-    fun onEmailFocusChange()
+    fun onUserInformationFocusChange()
     fun onClickRetry()
     fun areUserDataEqual(): Boolean
     fun onRevertChange()

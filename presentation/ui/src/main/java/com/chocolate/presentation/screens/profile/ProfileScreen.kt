@@ -36,8 +36,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -103,19 +105,19 @@ fun ProfileScreen(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun ProfileContent(
     state: ProfileUiState,
     profileInteraction: ProfileInteraction
-    ){
+) {
     val color = MaterialTheme.customColors()
     var pageNumber by remember { mutableStateOf(0) }
 
     val pageState = rememberPagerState(initialPage = 0)
 
     LaunchedEffect(pageNumber) {
-       pageState.animateScrollToPage(pageNumber)
+        pageState.animateScrollToPage(pageNumber)
     }
 
     Column(
@@ -190,7 +192,15 @@ fun ProfileContent(
         if (state.showWarningDialog) {
             ProfileDialog(title = stringResource(R.string.warning),
                 text = stringResource(R.string.waring_details),
-                onClickDismiss = { profileInteraction.onRevertChange() })
+                onClickDismiss = {
+                    profileInteraction.onRevertChange()
+                    pageNumber = 2
+                },
+                onClickConfirm = {
+                    profileInteraction.onUserInformationFocusChange()
+                    pageNumber = 2
+                }
+            )
         }
         if (state.showLogoutDialog) {
             ProfileDialog(title = stringResource(R.string.logout_title),
@@ -237,7 +247,10 @@ fun ProfileContent(
                     }
                     Button(
                         onClick = {
-                            Log.d("123123123", "ProfileContent: ${profileInteraction.areUserDataEqual()}")
+                            Log.d(
+                                "123123123",
+                                "ProfileContent: ${profileInteraction.areUserDataEqual()}"
+                            )
                             if (profileInteraction.areUserDataEqual()) {
                                 profileInteraction.updateWarningDialog(true)
                             } else {
@@ -260,8 +273,10 @@ fun ProfileContent(
                     }
                 }
 
-                HorizontalPager(state = pageState, pageCount = 2,
-                    modifier = Modifier.padding(bottom = 8.dp)) {
+                HorizontalPager(
+                    state = pageState, pageCount = 2,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                ) {
                     if (pageState.currentPage == 0) {
                         LazyColumn(
                             modifier = Modifier.padding(
@@ -270,24 +285,31 @@ fun ProfileContent(
                             )
                         ) {
                             item {
+                                val keyboardController = LocalSoftwareKeyboardController.current
                                 ProfileTextField(
                                     text = state.name,
                                     onValueChange = { username ->
                                         profileInteraction.onUsernameChange(username)
                                     },
-                                    onDone = {profileInteraction.onUsernameFocusChange()},
+                                    onDone = {
+                                        keyboardController?.hide()
+                                        profileInteraction.onUserInformationFocusChange()
+                                    },
                                     colorFocused = color.primary,
                                     colorUnFocused = color.background,
                                     colorIcon = color.primary
                                 )
                                 ProfileTextField(
                                     text = state.email,
-                                    onValueChange = {email ->
+                                    onValueChange = { email ->
                                         profileInteraction.onEmailChange(email)
                                     },
-                                    onDone = {profileInteraction.onEmailFocusChange()},
-                                    colorFocused=color.primary,
-                                    colorUnFocused=color.background,
+                                    onDone = {
+                                        keyboardController?.hide()
+                                        profileInteraction.onUserInformationFocusChange()
+                                    },
+                                    colorFocused = color.primary,
+                                    colorUnFocused = color.background,
                                     colorIcon = color.primary
                                 )
                             }
@@ -302,7 +324,7 @@ fun ProfileContent(
                                     text = stringResource(R.string.owner_powers),
                                     icon = painterResource(id = R.drawable.ownerpowers)
                                 )
-                                Divider(color = color.background, thickness =Thickness2)
+                                Divider(color = color.background, thickness = Thickness2)
                                 SettingCard(
                                     click = { profileInteraction.updateLanguageDialogState(true) },
                                     text = stringResource(R.string.language),
@@ -314,7 +336,7 @@ fun ProfileContent(
                                     text = stringResource(R.string.change_theme),
                                     icon = painterResource(id = R.drawable.changetheme)
                                 )
-                                Divider(color = color.background, thickness =Thickness2)
+                                Divider(color = color.background, thickness = Thickness2)
                                 SettingCard(
                                     click = { profileInteraction.updateClearHistoryState(true) },
                                     text = stringResource(R.string.clear_history),
@@ -343,7 +365,7 @@ fun ProfileContent(
                     .padding(horizontal = 16.dp)
             )
         }
-        if(state.message.isNotEmpty()){
+        if (state.message.isNotEmpty()) {
             TeamixSnackBar(
                 text = state.message,
                 onClickButton = { },

@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.profile
+package com.chocolate.presentation.screens.oner_power
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -66,7 +66,8 @@ fun OwnerPowerContent(
 
     if (state.showChangeMemberRoleDialog) {
         MultiChoiceDialog(
-            onClick = { ownerPowerInteraction.updateChangeMemberRoleDialogState(false)},
+            onDismissRequest = { ownerPowerInteraction.updateChangeMemberRoleDialogState(false)},
+            whenChoice = {},
             list = listOf(stringResource(R.string.guest),
                 stringResource(R.string.member), stringResource(R.string.administrator),
                 stringResource(

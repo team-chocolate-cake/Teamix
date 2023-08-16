@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.profile
+package com.chocolate.presentation.screens.oner_power
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder

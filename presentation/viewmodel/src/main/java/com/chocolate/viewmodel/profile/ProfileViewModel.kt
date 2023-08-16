@@ -10,6 +10,7 @@ import com.chocolate.usecases.user.UpdateUserInformationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,7 +29,7 @@ class ProfileViewModel @Inject constructor(
     }
     private fun getOwnUser() {
         _state.update { it.copy(isLoading = true) }
-        tryToExecute({ getCurrentUserDataUseCase() }, ::onGetOwnUserSuccess, ::onError)
+        tryToExecute({ getCurrentUserDataUseCase() }, ::onGetOwnUserSuccess, ::onGetOwnUserError)
     }
 
     private fun onGetOwnUserSuccess(ownerUser: OwnerUser) {
@@ -39,20 +40,15 @@ class ProfileViewModel @Inject constructor(
                 image = ownerUserUi.image,
                 email = ownerUserUi.email,
                 role = ownerUserUi.role,
+                showNoInternetLottie = false,
                 isLoading = false,
                 error = null
             )
         }
     }
 
-    private fun onError(throwable: Throwable) {
-        val error = when (throwable) {
-            EmptyEmailException -> "Email can't be empty"
-            EmptyFullNameException -> "Full name can't be empty"
-            SameUserDataException -> "User Information can't be the same"
-            else -> throwable.localizedMessage
-        }
-        _state.update { it.copy(isLoading = false, error = error) }
+    private fun onGetOwnUserError(throwable: Throwable){
+        _state.update { it.copy(isLoading = false,showNoInternetLottie = true) }
     }
 
     override fun updateLanguageDialogState(showDialog: Boolean) {
@@ -100,8 +96,12 @@ class ProfileViewModel @Inject constructor(
             ::onError
         )
     }
-    override fun onClickRetry() {
+    override fun onClickRetryToUpdatePersonalInformation() {
         onUserInformationFocusChange()
+    }
+
+    override fun onClickRetryToGetPersonalInformation() {
+        getOwnUser()
     }
 
     override fun areUserDataEqual(): Boolean {
@@ -125,6 +125,16 @@ class ProfileViewModel @Inject constructor(
 
     override fun updateClearHistoryState(showDialog: Boolean) {
         _state.update { it.copy(showClearHistoryDialog = showDialog) }
+    }
+
+    private fun onError(throwable: Throwable) {
+        val error = when (throwable) {
+            EmptyEmailException -> "Email can't be empty"
+            EmptyFullNameException -> "Full name can't be empty"
+            SameUserDataException -> "User Information can't be the same"
+            else -> throwable.localizedMessage
+        }
+        _state.update { it.copy(isLoading = false, error = error) }
     }
 
 }

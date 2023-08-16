@@ -1,5 +1,6 @@
 package com.chocolate.viewmodel.base
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NetworkException
@@ -35,20 +36,27 @@ abstract class BaseViewModel<STATE, UiEffect>(initialState: STATE) : ViewModel()
         viewModelScope.launch(dispatcher) {
             try {
                 call().also(onSuccess)
-            } catch (throwable: Throwable) {
-                onError(throwable)
-            }catch (e: RequestException){
-
+            } catch (e: RequestException){
+                Log.d("123123123", "tryToExecute: $e 4")
+                onError(e)
             }catch (e: RateLimitExceededException){
-
+                Log.d("123123123", "tryToExecute: $e 5")
+                onError(e)
             }catch (e: ServerException){
-
+                Log.d("123123123", "tryToExecute: $e 6")
+                onError(e)
             }catch (e: NullDataException){
-
+                Log.d("123123123", "tryToExecute: $e 7")
+                onError(e)
             }catch (e: ValidationException){
-
+                Log.d("123123123", "tryToExecute: $e 8")
+                onError(e)
             }catch (e: TeamixException){
-
+                Log.d("123123123", "tryToExecute: $e 9")
+                onError(e)
+            }catch (throwable: Throwable) {
+                Log.d("123123123", "tryToExecute: $throwable 1")
+                onError(throwable)
             }
         }
     }

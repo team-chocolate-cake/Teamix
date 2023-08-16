@@ -1,6 +1,6 @@
 package com.chocolate.presentation.screens.profile
 
-import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -39,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -49,6 +50,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.R
+import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.TeamixSnackBar
 import com.chocolate.presentation.screens.profile.composable.ChangeThemeDialog
 import com.chocolate.presentation.screens.profile.composable.MultiChoiceDialog
@@ -90,10 +92,10 @@ fun ProfileScreen(
         }
     }
     if (!state.isLoading) {
-        ProfileContent(
-            state = state,
-            profileInteraction = viewModel
-        )
+            ProfileContent(
+                state = state,
+                profileInteraction = viewModel
+            )
     } else {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -113,7 +115,7 @@ fun ProfileContent(
 ) {
     val color = MaterialTheme.customColors()
     var pageNumber by remember { mutableStateOf(0) }
-
+    val content = LocalContext.current
     val pageState = rememberPagerState(initialPage = 0)
 
     LaunchedEffect(pageNumber) {
@@ -247,10 +249,6 @@ fun ProfileContent(
                     }
                     Button(
                         onClick = {
-                            Log.d(
-                                "123123123",
-                                "ProfileContent: ${profileInteraction.areUserDataEqual()}"
-                            )
                             if (profileInteraction.areUserDataEqual()) {
                                 profileInteraction.updateWarningDialog(true)
                             } else {
@@ -356,25 +354,10 @@ fun ProfileContent(
         }
         Spacer(modifier = Modifier.weight(1f))
         if (state.error != null) {
-            TeamixSnackBar(
-                text = state.error ?: stringResource(R.string.default_error_message),
-                action = "Retry",
-                onClickButton = { profileInteraction.onClickRetry() },
-                modifier = Modifier
-                    .padding(bottom = Space24)
-                    .padding(horizontal = 16.dp)
-            )
-        }
-        if (state.message.isNotEmpty()) {
-            TeamixSnackBar(
-                text = state.message,
-                onClickButton = { },
-                modifier = Modifier
-                    .padding(bottom = Space24)
-                    .padding(horizontal = 16.dp)
-            )
+            Toast.makeText(content, state.error, Toast.LENGTH_SHORT).show()
         }
     }
+    NoInternetLottie(isShow = state.showNoInternetLottie, onClickRetry = {profileInteraction.onClickRetryToGetPersonalInformation()})
 }
 
 @Preview(showBackground = true, showSystemUi = true)

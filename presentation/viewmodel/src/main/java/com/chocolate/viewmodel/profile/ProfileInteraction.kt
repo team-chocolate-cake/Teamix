@@ -10,7 +10,8 @@ interface ProfileInteraction {
     fun onUsernameChange(username: String)
     fun onEmailChange(email: String)
     fun onUserInformationFocusChange()
-    fun onClickRetry()
+    fun onClickRetryToUpdatePersonalInformation()
+    fun onClickRetryToGetPersonalInformation()
     fun areUserDataEqual(): Boolean
     fun onRevertChange()
 }

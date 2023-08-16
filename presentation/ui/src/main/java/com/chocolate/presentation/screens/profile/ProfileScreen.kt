@@ -39,6 +39,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,6 +49,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.R
+import com.chocolate.presentation.screens.oner_power.navigateToOwnerPower
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.screens.profile.composable.ChangeThemeDialog
 import com.chocolate.presentation.screens.profile.composable.MultiChoiceDialog
@@ -70,11 +72,13 @@ import com.chocolate.presentation.theme.Space26
 import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.Thickness2
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.updateResources
 import com.chocolate.viewmodel.profile.ProfileEffect
 import com.chocolate.viewmodel.profile.ProfileInteraction
 import com.chocolate.viewmodel.profile.ProfileUiState
 import com.chocolate.viewmodel.profile.ProfileViewModel
 import kotlinx.coroutines.flow.collectLatest
+import java.util.Locale
 
 @Composable
 fun ProfileScreen(
@@ -86,20 +90,42 @@ fun ProfileScreen(
         viewModel.effect.collectLatest { effect ->
             when (effect) {
                 ProfileEffect.NavigateToOwnerPower -> navController.navigateToOwnerPower()
-                ProfileEffect.NavigateToLoginScreen -> {
-                    navController.navigateToOrganizationName()
-                }
-
+                ProfileEffect.NavigateToLoginScreen -> navController.navigateToOrganizationName()
             }
         }
     }
-    ProfileContent(state, viewModel)
+    val context = LocalContext.current
+
+    ProfileContent(
+        state = state,
+        profileInteraction = viewModel,
+        onUpdateAppLanguage = { newLanguage ->
+            when(newLanguage){
+                LocalLanguage.Arabic.name -> {
+                    viewModel.updateAppLanguage("ar")
+                    updateResources(context = context, localeLanguage = Locale("ar"))
+                }
+                LocalLanguage.Chinese.name -> {
+                    viewModel.updateAppLanguage("ae")
+                    updateResources(context = context, localeLanguage = Locale("ae"))
+                }
+                LocalLanguage.Spanish.name -> {
+                    viewModel.updateAppLanguage("es")
+                    updateResources(context = context, localeLanguage = Locale("es"))
+                }
+                else -> {
+                    viewModel.updateAppLanguage("en")
+                    updateResources(context = context, localeLanguage = Locale("en"))
+                }
+            }
+        })
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProfileContent(
     state: ProfileUiState,
+    onUpdateAppLanguage: (newLanguage: String) -> Unit,
     profileInteraction: ProfileInteraction
 ) {
     val color = MaterialTheme.customColors()
@@ -136,6 +162,7 @@ fun ProfileContent(
             }
             IconButton(
                 onClick = { //open camera
+
                 },
                 modifier = Modifier
                     .size(IconSize30)
@@ -167,11 +194,13 @@ fun ProfileContent(
 
         if (state.showLanguageDialog) {
             MultiChoiceDialog(
-                { profileInteraction.updateLanguageDialogState(false) },
+                onDismissRequest = { profileInteraction.updateLanguageDialogState(false) },
+                whenChoice = { newLanguage -> onUpdateAppLanguage(newLanguage) },
                 listOf(
-                    stringResource(R.string.english),
-                    stringResource(R.string.arabic),
-                    stringResource(R.string.french), stringResource(R.string.spanish)
+                    LocalLanguage.English.name,
+                    LocalLanguage.Arabic.name,
+                    LocalLanguage.Spanish.name,
+                    LocalLanguage.Chinese.name
                 )
             )
         }
@@ -349,9 +378,17 @@ fun ProfileContent(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun ProfileScreenPreview() {
-    ProfileScreen(rememberNavController())
-}
+    @Preview(showBackground = true, showSystemUi = true)
+    @Composable
+    fun ProfileScreenPreview() {
+        ProfileScreen(rememberNavController())
+    }
+
+
+
+
+
+
+
+
 

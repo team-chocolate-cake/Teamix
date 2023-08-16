@@ -152,4 +152,7 @@ interface UsersRepositories{
 
     suspend fun clearLoginInformation()
 
+    suspend fun updateAppLanguage(newLanguage: String): Boolean
+
+    suspend fun getLastSelectedAppLanguage(): String
 }

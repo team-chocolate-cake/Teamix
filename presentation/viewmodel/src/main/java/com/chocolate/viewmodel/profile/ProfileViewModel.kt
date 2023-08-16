@@ -1,5 +1,6 @@
 package com.chocolate.viewmodel.profile
 
+import com.chocolate.usecases.user.CustomizeProfileSettingsUseCase
 import com.chocolate.usecases.user.LogoutUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -8,7 +9,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val logoutUseCase: LogoutUseCase
+    private val logoutUseCase: LogoutUseCase,
+    private val customizeProfileSettingsUseCase: CustomizeProfileSettingsUseCase
 ) : BaseViewModel<ProfileUiState, ProfileEffect>(ProfileUiState()), ProfileInteraction {
 
     override fun updateLanguageDialogState(showDialog: Boolean) {
@@ -38,6 +40,18 @@ class ProfileViewModel @Inject constructor(
     private fun onLogoutSuccess(unit: Unit) = sendUiEffect(ProfileEffect.NavigateToLoginScreen)
 
     private fun onLogoutFail(throwable: Throwable) {
+        _state.update { it.copy(error = throwable.message) }
+    }
+
+     fun updateAppLanguage(newLanguage: String) {
+        tryToExecute(
+            call = { customizeProfileSettingsUseCase.saveNewSelectedLanguage(newLanguage)},
+            onSuccess = {},
+            onError = ::onUpdateAppLanguageFail
+        )
+    }
+
+    private fun onUpdateAppLanguageFail(throwable: Throwable) {
         _state.update { it.copy(error = throwable.message) }
     }
 

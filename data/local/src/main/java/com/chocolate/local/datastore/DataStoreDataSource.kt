@@ -1,6 +1,7 @@
 package com.chocolate.local.datastore
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -71,6 +72,17 @@ class DataStoreDataSource @Inject constructor(
         editor.clear().apply()
     }
 
+    override suspend fun updateAppLanguage(newLanguage: String): Boolean {
+        val editor = sharedPreferences.edit()
+        editor.putString(LANGUAGE, newLanguage)
+        Log.e("TAG", "updateAppLanguage: ${editor.commit()}", )
+        return editor.commit()
+    }
+
+    override suspend fun getLastSelectedAppLanguage(): String =
+        sharedPreferences.getString(LANGUAGE, null) ?: "en"
+
+
     private suspend fun <T> DataStore<Preferences>.setValue(
         key: Preferences.Key<T>,
         value: T
@@ -86,5 +98,6 @@ class DataStoreDataSource @Inject constructor(
         const val ONBOARDING_STATE = "ONBOARDING_STATE"
         const val API_KEY = "API_KEY"
         const val EMAIL = "EMAIL"
+        const val LANGUAGE = "APP_LANGUAGE"
     }
 }

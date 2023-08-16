@@ -25,4 +25,8 @@ interface PreferencesDataSource {
     fun getEmail(): String
 
     suspend fun deleteAuthenticationData()
+
+    suspend fun updateAppLanguage(newLanguage: String): Boolean
+
+    suspend fun getLastSelectedAppLanguage(): String
 }

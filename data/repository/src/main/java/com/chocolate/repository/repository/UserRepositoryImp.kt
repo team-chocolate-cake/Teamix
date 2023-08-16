@@ -284,6 +284,13 @@ class UserRepositoryImp @Inject constructor(
     }
 
     override suspend fun clearLoginInformation() = preferencesDataSource.deleteAuthenticationData()
+    override suspend fun updateAppLanguage(newLanguage: String): Boolean {
+        return preferencesDataSource.updateAppLanguage(newLanguage)
+    }
+
+    override suspend fun getLastSelectedAppLanguage(): String =
+        preferencesDataSource.getLastSelectedAppLanguage()
+
 
 
 }

@@ -26,6 +26,7 @@ object ProjectDependencies {
     private const val COMPOSE_FOUNDATION_VERSION = "1.4.3"
     private const val SYSTEM_UI_CONTROLLER_VERSION = "0.31.0-alpha"
     private const val ACCOMPANIST = "0.31.0-alpha"
+    private const val APP_COMPAT = "1.6.1"
 
 
     const val systemUiController ="com.google.accompanist:accompanist-systemuicontroller:$SYSTEM_UI_CONTROLLER_VERSION"
@@ -96,5 +97,7 @@ object ProjectDependencies {
     const val encryptedSharedPreference = "androidx.security:security-crypto:1.1.0-alpha06"
 
     const val webView = "com.google.accompanist:accompanist-webview:$ACCOMPANIST"
+
+    const val appCompat = "androidx.appcompat:appcompat:$APP_COMPAT"
 
 }

@@ -37,7 +37,7 @@ fun TeamixTextField(
             containerColor = colors.card,
             focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent,
-            cursorColor = Color.Black
+            cursorColor = colors.onBackground87
         ),
         keyboardOptions = keyboardOptions,
         visualTransformation = visualTransformation,

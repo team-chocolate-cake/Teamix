@@ -35,7 +35,8 @@ fun ProfileTextField(text: String,onValueChange: (String) -> Unit,onDone: (() ->
         colors = TextFieldDefaults.outlinedTextFieldColors(
             containerColor = colors.card,
             focusedBorderColor = colorFocused,
-            unfocusedBorderColor = colorUnFocused
+            unfocusedBorderColor = colorUnFocused,
+            cursorColor = colors.onBackground87,
         ),
         trailingIcon = {
             Icon(

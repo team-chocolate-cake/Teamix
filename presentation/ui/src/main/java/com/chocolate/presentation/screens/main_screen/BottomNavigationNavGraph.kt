@@ -1,22 +1,19 @@
 package com.chocolate.presentation.screens.main_screen
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.chocolate.presentation.screens.home.HomeScreen
+import com.chocolate.presentation.screens.profile.ProfileScreen
 
 @Composable
 fun BottomNavigationNavGraph(navController: NavHostController) {
 
     NavHost(navController =navController , startDestination = BottomNavigationItem.Home.screen_route ){
         composable(BottomNavigationItem.Home.screen_route) {
-            //todo add Home screen
+            HomeScreen(navController = rememberNavController())
         }
         composable(BottomNavigationItem.Search.screen_route) {
             //todo add Search screen
@@ -28,7 +25,7 @@ fun BottomNavigationNavGraph(navController: NavHostController) {
             //todo add DMs screen
         }
         composable(BottomNavigationItem.Profile.screen_route) {
-            //todo add Profile screen
+            ProfileScreen(navController = rememberNavController())
         }
     }
 }

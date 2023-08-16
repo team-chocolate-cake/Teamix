@@ -80,4 +80,6 @@
     <string name="do_you_want_to_leave_channel">Do you want to leave channel</string>
     <string name="enter">Enter</string>
     <string name="default_error_message">A mistake happened, please attempt again at a later time.</string>
+    <string name="warning">Warning</string>
+    <string name="waring_details">You have changed your personal information. Are ou sure want to leave with saving you change</string>
 </resources>

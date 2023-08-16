@@ -16,23 +16,24 @@ import com.chocolate.presentation.theme.customColors
 fun ProfileDialog(
     title: String,
     text: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    onClickDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
+    onClickConfirm: (() -> Unit) = {}
 ) {
     val color = MaterialTheme.customColors()
     AlertDialog(
         modifier = modifier,
-        onDismissRequest = { onClick() },
+        onDismissRequest = { onClickDismiss() },
         title = { Text(text = title) },
         text = { Text(text = text) },
         confirmButton = {
-            TextButton(onClick = { }) {
-                Text(text = stringResource(R.string.confirm))
+            TextButton(onClick = { onClickConfirm() }) {
+                Text(text = stringResource(R.string.confirm),color = color.onBackground87)
             }
         },
         dismissButton = {
-            TextButton(onClick = { onClick() }) {
-                Text(text = stringResource(R.string.dismiss))
+            TextButton(onClick = { onClickDismiss() }) {
+                Text(text = stringResource(R.string.dismiss),color = color.onBackground87)
 
             }
         },

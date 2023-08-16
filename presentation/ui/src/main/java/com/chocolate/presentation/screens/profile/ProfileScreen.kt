@@ -1,5 +1,6 @@
 package com.chocolate.presentation.screens.profile
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -183,13 +184,18 @@ fun ProfileContent(
         if (state.showClearHistoryDialog) {
             ProfileDialog(title = stringResource(R.string.clear_history_title),
                 text = stringResource(R.string.clear_history_text),
-                onClick = { profileInteraction.updateClearHistoryState(false) })
+                onClickDismiss = { profileInteraction.updateClearHistoryState(false) })
 
+        }
+        if (state.showWarningDialog) {
+            ProfileDialog(title = stringResource(R.string.warning),
+                text = stringResource(R.string.waring_details),
+                onClickDismiss = { profileInteraction.onRevertChange() })
         }
         if (state.showLogoutDialog) {
             ProfileDialog(title = stringResource(R.string.logout_title),
                 text = "",
-                onClick = { profileInteraction.updateLogoutDialogState(false) })
+                onClickDismiss = { profileInteraction.updateLogoutDialogState(false) })
         }
         Spacer(modifier = Modifier.weight(1f))
 
@@ -230,7 +236,14 @@ fun ProfileContent(
                         )
                     }
                     Button(
-                        onClick = { pageNumber = 1 }, modifier = Modifier
+                        onClick = {
+                            Log.d("123123123", "ProfileContent: ${profileInteraction.areUserDataEqual()}")
+                            if (profileInteraction.areUserDataEqual()) {
+                                profileInteraction.updateWarningDialog(true)
+                            } else {
+                                pageNumber = 1
+                            }
+                        }, modifier = Modifier
                             .padding(end = Space16)
                             .width(110.dp),
                         colors = ButtonDefaults.buttonColors(

@@ -20,6 +20,11 @@ class ProfileViewModel @Inject constructor(
     private val updateUserInformationUseCase: UpdateUserInformationUseCase
 ):BaseViewModel<ProfileUiState,ProfileEffect>(ProfileUiState()), ProfileInteraction {
 
+    private var newUsername: String = ""
+    private var newEmail: String = ""
+    private var originalName: String = ""
+    private var originalEmail: String = ""
+
     init {
         getOwnUser()
     }
@@ -64,17 +69,28 @@ class ProfileViewModel @Inject constructor(
         _state.update { it.copy(showLogoutDialog = showDialog) }
     }
 
+    override fun updateWarningDialog(showDialog: Boolean) {
+        _state.update { it.copy(showWarningDialog = showDialog) }
+    }
+
     override fun onClickOwnerPower() {
         sendUiEffect(ProfileEffect.NavigateToOwnerPower)
     }
 
     override fun onUsernameChange(username: String) {
+        if (originalName.isEmpty()) {
+            originalName = _state.value.name
+        }
+        newUsername = username
         _state.update { it.copy(name = username) }
-
     }
 
     override fun onEmailChange(email: String) {
-        _state.update { it.copy(name = email) }
+        if (originalEmail.isEmpty()) {
+            originalEmail = _state.value.email
+        }
+        newEmail = email
+        _state.update { it.copy(email = email) }
     }
 
     override fun onUsernameFocusChange() {
@@ -101,6 +117,21 @@ class ProfileViewModel @Inject constructor(
 
     override fun onClickRetry() {
         onUsernameFocusChange()
+    }
+
+    override fun areUserDataEqual(): Boolean {
+        val currentState = _state.value
+        return currentState.name == newUsername || currentState.email == newEmail
+    }
+
+    override fun onRevertChange() {
+        val currentState = _state.value
+        val updatedState = currentState.copy(
+            name = originalName,
+            email = originalEmail
+        )
+        _state.update { updatedState }
+        updateWarningDialog(false)
     }
 
     private fun onUpdateUsernameSuccess(unit: Unit) {

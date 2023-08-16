@@ -9,6 +9,7 @@ data class ProfileUiState(
     val showLanguageDialog: Boolean = false,
     val showThemeDialog: Boolean = false,
     val showClearHistoryDialog: Boolean = false,
+    val showWarningDialog: Boolean = false,
     val showLogoutDialog: Boolean = false,
     val isLoading: Boolean = false,
     val error: String? = null

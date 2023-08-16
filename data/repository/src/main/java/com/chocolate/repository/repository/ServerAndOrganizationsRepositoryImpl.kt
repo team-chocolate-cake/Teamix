@@ -83,7 +83,6 @@ class ServerAndOrganizationsRepositoryImpl @Inject constructor(
         return organizationRemoteDataSource.createCustomProfileField(name, hint, fieldType).toDefaultOrganization()
     }
 
-
     override suspend fun saveNameOrganizations(nameOrganizations: String) {
         preferencesDataSource.setNameOrganization(nameOrganizations)
     }

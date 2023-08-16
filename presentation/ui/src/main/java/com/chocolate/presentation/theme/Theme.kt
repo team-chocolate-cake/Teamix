@@ -20,54 +20,72 @@ import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
     primary = OnDarkPrimary,
-    secondary = OnSecondary,
+    secondary = DarkSecondary,
     tertiary = Pink80,
     background = OnDarkBackground
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = OnLightPrimary,
-    secondary = OnSecondary,
+    secondary = LightSecondary,
     tertiary = Pink40,
     background = OnLightBackground
 )
 
 val onLightCustomColorsPalette = CustomColorsPalette(
-    primary = OnLightPrimary,
-    onPrimary = OnPrimary,
-    secondary = Secondary,
-    onSecondary = OnSecondary,
-    border = Border,
-    card = Card,
-    background = OnLightBackground,
-    onBackground87 = OnLightOnBackground87,
-    onBackground60 = OnLightOnBackground60,
-    onBackground38 = OnBackground38,
-    gray= Gray,
-    lightGray = OnLightGray,
-    yellow= Yellow,
-    green= Green,
-    red60= Red60,
-    red = Red
+    primary = LightPrimary,
+    onPrimary = OnLightPrimary,
+    onPrimary67 = OnLightPrimary67,
+    secondary = LightSecondary,
+    onSecondary = OnLightSecondary,
+    onSecondary67 = OnLightSecondary67,
+    onSecondary38 = OnLightSecondary38,
+    border = LightBorder,
+    card = LightCard,
+    statusBar = LightStatusBar,
+    background = LightBackground,
+    onBackground87 = OnLightBackground87,
+    onBackground60 = OnLightBackground60,
+    onBackground38 = OnLightBackground38,
+    gray = Gray,
+    lightGray = LightGray,
+    darkGray = DarkGray,
+    yellow = Yellow,
+    green = Green,
+    orange = Orange,
+    mauve = Mauve,
+    white = White,
+    black = Black,
+    red60 = LightRed60,
+    red = LightRed
 )
 
 val onDarkCustomColorsPalette = CustomColorsPalette(
-    primary = OnDarkPrimary,
-    onPrimary = OnPrimary,
-    secondary = Secondary,
-    onSecondary = OnSecondary,
-    border = Border,
-    card = Card,
-    background = OnDarkBackground,
-    onBackground87 = OnDarkOnBackground87,
-    onBackground60 = OnDarkOnBackground60,
-    onBackground38 = OnBackground38,
-    gray= Gray,
-    darkGray = OnDarkGray,
-    yellow= Yellow,
-    green= Green,
-    red60= Red60,
-    red = Red
+    primary = DarkPrimary,
+    onPrimary = OnDarkPrimary,
+    onPrimary67 = OnDarkPrimary67,
+    secondary = DarkSecondary,
+    onSecondary = OnDarkSecondary,
+    onSecondary67 = OnDarkSecondary67,
+    onSecondary38 = OnDarkSecondary38,
+    border = DarkBorder,
+    card = DarkCard,
+    statusBar = DarkStatusBar,
+    background = DarkBackground,
+    onBackground87 = OnDarkBackground87,
+    onBackground60 = OnDarkBackground60,
+    onBackground38 = OnDarkBackground38,
+    gray = Gray,
+    lightGray = LightGray,
+    darkGray = DarkGray,
+    yellow = Yellow,
+    green = Green,
+    orange = Orange,
+    mauve = Mauve,
+    white = White,
+    black = Black,
+    red60 = DarkRed60,
+    red = DarkRed
 )
 
 @SuppressLint("CompositionLocalNaming")
@@ -108,7 +126,6 @@ fun TeamixTheme(
             content = content
         )
     }
-
 }
 
 @Composable

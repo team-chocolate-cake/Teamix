@@ -7,14 +7,14 @@ plugins {
 
 android {
     namespace 'com.chocolate.teamix'
-    compileSdk 33
+    compileSdk Configurations.COMPILE_SDK
 
     defaultConfig {
         applicationId "com.chocolate.teamix"
-        minSdk 24
-        targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        minSdk Configurations.MIN_SDK
+        targetSdk Configurations.TARGET_SDK
+        versionCode Configurations.VERSION_CODE
+        versionName Configurations.VERSION_NAME
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -29,17 +29,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility Configurations.JAVA_VERSION
+        targetCompatibility Configurations.JAVA_VERSION
     }
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = Configurations.JVM_TARGET
     }
     buildFeatures {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.3.2'
+        kotlinCompilerExtensionVersion Configurations.KOTLIN_COMPILER
     }
     packagingOptions {
         resources {
@@ -56,36 +56,20 @@ dependencies {
     implementation (project(Modules.DOMAIN_USE_CASE))
     implementation (project(Modules.PRESENTATION_UI))
 
-    implementation (DependencyProject.androidxCore)
-    testImplementation (DependencyProject.junit)
-    androidTestImplementation (DependencyProject.junitExtension)
-    androidTestImplementation (DependencyProject.espresso)
-    implementation platform (DependencyProject.kotlinBom)
-    implementation (DependencyProject.lifecycleRuntime)
+    implementation (ProjectDependencies.composeRuntime)
 
-    implementation (DependencyProject.activityCompose)
-    implementation platform(DependencyProject.composeBom)
-    androidTestImplementation platform(DependencyProject.composeBom)
-    implementation (DependencyProject.composeUi)
-    implementation (DependencyProject.composeUiGraphics)
-    implementation (DependencyProject.composeUiPreviewTool)
-    implementation (DependencyProject.composeMaterial3)
-    implementation (DependencyProject.navigationCompose)
-    androidTestImplementation (DependencyProject.composeJunit)
-    debugImplementation (DependencyProject.composeUiTooling)
-    debugImplementation (DependencyProject.composeTestManifest)
-    debugImplementation (DependencyProject.navigationCompose)
+    implementation (ProjectDependencies.retrofit)
+    implementation (ProjectDependencies.gsonConverter)
 
-    implementation (DependencyProject.retrofit)
-    implementation (DependencyProject.gsonConverter)
+    implementation (ProjectDependencies.logging)
 
-    implementation (DependencyProject.logging)
+    implementation (ProjectDependencies.hilt)
+    kapt (ProjectDependencies.hiltCompiler)
 
-    implementation (DependencyProject.hilt)
-    kapt (DependencyProject.hiltCompiler)
+    implementation(ProjectDependencies.encryptedSharedPreference)
 
-    implementation (DependencyProject.roomRuntime)
-    annotationProcessor (DependencyProject.roomCompiler)
-    kapt (DependencyProject.room)
-    implementation(DependencyProject.dataStore)
+    implementation (ProjectDependencies.roomRuntime)
+    annotationProcessor (ProjectDependencies.roomCompiler)
+    kapt (ProjectDependencies.roomCompiler)
+    implementation(ProjectDependencies.dataStore)
 }

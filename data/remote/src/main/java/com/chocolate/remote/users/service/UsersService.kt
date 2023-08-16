@@ -1,21 +1,23 @@
 package com.chocolate.remote.users.service
 
 
-import com.chocolate.repository.dto.remote.users.response.AlertWordsDto
-import com.chocolate.repository.dto.remote.users.response.CreateUserDto
-import com.chocolate.repository.dto.remote.users.response.MuteUserResponseDto
-import com.chocolate.repository.dto.remote.users.response.OwnerUserDto
-import com.chocolate.repository.dto.remote.users.response.ResponseStateDto
-import com.chocolate.repository.dto.remote.users.response.SubgroupsOfUserGroupDto
-import com.chocolate.repository.dto.remote.users.response.UserAttachmentsDto
-import com.chocolate.repository.dto.remote.users.response.UserDto
-import com.chocolate.repository.dto.remote.users.response.UserGroupMembershipsDto
-import com.chocolate.repository.dto.remote.users.response.UserGroupsDto
-import com.chocolate.repository.dto.remote.users.response.UserMembershipStateDto
-import com.chocolate.repository.dto.remote.users.response.UserSettingsDto
-import com.chocolate.repository.dto.remote.users.response.UserStateDto
-import com.chocolate.repository.dto.remote.users.response.UsersDto
-import com.chocolate.repository.dto.remote.users.response.UsersStateDto
+import com.chocolate.repository.model.dto.users.request.ProfileDataDto
+import com.chocolate.repository.model.dto.users.response.AlertWordsDto
+import com.chocolate.repository.model.dto.users.response.CreateUserDto
+import com.chocolate.repository.model.dto.users.response.FetchApiKeyDto
+import com.chocolate.repository.model.dto.users.response.MuteUserResponseDto
+import com.chocolate.repository.model.dto.users.response.OwnerUserDto
+import com.chocolate.repository.model.dto.users.response.ResponseStateDto
+import com.chocolate.repository.model.dto.users.response.SubgroupsOfUserGroupDto
+import com.chocolate.repository.model.dto.users.response.UserAttachmentsDto
+import com.chocolate.repository.model.dto.users.response.UserDto
+import com.chocolate.repository.model.dto.users.response.UserGroupMembershipsDto
+import com.chocolate.repository.model.dto.users.response.UserGroupsDto
+import com.chocolate.repository.model.dto.users.response.UserMembershipStateDto
+import com.chocolate.repository.model.dto.users.response.UserSettingsDto
+import com.chocolate.repository.model.dto.users.response.UserStateDto
+import com.chocolate.repository.model.dto.users.response.UsersDto
+import com.chocolate.repository.model.dto.users.response.UsersStateDto
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -54,7 +56,7 @@ interface UsersService {
         @Path("id") id: Int,
         @Query("full_name") fullName: String? = null,
         @Query("role") role: Int? = null,
-        @Query("profile_data") profileData: List<com.chocolate.repository.dto.remote.users.request.ProfileData>? = null
+        @Query("profile_data") profileData: List<ProfileDataDto>? = null
     ): Response<ResponseStateDto>
 
     @POST("users/me/status")
@@ -103,7 +105,7 @@ interface UsersService {
     suspend fun deleteAttachment(@Path("attachment_id") attachmentId: Int): Response<ResponseStateDto>
 
     @PATCH("settings")
-    suspend fun updateSettings(@Query("settings") settings: com.chocolate.repository.dto.remote.users.request.SettingsRequest): Response<UserSettingsDto>
+    suspend fun updateSettings(@Query("settings") settings: com.chocolate.repository.model.dto.users.request.SettingsDto): Response<UserSettingsDto>
 
     @GET("user_groups")
     suspend fun getUserGroups(): Response<UserGroupsDto>
@@ -175,4 +177,10 @@ interface UsersService {
     suspend fun unmuteUser(
         @Path("muted_user_id") mutedUserId: Int
     ): Response<MuteUserResponseDto>
+
+    @POST("fetch_api_key")
+    suspend fun fetchApiKey(
+        @Query("username") userName: String,
+        @Query("password") password: String,
+    ): Response<FetchApiKeyDto>
 }

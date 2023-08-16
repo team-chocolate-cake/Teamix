@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace 'com.chocolate.repository'
-    compileSdk 33
+    compileSdk Configurations.COMPILE_SDK
 
     defaultConfig {
-        minSdk 24
-        targetSdk 33
+        minSdk Configurations.MIN_SDK
+        targetSdk Configurations.TARGET_SDK
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -23,11 +23,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility Configurations.JAVA_VERSION
+        targetCompatibility Configurations.JAVA_VERSION
     }
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = Configurations.JVM_TARGET
     }
 }
 
@@ -35,16 +35,11 @@ dependencies {
 
     implementation(project(Modules.DOMAIN_USE_CASE))
 
-    testImplementation(DependencyProject.junit)
-    androidTestImplementation(DependencyProject.junitExtension)
+    implementation(ProjectDependencies.hilt)
+    implementation(ProjectDependencies.gsonConverter)
 
-    implementation(DependencyProject.retrofit)
-
-    implementation(DependencyProject.hilt)
-    implementation(DependencyProject.gsonConverter)
-
-    implementation(DependencyProject.roomRuntime)
-    implementation(DependencyProject.roomKtx)
-    annotationProcessor(DependencyProject.roomCompiler)
-    kapt(DependencyProject.room)
+    implementation(ProjectDependencies.roomRuntime)
+    implementation(ProjectDependencies.roomKtx)
+    annotationProcessor(ProjectDependencies.roomCompiler)
+    kapt(ProjectDependencies.roomCompiler)
 }

@@ -7,11 +7,11 @@ plugins {
 
 android {
     namespace 'com.chocolate.presentation'
-    compileSdk 33
+    compileSdk Configurations.COMPILE_SDK
 
     defaultConfig {
-        minSdk 24
-        targetSdk 33
+        minSdk Configurations.MIN_SDK
+        targetSdk Configurations.TARGET_SDK
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -27,48 +27,40 @@ android {
         compose = true
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility Configurations.JAVA_VERSION
+        targetCompatibility Configurations.JAVA_VERSION
     }
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = Configurations.JVM_TARGET
     }
 }
 
 dependencies {
     implementation(project(Modules.PRESENTATION_VIEW_MODEL))
 
-    implementation(DependencyProject.androidxCore)
-    testImplementation(DependencyProject.junit)
-    androidTestImplementation(DependencyProject.junitExtension)
-    androidTestImplementation(DependencyProject.espresso)
-    implementation(DependencyProject.constraintLayout)
 
-    implementation(DependencyProject.composeMaterial3)
-    implementation(DependencyProject.activityCompose)
-    implementation(DependencyProject.navigationCompose)
-    implementation(DependencyProject.composeUiTooling)
-    implementation(DependencyProject.composeUi)
-    implementation(DependencyProject.composeJunit)
-    implementation(DependencyProject.composeUiGraphics)
-    implementation(DependencyProject.composeUiPreviewTool)
-    implementation(DependencyProject.composeBom)
-    implementation(DependencyProject.composeTestManifest)
+    implementation(ProjectDependencies.constraintLayout)
 
-    implementation(DependencyProject.coroutines)
-    implementation(DependencyProject.lifecycleRuntime)
-    implementation(DependencyProject.lifecycleViewModel)
-    implementation(DependencyProject.lifecycleLiveData)
+    ProjectDependencies.composeGroup.forEach(library->
+            implementation(library)
+    )
 
-    implementation(DependencyProject.hilt)
-    kapt(DependencyProject.hiltCompiler)
+    implementation(ProjectDependencies.coroutines)
+    implementation(ProjectDependencies.lifecycleRuntime)
+    implementation(ProjectDependencies.lifecycleViewModel)
+    implementation(ProjectDependencies.lifecycleLiveData)
 
-    implementation(DependencyProject.coil)
-    implementation(DependencyProject.hiltNavigation)
+    implementation(ProjectDependencies.hilt)
+    kapt(ProjectDependencies.hiltCompiler)
 
-    implementation(DependencyProject.lottie)
-    implementation(DependencyProject.splashScreen)
+    implementation(ProjectDependencies.coil)
+    implementation(ProjectDependencies.hiltNavigation)
 
-    implementation(DependencyProject.composeFoundation)
+    implementation(ProjectDependencies.lottie)
+    implementation(ProjectDependencies.splashScreen)
+
+    implementation(ProjectDependencies.composeFoundation)
+
+    implementation(ProjectDependencies.webView)
 
 }

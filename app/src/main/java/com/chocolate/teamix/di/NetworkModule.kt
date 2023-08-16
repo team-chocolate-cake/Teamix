@@ -1,24 +1,13 @@
 package com.chocolate.teamix.di
 
 import com.chocolate.remote.AuthInterceptor
-import com.chocolate.remote.channels.implementation.remote.ChannelsImpl
 import com.chocolate.remote.channels.service.ChannelsService
-import com.chocolate.remote.drafts.DraftsMessagesImpl
 import com.chocolate.remote.drafts.service.DraftService
-import com.chocolate.remote.messages.MessagesImpl
 import com.chocolate.remote.messages.service.MessageService
-import com.chocolate.remote.scheduled_message.ScheduledMessageImpl
 import com.chocolate.remote.scheduled_message.service.ScheduledMessageService
-import com.chocolate.remote.server_and_organizations.OrganizationsImpl
 import com.chocolate.remote.server_and_organizations.service.OrganizationService
-import com.chocolate.remote.users.UsersImpl
 import com.chocolate.remote.users.service.UsersService
-import com.chocolate.repository.service.remote.ChannelsDataSource
-import com.chocolate.repository.service.remote.DraftMessageDataSource
-import com.chocolate.repository.service.remote.MessagesDataSource
-import com.chocolate.repository.service.remote.OrganizationDataSource
-import com.chocolate.repository.service.remote.ScheduledMessageDataSource
-import com.chocolate.repository.service.remote.UsersDataSource
+import com.chocolate.repository.datastore.PreferencesDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -47,14 +36,19 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideLoggingInterceptor(): HttpLoggingInterceptor{
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
     }
 
     @Singleton
     @Provides
-    fun provideRetrofitBuilder(client: OkHttpClient, factory: GsonConverterFactory): Retrofit =
+    fun provideRetrofitBuilder(
+        client: OkHttpClient,
+        factory: GsonConverterFactory,
+        baseUrl: String
+    ): Retrofit =
         Retrofit.Builder()
+            .baseUrl(baseUrl)
             .client(client)
             .addConverterFactory(factory)
             .build()
@@ -92,5 +86,10 @@ object NetworkModule {
     @Provides
     fun provideOrganizationService(retrofit: Retrofit): OrganizationService =
         retrofit.create(OrganizationService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideBaseUrl(prefs: PreferencesDataSource): String =
+        "https://${prefs.currentOrganization}.zulipchat.com/api/v1/"
 
 }

@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace 'com.chocolate.remote'
-    compileSdk 33
+    compileSdk Configurations.COMPILE_SDK
 
     defaultConfig {
-        minSdk 24
-        targetSdk 33
+        minSdk Configurations.MIN_SDK
+        targetSdk Configurations.TARGET_SDK
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -23,29 +23,25 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility Configurations.JAVA_VERSION
+        targetCompatibility Configurations.JAVA_VERSION
     }
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = Configurations.JVM_TARGET
     }
 }
 
 dependencies {
 
     implementation project(Modules.DATA_REPO)
+    implementation project(Modules.ENTITIES_MODEL)
 
-    implementation(DependencyProject.androidxCore)
-    testImplementation(DependencyProject.junit)
-    androidTestImplementation(DependencyProject.junitExtension)
-    androidTestImplementation(DependencyProject.espresso)
+    implementation(ProjectDependencies.retrofit)
+    implementation(ProjectDependencies.gsonConverter)
 
-    implementation(DependencyProject.retrofit)
-    implementation(DependencyProject.gsonConverter)
+    implementation(ProjectDependencies.logging)
 
-    implementation(DependencyProject.logging)
-
-    implementation(DependencyProject.hilt)
-    kapt(DependencyProject.hiltCompiler)
+    implementation(ProjectDependencies.hilt)
+    kapt(ProjectDependencies.hiltCompiler)
 
 }

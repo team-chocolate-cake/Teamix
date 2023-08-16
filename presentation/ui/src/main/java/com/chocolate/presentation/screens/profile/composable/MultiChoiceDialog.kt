@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -26,18 +27,16 @@ import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.customColors
 
 @Composable
-fun MultiChoiceDialog(onClick: () -> Unit, list: List<String>) {
-    val (selected) = list.map {
-        remember {
-            mutableStateOf(list[1])
-        }
-    }
+fun MultiChoiceDialog(
+    onDismissRequest: () -> Unit,
+    whenChoice: (choice: String) -> Unit,
+    list: List<String>
+) {
+    val (selected) = list.map { remember { mutableStateOf(list[0]) } }
     val color = MaterialTheme.customColors()
     AlertDialog(
         modifier = Modifier,
-        onDismissRequest = {
-            onClick()
-        },
+        onDismissRequest = { onDismissRequest() },
         confirmButton = {},
         dismissButton = {},
         text = {
@@ -55,10 +54,14 @@ fun MultiChoiceDialog(onClick: () -> Unit, list: List<String>) {
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = text)
-                        RadioButton(selected = text == selected.value, onClick = {
-                            selected.value = text
-                        })
+                        Text(text = text, style = MaterialTheme.typography.bodyMedium, color = color.onBackground87)
+                        RadioButton(
+                            selected = text == selected.value,
+                            colors = RadioButtonDefaults.colors(selectedColor = color.primary, unselectedColor = color.onBackground60),
+                            onClick = {
+                                whenChoice(text)
+                                selected.value = text
+                            })
 
                     }
                 }
@@ -72,5 +75,5 @@ fun MultiChoiceDialog(onClick: () -> Unit, list: List<String>) {
 @Preview(showBackground = true)
 @Composable
 fun MultiChoiceDialogPreview() {
-    MultiChoiceDialog({}, emptyList())
+    MultiChoiceDialog({},{}, emptyList())
 }

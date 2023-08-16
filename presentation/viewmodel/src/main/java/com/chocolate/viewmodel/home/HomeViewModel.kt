@@ -1,6 +1,5 @@
 package com.chocolate.viewmodel.home
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel

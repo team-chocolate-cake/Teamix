@@ -1,10 +1,7 @@
 package com.chocolate.repository.mappers.users
 
 import com.chocolate.entities.user.OwnerUser
-import com.chocolate.entities.user.ProfileField
 import com.chocolate.repository.model.dto.users.response.OwnerUserDto
-import com.chocolate.repository.model.dto.users.response.ProfileFieldDto
-
 
 fun OwnerUserDto.toOwnerUser(): OwnerUser {
     return OwnerUser(
@@ -24,16 +21,5 @@ fun OwnerUserDto.toOwnerUser(): OwnerUser {
         role = role?:0,
         timezone = timezone?:"",
         userId = userId?:0,
-        profileData = profileData?.mapValues { it.value.toProfileField() }?: emptyMap()
-
-
     )
 }
-
-fun ProfileFieldDto.toProfileField(): ProfileField {
-    return ProfileField(
-        renderedValue = renderedValue?:"",
-        value = value?:""
-    )
-}
-

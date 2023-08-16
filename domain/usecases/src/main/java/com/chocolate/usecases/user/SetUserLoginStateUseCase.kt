@@ -1,12 +1,12 @@
 package com.chocolate.usecases.user
 
-import repositories.UsersRepositories
+import repositories.UsersRepository
 import javax.inject.Inject
 
 class SetUserLoginStateUseCase @Inject constructor(
-    private val usersRepositories: UsersRepositories
+    private val usersRepository: UsersRepository
 ) {
     suspend operator fun invoke(isComplete: Boolean){
-        usersRepositories.setUserLoginState(isComplete)
+        usersRepository.setUserLoginState(isComplete)
     }
 }

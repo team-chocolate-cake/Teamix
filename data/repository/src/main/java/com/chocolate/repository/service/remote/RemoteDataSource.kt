@@ -31,10 +31,7 @@ import com.chocolate.repository.model.dto.server_and_organizations.response.Cust
 import com.chocolate.repository.model.dto.server_and_organizations.response.DefaultOrganizationDto
 import com.chocolate.repository.model.dto.server_and_organizations.response.LinkifiersDto
 import com.chocolate.repository.model.dto.server_and_organizations.response.ServerSettingsDto
-import com.chocolate.repository.model.dto.users.request.ProfileDataDto
 import com.chocolate.repository.model.dto.users.request.SettingsDto
-import com.chocolate.repository.model.dto.users.response.AlertWordsDto
-import com.chocolate.repository.model.dto.users.response.CreateUserDto
 import com.chocolate.repository.model.dto.users.response.FetchApiKeyDto
 import com.chocolate.repository.model.dto.users.response.MuteUserResponseDto
 import com.chocolate.repository.model.dto.users.response.OwnerUserDto
@@ -50,7 +47,6 @@ import com.chocolate.repository.model.dto.users.response.UserStateDto
 import com.chocolate.repository.model.dto.users.response.UsersDto
 import com.chocolate.repository.model.dto.users.response.UsersStateDto
 import okhttp3.MultipartBody
-import retrofit2.Response
 
 interface RemoteDataSource{
     suspend fun getUserSubscriptions(includeSubscribers: Boolean = false): SubscribedStreamDto
@@ -355,36 +351,14 @@ interface RemoteDataSource{
     suspend fun updateUserById(
         id: Int,
         fullName: String? = null,
-        role: Int? = null,
-        profileData: List<ProfileDataDto>? = null
+        role: Int? = null
     ): ResponseStateDto
-
-    suspend fun updateUserStatus(
-        statusText: String? = null,
-        away: Boolean? = null,
-        emojiName: String? = null,
-        emojiCode: String? = null,
-        reactionType: String? = null
-    ): ResponseStateDto
-
-    suspend fun createUser(
-        email: String,
-        password: String,
-        fullName: String
-    ): CreateUserDto
 
     suspend fun deactivateUserAccount(id: Int): ResponseStateDto
 
     suspend fun reactivateUserAccount(id: Int): ResponseStateDto
 
     suspend fun deactivateOwnUserAccount(): ResponseStateDto
-
-    suspend fun setTypingStatus(
-        op: String,
-        to: String,
-        type: String? = "direct",
-        topic: String? = null
-    ): ResponseStateDto
 
     suspend fun getUserPresence(email: String): UserStateDto
 
@@ -439,12 +413,6 @@ interface RemoteDataSource{
         id: Int,
         directSubgroupOnly: Boolean
     ): SubgroupsOfUserGroupDto
-
-    suspend fun getAlertWords(): AlertWordsDto
-
-    suspend fun addAlertWords(alertWords: String): AlertWordsDto
-
-    suspend fun removeAlertWords(alertWords: String): AlertWordsDto
 
     suspend fun muteUser(mutedUserId: Int): MuteUserResponseDto
 

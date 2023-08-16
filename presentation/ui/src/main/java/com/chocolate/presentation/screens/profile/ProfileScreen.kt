@@ -23,8 +23,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -39,7 +39,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -72,13 +71,11 @@ import com.chocolate.presentation.theme.Space26
 import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.Thickness2
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.presentation.util.updateResources
 import com.chocolate.viewmodel.profile.ProfileEffect
 import com.chocolate.viewmodel.profile.ProfileInteraction
 import com.chocolate.viewmodel.profile.ProfileUiState
 import com.chocolate.viewmodel.profile.ProfileViewModel
 import kotlinx.coroutines.flow.collectLatest
-import java.util.Locale
 
 @Composable
 fun ProfileScreen(
@@ -86,6 +83,7 @@ fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+    val colors = MaterialTheme.customColors()
     LaunchedEffect(key1 = Unit) {
         viewModel.effect.collectLatest { effect ->
             when (effect) {
@@ -96,32 +94,42 @@ fun ProfileScreen(
     }
     val context = LocalContext.current
 
-    ProfileContent(
-        state = state,
-        profileInteraction = viewModel,
-        onUpdateAppLanguage = { newLanguage ->
-            when(newLanguage){
-                LocalLanguage.Arabic.name -> {
-                    viewModel.updateAppLanguage("ar")
-                    updateResources(context = context, localeLanguage = Locale("ar"))
+    if (!state.isLoading) {
+        ProfileContent(
+            state = state,
+            profileInteraction = viewModel,
+            onUpdateAppLanguage = { newLanguage ->
+                when(newLanguage){
+                    LocalLanguage.Arabic.name -> {
+                        viewModel.updateAppLanguage("ar")
+                        updateResources(context = context, localeLanguage = Locale("ar"))
+                    }
+                    LocalLanguage.Chinese.name -> {
+                        viewModel.updateAppLanguage("ae")
+                        updateResources(context = context, localeLanguage = Locale("ae"))
+                    }
+                    LocalLanguage.Spanish.name -> {
+                        viewModel.updateAppLanguage("es")
+                        updateResources(context = context, localeLanguage = Locale("es"))
+                    }
+                    else -> {
+                        viewModel.updateAppLanguage("en")
+                        updateResources(context = context, localeLanguage = Locale("en"))
+                    }
                 }
-                LocalLanguage.Chinese.name -> {
-                    viewModel.updateAppLanguage("ae")
-                    updateResources(context = context, localeLanguage = Locale("ae"))
-                }
-                LocalLanguage.Spanish.name -> {
-                    viewModel.updateAppLanguage("es")
-                    updateResources(context = context, localeLanguage = Locale("es"))
-                }
-                else -> {
-                    viewModel.updateAppLanguage("en")
-                    updateResources(context = context, localeLanguage = Locale("en"))
-                }
-            }
-        })
+            })
+    } else {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CircularProgressIndicator(color = colors.primary)
+        }
+    }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun ProfileContent(
     state: ProfileUiState,
@@ -130,7 +138,7 @@ fun ProfileContent(
 ) {
     val color = MaterialTheme.customColors()
     var pageNumber by remember { mutableStateOf(0) }
-
+    val content = LocalContext.current
     val pageState = rememberPagerState(initialPage = 0)
 
     LaunchedEffect(pageNumber) {
@@ -160,25 +168,6 @@ fun ProfileContent(
                     contentDescription = null
                 )
             }
-            IconButton(
-                onClick = { //open camera
-
-                },
-                modifier = Modifier
-                    .size(IconSize30)
-                    .align(Alignment.BottomEnd)
-                    .clip(CircleShape),
-                colors = IconButtonDefaults.iconButtonColors(color.primary)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.camera),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(IconSize24)
-                        .padding(bottom = Space1),
-                    tint = color.onPrimary
-                )
-            }
         }
 
         Text(
@@ -187,7 +176,12 @@ fun ProfileContent(
             color = color.onBackground87
         )
         Text(
-            state.job, modifier = Modifier,
+            state.email,
+            style = MaterialTheme.typography.titleMedium,
+            color = color.onBackground60
+        )
+        Text(
+            state.role,
             style = MaterialTheme.typography.titleMedium,
             color = color.onBackground60
         )
@@ -223,6 +217,19 @@ fun ProfileContent(
                 onConfirmButtonClick = { },
             )
 
+        }
+        if (state.showWarningDialog) {
+            ProfileDialog(title = stringResource(R.string.warning),
+                text = stringResource(R.string.waring_details),
+                onClickDismiss = {
+                    profileInteraction.onRevertChange()
+                    pageNumber = 2
+                },
+                onClickConfirm = {
+                    profileInteraction.onUserInformationFocusChange()
+                    pageNumber = 2
+                }
+            )
         }
         if (state.showLogoutDialog) {
             ProfileDialog(
@@ -274,7 +281,13 @@ fun ProfileContent(
                         )
                     }
                     Button(
-                        onClick = { pageNumber = 1 }, modifier = Modifier
+                        onClick = {
+                            if (profileInteraction.areUserDataEqual()) {
+                                profileInteraction.updateWarningDialog(true)
+                            } else {
+                                pageNumber = 1
+                            }
+                        }, modifier = Modifier
                             .padding(end = Space16)
                             .width(110.dp),
                         colors = ButtonDefaults.buttonColors(
@@ -303,34 +316,31 @@ fun ProfileContent(
                             )
                         ) {
                             item {
+                                val keyboardController = LocalSoftwareKeyboardController.current
                                 ProfileTextField(
                                     text = state.name,
-                                    color.primary,
-                                    color.background,
+                                    onValueChange = { username ->
+                                        profileInteraction.onUsernameChange(username)
+                                    },
+                                    onDone = {
+                                        keyboardController?.hide()
+                                        profileInteraction.onUserInformationFocusChange()
+                                    },
+                                    colorFocused = color.primary,
+                                    colorUnFocused = color.background,
                                     colorIcon = color.primary
                                 )
                                 ProfileTextField(
-                                    text = state.job,
-                                    color.primary,
-                                    color.background,
-                                    colorIcon = color.primary
-                                )
-                                ProfileTextField(
-                                    text = state.number,
-                                    color.primary,
-                                    color.background,
-                                    colorIcon = color.primary
-                                )
-                                ProfileTextField(
-                                    text = state.team,
-                                    color.primary,
-                                    color.background,
-                                    colorIcon = color.primary
-                                )
-                                ProfileTextField(
-                                    text = state.status,
-                                    color.primary,
-                                    color.background,
+                                    text = state.email,
+                                    onValueChange = { email ->
+                                        profileInteraction.onEmailChange(email)
+                                    },
+                                    onDone = {
+                                        keyboardController?.hide()
+                                        profileInteraction.onUserInformationFocusChange()
+                                    },
+                                    colorFocused = color.primary,
+                                    colorUnFocused = color.background,
                                     colorIcon = color.primary
                                 )
                             }
@@ -375,20 +385,16 @@ fun ProfileContent(
                 }
             }
         }
+        if (state.error != null) {
+            Toast.makeText(content, state.error, Toast.LENGTH_SHORT).show()
+        }
     }
+    NoInternetLottie(isShow = state.showNoInternetLottie, onClickRetry = {profileInteraction.onClickRetryToGetPersonalInformation()})
 }
 
-    @Preview(showBackground = true, showSystemUi = true)
-    @Composable
-    fun ProfileScreenPreview() {
-        ProfileScreen(rememberNavController())
-    }
-
-
-
-
-
-
-
-
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun ProfileScreenPreview() {
+    ProfileScreen(rememberNavController())
+}
 

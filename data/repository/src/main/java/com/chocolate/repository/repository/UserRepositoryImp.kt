@@ -1,9 +1,6 @@
 package com.chocolate.repository.repository
 
-import com.chocolate.entities.user.AlertWords
-import com.chocolate.entities.user.CreateUser
 import com.chocolate.entities.user.OwnerUser
-import com.chocolate.entities.user.ProfileData
 import com.chocolate.entities.user.Settings
 import com.chocolate.entities.user.SubgroupsOfUserGroup
 import com.chocolate.entities.user.User
@@ -11,15 +8,11 @@ import com.chocolate.entities.user.UserAttachments
 import com.chocolate.entities.user.UserGroupMemberships
 import com.chocolate.entities.user.UserGroups
 import com.chocolate.entities.user.UserMembershipState
-import com.chocolate.entities.user.UserSettings
 import com.chocolate.entities.user.UserState
 import com.chocolate.entities.user.Users
 import com.chocolate.entities.user.UsersState
 import com.chocolate.repository.datastore.PreferencesDataSource
-import com.chocolate.repository.mappers.users.toAlertWords
-import com.chocolate.repository.mappers.users.toCreateUser
 import com.chocolate.repository.mappers.users.toOwnerUser
-import com.chocolate.repository.mappers.users.toProfileDataDto
 import com.chocolate.repository.mappers.users.toSettingsDto
 import com.chocolate.repository.mappers.users.toSubgroupsOfUserGroup
 import com.chocolate.repository.mappers.users.toUser
@@ -33,13 +26,13 @@ import com.chocolate.repository.mappers.users.toUsers
 import com.chocolate.repository.mappers.users.toUsersState
 import com.chocolate.repository.service.remote.RemoteDataSource
 import kotlinx.coroutines.flow.Flow
-import repositories.UsersRepositories
+import repositories.UsersRepository
 import javax.inject.Inject
 
 class UserRepositoryImp @Inject constructor(
     private val userDataSource: RemoteDataSource,
     private val preferencesDataSource: PreferencesDataSource
-) : UsersRepositories, BaseRepository() {
+) : UsersRepository, BaseRepository() {
     override suspend fun getAllUsers(
         clientGravatar: Boolean, includeCustomProfileFields: Boolean
     ): Users {
@@ -54,7 +47,6 @@ class UserRepositoryImp @Inject constructor(
         return wrapCall {
             userDataSource.getOwnUser()
         }.toOwnerUser()
-
     }
 
     override suspend fun getUserById(
@@ -74,36 +66,15 @@ class UserRepositoryImp @Inject constructor(
     }
 
     override suspend fun updateUserById(
-        id: Int, fullName: String, role: Int, profileData: List<ProfileData>
+        id: Int, fullName: String, role: Int
     ) {
-
         wrapCall {
             userDataSource.updateUserById(
                 id,
                 fullName,
                 role,
-                profileData.map { it.toProfileDataDto() })
-        }
-    }
-
-    override suspend fun updateUserStatus(
-        statusText: String,
-        away: Boolean,
-        emojiName: String,
-        emojiCode: String,
-        reactionType: String
-    ) {
-        wrapCall {
-            userDataSource.updateUserStatus(
-                statusText, away, emojiName, emojiCode, reactionType
             )
         }
-    }
-
-    override suspend fun createUser(email: String, password: String, fullName: String): CreateUser {
-        return wrapCall {
-            userDataSource.createUser(email, password, fullName)
-        }.toCreateUser()
     }
 
     override suspend fun deactivateUserAccount(id: Int) {
@@ -122,14 +93,6 @@ class UserRepositoryImp @Inject constructor(
     override suspend fun deactivateOwnUserAccount() {
         wrapCall {
             userDataSource.deactivateOwnUserAccount()
-        }
-    }
-
-    override suspend fun setTypingStatus(
-        op: String, to: String, type: String, topic: String
-    ) {
-        wrapCall {
-            userDataSource.setTypingStatus(op, to, type, topic)
         }
     }
 
@@ -157,8 +120,8 @@ class UserRepositoryImp @Inject constructor(
         }
     }
 
-    override suspend fun updateSettings(settings: Settings): UserSettings {
-        return wrapCall {
+    override suspend fun updateSettings(settings: Settings) {
+         wrapCall {
             userDataSource.updateSettings(settings.toSettingsDto())
         }.toUserSettings()
 
@@ -230,24 +193,6 @@ class UserRepositoryImp @Inject constructor(
         return wrapCall {
             userDataSource.getSubgroupsOfUserGroup(id, directSubgroupOnly)
         }.toSubgroupsOfUserGroup()
-    }
-
-    override suspend fun getAlertWords(): AlertWords {
-        return wrapCall {
-            userDataSource.getAlertWords()
-        }.toAlertWords()
-    }
-
-    override suspend fun addAlertWords(alertWords: String): AlertWords {
-        return wrapCall {
-            userDataSource.addAlertWords(alertWords)
-        }.toAlertWords()
-    }
-
-    override suspend fun removeAlertWords(alertWords: String): AlertWords {
-        return wrapCall {
-            userDataSource.removeAlertWords(alertWords)
-        }.toAlertWords()
     }
 
     override suspend fun muteUser(mutedUserId: Int) {

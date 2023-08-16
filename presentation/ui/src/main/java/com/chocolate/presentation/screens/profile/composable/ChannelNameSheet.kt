@@ -38,6 +38,7 @@ fun ChannelNameSheet(onClick:()->Unit,color: CustomColorsPalette){
 
             ProfileTextField(
                 text =stringResource(id = R.string.channel_name),
+                onValueChange = {},
                 colorFocused = color.card,
                 colorUnFocused = color.card,
                 colorIcon = color.card

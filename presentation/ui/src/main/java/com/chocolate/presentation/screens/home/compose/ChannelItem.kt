@@ -98,8 +98,8 @@ fun ChannelItem(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Divider(modifier = Modifier.padding(Space8), color = colors.border)
-                    Row(
-                        modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(vertical = 8.dp),
+                    Row(modifier =
+                        Modifier.fillMaxWidth().wrapContentHeight().padding(vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
@@ -115,7 +115,7 @@ fun ChannelItem(
                     }
                 }
             }
-            Divider(modifier = Modifier.padding(Space8), color = colors.border)
+          //  Divider(modifier = Modifier.padding(Space8), color = colors.border)
         }
     }
 }

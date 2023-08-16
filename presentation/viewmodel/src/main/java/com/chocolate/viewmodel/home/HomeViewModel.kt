@@ -33,32 +33,16 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onGettingOrganizationNameSuccess(organizationName: String) {
-        _state.update {
-            it.copy(
-                isLoading = false,
-                organizationTitle = organizationName
-            )
-        }
+        _state.update { it.copy(isLoading = false, organizationTitle = organizationName) }
     }
 
     private fun onGettingChannelsSuccess(channels: List<Channel>) {
-        _state.update {
-            it.copy(
-                isLoading = false,
-                channels = channels.toUiState()
-            )
-        }
+        _state.update { it.copy(isLoading = false, channels = channels.toUiState()) }
     }
 
-    private fun onError(throwable: Throwable) {
-        Log.e("onError: ", throwable.message.toString())
-    }
+    private fun onError(throwable: Throwable) = Log.e("onError: ", throwable.message.toString())
 
     private suspend fun getUserLoginState() {
-        collectFlow(getUserLoginStatusUseCase()) {
-            this.copy(
-                isLogged = it,
-            )
-        }
+        collectFlow(getUserLoginStatusUseCase()) { this.copy(isLogged = it) }
     }
 }

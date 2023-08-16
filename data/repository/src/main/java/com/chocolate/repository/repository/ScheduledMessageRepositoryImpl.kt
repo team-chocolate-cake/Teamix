@@ -10,9 +10,10 @@ import javax.inject.Inject
 
 class ScheduledMessageRepositoryImpl @Inject constructor(
     private val scheduledMessageRemoteDataSource: RemoteDataSource
-) : ScheduledMessageRepository, BaseRepository() {
+) : ScheduledMessageRepository{
     override suspend fun getScheduledMessages(): ScheduledMessages {
-        return wrapCall { scheduledMessageRemoteDataSource.getScheduledMessages() }.toScheduledMessages()
+        return scheduledMessageRemoteDataSource.getScheduledMessages()
+            .toScheduledMessages()
     }
 
     override suspend fun createScheduledMessage(
@@ -22,11 +23,9 @@ class ScheduledMessageRepositoryImpl @Inject constructor(
         topic: String,
         scheduledDeliveryTimestamp: Long
     ): BaseScheduledMessage {
-        return wrapCall {
-            scheduledMessageRemoteDataSource.createScheduledMessage(
+        return scheduledMessageRemoteDataSource.createScheduledMessage(
                 type, to, content, topic, scheduledDeliveryTimestamp
-            )
-        }.toBaseScheduledMessage()
+            ).toBaseScheduledMessage()
     }
 
     override suspend fun editScheduledMessage(
@@ -37,14 +36,13 @@ class ScheduledMessageRepositoryImpl @Inject constructor(
         topic: String,
         scheduledDeliveryTimestamp: Long
     ): BaseScheduledMessage {
-        return wrapCall {
-            scheduledMessageRemoteDataSource.editScheduledMessage(
+        return scheduledMessageRemoteDataSource.editScheduledMessage(
                 id, type, to, content, topic, scheduledDeliveryTimestamp
-            )
-        }.toBaseScheduledMessage()
+            ).toBaseScheduledMessage()
     }
 
     override suspend fun deleteScheduledMessage(id: Int): BaseScheduledMessage {
-        return wrapCall { scheduledMessageRemoteDataSource.deleteScheduledMessage(id) }.toBaseScheduledMessage()
+        return scheduledMessageRemoteDataSource.deleteScheduledMessage(id)
+            .toBaseScheduledMessage()
     }
 }

@@ -35,20 +35,20 @@ abstract class BaseViewModel<STATE, UiEffect>(initialState: STATE) : ViewModel()
         viewModelScope.launch(dispatcher) {
             try {
                 call().also(onSuccess)
+            }catch (e: RequestException){
+                onError(e)
+            }catch (e: RateLimitExceededException){
+                onError(e)
+            }catch (e: ServerException){
+                onError(e)
+            }catch (e: NullDataException){
+                onError(e)
+            }catch (e: ValidationException){
+                onError(e)
+            }catch (e: TeamixException){
+                onError(e)
             } catch (throwable: Throwable) {
                 onError(throwable)
-            }catch (e: RequestException){
-
-            }catch (e: RateLimitExceededException){
-
-            }catch (e: ServerException){
-
-            }catch (e: NullDataException){
-
-            }catch (e: ValidationException){
-
-            }catch (e: TeamixException){
-
             }
         }
     }

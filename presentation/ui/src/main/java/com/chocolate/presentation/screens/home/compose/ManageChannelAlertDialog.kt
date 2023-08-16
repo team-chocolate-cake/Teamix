@@ -70,7 +70,6 @@ fun ManageChannelAlertDialog(
                     color = colors.red60,
                     modifier = Modifier.padding(end = Space8).clickable { onDismiss() })
             }
-
         }
     }
 }

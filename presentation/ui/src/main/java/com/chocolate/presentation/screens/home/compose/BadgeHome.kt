@@ -26,20 +26,14 @@ fun BadgeHome(number: Int, textColor: Color, cardColor: Color, modifier: Modifie
         animationSpec = tween(durationMillis = 300), label = ""
     )
     Card(
-        modifier = modifier
-            .wrapContentSize()
-            .alpha(badgeAlpha),
+        modifier = modifier.wrapContentSize().alpha(badgeAlpha),
         shape = RoundedCornerShape(Space16),
         colors = CardDefaults.cardColors(cardColor)
     ) {
         Text(
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(vertical = Space4, horizontal = Space8),
-            text = number.toString(),
-                style = MaterialTheme.typography.labelMedium,
-                color = textColor,
-                textAlign = TextAlign.End
-            )
-        }
+            modifier = Modifier.wrapContentSize().padding(vertical = Space4, horizontal = Space8),
+            text = number.toString(), style = MaterialTheme.typography.labelMedium,
+            color = textColor, textAlign = TextAlign.End
+        )
+    }
 }

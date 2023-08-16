@@ -66,8 +66,7 @@ fun ChannelItem(
         verticalArrangement = Arrangement.Center
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             val iconsChannel =
@@ -103,10 +102,7 @@ fun ChannelItem(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(
-                            text = topicUIState.name,
-                            color = colors.onBackground60,
-                        )
+                        Text(text = topicUIState.name, color = colors.onBackground60)
                         BadgeHome(
                             number = topicUIState.topicBadge,
                             textColor = colors.onPrimary,
@@ -115,7 +111,6 @@ fun ChannelItem(
                     }
                 }
             }
-          //  Divider(modifier = Modifier.padding(Space8), color = colors.border)
         }
     }
 }

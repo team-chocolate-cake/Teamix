@@ -20,7 +20,6 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getUserLoginStatusUseCase: GetUserLoginStatusUseCase,
     private val getSubscribedChannelsUseCase: GetSubscribedChannelsUseCase,
-    private val getChannelsUseCase: GetChannelsUseCase,
     private val leaveChannelUseCase: LeaveChannelUseCase,
     private val getNameOrganizationsUseCase: GetNameOrganizationsUseCase
 ) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()) {

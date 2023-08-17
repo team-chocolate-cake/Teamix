@@ -5,7 +5,7 @@ import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.channel.Topic
 
 interface ChannelsRepository {
-    suspend fun getSubscribedChannels(): List<Channel?>?
+    suspend fun getSubscribedChannels(): List<Channel>
 
     suspend fun subscribeToChannel(channelName: String): Boolean
 
@@ -20,7 +20,7 @@ interface ChannelsRepository {
 
     suspend fun getChannels(): List<Channel>
 
-    suspend fun getChannelById(channelId: Int): Channel
+    suspend fun getChannelById(channelId: Int): Channel?
 
     suspend fun getChannelIdByName(channel: String): Int
 

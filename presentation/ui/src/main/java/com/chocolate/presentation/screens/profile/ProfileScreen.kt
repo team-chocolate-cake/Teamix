@@ -26,7 +26,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -64,7 +63,6 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.screens.oner_power.navigateToOwnerPower
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
-import com.chocolate.presentation.screens.profile.composable.ChangeThemeDialog
 import com.chocolate.presentation.screens.profile.composable.MultiChoiceDialog
 import com.chocolate.presentation.screens.profile.composable.ProfileDialog
 import com.chocolate.presentation.screens.profile.composable.ProfileTextField
@@ -237,17 +235,6 @@ fun ProfileContent(
                 }
             )
         }
-        if (state.showThemeDialog) {
-            AlertDialog(
-                modifier = Modifier,
-                onDismissRequest = { profileInteraction.updateThemeDialogState(false) },
-                confirmButton = {},
-                dismissButton = {},
-                text = {
-                    ChangeThemeDialog()
-                }, containerColor = color.background
-            )
-        }
         if (state.showClearHistoryDialog) {
             ProfileDialog(
                 title = stringResource(R.string.clear_history_title),
@@ -306,7 +293,7 @@ fun ProfileContent(
                 ) {
                     Button(
                         onClick = { pageNumber = 0 }, modifier = Modifier
-                            .padding(start = Space16)
+                            .padding(start = Space8)
                             .width(ButtonSize110),
                         colors = ButtonDefaults.buttonColors(
                             if (pageState.currentPage == 0) color.primary.copy(alpha = 1f) else
@@ -327,7 +314,7 @@ fun ProfileContent(
                                 pageNumber = 1
                             }
                         }, modifier = Modifier
-                            .padding(end = Space16)
+                            .padding(start = Space8)
                             .width(110.dp),
                         colors = ButtonDefaults.buttonColors(
                             if (pageState.currentPage == 1) color.primary.copy(alpha = 1f) else
@@ -474,12 +461,6 @@ fun ProfileContent(
                                     click = { profileInteraction.updateLanguageDialogState(true) },
                                     text = stringResource(R.string.language),
                                     icon = painterResource(id = R.drawable.language)
-                                )
-                                Divider(color = color.background, thickness = Thickness2)
-                                SettingCard(
-                                    click = { profileInteraction.updateThemeDialogState(true) },
-                                    text = stringResource(R.string.change_theme),
-                                    icon = painterResource(id = R.drawable.changetheme)
                                 )
                                 Divider(color = color.background, thickness = Thickness2)
                                 SettingCard(

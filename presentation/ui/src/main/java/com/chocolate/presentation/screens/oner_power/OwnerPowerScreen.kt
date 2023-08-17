@@ -68,12 +68,13 @@ fun OwnerPowerContent(
         MultiChoiceDialog(
             onDismissRequest = { ownerPowerInteraction.updateChangeMemberRoleDialogState(false)},
             whenChoice = {},
-            list = listOf(stringResource(R.string.guest),
+            choices = listOf(stringResource(R.string.guest),
                 stringResource(R.string.member), stringResource(R.string.administrator),
                 stringResource(
                     R.string.owner
                 )
-            )
+            ),
+            oldSelectedChoice = ""
         )
     }
     if (state.showOrganizationNameSheet) {

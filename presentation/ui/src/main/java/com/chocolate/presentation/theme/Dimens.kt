@@ -72,6 +72,7 @@ val ImageSize158 = 158.dp
 // region Button Size
 val ButtonSize18 = 18.dp
 val ButtonSize24 = 24.dp
+val ButtonSize48 = 48.dp
 val ButtonSize110 = 110.dp
 //endregion
 

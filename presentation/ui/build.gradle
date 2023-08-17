@@ -64,5 +64,6 @@ dependencies {
 
 
     implementation(ProjectDependencies.webView)
+    implementation(ProjectDependencies.systemuicontroller)
 
 }

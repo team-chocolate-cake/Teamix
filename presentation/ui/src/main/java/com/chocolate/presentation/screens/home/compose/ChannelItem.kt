@@ -66,18 +66,18 @@ fun ChannelItem(
             .clip(RoundedCornerShape(12.dp))
             .background(color = colors.onPrimary)
             .padding(Space16)
-            .combinedClickable(
+          /*  .combinedClickable(
                 onLongClick = {
                     haptics.performHapticFeedback(HapticFeedbackType.LongPress)
                     onLongClickChannel()
                 },
-                onClick = {}),
+                onClick = {})*/,
         verticalArrangement = Arrangement.Center
     ) {
         Row(
             modifier = Modifier.fillMaxSize().pointerInput(Unit) {
                 detectTapGestures(onLongPress = {
-                    onClickItemChannel(state.channelId)
+                    onLongClickChannel()
                     Toast.makeText(context , state.name, Toast.LENGTH_SHORT).show()
                 })
             },

@@ -50,14 +50,6 @@ import com.chocolate.repository.model.dto.users.request.SettingsDto
 import com.chocolate.repository.model.dto.users.response.FetchApiKeyDto
 import com.chocolate.repository.service.remote.RemoteDataSource
 import com.chocolate.repository.utils.HttpStatusCodes
-import com.chocolate.repository.utils.NetworkException
-import com.chocolate.repository.utils.NoInternetException
-import com.chocolate.repository.utils.NotFoundException
-import com.chocolate.repository.utils.NullResultException
-import com.chocolate.repository.utils.RemoteException
-import com.chocolate.repository.utils.TooManyRequestsException
-import com.chocolate.repository.utils.UserDeactivatedException
-import com.chocolate.repository.utils.ValidationError
 import okhttp3.MultipartBody
 import retrofit2.Response
 import java.net.SocketTimeoutException

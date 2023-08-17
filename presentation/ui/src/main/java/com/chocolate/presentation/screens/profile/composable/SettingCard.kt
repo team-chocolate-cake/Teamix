@@ -1,7 +1,6 @@
 package com.chocolate.presentation.screens.profile.composable
 
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,8 +26,12 @@ import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
 
 @Composable
-fun SettingCard(click: () -> Unit, text: String, icon: Painter
-                ,textColor: Color =MaterialTheme.customColors().onBackground60,) {
+fun SettingCard(click: () -> Unit,
+                text: String,
+                icon: Painter,
+                textColor: Color =MaterialTheme.customColors().onBackground60,
+                iconColor: Color = textColor
+                ) {
     val color = MaterialTheme.customColors()
 
     Card(
@@ -45,9 +48,11 @@ fun SettingCard(click: () -> Unit, text: String, icon: Painter
                 .padding(horizontal = Space16),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Image(
+            Icon(
                 painter = icon,
-                contentDescription = null, modifier = Modifier.padding(end = Space8)
+                contentDescription = null,
+                modifier = Modifier.padding(end = Space8),
+                tint = iconColor
             )
 
             Text(

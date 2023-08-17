@@ -1,14 +1,12 @@
 package com.chocolate.viewmodel.login
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NetworkException
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.NotFoundException
 import com.chocolate.entities.exceptions.ValidationException
-import com.chocolate.usecases.organization.GetNameOrganizationsUseCase
-import com.chocolate.usecases.user.LoginUseCase
+import com.chocolate.usecases.user.AttemptUserLoginUseCase
 import com.chocolate.usecases.user.SetUserLoginStateUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val loginUseCase: LoginUseCase,
+    private val attemptUserLoginUseCase: AttemptUserLoginUseCase,
     private val setUserLoginStateUseCase: SetUserLoginStateUseCase,
 ) : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState()),LoginInteraction {
 
@@ -49,7 +47,7 @@ class LoginViewModel @Inject constructor(
 
     override fun login(email: String, password: String) {
         _state.update { it.copy(isLoading = true) }
-        tryToExecute({ loginUseCase(email, password) }, ::onSuccess, ::onError)
+        tryToExecute({ attemptUserLoginUseCase(email, password) }, ::onSuccess, ::onError)
     }
 
     override fun onClickRetry() {

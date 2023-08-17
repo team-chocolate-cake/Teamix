@@ -29,7 +29,6 @@ object ProjectDependencies {
     private const val APP_COMPAT = "1.6.1"
 
 
-    const val systemUiController ="com.google.accompanist:accompanist-systemuicontroller:$SYSTEM_UI_CONTROLLER_VERSION"
     const val androidxCore = "androidx.core:core-ktx:$CORE_VERSION"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:$CONSTRAINT_LAYOUT_VERSION"
     const val kotlinBom = "org.jetbrains.kotlin:kotlin-bom:$KOTLIN_BOM"

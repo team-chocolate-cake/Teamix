@@ -22,8 +22,10 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -43,6 +45,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -89,7 +92,6 @@ import com.chocolate.viewmodel.profile.ProfileEffect
 import com.chocolate.viewmodel.profile.ProfileInteraction
 import com.chocolate.viewmodel.profile.ProfileUiState
 import com.chocolate.viewmodel.profile.ProfileViewModel
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -163,9 +165,10 @@ fun ProfileContent(
     val color = MaterialTheme.customColors()
     val coroutineScope = rememberCoroutineScope()
 
-    var pageNumber by remember { mutableStateOf(0) }
+    var pageNumber by rememberSaveable { mutableStateOf(0) }
     val content = LocalContext.current
     val pageState = rememberPagerState(initialPage = 0)
+    val scrollSatae = rememberScrollState()
 
     LaunchedEffect(pageNumber) {
         pageState.animateScrollToPage(pageNumber)
@@ -175,7 +178,8 @@ fun ProfileContent(
         modifier = Modifier
             .fillMaxSize()
             .background(color.background)
-            .padding(top = Space26), horizontalAlignment = Alignment.CenterHorizontally
+            .padding(top = Space26)
+            .verticalScroll(scrollSatae), horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(Modifier.height(ImageSize158)) {
             Box(
@@ -332,7 +336,8 @@ fun ProfileContent(
 
                 HorizontalPager(
                     state = pageState, pageCount = 2,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    modifier = Modifier.padding(bottom = 8.dp),
+                    userScrollEnabled = false
                 ) {
                     if (pageState.currentPage == 0) {
                         LazyColumn(
@@ -377,7 +382,7 @@ fun ProfileContent(
                         LazyColumn(modifier = Modifier.padding(vertical = 16.dp)) {
                             item {
                                 AnimatedVisibility(
-                                    visible = state.role != "Member"
+                                    visible = state.role != "Member" && state.role != "Guest"
                                 ) {
                                     SettingCard(
                                         click = { profileInteraction.onClickOwnerPower() },
@@ -399,11 +404,6 @@ fun ProfileContent(
                                                 coroutineScope.launch {
                                                     mainViewModel.updateDarkTheme(darkThemeState)
                                                 }
-
-
-//                                                profileInteraction.onSwitchToDarkOrLightTheme(
-//                                                    state.isDarkTheme
-//                                                )
                                             }
                                             .fillMaxWidth(),
 
@@ -432,11 +432,7 @@ fun ProfileContent(
                                                 checked = darkThemeState, onCheckedChange = {
                                                     coroutineScope.launch {
                                                         mainViewModel.updateDarkTheme(darkThemeState)
-
                                                     }
-//                                                    profileInteraction.onSwitchToDarkOrLightTheme(
-//                                                        state.isDarkTheme
-//                                                    )
                                                 },
                                                 thumbContent = {
                                                     Icon(
@@ -456,11 +452,14 @@ fun ProfileContent(
                                         }
                                     }
                                 }
-                                SettingCard(
-                                    click = { profileInteraction.onClickOwnerPower() },
-                                    text = stringResource(R.string.owner_powers),
-                                    icon = painterResource(id = R.drawable.ownerpowers)
-                                )
+                                AnimatedVisibility(visible = state.role != "Member") {
+                                    SettingCard(
+                                        click = { profileInteraction.onClickOwnerPower() },
+                                        text = stringResource(R.string.owner_powers),
+                                        icon = painterResource(id = R.drawable.ownerpowers)
+                                    )
+                                    Divider(color = color.background, thickness = Thickness2)
+                                }
                                 Divider(color = color.background, thickness = Thickness2)
                                 SettingCard(
                                     click = { profileInteraction.updateLanguageDialogState(true) },
@@ -483,7 +482,8 @@ fun ProfileContent(
                                 SettingCard(
                                     click = { profileInteraction.updateLogoutDialogState(true) },
                                     text = stringResource(R.string.log_out),
-                                    icon = painterResource(id = R.drawable.logout)
+                                    icon = painterResource(id = R.drawable.logout),
+                                    iconColor = color.red60
                                 )
                             }
                         }

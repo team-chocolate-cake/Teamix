@@ -12,6 +12,7 @@ import com.chocolate.usecases.user.UpdateUserInformationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -51,6 +52,9 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun onGetOwnUserError(throwable: Throwable){
+        when(throwable){
+            is UnknownHostException -> sendUiEffect(ProfileEffect.NavigateToLoginScreen)
+        }
         _state.update { it.copy(isLoading = false,showNoInternetLottie = true) }
     }
 

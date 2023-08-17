@@ -37,25 +37,44 @@ abstract class BaseViewModel<STATE, UiEffect>(initialState: STATE) : ViewModel()
             try {
                 call().also(onSuccess)
             } catch (e: RequestException){
-                Log.d("123123123", "tryToExecute: $e 4")
                 onError(e)
             }catch (e: RateLimitExceededException){
-                Log.d("123123123", "tryToExecute: $e 5")
                 onError(e)
             }catch (e: ServerException){
-                Log.d("123123123", "tryToExecute: $e 6")
                 onError(e)
             }catch (e: NullDataException){
-                Log.d("123123123", "tryToExecute: $e 7")
                 onError(e)
             }catch (e: ValidationException){
-                Log.d("123123123", "tryToExecute: $e 8")
                 onError(e)
             }catch (e: TeamixException){
-                Log.d("123123123", "tryToExecute: $e 9")
                 onError(e)
             }catch (throwable: Throwable) {
-                Log.d("123123123", "tryToExecute: $throwable 1")
+                onError(throwable)
+            }
+        }
+    }  
+    fun <T> tryToExecuteFlow(
+        call: suspend () -> Flow<T>,
+        onSuccess: (Flow<T>) -> Unit,
+        onError: (Throwable) -> Unit,
+        dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ) {
+        viewModelScope.launch(dispatcher) {
+            try {
+                call().also(onSuccess)
+            } catch (e: RequestException){
+                onError(e)
+            }catch (e: RateLimitExceededException){
+                onError(e)
+            }catch (e: ServerException){
+                onError(e)
+            }catch (e: NullDataException){
+                onError(e)
+            }catch (e: ValidationException){
+                onError(e)
+            }catch (e: TeamixException){
+                onError(e)
+            }catch (throwable: Throwable) {
                 onError(throwable)
             }
         }

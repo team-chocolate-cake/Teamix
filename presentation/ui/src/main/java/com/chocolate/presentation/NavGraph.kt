@@ -5,12 +5,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.chocolate.presentation.screens.login.loginRoute
 import com.chocolate.presentation.screens.organiztion.organizationNameRoute
-import com.chocolate.presentation.screens.profile.ownerPowerRoute
 import com.chocolate.presentation.screens.profile.profileRoute
 import com.chocolate.presentation.screens.home.homeRoute
 import com.chocolate.presentation.screens.on_boarding.onboardingRoute
 import com.chocolate.presentation.screens.create_organization.createOrganizationWebViewRoute
 import com.chocolate.presentation.screens.forget_password.forgetPasswordWebViewRoute
+import com.chocolate.presentation.screens.oner_power.ownerPowerRoute
 import com.chocolate.presentation.screens.welcome.welcomeRoute
 
 @Composable

@@ -1,5 +1,9 @@
 package com.chocolate.viewmodel.profile
 
+import com.chocolate.entities.exceptions.EmptyEmailException
+import com.chocolate.entities.exceptions.EmptyFullNameException
+import com.chocolate.entities.exceptions.SameUserDataException
+import com.chocolate.entities.user.OwnerUser
 import com.chocolate.entities.user.Settings
 import com.chocolate.usecases.user.CustomizeProfileSettingsUseCase
 import com.chocolate.usecases.user.LogoutUseCase

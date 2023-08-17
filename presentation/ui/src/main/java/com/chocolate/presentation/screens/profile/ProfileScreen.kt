@@ -1,5 +1,6 @@
 package com.chocolate.presentation.screens.profile
 
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,8 +26,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,8 +36,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,6 +50,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.R
+import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.screens.oner_power.navigateToOwnerPower
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.screens.profile.composable.ChangeThemeDialog
@@ -57,25 +60,24 @@ import com.chocolate.presentation.screens.profile.composable.ProfileTextField
 import com.chocolate.presentation.screens.profile.composable.SettingCard
 import com.chocolate.presentation.theme.BoxHeight440
 import com.chocolate.presentation.theme.ButtonSize110
-import com.chocolate.presentation.theme.IconSize24
-import com.chocolate.presentation.theme.IconSize30
 import com.chocolate.presentation.theme.ImageSize110
 import com.chocolate.presentation.theme.ImageSize130
 import com.chocolate.presentation.theme.ImageSize158
 import com.chocolate.presentation.theme.Radius16
 import com.chocolate.presentation.theme.Radius24
 import com.chocolate.presentation.theme.RowWidth250
-import com.chocolate.presentation.theme.Space1
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space26
 import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.Thickness2
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.updateResources
 import com.chocolate.viewmodel.profile.ProfileEffect
 import com.chocolate.viewmodel.profile.ProfileInteraction
 import com.chocolate.viewmodel.profile.ProfileUiState
 import com.chocolate.viewmodel.profile.ProfileViewModel
 import kotlinx.coroutines.flow.collectLatest
+import java.util.Locale
 
 @Composable
 fun ProfileScreen(
@@ -221,11 +223,11 @@ fun ProfileContent(
         if (state.showWarningDialog) {
             ProfileDialog(title = stringResource(R.string.warning),
                 text = stringResource(R.string.waring_details),
-                onClickDismiss = {
+                onDismissButtonClick = {
                     profileInteraction.onRevertChange()
                     pageNumber = 2
                 },
-                onClickConfirm = {
+                onConfirmButtonClick = {
                     profileInteraction.onUserInformationFocusChange()
                     pageNumber = 2
                 }

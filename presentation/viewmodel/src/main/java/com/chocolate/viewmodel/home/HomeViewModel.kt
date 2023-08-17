@@ -1,6 +1,5 @@
 package com.chocolate.viewmodel.home
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.channel.Channel
 import com.chocolate.usecases.channel.GetChannelsUseCase
@@ -57,11 +56,11 @@ class HomeViewModel @Inject constructor(
 
     private fun onGettingChannels() {
         _state.update { it.copy(isLoading = true) }
-        tryToExecute({ getChannelsUseCase() }, ::onGettingChannelsSuccess, ::onError)
+        tryToExecute({ getSubscribedChannelsUseCase() }, ::onGettingChannelsSuccess, ::onError)
     }
 
     private fun onGettingChannelsSuccess(channels: List<Channel>) {
-        _state.update { it.copy(isLoading = false, channels = channels.toUiState(),error = null) }
+        _state.update { it.copy(isLoading = false, channels = channels.toUiState(), error = null) }
     }
 
     private suspend fun getUserLoginState() {

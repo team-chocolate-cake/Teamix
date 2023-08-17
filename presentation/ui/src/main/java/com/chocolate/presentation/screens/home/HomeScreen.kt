@@ -86,7 +86,7 @@ fun HomeScreen(
         if (state.error != null) {
             NoInternetLottie(
                 isShow = true,
-                onClickRetry =  homeViewModel::getData
+                onClickRetry = homeViewModel::getData
             )
         } else {
             when {
@@ -99,6 +99,7 @@ fun HomeScreen(
                         CircularProgressIndicator(color = LightPrimary)
                     }
                 }
+
                 else -> {
                     HomeContent(
                         state = state,
@@ -110,7 +111,21 @@ fun HomeScreen(
                             Toast.makeText(context, "Saved Later Coming soon!", Toast.LENGTH_SHORT)
                                 .show()
                         },
-                        navigateToChannel = {},
+                        navigateToChannel = {
+                            Toast.makeText(
+                                context,
+                                "Navigate to channel: $it ",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        },
+                        navigateToTopic = {
+                            Toast.makeText(
+                                context,
+                                "Navigate to Topic: $it ",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     )
                 }
             }
@@ -126,9 +141,11 @@ fun HomeScreen(
 fun HomeContent(
     state: HomeUiState,
     navigationToDrafts: () -> Unit,
+    navigateToTopic: (String) -> Unit,
     navigationToSavedLater: () -> Unit,
     navigateToChannel: (Int) -> Unit
 ) {
+    val context = LocalContext.current
     val colors = MaterialTheme.customColors()
     var isShowSheet by remember { mutableStateOf(false) }
 
@@ -202,6 +219,8 @@ fun HomeContent(
                     colors,
                     onClickItemChannel = {
                         navigateToChannel(channelUIState.channelId)
+                    }, onClickTopic = {
+                        navigateToTopic(it)
                     },
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
@@ -273,7 +292,8 @@ fun HomePreview() {
             state = HomeUiState(),
             navigationToDrafts = {},
             navigationToSavedLater = {},
-            navigateToChannel = {}
+            navigateToChannel = {},
+            navigateToTopic = {}
         )
     }
 }

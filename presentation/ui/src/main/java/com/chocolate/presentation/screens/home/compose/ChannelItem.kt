@@ -47,6 +47,7 @@ import com.chocolate.viewmodel.home.ChannelUiState
 fun ChannelItem(
     state: ChannelUiState,
     colors: CustomColorsPalette,
+    onClickTopic: (String) -> Unit,
     onClickItemChannel: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -60,6 +61,7 @@ fun ChannelItem(
             .wrapContentHeight()
             .animateContentSize(animationSpec = tween(durationMillis = 300))
             .clip(RoundedCornerShape(12.dp))
+            .clickable { onClickItemChannel(state.channelId) }
             .background(color = colors.card)
             .padding(Space16), verticalArrangement = Arrangement.Center
     ) {
@@ -81,7 +83,7 @@ fun ChannelItem(
                 color = colors.onBackground87
             )
             Spacer(modifier = Modifier.weight(1f))
-            if (state.topics.isNotEmpty()){
+            if (state.topics.isNotEmpty()) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_down),
                     contentDescription = null,
@@ -93,15 +95,12 @@ fun ChannelItem(
             }
         }
         if (isExpanded) {
-            Log.d("TAG", "ChannelItem:${state.topics} ")
             state.topics.forEach { topicUIState ->
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
                         .clickable {
-                            Toast
-                                .makeText(context, "navigate to ${state.name}", Toast.LENGTH_SHORT)
-                                .show()
+                            onClickItemChannel(state.channelId)
                         },
                     verticalArrangement = Arrangement.Center
                 ) {
@@ -112,14 +111,7 @@ fun ChannelItem(
                             .wrapContentHeight()
                             .pointerInput(Unit) {
                                 detectTapGestures(onPress = {
-                                    onClickItemChannel(state.channelId)
-                                    Toast
-                                        .makeText(
-                                            context,
-                                            state.topics.first().name,
-                                            Toast.LENGTH_SHORT
-                                        )
-                                        .show()
+                                    onClickTopic(topicUIState.name)
                                 })
                             }
                             .padding(vertical = 8.dp),
@@ -127,11 +119,6 @@ fun ChannelItem(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(text = topicUIState.name, color = colors.onBackground60)
-                        BadgeHome(
-                            number = topicUIState.topicBadge,
-                            textColor = colors.onPrimary,
-                            cardColor = colors.primary
-                        )
                     }
                 }
             }

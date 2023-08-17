@@ -42,10 +42,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -100,7 +97,6 @@ fun ProfileScreen(
     navController: NavController,
     mainViewModel: MainViewModel,
     viewModel: ProfileViewModel = hiltViewModel(),
-
 ) {
     val state by viewModel.state.collectAsState()
     val darkThemeState by mainViewModel.state.collectAsState()
@@ -167,13 +163,12 @@ fun ProfileContent(
     val color = MaterialTheme.customColors()
     val coroutineScope = rememberCoroutineScope()
 
-    var pageNumber by rememberSaveable { mutableStateOf(0) }
     val content = LocalContext.current
     val pageState = rememberPagerState(initialPage = 0)
     val scrollSatae = rememberScrollState()
 
-    LaunchedEffect(pageNumber) {
-        pageState.animateScrollToPage(pageNumber)
+    LaunchedEffect(state.pagerNumber) {
+        pageState.animateScrollToPage(state.pagerNumber)
     }
 
     Column(
@@ -262,11 +257,9 @@ fun ProfileContent(
                 text = stringResource(R.string.waring_details),
                 onDismissButtonClick = {
                     profileInteraction.onRevertChange()
-                    pageNumber = 2
                 },
                 onConfirmButtonClick = {
                     profileInteraction.onUserInformationFocusChange()
-                    pageNumber = 2
                 }
             )
         }
@@ -305,7 +298,7 @@ fun ProfileContent(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Button(
-                        onClick = { pageNumber = 0 }, modifier = Modifier
+                        onClick = { profileInteraction.onClickProfileButton() }, modifier = Modifier
                             .padding(start = Space16)
                             .width(ButtonSize110),
                         colors = ButtonDefaults.buttonColors(
@@ -324,7 +317,7 @@ fun ProfileContent(
                             if (profileInteraction.areUserDataEqual()) {
                                 profileInteraction.updateWarningDialog(true)
                             } else {
-                                pageNumber = 1
+                                profileInteraction.onClickSettingsButton()
                             }
                         }, modifier = Modifier
                             .padding(end = Space16)
@@ -390,15 +383,6 @@ fun ProfileContent(
 
                         LazyColumn(modifier = Modifier.padding(vertical = 16.dp)) {
                             item {
-                                AnimatedVisibility(
-                                    visible = state.role != "Member" && state.role != "Guest"
-                                ) {
-                                    SettingCard(
-                                        click = { profileInteraction.onClickOwnerPower() },
-                                        text = stringResource(R.string.owner_powers),
-                                        icon = painterResource(id = R.drawable.ownerpowers)
-                                    )
-                                }
                                 Box(
                                     Modifier
                                         .fillMaxWidth()
@@ -461,7 +445,7 @@ fun ProfileContent(
                                         }
                                     }
                                 }
-                                AnimatedVisibility(visible = state.role != "Member") {
+                                AnimatedVisibility(visible = state.role != "Member" && state.role != "Guest") {
                                     SettingCard(
                                         click = { profileInteraction.onClickOwnerPower() },
                                         text = stringResource(R.string.owner_powers),
@@ -503,6 +487,7 @@ fun ProfileContent(
         if (state.error != null) {
             Toast.makeText(content, state.error, Toast.LENGTH_SHORT).show()
         }
+
     }
     NoInternetLottie(
         isShow = state.showNoInternetLottie,

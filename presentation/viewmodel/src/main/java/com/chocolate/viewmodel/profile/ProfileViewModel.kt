@@ -3,6 +3,7 @@ package com.chocolate.viewmodel.profile
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.EmptyEmailException
 import com.chocolate.entities.exceptions.EmptyFullNameException
+import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.SameUserDataException
 import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.entities.user.OwnerUser
@@ -69,23 +70,23 @@ class ProfileViewModel @Inject constructor(
             is UnknownHostException, is ValidationException ->
                 sendUiEffect(ProfileEffect.NavigateToOrganizationScreen)
         }
-        _state.update { it.copy(isLoading = false, showNoInternetLottie = true) }
+        _state.update { it.copy(isLoading = false, showNoInternetLottie = true, error = null) }
     }
 
     override fun updateLanguageDialogState(showDialog: Boolean) {
-        _state.update { it.copy(showLanguageDialog = showDialog) }
+        _state.update { it.copy(showLanguageDialog = showDialog, error = null) }
     }
 
     override fun updateThemeDialogState(showDialog: Boolean) {
-        _state.update { it.copy(showThemeDialog = showDialog) }
+        _state.update { it.copy(showThemeDialog = showDialog, error = null) }
     }
 
     override fun updateLogoutDialogState(showDialog: Boolean) {
-        _state.update { it.copy(showLogoutDialog = showDialog) }
+        _state.update { it.copy(showLogoutDialog = showDialog, error = null) }
     }
 
     override fun updateWarningDialog(showDialog: Boolean) {
-        _state.update { it.copy(showWarningDialog = showDialog) }
+        _state.update { it.copy(showWarningDialog = showDialog, error = null) }
     }
 
     override fun onClickOwnerPower() {
@@ -97,7 +98,7 @@ class ProfileViewModel @Inject constructor(
             originalName = _state.value.name
         }
         newUsername = username
-        _state.update { it.copy(name = username) }
+        _state.update { it.copy(name = username, error = null) }
     }
 
     override fun onEmailChange(email: String) {
@@ -105,11 +106,11 @@ class ProfileViewModel @Inject constructor(
             originalEmail = _state.value.email
         }
         newEmail = email
-        _state.update { it.copy(email = email) }
+        _state.update { it.copy(email = email, error = null) }
     }
 
     override fun onUserInformationFocusChange() {
-        _state.update { it.copy(showWarningDialog = false) }
+        _state.update { it.copy(showWarningDialog = false, error = null) }
         val settingsState = Settings(fullName = _state.value.name, email = _state.value.email)
         tryToExecute(
             { updateUserInformationUseCase(settingsState) },
@@ -135,10 +136,20 @@ class ProfileViewModel @Inject constructor(
         val currentState = _state.value
         val updatedState = currentState.copy(
             name = if (originalName == "") _state.value.name else originalName,
-            email = if (originalEmail == "") _state.value.email else originalEmail
+            email = if (originalEmail == "") _state.value.email else originalEmail,
+            error = null
         )
         _state.update { updatedState }
         updateWarningDialog(false)
+        _state.update { it.copy(pagerNumber = 2, error = null) }
+    }
+
+    override fun onClickProfileButton() {
+        _state.update { it.copy(pagerNumber = 0, error = null) }
+    }
+
+    override fun onClickSettingsButton() {
+        _state.update { it.copy(pagerNumber = 1, error = null) }
     }
 
     private fun onUpdateUserInformationSuccess(unit: Unit) {
@@ -146,7 +157,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     override fun updateClearHistoryState(showDialog: Boolean) {
-        _state.update { it.copy(showClearHistoryDialog = showDialog) }
+        _state.update { it.copy(showClearHistoryDialog = showDialog, error = null) }
     }
 
     private fun onError(throwable: Throwable) {
@@ -154,7 +165,8 @@ class ProfileViewModel @Inject constructor(
             EmptyEmailException -> "Email can't be empty"
             EmptyFullNameException -> "Full name can't be empty"
             SameUserDataException -> "User Information can't be the same"
-            else -> throwable.localizedMessage
+            is NoConnectionException -> "No Internet Connection."
+            else -> "mistake occurred; please attempt again at a subsequent time."
         }
         _state.update { it.copy(isLoading = false, error = error) }
     }
@@ -167,7 +179,10 @@ class ProfileViewModel @Inject constructor(
         )
     }
 
-    private fun onLogoutSuccess(unit: Unit) = sendUiEffect(ProfileEffect.NavigateToOrganizationScreen)
+    private fun onLogoutSuccess(unit: Unit) {
+        _state.update { it.copy(isLoading = false, error = null) }
+        sendUiEffect(ProfileEffect.NavigateToOrganizationScreen)
+    }
 
     private fun onLogoutFail(throwable: Throwable) {
         _state.update { it.copy(error = throwable.message) }
@@ -177,7 +192,7 @@ class ProfileViewModel @Inject constructor(
         _state.value.lastAppLanguage = newLanguage
         tryToExecute(
             call = { customizeProfileSettingsUseCase.saveNewSelectedLanguage(newLanguage) },
-            onSuccess = {},
+            onSuccess = {_state.update { it.copy(error = null, isLoading = false) }},
             onError = ::onUpdateAppLanguageFail
         )
     }

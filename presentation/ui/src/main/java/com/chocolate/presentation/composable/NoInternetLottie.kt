@@ -35,7 +35,7 @@ fun NoInternetLottie(onClickRetry: () -> Unit,isShow: Boolean) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White),
+                .background(color.background),
             verticalArrangement = Arrangement.Center
         ) {
             LottieAnimation(modifier = Modifier.size(350.dp), composition = composition, isPlaying = false)

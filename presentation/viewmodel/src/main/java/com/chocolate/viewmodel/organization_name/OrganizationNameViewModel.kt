@@ -1,6 +1,7 @@
 package com.chocolate.viewmodel.organization_name
 
 import androidx.lifecycle.viewModelScope
+import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.usecases.onboarding.GetOnboardingStateUseCase
 import com.chocolate.usecases.organization.SaveNameOrganizationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
@@ -13,7 +14,8 @@ import javax.inject.Inject
 class OrganizationNameViewModel @Inject constructor(
     private val saveNameOrganizationsUseCase: SaveNameOrganizationUseCase,
     private val getOnboardingStateUseCase: GetOnboardingStateUseCase
-) : BaseViewModel<OrganizationNameUiState,OrganizationNameUiEffect>(OrganizationNameUiState()), OrganizationNameInteraction {
+) : BaseViewModel<OrganizationNameUiState, OrganizationNameUiEffect>(OrganizationNameUiState()),
+    OrganizationNameInteraction {
 
     init {
         getOnboardingState()
@@ -24,10 +26,23 @@ class OrganizationNameViewModel @Inject constructor(
     }
 
     override fun onClickActionButton(organizationName: String) {
-        viewModelScope.launch {
-            saveNameOrganizationsUseCase(organizationName)
+        _state.update { it.copy(isLoading = true) }
+        tryToExecute({ saveNameOrganizationsUseCase(organizationName) }, ::onSuccess, ::onError)
+    }
+
+    private fun onSuccess(isCheck: Boolean) {
+        _state.update { it.copy(isLoading = false, error = null) }
+        if (isCheck) {
+            sendUiEffect(OrganizationNameUiEffect.NavigateToLoginScreen)
         }
-        sendUiEffect(OrganizationNameUiEffect.NavigateToLoginScreen)
+    }
+
+    private fun onError(throwable: Throwable) {
+        val errorMessage = when (throwable) {
+            is NoConnectionException -> "No internet connection"
+            else -> "Organization name cannot be empty"
+        }
+        _state.update { it.copy(isLoading = false, error = errorMessage) }
     }
 
     private fun getOnboardingState() {
@@ -41,12 +56,6 @@ class OrganizationNameViewModel @Inject constructor(
     }
 
     override fun onOrganizationNameChange(organizationName: String) {
-        _state.update {
-            it.copy(
-                organizationName = organizationName.trim(),
-                isLoading = false,
-                error = null
-            )
-        }
+        _state.update { it.copy(organizationName = organizationName.trim(), isLoading = false) }
     }
 }

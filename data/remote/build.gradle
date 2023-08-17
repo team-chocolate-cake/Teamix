@@ -34,6 +34,7 @@ android {
 dependencies {
 
     implementation project(Modules.DATA_REPO)
+    implementation project(Modules.ENTITIES_MODEL)
 
     implementation(ProjectDependencies.retrofit)
     implementation(ProjectDependencies.gsonConverter)

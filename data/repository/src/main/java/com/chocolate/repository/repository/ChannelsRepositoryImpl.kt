@@ -26,7 +26,7 @@ import javax.inject.Inject
 
 class ChannelsRepositoryImpl @Inject constructor(
     private val channelsRemoteDataSource: RemoteDataSource,
-) : ChannelsRepository, BaseRepository() {
+) : ChannelsRepository{
     override suspend fun getUserSubscriptions(): List<StreamItem?>? {
         return channelsRemoteDataSource.getUserSubscriptions()
             .subscriptions.let { items -> items?.map { it.toStreamInfo() } }
@@ -44,8 +44,7 @@ class ChannelsRepositoryImpl @Inject constructor(
         messageRetentionDays: String?,
         canRemoveSubscribersGroupId: Int?
     ): SubscribeToStream {
-        return wrapCall {
-            channelsRemoteDataSource.addSubscribesToStream(
+        return channelsRemoteDataSource.addSubscribesToStream(
                 subscribeToStream,
                 principals,
                 authorizationErrorsFatal,
@@ -56,37 +55,32 @@ class ChannelsRepositoryImpl @Inject constructor(
                 streamPostPolicy,
                 messageRetentionDays,
                 canRemoveSubscribersGroupId,
-            )
-        }.toSubscribeToStream()
+            ).toSubscribeToStream()
     }
-
 
     override suspend fun deleteSubscriber(
         subscriptions: String,
         principals: List<String>?
     ): DefaultChannelModel {
-        return wrapCall {
-            channelsRemoteDataSource.deleteSubscriberFromStream(
-                subscriptions,
-                principals
-            )
-        }.toUnsubscribeFromStream()
+        return channelsRemoteDataSource.deleteSubscriberFromStream(
+            subscriptions,
+            principals
+        ).toUnsubscribeFromStream()
     }
 
     override suspend fun getSubscriptionStatus(
         userId: Int,
         streamId: Int
     ): SubscriptionStatus {
-        return wrapCall { channelsRemoteDataSource.getSubscriptionStatus(userId, streamId) }
-            .toSubscriptionStatus()
+        return channelsRemoteDataSource.getSubscriptionStatus(userId, streamId).toSubscriptionStatus()
     }
 
     override suspend fun getAllSubscriber(streamId: Int): ChannelSubscribers {
-        return wrapCall { channelsRemoteDataSource.getAllSubscribers(streamId) }.toChannelSubscribers()
+        return channelsRemoteDataSource.getAllSubscribers(streamId).toChannelSubscribers()
     }
 
     override suspend fun updateSubscriptionSettings(subscriptionData: String): SubscriptionSettingsUpdate {
-        return wrapCall { channelsRemoteDataSource.updateSubscriptionSettings(subscriptionData) }.toSubscriptionSettingsUpdate()
+        return channelsRemoteDataSource.updateSubscriptionSettings(subscriptionData).toSubscriptionSettingsUpdate()
     }
 
     override suspend fun getAllChannels(
@@ -97,24 +91,23 @@ class ChannelsRepositoryImpl @Inject constructor(
         includeDefault: Boolean,
         includeOwnerSubscribed: Boolean
     ): List<StreamItem> {
-        return wrapCall {
-            channelsRemoteDataSource.getAllStreams(
-                includePublic,
-                includeWebPublic,
-                includeSubscribed,
-                includeAllActive,
-                includeDefault,
-                includeOwnerSubscribed
-            )
-        }.streams?.let { streamsItems -> streamsItems.map { it.toStreamItem() } }!!
+        return channelsRemoteDataSource.getAllStreams(
+            includePublic,
+            includeWebPublic,
+            includeSubscribed,
+            includeAllActive,
+            includeDefault,
+            includeOwnerSubscribed
+        ).streams?.map { it.toStreamItem() } ?: emptyList()
     }
 
     override suspend fun getChannelById(streamId: Int): ChannelDetails {
-        return wrapCall { channelsRemoteDataSource.getStreamById(streamId) }.streamDto?.toChannelDetails()!!
+        return channelsRemoteDataSource.getStreamById(streamId).streamDto?.toChannelDetails()
+            ?: throw Exception("Channel details not found")
     }
 
     override suspend fun getChannelId(channel: String): ChannelId {
-        return wrapCall { channelsRemoteDataSource.getStreamId(channel) }.toChannelId()
+        return channelsRemoteDataSource.getStreamId(channel).toChannelId()
     }
 
     override suspend fun updateChannel(
@@ -128,27 +121,25 @@ class ChannelsRepositoryImpl @Inject constructor(
         messageRetentionDays: String?,
         canRemoveSubscribersGroupId: Int?
     ): DefaultChannelModel {
-        return wrapCall {
-            channelsRemoteDataSource.updateStream(
-                streamId,
-                description,
-                newName,
-                isPrivate,
-                isWebPublic,
-                historyPublicToSubscribers,
-                streamPostPolicy,
-                messageRetentionDays,
-                canRemoveSubscribersGroupId
-            )
-        }.toChannelDefault()
+        return channelsRemoteDataSource.updateStream(
+            streamId,
+            description,
+            newName,
+            isPrivate,
+            isWebPublic,
+            historyPublicToSubscribers,
+            streamPostPolicy,
+            messageRetentionDays,
+            canRemoveSubscribersGroupId
+        ).toChannelDefault()
     }
 
     override suspend fun archiveChannel(channelId: Int): DefaultChannelModel {
-        return wrapCall { channelsRemoteDataSource.archiveStream(channelId) }.toChannelDefault()
+        return channelsRemoteDataSource.archiveStream(channelId).toChannelDefault()
     }
 
     override suspend fun getTopicsInChannel(channelId: Int): Topics {
-        return wrapCall { channelsRemoteDataSource.getTopicsInStream(channelId) }.toTopics()
+        return channelsRemoteDataSource.getTopicsInStream(channelId).toTopics()
     }
 
     override suspend fun setTopicMuting(
@@ -157,8 +148,7 @@ class ChannelsRepositoryImpl @Inject constructor(
         streamId: Int?,
         stream: String?
     ): DefaultChannelModel {
-        return wrapCall { channelsRemoteDataSource.setTopicMuting(topic, status, streamId, stream) }
-            .toChannelDefault()
+        return channelsRemoteDataSource.setTopicMuting(topic, status, streamId, stream).toChannelDefault()
     }
 
     override suspend fun updatePersonalPreferenceTopic(
@@ -166,20 +156,18 @@ class ChannelsRepositoryImpl @Inject constructor(
         topic: String,
         visibilityPolicy: Int
     ): DefaultChannelModel {
-        return wrapCall {
-            channelsRemoteDataSource.updatePersonalPreferenceTopic(streamId, topic, visibilityPolicy)
-        }.toChannelDefault()
+        return channelsRemoteDataSource.updatePersonalPreferenceTopic(streamId, topic, visibilityPolicy).toChannelDefault()
     }
 
     override suspend fun deleteTopic(channelId: Int, topicName: String): DefaultChannelModel {
-        return wrapCall {  channelsRemoteDataSource.deleteTopic(channelId, topicName)}.toChannelDefault()
+        return channelsRemoteDataSource.deleteTopic(channelId, topicName).toChannelDefault()
     }
 
     override suspend fun addDefaultChannel(channelId: Int): DefaultChannelModel {
-        return wrapCall {  channelsRemoteDataSource.addDefaultStream(channelId)}.toChannelDefault()
+        return channelsRemoteDataSource.addDefaultStream(channelId).toChannelDefault()
     }
 
     override suspend fun deleteDefaultChannel(channelId: Int): DefaultChannelModel {
-        return wrapCall {   channelsRemoteDataSource.deleteDefaultStream(channelId)}.toChannelDefault()
+        return channelsRemoteDataSource.deleteDefaultStream(channelId).toChannelDefault()
     }
 }

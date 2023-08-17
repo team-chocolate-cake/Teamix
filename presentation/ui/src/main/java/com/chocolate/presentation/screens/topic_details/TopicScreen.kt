@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.chocolate.presentation.composable.CustomAppBar
+import com.chocolate.presentation.composable.TeamixAppBar
 import com.chocolate.presentation.screens.topic_details.composables.ReplyMessage
 import com.chocolate.presentation.screens.topic_details.composables.StartNewMessage
 import com.chocolate.presentation.theme.Space16
@@ -65,7 +65,7 @@ fun TopicContent(
         containerColor = MaterialTheme.customColors().background,
         topBar = {
             //todo this app bar must be changed to be one composable for all screens
-            CustomAppBar(
+            TeamixAppBar(
                 title = topicScreenUiState.topicName,
                 navigationBack = navigationBack,
             )

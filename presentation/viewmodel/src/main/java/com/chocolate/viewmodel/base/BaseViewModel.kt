@@ -1,6 +1,5 @@
 package com.chocolate.viewmodel.base
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NetworkException
@@ -36,7 +35,7 @@ abstract class BaseViewModel<STATE, UiEffect>(initialState: STATE) : ViewModel()
         viewModelScope.launch(dispatcher) {
             try {
                 call().also(onSuccess)
-            } catch (e: RequestException){
+            }catch (e: RequestException){
                 onError(e)
             }catch (e: RateLimitExceededException){
                 onError(e)
@@ -48,33 +47,7 @@ abstract class BaseViewModel<STATE, UiEffect>(initialState: STATE) : ViewModel()
                 onError(e)
             }catch (e: TeamixException){
                 onError(e)
-            }catch (throwable: Throwable) {
-                onError(throwable)
-            }
-        }
-    }  
-    fun <T> tryToExecuteFlow(
-        call: suspend () -> Flow<T>,
-        onSuccess: (Flow<T>) -> Unit,
-        onError: (Throwable) -> Unit,
-        dispatcher: CoroutineDispatcher = Dispatchers.IO
-    ) {
-        viewModelScope.launch(dispatcher) {
-            try {
-                call().also(onSuccess)
-            } catch (e: RequestException){
-                onError(e)
-            }catch (e: RateLimitExceededException){
-                onError(e)
-            }catch (e: ServerException){
-                onError(e)
-            }catch (e: NullDataException){
-                onError(e)
-            }catch (e: ValidationException){
-                onError(e)
-            }catch (e: TeamixException){
-                onError(e)
-            }catch (throwable: Throwable) {
+            } catch (throwable: Throwable) {
                 onError(throwable)
             }
         }

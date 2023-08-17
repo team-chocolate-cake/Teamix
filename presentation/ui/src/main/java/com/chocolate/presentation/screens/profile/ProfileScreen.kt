@@ -109,7 +109,7 @@ fun ProfileScreen(
         viewModel.effect.collectLatest { effect ->
             when (effect) {
                 ProfileEffect.NavigateToOwnerPower -> navController.navigateToOwnerPower()
-                ProfileEffect.NavigateToLoginScreen -> navController.navigateToOrganizationName()
+                ProfileEffect.NavigateToOrganizationScreen -> navController.navigateToOrganizationName()
             }
         }
     }

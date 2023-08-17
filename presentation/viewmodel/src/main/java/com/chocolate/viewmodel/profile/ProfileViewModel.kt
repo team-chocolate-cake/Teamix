@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.EmptyEmailException
 import com.chocolate.entities.exceptions.EmptyFullNameException
 import com.chocolate.entities.exceptions.SameUserDataException
+import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.entities.user.OwnerUser
 import com.chocolate.entities.user.Settings
 import com.chocolate.usecases.user.CustomizeProfileSettingsUseCase
@@ -39,9 +40,10 @@ class ProfileViewModel @Inject constructor(
     private fun getLastSelectedAppLanguage() {
         viewModelScope.launch(Dispatchers.IO) {
             val language = customizeProfileSettingsUseCase.getLastSelectedAppLanguage()
-            _state.update { it.copy(lastAppLanguage = language ) }
+            _state.update { it.copy(lastAppLanguage = language) }
         }
     }
+
     private fun getOwnUser() {
         _state.update { it.copy(isLoading = true) }
         tryToExecute({ getCurrentUserDataUseCase() }, ::onGetOwnUserSuccess, ::onGetOwnUserError)
@@ -64,7 +66,8 @@ class ProfileViewModel @Inject constructor(
 
     private fun onGetOwnUserError(throwable: Throwable) {
         when (throwable) {
-            is UnknownHostException -> sendUiEffect(ProfileEffect.NavigateToLoginScreen)
+            is UnknownHostException, is ValidationException ->
+                sendUiEffect(ProfileEffect.NavigateToOrganizationScreen)
         }
         _state.update { it.copy(isLoading = false, showNoInternetLottie = true) }
     }
@@ -164,7 +167,7 @@ class ProfileViewModel @Inject constructor(
         )
     }
 
-    private fun onLogoutSuccess(unit: Unit) = sendUiEffect(ProfileEffect.NavigateToLoginScreen)
+    private fun onLogoutSuccess(unit: Unit) = sendUiEffect(ProfileEffect.NavigateToOrganizationScreen)
 
     private fun onLogoutFail(throwable: Throwable) {
         _state.update { it.copy(error = throwable.message) }

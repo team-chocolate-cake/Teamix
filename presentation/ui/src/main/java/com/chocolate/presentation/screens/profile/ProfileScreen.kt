@@ -10,6 +10,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -113,7 +114,7 @@ fun ProfileScreen(
     if (!state.isLoading) {
         ProfileContent(
             state = state,
-            darkThemeState= darkThemeState,
+            darkThemeState = darkThemeState,
             mainViewModel = mainViewModel,
             profileInteraction = viewModel,
             onUpdateAppLanguage = { newLanguage ->
@@ -136,18 +137,16 @@ fun ProfileScreen(
 @Composable
 fun ProfileContent(
     state: ProfileUiState,
-    darkThemeState:Boolean,
-    mainViewModel:MainViewModel,
+    darkThemeState: Boolean,
+    mainViewModel: MainViewModel,
     onUpdateAppLanguage: (newLanguage: String) -> Unit,
     profileInteraction: ProfileInteraction
 ) {
     val color = MaterialTheme.customColors()
     val coroutineScope = rememberCoroutineScope()
-
-    var pageNumber by rememberSaveable { mutableStateOf(0) }
     val content = LocalContext.current
     val pageState = rememberPagerState(initialPage = 0)
-    val scrollSatae = rememberScrollState()
+    val scrollState = rememberScrollState()
 
     LaunchedEffect(state.pagerNumber) {
         pageState.animateScrollToPage(state.pagerNumber)
@@ -158,7 +157,7 @@ fun ProfileContent(
             .fillMaxSize()
             .background(color.background)
             .padding(top = Space26)
-            .verticalScroll(scrollSatae), horizontalAlignment = Alignment.CenterHorizontally
+            .verticalScroll(scrollState), horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(Modifier.height(ImageSize158)) {
             Box(
@@ -199,21 +198,12 @@ fun ProfileContent(
             MultiChoiceDialog(
                 onDismissRequest = { profileInteraction.updateLanguageDialogState(false) },
                 whenChoice = { newLanguage -> onUpdateAppLanguage(newLanguage) },
-                choices = listOf(
-                    LocalLanguage.English.name,
-                    LocalLanguage.Arabic.name,
-                    LocalLanguage.Spanish.name,
-                    LocalLanguage.Chinese.name
-                ),
+                choices = state.languageMap.keys.toList(),
                 oldSelectedChoice = when (state.lastAppLanguage) {
-                    "ar" -> {
-                        LocalLanguage.Arabic.name}
-                    "ae" -> {
-                        LocalLanguage.Chinese.name}
-                    "es" -> {
-                        LocalLanguage.Spanish.name}
+                    state.languageMap[LocalLanguage.Arabic.name] -> { LocalLanguage.Arabic.name }
+                    state.languageMap[LocalLanguage.Chinese.name] -> { LocalLanguage.Chinese.name }
+                    state.languageMap[LocalLanguage.Spanish.name] -> { LocalLanguage.Spanish.name }
                     else -> { LocalLanguage.English.name }
-
                 }
             )
         }
@@ -229,12 +219,8 @@ fun ProfileContent(
         if (state.showWarningDialog) {
             ProfileDialog(title = stringResource(R.string.warning),
                 text = stringResource(R.string.waring_details),
-                onDismissButtonClick = {
-                    profileInteraction.onRevertChange()
-                },
-                onConfirmButtonClick = {
-                    profileInteraction.onUserInformationFocusChange()
-                }
+                onDismissButtonClick = { profileInteraction.onRevertChange() },
+                onConfirmButtonClick = { profileInteraction.onUserInformationFocusChange() }
             )
         }
         if (state.showLogoutDialog) {
@@ -282,8 +268,7 @@ fun ProfileContent(
                     ) {
                         Text(
                             text = stringResource(R.string.profile),
-                            color = if (pageState.currentPage == 0) color.onPrimary else
-                                color.onBackground60
+                            color = if (pageState.currentPage == 0) color.onPrimary else color.onBackground60
                         )
                     }
                     Button(
@@ -293,9 +278,10 @@ fun ProfileContent(
                             } else {
                                 profileInteraction.onClickSettingsButton()
                             }
-                        }, modifier = Modifier
-                            .padding(start = Space8)
-                            .width(110.dp),
+                        },
+                        modifier = Modifier
+                            .padding(end = Space8)
+                            .width(ButtonSize110),
                         colors = ButtonDefaults.buttonColors(
                             if (pageState.currentPage == 1) color.primary.copy(alpha = 1f) else
                                 color.background
@@ -303,25 +289,20 @@ fun ProfileContent(
                     ) {
                         Text(
                             text = stringResource(R.string.settings),
-                            color = if (pageState.currentPage == 1) color.onPrimary else
-                                color.onBackground60,
+                            color = if (pageState.currentPage == 1) color.onPrimary else color.onBackground60,
                             maxLines = 1
                         )
                     }
                 }
 
                 HorizontalPager(
-                    state = pageState, pageCount = 2,
                     modifier = Modifier.padding(bottom = 8.dp),
+                    state = pageState,
+                    pageCount = 2,
                     userScrollEnabled = false
                 ) {
                     if (pageState.currentPage == 0) {
-                        LazyColumn(
-                            modifier = Modifier.padding(
-                                horizontal = Space16,
-                                vertical = 16.dp
-                            )
-                        ) {
+                        LazyColumn(contentPadding = PaddingValues(all = Space16)) {
                             item {
                                 val keyboardController = LocalSoftwareKeyboardController.current
                                 ProfileTextField(
@@ -352,9 +333,7 @@ fun ProfileContent(
                                 )
                             }
                         }
-
                     } else {
-
                         LazyColumn(modifier = Modifier.padding(vertical = 16.dp)) {
                             item {
                                 Box(
@@ -367,13 +346,12 @@ fun ProfileContent(
                                 ) {
                                     Card(
                                         modifier = Modifier
+                                            .fillMaxWidth()
                                             .clickable {
                                                 coroutineScope.launch {
                                                     mainViewModel.updateDarkTheme(darkThemeState)
                                                 }
-                                            }
-                                            .fillMaxWidth(),
-
+                                            },
                                         colors = CardDefaults.cardColors(color.card)
                                     ) {
                                         Row(
@@ -390,7 +368,7 @@ fun ProfileContent(
                                                 tint = color.onBackground60
                                             )
                                             Text(
-                                                text = "Dark Theme",
+                                                text = stringResource(R.string.dark_theme),
                                                 style = MaterialTheme.typography.bodyMedium,
                                                 color = color.onBackground60
                                             )
@@ -455,7 +433,6 @@ fun ProfileContent(
         if (state.error != null) {
             Toast.makeText(content, state.error, Toast.LENGTH_SHORT).show()
         }
-
     }
     NoInternetLottie(
         isShow = state.showNoInternetLottie,

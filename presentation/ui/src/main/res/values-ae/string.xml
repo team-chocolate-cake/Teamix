@@ -82,4 +82,7 @@
     <string name="enter">输入</string>
     <string name="default_error_message">发生了一个错误，请稍后再试。</string>
     <string name="logout_content_message">登出将注销您的帐户，您需要重新输入凭据才能再次访问该应用程序。</string>
+    <string name="done">黑暗主題</string>
+    <string name="dark_theme">黑暗主題</string>
+
 </resources>

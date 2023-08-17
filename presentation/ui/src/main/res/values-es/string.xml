@@ -82,4 +82,6 @@
     <string name="enter">Ingresar</string>
     <string name="default_error_message">Ocurrió un error, por favor intenta nuevamente más tarde.</string>
     <string name="logout_content_message">Cerrar sesión te desconectará de tu cuenta y deberás volver a ingresar tus credenciales para acceder a la aplicación nuevamente.</string>
+    <string name="dark_theme">tema oscuro</string>
+
 </resources>

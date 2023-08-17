@@ -86,4 +86,5 @@
     <string name="warning">Warning</string>
     <string name="waring_details">You have changed your personal information. Are ou sure want to leave with saving you change</string>
     <string name="done">Done</string>
+    <string name="dark_theme">Dark Theme</string>
 </resources>

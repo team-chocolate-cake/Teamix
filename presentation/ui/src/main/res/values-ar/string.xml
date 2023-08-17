@@ -82,4 +82,6 @@
     <string name="enter">دخول</string>
     <string name="default_error_message">حدث خطأ، يرجى المحاولة مرة أخرى لاحقًا.</string>
     <string name="logout_content_message">تسجيل الخروج سيقوم بتسجيلك خارج حسابك، وستحتاج إلى إعادة إدخال بيانات الاعتماد الخاصة بك للوصول إلى التطبيق مرة أخرى.</string>
+    <string name="dark_theme">مظهر داكن</string>
+
 </resources>

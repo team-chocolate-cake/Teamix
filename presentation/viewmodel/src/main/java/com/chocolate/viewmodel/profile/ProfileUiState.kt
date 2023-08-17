@@ -7,6 +7,7 @@ data class ProfileUiState(
     val message: String = "",
     val role:String = "",
     val languageMap: Map<String, String> = mapOf(
+        LocalLanguage.English.name to "en",
         LocalLanguage.Arabic.name to "ar",
         LocalLanguage.Chinese.name to "ae",
         LocalLanguage.Spanish.name to "es"

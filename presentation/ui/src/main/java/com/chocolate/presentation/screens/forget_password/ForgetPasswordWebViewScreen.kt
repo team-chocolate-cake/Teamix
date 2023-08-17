@@ -2,33 +2,50 @@ package com.chocolate.presentation.screens.forget_password
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.chocolate.viewmodel.home.HomeUiState
-import com.chocolate.viewmodel.login.LoginUiState
-import com.chocolate.viewmodel.login.LoginViewModel
+import com.chocolate.presentation.composable.TeamixAppBar
+import com.chocolate.presentation.screens.create_organization.ZULIP
+import com.chocolate.presentation.screens.login.backToLogin
+import com.chocolate.presentation.theme.customColors
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.accompanist.web.WebView
 import com.google.accompanist.web.rememberWebViewState
 
 @Composable
 fun ForgetPasswordWebViewScreen(
     navController: NavController,
-    loginViewModel: LoginViewModel = hiltViewModel()
 ) {
-    val state by loginViewModel.state.collectAsState()
-    ForgetPasswordWebViewContent(state)
+    ForgetPasswordWebViewContent(navigateToLogin = { navController.backToLogin() })
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "SetJavaScriptEnabled")
 @Composable
-fun ForgetPasswordWebViewContent(loginUiState: LoginUiState) {
-    val state = rememberWebViewState(url = "https://${loginUiState.nameOrganization}.zulipchat.com/accounts/password/reset//")
-    Scaffold {
+fun ForgetPasswordWebViewContent(navigateToLogin: () -> Unit) {
+    val state = rememberWebViewState(url = ZULIP)
+    val systemUiController = rememberSystemUiController()
+    val color = MaterialTheme.customColors()
+
+    SideEffect {
+        systemUiController.setSystemBarsColor(
+            color = color.secondary,
+            darkIcons = true
+        )
+    }
+
+    Scaffold(
+        topBar = {
+            TeamixAppBar(
+                title = "Teamix",
+                navigationBack = { navigateToLogin() },
+                containerColor = color.secondary
+            ) {}
+        }
+    ) {
         WebView(
             state = state,
             modifier = Modifier.fillMaxSize(),

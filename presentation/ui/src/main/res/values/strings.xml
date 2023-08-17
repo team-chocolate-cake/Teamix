@@ -80,4 +80,6 @@
     <string name="do_you_want_to_leave_channel">Do you want to leave channel</string>
     <string name="enter">Enter</string>
     <string name="default_error_message">A mistake happened, please attempt again at a later time.</string>
+    <string name="error_organization_name_empty">Organization name cannot be empty!</string>
+    <string name="error_try_again_later">A mistake occurred; please attempt again at a subsequent time.</string>
 </resources>

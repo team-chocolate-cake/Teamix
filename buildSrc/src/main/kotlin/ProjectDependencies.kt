@@ -93,5 +93,6 @@ object ProjectDependencies {
     const val encryptedSharedPreference = "androidx.security:security-crypto:1.1.0-alpha06"
 
     const val webView = "com.google.accompanist:accompanist-webview:$ACCOMPANIST"
+    const val systemUiController ="com.google.accompanist:accompanist-systemuicontroller:$ACCOMPANIST"
 
 }

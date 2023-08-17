@@ -43,7 +43,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.CustomAppBar
+import com.chocolate.presentation.composable.TeamixAppBar
 import com.chocolate.presentation.screens.channel_details.compasbles.ChannelAction
 import com.chocolate.presentation.screens.channel_details.compasbles.Member
 import com.chocolate.presentation.theme.Space16
@@ -126,7 +126,7 @@ fun ChannelDetailsContent(
         containerColor = MaterialTheme.customColors().background,
         topBar = {
             //todo this app bar must be changed to be one composable for all screens
-            CustomAppBar(
+            TeamixAppBar(
                 title = channelDetailsUiState.channelName,
                 navigationBack = navigationBack,
             )

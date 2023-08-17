@@ -6,6 +6,11 @@ data class ProfileUiState(
     val email: String = "",
     val message: String = "",
     val role:String = "",
+    val languageMap: Map<String, String> = mapOf(
+        LocalLanguage.Arabic.name to "ar",
+        LocalLanguage.Chinese.name to "ae",
+        LocalLanguage.Spanish.name to "es"
+    ),
     var lastAppLanguage:String = "English",
     val showNoInternetLottie: Boolean = false,
     val showLanguageDialog: Boolean = false,

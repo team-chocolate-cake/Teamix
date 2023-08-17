@@ -85,6 +85,7 @@ import com.chocolate.presentation.theme.Thickness2
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.updateResources
 import com.chocolate.viewmodel.main.MainViewModel
+import com.chocolate.viewmodel.profile.LocalLanguage
 import com.chocolate.viewmodel.profile.ProfileEffect
 import com.chocolate.viewmodel.profile.ProfileInteraction
 import com.chocolate.viewmodel.profile.ProfileUiState
@@ -103,7 +104,7 @@ fun ProfileScreen(
     val state by viewModel.state.collectAsState()
     val darkThemeState by mainViewModel.state.collectAsState()
     val colors = MaterialTheme.customColors()
-    LaunchedEffect(key1 = Unit) {
+    LaunchedEffect(viewModel) {
         viewModel.effect.collectLatest { effect ->
             when (effect) {
                 ProfileEffect.NavigateToOwnerPower -> navController.navigateToOwnerPower()
@@ -120,27 +121,9 @@ fun ProfileScreen(
             mainViewModel = mainViewModel,
             profileInteraction = viewModel,
             onUpdateAppLanguage = { newLanguage ->
-                when (newLanguage) {
-                    LocalLanguage.Arabic.name -> {
-                        viewModel.updateAppLanguage("ar")
-                        updateResources(context = context, localeLanguage = Locale("ar"))
-                    }
-
-                    LocalLanguage.Chinese.name -> {
-                        viewModel.updateAppLanguage("ae")
-                        updateResources(context = context, localeLanguage = Locale("ae"))
-                    }
-
-                    LocalLanguage.Spanish.name -> {
-                        viewModel.updateAppLanguage("es")
-                        updateResources(context = context, localeLanguage = Locale("es"))
-                    }
-
-                    else -> {
-                        viewModel.updateAppLanguage("en")
-                        updateResources(context = context, localeLanguage = Locale("en"))
-                    }
-                }
+                val languageCode = state.languageMap[newLanguage] ?: "en"
+                viewModel.updateAppLanguage(languageCode)
+                updateResources(context = context, localeLanguage = Locale(languageCode))
             })
     } else {
         Column(
@@ -227,9 +210,12 @@ fun ProfileContent(
                     LocalLanguage.Chinese.name
                 ),
                 oldSelectedChoice = when (state.lastAppLanguage) {
-                    "ar" -> {LocalLanguage.Arabic.name}
-                    "ae" -> {LocalLanguage.Chinese.name}
-                    "es" -> {LocalLanguage.Spanish.name}
+                    "ar" -> {
+                        LocalLanguage.Arabic.name}
+                    "ae" -> {
+                        LocalLanguage.Chinese.name}
+                    "es" -> {
+                        LocalLanguage.Spanish.name}
                     else -> { LocalLanguage.English.name }
 
                 }

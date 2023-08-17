@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.profile
+package com.chocolate.viewmodel.profile
 
 enum class LocalLanguage {
     English,

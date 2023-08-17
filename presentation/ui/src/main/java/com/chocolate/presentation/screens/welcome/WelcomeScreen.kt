@@ -1,5 +1,6 @@
 package com.chocolate.presentation.screens.welcome
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -39,7 +40,7 @@ fun WelcomeContent(
     navigateToOnBoarding: () -> Unit
 ) {
     val colors = MaterialTheme.customColors()
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize().background(colors.background)) {
         Text(
             modifier = Modifier.padding(top = 64.dp, start = 16.dp, end = 16.dp),
             text = buildAnnotatedString {
@@ -49,6 +50,7 @@ fun WelcomeContent(
                 }
             },
             style = MaterialTheme.typography.titleLarge,
+            color = colors.onBackground87,
             fontSize = 24.sp
         )
         FitImage(

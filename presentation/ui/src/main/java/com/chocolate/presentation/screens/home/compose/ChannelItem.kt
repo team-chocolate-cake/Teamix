@@ -1,5 +1,7 @@
 package com.chocolate.presentation.screens.home.compose
 
+import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -7,6 +9,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,6 +33,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -39,6 +44,7 @@ import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.viewmodel.home.ChannelUiState
 
+@SuppressLint("RememberReturnType")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ChannelItem(
@@ -49,10 +55,13 @@ fun ChannelItem(
     modifier: Modifier = Modifier
 ) {
     val haptics = LocalHapticFeedback.current
+    val context = LocalContext.current
     var isExpanded by remember { mutableStateOf(false) }
     val animateIcon by animateFloatAsState(targetValue = if (isExpanded) 180f else 0f, label = "")
     Column(
-        modifier = modifier.fillMaxWidth().wrapContentHeight()
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
             .animateContentSize(animationSpec = tween(durationMillis = 300))
             .clip(RoundedCornerShape(12.dp))
             .background(color = colors.onPrimary)
@@ -62,11 +71,16 @@ fun ChannelItem(
                     haptics.performHapticFeedback(HapticFeedbackType.LongPress)
                     onLongClickChannel()
                 },
-                onClick = { onClickItemChannel(state.channelId) }),
+                onClick = {}),
         verticalArrangement = Arrangement.Center
     ) {
         Row(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().pointerInput(Unit) {
+                detectTapGestures(onLongPress = {
+                    onClickItemChannel(state.channelId)
+                    Toast.makeText(context , state.name, Toast.LENGTH_SHORT).show()
+                })
+            },
             verticalAlignment = Alignment.CenterVertically
         ) {
             val iconsChannel =
@@ -87,18 +101,34 @@ fun ChannelItem(
                 painter = painterResource(id = R.drawable.ic_arrow_down),
                 contentDescription = null,
                 tint = colors.onBackground60,
-                modifier = Modifier.rotate(animateIcon).clickable { isExpanded = !isExpanded }
+                modifier = Modifier
+                    .rotate(animateIcon)
+                    .clickable { isExpanded = !isExpanded }
             )
         }
         if (isExpanded) {
             state.topics.forEach { topicUIState ->
                 Column(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize()
+                        .combinedClickable(
+                            onLongClick = {
+                                haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                                onLongClickChannel()
+                            },
+                            onClick = {}),
                     verticalArrangement = Arrangement.Center
                 ) {
+
                     Divider(modifier = Modifier.padding(Space8), color = colors.border)
-                    Row(modifier =
-                        Modifier.fillMaxWidth().wrapContentHeight().padding(vertical = 8.dp),
+                    Row(
+                        modifier = Modifier.fillMaxWidth().wrapContentHeight()
+                           .pointerInput(Unit) {
+                                detectTapGestures(onPress = {
+                                    onClickItemChannel(state.channelId)
+                                     Toast.makeText(context , state.topics.first().name, Toast.LENGTH_SHORT).show()
+                                })
+                            }
+                            .padding(vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {

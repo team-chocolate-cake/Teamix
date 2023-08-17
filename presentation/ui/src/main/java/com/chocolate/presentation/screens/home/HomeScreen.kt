@@ -2,6 +2,7 @@ package com.chocolate.presentation.screens.home
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,9 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -56,7 +57,6 @@ import com.chocolate.presentation.theme.Space64
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.viewmodel.home.CardItemContent
 import com.chocolate.viewmodel.home.HomeUiState
 import com.chocolate.viewmodel.home.HomeViewModel
 
@@ -66,17 +66,20 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by homeViewModel.state.collectAsState()
-
-    if(state.isLogged){
+    val context = LocalContext.current
+    if (state.isLogged) {
         HomeContent(
             state = state,
-            navigationToDrafts = {},
-            navigationToStarred = {},
-            navigationToSavedLater = {},
+            navigationToDrafts = {
+                Toast.makeText(context, "Drafts Coming soon!", Toast.LENGTH_SHORT).show()
+            },
+            navigationToSavedLater = {
+                Toast.makeText(context, "Saved Later Coming soon!", Toast.LENGTH_SHORT).show()
+            },
             navigateToChannel = {},
         )
-    }else{
-        LaunchedEffect(Unit){ navController.navigateToOrganizationName() }
+    } else {
+        LaunchedEffect(Unit) { navController.navigateToOrganizationName() }
     }
 }
 
@@ -86,13 +89,11 @@ fun HomeScreen(
 fun HomeContent(
     state: HomeUiState,
     navigationToDrafts: () -> Unit,
-    navigationToStarred: () -> Unit,
     navigationToSavedLater: () -> Unit,
     navigateToChannel: (Int) -> Unit
 ) {
     val colors = MaterialTheme.customColors()
     var isShowSheet by remember { mutableStateOf(false) }
-
 
     if (isShowSheet) {
         ManageChannelBottomSheet(onDismissBottomSheet = { isShowSheet = false }, colors = colors)
@@ -109,49 +110,40 @@ fun HomeContent(
         containerColor = colors.background
     ) {
         LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(top = Space64),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = Space64),
             contentPadding = PaddingValues(vertical = Space16),
             verticalArrangement = Arrangement.spacedBy(Space8),
         ) {
             item {
-                LazyRow(
-                    modifier = Modifier.fillMaxWidth().wrapContentHeight(),
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
                     horizontalArrangement = Arrangement.SpaceAround,
-                    contentPadding = PaddingValues(horizontal = Space16)
                 ) {
-                    val cardList = mutableListOf<CardItemContent>().apply {
-                        add(
-                            CardItemContent(
-                                state.badgeCountsUiState.drafts,
-                                "Drafts",
-                                R.drawable.ic_drafts
-                            )
-                        )
-                        add(
-                            CardItemContent(
-                                state.badgeCountsUiState.saved,
-                                "Saved Later",
-                                R.drawable.ic_saved_later
-                            )
-                        )
-                    }
-                    itemsIndexed(cardList) { index, item ->
-                        CardItem(
-                            badge = item.badgeCount,
-                            painter = painterResource(item.icon),
-                            title = item.title,
-                            clickIndex = index,
-                            colors = colors,
-                            onClickItemCard = {
-                                when (it) {
-                                    0 -> {navigationToDrafts()}
-                                    1 -> {navigationToStarred()}
-                                    2 -> {navigationToSavedLater()}
-                                }
-                            },
-                            modifier = Modifier.padding(end = Space8)
-                        )
-                    }
+                    CardItem(
+                        badge = state.badgeCountsUiState.drafts,
+                        painter = painterResource(R.drawable.ic_drafts),
+                        title = "Drafts",
+                        colors = colors,
+                        onClickItemCard = {
+                            navigationToDrafts()
+                        },
+                        modifier = Modifier.padding(end = Space8)
+                    )
+
+                    CardItem(
+                        badge = state.badgeCountsUiState.drafts,
+                        painter = painterResource(R.drawable.ic_saved_later),
+                        title = "SavedLater",
+                        colors = colors,
+                        onClickItemCard = {
+                            navigationToSavedLater()
+                        },
+                        modifier = Modifier.padding(end = Space8)
+                    )
                 }
             }
             item {
@@ -159,7 +151,9 @@ fun HomeContent(
                     text = stringResource(R.string.channels),
                     style = MaterialTheme.typography.bodyLarge,
                     color = colors.onBackground87,
-                    modifier = Modifier.padding(top = Space8).padding(horizontal = Space16)
+                    modifier = Modifier
+                        .padding(top = Space8)
+                        .padding(horizontal = Space16)
                 )
             }
             items(items = state.channels, key = { currentChannel ->
@@ -169,8 +163,11 @@ fun HomeContent(
                     channelUIState,
                     colors,
                     onLongClickChannel = { isShowSheet = true },
-                    onClickItemChannel = { navigateToChannel(channelUIState.channelId) },
-                    modifier = Modifier.padding(horizontal = 16.dp).animateItemPlacement()
+                    onClickItemChannel = { navigateToChannel(channelUIState.channelId)
+                    },
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .animateItemPlacement()
                 )
             }
         }
@@ -182,15 +179,17 @@ private fun CardItem(
     badge: Int,
     painter: Painter,
     title: String,
-    clickIndex: Int,
     colors: CustomColorsPalette,
-    onClickItemCard: (Int) -> Unit,
+    onClickItemCard: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier.wrapContentSize().height(96.dp).clip(RoundedCornerShape(12.dp))
+        modifier = modifier
+            .fillMaxWidth(.5f)
+            .height(96.dp)
+            .clip(RoundedCornerShape(12.dp))
             .background(colors.card)
-            .clickable { onClickItemCard(clickIndex) },
+            .clickable { onClickItemCard() },
         contentAlignment = Alignment.Center
     ) {
         Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
@@ -198,13 +197,17 @@ private fun CardItem(
                 number = badge,
                 textColor = colors.onPrimary,
                 cardColor = colors.primary,
-                modifier = Modifier.fillMaxWidth().align(Alignment.End)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.End)
                     .padding(end = Space4, top = Space4)
             )
             Icon(
                 painter = painter,
                 contentDescription = "icons",
-                modifier = Modifier.wrapContentSize().padding(bottom = Space8)
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(bottom = Space8)
                     .align(Alignment.CenterHorizontally),
                 tint = colors.onBackground60,
             )
@@ -212,7 +215,8 @@ private fun CardItem(
                 text = title,
                 color = colors.onBackground60,
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
                     .padding(bottom = Space24)
                     .padding(horizontal = 26.dp),
                 textAlign = TextAlign.Center
@@ -230,9 +234,8 @@ fun HomePreview() {
     TeamixTheme {
         HomeContent(
             state = HomeUiState(),
-            navigationToDrafts = { /*TODO*/ },
-            navigationToStarred = { /*TODO*/ },
-            navigationToSavedLater = { /*TODO*/ },
+            navigationToDrafts = {},
+            navigationToSavedLater = {},
             navigateToChannel = {}
         )
     }

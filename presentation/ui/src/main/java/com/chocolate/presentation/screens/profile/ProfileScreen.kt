@@ -43,7 +43,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -123,19 +122,22 @@ fun ProfileScreen(
             mainViewModel = mainViewModel,
             profileInteraction = viewModel,
             onUpdateAppLanguage = { newLanguage ->
-                when(newLanguage){
+                when (newLanguage) {
                     LocalLanguage.Arabic.name -> {
                         viewModel.updateAppLanguage("ar")
                         updateResources(context = context, localeLanguage = Locale("ar"))
                     }
+
                     LocalLanguage.Chinese.name -> {
                         viewModel.updateAppLanguage("ae")
                         updateResources(context = context, localeLanguage = Locale("ae"))
                     }
+
                     LocalLanguage.Spanish.name -> {
                         viewModel.updateAppLanguage("es")
                         updateResources(context = context, localeLanguage = Locale("es"))
                     }
+
                     else -> {
                         viewModel.updateAppLanguage("en")
                         updateResources(context = context, localeLanguage = Locale("en"))
@@ -220,12 +222,19 @@ fun ProfileContent(
             MultiChoiceDialog(
                 onDismissRequest = { profileInteraction.updateLanguageDialogState(false) },
                 whenChoice = { newLanguage -> onUpdateAppLanguage(newLanguage) },
-                listOf(
+                choices = listOf(
                     LocalLanguage.English.name,
                     LocalLanguage.Arabic.name,
                     LocalLanguage.Spanish.name,
                     LocalLanguage.Chinese.name
-                )
+                ),
+                oldSelectedChoice = when (state.lastAppLanguage) {
+                    "ar" -> {LocalLanguage.Arabic.name}
+                    "ae" -> {LocalLanguage.Chinese.name}
+                    "es" -> {LocalLanguage.Spanish.name}
+                    else -> { LocalLanguage.English.name }
+
+                }
             )
         }
         if (state.showThemeDialog) {
@@ -495,7 +504,9 @@ fun ProfileContent(
             Toast.makeText(content, state.error, Toast.LENGTH_SHORT).show()
         }
     }
-    NoInternetLottie(isShow = state.showNoInternetLottie, onClickRetry = {profileInteraction.onClickRetryToGetPersonalInformation()})
+    NoInternetLottie(
+        isShow = state.showNoInternetLottie,
+        onClickRetry = { profileInteraction.onClickRetryToGetPersonalInformation() })
 }
 
 @Preview(showBackground = true, showSystemUi = true)

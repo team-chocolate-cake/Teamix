@@ -6,6 +6,7 @@ data class ProfileUiState(
     val email: String = "",
     val message: String = "",
     val role:String = "",
+    var lastAppLanguage:String = "English",
     val showNoInternetLottie: Boolean = false,
     val showLanguageDialog: Boolean = false,
     val showThemeDialog: Boolean = false,

@@ -1,5 +1,6 @@
 package com.chocolate.viewmodel.profile
 
+import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.EmptyEmailException
 import com.chocolate.entities.exceptions.EmptyFullNameException
 import com.chocolate.entities.exceptions.SameUserDataException
@@ -11,7 +12,9 @@ import com.chocolate.usecases.user.LogoutUseCase
 import com.chocolate.usecases.user.UpdateUserInformationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 import javax.inject.Inject
 
@@ -29,7 +32,15 @@ class ProfileViewModel @Inject constructor(
     private var originalEmail: String = ""
 
     init {
+        getLastSelectedAppLanguage()
         getOwnUser()
+    }
+
+    private fun getLastSelectedAppLanguage() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val language = customizeProfileSettingsUseCase.getLastSelectedAppLanguage()
+            _state.update { it.copy(lastAppLanguage = language ) }
+        }
     }
     private fun getOwnUser() {
         _state.update { it.copy(isLoading = true) }
@@ -51,15 +62,15 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun onGetOwnUserError(throwable: Throwable){
-        when(throwable){
+    private fun onGetOwnUserError(throwable: Throwable) {
+        when (throwable) {
             is UnknownHostException -> sendUiEffect(ProfileEffect.NavigateToLoginScreen)
         }
-        _state.update { it.copy(isLoading = false,showNoInternetLottie = true) }
+        _state.update { it.copy(isLoading = false, showNoInternetLottie = true) }
     }
 
     override fun updateLanguageDialogState(showDialog: Boolean) {
-        _state.update {it.copy(showLanguageDialog = showDialog) }
+        _state.update { it.copy(showLanguageDialog = showDialog) }
     }
 
     override fun updateThemeDialogState(showDialog: Boolean) {
@@ -103,6 +114,7 @@ class ProfileViewModel @Inject constructor(
             ::onError
         )
     }
+
     override fun onClickRetryToUpdatePersonalInformation() {
         onUserInformationFocusChange()
     }
@@ -119,8 +131,8 @@ class ProfileViewModel @Inject constructor(
     override fun onRevertChange() {
         val currentState = _state.value
         val updatedState = currentState.copy(
-            name = if(originalName == "") _state.value.name else originalName,
-            email = if(originalEmail == "") _state.value.email else originalEmail
+            name = if (originalName == "") _state.value.name else originalName,
+            email = if (originalEmail == "") _state.value.email else originalEmail
         )
         _state.update { updatedState }
         updateWarningDialog(false)
@@ -159,8 +171,9 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun updateAppLanguage(newLanguage: String) {
+        _state.value.lastAppLanguage = newLanguage
         tryToExecute(
-            call = { customizeProfileSettingsUseCase.saveNewSelectedLanguage(newLanguage)},
+            call = { customizeProfileSettingsUseCase.saveNewSelectedLanguage(newLanguage) },
             onSuccess = {},
             onError = ::onUpdateAppLanguageFail
         )

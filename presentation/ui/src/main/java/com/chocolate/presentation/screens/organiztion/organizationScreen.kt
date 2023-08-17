@@ -98,7 +98,7 @@ fun OrganizationContent(
                 .verticalScroll(scrollState)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.start__5_),
+                painter = painterResource(id = R.drawable.img_start_organization),
                 contentDescription = null,
                 modifier = Modifier
                     .padding(top = 28.dp)

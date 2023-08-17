@@ -95,6 +95,7 @@ fun OrganizationContent(
                     .padding(top = Space32),
                 text = stringResource(R.string.enter_your_name_organization),
                 style = MaterialTheme.typography.labelMedium,
+                color = colors.onBackground87
             )
             OutlinedTextField(
                 modifier = Modifier

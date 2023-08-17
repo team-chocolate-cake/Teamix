@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.profile
 
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -372,8 +373,18 @@ fun ProfileContent(
                         }
 
                     } else {
+
                         LazyColumn(modifier = Modifier.padding(vertical = 16.dp)) {
                             item {
+                                AnimatedVisibility(
+                                    visible = state.role != "Member"
+                                ) {
+                                    SettingCard(
+                                        click = { profileInteraction.onClickOwnerPower() },
+                                        text = stringResource(R.string.owner_powers),
+                                        icon = painterResource(id = R.drawable.ownerpowers)
+                                    )
+                                }
                                 Box(
                                     Modifier
                                         .fillMaxWidth()

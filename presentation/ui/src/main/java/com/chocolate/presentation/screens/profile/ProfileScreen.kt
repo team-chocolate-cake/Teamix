@@ -255,7 +255,8 @@ fun ProfileContent(
                         .width(RowWidth250)
                         .clip(RoundedCornerShape(Radius24))
                         .background(color.background),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Button(
                         onClick = { profileInteraction.onClickProfileButton() }, modifier = Modifier
@@ -422,7 +423,8 @@ fun ProfileContent(
                                     click = { profileInteraction.updateLogoutDialogState(true) },
                                     text = stringResource(R.string.log_out),
                                     icon = painterResource(id = R.drawable.logout),
-                                    iconColor = color.red60
+                                    iconColor = color.red60,
+                                    textColor = color.red60
                                 )
                             }
                         }

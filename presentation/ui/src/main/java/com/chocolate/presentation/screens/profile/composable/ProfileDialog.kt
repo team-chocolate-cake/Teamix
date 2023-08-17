@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.profile.composable
 
 
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,7 +24,7 @@ fun ProfileDialog(
     val color = MaterialTheme.customColors()
     val typography = MaterialTheme.typography
     AlertDialog(
-        modifier = modifier,
+        modifier = modifier.wrapContentSize(),
         onDismissRequest = { onDismissButtonClick() },
         title = { Text(text = title, style = typography.titleMedium, color = color.onBackground87) },
         text = { Text(text = text, style = typography.bodySmall, color = color.onBackground60) },

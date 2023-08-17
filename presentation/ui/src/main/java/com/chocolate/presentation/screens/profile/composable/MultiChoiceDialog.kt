@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.ButtonSize48
 import com.chocolate.presentation.theme.RadioButtonsHeight350
@@ -69,12 +70,13 @@ fun MultiChoiceDialog(
                                 whenChoice(text)
                                 selected.value = text
                             })
-
                     }
                 }
 
                 Button(
-                    modifier = Modifier.fillMaxWidth().height(ButtonSize48).align(Alignment.End),
+                    modifier = Modifier.fillMaxWidth().height(ButtonSize48)
+                        .align(Alignment.End),
+                    shape= RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = color.primary, contentColor = color.onPrimary),
                     onClick = { onDismissRequest() }
                 ) {

@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
             installSavedAppLanguage(this)
             val userSettingsViewModel: MainViewModel = hiltViewModel()
             val isDarkTheme by userSettingsViewModel.state.collectAsState()
-            TeamixTheme(isDarkTheme || isSystemInDarkTheme()) {
+            TeamixTheme(isDarkTheme) {
                 Scaffold {
                     val isSystemInDarkMode = isSystemInDarkTheme()
                     val systemUiController = rememberSystemUiController()
@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
                         MaterialTheme.customColors().background, darkIcons = !isSystemInDarkMode
                     )
                     systemUiController.setNavigationBarColor(Color.White)
-                    ApplySystemUi(isDarkTheme || isSystemInDarkTheme())
+                    ApplySystemUi(isDarkTheme)
                     SetUpNavGraph(userSettingsViewModel)
                 }
             }

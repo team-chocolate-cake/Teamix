@@ -162,9 +162,7 @@ fun HomeContent(
                     text = stringResource(R.string.channels),
                     style = MaterialTheme.typography.bodyLarge,
                     color = colors.onBackground87,
-                    modifier = Modifier
-                        .padding(top = Space8)
-                        .padding(horizontal = Space16)
+                    modifier = Modifier.padding(top = Space8).padding(horizontal = Space16)
                 )
             }
             items(items = state.channels, key = { currentChannel ->
@@ -226,10 +224,8 @@ private fun CardItem(
                 text = title,
                 color = colors.onBackground60,
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = Space24)
-                    .padding(horizontal = 26.dp),
+                modifier = Modifier.fillMaxSize()
+                    .padding(bottom = Space24).padding(horizontal = 26.dp),
                 textAlign = TextAlign.Center
             )
         }

@@ -7,8 +7,6 @@ import javax.inject.Inject
 class GetTopicsInChannelById @Inject constructor(
     private val channelsRepository: ChannelsRepository
 ) {
-
     suspend operator fun invoke(channelId: Int): List<Topic> =
         channelsRepository.getTopicsInChannel(channelId)
-
 }

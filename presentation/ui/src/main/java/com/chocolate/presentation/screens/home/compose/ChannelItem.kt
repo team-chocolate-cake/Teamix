@@ -65,14 +65,7 @@ fun ChannelItem(
             .animateContentSize(animationSpec = tween(durationMillis = 300))
             .clip(RoundedCornerShape(12.dp))
             .background(color = colors.onPrimary)
-            .padding(Space16)
-          /*  .combinedClickable(
-                onLongClick = {
-                    haptics.performHapticFeedback(HapticFeedbackType.LongPress)
-                    onLongClickChannel()
-                },
-                onClick = {})*/,
-        verticalArrangement = Arrangement.Center
+            .padding(Space16), verticalArrangement = Arrangement.Center
     ) {
         Row(
             modifier = Modifier.fillMaxSize().pointerInput(Unit) {

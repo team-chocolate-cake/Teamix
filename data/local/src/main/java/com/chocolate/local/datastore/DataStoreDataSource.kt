@@ -82,6 +82,16 @@ class DataStoreDataSource @Inject constructor(
     override suspend fun getLastSelectedAppLanguage(): String =
         sharedPreferences.getString(LANGUAGE, null) ?: "en"
 
+    override suspend fun updateDarkTheme(isDarkTheme: Boolean): Boolean {
+        val editor=sharedPreferences.edit()
+        editor.putBoolean(DARK_THEME,isDarkTheme)
+        return editor.commit()
+    }
+
+    override suspend fun isDarkThemeEnabled(): Boolean {
+        return sharedPreferences.getBoolean(DARK_THEME,false)
+    }
+
 
     private suspend fun <T> DataStore<Preferences>.setValue(
         key: Preferences.Key<T>,
@@ -99,5 +109,6 @@ class DataStoreDataSource @Inject constructor(
         const val API_KEY = "API_KEY"
         const val EMAIL = "EMAIL"
         const val LANGUAGE = "APP_LANGUAGE"
+        const val DARK_THEME="APP_DARK_THEME"
     }
 }

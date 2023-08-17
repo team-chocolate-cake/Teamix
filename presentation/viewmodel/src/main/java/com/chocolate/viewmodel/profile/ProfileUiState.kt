@@ -2,7 +2,7 @@ package com.chocolate.viewmodel.profile
 
 data class ProfileUiState(
     val image: String = "",
-    val name: String = "name",
+    val name: String = "",
     val email: String = "",
     val message: String = "",
     val role:String = "",
@@ -11,6 +11,7 @@ data class ProfileUiState(
         LocalLanguage.Chinese.name to "ae",
         LocalLanguage.Spanish.name to "es"
     ),
+    val pagerNumber: Int = 0,
     var lastAppLanguage:String = "English",
     val showNoInternetLottie: Boolean = false,
     val showLanguageDialog: Boolean = false,

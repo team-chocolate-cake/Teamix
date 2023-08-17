@@ -15,4 +15,6 @@ interface ProfileInteraction {
     fun onClickRetryToGetPersonalInformation()
     fun areUserDataEqual(): Boolean
     fun onRevertChange()
+    fun onClickProfileButton()
+    fun onClickSettingsButton()
 }

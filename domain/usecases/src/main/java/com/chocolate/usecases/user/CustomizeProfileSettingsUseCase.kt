@@ -2,11 +2,11 @@ package com.chocolate.usecases.user
 
 import com.chocolate.entities.exceptions.NullDataException
 import com.chocolate.entities.exceptions.TeamixException
-import repositories.UsersRepositories
+import repositories.UsersRepository
 import javax.inject.Inject
 
 class CustomizeProfileSettingsUseCase @Inject constructor(
-    private val usersRepositories: UsersRepositories
+    private val usersRepositories: UsersRepository
 ) {
     suspend fun saveNewSelectedLanguage(newLanguage: String){
         if (!newLanguage.isNullOrBlank()){

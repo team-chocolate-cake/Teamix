@@ -12,5 +12,6 @@ fun NavGraphBuilder.loginRoute(navController: NavController) {
 }
 
 fun NavController.navigateToLogin() {
-    popBackStack(Screen.Login.route, false)
+    popBackStack()
+    navigate(Screen.Login.route)
 }

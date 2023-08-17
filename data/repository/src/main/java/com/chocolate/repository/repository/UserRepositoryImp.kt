@@ -236,6 +236,13 @@ class UserRepositoryImp @Inject constructor(
     override suspend fun getLastSelectedAppLanguage(): String =
         preferencesDataSource.getLastSelectedAppLanguage()
 
+    override suspend fun updateDarkTheme(isDarkTheme: Boolean): Boolean {
+        return preferencesDataSource.updateDarkTheme(isDarkTheme)
+    }
+
+    override suspend fun isDarkThemeEnabled(): Boolean {
+        return preferencesDataSource.isDarkThemeEnabled()
+    }
 
 
 }

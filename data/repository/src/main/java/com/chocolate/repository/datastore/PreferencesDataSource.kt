@@ -29,4 +29,8 @@ interface PreferencesDataSource {
     suspend fun updateAppLanguage(newLanguage: String): Boolean
 
     suspend fun getLastSelectedAppLanguage(): String
+
+    suspend fun updateDarkTheme(isDarkTheme:Boolean):Boolean
+
+    suspend fun isDarkThemeEnabled():Boolean
 }

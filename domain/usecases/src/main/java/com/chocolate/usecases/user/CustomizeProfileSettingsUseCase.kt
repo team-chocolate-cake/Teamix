@@ -21,4 +21,11 @@ class CustomizeProfileSettingsUseCase @Inject constructor(
 
     suspend fun getLastSelectedAppLanguage() = usersRepositories.getLastSelectedAppLanguage()
 
+    suspend fun updateDarkTheme(isDarkTheme:Boolean){
+        val update=usersRepositories.updateDarkTheme(isDarkTheme)
+    }
+
+    suspend fun isDarkThem()=usersRepositories.isDarkThemeEnabled()
+
+
 }

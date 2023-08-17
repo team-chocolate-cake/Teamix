@@ -12,9 +12,10 @@ import com.chocolate.presentation.screens.create_organization.createOrganization
 import com.chocolate.presentation.screens.forget_password.forgetPasswordWebViewRoute
 import com.chocolate.presentation.screens.oner_power.ownerPowerRoute
 import com.chocolate.presentation.screens.welcome.welcomeRoute
+import com.chocolate.viewmodel.main.MainViewModel
 
 @Composable
-fun SetUpNavGraph() {
+fun SetUpNavGraph(mainViewModel: MainViewModel) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.Profile.route) {
         welcomeRoute(navController)
@@ -24,7 +25,7 @@ fun SetUpNavGraph() {
         createOrganizationWebViewRoute(navController)
         loginRoute(navController)
         forgetPasswordWebViewRoute(navController)
-        profileRoute(navController)
+        profileRoute(navController,mainViewModel)
         ownerPowerRoute(navController)
     }
 }

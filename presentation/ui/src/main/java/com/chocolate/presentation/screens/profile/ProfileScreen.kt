@@ -259,7 +259,7 @@ fun ProfileContent(
                 ) {
                     Button(
                         onClick = { profileInteraction.onClickProfileButton() }, modifier = Modifier
-                            .padding(start = Space16)
+                            .padding(start = Space8)
                             .width(ButtonSize110),
                         colors = ButtonDefaults.buttonColors(
                             if (pageState.currentPage == 0) color.primary.copy(alpha = 1f) else

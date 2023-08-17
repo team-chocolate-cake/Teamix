@@ -86,7 +86,6 @@ class RetrofitDataSource @Inject constructor(
         return wrapApiCall { channelsService.getSubscriptionStatus(userId, channelId) }
     }
 
-    // the return type is wrong for this end point
     override suspend fun getSubscribersInChannel(channelId: Int): AllSubscribersDto {
         return wrapApiCall { channelsService.getSubscribersInChannel(channelId) }
     }

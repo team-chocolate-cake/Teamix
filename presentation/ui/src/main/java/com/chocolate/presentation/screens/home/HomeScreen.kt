@@ -86,7 +86,7 @@ fun HomeScreen(
         if (state.error != null) {
             NoInternetLottie(
                 isShow = true,
-                onClickRetry = { homeViewModel.getData() }
+                onClickRetry =  homeViewModel::getData
             )
         } else {
             when {

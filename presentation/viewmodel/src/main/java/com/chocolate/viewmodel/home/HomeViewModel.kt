@@ -26,17 +26,17 @@ class HomeViewModel @Inject constructor(
         getData()
     }
 
-     fun getData() {
-         viewModelScope.launch {
-             _state.update { it.copy(isLoading = true) }
-             delay(2000)
-             getUserLoginState()
-             onGettingOrganizationName()
-             onGettingChannels()
-         }
+    fun getData() {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
+            delay(2000)
+            getUserLoginState()
+            onGettingOrganizationName()
+            onGettingChannels()
+        }
     }
 
-    private fun onGettingOrganizationName(){
+    private fun onGettingOrganizationName() {
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
             { getNameOrganizationsUseCase() },
@@ -46,16 +46,22 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onGettingOrganizationNameSuccess(organizationName: String) {
-        _state.update { it.copy(isLoading = false, organizationTitle = organizationName) }
+        _state.update {
+            it.copy(
+                isLoading = false,
+                organizationTitle = organizationName,
+                error = null
+            )
+        }
     }
 
-    private fun onGettingChannels(){
+    private fun onGettingChannels() {
         _state.update { it.copy(isLoading = true) }
         tryToExecute({ getChannelsUseCase() }, ::onGettingChannelsSuccess, ::onError)
     }
 
     private fun onGettingChannelsSuccess(channels: List<Channel>) {
-        _state.update { it.copy(isLoading = false, channels = channels.toUiState()) }
+        _state.update { it.copy(isLoading = false, channels = channels.toUiState(),error = null) }
     }
 
     private suspend fun getUserLoginState() {

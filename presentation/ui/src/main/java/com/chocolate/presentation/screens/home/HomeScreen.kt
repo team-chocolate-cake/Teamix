@@ -132,8 +132,7 @@ fun HomeContent(
         ) {
             item {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp)
                         .wrapContentHeight(),
                     horizontalArrangement = Arrangement.SpaceAround,
                 ) {
@@ -143,7 +142,7 @@ fun HomeContent(
                         title = "Drafts",
                         colors = colors,
                         onClickItemCard = { navigationToDrafts() },
-                        modifier = Modifier.padding(end = Space8)
+                        modifier = Modifier.padding(horizontal = Space4).weight(1f)
                     )
 
                     CardItem(
@@ -152,7 +151,7 @@ fun HomeContent(
                         title = "SavedLater",
                         colors = colors,
                         onClickItemCard = { navigationToSavedLater() },
-                        modifier = Modifier.padding(end = Space8)
+                        modifier = Modifier.padding(horizontal = Space4).weight(1f)
                     )
                 }
             }
@@ -172,9 +171,7 @@ fun HomeContent(
                     colors,
                     onClickItemChannel = { navigateToChannel(channelUIState.channelId)
                     },
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .animateItemPlacement()
+                    modifier = Modifier.padding(horizontal = 16.dp).animateItemPlacement()
                 )
             }
         }
@@ -192,7 +189,7 @@ private fun CardItem(
 ) {
     Box(
         modifier = modifier
-            .width(180.dp)
+            .width(140.dp)
             .height(96.dp)
             .clip(RoundedCornerShape(12.dp))
             .background(colors.card)
@@ -223,7 +220,7 @@ private fun CardItem(
                 color = colors.onBackground60,
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.fillMaxSize()
-                    .padding(bottom = Space24).padding(horizontal = 26.dp),
+                    .padding(horizontal = 26.dp),
                 textAlign = TextAlign.Center
             )
         }

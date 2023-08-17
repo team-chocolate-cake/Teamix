@@ -32,12 +32,12 @@ fun TeamixTopAppBar(imageUrl: String, title: String, colors: CustomColorsPalette
                 modifier = Modifier.fillMaxWidth().wrapContentHeight(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
+            /*    Image(
                     painter = rememberAsyncImagePainter(model = imageUrl),
                     contentDescription = stringResource(R.string.image_stream),
                     modifier = Modifier.padding(end = 12.dp).size(32.dp).clip(CircleShape),
                     contentScale = ContentScale.FillBounds
-                )
+                )*/
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleLarge,

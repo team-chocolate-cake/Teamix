@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.home.compose
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
@@ -59,17 +60,11 @@ fun ChannelItem(
             .wrapContentHeight()
             .animateContentSize(animationSpec = tween(durationMillis = 300))
             .clip(RoundedCornerShape(12.dp))
-            .background(color = colors.onPrimary)
+            .background(color = colors.card)
             .padding(Space16), verticalArrangement = Arrangement.Center
     ) {
         Row(
-            modifier = Modifier.fillMaxSize()/*
-                .pointerInput(Unit) {
-                detectTapGestures(onLongPress = {
-                    onLongClickChannel()
-                    Toast.makeText(context , state.name, Toast.LENGTH_SHORT).show()
-                })
-            }*/,
+            modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             val iconsChannel =
@@ -86,31 +81,48 @@ fun ChannelItem(
                 color = colors.onBackground87
             )
             Spacer(modifier = Modifier.weight(1f))
-            Icon(
-                painter = painterResource(id = R.drawable.ic_arrow_down),
-                contentDescription = null,
-                tint = colors.onBackground60,
-                modifier = Modifier.rotate(animateIcon).clickable { isExpanded = !isExpanded }
-            )
+            if (state.topics.isNotEmpty()){
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_arrow_down),
+                    contentDescription = null,
+                    tint = colors.onBackground60,
+                    modifier = Modifier
+                        .rotate(animateIcon)
+                        .clickable { isExpanded = !isExpanded }
+                )
+            }
         }
         if (isExpanded) {
+            Log.d("TAG", "ChannelItem:${state.topics} ")
             state.topics.forEach { topicUIState ->
                 Column(
-                    modifier = Modifier.fillMaxSize().clickable {
-                        Toast.makeText(context , "navigate to ${state.name}", Toast.LENGTH_SHORT).show()
-                    },
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clickable {
+                            Toast
+                                .makeText(context, "navigate to ${state.name}", Toast.LENGTH_SHORT)
+                                .show()
+                        },
                     verticalArrangement = Arrangement.Center
                 ) {
-
                     Divider(modifier = Modifier.padding(Space8), color = colors.border)
                     Row(
-                        modifier = Modifier.fillMaxWidth().wrapContentHeight()
-                           .pointerInput(Unit) {
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            .pointerInput(Unit) {
                                 detectTapGestures(onPress = {
                                     onClickItemChannel(state.channelId)
-                                     Toast.makeText(context , state.topics.first().name, Toast.LENGTH_SHORT).show()
+                                    Toast
+                                        .makeText(
+                                            context,
+                                            state.topics.first().name,
+                                            Toast.LENGTH_SHORT
+                                        )
+                                        .show()
                                 })
-                            }.padding(vertical = 8.dp),
+                            }
+                            .padding(vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {

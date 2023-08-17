@@ -3,6 +3,7 @@ package com.chocolate.viewmodel.home
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.channel.Channel
+import com.chocolate.usecases.channel.GetChannelsUseCase
 import com.chocolate.usecases.channel.GetSubscribedChannelsUseCase
 import com.chocolate.usecases.channel.LeaveChannelUseCase
 import com.chocolate.usecases.organization.GetNameOrganizationsUseCase
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getUserLoginStatusUseCase: GetUserLoginStatusUseCase,
     private val getSubscribedChannelsUseCase: GetSubscribedChannelsUseCase,
+    private val getChannelsUseCase: GetChannelsUseCase,
     private val leaveChannelUseCase: LeaveChannelUseCase,
     private val getNameOrganizationsUseCase: GetNameOrganizationsUseCase
 ) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()) {
@@ -32,7 +34,7 @@ class HomeViewModel @Inject constructor(
             ::onGettingOrganizationNameSuccess,
             ::onError
         )
-        tryToExecute({ getSubscribedChannelsUseCase() }, ::onGettingChannelsSuccess, ::onError)
+        tryToExecute({ getChannelsUseCase() }, ::onGettingChannelsSuccess, ::onError)
         tryToExecute(
             { leaveChannelUseCase(state.value.channels[1].name) },
             ::onLeaveChannelSuccess, ::onError

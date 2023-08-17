@@ -9,7 +9,7 @@ import com.chocolate.repository.service.remote.RemoteDataSource
 import repositories.ChannelsRepository
 import javax.inject.Inject
 
-class ChannelsRepositoryImplementation @Inject constructor(
+class ChannelsRepositoryImpl @Inject constructor(
     private val channelsRemoteDataSource: RemoteDataSource,
 ) : ChannelsRepository, BaseRepository() {
 

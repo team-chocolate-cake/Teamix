@@ -5,5 +5,7 @@ data class Channel(
     val channelName: String,
     val description: String,
     val invitationONly: Boolean,
-    val topics: List<Topic>
+    val topics: List<Topic>,
+    val isCurrentUserSubscribed: Boolean,
+    val isMuted: Boolean,
 )

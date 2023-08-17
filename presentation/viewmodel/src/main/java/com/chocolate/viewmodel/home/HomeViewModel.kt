@@ -6,6 +6,7 @@ import com.chocolate.entities.channel.Channel
 import com.chocolate.usecases.channel.GetChannelsUseCase
 import com.chocolate.usecases.channel.MuteTopicUseCase
 import com.chocolate.usecases.channel.LeaveChannelUseCase
+import com.chocolate.usecases.channel.GetSubscribedChannelsUseCase
 import com.chocolate.usecases.organization.GetNameOrganizationsUseCase
 import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
@@ -18,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getUserLoginStatusUseCase: GetUserLoginStatusUseCase,
+    private val getSubscribedChannelsUseCase: GetSubscribedChannelsUseCase,
     private val getChannelsUseCase: GetChannelsUseCase,
     private val leaveChannelUseCase: LeaveChannelUseCase,
     private val getNameOrganizationsUseCase: GetNameOrganizationsUseCase
@@ -34,7 +36,7 @@ class HomeViewModel @Inject constructor(
             ::onGettingOrganizationNameSuccess,
             ::onError
         )
-        tryToExecute({ getChannelsUseCase() }, ::onGettingChannelsSuccess, ::onError)
+        tryToExecute({ getSubscribedChannelsUseCase() }, ::onGettingChannelsSuccess, ::onError)
         tryToExecute(
             { leaveChannelUseCase(state.value.channels[1].name) },
             ::onLeaveChannelSuccess, ::onError

@@ -1,6 +1,6 @@
 package com.chocolate.teamix.di
 
-import com.chocolate.repository.repository.ChannelsRepositoryImpl
+import com.chocolate.repository.repository.ChannelsRepositoryImplementation
 import com.chocolate.repository.repository.DraftRepositoryImpl
 import com.chocolate.repository.repository.MessagesRepositoryImpl
 import com.chocolate.repository.repository.OnboardingRepositoryImpl
@@ -30,7 +30,7 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindChannelsRepository(channelsRepositoryImpl: ChannelsRepositoryImpl): ChannelsRepository
+    abstract fun bindChannelsRepository(channelsRepositoryImplementation: ChannelsRepositoryImplementation): ChannelsRepository
 
     @Binds
     @Singleton

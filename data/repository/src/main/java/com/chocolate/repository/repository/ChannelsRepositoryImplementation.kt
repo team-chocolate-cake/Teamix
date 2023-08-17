@@ -9,15 +9,18 @@ import com.chocolate.repository.service.remote.RemoteDataSource
 import repositories.ChannelsRepository
 import javax.inject.Inject
 
-class ChannelsRepositoryImpl @Inject constructor(
+class ChannelsRepositoryImplementation @Inject constructor(
     private val channelsRemoteDataSource: RemoteDataSource,
 ) : ChannelsRepository, BaseRepository() {
 
-    override suspend fun getChannels(): List<Channel> =
-        channelsRemoteDataSource.getChannels().toEntity()
+    override suspend fun getChannels(): List<Channel> {
+        return channelsRemoteDataSource.getChannels().streams.toEntity()
+    }
 
     override suspend fun getSubscribedChannels(): List<Channel> =
-        channelsRemoteDataSource.getSubscribedChannels().toEntity()
+        channelsRemoteDataSource.getSubscribedChannels().toEntity { channelId ->
+            getTopicsInChannel(channelId)
+        }
 
     override suspend fun subscribeToChannel(channelName: String): Boolean {
         return wrapCall {
@@ -53,8 +56,8 @@ class ChannelsRepositoryImpl @Inject constructor(
         wrapCall { channelsRemoteDataSource.getSubscribersInChannel(channelId) }.subscribers
             ?: emptyList()
 
-    override suspend fun getChannelById(channelId: Int): Channel {
-        return wrapCall { channelsRemoteDataSource.getChannelById(channelId) }.toEntity()
+    override suspend fun getChannelById(channelId: Int): Channel? {
+        return wrapCall { channelsRemoteDataSource.getChannelById(channelId) }.streamDto?.toEntity()
     }
 
     override suspend fun getChannelIdByName(channel: String): Int {

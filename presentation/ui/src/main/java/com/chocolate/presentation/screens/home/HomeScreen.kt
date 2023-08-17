@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -50,12 +51,12 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.screens.home.compose.BadgeHome
 import com.chocolate.presentation.screens.home.compose.ChannelItem
 import com.chocolate.presentation.screens.home.compose.ManageChannelBottomSheet
+import com.chocolate.presentation.screens.home.compose.NoInternetLottie
 import com.chocolate.presentation.screens.home.compose.TeamixTopAppBar
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.LightPrimary
 import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space24
 import com.chocolate.presentation.theme.Space4
 import com.chocolate.presentation.theme.Space64
 import com.chocolate.presentation.theme.Space8
@@ -82,16 +83,38 @@ fun HomeScreen(
     val state by homeViewModel.state.collectAsState()
     val context = LocalContext.current
     if (state.isLogged) {
-        HomeContent(
-            state = state,
-            navigationToDrafts = {
-                Toast.makeText(context, "Drafts Coming soon!", Toast.LENGTH_SHORT).show()
-            },
-            navigationToSavedLater = {
-                Toast.makeText(context, "Saved Later Coming soon!", Toast.LENGTH_SHORT).show()
-            },
-            navigateToChannel = {},
-        )
+        if (state.error != null) {
+            NoInternetLottie(
+                isShow = true,
+                onClickRetry = { homeViewModel.getData() }
+            )
+        } else {
+            when {
+                state.isLoading -> {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        CircularProgressIndicator(color = LightPrimary)
+                    }
+                }
+                else -> {
+                    HomeContent(
+                        state = state,
+                        navigationToDrafts = {
+                            Toast.makeText(context, "Drafts Coming soon!", Toast.LENGTH_SHORT)
+                                .show()
+                        },
+                        navigationToSavedLater = {
+                            Toast.makeText(context, "Saved Later Coming soon!", Toast.LENGTH_SHORT)
+                                .show()
+                        },
+                        navigateToChannel = {},
+                    )
+                }
+            }
+        }
     } else {
         LaunchedEffect(Unit) { navController.navigateToOrganizationName() }
     }
@@ -132,7 +155,9 @@ fun HomeContent(
         ) {
             item {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp)
                         .wrapContentHeight(),
                     horizontalArrangement = Arrangement.SpaceAround,
                 ) {
@@ -142,7 +167,9 @@ fun HomeContent(
                         title = "Drafts",
                         colors = colors,
                         onClickItemCard = { navigationToDrafts() },
-                        modifier = Modifier.padding(horizontal = Space4).weight(1f)
+                        modifier = Modifier
+                            .padding(horizontal = Space4)
+                            .weight(1f)
                     )
 
                     CardItem(
@@ -151,7 +178,9 @@ fun HomeContent(
                         title = "SavedLater",
                         colors = colors,
                         onClickItemCard = { navigationToSavedLater() },
-                        modifier = Modifier.padding(horizontal = Space4).weight(1f)
+                        modifier = Modifier
+                            .padding(horizontal = Space4)
+                            .weight(1f)
                     )
                 }
             }
@@ -160,7 +189,9 @@ fun HomeContent(
                     text = stringResource(R.string.channels),
                     style = MaterialTheme.typography.bodyLarge,
                     color = colors.onBackground87,
-                    modifier = Modifier.padding(top = Space8).padding(horizontal = Space16)
+                    modifier = Modifier
+                        .padding(top = Space8)
+                        .padding(horizontal = Space16)
                 )
             }
             items(items = state.channels, key = { currentChannel ->
@@ -169,9 +200,12 @@ fun HomeContent(
                 ChannelItem(
                     channelUIState,
                     colors,
-                    onClickItemChannel = { navigateToChannel(channelUIState.channelId)
+                    onClickItemChannel = {
+                        navigateToChannel(channelUIState.channelId)
                     },
-                    modifier = Modifier.padding(horizontal = 16.dp).animateItemPlacement()
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .animateItemPlacement()
                 )
             }
         }
@@ -219,7 +253,8 @@ private fun CardItem(
                 text = title,
                 color = colors.onBackground60,
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
                     .padding(horizontal = 26.dp),
                 textAlign = TextAlign.Center
             )

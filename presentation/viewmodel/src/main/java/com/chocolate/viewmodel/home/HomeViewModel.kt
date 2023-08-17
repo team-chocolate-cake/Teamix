@@ -1,6 +1,5 @@
 package com.chocolate.viewmodel.home
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
@@ -15,16 +14,10 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()) {
 
     init {
-        viewModelScope.launch(Dispatchers.Main) {
-            getUserLoginState()
-        }
+        viewModelScope.launch(Dispatchers.Main) { getUserLoginState() }
     }
 
     private suspend fun getUserLoginState() {
-        collectFlow(getUserLoginStatusUseCase()) {
-            this.copy(
-                isLogged = it,
-            )
-        }
+        collectFlow(getUserLoginStatusUseCase()) { this.copy(isLogged = it) }
     }
 }

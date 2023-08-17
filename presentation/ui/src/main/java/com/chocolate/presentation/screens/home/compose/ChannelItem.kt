@@ -5,10 +5,8 @@ import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,7 +30,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -45,12 +42,10 @@ import com.chocolate.presentation.theme.Space8
 import com.chocolate.viewmodel.home.ChannelUiState
 
 @SuppressLint("RememberReturnType")
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ChannelItem(
     state: ChannelUiState,
     colors: CustomColorsPalette,
-    onLongClickChannel: () -> Unit,
     onClickItemChannel: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -68,12 +63,13 @@ fun ChannelItem(
             .padding(Space16), verticalArrangement = Arrangement.Center
     ) {
         Row(
-            modifier = Modifier.fillMaxSize().pointerInput(Unit) {
+            modifier = Modifier.fillMaxSize()/*
+                .pointerInput(Unit) {
                 detectTapGestures(onLongPress = {
                     onLongClickChannel()
                     Toast.makeText(context , state.name, Toast.LENGTH_SHORT).show()
                 })
-            },
+            }*/,
             verticalAlignment = Alignment.CenterVertically
         ) {
             val iconsChannel =
@@ -94,21 +90,15 @@ fun ChannelItem(
                 painter = painterResource(id = R.drawable.ic_arrow_down),
                 contentDescription = null,
                 tint = colors.onBackground60,
-                modifier = Modifier
-                    .rotate(animateIcon)
-                    .clickable { isExpanded = !isExpanded }
+                modifier = Modifier.rotate(animateIcon).clickable { isExpanded = !isExpanded }
             )
         }
         if (isExpanded) {
             state.topics.forEach { topicUIState ->
                 Column(
-                    modifier = Modifier.fillMaxSize()
-                        .combinedClickable(
-                            onLongClick = {
-                                haptics.performHapticFeedback(HapticFeedbackType.LongPress)
-                                onLongClickChannel()
-                            },
-                            onClick = {}),
+                    modifier = Modifier.fillMaxSize().clickable {
+                        Toast.makeText(context , "navigate to ${state.name}", Toast.LENGTH_SHORT).show()
+                    },
                     verticalArrangement = Arrangement.Center
                 ) {
 
@@ -120,8 +110,7 @@ fun ChannelItem(
                                     onClickItemChannel(state.channelId)
                                      Toast.makeText(context , state.topics.first().name, Toast.LENGTH_SHORT).show()
                                 })
-                            }
-                            .padding(vertical = 8.dp),
+                            }.padding(vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {

@@ -28,9 +28,3 @@ data class TopicUiState(
     val name: String = "",
     val topicBadge: Int = 0
 )
-
-data class CardItemContent(
-    val badgeCount: Int = 0,
-    val title: String = "",
-    val icon: Int = 0,
-)

@@ -3,15 +3,12 @@ package com.chocolate.viewmodel.home
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.channel.Channel
-import com.chocolate.usecases.channel.GetChannelsUseCase
-import com.chocolate.usecases.channel.MuteTopicUseCase
-import com.chocolate.usecases.channel.LeaveChannelUseCase
 import com.chocolate.usecases.channel.GetSubscribedChannelsUseCase
+import com.chocolate.usecases.channel.LeaveChannelUseCase
 import com.chocolate.usecases.organization.GetNameOrganizationsUseCase
 import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject

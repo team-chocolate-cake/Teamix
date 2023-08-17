@@ -8,7 +8,6 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -24,19 +23,21 @@ fun MainScreenBottomNavigation(navController: NavController) {
         BottomNavigationItem.DMs,
         BottomNavigationItem.Profile
     )
+    val color=MaterialTheme.customColors()
+
     NavigationBar(
-        containerColor = Color.White //todo must changed for the dark theme
+        containerColor = color.card
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
         items.forEach { item ->
             NavigationBarItem(
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = MaterialTheme.customColors().onPrimary,
-                    selectedTextColor = MaterialTheme.customColors().primary,
-                    indicatorColor = MaterialTheme.customColors().primary,
-                    unselectedIconColor = MaterialTheme.customColors().onBackground60,
-                    unselectedTextColor = MaterialTheme.customColors().onBackground60,
+                    selectedIconColor = color.onPrimary,
+                    selectedTextColor = color.primary,
+                    indicatorColor = color.primary,
+                    unselectedIconColor = color.onBackground60,
+                    unselectedTextColor = color.onBackground60,
                 ),
                 selected = currentRoute == item.screen_route,
                 alwaysShowLabel = false,

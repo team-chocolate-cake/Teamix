@@ -4,6 +4,7 @@ import com.chocolate.repository.datastore.PreferencesDataSource
 import okhttp3.Credentials
 import okhttp3.Interceptor
 import okhttp3.Response
+import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,7 +19,10 @@ class AuthInterceptor @Inject constructor(
             .newBuilder()
             .url(
                 requestUrl.toString()
-                    .replace("null", preferencesDataSource.currentOrganization ?: "")
+                    .replace(
+                        "null",
+                        preferencesDataSource.currentOrganization ?: throw IOException()
+                    )
             )
             .header(
                 AUTHORIZATION, Credentials.basic(

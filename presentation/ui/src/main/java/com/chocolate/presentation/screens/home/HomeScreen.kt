@@ -63,10 +63,12 @@ import com.chocolate.presentation.theme.Space64
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.viewmodel.home.HomeUiEffect
 import com.chocolate.viewmodel.home.HomeUiState
 import com.chocolate.viewmodel.home.HomeViewModel
 import com.chocolate.viewmodel.main.MainViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.flow.collectLatest
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -77,6 +79,19 @@ fun HomeScreen(
 ) {
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = !isSystemInDarkTheme()
+    val state by homeViewModel.state.collectAsState()
+    val context = LocalContext.current
+    LaunchedEffect(key1 = Unit){
+        homeViewModel.effect.collectLatest {effect->
+            when(effect){
+                HomeUiEffect.NavigateToChaNNel -> {}
+                HomeUiEffect.NavigateToOrganizationName -> {navController.navigateToOrganizationName()}
+                HomeUiEffect.NavigationToDrafts -> {}
+                HomeUiEffect.NavigationToSavedLater -> {}
+                HomeUiEffect.NavigationToStarred -> {}
+            }
+        }
+    }
     DisposableEffect(systemUiController, useDarkIcons) {
         systemUiController.setSystemBarsColor(color = LightPrimary, darkIcons = false)
         systemUiController.setNavigationBarColor(Color.Black)
@@ -86,10 +101,8 @@ fun HomeScreen(
         }
     }
 
-    val state by homeViewModel.state.collectAsState()
-    val context = LocalContext.current
     if (state.isLogged) {
-        if (state.error != null) {
+        if (state.showNoInternetLottie) {
             NoInternetLottie(
                 isShow = true,
                 onClickRetry = homeViewModel::getData,

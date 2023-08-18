@@ -13,6 +13,7 @@ import com.chocolate.usecases.user.GetCurrentUserDataUseCase
 import com.chocolate.usecases.user.LogoutUseCase
 import com.chocolate.usecases.user.UpdateUserInformationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
+import com.chocolate.viewmodel.base.StringsRes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
@@ -25,13 +26,9 @@ class ProfileViewModel @Inject constructor(
     private val getCurrentUserDataUseCase: GetCurrentUserDataUseCase,
     private val updateUserInformationUseCase: UpdateUserInformationUseCase,
     private val logoutUseCase: LogoutUseCase,
-    private val customizeProfileSettingsUseCase: CustomizeProfileSettingsUseCase
+    private val customizeProfileSettingsUseCase: CustomizeProfileSettingsUseCase,
+    private val stringsRes: StringsRes
 ) : BaseViewModel<ProfileUiState, ProfileEffect>(ProfileUiState()), ProfileInteraction {
-
-    private var newUsername: String = ""
-    private var newEmail: String = ""
-    private var originalName: String = ""
-    private var originalEmail: String = ""
 
     init {
         getLastSelectedAppLanguage()
@@ -95,19 +92,18 @@ class ProfileViewModel @Inject constructor(
     }
 
     override fun onUsernameChange(username: String) {
-        if (originalName.isEmpty()) {
-            originalName = _state.value.name
+        if (_state.value.originalName.isEmpty()) {
+            _state.update { it.copy(originalName = _state.value.name) }
         }
-        newUsername = username
-        _state.update { it.copy(name = username, error = null) }
+        _state.update { it.copy(name = username, error = null, newUsername = username) }
     }
 
     override fun onEmailChange(email: String) {
-        if (originalEmail.isEmpty()) {
-            originalEmail = _state.value.email
+        if (_state.value.originalEmail.isEmpty()) {
+            _state.update { it.copy(originalEmail = _state.value.email) }
         }
-        newEmail = email
-        _state.update { it.copy(email = email, error = null) }
+
+        _state.update { it.copy(email = email, error = null, newEmail = email) }
     }
 
     override fun onUserInformationFocusChange() {
@@ -130,14 +126,14 @@ class ProfileViewModel @Inject constructor(
 
     override fun areUserDataEqual(): Boolean {
         val currentState = _state.value
-        return currentState.name == newUsername || currentState.email == newEmail
+        return currentState.name == currentState.newUsername || currentState.email == currentState.newEmail
     }
 
     override fun onRevertChange() {
         val currentState = _state.value
         val updatedState = currentState.copy(
-            name = if (originalName == "") _state.value.name else originalName,
-            email = if (originalEmail == "") _state.value.email else originalEmail,
+            name = if (currentState.originalName == "") _state.value.name else currentState.originalName,
+            email = if (currentState.originalEmail == "") _state.value.email else currentState.originalEmail,
             error = null
         )
         _state.update { updatedState }
@@ -146,15 +142,23 @@ class ProfileViewModel @Inject constructor(
     }
 
     override fun onClickProfileButton() {
-        _state.update { it.copy(pagerNumber = 0, error = null) }
+        _state.update { it.copy(pagerNumber = 0, error = null, message = "") }
     }
 
     override fun onClickSettingsButton() {
-        _state.update { it.copy(pagerNumber = 1, error = null) }
+        _state.update { it.copy(pagerNumber = 1, error = null, message = "") }
     }
 
     private fun onUpdateUserInformationSuccess(unit: Unit) {
-        _state.update { it.copy(isLoading = false, error = null, message = "success") }
+        _state.update {
+            it.copy(
+                isLoading = false,
+                newUsername = "",
+                newEmail = "",
+                error = null,
+                message = stringsRes.successMessage
+            )
+        }
     }
 
     override fun updateClearHistoryState(showDialog: Boolean) {
@@ -163,11 +167,11 @@ class ProfileViewModel @Inject constructor(
 
     private fun onError(throwable: Throwable) {
         val error = when (throwable) {
-            EmptyEmailException -> "Email can't be empty"
-            EmptyFullNameException -> "Full name can't be empty"
-            SameUserDataException -> "User Information can't be the same"
-            is NoConnectionException -> "No Internet Connection."
-            else -> "mistake occurred; please attempt again at a subsequent time."
+            EmptyEmailException -> stringsRes.emptyEmailMessage
+            EmptyFullNameException -> stringsRes.emptyFullNameMessage
+            SameUserDataException -> stringsRes.sameUserDataMessage
+            is NoConnectionException -> stringsRes.noConnectionMessage
+            else -> stringsRes.globalMessageError
         }
         _state.update { it.copy(isLoading = false, error = error) }
     }

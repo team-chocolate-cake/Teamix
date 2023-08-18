@@ -22,6 +22,7 @@ object EmptyEmailException: TeamixException(null)
 object EmptyFullNameException: TeamixException(null)
 object SameUserDataException: TeamixException(null)
 
+class InvalidURlHostException(message: String?): TeamixException(message)
 
 class UnknownException(message: String) : TeamixException(message)
 

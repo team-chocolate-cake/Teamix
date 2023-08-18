@@ -2,6 +2,9 @@ package com.chocolate.viewmodel.home
 
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.channel.Channel
+import com.chocolate.entities.exceptions.InvalidURlHostException
+import com.chocolate.entities.exceptions.NoConnectionException
+import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.entities.server_and_organizations.ServerSettings
 import com.chocolate.usecases.channel.GetChannelsUseCase
 import com.chocolate.usecases.channel.GetSubscribedChannelsUseCase
@@ -20,7 +23,6 @@ class HomeViewModel @Inject constructor(
     private val getSubscribedChannelsUseCase: GetSubscribedChannelsUseCase,
     private val getImageOrganizationUseCase: GetImageOrganizationUseCase,
     private val getChannelsUseCase: GetChannelsUseCase,
-
     private val getNameOrganizationsUseCase: GetNameOrganizationsUseCase
 ) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()) {
 
@@ -52,6 +54,7 @@ class HomeViewModel @Inject constructor(
             it.copy(
                 isLoading = true,
                 imageUrl = serverSettings.realmIcon,
+                showNoInternetLottie = false,
                 error = null
             )
         }
@@ -71,6 +74,7 @@ class HomeViewModel @Inject constructor(
             it.copy(
                 isLoading = true,
                 organizationTitle = organizationName,
+                showNoInternetLottie = false,
                 error = null
             )
         }
@@ -90,6 +94,15 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onError(throwable: Throwable) {
-        _state.update { it.copy(error = throwable.message) }
+        when (throwable) {
+            is InvalidURlHostException, is ValidationException -> sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
+            is NoConnectionException -> _state.update {
+                it.copy(
+                    showNoInternetLottie = true,
+                    isLoading = false
+                )
+            }
+        }
+        _state.update { it.copy(isLoading = false, error = throwable.message) }
     }
 }

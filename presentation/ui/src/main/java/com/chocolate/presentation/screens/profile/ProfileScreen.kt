@@ -50,7 +50,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -63,7 +62,6 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.NoInternetLottie
-import com.chocolate.presentation.screens.oner_power.navigateToOwnerPower
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.screens.profile.composable.MultiChoiceDialog
 import com.chocolate.presentation.screens.profile.composable.ProfileDialog
@@ -455,6 +453,9 @@ fun ProfileContent(
         if (state.error != null) {
             Toast.makeText(content, state.error, Toast.LENGTH_SHORT).show()
         }
+        if (state.message.isNotEmpty()) {
+            Toast.makeText(content, state.message, Toast.LENGTH_SHORT).show()
+        }
     }
     NoInternetLottie(
         isShow = state.showNoInternetLottie,
@@ -468,4 +469,3 @@ fun ProfileContent(
 fun ProfileScreenPreview() {
     ProfileScreen(rememberNavController(), hiltViewModel())
 }
-

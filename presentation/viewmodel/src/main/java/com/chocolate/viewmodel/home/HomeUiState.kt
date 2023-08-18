@@ -5,6 +5,7 @@ data class HomeUiState(
     val imageUrl: String = "",
     val badgeCountsUiState: BadgeCountsUiState = BadgeCountsUiState(),
     val channels: List<ChannelUiState> = emptyList(),
+    val showNoInternetLottie: Boolean = false,
     val isLogged: Boolean = true,
     val isLoading: Boolean = true,
     val error: String? = null

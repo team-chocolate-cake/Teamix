@@ -83,5 +83,16 @@
     <string name="default_error_message">حدث خطأ، يرجى المحاولة مرة أخرى لاحقًا.</string>
     <string name="logout_content_message">تسجيل الخروج سيقوم بتسجيلك خارج حسابك، وستحتاج إلى إعادة إدخال بيانات الاعتماد الخاصة بك للوصول إلى التطبيق مرة أخرى.</string>
     <string name="dark_theme">مظهر داكن</string>
+    <string name="error_organization_name_empty">لا يمكن أن يكون اسم المنظمة فارغًا!</string>
+    <string name="error_try_again_later">حدث خطأ؛ يرجى المحاولة مرة أخرى في وقت لاحق.</string>
+    <string name="warning">تحذير</string>
+    <string name="waring_details">لقد قمت بتغيير معلوماتك الشخصية. هل أنت متأكد من رغبتك في المغادرة دون حفظ التغييرات؟</string>
+    <string name="done">تم</string>
+    <string name="email_can_t_be_empty">لا يمكن أن يكون البريد الإلكتروني فارغًا</string>
+    <string name="full_name_can_t_be_empty">لا يمكن أن يكون الاسم الكامل فارغًا</string>
+    <string name="user_information_can_t_be_the_same">لا يمكن أن تكون معلومات المستخدم متطابقة</string>
+    <string name="no_internet_connection">لا يوجد اتصال بالإنترنت.</string>
+    <string name="globalMessageError">حدث خطأ؛ يرجى المحاولة مرة أخرى في وقت لاحق.</string>
+    <string name="success">نجاح</string>
 
 </resources>

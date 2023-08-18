@@ -1,6 +1,7 @@
 package com.chocolate.remote
 
 import com.chocolate.entities.exceptions.CertificateException
+import com.chocolate.entities.exceptions.InvalidURlHostException
 import com.chocolate.entities.exceptions.NetworkException
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.NotFoundException
@@ -51,6 +52,7 @@ import com.chocolate.repository.service.remote.RemoteDataSource
 import com.chocolate.repository.utils.HttpStatusCodes
 import okhttp3.MultipartBody
 import retrofit2.Response
+import java.io.IOException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import javax.inject.Inject
@@ -690,6 +692,8 @@ class RetrofitDataSource @Inject constructor(
             throw NoConnectionException(exception.message)
         } catch (exception: SocketTimeoutException) {
             throw TimeoutException(exception.message.toString())
+        } catch (exception: IOException) {
+            throw InvalidURlHostException(exception.message)
         }
     }
 }

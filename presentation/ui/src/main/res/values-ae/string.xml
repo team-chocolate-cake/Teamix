@@ -84,5 +84,15 @@
     <string name="logout_content_message">登出将注销您的帐户，您需要重新输入凭据才能再次访问该应用程序。</string>
     <string name="done">黑暗主題</string>
     <string name="dark_theme">黑暗主題</string>
+    <string name="error_organization_name_empty">组织名称不能为空！</string>
+    <string name="error_try_again_later">发生错误；请稍后再试。</string>
+    <string name="warning">警告</string>
+    <string name="waring_details">您已更改个人信息。您确定要在保存更改后离开吗？</string>
+    <string name="email_can_t_be_empty">电子邮件不能为空</string>
+    <string name="full_name_can_t_be_empty">姓名不能为空</string>
+    <string name="user_information_can_t_be_the_same">用户信息不能相同</string>
+    <string name="no_internet_connection">无网络连接。</string>
+    <string name="globalMessageError">发生错误；请稍后再试。</string>
+    <string name="success">成功</string>
 
 </resources>

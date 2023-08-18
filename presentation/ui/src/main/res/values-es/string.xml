@@ -83,5 +83,16 @@
     <string name="default_error_message">Ocurrió un error, por favor intenta nuevamente más tarde.</string>
     <string name="logout_content_message">Cerrar sesión te desconectará de tu cuenta y deberás volver a ingresar tus credenciales para acceder a la aplicación nuevamente.</string>
     <string name="dark_theme">tema oscuro</string>
+    <string name="error_organization_name_empty">¡El nombre de la organización no puede estar vacío!</string>
+    <string name="error_try_again_later">Ocurrió un error; por favor, intenta nuevamente más tarde.</string>
+    <string name="warning">Advertencia</string>
+    <string name="waring_details">Has cambiado tu información personal. ¿Estás seguro de que quieres salir sin guardar los cambios?</string>
+    <string name="done">Hecho</string>
+    <string name="email_can_t_be_empty">El correo electrónico no puede estar vacío</string>
+    <string name="full_name_can_t_be_empty">El nombre completo no puede estar vacío</string>
+    <string name="user_information_can_t_be_the_same">La información del usuario no puede ser la misma</string>
+    <string name="no_internet_connection">Sin conexión a Internet.</string>
+    <string name="globalMessageError">Ocurrió un error; por favor, intenta nuevamente más tarde.</string>
+    <string name="success">Éxito</string>
 
 </resources>

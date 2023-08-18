@@ -55,6 +55,7 @@ dependencies {
     implementation (project(Modules.DATA_LOCAL))
     implementation (project(Modules.DOMAIN_USE_CASE))
     implementation (project(Modules.PRESENTATION_UI))
+    implementation (project(Modules.PRESENTATION_VIEW_MODEL))
 
     implementation (ProjectDependencies.composeRuntime)
 

@@ -14,5 +14,6 @@ fun NavGraphBuilder.homeRoute(navController: NavController,mainViewModel: MainVi
 }
 
 fun NavController.navigateToHome() {
+    popBackStack()
     navigate(Screen.Home.route)
 }

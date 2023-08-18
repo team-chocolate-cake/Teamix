@@ -25,9 +25,13 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.customColors
 
 @Composable
-fun NoInternetLottie(onClickRetry: () -> Unit, isShow: Boolean) {
-    val composition by
-    rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.animation_no_internet))
+fun NoInternetLottie(
+    onClickRetry: () -> Unit,
+    isShow: Boolean,
+    isDarkMode: Boolean
+) {
+    val animationResId = if (isDarkMode) R.raw.animation_no_internet_dark else R.raw.animation_no_internet
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(animationResId))
     val animationState =
         animateLottieCompositionAsState(composition = composition, isPlaying = false)
     val color = MaterialTheme.customColors()

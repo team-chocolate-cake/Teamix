@@ -41,8 +41,7 @@ fun ManageChannelBottomSheet(onDismissBottomSheet: () -> Unit, colors: CustomCol
                 })
         }
         Divider(
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally),
+            modifier = Modifier.align(Alignment.CenterHorizontally),
             thickness = 4.dp,
             color = colors.onBackground38
         )
@@ -54,9 +53,7 @@ fun ManageChannelBottomSheet(onDismissBottomSheet: () -> Unit, colors: CustomCol
             openDialog = true
         }
         Divider(
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(horizontal = Space16),
+            modifier = Modifier.wrapContentSize().padding(horizontal = Space16),
             color = colors.border
         )
         ItemManageChannelBottomSheet(
@@ -67,9 +64,7 @@ fun ManageChannelBottomSheet(onDismissBottomSheet: () -> Unit, colors: CustomCol
             openDialog = true
         }
         Divider(
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(horizontal = Space16),
+            modifier = Modifier.wrapContentSize().padding(horizontal = Space16),
             color = colors.border
         )
         ItemManageChannelBottomSheet(
@@ -78,9 +73,7 @@ fun ManageChannelBottomSheet(onDismissBottomSheet: () -> Unit, colors: CustomCol
             painter = painterResource(id = R.drawable.ic_copy)
         ) { }
         Divider(
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(horizontal = Space16),
+            modifier = Modifier.wrapContentSize().padding(horizontal = Space16),
             color = colors.border
         )
         ItemManageChannelBottomSheet(
@@ -89,9 +82,7 @@ fun ManageChannelBottomSheet(onDismissBottomSheet: () -> Unit, colors: CustomCol
             painter = painterResource(id = R.drawable.ic_copy)
         ) { }
         Divider(
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(horizontal = Space16),
+            modifier = Modifier.wrapContentSize().padding(horizontal = Space16),
             color = colors.border
         )
         ItemManageChannelBottomSheet(

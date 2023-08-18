@@ -3,7 +3,6 @@ package com.chocolate.repository.model.dto.channels.response
 import com.google.gson.annotations.SerializedName
 
 data class StreamDto(
-
 	@field:SerializedName("first_message_id")
 	val firstMessageId: Int? = null,
 	@field:SerializedName("stream_post_policy")
@@ -27,5 +26,7 @@ data class StreamDto(
 	@field:SerializedName("can_remove_subscribers_group_id")
 	val canRemoveSubscribersGroupId: Int? = null,
 	@field:SerializedName("invite_only")
-	val inviteOnly: Boolean? = null
+	val inviteOnly: Boolean? = null,
+	@field:SerializedName("date_created")
+	val dateCreated: Long? = null
 )

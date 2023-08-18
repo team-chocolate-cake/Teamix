@@ -1,20 +1,23 @@
 package com.chocolate.presentation.screens.organiztion
 
+import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.TextSelectionColors
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -24,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -34,9 +38,10 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.Button
 import com.chocolate.presentation.screens.create_organization.navigateToCreateOrganization
 import com.chocolate.presentation.screens.login.navigateToLogin
+import com.chocolate.presentation.screens.organiztion.compose.SeparatorWithText
 import com.chocolate.presentation.screens.welcome.navigateToWelcome
-import com.chocolate.presentation.theme.LightBackground
 import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.Space24
 import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.Space48
 import com.chocolate.presentation.theme.Space8
@@ -57,7 +62,9 @@ fun OrganizationScreen(
         viewModel.effect.collectLatest { effect ->
             when (effect) {
                 OrganizationNameUiEffect.NavigateToCreateOrganization -> navController.navigateToCreateOrganization()
-                OrganizationNameUiEffect.NavigateToLoginScreen -> navController.navigateToLogin()
+                OrganizationNameUiEffect.NavigateToLoginScreen -> navController.navigateToLogin(
+                    organizationName = state.organizationName
+                )
             }
         }
     }
@@ -71,6 +78,7 @@ fun OrganizationScreen(
     }
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OrganizationContent(
@@ -78,16 +86,23 @@ fun OrganizationContent(
     state: OrganizationNameUiState
 ) {
     val colors = MaterialTheme.customColors()
-    Box(
+    val context = LocalContext.current
+    val scrollState = rememberScrollState()
+    Scaffold(
         modifier = Modifier
-            .fillMaxSize()
-            .background(color = LightBackground)
+            .fillMaxSize(),
+        containerColor = colors.background
     ) {
-        Column {
+        Column(
+            modifier = Modifier
+                .verticalScroll(scrollState)
+        ) {
             Image(
-                painter = painterResource(id = R.drawable.start__5_),
+                painter = painterResource(id = R.drawable.img_start_organization),
                 contentDescription = null,
-                modifier = Modifier.padding(top = 28.dp)
+                modifier = Modifier
+                    .padding(top = 28.dp)
+                    .align(Alignment.CenterHorizontally)
             )
             Text(
                 modifier = Modifier
@@ -95,6 +110,7 @@ fun OrganizationContent(
                     .padding(top = Space32),
                 text = stringResource(R.string.enter_your_name_organization),
                 style = MaterialTheme.typography.labelMedium,
+                color = colors.onBackground87
             )
             OutlinedTextField(
                 modifier = Modifier
@@ -109,28 +125,42 @@ fun OrganizationContent(
                 placeholder = { Text("", color = Color.Black.copy(alpha = 0.6f)) },
                 shape = RoundedCornerShape(12.dp),
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    containerColor = Color.White,
+                    containerColor = colors.card,
                     focusedBorderColor = Color.Transparent,
                     unfocusedBorderColor = Color.Transparent,
-                    cursorColor = colors.black
+                    cursorColor = colors.black,
+                    selectionColors = TextSelectionColors(
+                        handleColor = colors.primary,
+                        backgroundColor = colors.primary
+                    )
                 )
             )
+            val operationFailed = stringResource(R.string.error_organization_name_empty)
             Button(
                 onClick = {
                     organizationNameInteraction.onClickActionButton(state.organizationName)
+                    if (state.organizationName.isBlank()) {
+                        Toast.makeText(context, operationFailed, Toast.LENGTH_SHORT).show()
+                    }
+                    if (!state.error.isNullOrEmpty()) {
+                        Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(Space48)
                     .padding(horizontal = Space16),
                 colors = colors,
-                enabled = state.organizationName.isNotEmpty()
             ) {
-                Text(
-                    text = stringResource(R.string.enter),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = colors.onPrimary
-                )
+                if (state.isLoading) {
+                    CircularProgressIndicator(color = colors.card)
+                } else {
+                    Text(
+                        text = stringResource(R.string.enter),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = colors.onPrimary
+                    )
+                }
             }
             SeparatorWithText(modifier = Modifier.padding(bottom = Space8, top = Space32))
             Text(
@@ -139,42 +169,10 @@ fun OrganizationContent(
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .clickable { organizationNameInteraction.onClickCreateOrganization() },
+                    .clickable { organizationNameInteraction.onClickCreateOrganization() }
+                    .padding(bottom = Space24),
                 textAlign = TextAlign.Center
             )
         }
-    }
-}
-
-@Composable
-fun SeparatorWithText(modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = Space16),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .height(1.dp)
-                .background(Color.Gray)
-                .padding(horizontal = Space8)
-        )
-        Text(
-            text = "OR",
-            color = Color.Gray,
-            modifier = Modifier
-                .background(Color.Transparent, shape = RoundedCornerShape(4.dp))
-                .padding(horizontal = Space8)
-        )
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .height(1.dp)
-                .background(Color.Gray)
-                .padding(horizontal = Space8)
-        )
     }
 }

@@ -1,111 +1,49 @@
 package com.chocolate.repository.mappers.channel_mappers
 
-import com.chocolate.entities.channel_models.ChannelDetails
-import com.chocolate.entities.channel_models.ChannelId
-import com.chocolate.entities.channel_models.ChannelSubscribers
-import com.chocolate.entities.channel_models.DefaultChannelModel
-import com.chocolate.entities.channel_models.StreamItem
-import com.chocolate.entities.channel_models.SubscribeToStream
-import com.chocolate.entities.channel_models.SubscriptionSettingsUpdate
-import com.chocolate.entities.channel_models.SubscriptionStatus
-import com.chocolate.entities.channel_models.TopicItem
-import com.chocolate.entities.channel_models.Topics
-import com.chocolate.repository.model.dto.channels.response.AllSubscribersDto
+import com.chocolate.entities.channel.Channel
+import com.chocolate.entities.channel.Topic
 import com.chocolate.repository.model.dto.channels.response.DefaultStreamDto
 import com.chocolate.repository.model.dto.channels.response.StreamDto
-import com.chocolate.repository.model.dto.channels.response.StreamsIdDto
-import com.chocolate.repository.model.dto.channels.response.StreamsItem
-import com.chocolate.repository.model.dto.channels.response.SubscribeToStreamDto
-import com.chocolate.repository.model.dto.channels.response.SubscriptionSettingsDto
-import com.chocolate.repository.model.dto.channels.response.SubscriptionStatusDto
+import com.chocolate.repository.model.dto.channels.response.SubscribedStreamDto
 import com.chocolate.repository.model.dto.channels.response.SubscriptionsItemDto
 import com.chocolate.repository.model.dto.channels.response.TopicsInStreamDto
 import com.chocolate.repository.model.dto.channels.response.TopicsItemDto
-import com.chocolate.repository.model.dto.channels.response.UnsubscribeFromStreamDto
 
-fun SubscriptionsItemDto.toStreamInfo(): StreamItem {
-    return StreamItem(
-        streamId = streamId ?: 0,
-        streamName = name ?: "",
+fun SubscriptionsItemDto.toEntity(
+    topics: List<Topic>,
+): Channel {
+    return Channel(
+        channelId = streamId ?: 0,
+        channelName = name ?: "",
         description = description ?: "",
         invitationONly = inviteOnly ?: false,
+        topics = topics,
+        isCurrentUserSubscribed = true,
+        isMuted = isMuted ?: false
     )
 }
 
-
-fun SubscribeToStreamDto.toSubscribeToStream(): SubscribeToStream {
-    return if (result.equals("success")) {
-        if (unauthorized?.get(0).equals("private_stream"))
-            SubscribeToStream(message = unauthorized?.get(0) ?: "")
-        else
-            SubscribeToStream(message = result ?: "")
-    } else {
-        SubscribeToStream(message = message ?: "")
-    }
+suspend fun SubscribedStreamDto.toEntity(getTopics: suspend (channelId: Int) -> List<Topic>): List<Channel> {
+    return this.subscriptions?.map { it.toEntity(getTopics(it.streamId ?: 0)) } ?: emptyList()
 }
 
+fun List<StreamDto>?.toEntity(): List<Channel> =
+    this?.map { it.toEntity() } ?: emptyList()
 
-fun UnsubscribeFromStreamDto.toUnsubscribeFromStream(): DefaultChannelModel {
-    return if (result.equals("success")) DefaultChannelModel(result ?: "")
-    else
-        DefaultChannelModel(message ?: "")
-}
-
-fun SubscriptionStatusDto.toSubscriptionStatus(): SubscriptionStatus {
-    return SubscriptionStatus(isSubscribed ?: false)
-}
-
-fun AllSubscribersDto.toChannelSubscribers(): ChannelSubscribers {
-    return ChannelSubscribers(
-        subscribers ?: emptyList()
+fun StreamDto.toEntity(): Channel {
+    return Channel(
+        channelId = this.streamId ?: 0,
+        channelName = this.name ?: "",
+        description = this.description ?: "",
+        invitationONly = this.inviteOnly ?: false,
+        topics = emptyList(),
+        isCurrentUserSubscribed = false,
+        false
     )
 }
 
-fun SubscriptionSettingsDto.toSubscriptionSettingsUpdate(): SubscriptionSettingsUpdate {
-    return SubscriptionSettingsUpdate(result ?: "", ignoredParametersUnsupported ?: emptyList())
-}
+fun DefaultStreamDto.toSuccessOrFail(): Boolean = this.result?.equals("success") ?: false
 
-fun StreamsItem?.toStreamItem(): StreamItem {
-    return StreamItem(
-        streamId = this?.streamId ?: 0,
-        streamName = this?.name ?: "",
-        description = this?.description ?: "",
-        invitationONly = this?.inviteOnly ?: false,
-    )
-}
+fun TopicsItemDto.toEntity(): Topic = Topic(name ?: "", maxId ?: 0)
 
-
-fun StreamDto.toChannelDetails(): ChannelDetails {
-    return ChannelDetails(
-        firstMessageId ?: 0,
-        streamPostPolicy ?: 0,
-        isWebPublic ?: false,
-        renderedDescription ?: "",
-        streamId ?: 0,
-        name ?: "",
-        description ?: "",
-        historyPublicToSubscribers ?: true,
-        isAnnouncementOnly ?: false,
-        messageRetentionDays!!,
-        canRemoveSubscribersGroupId ?: 0,
-        inviteOnly ?: false
-
-    )
-}
-
-fun StreamsIdDto.toChannelId(): ChannelId {
-    return ChannelId(streamId ?: 0)
-}
-
-fun DefaultStreamDto.toChannelDefault(): DefaultChannelModel {
-    return DefaultChannelModel(result ?: "")
-}
-
-fun TopicsItemDto.toTopicItem(): TopicItem {
-    return TopicItem(name ?: "", maxId ?: 0)
-}
-
-fun TopicsInStreamDto.toTopics(): Topics {
-    val topic = topics?.map { it.toTopicItem() }
-    return Topics(topic ?: emptyList())
-}
+fun TopicsInStreamDto.toEntity(): List<Topic> = topics?.map { it.toEntity() } ?: emptyList()

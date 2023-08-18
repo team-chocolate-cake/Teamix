@@ -60,7 +60,10 @@ dependencies {
     implementation(ProjectDependencies.splashScreen)
 
     implementation(ProjectDependencies.composeFoundation)
+    implementation (ProjectDependencies.systemUiController)
+
 
     implementation(ProjectDependencies.webView)
+    implementation(ProjectDependencies.systemuicontroller)
 
 }

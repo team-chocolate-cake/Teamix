@@ -91,8 +91,6 @@ interface UsersRepositories{
 
     suspend fun getUserGroups(): UserGroups
 
-    // change type of "members" to List of Integer
-    //    "msg": "Insufficient permission",
     suspend fun createUserGroup(
         name: String,
         description: String,

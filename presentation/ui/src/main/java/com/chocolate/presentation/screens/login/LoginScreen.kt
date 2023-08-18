@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.login
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -11,7 +12,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -24,7 +28,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -37,7 +43,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.Button
-import com.chocolate.presentation.composable.TeamixSnackBar
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.forget_password.navigateToForgetPassword
 import com.chocolate.presentation.screens.home.navigateToHome
@@ -83,12 +88,15 @@ fun LoginContent(
     state: LoginUiState
 ) {
     val colors = MaterialTheme.customColors()
+    val scrollState = rememberScrollState()
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = colors.background)
-            .padding(horizontal = Space16),
+            .padding(horizontal = Space16)
+            .verticalScroll(scrollState),
     ) {
         Text(
             modifier = Modifier.padding(top = 42.dp),
@@ -106,7 +114,8 @@ fun LoginContent(
         Text(
             modifier = Modifier,
             text = stringResource(R.string.email),
-            style = MaterialTheme.typography.labelMedium
+            style = MaterialTheme.typography.labelMedium,
+            color = colors.onBackground87
         )
 
         TeamixTextField(
@@ -123,7 +132,8 @@ fun LoginContent(
         Text(
             modifier = Modifier.padding(top = Space16),
             text = stringResource(R.string.password),
-            style = MaterialTheme.typography.labelMedium
+            style = MaterialTheme.typography.labelMedium,
+            color = colors.onBackground87
         )
         var passwordVisibility: Boolean by remember { mutableStateOf(false) }
         val passwordIcon = if (passwordVisibility) R.drawable.ic_eye else R.drawable.ic_eye_closed
@@ -153,19 +163,36 @@ fun LoginContent(
                 stringResource(R.string.forget_password),
                 fontSize = 14.sp,
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.clickable { navigateToForgetPassword() }
+                modifier = Modifier.clickable { navigateToForgetPassword() },
+                color = colors.primary,
             )
         }
         Button(
-            onClick = { loginInteraction.login(state.email, state.password)},
+            onClick = {
+                if (state.email.isBlank() || state.password.isBlank()) {
+                    Toast.makeText(
+                        context,
+                        "Email and Password cannot be empty",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                if (state.error != null) {
+                    Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+                }
+                loginInteraction.login(state.email, state.password)
+            },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(Space56)
-                .padding(horizontal = Space16),
+                .height(Space56),
             colors = colors,
-            ) {
+        ) {
             if (state.isLoading) {
-                CircularProgressIndicator(color = colors.card)
+                CircularProgressIndicator(
+                    color = colors.card,
+                    modifier = Modifier
+                        .size(24.dp)
+                        .align(Alignment.CenterVertically)
+                )
             } else {
                 Text(
                     text = stringResource(R.string.sign_in),
@@ -173,14 +200,6 @@ fun LoginContent(
                     color = colors.onPrimary
                 )
             }
-        }
-        Spacer(modifier = Modifier.weight(1f))
-        if (state.error != null) {
-            TeamixSnackBar(
-                text = state.error ?: stringResource(R.string.default_error_message),
-                onClickRetry = { loginInteraction.onClickRetry() },
-                modifier = Modifier.padding(bottom = Space24)
-            )
         }
     }
 }

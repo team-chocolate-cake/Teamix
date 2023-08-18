@@ -2,6 +2,7 @@ package com.chocolate.presentation.composable
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -37,7 +38,11 @@ fun TeamixTextField(
             containerColor = colors.card,
             focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent,
-            cursorColor = Color.Black
+            cursorColor = Color.Black,
+            selectionColors = TextSelectionColors(
+                handleColor = colors.primary,
+                backgroundColor = colors.primary
+            )
         ),
         keyboardOptions = keyboardOptions,
         visualTransformation = visualTransformation,

@@ -1,6 +1,12 @@
 package com.chocolate.viewmodel.login
 
+import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.chocolate.entities.exceptions.NetworkException
+import com.chocolate.entities.exceptions.NoConnectionException
+import com.chocolate.entities.exceptions.NotFoundException
+import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.usecases.organization.GetNameOrganizationsUseCase
 import com.chocolate.usecases.user.LoginUseCase
 import com.chocolate.usecases.user.SetUserLoginStateUseCase
@@ -12,10 +18,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val loginUseCase: LoginUseCase,
     private val setUserLoginStateUseCase: SetUserLoginStateUseCase,
-    private val getNameOrganizationsUseCase: GetNameOrganizationsUseCase
 ) : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState()),LoginInteraction {
+
+    private val loginArgs: LoginArgs = LoginArgs(savedStateHandle)
 
     init {
         getNameOrganization()
@@ -23,7 +31,7 @@ class LoginViewModel @Inject constructor(
 
     private fun getNameOrganization() {
         viewModelScope.launch {
-            _state.update { it.copy(nameOrganization = getNameOrganizationsUseCase()) }
+            _state.update { it.copy(nameOrganization = loginArgs.organizationName) }
         }
     }
 
@@ -60,8 +68,15 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun onError(throwable: Throwable) {
+        val errorMessage = when(throwable){
+            is NoConnectionException -> "No Internet Connection."
+            is NetworkException -> "Enter a valid email address"
+            is ValidationException -> "Invalid email or password."
+            is NotFoundException -> "Organization name not found"
+            else -> " mistake occurred; please attempt again at a subsequent time."
+        }
         _state.update {
-            it.copy(isLoading = false, error = "Invalid email or password")
+            it.copy(isLoading = false, error = errorMessage)
         }
     }
 }

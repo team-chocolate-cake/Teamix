@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.on_boarding
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,7 +34,6 @@ fun OnboardingScreen(
     navController: NavController,
     onboardingViewModel: OnboardingViewModel = hiltViewModel()
 ) {
-    // navigate To Home here using the navController
     OnboardingContent(
         navigateToOrganization = { navController.navigateToOrganizationName() },
         onboardingViewModel
@@ -50,7 +50,7 @@ fun OnboardingContent(
     val pagerState = rememberPagerState()
     val onboardingPages = listOf(OnboardingPage.First, OnboardingPage.Second, OnboardingPage.Third)
     val colors = MaterialTheme.customColors()
-    Column(Modifier.fillMaxSize()) {
+    Column(Modifier.fillMaxSize().background(colors.background)) {
         HorizontalPager(
             modifier = Modifier.weight(8f),
             pageCount = onboardingPages.size,

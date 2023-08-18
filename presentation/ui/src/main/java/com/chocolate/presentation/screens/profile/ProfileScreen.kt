@@ -458,7 +458,9 @@ fun ProfileContent(
     }
     NoInternetLottie(
         isShow = state.showNoInternetLottie,
-        onClickRetry = { profileInteraction.onClickRetryToGetPersonalInformation() })
+        onClickRetry = { profileInteraction.onClickRetryToGetPersonalInformation() },
+        isDarkMode = mainViewModel.state.value
+    )
 }
 
 @Preview(showBackground = true, showSystemUi = true)

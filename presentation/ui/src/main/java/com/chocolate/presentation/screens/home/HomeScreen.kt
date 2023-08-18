@@ -65,11 +65,14 @@ import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.home.HomeUiState
 import com.chocolate.viewmodel.home.HomeViewModel
+import com.chocolate.viewmodel.main.MainViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun HomeScreen(
     navController: NavController,
+    mainViewModel: MainViewModel,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val systemUiController = rememberSystemUiController()
@@ -90,7 +93,7 @@ fun HomeScreen(
             NoInternetLottie(
                 isShow = true,
                 onClickRetry = homeViewModel::getData,
-                isDarkMode = !useDarkIcons,
+                isDarkMode = mainViewModel.state.value,
                 )
         } else {
             when {

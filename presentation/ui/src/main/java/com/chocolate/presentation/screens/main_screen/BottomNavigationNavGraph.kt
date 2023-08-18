@@ -22,7 +22,7 @@ fun BottomNavigationNavGraph(navController: NavHostController,mainViewModel: Mai
     NavHost(navController =navController , startDestination = BottomNavigationItem.Home.screen_route ){
         welcomeRoute(navController)
         onboardingRoute(navController)
-        homeRoute(navController)
+        homeRoute(navController,mainViewModel)
         organizationNameRoute(navController)
         createOrganizationWebViewRoute(navController)
         loginRoute(navController)
@@ -31,7 +31,7 @@ fun BottomNavigationNavGraph(navController: NavHostController,mainViewModel: Mai
        // ownerPowerRoute(navController)
 
         composable(BottomNavigationItem.Home.screen_route) {
-            HomeScreen(navController)
+            HomeScreen(navController,mainViewModel)
         }
         composable(BottomNavigationItem.Search.screen_route) {
             //todo add Search screen

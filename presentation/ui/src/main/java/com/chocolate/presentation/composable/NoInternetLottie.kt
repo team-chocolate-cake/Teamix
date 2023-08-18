@@ -27,9 +27,15 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.customColors
 
 @Composable
-fun NoInternetLottie(onClickRetry: () -> Unit,isShow: Boolean) {
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.animation_no_internet))
-    val animationState = animateLottieCompositionAsState(composition = composition,isPlaying = false)
+fun NoInternetLottie(
+    onClickRetry: () -> Unit,
+    isShow: Boolean,
+    isDarkMode: Boolean
+) {
+    val animationResId = if (isDarkMode) R.raw.animation_no_internet_dark else R.raw.animation_no_internet
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(animationResId))
+    val animationState =
+        animateLottieCompositionAsState(composition = composition, isPlaying = false)
     val color = MaterialTheme.customColors()
     AnimatedVisibility(visible = isShow) {
         Column(
@@ -38,13 +44,24 @@ fun NoInternetLottie(onClickRetry: () -> Unit,isShow: Boolean) {
                 .background(color.background),
             verticalArrangement = Arrangement.Center
         ) {
-            LottieAnimation(modifier = Modifier.size(350.dp), composition = composition, isPlaying = false)
-            Row(modifier = Modifier.wrapContentHeight().fillMaxWidth(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.Bottom) {
-                Text(text = "No internet connection", color = color.onBackground87 )
-                Text(text = ", retry", color = color.primary, modifier = Modifier.clickable { onClickRetry() })
-
+            LottieAnimation(
+                modifier = Modifier.size(350.dp),
+                composition = composition,
+                isPlaying = false
+            )
+            Row(
+                modifier = Modifier
+                    .wrapContentHeight()
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.Bottom
+            ) {
+                Text(text = "No internet connection", color = color.onBackground87)
+                Text(
+                    text = ", retry",
+                    color = color.primary,
+                    modifier = Modifier.clickable { onClickRetry() })
             }
         }
     }
-
 }

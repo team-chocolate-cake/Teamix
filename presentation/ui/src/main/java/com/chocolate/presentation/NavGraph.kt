@@ -20,7 +20,7 @@ fun SetUpNavGraph(mainViewModel: MainViewModel) {
     NavHost(navController = navController, startDestination = Screen.Profile.route) {
         welcomeRoute(navController)
         onboardingRoute(navController)
-        homeRoute(navController)
+        homeRoute(navController,mainViewModel)
         organizationNameRoute(navController)
         createOrganizationWebViewRoute(navController)
         loginRoute(navController)

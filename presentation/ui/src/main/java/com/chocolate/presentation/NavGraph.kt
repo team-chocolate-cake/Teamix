@@ -16,7 +16,7 @@ import com.chocolate.presentation.screens.welcome.welcomeRoute
 @Composable
 fun SetUpNavGraph() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screen.Home.route) {
+    NavHost(navController = navController, startDestination = Screen.Welcome.route) {
         welcomeRoute(navController)
         onboardingRoute(navController)
         homeRoute(navController)

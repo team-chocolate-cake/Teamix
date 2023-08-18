@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.chocolate.presentation.Screen
 import com.chocolate.presentation.screens.create_organization.createOrganizationWebViewRoute
 import com.chocolate.presentation.screens.forget_password.forgetPasswordWebViewRoute
 import com.chocolate.presentation.screens.home.HomeScreen
@@ -19,7 +20,7 @@ import com.chocolate.viewmodel.main.MainViewModel
 @Composable
 fun BottomNavigationNavGraph(navController: NavHostController,mainViewModel: MainViewModel) {
 
-    NavHost(navController =navController , startDestination = BottomNavigationItem.Home.screen_route ){
+    NavHost(navController =navController , startDestination = Screen.Welcome.route ){
         welcomeRoute(navController)
         onboardingRoute(navController)
         homeRoute(navController,mainViewModel)

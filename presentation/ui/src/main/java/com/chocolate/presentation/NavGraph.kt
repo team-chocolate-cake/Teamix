@@ -17,7 +17,7 @@ import com.chocolate.viewmodel.main.MainViewModel
 @Composable
 fun SetUpNavGraph(mainViewModel: MainViewModel) {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screen.Profile.route) {
+    NavHost(navController = navController, startDestination = Screen.Welcome.route) {
         welcomeRoute(navController)
         onboardingRoute(navController)
         homeRoute(navController,mainViewModel)

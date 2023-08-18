@@ -1,53 +1,29 @@
 package repositories
 
-import com.chocolate.entities.channel_models.ChannelDetails
-import com.chocolate.entities.channel_models.ChannelId
-import com.chocolate.entities.channel_models.ChannelSubscribers
-import com.chocolate.entities.channel_models.StreamItem
-import com.chocolate.entities.channel_models.SubscribeToStream
-import com.chocolate.entities.channel_models.SubscriptionSettingsUpdate
-import com.chocolate.entities.channel_models.SubscriptionStatus
-import com.chocolate.entities.channel_models.DefaultChannelModel
-import com.chocolate.entities.channel_models.Topics
+import com.chocolate.entities.channel.MutingStatus
+import com.chocolate.entities.channel.Channel
+import com.chocolate.entities.channel.Topic
 
 interface ChannelsRepository {
-    suspend fun getUserSubscriptions(): List<StreamItem?>?
-    suspend fun addSubscribes(
-        subscribeToStream: String,
-        principals: List<String>?,
-        authorizationErrorsFatal: Boolean,
-        announce: Boolean,
-        inviteOnly: Boolean,
-        isWebPublic: Boolean,
-        historyPublicToSubscribers: Boolean,
-        streamPostPolicy: Int?,
-        messageRetentionDays: String?,
-        canRemoveSubscribersGroupId: Int?
-    ): SubscribeToStream
+    suspend fun getSubscribedChannels(): List<Channel>
 
-    suspend fun deleteSubscriber(
-        subscriptions: String,
-        principals: List<String>?
-    ): DefaultChannelModel
+    suspend fun subscribeToChannel(channelName: String): Boolean
 
-    suspend fun getSubscriptionStatus(
-        userId: Int,
-        streamId: Int
-    ): SubscriptionStatus
+    suspend fun unsubscribeFromChannel(channelName: String): Boolean
 
-    suspend fun getAllSubscriber(streamId: Int): ChannelSubscribers
-    suspend fun updateSubscriptionSettings(subscriptionData: String): SubscriptionSettingsUpdate
-    suspend fun getAllChannels(
-        includePublic: Boolean,
-        includeWebPublic: Boolean,
-        includeSubscribed: Boolean,
-        includeAllActive: Boolean,
-        includeDefault: Boolean,
-        includeOwnerSubscribed: Boolean
-    ): List<StreamItem>
+    suspend fun getSubscriptionStatus(userId: Int, channelId: Int): Boolean
 
-    suspend fun getChannelById(streamId: Int): ChannelDetails
-    suspend fun getChannelId(channel: String): ChannelId
+    /**
+     * @return A list containing the IDs of all active users who are subscribed to the channel.
+     */
+    suspend fun getSubscribersByChannelId(channelId: Int): List<Int>
+
+    suspend fun getChannels(): List<Channel>
+
+    suspend fun getChannelById(channelId: Int): Channel?
+
+    suspend fun getChannelIdByName(channel: String): Int
+
     suspend fun updateChannel(
         streamId: Int,
         description: String?,
@@ -58,28 +34,27 @@ interface ChannelsRepository {
         streamPostPolicy: Int?,
         messageRetentionDays: String?,
         canRemoveSubscribersGroupId: Int?
-    ): DefaultChannelModel
+    ): Boolean
 
-    suspend fun archiveChannel(channelId: Int): DefaultChannelModel
-    suspend fun getTopicsInChannel(channelId: Int): Topics
+    suspend fun archiveChannel(channelId: Int): Boolean
+
+    suspend fun getTopicsInChannel(channelId: Int): List<Topic>
+
     suspend fun setTopicMuting(
         topic: String,
-        status: String,
-        streamId: Int?,
-        stream: String?
-    ): DefaultChannelModel
+        status: MutingStatus,
+        streamId: Int? = null,
+    ): Boolean
 
     suspend fun updatePersonalPreferenceTopic(
-        streamId: Int,
+        channelId: Int,
         topic: String,
         visibilityPolicy: Int
-    ): DefaultChannelModel
+    ): Boolean
 
-    suspend fun deleteTopic(
-        channelId: Int,
-        topicName: String
-    ): DefaultChannelModel
+    suspend fun deleteTopic(channelId: Int, topicName: String): Boolean
 
-    suspend fun addDefaultChannel(channelId: Int): DefaultChannelModel
-    suspend fun deleteDefaultChannel(channelId: Int): DefaultChannelModel
+    suspend fun addDefaultChannel(channelId: Int): Boolean
+
+    suspend fun deleteDefaultChannel(channelId: Int): Boolean
 }

@@ -176,6 +176,9 @@ fun LoginContent(
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+                if (state.error != null) {
+                    Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+                }
                 loginInteraction.login(state.email, state.password)
             },
             modifier = Modifier
@@ -197,10 +200,6 @@ fun LoginContent(
                     color = colors.onPrimary
                 )
             }
-        }
-        Spacer(modifier = Modifier.height(24.dp))
-        if (state.error != null) {
-            Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
         }
     }
 }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -97,7 +98,7 @@ fun OrganizationContent(
                 .verticalScroll(scrollState)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.start__5_),
+                painter = painterResource(id = R.drawable.img_start_organization),
                 contentDescription = null,
                 modifier = Modifier
                     .padding(top = 28.dp)
@@ -127,7 +128,11 @@ fun OrganizationContent(
                     containerColor = colors.card,
                     focusedBorderColor = Color.Transparent,
                     unfocusedBorderColor = Color.Transparent,
-                    cursorColor = colors.black
+                    cursorColor = colors.black,
+                    selectionColors = TextSelectionColors(
+                        handleColor = colors.primary,
+                        backgroundColor = colors.primary
+                    )
                 )
             )
             val operationFailed = stringResource(R.string.error_organization_name_empty)

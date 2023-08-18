@@ -1,22 +1,37 @@
 package com.chocolate.presentation.screens.main_screen
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.chocolate.presentation.screens.create_organization.createOrganizationWebViewRoute
+import com.chocolate.presentation.screens.forget_password.forgetPasswordWebViewRoute
+import com.chocolate.presentation.screens.home.HomeScreen
+import com.chocolate.presentation.screens.home.homeRoute
+import com.chocolate.presentation.screens.login.loginRoute
+import com.chocolate.presentation.screens.on_boarding.onboardingRoute
+import com.chocolate.presentation.screens.organiztion.organizationNameRoute
+import com.chocolate.presentation.screens.profile.ProfileScreen
+import com.chocolate.presentation.screens.profile.ownerPowerRoute
+import com.chocolate.presentation.screens.profile.profileRoute
+import com.chocolate.presentation.screens.welcome.welcomeRoute
 
 @Composable
 fun BottomNavigationNavGraph(navController: NavHostController) {
 
     NavHost(navController =navController , startDestination = BottomNavigationItem.Home.screen_route ){
+        welcomeRoute(navController)
+        onboardingRoute(navController)
+        homeRoute(navController)
+        organizationNameRoute(navController)
+        createOrganizationWebViewRoute(navController)
+        loginRoute(navController)
+        forgetPasswordWebViewRoute(navController)
+        profileRoute(navController)
+        ownerPowerRoute(navController)
+
         composable(BottomNavigationItem.Home.screen_route) {
-            //todo add Home screen
+            HomeScreen(navController)
         }
         composable(BottomNavigationItem.Search.screen_route) {
             //todo add Search screen
@@ -28,7 +43,7 @@ fun BottomNavigationNavGraph(navController: NavHostController) {
             //todo add DMs screen
         }
         composable(BottomNavigationItem.Profile.screen_route) {
-            //todo add Profile screen
+            ProfileScreen(navController)
         }
     }
 }

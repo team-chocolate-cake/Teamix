@@ -32,6 +32,7 @@ fun ServerSettingsDto.toEntity(): ServerSettings {
         emailAuthEnabled = emailAuthEnabled ?: true,
         externalAuthenticationMethods = externalAuthenticationMethodsEntity,
         isIncompatible = isIncompatible ?: false,
+        realmIcon = realmIcon ?: "",
         pushNotificationsEnabled = pushNotificationsEnabled ?: false
     )
 }

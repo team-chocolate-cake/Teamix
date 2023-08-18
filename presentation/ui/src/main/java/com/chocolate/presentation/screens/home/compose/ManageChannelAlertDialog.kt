@@ -37,34 +37,26 @@ fun ManageChannelAlertDialog(
         onDismissRequest = { onDismiss() },
     ) {
         Card(
-            modifier = modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
+            modifier = modifier.fillMaxWidth().wrapContentHeight(),
             colors = CardDefaults.cardColors(colors.card),
             shape = RoundedCornerShape(28.dp)
         ) {
             Text(
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth()
                     .padding(start = Space24, top = Space24, bottom = Space16),
                 text = "Do you want to $title channel",
                 style = MaterialTheme.typography.titleMedium,
                 color = colors.onBackground87,
             )
             Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = Space24),
+                modifier = Modifier.fillMaxWidth().padding(start = Space24),
                 text = subTitle,
                 style = MaterialTheme.typography.bodySmall,
                 color = colors.onBackground60,
             )
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .padding(vertical = 34.dp)
-                    .padding(end = Space24),
+                modifier = Modifier.fillMaxWidth().wrapContentHeight()
+                    .padding(vertical = 34.dp).padding(end = Space24),
                 horizontalArrangement = Arrangement.spacedBy(Space24, alignment = Alignment.End)
             ) {
                 Text(
@@ -76,11 +68,8 @@ fun ManageChannelAlertDialog(
                     text = title,
                     style = MaterialTheme.typography.bodySmall,
                     color = colors.red60,
-                    modifier = Modifier
-                        .padding(end = Space8)
-                        .clickable { onDismiss() })
+                    modifier = Modifier.padding(end = Space8).clickable { onDismiss() })
             }
-
         }
     }
 }

@@ -5,5 +5,6 @@ data class ServerSettings(
     val emailAuthEnabled: Boolean,
     val externalAuthenticationMethods: List<ExternalAuthenticationMethodEntity>,
     val isIncompatible: Boolean,
+    val realmIcon: String,
     val pushNotificationsEnabled: Boolean,
 )

@@ -2,13 +2,14 @@ package com.chocolate.viewmodel.home
 
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.channel.Channel
+import com.chocolate.entities.server_and_organizations.ServerSettings
 import com.chocolate.usecases.channel.GetChannelsUseCase
 import com.chocolate.usecases.channel.GetSubscribedChannelsUseCase
+import com.chocolate.usecases.organization.GetImageOrganizationUseCase
 import com.chocolate.usecases.organization.GetNameOrganizationsUseCase
 import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,7 +18,9 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getUserLoginStatusUseCase: GetUserLoginStatusUseCase,
     private val getSubscribedChannelsUseCase: GetSubscribedChannelsUseCase,
+    private val getImageOrganizationUseCase: GetImageOrganizationUseCase,
     private val getChannelsUseCase: GetChannelsUseCase,
+
     private val getNameOrganizationsUseCase: GetNameOrganizationsUseCase
 ) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()) {
 
@@ -28,10 +31,29 @@ class HomeViewModel @Inject constructor(
     fun getData() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            delay(2000)
             getUserLoginState()
             onGettingOrganizationName()
+            onGettingOrganizationImage()
             onGettingChannels()
+        }
+    }
+
+    private fun onGettingOrganizationImage() {
+        _state.update { it.copy(isLoading = true) }
+        tryToExecute(
+            { getImageOrganizationUseCase() },
+            ::onGettingOrganizationImageSuccess,
+            ::onError
+        )
+    }
+
+    private fun onGettingOrganizationImageSuccess(serverSettings: ServerSettings) {
+        _state.update {
+            it.copy(
+                isLoading = true,
+                imageUrl = serverSettings.realmIcon,
+                error = null
+            )
         }
     }
 
@@ -47,7 +69,7 @@ class HomeViewModel @Inject constructor(
     private fun onGettingOrganizationNameSuccess(organizationName: String) {
         _state.update {
             it.copy(
-                isLoading = false,
+                isLoading = true,
                 organizationTitle = organizationName,
                 error = null
             )
@@ -64,7 +86,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun getUserLoginState() {
-        collectFlow(getUserLoginStatusUseCase()) { this.copy(isLogged = it) }
+        collectFlow(getUserLoginStatusUseCase()) { this.copy(isLoading = true, isLogged = it) }
     }
 
     private fun onError(throwable: Throwable) {

@@ -104,7 +104,8 @@ fun ProfileScreen(
     LaunchedEffect(viewModel) {
         viewModel.effect.collectLatest { effect ->
             when (effect) {
-                ProfileEffect.NavigateToOwnerPower -> navController.navigateToOwnerPower()
+                //not finished yet
+                // ProfileEffect.NavigateToOwnerPower -> navController.navigateToOwnerPower()
                 ProfileEffect.NavigateToOrganizationScreen -> navController.navigateToOrganizationName()
             }
         }
@@ -147,6 +148,8 @@ fun ProfileContent(
     val content = LocalContext.current
     val pageState = rememberPagerState(initialPage = 0)
     val scrollState = rememberScrollState()
+    val context= LocalContext.current
+
 
     LaunchedEffect(state.pagerNumber) {
         pageState.animateScrollToPage(state.pagerNumber)
@@ -400,7 +403,8 @@ fun ProfileContent(
                                 }
                                 AnimatedVisibility(visible = state.role != "Member" && state.role != "Guest") {
                                     SettingCard(
-                                        click = { profileInteraction.onClickOwnerPower() },
+                                        click = { profileInteraction.onClickOwnerPower()
+                                            Toast.makeText(context, "This option is for the owner only", Toast.LENGTH_LONG).show()},
                                         text = stringResource(R.string.owner_powers),
                                         icon = painterResource(id = R.drawable.ownerpowers)
                                     )

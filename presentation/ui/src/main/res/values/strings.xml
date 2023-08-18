@@ -82,7 +82,7 @@
     <string name="default_error_message">A mistake happened, please attempt again at a later time.</string>
     <string name="error_organization_name_empty">Organization name cannot be empty!</string>
     <string name="error_try_again_later">A mistake occurred; please attempt again at a subsequent time.</string>
-    <string name="logout_content_message">Logging out will sign you out of your account and you\'ll need to re-enter your credentials to access the app again.</string>
+    <string name="logout_content_message"> </string>
     <string name="warning">Warning</string>
     <string name="waring_details">You have changed your personal information. Are ou sure want to leave with saving you change</string>
     <string name="done">Done</string>

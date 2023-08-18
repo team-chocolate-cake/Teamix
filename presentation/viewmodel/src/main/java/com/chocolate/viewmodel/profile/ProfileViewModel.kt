@@ -90,7 +90,8 @@ class ProfileViewModel @Inject constructor(
     }
 
     override fun onClickOwnerPower() {
-        sendUiEffect(ProfileEffect.NavigateToOwnerPower)
+        //not finished yet
+       // sendUiEffect(ProfileEffect.fNavigateToOwnerPower)
     }
 
     override fun onUsernameChange(username: String) {

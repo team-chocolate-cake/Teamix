@@ -1,6 +1,7 @@
 package com.chocolate.viewmodel.profile
 
 sealed interface ProfileEffect{
-    object NavigateToOwnerPower: ProfileEffect
+    //not finished yet
+    //object NavigateToOwnerPower: ProfileEffect
     object NavigateToOrganizationScreen: ProfileEffect
 }

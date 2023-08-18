@@ -12,12 +12,12 @@ import com.chocolate.presentation.screens.login.loginRoute
 import com.chocolate.presentation.screens.on_boarding.onboardingRoute
 import com.chocolate.presentation.screens.organiztion.organizationNameRoute
 import com.chocolate.presentation.screens.profile.ProfileScreen
-import com.chocolate.presentation.screens.profile.ownerPowerRoute
 import com.chocolate.presentation.screens.profile.profileRoute
 import com.chocolate.presentation.screens.welcome.welcomeRoute
+import com.chocolate.viewmodel.main.MainViewModel
 
 @Composable
-fun BottomNavigationNavGraph(navController: NavHostController) {
+fun BottomNavigationNavGraph(navController: NavHostController,mainViewModel: MainViewModel) {
 
     NavHost(navController =navController , startDestination = BottomNavigationItem.Home.screen_route ){
         welcomeRoute(navController)
@@ -27,8 +27,8 @@ fun BottomNavigationNavGraph(navController: NavHostController) {
         createOrganizationWebViewRoute(navController)
         loginRoute(navController)
         forgetPasswordWebViewRoute(navController)
-        profileRoute(navController)
-        ownerPowerRoute(navController)
+        profileRoute(navController,mainViewModel)
+       // ownerPowerRoute(navController)
 
         composable(BottomNavigationItem.Home.screen_route) {
             HomeScreen(navController)
@@ -43,7 +43,7 @@ fun BottomNavigationNavGraph(navController: NavHostController) {
             //todo add DMs screen
         }
         composable(BottomNavigationItem.Profile.screen_route) {
-            ProfileScreen(navController)
+            ProfileScreen(navController,mainViewModel)
         }
     }
 }

@@ -18,8 +18,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.chocolate.presentation.screens.main_screen.BottomNavigationItem
 import com.chocolate.presentation.screens.main_screen.BottomNavigationNavGraph
-import com.chocolate.presentation.screens.main_screen.composables.MainScreenBottomNavigation
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.chocolate.presentation.screens.main_screen.composables.MainScreenBottomNavigation
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.installSavedAppLanguage
@@ -58,15 +58,11 @@ class MainActivity : ComponentActivity() {
                     systemUiController.setStatusBarColor(
                         MaterialTheme.customColors().background, darkIcons = !isSystemInDarkMode
                     )
-                    systemUiController.setNavigationBarColor(Color.White)
                     ApplySystemUi(isDarkTheme)
-                    SetUpNavGraph(userSettingsViewModel)
+                    BottomNavigationNavGraph(navController = navController,userSettingsViewModel)
 
-                    }
-                    Scaffold(
+                    //  SetUpNavGraph(userSettingsViewModel)
 
-                    ) { padding ->
-                        BottomNavigationNavGraph(navController = navController)
                     }
                 }
             }

@@ -15,8 +15,7 @@ fun MainScreen() {
     Scaffold(
         bottomBar = { MainScreenBottomNavigation(navController =navController ) }
     ) { padding->
-        BottomNavigationNavGraph(navController = navController)
-        
+        // BottomNavigationNavGraph(navController = navController)
     }
 }
 

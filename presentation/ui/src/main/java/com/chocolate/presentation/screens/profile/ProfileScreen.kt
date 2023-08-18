@@ -1,5 +1,6 @@
 package com.chocolate.presentation.screens.profile
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -42,11 +43,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -88,6 +92,7 @@ import com.chocolate.viewmodel.profile.ProfileEffect
 import com.chocolate.viewmodel.profile.ProfileInteraction
 import com.chocolate.viewmodel.profile.ProfileUiState
 import com.chocolate.viewmodel.profile.ProfileViewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -134,6 +139,7 @@ fun ProfileScreen(
     }
 }
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun ProfileContent(
@@ -149,6 +155,16 @@ fun ProfileContent(
     val pageState = rememberPagerState(initialPage = 0)
     val scrollState = rememberScrollState()
     val context= LocalContext.current
+
+    val systemUiController = rememberSystemUiController()
+
+    key(state.showThemeDialog){
+        systemUiController.setStatusBarColor(
+            MaterialTheme.customColors().background, darkIcons = !mainViewModel.state.value
+        )
+        systemUiController.setNavigationBarColor(Color.Black)
+    }
+
 
 
     LaunchedEffect(state.pagerNumber) {

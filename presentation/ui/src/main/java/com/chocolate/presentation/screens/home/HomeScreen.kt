@@ -38,6 +38,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -75,7 +76,9 @@ fun HomeScreen(
     val useDarkIcons = !isSystemInDarkTheme()
     DisposableEffect(systemUiController, useDarkIcons) {
         systemUiController.setSystemBarsColor(color = LightPrimary, darkIcons = false)
+        systemUiController.setNavigationBarColor(Color.Black)
         onDispose {
+            systemUiController.setNavigationBarColor(Color.Black)
             systemUiController.setSystemBarsColor(color = LightPrimary, darkIcons = false)
         }
     }

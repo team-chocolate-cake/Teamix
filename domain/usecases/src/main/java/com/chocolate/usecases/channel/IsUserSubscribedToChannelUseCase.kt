@@ -1,12 +1,12 @@
 package com.chocolate.usecases.channel
 
 import repositories.ChannelsRepository
-import repositories.UsersRepositories
+import repositories.UsersRepository
 import javax.inject.Inject
 
 class IsUserSubscribedToChannelUseCase @Inject constructor(
     private val channelsRepository: ChannelsRepository,
-    private val usersRepositories: UsersRepositories
+    private val usersRepositories: UsersRepository
 ) {
 
     suspend operator fun invoke(channelId: Int): Boolean {

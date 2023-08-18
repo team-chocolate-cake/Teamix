@@ -11,14 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.chocolate.presentation.screens.main_screen.BottomNavigationItem
 import com.chocolate.presentation.screens.main_screen.BottomNavigationNavGraph
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.screens.main_screen.composables.MainScreenBottomNavigation
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
@@ -46,7 +44,6 @@ class MainActivity : ComponentActivity() {
                     BottomNavigationItem.DMs.screen_route,
                     BottomNavigationItem.Tasks.screen_route,
                     BottomNavigationItem.Search.screen_route -> true
-
                     else -> false
                 }
                 Scaffold (  bottomBar = {
@@ -60,9 +57,6 @@ class MainActivity : ComponentActivity() {
                     )
                     ApplySystemUi(isDarkTheme)
                     BottomNavigationNavGraph(navController = navController,userSettingsViewModel)
-
-                    //  SetUpNavGraph(userSettingsViewModel)
-
                     }
                 }
             }

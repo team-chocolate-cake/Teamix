@@ -7,7 +7,6 @@ import com.chocolate.repository.model.dto.channels.response.StreamsByIdDto
 import com.chocolate.repository.model.dto.channels.response.StreamsIdDto
 import com.chocolate.repository.model.dto.channels.response.SubscribeToStreamDto
 import com.chocolate.repository.model.dto.channels.response.SubscribedStreamDto
-import com.chocolate.repository.model.dto.channels.response.SubscriptionSettingsDto
 import com.chocolate.repository.model.dto.channels.response.SubscriptionStatusDto
 import com.chocolate.repository.model.dto.channels.response.TopicsInStreamDto
 import com.chocolate.repository.model.dto.channels.response.UnsubscribeFromStreamDto
@@ -50,55 +49,26 @@ import com.chocolate.repository.model.dto.users.response.UserStateDto
 import com.chocolate.repository.model.dto.users.response.UsersDto
 import com.chocolate.repository.model.dto.users.response.UsersStateDto
 import okhttp3.MultipartBody
-import retrofit2.Response
 
 interface RemoteDataSource{
-    suspend fun getUserSubscriptions(includeSubscribers: Boolean = false): SubscribedStreamDto
+    suspend fun getSubscribedChannels(): SubscribedStreamDto
 
-    suspend fun addSubscribesToStream(
-        subscribeToStream: String,
-        principals: List<String>? = null,
-        authorizationErrorsFatal: Boolean = true,
-        announce: Boolean = false,
-        inviteOnly: Boolean = false,
-        isWebPublic: Boolean = false,
-        historyPublicToSubscribers: Boolean = false,
-        streamPostPolicy: Int? = null,
-        messageRetentionDays: String? = null,
-        canRemoveSubscribersGroupId: Int? = null,
-    ): SubscribeToStreamDto
+    suspend fun subscribeToChannels(channelsName: List<Pair<String, String>>): SubscribeToStreamDto
 
-    suspend fun deleteSubscriberFromStream(
-        subscriptions: String,
-        principals: List<String>? = null,
-    ): UnsubscribeFromStreamDto
+    suspend fun unsubscribeFromChannels(channelsName: List<String>): UnsubscribeFromStreamDto
 
-    suspend fun getSubscriptionStatus(
-        userId: Int,
-        streamId: Int,
-    ): SubscriptionStatusDto
+    suspend fun getSubscriptionStatus(userId: Int, channelId: Int): SubscriptionStatusDto
 
-    suspend fun getAllSubscribers(streamId: Int): AllSubscribersDto
+    suspend fun getSubscribersInChannel(channelId: Int): AllSubscribersDto
 
-    suspend fun updateSubscriptionSettings(
-        subscriptionData: String
-    ): SubscriptionSettingsDto
+    suspend fun getChannels(): AllStreamsDto
 
-    suspend fun getAllStreams(
-        includePublic: Boolean = true,
-        includeWebPublic: Boolean = false,
-        includeSubscribed: Boolean = true,
-        includeAllActive: Boolean = false,
-        includeDefault: Boolean = false,
-        includeOwnerSubscribed: Boolean = false,
-    ): AllStreamsDto
-
-    suspend fun getStreamById(
-        streamId: Int
+    suspend fun getChannelById(
+        channelId: Int
     ): StreamsByIdDto
 
-    suspend fun getStreamId(
-        stream: String
+    suspend fun getChannelIdByName(
+        channelName: String
     ): StreamsIdDto
 
     suspend fun updateStream(
@@ -113,19 +83,18 @@ interface RemoteDataSource{
         canRemoveSubscribersGroupId: Int? = null,
     ): DefaultStreamDto
 
-    suspend fun archiveStream(
-        streamId: Int
+    suspend fun archiveChannel(
+        channelId: Int
     ): DefaultStreamDto
 
-    suspend fun getTopicsInStream(
-        streamId: Int
+    suspend fun getTopicsInChannel(
+        channelId: Int
     ): TopicsInStreamDto
 
     suspend fun setTopicMuting(
         topic: String,
         status: String,
         streamId: Int? = null,
-        stream: String? = null,
     ): DefaultStreamDto
 
     suspend fun updatePersonalPreferenceTopic(
@@ -135,16 +104,16 @@ interface RemoteDataSource{
     ): DefaultStreamDto
 
     suspend fun deleteTopic(
-        streamId: Int,
+        channelId: Int,
         topicName: String
     ): DefaultStreamDto
 
     suspend fun addDefaultStream(
-        streamId: Int,
+        channelId: Int,
     ): DefaultStreamDto
 
     suspend fun deleteDefaultStream(
-        streamId: Int
+        channelId: Int
     ): DefaultStreamDto
 
     suspend fun getDrafts(): DraftsDto

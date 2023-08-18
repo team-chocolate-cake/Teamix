@@ -23,23 +23,17 @@ import com.chocolate.presentation.theme.Space8
 fun BadgeHome(number: Int, textColor: Color, cardColor: Color, modifier: Modifier = Modifier) {
     val badgeAlpha by animateFloatAsState(
         targetValue = if (number != 0) 1f else 0f,
-        animationSpec = tween(durationMillis = 300)
+        animationSpec = tween(durationMillis = 300), label = ""
     )
     Card(
-        modifier = modifier
-            .wrapContentSize()
-            .alpha(badgeAlpha),
+        modifier = modifier.wrapContentSize().alpha(badgeAlpha),
         shape = RoundedCornerShape(Space16),
         colors = CardDefaults.cardColors(cardColor)
     ) {
         Text(
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(vertical = Space4, horizontal = Space8),
-            text = number.toString(),
-                style = MaterialTheme.typography.labelMedium,
-                color = textColor,
-                textAlign = TextAlign.End
-            )
-        }
+            modifier = Modifier.wrapContentSize().padding(vertical = Space4, horizontal = Space8),
+            text = number.toString(), style = MaterialTheme.typography.labelMedium,
+            color = textColor, textAlign = TextAlign.End
+        )
+    }
 }

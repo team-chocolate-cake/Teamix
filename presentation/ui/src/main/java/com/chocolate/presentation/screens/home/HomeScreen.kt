@@ -86,8 +86,9 @@ fun HomeScreen(
         if (state.error != null) {
             NoInternetLottie(
                 isShow = true,
-                onClickRetry = homeViewModel::getData
-            )
+                onClickRetry = homeViewModel::getData,
+                isDarkMode = !useDarkIcons,
+                )
         } else {
             when {
                 state.isLoading -> {

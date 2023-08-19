@@ -14,9 +14,11 @@ import com.chocolate.repository.model.localDto.users.ChatLocalDto
 import com.chocolate.repository.model.localDto.users.GroupsLocalDto
 import com.chocolate.repository.model.localDto.users.OrganizationsLocalDto
 import com.chocolate.repository.model.localDto.users.StoriesLocalDto
+import com.chocolate.repository.model.localDto.users.UserLocalDto
 
 @Database(
     entities = [
+        UserLocalDto::class,
         StoriesLocalDto::class,
         DraftLocalDto::class,
         StreamLocalDto::class,

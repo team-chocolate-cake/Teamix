@@ -1,6 +1,5 @@
 package repositories
 
-import com.chocolate.entities.user.OwnerUser
 import com.chocolate.entities.user.Settings
 import com.chocolate.entities.user.SubgroupsOfUserGroup
 import com.chocolate.entities.user.User
@@ -20,7 +19,7 @@ interface UsersRepository {
         includeCustomProfileFields: Boolean
     ): Users
 
-    suspend fun getOwnUser(): OwnerUser
+    suspend fun getRemoteCurrentUser(): User
 
     suspend fun getUserById(
         userId: Int,
@@ -121,4 +120,8 @@ interface UsersRepository {
     suspend fun updateDarkTheme(isDarkTheme:Boolean):Boolean
 
     suspend fun isDarkThemeEnabled():Boolean
+
+    suspend fun upsertCurrentUser(user: User)
+
+    suspend fun getLocalCurrentUser(): User?
 }

@@ -1,12 +1,13 @@
 package com.chocolate.local.dao.user
 
 import com.chocolate.repository.model.localDto.users.StoriesLocalDto
-import com.chocolate.repository.service.local.UserRoomDataSource
+import com.chocolate.repository.model.localDto.users.UserLocalDto
+import com.chocolate.repository.service.local.UserLocalDataSource
 import javax.inject.Inject
 
-class UserLocalDataSource @Inject constructor(
+class UserRoomDataSource @Inject constructor(
     private val userDao: UserDao
-) : UserRoomDataSource {
+) : UserLocalDataSource {
     override suspend fun insertStory(story: StoriesLocalDto) {
         userDao.upsertStory(story)
     }
@@ -17,5 +18,13 @@ class UserLocalDataSource @Inject constructor(
 
     override suspend fun deleteSavedStory(storyId: Int) {
         userDao.deleteSavedStory(storyId)
+    }
+
+    override suspend fun upsertUserData(userLocalDto: UserLocalDto) {
+        userDao.upsertUser(userLocalDto)
+    }
+
+    override suspend fun getCurrentUserData(): UserLocalDto {
+        return userDao.getCurrentUserData()
     }
 }

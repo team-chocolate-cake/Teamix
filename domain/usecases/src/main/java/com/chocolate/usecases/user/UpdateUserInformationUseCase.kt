@@ -3,9 +3,8 @@ package com.chocolate.usecases.user
 import com.chocolate.entities.exceptions.EmptyEmailException
 import com.chocolate.entities.exceptions.EmptyFullNameException
 import com.chocolate.entities.exceptions.SameUserDataException
-import com.chocolate.entities.exceptions.TeamixException
-import com.chocolate.entities.user.OwnerUser
 import com.chocolate.entities.user.Settings
+import com.chocolate.entities.user.User
 import repositories.UsersRepository
 import javax.inject.Inject
 
@@ -18,12 +17,18 @@ class UpdateUserInformationUseCase @Inject constructor(
         settings.takeIf { newUserInformation ->
             validNewUserInformation(oldUserInformation, newUserInformation)
         }?.run {
+            usersRepository.upsertCurrentUser(
+                User(
+                    email = settings.email,
+                    fullName = settings.fullName
+                )
+            )
             usersRepository.updateSettings(settings)
         }
     }
 
     private fun validNewUserInformation(
-        oldUserInformation: OwnerUser,
+        oldUserInformation: User,
         newUserInformation: Settings
     ): Boolean {
         if ((oldUserInformation.email == newUserInformation.email) &&

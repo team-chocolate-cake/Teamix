@@ -6,8 +6,8 @@ import com.chocolate.entities.exceptions.EmptyFullNameException
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.SameUserDataException
 import com.chocolate.entities.exceptions.ValidationException
-import com.chocolate.entities.user.OwnerUser
 import com.chocolate.entities.user.Settings
+import com.chocolate.entities.user.User
 import com.chocolate.usecases.user.CustomizeProfileSettingsUseCase
 import com.chocolate.usecases.user.GetCurrentUserDataUseCase
 import com.chocolate.usecases.user.LogoutUseCase
@@ -47,8 +47,8 @@ class ProfileViewModel @Inject constructor(
         tryToExecute({ getCurrentUserDataUseCase() }, ::onGetOwnUserSuccess, ::onGetOwnUserError)
     }
 
-    private fun onGetOwnUserSuccess(ownerUser: OwnerUser) {
-        val ownerUserUi = ownerUser.toOwnerUserUiState()
+    private fun onGetOwnUserSuccess(user: User) {
+        val ownerUserUi = user.toOwnerUserUiState()
         _state.update {
             it.copy(
                 name = ownerUserUi.name,

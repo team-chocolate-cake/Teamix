@@ -1,35 +1,36 @@
 package com.chocolate.repository.mappers.users
 
 import com.chocolate.entities.user.User
-import com.chocolate.entities.user.UserDetails
-import com.chocolate.repository.model.dto.users.response.UserDetailsDto
 import com.chocolate.repository.model.dto.users.response.UserDto
+import com.chocolate.repository.model.localDto.users.UserLocalDto
 
 
 fun UserDto.toUser(): User {
     return User(
-        userDetails= userDetailsDto!!.toUserDetails()
+        imageUrl = this.userDetailsDto?.avatarUrl ?: "",
+        email = this.userDetailsDto?.email ?: "",
+        fullName = this.userDetailsDto?.fullName ?: "",
+        role = this.userDetailsDto?.role ?: 0,
+        userId = this.userDetailsDto?.userId ?: 0
     )
 }
 
+fun UserLocalDto.toCurrentUser(): User {
+    return User(
+        imageUrl = this.imageUrl,
+        email = this.email,
+        fullName = this.username,
+        role = this.role,
+        userId = this.userId
+    )
+}
 
-fun UserDetailsDto.toUserDetails(): UserDetails {
-
-    return  UserDetails(
-        avatarUrl=avatarUrl?:"",
-        avatarVersion=avatarVersion?:0,
-        dateJoined=dateJoined?:"",
-        deliveryEmail=deliveryEmail?:"",
-        email=email?:"",
-        fullName=fullName?:"",
-        isActive=isActive?:false,
-        isAdmin=isAdmin?:false,
-        isBillingAdmin=isBillingAdmin?:false,
-        isBot=isBot?:false,
-        isGuest=isGuest?:false,
-        isOwner=isOwner?:false,
-        role=role?:0,
-        timezone=timezone?:"",
-        userId=userId?:0)
-
+fun User.toCurrentUserLocal(): UserLocalDto{
+    return UserLocalDto(
+        imageUrl = this.imageUrl,
+        email = this.email,
+        username = this.fullName,
+        role = this.role,
+        userId = this.userId
+    )
 }

@@ -4,7 +4,7 @@ import com.chocolate.local.dao.draft.DraftMessagesLocalDataSource
 import com.chocolate.local.dao.organization.OrganizationsLocalDataSource
 import com.chocolate.local.dao.stream.StreamLocalDataSource
 import com.chocolate.local.dao.trend.TrendLocalDataSource
-import com.chocolate.local.dao.user.UserLocalDataSource
+import com.chocolate.local.dao.user.UserRoomDataSource
 import com.chocolate.local.datastore.DataStoreDataSource
 import com.chocolate.remote.RetrofitDataSource
 import com.chocolate.repository.datastore.PreferencesDataSource
@@ -12,7 +12,7 @@ import com.chocolate.repository.service.local.DraftMessagesRoomDataSource
 import com.chocolate.repository.service.local.OrganizationsRoomDataSource
 import com.chocolate.repository.service.local.StreamRoomDataSource
 import com.chocolate.repository.service.local.TrendRoomDataSource
-import com.chocolate.repository.service.local.UserRoomDataSource
+import com.chocolate.repository.service.local.UserLocalDataSource
 import com.chocolate.repository.service.remote.RemoteDataSource
 import dagger.Binds
 import dagger.Module
@@ -52,8 +52,8 @@ abstract class DataSourceModule {
     @Binds
     abstract
     fun bindUserDataSource(
-        userLocalDataSource: UserLocalDataSource
-    ): UserRoomDataSource
+        userRoomDataSource: UserRoomDataSource
+    ): UserLocalDataSource
 
     @Singleton
     @Binds

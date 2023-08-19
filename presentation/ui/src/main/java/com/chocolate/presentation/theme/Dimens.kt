@@ -93,7 +93,7 @@ val CardHeight56 = 56.dp
 //endregion
 
 // region box height
-val BoxHeight440 = 440.dp
+val BoxHeight440 = 400.dp
 //endregion
 
 // region row height

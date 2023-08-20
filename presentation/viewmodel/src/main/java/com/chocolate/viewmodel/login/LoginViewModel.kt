@@ -9,6 +9,7 @@ import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.usecases.user.AttemptUserLoginUseCase
 import com.chocolate.usecases.user.SetUserLoginStateUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
+import com.chocolate.viewmodel.base.StringsRes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -19,6 +20,7 @@ class LoginViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val attemptUserLoginUseCase: AttemptUserLoginUseCase,
     private val setUserLoginStateUseCase: SetUserLoginStateUseCase,
+    private val stringsRes: StringsRes
 ) : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState()),LoginInteraction {
 
     private val loginArgs: LoginArgs = LoginArgs(savedStateHandle)
@@ -67,11 +69,11 @@ class LoginViewModel @Inject constructor(
 
     private fun onError(throwable: Throwable) {
         val errorMessage = when(throwable){
-            is NoConnectionException -> "No Internet Connection."
-            is NetworkException -> "Enter a valid email address"
-            is ValidationException -> "Invalid email or password."
-            is NotFoundException -> "Organization name not found"
-            else -> " mistake occurred; please attempt again at a subsequent time."
+            is NoConnectionException -> stringsRes.noConnectionMessage
+            is NetworkException -> stringsRes.enterValidEmailAddress
+            is ValidationException -> stringsRes.invalidEmailOrPassword
+            is NotFoundException -> stringsRes.organizationNameNotFound
+            else -> stringsRes.globalMessageError
         }
         _state.update {
             it.copy(isLoading = false, error = errorMessage)

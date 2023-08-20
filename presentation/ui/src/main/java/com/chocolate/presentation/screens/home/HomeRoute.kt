@@ -15,5 +15,9 @@ fun NavGraphBuilder.homeRoute(navController: NavController,mainViewModel: MainVi
 
 fun NavController.navigateToHome() {
     popBackStack()
-    navigate(Screen.Home.route)
+    navigate(Screen.Home.route){
+        popUpTo(Screen.OrganizationName.route){
+            inclusive = true
+        }
+    }
 }

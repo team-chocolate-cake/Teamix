@@ -6,7 +6,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.chocolate.presentation.Screen
-import com.chocolate.presentation.screens.organiztion.OrganizationScreen
 import com.chocolate.viewmodel.login.LoginArgs
 
 fun NavGraphBuilder.loginRoute(navController: NavController) {
@@ -20,7 +19,9 @@ fun NavGraphBuilder.loginRoute(navController: NavController) {
 
 fun NavController.navigateToLogin(organizationName: String) {
     popBackStack()
-    navigate("${Screen.Login.route}/$organizationName")
+    navigate("${Screen.Login.route}/$organizationName"){
+        launchSingleTop = true
+    }
 }
 
 fun NavController.backToLogin(){

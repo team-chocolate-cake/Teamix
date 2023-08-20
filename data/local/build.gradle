@@ -40,7 +40,7 @@ dependencies {
     implementation(ProjectDependencies.dataStore)
     implementation(ProjectDependencies.roomRuntime)
     implementation(ProjectDependencies.roomKtx)
-    annotationProcessor(ProjectDependencies.roomCompiler)
+    kapt(ProjectDependencies.roomCompiler)
 
     implementation(ProjectDependencies.encryptedSharedPreference)
 

@@ -11,7 +11,7 @@ class IsUserSubscribedToChannelUseCase @Inject constructor(
 
     suspend operator fun invoke(channelId: Int): Boolean {
         return channelsRepository.getSubscriptionStatus(
-            userId = usersRepositories.getOwnUser().userId,
+            userId = usersRepositories.getRemoteCurrentUser().userId,
             channelId = channelId
         )
     }

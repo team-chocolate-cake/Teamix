@@ -6,8 +6,8 @@ import com.chocolate.entities.exceptions.EmptyFullNameException
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.SameUserDataException
 import com.chocolate.entities.exceptions.ValidationException
-import com.chocolate.entities.user.OwnerUser
 import com.chocolate.entities.user.Settings
+import com.chocolate.entities.user.User
 import com.chocolate.usecases.user.CustomizeProfileSettingsUseCase
 import com.chocolate.usecases.user.GetCurrentUserDataUseCase
 import com.chocolate.usecases.user.LogoutUseCase
@@ -32,7 +32,7 @@ class ProfileViewModel @Inject constructor(
 
     init {
         getLastSelectedAppLanguage()
-        getOwnUser()
+        getCurrentUser()
     }
 
     private fun getLastSelectedAppLanguage() {
@@ -42,60 +42,57 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun getOwnUser() {
+    private fun getCurrentUser() {
         _state.update { it.copy(isLoading = true) }
-        tryToExecute({ getCurrentUserDataUseCase() }, ::onGetOwnUserSuccess, ::onGetOwnUserError)
+        tryToExecute({ getCurrentUserDataUseCase() }, ::onGetCurrentUserSuccess, ::onGetCurrentUserError)
     }
 
-    private fun onGetOwnUserSuccess(ownerUser: OwnerUser) {
-        val ownerUserUi = ownerUser.toOwnerUserUiState()
+    private fun onGetCurrentUserSuccess(user: User) {
+        val currentUserUi = user.toOwnerUserUiState()
+        println("$currentUserUi 123")
         _state.update {
             it.copy(
-                name = ownerUserUi.name,
-                image = ownerUserUi.image,
-                email = ownerUserUi.email,
-                role = ownerUserUi.role,
+                name = currentUserUi.name,
+                imageUrl = currentUserUi.imageUrl,
+                email = currentUserUi.email,
+                role = currentUserUi.role,
                 showNoInternetLottie = false,
                 isLoading = false,
-                error = null
+                error = null,
+                message = null
             )
         }
     }
 
-    private fun onGetOwnUserError(throwable: Throwable) {
+    private fun onGetCurrentUserError(throwable: Throwable) {
         when (throwable) {
             is UnknownHostException, is ValidationException ->
                 sendUiEffect(ProfileEffect.NavigateToOrganizationScreen)
         }
-        _state.update { it.copy(isLoading = false, showNoInternetLottie = true, error = null) }
+        _state.update { it.copy(isLoading = false, showNoInternetLottie = true, error = null, message = null) }
     }
 
     override fun updateLanguageDialogState(showDialog: Boolean) {
-        _state.update { it.copy(showLanguageDialog = showDialog, error = null) }
+        _state.update { it.copy(showLanguageDialog = showDialog, error = null, message = null) }
     }
 
     override fun updateThemeDialogState(showDialog: Boolean) {
-        _state.update { it.copy(showThemeDialog = showDialog, error = null) }
+        _state.update { it.copy(showThemeDialog = showDialog, error = null, message = null) }
     }
 
     override fun updateLogoutDialogState(showDialog: Boolean) {
-        _state.update { it.copy(showLogoutDialog = showDialog, error = null) }
+        _state.update { it.copy(showLogoutDialog = showDialog, error = null, message = null) }
     }
 
     override fun updateWarningDialog(showDialog: Boolean) {
-        _state.update { it.copy(showWarningDialog = showDialog, error = null) }
-    }
-
-    override fun onClickOwnerPower() {
-        //not finished yet
-       // sendUiEffect(ProfileEffect.fNavigateToOwnerPower)
+        _state.update { it.copy(showWarningDialog = showDialog, error = null, message = null) }
     }
 
     override fun onUsernameChange(username: String) {
         if (_state.value.originalName.isEmpty()) {
             _state.update { it.copy(originalName = _state.value.name) }
         }
-        _state.update { it.copy(name = username, error = null, newUsername = username) }
+        _state.update { it.copy(name = username, error = null, newUsername = username, message = null) }
     }
 
     override fun onEmailChange(email: String) {
@@ -103,11 +100,11 @@ class ProfileViewModel @Inject constructor(
             _state.update { it.copy(originalEmail = _state.value.email) }
         }
 
-        _state.update { it.copy(email = email, error = null, newEmail = email) }
+        _state.update { it.copy(email = email, error = null, newEmail = email, message = null) }
     }
 
     override fun onUserInformationFocusChange() {
-        _state.update { it.copy(showWarningDialog = false, error = null) }
+        _state.update { it.copy(showWarningDialog = false, message = null) }
         val settingsState = Settings(fullName = _state.value.name, email = _state.value.email)
         tryToExecute(
             { updateUserInformationUseCase(settingsState) },
@@ -121,7 +118,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     override fun onClickRetryToGetPersonalInformation() {
-        getOwnUser()
+        getCurrentUser()
     }
 
     override fun areUserDataEqual(): Boolean {
@@ -138,15 +135,15 @@ class ProfileViewModel @Inject constructor(
         )
         _state.update { updatedState }
         updateWarningDialog(false)
-        _state.update { it.copy(pagerNumber = 2, error = null) }
+        _state.update { it.copy(pagerNumber = 1, error = null) }
     }
 
     override fun onClickProfileButton() {
-        _state.update { it.copy(pagerNumber = 0, error = null, message = "") }
+        _state.update { it.copy(pagerNumber = 0, error = null, message = null) }
     }
 
     override fun onClickSettingsButton() {
-        _state.update { it.copy(pagerNumber = 1, error = null, message = "") }
+        _state.update { it.copy(pagerNumber = 1, error = null, message = null) }
     }
 
     private fun onUpdateUserInformationSuccess(unit: Unit) {
@@ -173,7 +170,7 @@ class ProfileViewModel @Inject constructor(
             is NoConnectionException -> stringsRes.noConnectionMessage
             else -> stringsRes.globalMessageError
         }
-        _state.update { it.copy(isLoading = false, error = error) }
+        _state.update { it.copy(isLoading = false, error = error, message = null) }
     }
 
     override fun onLogoutButtonClicked() {
@@ -185,7 +182,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun onLogoutSuccess(unit: Unit) {
-        _state.update { it.copy(isLoading = false, error = null) }
+        _state.update { it.copy(isLoading = false, error = null, message = null) }
         sendUiEffect(ProfileEffect.NavigateToOrganizationScreen)
     }
 
@@ -197,13 +194,13 @@ class ProfileViewModel @Inject constructor(
         _state.value.lastAppLanguage = newLanguage
         tryToExecute(
             call = { customizeProfileSettingsUseCase.saveNewSelectedLanguage(newLanguage) },
-            onSuccess = {_state.update { it.copy(error = null, isLoading = false) }},
+            onSuccess = {_state.update { it.copy(error = null, isLoading = false, message = null) }},
             onError = ::onUpdateAppLanguageFail
         )
     }
 
     private fun onUpdateAppLanguageFail(throwable: Throwable) {
-        _state.update { it.copy(error = throwable.message) }
+        _state.update { it.copy(error = throwable.message, isLoading = false) }
     }
 
 }

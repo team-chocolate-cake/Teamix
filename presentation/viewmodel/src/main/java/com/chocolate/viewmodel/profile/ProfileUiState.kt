@@ -1,10 +1,10 @@
 package com.chocolate.viewmodel.profile
 
 data class ProfileUiState(
-    val image: String = "",
+    val imageUrl: String = "",
     val name: String = "",
     val email: String = "",
-    val message: String = "",
+    val message: String? = null,
     val role:String = "",
     val languageMap: Map<String, String> = mapOf(
         LocalLanguage.English.name to "en",

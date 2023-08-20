@@ -12,7 +12,7 @@ interface PreferencesDataSource {
 
     suspend fun setNameOrganization(currentOrganization: String)
 
-    suspend fun clearCurrentOrganization()
+    suspend fun deleteDataStore()
 
     suspend fun setUserLoginState(isComplete: Boolean)
 

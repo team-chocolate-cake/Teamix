@@ -12,5 +12,7 @@ fun NavGraphBuilder.profileRoute(navController: NavController,mainViewModel: Mai
   }
 }
 fun NavController.navigateToProfile(){
-    navigate(Screen.Profile.route)
+    navigate(Screen.Profile.route){
+        launchSingleTop = true
+    }
 }

@@ -5,6 +5,7 @@ import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.usecases.onboarding.GetOnboardingStateUseCase
 import com.chocolate.usecases.organization.SaveNameOrganizationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
+import com.chocolate.viewmodel.base.StringsRes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -13,7 +14,8 @@ import javax.inject.Inject
 @HiltViewModel
 class OrganizationNameViewModel @Inject constructor(
     private val saveNameOrganizationsUseCase: SaveNameOrganizationUseCase,
-    private val getOnboardingStateUseCase: GetOnboardingStateUseCase
+    private val getOnboardingStateUseCase: GetOnboardingStateUseCase,
+    private val stringsRes: StringsRes
 ) : BaseViewModel<OrganizationNameUiState, OrganizationNameUiEffect>(OrganizationNameUiState()),
     OrganizationNameInteraction {
 
@@ -39,8 +41,8 @@ class OrganizationNameViewModel @Inject constructor(
 
     private fun onError(throwable: Throwable) {
         val errorMessage = when (throwable) {
-            is NoConnectionException -> "No internet connection"
-            else -> "Organization name cannot be empty"
+            is NoConnectionException -> stringsRes.noConnectionMessage
+            else -> stringsRes.organizationNameCannotBeEmpty
         }
         _state.update { it.copy(isLoading = false, error = errorMessage) }
     }

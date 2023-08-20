@@ -22,6 +22,11 @@ class StringsResImpl @Inject constructor(
     override val noConnectionMessage: String = getString(R.string.no_internet_connection)
     override val globalMessageError: String = getString(R.string.globalMessageError)
     override val successMessage: String = getString(R.string.success)
+    override val enterValidEmailAddress: String =
+        getString(R.string.enter_a_valid_email_address)
+    override val invalidEmailOrPassword: String = getString(R.string.invalid_email_or_password)
+    override val organizationNameNotFound: String =getString(R.string.organization_name_not_found)
+    override val organizationNameCannotBeEmpty: String = getString(R.string.organization_name_cannot_be_empty)
 
     private fun getString(@androidx.annotation.StringRes stringsRes: Int): String {
         return context.getString(stringsRes)

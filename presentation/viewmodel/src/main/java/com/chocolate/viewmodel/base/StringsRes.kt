@@ -7,4 +7,9 @@ interface StringsRes {
     val noConnectionMessage: String
     val globalMessageError: String
     val successMessage: String
+    val enterValidEmailAddress: String
+    val invalidEmailOrPassword: String
+    val organizationNameNotFound: String
+    val organizationNameCannotBeEmpty: String
+
 }

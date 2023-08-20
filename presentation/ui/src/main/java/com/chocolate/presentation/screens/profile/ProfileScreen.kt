@@ -59,7 +59,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.ImageLoader
 import coil.compose.rememberAsyncImagePainter
+import coil.request.CachePolicy
+import coil.request.ImageRequest
+import coil.transform.CircleCropTransformation
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
@@ -104,17 +108,17 @@ fun ProfileScreen(
     val state by viewModel.state.collectAsState()
     val darkThemeState by mainViewModel.state.collectAsState()
     val colors = MaterialTheme.customColors()
+    val context = LocalContext.current
+
     LaunchedEffect(viewModel) {
         viewModel.effect.collectLatest { effect ->
             when (effect) {
-                //not finished yet
-                // ProfileEffect.NavigateToOwnerPower -> navController.navigateToOwnerPower()
-                ProfileEffect.NavigateToOrganizationScreen -> navController.navigateToOrganizationName()
+                ProfileEffect.NavigateToOrganizationScreen -> {
+                    navController.navigateToOrganizationName()
+                }
             }
         }
     }
-    val context = LocalContext.current
-
     if (!state.isLoading) {
         ProfileContent(
             state = state,
@@ -149,21 +153,17 @@ fun ProfileContent(
 ) {
     val color = MaterialTheme.customColors()
     val coroutineScope = rememberCoroutineScope()
-    val content = LocalContext.current
+    val context = LocalContext.current
     val pageState = rememberPagerState(initialPage = 0)
     val scrollState = rememberScrollState()
-    val context= LocalContext.current
-
     val systemUiController = rememberSystemUiController()
 
-    key(state.showThemeDialog){
+    key(state.showThemeDialog) {
         systemUiController.setStatusBarColor(
             MaterialTheme.customColors().background, darkIcons = !mainViewModel.state.value
         )
         systemUiController.setNavigationBarColor(Color.Black)
     }
-
-
 
     LaunchedEffect(state.pagerNumber) {
         pageState.animateScrollToPage(state.pagerNumber)
@@ -185,11 +185,20 @@ fun ProfileContent(
                     .border(2.dp, color.primary, CircleShape),
                 contentAlignment = Alignment.Center
             ) {
+                val imageRequest = ImageRequest.Builder(context)
+                    .data(state.imageUrl)
+                    .diskCachePolicy(CachePolicy.ENABLED)
+                    .memoryCachePolicy(CachePolicy.ENABLED)
+                    .transformations(CircleCropTransformation())
+                    .build()
+                val imageLoader =
+                    ImageLoader.Builder(context).respectCacheHeaders(false).build()
+
                 Image(
                     modifier = Modifier
                         .size(ImageSize110)
                         .clip(CircleShape),
-                    painter = rememberAsyncImagePainter(state.image),
+                    painter = rememberAsyncImagePainter(imageRequest, imageLoader),
                     contentDescription = null
                 )
             }
@@ -211,36 +220,43 @@ fun ProfileContent(
             color = color.onBackground60
         )
 
-        if (state.showLanguageDialog) {
+        AnimatedVisibility(state.showLanguageDialog) {
             MultiChoiceDialog(
                 onDismissRequest = { profileInteraction.updateLanguageDialogState(false) },
                 whenChoice = { newLanguage -> onUpdateAppLanguage(newLanguage) },
                 choices = state.languageMap.keys.toList(),
                 oldSelectedChoice = when (state.lastAppLanguage) {
-                    state.languageMap[LocalLanguage.Arabic.name] -> { LocalLanguage.Arabic.name }
-                    state.languageMap[LocalLanguage.Chinese.name] -> { LocalLanguage.Chinese.name }
-                    state.languageMap[LocalLanguage.Spanish.name] -> { LocalLanguage.Spanish.name }
-                    else -> { LocalLanguage.English.name }
+                    state.languageMap[LocalLanguage.Arabic.name] -> {
+                        LocalLanguage.Arabic.name
+                    }
+                    state.languageMap[LocalLanguage.Chinese.name] -> {
+                        LocalLanguage.Chinese.name
+                    }
+                    state.languageMap[LocalLanguage.Spanish.name] -> {
+                        LocalLanguage.Spanish.name
+                    }
+                    else -> {
+                        LocalLanguage.English.name
+                    }
                 }
             )
         }
-        if (state.showClearHistoryDialog) {
+        AnimatedVisibility(state.showClearHistoryDialog) {
             ProfileDialog(
                 title = stringResource(R.string.clear_history_title),
                 text = stringResource(R.string.clear_history_text),
                 onDismissButtonClick = { profileInteraction.updateClearHistoryState(false) },
                 onConfirmButtonClick = { },
             )
-
         }
-        if (state.showWarningDialog) {
+        AnimatedVisibility(state.showWarningDialog) {
             ProfileDialog(title = stringResource(R.string.warning),
                 text = stringResource(R.string.waring_details),
                 onDismissButtonClick = { profileInteraction.onRevertChange() },
                 onConfirmButtonClick = { profileInteraction.onUserInformationFocusChange() }
             )
         }
-        if (state.showLogoutDialog) {
+        AnimatedVisibility(state.showLogoutDialog) {
             ProfileDialog(
                 title = stringResource(R.string.logout_title),
                 text = stringResource(R.string.logout_content_message),
@@ -256,8 +272,9 @@ fun ProfileContent(
         Box(
             Modifier
                 .padding(horizontal = Space16)
+                .padding(bottom = Space16)
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(Radius16, Radius16, 0.dp, 0.dp))
+                .clip(RoundedCornerShape(Radius16))
                 .height(BoxHeight440)
                 .background(color.card)
         ) {
@@ -314,7 +331,7 @@ fun ProfileContent(
                 }
 
                 HorizontalPager(
-                    modifier = Modifier.padding(bottom = 8.dp),
+                    modifier = Modifier.padding(top = Space8),
                     state = pageState,
                     pageCount = 2,
                     userScrollEnabled = false
@@ -352,7 +369,7 @@ fun ProfileContent(
                             }
                         }
                     } else {
-                        LazyColumn(modifier = Modifier.padding(vertical = 16.dp)) {
+                        LazyColumn(contentPadding = PaddingValues(all = Space16)) {
                             item {
                                 Box(
                                     Modifier
@@ -415,26 +432,11 @@ fun ProfileContent(
                                         }
                                     }
                                 }
-                                AnimatedVisibility(visible = state.role != "Member" && state.role != "Guest") {
-                                    SettingCard(
-                                        click = { profileInteraction.onClickOwnerPower()
-                                            Toast.makeText(context, "This option is for the owner only", Toast.LENGTH_LONG).show()},
-                                        text = stringResource(R.string.owner_powers),
-                                        icon = painterResource(id = R.drawable.ownerpowers)
-                                    )
-                                    Divider(color = color.background, thickness = Thickness2)
-                                }
                                 Divider(color = color.background, thickness = Thickness2)
                                 SettingCard(
                                     click = { profileInteraction.updateLanguageDialogState(true) },
                                     text = stringResource(R.string.language),
                                     icon = painterResource(id = R.drawable.language)
-                                )
-                                Divider(color = color.background, thickness = Thickness2)
-                                SettingCard(
-                                    click = { profileInteraction.updateClearHistoryState(true) },
-                                    text = stringResource(R.string.clear_history),
-                                    icon = painterResource(id = R.drawable.clearhistory)
                                 )
                                 Divider(color = color.background, thickness = Thickness2)
                                 SettingCard(
@@ -448,20 +450,20 @@ fun ProfileContent(
                         }
                     }
                 }
+                state.error?.let {
+                    Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+                }
+                state.message?.let {
+                    Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
+                }
             }
-        }
-        if (state.error != null) {
-            Toast.makeText(content, state.error, Toast.LENGTH_SHORT).show()
-        }
-        if (state.message.isNotEmpty()) {
-            Toast.makeText(content, state.message, Toast.LENGTH_SHORT).show()
+            NoInternetLottie(
+                isShow = state.showNoInternetLottie,
+                onClickRetry = { profileInteraction.onClickRetryToGetPersonalInformation() },
+                isDarkMode = mainViewModel.state.value
+            )
         }
     }
-    NoInternetLottie(
-        isShow = state.showNoInternetLottie,
-        onClickRetry = { profileInteraction.onClickRetryToGetPersonalInformation() },
-        isDarkMode = mainViewModel.state.value
-    )
 }
 
 @Preview(showBackground = true, showSystemUi = true)

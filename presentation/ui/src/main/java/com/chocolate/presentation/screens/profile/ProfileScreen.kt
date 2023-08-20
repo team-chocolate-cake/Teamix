@@ -59,7 +59,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.ImageLoader
 import coil.compose.rememberAsyncImagePainter
+import coil.request.CachePolicy
+import coil.request.ImageRequest
+import coil.transform.CircleCropTransformation
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
@@ -104,15 +108,17 @@ fun ProfileScreen(
     val state by viewModel.state.collectAsState()
     val darkThemeState by mainViewModel.state.collectAsState()
     val colors = MaterialTheme.customColors()
+    val context = LocalContext.current
+
     LaunchedEffect(viewModel) {
         viewModel.effect.collectLatest { effect ->
             when (effect) {
-                ProfileEffect.NavigateToOrganizationScreen -> navController.navigateToOrganizationName()
+                ProfileEffect.NavigateToOrganizationScreen -> {
+                    navController.navigateToOrganizationName()
+                }
             }
         }
     }
-    val context = LocalContext.current
-
     if (!state.isLoading) {
         ProfileContent(
             state = state,
@@ -147,10 +153,9 @@ fun ProfileContent(
 ) {
     val color = MaterialTheme.customColors()
     val coroutineScope = rememberCoroutineScope()
-    val content = LocalContext.current
+    val context = LocalContext.current
     val pageState = rememberPagerState(initialPage = 0)
     val scrollState = rememberScrollState()
-    val context = LocalContext.current
     val systemUiController = rememberSystemUiController()
 
     key(state.showThemeDialog) {
@@ -180,11 +185,20 @@ fun ProfileContent(
                     .border(2.dp, color.primary, CircleShape),
                 contentAlignment = Alignment.Center
             ) {
+                val imageRequest = ImageRequest.Builder(context)
+                    .data(state.imageUrl)
+                    .diskCachePolicy(CachePolicy.ENABLED)
+                    .memoryCachePolicy(CachePolicy.ENABLED)
+                    .transformations(CircleCropTransformation())
+                    .build()
+                val imageLoader =
+                    ImageLoader.Builder(context).respectCacheHeaders(false).build()
+
                 Image(
                     modifier = Modifier
                         .size(ImageSize110)
                         .clip(CircleShape),
-                    painter = rememberAsyncImagePainter(state.image),
+                    painter = rememberAsyncImagePainter(imageRequest, imageLoader),
                     contentDescription = null
                 )
             }
@@ -418,21 +432,6 @@ fun ProfileContent(
                                         }
                                     }
                                 }
-                                AnimatedVisibility(visible = state.role != "Member" && state.role != "Guest") {
-                                    SettingCard(
-                                        click = {
-                                            profileInteraction.onClickOwnerPower()
-                                            Toast.makeText(
-                                                context,
-                                                "This option is for the owner only",
-                                                Toast.LENGTH_LONG
-                                            ).show()
-                                        },
-                                        text = stringResource(R.string.owner_powers),
-                                        icon = painterResource(id = R.drawable.ownerpowers)
-                                    )
-                                    Divider(color = color.background, thickness = Thickness2)
-                                }
                                 Divider(color = color.background, thickness = Thickness2)
                                 SettingCard(
                                     click = { profileInteraction.updateLanguageDialogState(true) },
@@ -451,11 +450,11 @@ fun ProfileContent(
                         }
                     }
                 }
-                AnimatedVisibility(state.error != null) {
-                    Toast.makeText(content, state.error, Toast.LENGTH_SHORT).show()
+                state.error?.let {
+                    Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
                 }
-                AnimatedVisibility(state.message.isNotEmpty()) {
-                    Toast.makeText(content, state.message, Toast.LENGTH_SHORT).show()
+                state.message?.let {
+                    Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
                 }
             }
             NoInternetLottie(

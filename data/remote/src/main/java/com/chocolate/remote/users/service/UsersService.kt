@@ -5,6 +5,7 @@ import com.chocolate.repository.model.dto.users.response.FetchApiKeyDto
 import com.chocolate.repository.model.dto.users.response.MuteUserResponseDto
 import com.chocolate.repository.model.dto.users.response.OwnerUserDto
 import com.chocolate.repository.model.dto.users.response.ResponseStateDto
+import com.chocolate.repository.model.dto.users.response.StatusUserRemoteDto
 import com.chocolate.repository.model.dto.users.response.SubgroupsOfUserGroupDto
 import com.chocolate.repository.model.dto.users.response.UserAttachmentsDto
 import com.chocolate.repository.model.dto.users.response.UserDto
@@ -149,4 +150,7 @@ interface UsersService {
         @Query("username") userName: String,
         @Query("password") password: String,
     ): Response<FetchApiKeyDto>
+
+    @POST("register")
+    suspend fun getUserStatus(): Response<StatusUserRemoteDto>
 }

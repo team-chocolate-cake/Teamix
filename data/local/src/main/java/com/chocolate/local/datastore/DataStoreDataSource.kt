@@ -39,7 +39,7 @@ class DataStoreDataSource @Inject constructor(
         dataStore.setValue(NAME_ORGANIZATION, currentOrganization)
     }
 
-    override suspend fun clearCurrentOrganization() {
+    override suspend fun deleteDataStore() {
         dataStore.edit { preferences ->
             preferences.clear()
         }
@@ -68,6 +68,7 @@ class DataStoreDataSource @Inject constructor(
     }
 
     override suspend fun deleteAuthenticationData() {
+        deleteDataStore()
         val editor = sharedPreferences.edit()
         editor.clear().apply()
     }

@@ -17,13 +17,9 @@ class UpdateUserInformationUseCase @Inject constructor(
         settings.takeIf { newUserInformation ->
             validNewUserInformation(oldUserInformation, newUserInformation)
         }?.run {
-            usersRepository.upsertCurrentUser(
-                User(
-                    email = settings.email,
-                    fullName = settings.fullName
-                )
-            )
-            usersRepository.updateSettings(settings)
+            usersRepository.updateSettings(settings).also {
+                usersRepository.upsertCurrentUser(settings.email)
+            }
         }
     }
 

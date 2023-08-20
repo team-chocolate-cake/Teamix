@@ -29,8 +29,6 @@ interface UsersRepository {
 
     suspend fun getUserByEmail(
         email: String,
-        clientGravatar: Boolean ,
-        includeCustomProfileFields: Boolean
     ): User
 
     //This endpoint is only available to organization administrators.
@@ -121,7 +119,9 @@ interface UsersRepository {
 
     suspend fun isDarkThemeEnabled():Boolean
 
-    suspend fun upsertCurrentUser(user: User)
+    suspend fun upsertCurrentUser(email: String)
 
     suspend fun getLocalCurrentUser(): User?
+
+    suspend fun getCurrentUser(): User
 }

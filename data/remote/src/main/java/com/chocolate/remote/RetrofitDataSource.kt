@@ -48,6 +48,7 @@ import com.chocolate.repository.model.dto.server_and_organizations.response.Link
 import com.chocolate.repository.model.dto.server_and_organizations.response.ServerSettingsDto
 import com.chocolate.repository.model.dto.users.request.SettingsDto
 import com.chocolate.repository.model.dto.users.response.FetchApiKeyDto
+import com.chocolate.repository.model.dto.users.response.StatusUserRemoteDto
 import com.chocolate.repository.service.remote.RemoteDataSource
 import com.chocolate.repository.utils.HttpStatusCodes
 import okhttp3.MultipartBody
@@ -539,6 +540,10 @@ class RetrofitDataSource @Inject constructor(
 
     override suspend fun getOwnUser() = wrapApiCall {
         userService.getOwnUser()
+    }
+
+    override suspend fun getUserStatus(): StatusUserRemoteDto {
+        return wrapApiCall { userService.getUserStatus() }
     }
 
     override suspend fun getUserById(

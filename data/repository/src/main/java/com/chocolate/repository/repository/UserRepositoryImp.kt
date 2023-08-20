@@ -25,16 +25,15 @@ import com.chocolate.repository.mappers.users.toUserSettings
 import com.chocolate.repository.mappers.users.toUserState
 import com.chocolate.repository.mappers.users.toUsers
 import com.chocolate.repository.mappers.users.toUsersState
-import com.chocolate.repository.service.local.UserLocalDataSource
+import com.chocolate.repository.service.local.TeamixLocalDataSource
 import com.chocolate.repository.service.remote.RemoteDataSource
 import kotlinx.coroutines.flow.Flow
 import repositories.UsersRepository
 import javax.inject.Inject
-
 class UserRepositoryImp @Inject constructor(
     private val userDataSource: RemoteDataSource,
     private val preferencesDataSource: PreferencesDataSource,
-    private val userLocalDataSource: UserLocalDataSource
+    private val teamixLocalDataSource: TeamixLocalDataSource
 ) : UsersRepository {
     override suspend fun getAllUsers(
         clientGravatar: Boolean, includeCustomProfileFields: Boolean
@@ -56,10 +55,9 @@ class UserRepositoryImp @Inject constructor(
     }
 
     override suspend fun getUserByEmail(
-        email: String, clientGravatar: Boolean, includeCustomProfileFields: Boolean
+        email: String
     ): User {
-        return userDataSource.getUserByEmail(email, clientGravatar, includeCustomProfileFields)
-            .toUser()
+        return userDataSource.getUserByEmail(email).toUser()
     }
 
     override suspend fun updateUserById(
@@ -185,7 +183,11 @@ class UserRepositoryImp @Inject constructor(
         return preferencesDataSource.currentUserLoginState
     }
 
-    override suspend fun clearLoginInformation() = preferencesDataSource.deleteAuthenticationData()
+    override suspend fun clearLoginInformation() {
+        teamixLocalDataSource.deleteDataBase()
+        preferencesDataSource.deleteAuthenticationData()
+    }
+
     override suspend fun updateAppLanguage(newLanguage: String): Boolean {
         return preferencesDataSource.updateAppLanguage(newLanguage)
     }
@@ -201,13 +203,21 @@ class UserRepositoryImp @Inject constructor(
         return preferencesDataSource.isDarkThemeEnabled()
     }
 
-    override suspend fun upsertCurrentUser(user: User) {
-        val userEntity = user.toCurrentUserLocal()
-        userLocalDataSource.upsertUserData(userEntity)
+    override suspend fun upsertCurrentUser(email: String) {
+        val user = getUserByEmail(email)
+        teamixLocalDataSource.upsertUserData(user.toCurrentUserLocal())
     }
 
     override suspend fun getLocalCurrentUser(): User? {
-        return userLocalDataSource.getCurrentUserData()?.toCurrentUser()
+        return teamixLocalDataSource.getCurrentUserData()?.toCurrentUser()
+    }
+
+    override suspend fun getCurrentUser(): User {
+      return  getLocalCurrentUser()
+            .takeIf { it != null }
+            ?: getRemoteCurrentUser()
+                .also { upsertCurrentUser(it.email) }
     }
 
 }
+

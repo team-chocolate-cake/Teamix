@@ -12,6 +12,9 @@ fun NavGraphBuilder.organizationNameRoute(navController: NavController) {
 }
 
 fun NavController.navigateToOrganizationName() {
-    popBackStack()
-    navigate(Screen.OrganizationName.route)
+    navigate(Screen.OrganizationName.route){
+        popUpTo(Screen.Home.route){
+            inclusive = true
+        }
+    }
 }

@@ -35,6 +35,7 @@ import com.chocolate.repository.model.dto.users.response.FetchApiKeyDto
 import com.chocolate.repository.model.dto.users.response.MuteUserResponseDto
 import com.chocolate.repository.model.dto.users.response.OwnerUserDto
 import com.chocolate.repository.model.dto.users.response.ResponseStateDto
+import com.chocolate.repository.model.dto.users.response.StatusUserRemoteDto
 import com.chocolate.repository.model.dto.users.response.SubgroupsOfUserGroupDto
 import com.chocolate.repository.model.dto.users.response.UserAttachmentsDto
 import com.chocolate.repository.model.dto.users.response.UserDto
@@ -306,6 +307,8 @@ interface RemoteDataSource{
 
     suspend fun getOwnUser(): OwnerUserDto
 
+    suspend fun getUserStatus(): StatusUserRemoteDto
+
     suspend fun getUserById(
         userId: Int,
         clientGravatar: Boolean = true,
@@ -314,7 +317,7 @@ interface RemoteDataSource{
 
     suspend fun getUserByEmail(
         email: String,
-        clientGravatar: Boolean = true,
+        clientGravatar: Boolean = false,
         includeCustomProfileFields: Boolean = false
     ): UserDto
 

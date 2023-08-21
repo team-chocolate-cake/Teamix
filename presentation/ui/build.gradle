@@ -33,11 +33,13 @@ android {
     kotlinOptions {
         jvmTarget = Configurations.JVM_TARGET
     }
+    kapt {
+        correctErrorTypes = true
+    }
 }
 
 dependencies {
     implementation(project(Modules.PRESENTATION_VIEW_MODEL))
-
 
     implementation(ProjectDependencies.constraintLayout)
 
@@ -59,12 +61,8 @@ dependencies {
     implementation(ProjectDependencies.lottie)
     implementation(ProjectDependencies.splashScreen)
 
-    implementation(ProjectDependencies.composeFoundation)
     implementation (ProjectDependencies.systemUiController)
 
-
     implementation(ProjectDependencies.webView)
-    implementation(ProjectDependencies.systemuicontroller)
 
-    implementation(ProjectDependencies.appCompat)
 }

@@ -35,9 +35,6 @@ android {
     kotlinOptions {
         jvmTarget = Configurations.JVM_TARGET
     }
-    buildFeatures {
-        compose true
-    }
     composeOptions {
         kotlinCompilerExtensionVersion Configurations.KOTLIN_COMPILER
     }
@@ -45,6 +42,9 @@ android {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
+    }
+    kapt {
+        correctErrorTypes = true
     }
 }
 
@@ -56,8 +56,6 @@ dependencies {
     implementation (project(Modules.DOMAIN_USE_CASE))
     implementation (project(Modules.PRESENTATION_UI))
     implementation (project(Modules.PRESENTATION_VIEW_MODEL))
-
-    implementation (ProjectDependencies.composeRuntime)
 
     implementation (ProjectDependencies.retrofit)
     implementation (ProjectDependencies.gsonConverter)

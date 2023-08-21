@@ -38,7 +38,6 @@ android {
 dependencies {
     implementation(project(Modules.PRESENTATION_VIEW_MODEL))
 
-
     implementation(ProjectDependencies.constraintLayout)
 
     ProjectDependencies.composeGroup.forEach(library->
@@ -62,9 +61,7 @@ dependencies {
     implementation(ProjectDependencies.composeFoundation)
     implementation (ProjectDependencies.systemUiController)
 
-
     implementation(ProjectDependencies.webView)
-    implementation(ProjectDependencies.systemuicontroller)
 
     implementation(ProjectDependencies.appCompat)
 }

@@ -43,5 +43,4 @@ dependencies {
     kapt(ProjectDependencies.roomCompiler)
 
     implementation(ProjectDependencies.encryptedSharedPreference)
-
 }

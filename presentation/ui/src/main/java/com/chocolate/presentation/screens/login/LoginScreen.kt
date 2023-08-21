@@ -7,7 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -106,7 +105,7 @@ fun LoginContent(
         )
         Text(
             modifier = Modifier.padding(bottom = Space48),
-            text = state.nameOrganization,
+            text = state.organizationName,
             style = MaterialTheme.typography.titleLarge,
             color = colors.primary
         )

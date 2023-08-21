@@ -28,7 +28,7 @@ fun PageIndicator(
     defaultRadius: Dp = 20.dp,
     selectedLength: Dp = 60.dp,
     space: Dp = 30.dp,
-    animationDurationInMillis: Int = 300,
+    animationDurationInMillis: Int = 300
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -69,7 +69,6 @@ private fun PageIndicatorItem(
             durationMillis = animationDurationInMillis,
         ), label = "animateColor"
     )
-
     val width: Dp by animateDpAsState(
         targetValue = if (isSelected) {
             selectedLength

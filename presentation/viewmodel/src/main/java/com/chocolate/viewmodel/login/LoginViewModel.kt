@@ -31,7 +31,7 @@ class LoginViewModel @Inject constructor(
 
     private fun getNameOrganization() {
         viewModelScope.launch {
-            _state.update { it.copy(nameOrganization = loginArgs.organizationName) }
+            _state.update { it.copy(organizationName = loginArgs.organizationName) }
         }
     }
 

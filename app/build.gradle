@@ -69,6 +69,5 @@ dependencies {
 
     implementation (ProjectDependencies.roomRuntime)
     kapt (ProjectDependencies.roomCompiler)
-    kapt (ProjectDependencies.roomCompiler)
     implementation(ProjectDependencies.dataStore)
 }

@@ -63,7 +63,8 @@ object ProjectDependencies {
     private const val composeTestManifest = "androidx.compose.ui:ui-tooling"
     private const val navigationCompose =
         "androidx.navigation:navigation-compose:$NAVIGATION_COMPOSE"
-    const val appCompat = "androidx.appcompat:appcompat:$APP_COMPAT"
+    private const val composeFoundation =
+        "androidx.compose.foundation:foundation:$COMPOSE_FOUNDATION_VERSION"
 
     @JvmField
     val composeGroup = listOf(
@@ -78,7 +79,7 @@ object ProjectDependencies {
         composeUiTooling,
         composeTestManifest,
         navigationCompose,
-        appCompat
+        composeFoundation
     )
 
     const val lottie = "com.airbnb.android:lottie-compose:$LOTTIE_VERSION"
@@ -92,8 +93,7 @@ object ProjectDependencies {
 
     const val splashScreen = "androidx.core:core-splashscreen:$SPLASH_SCREEN_VERSION"
 
-    const val composeFoundation =
-        "androidx.compose.foundation:foundation:$COMPOSE_FOUNDATION_VERSION"
+
 
     const val encryptedSharedPreference =
         "androidx.security:security-crypto:$ENCRYPTED_SHARED_PREF_VERSION"

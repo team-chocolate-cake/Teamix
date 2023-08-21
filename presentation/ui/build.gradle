@@ -33,6 +33,9 @@ android {
     kotlinOptions {
         jvmTarget = Configurations.JVM_TARGET
     }
+    kapt {
+        correctErrorTypes = true
+    }
 }
 
 dependencies {
@@ -58,10 +61,8 @@ dependencies {
     implementation(ProjectDependencies.lottie)
     implementation(ProjectDependencies.splashScreen)
 
-    implementation(ProjectDependencies.composeFoundation)
     implementation (ProjectDependencies.systemUiController)
 
     implementation(ProjectDependencies.webView)
 
-    implementation(ProjectDependencies.appCompat)
 }

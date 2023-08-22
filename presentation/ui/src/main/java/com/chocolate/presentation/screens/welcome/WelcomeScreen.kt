@@ -11,20 +11,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.Button
 import com.chocolate.presentation.composable.FitImage
+import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.screens.on_boarding.navigateToOnboarding
+import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.Space64
 import com.chocolate.presentation.theme.TeamixTheme
+import com.chocolate.presentation.theme.TextSize24
 import com.chocolate.presentation.theme.customColors
 
 @Composable
@@ -47,30 +49,30 @@ fun WelcomeContent(
             .background(colors.background)
     ) {
         Text(
-            modifier = Modifier.padding(top = 64.dp, start = 16.dp, end = 16.dp),
+            modifier = Modifier.padding(top = Space64, start = Space16, end = Space16),
             text = buildAnnotatedString {
-                append("Messaging App\n")
+                append(stringResource(R.string.welcome_text))
                 withStyle(style = SpanStyle(color = colors.primary)) {
-                    append("but build for \nboost Productivity")
+                    append(stringResource(R.string.welcome_content))
                 }
             },
             style = MaterialTheme.typography.titleLarge,
             color = colors.onBackground87,
-            fontSize = 24.sp
+            fontSize = TextSize24
         )
         FitImage(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(Space16)
                 .fillMaxWidth(),
-            drawableResource = R.drawable.img_welcome,
+            image = painterResource(id = R.drawable.img_welcome),
             contentDescription = stringResource(R.string.welcome_image)
         )
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
-            Button(
+            TeamixButton(
                 onClick = { navigateToOnBoarding() },
                 colors = colors,
                 modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp, bottom = 28.dp)
+                    .padding(start = Space16, end = Space16, bottom = Space16)
                     .fillMaxWidth()
             ) {
                 Text(

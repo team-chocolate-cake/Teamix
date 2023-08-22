@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.Button
+import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.forget_password.navigateToForgetPassword
 import com.chocolate.presentation.screens.home.navigateToHome
@@ -166,7 +166,7 @@ fun LoginContent(
                 color = colors.primary,
             )
         }
-        Button(
+        TeamixButton(
             onClick = {
                 if (state.email.isBlank() || state.password.isBlank()) {
                     Toast.makeText(

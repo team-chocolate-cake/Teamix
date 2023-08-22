@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.chocolate.presentation.composable.Button
+import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
@@ -39,7 +39,6 @@ fun OnboardingScreen(
         onboardingViewModel
     )
 }
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnboardingContent(
@@ -77,7 +76,7 @@ fun OnboardingContent(
                 selectedLength = 36.dp,
                 selectedPage = pagerState.currentPage
             )
-            Button(
+            TeamixButton(
                 onClick = {
                     if (pagerState.currentPage != 2) {
                         coroutineScope.launch {
@@ -101,7 +100,6 @@ fun OnboardingContent(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
 fun OnboardingScreenPreview() {

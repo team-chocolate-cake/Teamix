@@ -101,4 +101,6 @@
     <string name="welcome_image">Welcome image</string>
     <string name="animatesize">animateSize</string>
     <string name="animatecolor">animateColor</string>
+    <string name="welcome_text">Messaging App\n</string>
+    <string name="welcome_content">but build for \nboost Productivity</string>
 </resources>

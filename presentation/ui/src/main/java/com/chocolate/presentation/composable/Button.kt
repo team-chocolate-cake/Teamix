@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.theme.CustomColorsPalette
 
 @Composable
-fun Button(
+fun TeamixButton(
     onClick: () -> Unit,
     modifier: Modifier,
     enabled: Boolean = true,

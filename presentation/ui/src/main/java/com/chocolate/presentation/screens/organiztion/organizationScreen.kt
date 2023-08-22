@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.Button
+import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.screens.create_organization.navigateToCreateOrganization
 import com.chocolate.presentation.screens.login.navigateToLogin
 import com.chocolate.presentation.screens.organiztion.compose.SeparatorWithText
@@ -136,7 +136,7 @@ fun OrganizationContent(
                 )
             )
             val operationFailed = stringResource(R.string.error_organization_name_empty)
-            Button(
+            TeamixButton(
                 onClick = {
                     organizationNameInteraction.onClickActionButton(state.organizationName)
                     if (state.organizationName.isBlank()) {

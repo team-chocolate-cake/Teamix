@@ -4,7 +4,7 @@ data class Channel(
     val id: Int,
     val name: String,
     val description: String,
-    val invitationOnly: Boolean,
+    val isPrivateStream: Boolean,
     val topics: List<Topic>,
     val isCurrentUserSubscribed: Boolean,
     val isMuted: Boolean,

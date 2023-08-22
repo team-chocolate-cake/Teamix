@@ -16,7 +16,7 @@ fun SubscriptionsItemDto.toEntity(
         id = streamId ?: 0,
         name = name ?: "",
         description = description ?: "",
-        invitationOnly = inviteOnly ?: false,
+        isPrivateStream = inviteOnly ?: false,
         topics = topics,
         isCurrentUserSubscribed = true,
         isMuted = isMuted ?: false
@@ -35,7 +35,7 @@ fun StreamDto.toEntity(): Channel {
         id = this.streamId ?: 0,
         name = this.name ?: "",
         description = this.description ?: "",
-        invitationOnly = this.inviteOnly ?: false,
+        isPrivateStream = this.inviteOnly ?: false,
         topics = emptyList(),
         isCurrentUserSubscribed = false,
         false

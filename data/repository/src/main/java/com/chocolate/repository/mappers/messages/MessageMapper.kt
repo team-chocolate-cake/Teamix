@@ -24,4 +24,4 @@ fun MessageDto.toMessage(): Message {
 
 fun List<MessageDto>?.toMessages(): List<Message> = this?.map { it.toMessage() } ?: emptyList()
 fun List<ReactionDto>?.toReactions(): List<Reaction> =
-    this?.map { Reaction(emoji_code = it.emoji_code, emoji_name = it.emoji_name) } ?: emptyList()
+    this?.map { Reaction(emojiCode = it.emoji_code, emojiName = it.emoji_name) } ?: emptyList()

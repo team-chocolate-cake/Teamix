@@ -166,12 +166,13 @@ fun LoginContent(
                 color = colors.primary,
             )
         }
+        val errorMessage = stringResource(R.string.email_and_password_cannot_be_empty)
         Button(
             onClick = {
                 if (state.email.isBlank() || state.password.isBlank()) {
                     Toast.makeText(
                         context,
-                        "Email and Password cannot be empty",
+                        errorMessage,
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -200,20 +201,6 @@ fun LoginContent(
                     color = colors.onPrimary
                 )
             }
-//            if (state.isLoading) {
-//                CircularProgressIndicator(
-//                    color = colors.card,
-//                    modifier = Modifier
-//                        .size(Space24)
-//                        .align(Alignment.CenterVertically)
-//                )
-//            } else {
-//                Text(
-//                    text = stringResource(R.string.sign_in),
-//                    style = MaterialTheme.typography.bodyLarge,
-//                    color = colors.onPrimary
-//                )
-//            }
         }
     }
 }

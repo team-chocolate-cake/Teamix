@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.main_screen
+package com.chocolate.presentation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -18,8 +18,7 @@ import com.chocolate.presentation.screens.welcome.welcomeRoute
 import com.chocolate.viewmodel.main.MainViewModel
 
 @Composable
-fun BottomNavigationNavGraph(navController: NavHostController,mainViewModel: MainViewModel) {
-
+fun TeamixNavGraph(navController: NavHostController, mainViewModel: MainViewModel) {
     NavHost(navController = navController, startDestination = Screen.Home.route) {
         welcomeRoute(navController)
         onboardingRoute(navController)

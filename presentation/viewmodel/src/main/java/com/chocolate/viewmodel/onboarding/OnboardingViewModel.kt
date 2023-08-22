@@ -11,7 +11,7 @@ import javax.inject.Inject
 class OnboardingViewModel @Inject constructor(
     private val setOnboardingStateUseCase: SetOnboardingStateUseCase
 ): ViewModel(), OnboardingEffect {
-    override fun setOnboardingShown() {
+    override fun onClickNext() {
         viewModelScope.launch {
             setOnboardingStateUseCase(true)
         }

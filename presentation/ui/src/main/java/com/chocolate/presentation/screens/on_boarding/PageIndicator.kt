@@ -15,8 +15,10 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.chocolate.presentation.R
 
 @Composable
 fun PageIndicator(
@@ -67,7 +69,7 @@ private fun PageIndicatorItem(
         },
         animationSpec = tween(
             durationMillis = animationDurationInMillis,
-        ), label = "animateColor"
+        ), label = stringResource(R.string.animatecolor)
     )
     val width: Dp by animateDpAsState(
         targetValue = if (isSelected) {
@@ -77,7 +79,7 @@ private fun PageIndicatorItem(
         },
         animationSpec = tween(
             durationMillis = animationDurationInMillis,
-        ), label = "animateSize"
+        ), label = stringResource(R.string.animatesize)
     )
 
     Canvas(

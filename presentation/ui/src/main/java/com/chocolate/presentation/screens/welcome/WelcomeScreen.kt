@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
@@ -40,7 +41,11 @@ fun WelcomeContent(
     navigateToOnBoarding: () -> Unit
 ) {
     val colors = MaterialTheme.customColors()
-    Column(modifier = Modifier.fillMaxSize().background(colors.background)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colors.background)
+    ) {
         Text(
             modifier = Modifier.padding(top = 64.dp, start = 16.dp, end = 16.dp),
             text = buildAnnotatedString {
@@ -54,9 +59,11 @@ fun WelcomeContent(
             fontSize = 24.sp
         )
         FitImage(
-            modifier = Modifier.padding(16.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
             drawableResource = R.drawable.img_welcome,
-            contentDescription = "Welcome image"
+            contentDescription = stringResource(R.string.welcome_image)
         )
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
             Button(
@@ -67,7 +74,7 @@ fun WelcomeContent(
                     .fillMaxWidth()
             ) {
                 Text(
-                    text = "Get Stated",
+                    text = stringResource(R.string.get_stated),
                     style = MaterialTheme.typography.bodyLarge,
                     color = colors.onPrimary
                 )

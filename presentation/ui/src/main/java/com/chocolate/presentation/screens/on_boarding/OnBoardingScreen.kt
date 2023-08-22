@@ -84,7 +84,7 @@ fun OnboardingContent(
                             pagerState.scrollToPage(pagerState.currentPage + 1)
                         }
                     } else {
-                        onboardingEffect.setOnboardingShown()
+                        onboardingEffect.onClickNext()
                         navigateToOrganization()
                     }
                 },

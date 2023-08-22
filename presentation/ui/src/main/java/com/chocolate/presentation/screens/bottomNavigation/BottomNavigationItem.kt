@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.main_screen
+package com.chocolate.presentation.screens.bottomNavigation
 
 import com.chocolate.presentation.R
 

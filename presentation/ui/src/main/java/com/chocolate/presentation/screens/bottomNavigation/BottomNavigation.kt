@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.main_screen.composables
+package com.chocolate.presentation.screens.bottomNavigation
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -11,11 +11,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.chocolate.presentation.screens.main_screen.BottomNavigationItem
 import com.chocolate.presentation.theme.customColors
 
 @Composable
-fun MainScreenBottomNavigation(navController: NavController) {
+fun BottomNavigation(navController: NavController) {
     val items = listOf(
         BottomNavigationItem.Home,
         BottomNavigationItem.Search,

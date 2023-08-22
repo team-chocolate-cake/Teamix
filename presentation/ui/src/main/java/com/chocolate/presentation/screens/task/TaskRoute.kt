@@ -3,8 +3,7 @@ package com.chocolate.presentation.screens.task
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.chocolate.presentation.screens.main_screen.BottomNavigationItem
-import com.chocolate.presentation.screens.search.SearchScreen
+import com.chocolate.presentation.screens.bottomNavigation.BottomNavigationItem
 
 fun NavGraphBuilder.taskRoute(navController: NavController){
     composable(BottomNavigationItem.Tasks.screen_route){

@@ -21,8 +21,6 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.FitImage
 import com.chocolate.presentation.composable.TeamixButton
@@ -33,11 +31,11 @@ import com.chocolate.presentation.theme.Space64
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.TextSize24
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.LocalNavController
 
 @Composable
-fun WelcomeScreen(
-    navController: NavController
-) {
+fun WelcomeScreen() {
+    val navController = LocalNavController.current
     WelcomeContent {
         navController.navigateToOnboarding()
     }
@@ -111,6 +109,6 @@ fun WelcomeContent(
 @Composable
 fun WelcomeScreenPreview() {
     TeamixTheme {
-        WelcomeScreen(navController = rememberNavController())
+        WelcomeScreen()
     }
 }

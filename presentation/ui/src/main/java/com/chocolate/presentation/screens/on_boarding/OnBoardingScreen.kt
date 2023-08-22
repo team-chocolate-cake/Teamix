@@ -22,8 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
@@ -31,15 +29,16 @@ import com.chocolate.presentation.theme.Space24
 import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.onboarding.OnboardingInteraction
 import com.chocolate.viewmodel.onboarding.OnboardingViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun OnboardingScreen(
-    navController: NavController,
     onboardingViewModel: OnboardingViewModel = hiltViewModel()
 ) {
+    val navController = LocalNavController.current
     OnboardingContent(
         navigateToOrganization = { navController.navigateToOrganizationName() },
         onboardingViewModel
@@ -124,7 +123,7 @@ fun OnboardingContent(
 @Composable
 fun OnboardingScreenPreview() {
     TeamixTheme {
-        OnboardingScreen(navController = rememberNavController())
+        OnboardingScreen()
     }
 }
 

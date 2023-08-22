@@ -4,13 +4,10 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
@@ -24,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -35,7 +31,7 @@ import com.chocolate.presentation.theme.Space24
 import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.viewmodel.onboarding.OnboardingEffect
+import com.chocolate.viewmodel.onboarding.OnboardingInteraction
 import com.chocolate.viewmodel.onboarding.OnboardingViewModel
 import kotlinx.coroutines.launch
 
@@ -51,17 +47,18 @@ fun OnboardingScreen(
 }
 
 val onboardingPages = listOf(OnboardingPage.First, OnboardingPage.Second, OnboardingPage.Third)
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnboardingContent(
     navigateToOrganization: () -> Unit,
-    onboardingEffect: OnboardingEffect
+    onboardingInteraction: OnboardingInteraction
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
     val colors = MaterialTheme.customColors()
-    Scaffold(  modifier = Modifier.fillMaxSize(),
+    Scaffold(modifier = Modifier.fillMaxSize(),
         containerColor = colors.background,
         bottomBar = {
             Row(
@@ -82,7 +79,7 @@ fun OnboardingContent(
                                 pagerState.scrollToPage(pagerState.currentPage + 1)
                             }
                         } else {
-                            onboardingEffect.onClickNext()
+                            onboardingInteraction.onClickLetsStart()
                             navigateToOrganization()
                         }
                     },
@@ -110,7 +107,7 @@ fun OnboardingContent(
             ) {
                 item {
                     HorizontalPager(
-                         modifier = Modifier.weight(8f),
+                        modifier = Modifier.weight(8f),
                         pageCount = onboardingPages.size,
                         state = pagerState,
                         verticalAlignment = Alignment.Top

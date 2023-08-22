@@ -97,5 +97,13 @@
     <string name="invalid_email_or_password">Invalid email or password.</string>
     <string name="organization_name_not_found">Organization name not found</string>
     <string name="organization_name_cannot_be_empty">Organization name cannot be empty</string>
+    <string name="get_stated">Get Stated</string>
+    <string name="welcome_image">Welcome image</string>
+    <string name="animatesize">animateSize</string>
+    <string name="animatecolor">animateColor</string>
+    <string name="welcome_text">Messaging App\n</string>
+    <string name="welcome_content">but build for \nboost Productivity</string>
+    <string name="next">Next</string>
+    <string name="lets_start">Lets start</string>
     <string name="email_and_password_cannot_be_empty">Email and Password cannot be empty</string>
 </resources>

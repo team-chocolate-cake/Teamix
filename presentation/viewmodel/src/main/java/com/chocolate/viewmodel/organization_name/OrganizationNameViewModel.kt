@@ -1,20 +1,18 @@
 package com.chocolate.viewmodel.organization_name
 
-import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.usecases.onboarding.GetOnboardingStateUseCase
+import com.chocolate.usecases.onboarding.GetOnboardingUseCase
 import com.chocolate.usecases.organization.SaveNameOrganizationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsRes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class OrganizationNameViewModel @Inject constructor(
     private val saveNameOrganizationsUseCase: SaveNameOrganizationUseCase,
-    private val getOnboardingStateUseCase: GetOnboardingStateUseCase,
+    private val getOnboardingUseCase: GetOnboardingUseCase,
     private val stringsRes: StringsRes
 ) : BaseViewModel<OrganizationNameUiState, OrganizationNameUiEffect>(OrganizationNameUiState()),
     OrganizationNameInteraction {
@@ -48,13 +46,15 @@ class OrganizationNameViewModel @Inject constructor(
     }
 
     private fun getOnboardingState() {
-        viewModelScope.launch {
-            collectFlow(getOnboardingStateUseCase()) {
-                this.copy(
-                    onboardingState = it
-                )
-            }
-        }
+        tryToExecute({ getOnboardingUseCase() }, ::getOnboardingSuccess, ::getOnboardingError)
+    }
+
+    private fun getOnboardingSuccess(isFirstTime: Boolean) {
+        _state.update { it.copy(onboardingState = isFirstTime) }
+    }
+
+    private fun getOnboardingError(throwable: Throwable) {
+        _state.update { it.copy(error = throwable.message) }
     }
 
     override fun onOrganizationNameChange(organizationName: String) {

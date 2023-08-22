@@ -4,10 +4,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface PreferencesDataSource {
 
-    suspend fun setOnboardingState(isComplete: Boolean)
-
-    suspend fun getOnboardingState(): Flow<Boolean>
-
     val currentOrganization: String?
 
     suspend fun setNameOrganization(currentOrganization: String)
@@ -17,6 +13,10 @@ interface PreferencesDataSource {
     suspend fun setUserLoginState(isComplete: Boolean)
 
     val currentUserLoginState: Flow<Boolean>
+
+    suspend fun putOnboardingState(isFirstTime: Boolean)
+
+    suspend fun getOnboardingState(): Boolean
 
     suspend fun putAuthenticationData(apikey: String, email: String)
 
@@ -30,7 +30,7 @@ interface PreferencesDataSource {
 
     suspend fun getLastSelectedAppLanguage(): String
 
-    suspend fun updateDarkTheme(isDarkTheme:Boolean):Boolean
+    suspend fun updateDarkTheme(isDarkTheme: Boolean): Boolean
 
-    suspend fun isDarkThemeEnabled():Boolean
+    suspend fun isDarkThemeEnabled(): Boolean
 }

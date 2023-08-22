@@ -1,7 +1,5 @@
 package com.chocolate.viewmodel.onboarding
 
-interface OnboardingEffect {
-
-    fun setOnboardingShown()
-
+sealed interface OnboardingEffect {
+    object NavigateToOrganizationName : OnboardingEffect
 }

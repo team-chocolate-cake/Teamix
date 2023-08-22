@@ -30,6 +30,8 @@ val TextSize12 = 12.sp
 val TextSize14 = 14.sp
 val TextSize16 = 16.sp
 val TextSize22 = 22.sp
+val TextSize24 = 24.sp
+
 //endregion
 
 //region Letter Height Dimensions

@@ -37,7 +37,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.Button
+import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.forget_password.navigateToForgetPassword
 import com.chocolate.presentation.screens.home.navigateToHome
@@ -107,7 +107,7 @@ fun LoginContent(
         )
         Text(
             modifier = Modifier.padding(bottom = Space48),
-            text = state.nameOrganization,
+            text = state.organizationName,
             style = MaterialTheme.typography.titleLarge,
             color = colors.primary
         )
@@ -167,7 +167,7 @@ fun LoginContent(
                 color = colors.primary,
             )
         }
-        Button(
+        TeamixButton(
             onClick = {
                 if (state.email.isBlank() || state.password.isBlank()) {
                     Toast.makeText(

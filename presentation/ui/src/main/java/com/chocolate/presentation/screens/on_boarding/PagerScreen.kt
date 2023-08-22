@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.composable.FitImage
@@ -23,7 +24,7 @@ fun PagerScreen(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth(),
-            drawableResource = onBoardingPage.imageResource,
+            image = painterResource(id =onBoardingPage.imageResource ),
             contentDescription = "Onboarding image"
         )
         Text(

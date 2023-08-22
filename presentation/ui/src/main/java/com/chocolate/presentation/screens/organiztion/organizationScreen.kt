@@ -5,7 +5,6 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -33,7 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.Button
+import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.create_organization.navigateToCreateOrganization
 import com.chocolate.presentation.screens.login.navigateToLogin
@@ -56,9 +55,8 @@ import kotlinx.coroutines.flow.collectLatest
 fun OrganizationScreen(
     viewModel: OrganizationNameViewModel = hiltViewModel(),
 ) {
-    val state by viewModel.state.collectAsState()
     val navController = LocalNavController.current
-
+    val state by viewModel.state.collectAsState()
     LaunchedEffect(key1 = Unit) {
         viewModel.effect.collectLatest { effect ->
             when (effect) {
@@ -89,9 +87,7 @@ fun OrganizationContent(
     val colors = MaterialTheme.customColors()
     val context = LocalContext.current
     val scrollState = rememberScrollState()
-    TeamixScaffold(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    TeamixScaffold {
         Column(
             modifier = Modifier
                 .verticalScroll(scrollState)
@@ -135,7 +131,7 @@ fun OrganizationContent(
                 )
             )
             val operationFailed = stringResource(R.string.error_organization_name_empty)
-            Button(
+            TeamixButton(
                 onClick = {
                     organizationNameInteraction.onClickActionButton(state.organizationName)
                     if (state.organizationName.isBlank()) {

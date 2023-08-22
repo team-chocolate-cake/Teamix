@@ -19,18 +19,6 @@ class DataStoreDataSource @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) : PreferencesDataSource {
 
-    override suspend fun setOnboardingState(isComplete: Boolean) {
-        runBlocking {
-            dataStore.edit { it[booleanPreferencesKey(ONBOARDING_STATE)] = isComplete }
-        }
-    }
-
-    override suspend fun getOnboardingState(): Flow<Boolean> {
-        return dataStore.data.map {
-            it[booleanPreferencesKey(ONBOARDING_STATE)] ?: false
-        }
-    }
-
     override val currentOrganization: String?
         get() = runBlocking { dataStore.data.map { it[NAME_ORGANIZATION] }.first() }
 
@@ -50,6 +38,16 @@ class DataStoreDataSource @Inject constructor(
 
     override val currentUserLoginState: Flow<Boolean>
         get() = dataStore.data.map { it[LOGIN_STATE] ?: false }
+
+    override suspend fun putOnboardingState(isFirstTime: Boolean) {
+        val editor = sharedPreferences.edit()
+        editor.putBoolean(IS_FIRST_TIME, isFirstTime)
+        editor.apply()
+    }
+
+    override suspend fun getOnboardingState(): Boolean {
+        return sharedPreferences.getBoolean(IS_FIRST_TIME,true)
+    }
 
     override suspend fun putAuthenticationData(apikey: String, email: String) {
         val editor = sharedPreferences.edit()
@@ -108,6 +106,7 @@ class DataStoreDataSource @Inject constructor(
         const val ONBOARDING_STATE = "ONBOARDING_STATE"
         const val API_KEY = "API_KEY"
         const val EMAIL = "EMAIL"
+        const val IS_FIRST_TIME = "IS_FIRST_TIME"
         const val LANGUAGE = "APP_LANGUAGE"
         const val DARK_THEME="APP_DARK_THEME"
     }

@@ -9,11 +9,11 @@ class OnboardingRepositoryImpl @Inject constructor(
     private val preferencesDataSource: PreferencesDataSource
 ) : OnboardingRepository {
 
-    override suspend fun getOnboardingState(): Flow<Boolean> {
-        return preferencesDataSource.getOnboardingState()
+    override suspend fun setOnboardingState(isComplete: Boolean) {
+        preferencesDataSource.putOnboardingState(isComplete)
     }
 
-    override suspend fun setOnboardingState(isComplete: Boolean) {
-        preferencesDataSource.setOnboardingState(isComplete)
+    override suspend fun getOnboardingState(): Boolean {
+        return preferencesDataSource.getOnboardingState()
     }
 }

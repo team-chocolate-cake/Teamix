@@ -3,11 +3,11 @@ package com.chocolate.presentation.screens.forget_password
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import com.chocolate.presentation.composable.TeamixAppBar
+import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.create_organization.ZULIP
 import com.chocolate.presentation.screens.login.backToLogin
 import com.chocolate.presentation.theme.customColors
@@ -36,7 +36,7 @@ fun ForgetPasswordWebViewContent(navigateToLogin: () -> Unit) {
         )
     }
 
-    Scaffold(
+    TeamixScaffold(
         topBar = {
             TeamixAppBar(
                 title = "Teamix",

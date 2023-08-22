@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -24,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixButton
+import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.Space24
 import com.chocolate.presentation.theme.Space32
@@ -57,8 +57,7 @@ fun OnboardingContent(
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
     val colors = MaterialTheme.customColors()
-    Scaffold(modifier = Modifier.fillMaxSize(),
-        containerColor = colors.background,
+    TeamixScaffold(
         bottomBar = {
             Row(
                 modifier = Modifier

@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.FitImage
 import com.chocolate.presentation.composable.TeamixButton
+import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.on_boarding.navigateToOnboarding
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space32
@@ -36,9 +36,7 @@ import com.chocolate.presentation.util.LocalNavController
 @Composable
 fun WelcomeScreen() {
     val navController = LocalNavController.current
-    WelcomeContent {
-        navController.navigateToOnboarding()
-    }
+    WelcomeContent { navController.navigateToOnboarding() }
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -47,8 +45,7 @@ fun WelcomeContent(
     navigateToOnBoarding: () -> Unit
 ) {
     val colors = MaterialTheme.customColors()
-    Scaffold(modifier = Modifier.fillMaxSize(),
-        containerColor = colors.background,
+    TeamixScaffold(
         bottomBar = {
             Box(
                 modifier = Modifier

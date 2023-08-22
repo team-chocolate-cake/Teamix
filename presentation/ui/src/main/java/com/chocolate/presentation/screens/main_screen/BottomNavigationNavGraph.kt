@@ -20,7 +20,7 @@ import com.chocolate.viewmodel.main.MainViewModel
 @Composable
 fun BottomNavigationNavGraph(navController: NavHostController,mainViewModel: MainViewModel) {
 
-    NavHost(navController = navController, startDestination = Screen.Home.route) {
+    NavHost(navController = navController, startDestination = Screen.Welcome.route) {
         welcomeRoute(navController)
         onboardingRoute(navController)
         homeRoute(navController, mainViewModel)

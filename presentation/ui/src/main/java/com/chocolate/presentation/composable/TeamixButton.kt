@@ -18,7 +18,7 @@ import com.chocolate.presentation.theme.CustomColorsPalette
 @Composable
 fun TeamixButton(
     onClick: () -> Unit,
-    modifier: Modifier,
+    modifier: Modifier=Modifier,
     enabled: Boolean = true,
     colors: CustomColorsPalette,
     content: @Composable RowScope.() -> Unit

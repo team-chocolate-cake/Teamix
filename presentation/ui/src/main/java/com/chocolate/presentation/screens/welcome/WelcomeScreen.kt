@@ -1,12 +1,16 @@
 package com.chocolate.presentation.screens.welcome
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,6 +28,7 @@ import com.chocolate.presentation.composable.FitImage
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.screens.on_boarding.navigateToOnboarding
 import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.Space64
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.TextSize24
@@ -38,48 +43,65 @@ fun WelcomeScreen(
     }
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun WelcomeContent(
     navigateToOnBoarding: () -> Unit
 ) {
     val colors = MaterialTheme.customColors()
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(colors.background)
-    ) {
-        Text(
-            modifier = Modifier.padding(top = Space64, start = Space16, end = Space16),
-            text = buildAnnotatedString {
-                append(stringResource(R.string.welcome_text))
-                withStyle(style = SpanStyle(color = colors.primary)) {
-                    append(stringResource(R.string.welcome_content))
-                }
-            },
-            style = MaterialTheme.typography.titleLarge,
-            color = colors.onBackground87,
-            fontSize = TextSize24
-        )
-        FitImage(
-            modifier = Modifier
-                .padding(Space16)
-                .fillMaxWidth(),
-            image = painterResource(id = R.drawable.img_welcome),
-            contentDescription = stringResource(R.string.welcome_image)
-        )
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
-            TeamixButton(
-                onClick = { navigateToOnBoarding() },
-                colors = colors,
+    Scaffold(modifier = Modifier.fillMaxSize(),
+        containerColor = colors.background,
+        bottomBar = {
+            Box(
                 modifier = Modifier
-                    .padding(start = Space16, end = Space16, bottom = Space16)
-                    .fillMaxWidth()
+                    .fillMaxSize(), contentAlignment = Alignment.BottomCenter
             ) {
-                Text(
-                    text = stringResource(R.string.get_stated),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = colors.onPrimary
-                )
+                TeamixButton(
+                    onClick = { navigateToOnBoarding() },
+                    colors = colors,
+                    modifier = Modifier
+                        .padding(start = Space16, end = Space16, bottom = Space32)
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        text = stringResource(R.string.get_stated),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = colors.onPrimary
+                    )
+                }
+            }
+        }) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(colors.background)
+        ) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(colors.background)
+            ) {
+                item {
+                    Text(
+                        modifier = Modifier.padding(top = Space64, start = Space16, end = Space16),
+                        text = buildAnnotatedString {
+                            append(stringResource(R.string.welcome_text))
+                            withStyle(style = SpanStyle(color = colors.primary)) {
+                                append(stringResource(R.string.welcome_content))
+                            }
+                        },
+                        style = MaterialTheme.typography.titleLarge,
+                        color = colors.onBackground87,
+                        fontSize = TextSize24
+                    )
+                    FitImage(
+                        modifier = Modifier
+                            .padding(Space16)
+                            .wrapContentSize(),
+                        image = painterResource(id = R.drawable.img_welcome),
+                        contentDescription = stringResource(R.string.welcome_image)
+                    )
+                }
             }
         }
     }

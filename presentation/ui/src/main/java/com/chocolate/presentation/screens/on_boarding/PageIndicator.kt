@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -19,33 +20,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
+import com.chocolate.presentation.theme.customColors
 
 @Composable
 fun PageIndicator(
-    numberOfPages: Int,
     modifier: Modifier = Modifier,
-    selectedPage: Int = 0,
-    selectedColor: Color = Color.Blue,
-    defaultColor: Color = Color.LightGray,
-    defaultRadius: Dp = 20.dp,
-    selectedLength: Dp = 60.dp,
-    space: Dp = 30.dp,
-    animationDurationInMillis: Int = 300
+    numberOfPages: Int,
+    selectedPage: Int ,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(space),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier,
     ) {
         for (i in 0 until numberOfPages) {
             val isSelected = i == selectedPage
             PageIndicatorItem(
                 isSelected = isSelected,
-                selectedColor = selectedColor,
-                defaultColor = defaultColor,
-                defaultRadius = defaultRadius,
-                selectedLength = selectedLength,
-                animationDurationInMillis = animationDurationInMillis,
             )
         }
     }
@@ -54,47 +45,43 @@ fun PageIndicator(
 @Composable
 private fun PageIndicatorItem(
     isSelected: Boolean,
-    selectedColor: Color,
-    defaultColor: Color,
-    defaultRadius: Dp,
-    selectedLength: Dp,
-    animationDurationInMillis: Int,
     modifier: Modifier = Modifier,
 ) {
+    val colors=MaterialTheme.customColors()
     val color: Color by animateColorAsState(
         targetValue = if (isSelected) {
-            selectedColor
+            colors.primary
         } else {
-            defaultColor
+            colors.onSecondary
         },
         animationSpec = tween(
-            durationMillis = animationDurationInMillis,
+            durationMillis = 300,
         ), label = stringResource(R.string.animatecolor)
     )
     val width: Dp by animateDpAsState(
         targetValue = if (isSelected) {
-            selectedLength
+            36.dp
         } else {
-            defaultRadius
+            8.dp
         },
         animationSpec = tween(
-            durationMillis = animationDurationInMillis,
+            durationMillis = 300,
         ), label = stringResource(R.string.animatesize)
     )
 
     Canvas(
-        modifier = modifier.size(width = width, height = defaultRadius),
+        modifier = modifier.size(width = width, height = 8.dp),
     ) {
         drawRoundRect(
             color = color,
             topLeft = Offset.Zero,
             size = Size(
                 width = width.toPx(),
-                height = defaultRadius.toPx(),
+                height = 8.dp.toPx(),
             ),
             cornerRadius = CornerRadius(
-                x = defaultRadius.toPx(),
-                y = defaultRadius.toPx(),
+                x = 8.dp.toPx(),
+                y = 8.dp.toPx(),
             ),
         )
     }

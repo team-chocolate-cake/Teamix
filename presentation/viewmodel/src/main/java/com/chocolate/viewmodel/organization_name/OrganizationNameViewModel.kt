@@ -1,7 +1,7 @@
 package com.chocolate.viewmodel.organization_name
 
 import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.usecases.onboarding.GetOnboardingUseCase
+import com.chocolate.usecases.onboarding.ManageOnboardingUseCase
 import com.chocolate.usecases.organization.SaveNameOrganizationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsRes
@@ -12,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class OrganizationNameViewModel @Inject constructor(
     private val saveNameOrganizationsUseCase: SaveNameOrganizationUseCase,
-    private val getOnboardingUseCase: GetOnboardingUseCase,
+    private val manageOnboardingUseCase: ManageOnboardingUseCase,
     private val stringsRes: StringsRes
 ) : BaseViewModel<OrganizationNameUiState, OrganizationNameUiEffect>(OrganizationNameUiState()),
     OrganizationNameInteraction {
@@ -46,7 +46,7 @@ class OrganizationNameViewModel @Inject constructor(
     }
 
     private fun getOnboardingState() {
-        tryToExecute({ getOnboardingUseCase() }, ::getOnboardingSuccess, ::getOnboardingError)
+        tryToExecute({ manageOnboardingUseCase.getOnboardingState() }, ::getOnboardingSuccess, ::getOnboardingError)
     }
 
     private fun getOnboardingSuccess(isFirstTime: Boolean) {

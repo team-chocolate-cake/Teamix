@@ -3,9 +3,14 @@ package com.chocolate.usecases.onboarding
 import repositories.OnboardingRepository
 import javax.inject.Inject
 
-class SetOnboardingUseCase @Inject constructor(
+class ManageOnboardingUseCase @Inject constructor(
     private val onboardingRepository: OnboardingRepository
 ) {
-    suspend operator fun invoke(isComplete: Boolean) =
+    suspend fun setOnboardingState(isComplete: Boolean) {
         onboardingRepository.setOnboardingState(isComplete)
+    }
+
+    suspend fun getOnboardingState(): Boolean {
+        return onboardingRepository.getOnboardingState()
+    }
 }

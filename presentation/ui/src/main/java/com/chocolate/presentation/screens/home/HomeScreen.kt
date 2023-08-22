@@ -47,7 +47,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.chocolate.presentation.R
 import com.chocolate.presentation.screens.home.compose.BadgeHome
 import com.chocolate.presentation.screens.home.compose.ChannelItem
@@ -63,6 +62,7 @@ import com.chocolate.presentation.theme.Space64
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.home.HomeUiEffect
 import com.chocolate.viewmodel.home.HomeUiState
 import com.chocolate.viewmodel.home.HomeViewModel
@@ -73,10 +73,10 @@ import kotlinx.coroutines.flow.collectLatest
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun HomeScreen(
-    navController: NavController,
     mainViewModel: MainViewModel,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
+    val navController = LocalNavController.current
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = !isSystemInDarkTheme()
     val state by homeViewModel.state.collectAsState()

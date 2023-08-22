@@ -8,9 +8,9 @@ import com.chocolate.presentation.screens.main_screen.BottomNavigationItem
 import com.chocolate.presentation.screens.profile.ProfileScreen
 import com.chocolate.viewmodel.main.MainViewModel
 
-fun NavGraphBuilder.searchRoute(navController: NavController){
+fun NavGraphBuilder.searchRoute(){
     composable(BottomNavigationItem.Search.screen_route){
-        SearchScreen(navController = navController)
+        SearchScreen()
     }
 }
 fun NavController.navigateToSearch(){

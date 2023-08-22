@@ -21,16 +21,16 @@ import com.chocolate.viewmodel.main.MainViewModel
 fun BottomNavigationNavGraph(navController: NavHostController,mainViewModel: MainViewModel) {
 
     NavHost(navController = navController, startDestination = Screen.Home.route) {
-        welcomeRoute(navController)
-        onboardingRoute(navController)
-        homeRoute(navController, mainViewModel)
-        organizationNameRoute(navController)
-        createOrganizationWebViewRoute(navController)
-        loginRoute(navController)
-        forgetPasswordWebViewRoute(navController)
-        profileRoute(navController, mainViewModel)
-        searchRoute(navController)
-        directMessageRoute(navController)
-        taskRoute(navController)
+        welcomeRoute()
+        onboardingRoute()
+        homeRoute(mainViewModel)
+        organizationNameRoute()
+        createOrganizationWebViewRoute()
+        loginRoute()
+        forgetPasswordWebViewRoute()
+        profileRoute(mainViewModel)
+        searchRoute()
+        directMessageRoute()
+        taskRoute()
     }
 }

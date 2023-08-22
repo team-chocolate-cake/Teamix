@@ -7,7 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -40,7 +39,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.Button
 import com.chocolate.presentation.composable.TeamixTextField
@@ -53,6 +51,7 @@ import com.chocolate.presentation.theme.Space48
 import com.chocolate.presentation.theme.Space56
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.login.LoginInteraction
 import com.chocolate.viewmodel.login.LoginUiEffect
 import com.chocolate.viewmodel.login.LoginUiState
@@ -61,10 +60,10 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun LoginScreen(
-    navController: NavController,
     loginViewModel: LoginViewModel = hiltViewModel()
 ) {
     val state by loginViewModel.state.collectAsState()
+    val navController = LocalNavController.current
     LaunchedEffect(key1 = Unit ){
         loginViewModel.effect.collectLatest { effect ->
             when(effect){

@@ -5,9 +5,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.chocolate.presentation.Screen
 
-fun NavGraphBuilder.forgetPasswordWebViewRoute(navController: NavController) {
+fun NavGraphBuilder.forgetPasswordWebViewRoute() {
     composable(Screen.ForgetPasswordWebView.route) {
-        ForgetPasswordWebViewScreen(navController)
+        ForgetPasswordWebViewScreen()
     }
 }
 fun NavController.navigateToForgetPassword(){

@@ -6,9 +6,9 @@ import androidx.navigation.compose.composable
 import com.chocolate.presentation.Screen
 import com.chocolate.viewmodel.main.MainViewModel
 
-fun NavGraphBuilder.profileRoute(navController: NavController,mainViewModel: MainViewModel){
+fun NavGraphBuilder.profileRoute(mainViewModel: MainViewModel){
   composable(Screen.Profile.route){
-      ProfileScreen(navController,mainViewModel)
+      ProfileScreen(mainViewModel)
   }
 }
 fun NavController.navigateToProfile(){

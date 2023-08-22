@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -23,6 +24,7 @@ import com.chocolate.presentation.screens.main_screen.BottomNavigationNavGraph
 import com.chocolate.presentation.screens.main_screen.composables.MainScreenBottomNavigation
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.presentation.util.installSavedAppLanguage
 import com.chocolate.viewmodel.main.MainViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -59,8 +61,13 @@ class MainActivity : ComponentActivity() {
                         MaterialTheme.customColors().background, darkIcons = !isSystemInDarkMode
                     )
                     ApplySystemUi(isDarkTheme)
-                    Box(modifier = Modifier.padding(innerPadding)){
-                        BottomNavigationNavGraph(navController = navController,userSettingsViewModel)
+                    Box(modifier = Modifier.padding(innerPadding)) {
+                        CompositionLocalProvider(LocalNavController provides navController) {
+                            BottomNavigationNavGraph(
+                                navController = navController,
+                                userSettingsViewModel
+                            )
+                        }
                     }
                     }
                 }

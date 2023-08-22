@@ -19,9 +19,12 @@ import com.chocolate.presentation.screens.topic_details.composables.StartNewMess
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.LocalNavController
 
 @Composable
 fun TopicScreen() {
+    val navController = LocalNavController.current
+
     TopicContent(
         topicScreenUiState = TopicScreenUiState(),
         navigationBack = {},

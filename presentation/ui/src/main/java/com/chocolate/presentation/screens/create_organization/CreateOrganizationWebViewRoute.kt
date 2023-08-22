@@ -5,9 +5,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.chocolate.presentation.Screen
 
-fun NavGraphBuilder.createOrganizationWebViewRoute(navController: NavController) {
+fun NavGraphBuilder.createOrganizationWebViewRoute() {
     composable(Screen.OrganizationWebView.route) {
-        CreateOrganizationWebViewScreen(navController)
+        CreateOrganizationWebViewScreen()
     }
 }
 fun NavController.navigateToCreateOrganization(){

@@ -5,10 +5,11 @@ import android.widget.Toast
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.NavController
+import com.chocolate.presentation.util.LocalNavController
 
 @Composable
-fun TaskScreen(navController: NavController) {
+fun TaskScreen() {
+    val navController = LocalNavController.current
     TaskContent()
 }
 

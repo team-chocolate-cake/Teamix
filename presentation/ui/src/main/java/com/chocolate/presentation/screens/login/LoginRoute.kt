@@ -8,12 +8,12 @@ import androidx.navigation.navArgument
 import com.chocolate.presentation.Screen
 import com.chocolate.viewmodel.login.LoginArgs
 
-fun NavGraphBuilder.loginRoute(navController: NavController) {
+fun NavGraphBuilder.loginRoute() {
     composable(
         route = "${Screen.Login.route}/{${LoginArgs.ORGANIZATION_NAME}}",
         arguments = listOf(navArgument(LoginArgs.ORGANIZATION_NAME) { NavType.StringType })
     ) {
-        LoginScreen(navController = navController)
+        LoginScreen()
     }
 }
 

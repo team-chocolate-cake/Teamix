@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -30,14 +31,16 @@ import com.chocolate.presentation.theme.customColors
 @Composable
 fun SearchBox(
     modifier: Modifier = Modifier,
-    hint: String = stringResource(id = R.string.search)
+    hint: String = stringResource(id = R.string.search),
+    containerColor: Color = MaterialTheme.customColors().card
 ) {
     var text by rememberSaveable { mutableStateOf("") }
 
     TextField(
         shape = RoundedCornerShape(Radius12),
         modifier = modifier
-            .fillMaxWidth().height(TextFieldHeight48),
+            .fillMaxWidth()
+            .height(TextFieldHeight48),
         textStyle = MaterialTheme.typography.bodySmall,
         singleLine = true,
         value = text,
@@ -51,10 +54,15 @@ fun SearchBox(
             )
         },
         colors = TextFieldDefaults.textFieldColors(
-            containerColor = MaterialTheme.customColors().card,
+            containerColor = containerColor,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
+            cursorColor = MaterialTheme.customColors().onBackground87,
+            selectionColors = TextSelectionColors(
+                handleColor = MaterialTheme.customColors().primary,
+                backgroundColor = MaterialTheme.customColors().primary
+            )
         )
 
     )

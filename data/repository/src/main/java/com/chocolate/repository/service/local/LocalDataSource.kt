@@ -3,7 +3,7 @@ package com.chocolate.repository.service.local
 import com.chocolate.repository.model.localDto.stream.StreamLocalDto
 import com.chocolate.repository.model.localDto.users.UserLocalDto
 
-interface TeamixLocalDataSource {
+interface LocalDataSource {
 
     suspend fun upsertUserData(userLocalDto: UserLocalDto)
 

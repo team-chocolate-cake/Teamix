@@ -13,7 +13,7 @@ import com.chocolate.usecases.user.GetCurrentUserDataUseCase
 import com.chocolate.usecases.user.LogoutUseCase
 import com.chocolate.usecases.user.UpdateUserInformationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
-import com.chocolate.viewmodel.base.StringsRes
+import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
@@ -27,7 +27,7 @@ class ProfileViewModel @Inject constructor(
     private val updateUserInformationUseCase: UpdateUserInformationUseCase,
     private val logoutUseCase: LogoutUseCase,
     private val customizeProfileSettingsUseCase: CustomizeProfileSettingsUseCase,
-    private val stringsRes: StringsRes
+    private val stringsResource: StringsResource
 ) : BaseViewModel<ProfileUiState, ProfileEffect>(ProfileUiState()), ProfileInteraction {
 
     init {
@@ -153,7 +153,7 @@ class ProfileViewModel @Inject constructor(
                 newUsername = "",
                 newEmail = "",
                 error = null,
-                message = stringsRes.successMessage
+                message = stringsResource.successMessage
             )
         }
     }
@@ -164,11 +164,11 @@ class ProfileViewModel @Inject constructor(
 
     private fun onError(throwable: Throwable) {
         val error = when (throwable) {
-            EmptyEmailException -> stringsRes.emptyEmailMessage
-            EmptyFullNameException -> stringsRes.emptyFullNameMessage
-            SameUserDataException -> stringsRes.sameUserDataMessage
-            is NoConnectionException -> stringsRes.noConnectionMessage
-            else -> stringsRes.globalMessageError
+            EmptyEmailException -> stringsResource.emptyEmailMessage
+            EmptyFullNameException -> stringsResource.emptyFullNameMessage
+            SameUserDataException -> stringsResource.sameUserDataMessage
+            is NoConnectionException -> stringsResource.noConnectionMessage
+            else -> stringsResource.globalMessageError
         }
         _state.update { it.copy(isLoading = false, error = error, message = null) }
     }

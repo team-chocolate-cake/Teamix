@@ -1,7 +1,7 @@
 package com.chocolate.teamix.di
 
-import com.chocolate.presentation.util.StringsResImpl
-import com.chocolate.viewmodel.base.StringsRes
+import com.chocolate.presentation.util.StringsResourceImpl
+import com.chocolate.viewmodel.base.StringsResource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,6 +13,6 @@ import javax.inject.Singleton
 abstract class ResourcesModule {
     @Binds
     @Singleton
-    abstract fun bindStringsRes(stringsResImpl: StringsResImpl): StringsRes
+    abstract fun bindStringsResource(stringsResource: StringsResourceImpl): StringsResource
 
 }

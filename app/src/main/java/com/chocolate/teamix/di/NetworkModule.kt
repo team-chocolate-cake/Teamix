@@ -16,6 +16,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -45,7 +46,7 @@ object NetworkModule {
     fun provideRetrofitBuilder(
         client: OkHttpClient,
         factory: GsonConverterFactory,
-        baseUrl: String
+        @Named("baseUrl") baseUrl: String
     ): Retrofit =
         Retrofit.Builder()
             .baseUrl(baseUrl)
@@ -89,7 +90,8 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideBaseUrl(prefs: PreferencesDataSource): String =
-        "https://${prefs.currentOrganization}.zulipchat.com/api/v1/"
+    @Named("baseUrl")
+    fun provideBaseUrl(preferencesDataSource: PreferencesDataSource): String =
+        "https://${preferencesDataSource.currentOrganization}.zulipchat.com/api/v1/"
 
 }

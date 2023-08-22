@@ -1,8 +1,6 @@
 package com.chocolate.repository.repository
 
-import com.chocolate.entities.server_and_organizations.Linkifier
 import com.chocolate.repository.datastore.PreferencesDataSource
-import com.chocolate.repository.mappers.organizations.toLinkifiers
 import com.chocolate.repository.service.remote.RemoteDataSource
 import repositories.ServerAndOrganizationsRepository
 import javax.inject.Inject
@@ -15,9 +13,9 @@ class ServerAndOrganizationsRepositoryImpl @Inject constructor(
         return organizationRemoteDataSource.getServerSettings().realmIcon ?:""
     }
 
-    override suspend fun getLinkifiers(): List<Linkifier> {
-        return organizationRemoteDataSource.getLinkifiers().linkifierDtos.toLinkifiers()
-    }
+//    override suspend fun getLinkifiers(): List<Linkifier> {
+//        return organizationRemoteDataSource.getLinkifiers().linkifierDtos.toLinkifiers()
+//    }
 
     override suspend fun addLinkifiers(pattern: String, url: String): Int {
         return organizationRemoteDataSource.addLinkifiers(pattern, url).id ?:-1

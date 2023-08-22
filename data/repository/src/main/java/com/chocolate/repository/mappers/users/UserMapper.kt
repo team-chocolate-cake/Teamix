@@ -6,7 +6,7 @@ import com.chocolate.repository.model.dto.users.response.UserDto
 import com.chocolate.repository.model.localDto.users.UserLocalDto
 
 
-fun UserDto.toUser(): User {
+fun UserDto.toEntity(): User {
     return User(
         imageUrl = this.userDetailsDto?.avatarUrl ?: "",
         email = this.userDetailsDto?.email ?: "",
@@ -16,7 +16,7 @@ fun UserDto.toUser(): User {
     )
 }
 
-fun UserLocalDto.toCurrentUser(): User {
+fun UserLocalDto.toEntity(): User {
     return User(
         imageUrl = this.imageUrl,
         email = this.email,
@@ -26,7 +26,7 @@ fun UserLocalDto.toCurrentUser(): User {
     )
 }
 
-fun User.toCurrentUserLocal(): UserLocalDto{
+fun User.toLocalDto(): UserLocalDto{
     return UserLocalDto(
         imageUrl = this.imageUrl,
         email = this.email,
@@ -36,7 +36,7 @@ fun User.toCurrentUserLocal(): UserLocalDto{
     )
 }
 
-fun MemberDto.toUser(): User = User(
+fun MemberDto.toEntity(): User = User(
     imageUrl = avatarUrl.orEmpty(),
     email = email.orEmpty(),
     fullName = fullName.orEmpty(),
@@ -44,4 +44,4 @@ fun MemberDto.toUser(): User = User(
     id = userId?:-1,
 )
 
-fun List<MemberDto>?.toUsers(): List<User> = this?.map { it.toUser() }?: emptyList()
+fun List<MemberDto>?.toEntity(): List<User> = this?.map { it.toEntity() }.orEmpty()

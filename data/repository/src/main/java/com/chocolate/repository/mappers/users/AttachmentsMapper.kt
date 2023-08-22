@@ -3,7 +3,7 @@ package com.chocolate.repository.mappers.users
 import com.chocolate.entities.user.Attachment
 import com.chocolate.repository.model.dto.users.response.AttachmentDto
 
-fun AttachmentDto.toAttachment(): Attachment {
+fun AttachmentDto.toEntity(): Attachment {
         return Attachment(
             createTime=createTime ?: 0,
             id=id ?: 0,
@@ -12,4 +12,4 @@ fun AttachmentDto.toAttachment(): Attachment {
             size=size ?: 0
         )
 }
-fun List<AttachmentDto>?.toAttachments(): List<Attachment> = this?.map { it.toAttachment() }?: emptyList()
+fun List<AttachmentDto>?.toEntity(): List<Attachment> = this?.map { it.toEntity() }.orEmpty()

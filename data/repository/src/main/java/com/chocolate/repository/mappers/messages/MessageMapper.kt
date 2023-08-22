@@ -6,13 +6,12 @@ import com.chocolate.repository.model.dto.message.response.MessageDto
 import com.chocolate.repository.model.dto.message.response.ReactionDto
 
 
-fun MessageDto.toMessage(): Message {
+fun MessageDto.toEntity(): Message {
     return Message(
         senderAvatarUrl = this.avatarUrl ?: "",
         messageContent = this.content ?: "",
-        messageContentType = this.contentType ?: "",
         id = this.id ?: 0,
-        reactions = this.reactions.toReactions(),
+        reactions = this.reactions.toEntity(),
         senderEmail = this.senderEmail ?: "",
         senderFullName = this.senderFullName ?: "",
         senderId = this.senderId ?: 0,
@@ -22,6 +21,6 @@ fun MessageDto.toMessage(): Message {
     )
 }
 
-fun List<MessageDto>?.toMessages(): List<Message> = this?.map { it.toMessage() } ?: emptyList()
-fun List<ReactionDto>?.toReactions(): List<Reaction> =
-    this?.map { Reaction(emojiCode = it.emoji_code, emojiName = it.emoji_name) } ?: emptyList()
+fun List<MessageDto>?.toEntity(): List<Message> = this?.map { it.toEntity() }.orEmpty()
+fun List<ReactionDto>?.toEntity(): List<Reaction> =
+    this?.map { Reaction(emojiCode = it.emoji_code, emojiName = it.emoji_name) }.orEmpty()

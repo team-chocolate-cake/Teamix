@@ -2,8 +2,7 @@ package com.chocolate.repository.repository
 
 import com.chocolate.entities.exceptions.NullResultException
 import com.chocolate.entities.messages.Message
-import com.chocolate.repository.mappers.messages.toMessage
-import com.chocolate.repository.mappers.messages.toMessages
+import com.chocolate.repository.mappers.messages.toEntity
 import com.chocolate.repository.service.remote.RemoteDataSource
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -86,7 +85,7 @@ class MessagesRepositoryImpl @Inject constructor(
             clientGravatar,
             applyMarkdown
         )
-        return messagesDto.messages.toMessages()
+        return messagesDto.messages.toEntity()
     }
 
     override suspend fun addEmojiReaction(
@@ -154,7 +153,7 @@ class MessagesRepositoryImpl @Inject constructor(
 //    }
 
     override suspend fun fetchSingleMethod(messageId: Int): Message {
-        return messageDataSource.fetchSingleMessage(messageId).message?.toMessage() ?: throw NullResultException("")
+        return messageDataSource.fetchSingleMessage(messageId).message?.toEntity() ?: throw NullResultException("")
     }
 
     override suspend fun checkIfMessagesMatchNarrow(

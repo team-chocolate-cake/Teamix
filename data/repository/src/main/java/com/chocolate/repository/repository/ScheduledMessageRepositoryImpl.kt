@@ -1,7 +1,7 @@
 package com.chocolate.repository.repository
 
 import com.chocolate.entities.scheduled_messages.ScheduledMessage
-import com.chocolate.repository.mappers.scheduled.toScheduledMessages
+import com.chocolate.repository.mappers.scheduled.toEntity
 import com.chocolate.repository.service.remote.RemoteDataSource
 import repositories.ScheduledMessageRepository
 import javax.inject.Inject
@@ -10,7 +10,7 @@ class ScheduledMessageRepositoryImpl @Inject constructor(
     private val scheduledMessageRemoteDataSource: RemoteDataSource
 ) : ScheduledMessageRepository{
     override suspend fun getScheduledMessages(): List<ScheduledMessage> {
-        return scheduledMessageRemoteDataSource.getScheduledMessages().scheduledMessages.toScheduledMessages()
+        return scheduledMessageRemoteDataSource.getScheduledMessages().scheduledMessages.toEntity()
     }
 
     override suspend fun createScheduledMessage(

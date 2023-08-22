@@ -3,7 +3,7 @@ package com.chocolate.repository.mappers.users
 import com.chocolate.entities.user.User
 import com.chocolate.repository.model.dto.users.response.OwnerUserDto
 
-fun OwnerUserDto.toOwnerUser(): User {
+fun OwnerUserDto.toEntity(): User {
     return User(
         imageUrl = this.avatarUrl ?: "",
         email = this.email ?: "",

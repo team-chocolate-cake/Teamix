@@ -3,12 +3,8 @@ package com.chocolate.repository.repository
 import com.chocolate.entities.user.Attachment
 import com.chocolate.entities.user.User
 import com.chocolate.repository.datastore.PreferencesDataSource
-import com.chocolate.repository.mappers.users.toAttachments
-import com.chocolate.repository.mappers.users.toCurrentUser
-import com.chocolate.repository.mappers.users.toCurrentUserLocal
-import com.chocolate.repository.mappers.users.toOwnerUser
-import com.chocolate.repository.mappers.users.toUser
-import com.chocolate.repository.mappers.users.toUsers
+import com.chocolate.repository.mappers.users.toEntity
+import com.chocolate.repository.mappers.users.toLocalDto
 import com.chocolate.repository.service.local.TeamixLocalDataSource
 import com.chocolate.repository.service.remote.RemoteDataSource
 import kotlinx.coroutines.flow.Flow
@@ -25,24 +21,24 @@ class UserRepositoryImp @Inject constructor(
     ): List<User> {
         return userDataSource.getAllUsers(
             clientGravatar, includeCustomProfileFields
-        ).memberDto.toUsers()
+        ).memberDto.toEntity()
     }
 
     override suspend fun getRemoteCurrentUser(): User {
-        return userDataSource.getOwnUser().toOwnerUser()
+        return userDataSource.getOwnUser().toEntity()
     }
 
     override suspend fun getUserById(
         userId: Int, clientGravatar: Boolean, includeCustomProfileFields: Boolean
     ): User {
         return userDataSource.getUserById(userId, clientGravatar, includeCustomProfileFields)
-            .toUser()
+            .toEntity()
     }
 
     override suspend fun getUserByEmail(
         email: String
     ): User {
-        return userDataSource.getUserByEmail(email).toUser()
+        return userDataSource.getUserByEmail(email).toEntity()
     }
 
     override suspend fun updateUserById(
@@ -77,7 +73,7 @@ class UserRepositoryImp @Inject constructor(
     }
 
     override suspend fun getAttachments(): List<Attachment> {
-        return userDataSource.getAttachments().attachmentDto.toAttachments()
+        return userDataSource.getAttachments().attachmentDto.toEntity()
     }
 
     override suspend fun deleteAttachment(attachmentId: Int) {
@@ -193,11 +189,11 @@ class UserRepositoryImp @Inject constructor(
 
     override suspend fun upsertCurrentUser(email: String) {
         val user = getUserByEmail(email)
-        teamixLocalDataSource.upsertUserData(user.toCurrentUserLocal())
+        teamixLocalDataSource.upsertUserData(user.toLocalDto())
     }
 
     override suspend fun getLocalCurrentUser(): User? {
-        return teamixLocalDataSource.getCurrentUserData()?.toCurrentUser()
+        return teamixLocalDataSource.getCurrentUserData()?.toEntity()
     }
 
     override suspend fun getCurrentUser(): User {

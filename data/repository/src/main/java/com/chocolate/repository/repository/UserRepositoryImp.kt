@@ -1,14 +1,12 @@
 package com.chocolate.repository.repository
 
 import com.chocolate.entities.user.Attachment
-import com.chocolate.entities.user.UserInformationSettings
 import com.chocolate.entities.user.User
 import com.chocolate.repository.datastore.PreferencesDataSource
 import com.chocolate.repository.mappers.users.toAttachments
 import com.chocolate.repository.mappers.users.toCurrentUser
 import com.chocolate.repository.mappers.users.toCurrentUserLocal
 import com.chocolate.repository.mappers.users.toOwnerUser
-import com.chocolate.repository.mappers.users.toSettingsDto
 import com.chocolate.repository.mappers.users.toUser
 import com.chocolate.repository.mappers.users.toUsers
 import com.chocolate.repository.service.local.TeamixLocalDataSource
@@ -86,8 +84,8 @@ class UserRepositoryImp @Inject constructor(
         userDataSource.deleteAttachment(attachmentId)
     }
 
-    override suspend fun updateSettings(userInformationSettings: UserInformationSettings) {
-        userDataSource.updateSettings(userInformationSettings.toSettingsDto())
+    override suspend fun updateSettings(user: User) {
+        userDataSource.updateSettings(user)
     }
 
 //    override suspend fun getUserGroups(): UserGroups {

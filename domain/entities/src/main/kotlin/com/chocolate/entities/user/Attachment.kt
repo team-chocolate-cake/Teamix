@@ -4,6 +4,6 @@ data class Attachment(
     val createTime: Long,
     val id: Int,
     val name: String,
-    val pathId: String,
+    val filePath: String,
     val size: Int
 )

@@ -12,7 +12,7 @@ fun UserDto.toUser(): User {
         email = this.userDetailsDto?.email ?: "",
         fullName = this.userDetailsDto?.fullName ?: "",
         role = this.userDetailsDto?.role ?: 0,
-        userId = this.userDetailsDto?.userId ?: 0
+        id = this.userDetailsDto?.userId ?: 0
     )
 }
 
@@ -22,7 +22,7 @@ fun UserLocalDto.toCurrentUser(): User {
         email = this.email,
         fullName = this.username,
         role = this.role,
-        userId = this.userId
+        id = this.userId
     )
 }
 
@@ -32,7 +32,7 @@ fun User.toCurrentUserLocal(): UserLocalDto{
         email = this.email,
         username = this.fullName,
         role = this.role,
-        userId = this.userId
+        userId = this.id
     )
 }
 
@@ -41,7 +41,7 @@ fun MemberDto.toUser(): User = User(
     email = email.orEmpty(),
     fullName = fullName.orEmpty(),
     role = role?:100,
-    userId = userId?:-1,
+    id = userId?:-1,
 )
 
 fun List<MemberDto>?.toUsers(): List<User> = this?.map { it.toUser() }?: emptyList()

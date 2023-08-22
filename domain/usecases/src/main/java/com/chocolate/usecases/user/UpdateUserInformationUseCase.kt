@@ -3,7 +3,6 @@ package com.chocolate.usecases.user
 import com.chocolate.entities.exceptions.EmptyEmailException
 import com.chocolate.entities.exceptions.EmptyFullNameException
 import com.chocolate.entities.exceptions.SameUserDataException
-import com.chocolate.entities.user.UserInformationSettings
 import com.chocolate.entities.user.User
 import repositories.UsersRepository
 import javax.inject.Inject
@@ -12,20 +11,20 @@ class UpdateUserInformationUseCase @Inject constructor(
     private val usersRepository: UsersRepository,
     private val getCurrentUserDataUseCase: GetCurrentUserDataUseCase
 ) {
-    suspend operator fun invoke(userInformationSettings: UserInformationSettings) {
+    suspend operator fun invoke(user: User) {
         val oldUserInformation = getCurrentUserDataUseCase()
-        userInformationSettings.takeIf { newUserInformation ->
+        user.takeIf { newUserInformation ->
             validNewUserInformation(oldUserInformation, newUserInformation)
         }?.run {
-            usersRepository.updateSettings(userInformationSettings).also {
-                usersRepository.upsertCurrentUser(userInformationSettings.email)
+            usersRepository.updateSettings(user).also {
+                usersRepository.upsertCurrentUser(user.email)
             }
         }
     }
 
     private fun validNewUserInformation(
         oldUserInformation: User,
-        newUserInformationSettings: UserInformationSettings
+        newUserInformationSettings: User
     ): Boolean {
         if ((oldUserInformation.email == newUserInformationSettings.email) &&
             (oldUserInformation.fullName == newUserInformationSettings.fullName)) {

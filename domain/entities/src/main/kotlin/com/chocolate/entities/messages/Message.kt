@@ -8,7 +8,6 @@ data class Message(
     val senderFullName: String,
     val reactions: List<Reaction>,
     val messageContent: String,
-    val messageContentType: String,
     val streamId: Int,
     val topic: String,
     val timestamp: Long,

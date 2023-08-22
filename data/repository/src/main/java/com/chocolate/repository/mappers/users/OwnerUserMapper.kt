@@ -9,6 +9,6 @@ fun OwnerUserDto.toOwnerUser(): User {
         email = this.email ?: "",
         fullName = this.fullName ?: "",
         role = this.role ?: 0,
-        userId = this.userId ?: 0
+        id = this.userId ?: 0
     )
 }

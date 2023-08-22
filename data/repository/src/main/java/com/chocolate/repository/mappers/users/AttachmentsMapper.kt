@@ -8,7 +8,7 @@ fun AttachmentDto.toAttachment(): Attachment {
             createTime=createTime ?: 0,
             id=id ?: 0,
             name = name ?: "",
-            pathId = pathId ?: "",
+            filePath = pathId ?: "",
             size=size ?: 0
         )
 }

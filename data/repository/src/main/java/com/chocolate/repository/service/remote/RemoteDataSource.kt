@@ -1,5 +1,6 @@
 package com.chocolate.repository.service.remote
 
+import com.chocolate.entities.user.User
 import com.chocolate.repository.model.dto.channels.response.AllStreamsDto
 import com.chocolate.repository.model.dto.channels.response.AllSubscribersDto
 import com.chocolate.repository.model.dto.channels.response.DefaultStreamDto
@@ -30,7 +31,6 @@ import com.chocolate.repository.model.dto.server_and_organizations.response.Cust
 import com.chocolate.repository.model.dto.server_and_organizations.response.DefaultOrganizationDto
 import com.chocolate.repository.model.dto.server_and_organizations.response.LinkifiersDto
 import com.chocolate.repository.model.dto.server_and_organizations.response.ServerSettingsDto
-import com.chocolate.repository.model.dto.users.request.SettingsDto
 import com.chocolate.repository.model.dto.users.response.FetchApiKeyDto
 import com.chocolate.repository.model.dto.users.response.MuteUserResponseDto
 import com.chocolate.repository.model.dto.users.response.OwnerUserDto
@@ -341,7 +341,7 @@ interface RemoteDataSource{
 
     suspend fun deleteAttachment(attachmentId: Int): ResponseStateDto
 
-    suspend fun updateSettings(settings: SettingsDto): UserSettingsDto
+    suspend fun updateSettings(user: User): UserSettingsDto
 
     suspend fun getUserGroups(): UserGroupsDto
 

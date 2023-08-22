@@ -1,7 +1,6 @@
 package repositories
 
 import com.chocolate.entities.user.Attachment
-import com.chocolate.entities.user.UserInformationSettings
 import com.chocolate.entities.user.User
 import kotlinx.coroutines.flow.Flow
 
@@ -46,7 +45,7 @@ interface UsersRepository {
     suspend fun deleteAttachment(attachmentId: Int)
 
     //need to review
-    suspend fun updateSettings(userInformationSettings: UserInformationSettings)
+    suspend fun updateSettings(user: User)
 
     //suspend fun getUserGroups(): UserGroups
 

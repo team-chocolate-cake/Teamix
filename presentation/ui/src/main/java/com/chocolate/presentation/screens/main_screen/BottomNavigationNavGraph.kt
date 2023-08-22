@@ -14,6 +14,7 @@ import com.chocolate.presentation.screens.organiztion.organizationNameRoute
 import com.chocolate.presentation.screens.profile.profileRoute
 import com.chocolate.presentation.screens.search.searchRoute
 import com.chocolate.presentation.screens.task.taskRoute
+import com.chocolate.presentation.screens.topic_details.topicRoute
 import com.chocolate.presentation.screens.welcome.welcomeRoute
 import com.chocolate.viewmodel.main.MainViewModel
 
@@ -21,16 +22,17 @@ import com.chocolate.viewmodel.main.MainViewModel
 fun BottomNavigationNavGraph(navController: NavHostController,mainViewModel: MainViewModel) {
 
     NavHost(navController = navController, startDestination = Screen.Home.route) {
-        welcomeRoute(navController)
-        onboardingRoute(navController)
-        homeRoute(navController, mainViewModel)
-        organizationNameRoute(navController)
-        createOrganizationWebViewRoute(navController)
-        loginRoute(navController)
-        forgetPasswordWebViewRoute(navController)
-        profileRoute(navController, mainViewModel)
-        searchRoute(navController)
-        directMessageRoute(navController)
-        taskRoute(navController)
+        welcomeRoute()
+        onboardingRoute()
+        homeRoute(mainViewModel)
+        organizationNameRoute()
+        createOrganizationWebViewRoute()
+        loginRoute()
+        forgetPasswordWebViewRoute()
+        profileRoute(mainViewModel)
+        searchRoute()
+        directMessageRoute()
+        taskRoute()
+        topicRoute()
     }
 }

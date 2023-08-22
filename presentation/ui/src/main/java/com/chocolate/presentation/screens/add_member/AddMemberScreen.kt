@@ -1,5 +1,6 @@
 package com.chocolate.presentation.screens.add_member
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,7 @@ fun AddMemberScreen(
     )
 }
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun AddMemberContent(
     state: AddMemberUiState

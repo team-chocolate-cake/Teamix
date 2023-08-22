@@ -6,9 +6,9 @@ import androidx.navigation.compose.composable
 import com.chocolate.presentation.screens.main_screen.BottomNavigationItem
 import com.chocolate.presentation.screens.search.SearchScreen
 
-fun NavGraphBuilder.taskRoute(navController: NavController){
+fun NavGraphBuilder.taskRoute(){
     composable(BottomNavigationItem.Tasks.screen_route){
-        TaskScreen(navController = navController)
+        TaskScreen()
     }
 }
 fun NavController.navigateToTask(){

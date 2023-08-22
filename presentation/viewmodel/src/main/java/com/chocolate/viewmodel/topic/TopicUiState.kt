@@ -1,6 +1,6 @@
-package com.chocolate.presentation.screens.topic_details
+package com.chocolate.viewmodel.topic
 
-data class TopicScreenUiState(
+data class TopicUiState(
     val photoAndVideo: List<PhotoOrVideoUiState> = emptyList(),
     val messages: List<MessageUiState> = emptyList(),
     val topicName: String = "TopicName",
@@ -8,7 +8,7 @@ data class TopicScreenUiState(
 )
 
 data class PhotoOrVideoUiState(
-    var isSelected: Boolean = false,
+    val isSelected: Boolean = false,
     val file: String = "",
     val isLoading:Boolean = false,
     val error : String? = null

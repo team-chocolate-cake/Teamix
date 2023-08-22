@@ -24,7 +24,7 @@ class HomeViewModel @Inject constructor(
     private val getImageOrganizationUseCase: GetImageOrganizationUseCase,
     private val getChannelsUseCase: GetChannelsUseCase,
     private val getNameOrganizationsUseCase: GetNameOrganizationsUseCase
-) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()) {
+) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()),HomeInteraction {
 
     init {
         getData()
@@ -104,5 +104,25 @@ class HomeViewModel @Inject constructor(
             }
         }
         _state.update { it.copy(isLoading = false, error = throwable.message) }
+    }
+
+    override fun onClickDrafts() {
+        sendUiEffect(HomeUiEffect.NavigationToDrafts)
+    }
+
+    override fun onClickStarred() {
+        sendUiEffect(HomeUiEffect.NavigationToStarred)
+    }
+
+    override fun onClickSavedLater() {
+        sendUiEffect(HomeUiEffect.NavigationToSavedLater)
+    }
+
+    override fun onClickChannel(id: Int) {
+        sendUiEffect(HomeUiEffect.NavigateToChannel)
+    }
+
+    override fun onClickTopic(name: String) {
+        sendUiEffect(HomeUiEffect.NavigateToTopic)
     }
 }

@@ -57,8 +57,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.ImageLoader
 import coil.compose.rememberAsyncImagePainter
 import coil.request.CachePolicy
@@ -87,6 +85,7 @@ import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.Thickness2
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.presentation.util.updateResources
 import com.chocolate.viewmodel.main.MainViewModel
 import com.chocolate.viewmodel.profile.LocalLanguage
@@ -100,11 +99,10 @@ import kotlinx.coroutines.launch
 import java.util.Locale
 
 @Composable
-fun ProfileScreen(
-    navController: NavController,
-    mainViewModel: MainViewModel,
+fun ProfileScreen(mainViewModel: MainViewModel,
     viewModel: ProfileViewModel = hiltViewModel(),
 ) {
+    val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
     val darkThemeState by mainViewModel.state.collectAsState()
     val colors = MaterialTheme.customColors()
@@ -469,5 +467,5 @@ fun ProfileContent(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ProfileScreenPreview() {
-    ProfileScreen(rememberNavController(), hiltViewModel())
+    ProfileScreen(hiltViewModel())
 }

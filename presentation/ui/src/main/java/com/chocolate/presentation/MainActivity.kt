@@ -8,8 +8,8 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -18,11 +18,13 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.main_screen.BottomNavigationItem
 import com.chocolate.presentation.screens.main_screen.BottomNavigationNavGraph
 import com.chocolate.presentation.screens.main_screen.composables.MainScreenBottomNavigation
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.presentation.util.installSavedAppLanguage
 import com.chocolate.viewmodel.main.MainViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -49,18 +51,23 @@ class MainActivity : ComponentActivity() {
                     BottomNavigationItem.Search.screen_route -> true
                     else -> false
                 }
-                Scaffold (  bottomBar = {
+                TeamixScaffold(bottomBar = {
                     if (shouldShowBottomNavigation)
                         MainScreenBottomNavigation(navController = navController)
-                }){innerPadding ->
+                }) { innerPadding ->
                     val isSystemInDarkMode = isSystemInDarkTheme()
                     val systemUiController = rememberSystemUiController()
                     systemUiController.setStatusBarColor(
                         MaterialTheme.customColors().background, darkIcons = !isSystemInDarkMode
                     )
                     ApplySystemUi(isDarkTheme)
-                    Box(modifier = Modifier.padding(innerPadding)){
-                        BottomNavigationNavGraph(navController = navController,userSettingsViewModel)
+                    Box(modifier = Modifier.padding(innerPadding)) {
+                        CompositionLocalProvider(LocalNavController provides navController) {
+                            BottomNavigationNavGraph(
+                                navController = navController,
+                                userSettingsViewModel
+                            )
+                        }
                     }
                     }
                 }
@@ -72,7 +79,7 @@ class MainActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ApplySystemUi(isDark: Boolean) {
-    Scaffold {
+    TeamixScaffold {
         val systemUiController = rememberSystemUiController()
         systemUiController.setStatusBarColor(
             MaterialTheme.customColors().background, darkIcons = !isDark

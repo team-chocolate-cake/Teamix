@@ -19,21 +19,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.chocolate.presentation.composable.Button
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.onboarding.OnboardingEffect
 import com.chocolate.viewmodel.onboarding.OnboardingViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun OnboardingScreen(
-    navController: NavController,
     onboardingViewModel: OnboardingViewModel = hiltViewModel()
 ) {
+    val navController = LocalNavController.current
+
     OnboardingContent(
         navigateToOrganization = { navController.navigateToOrganizationName() },
         onboardingViewModel
@@ -101,12 +101,11 @@ fun OnboardingContent(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
 fun OnboardingScreenPreview() {
     TeamixTheme {
-        OnboardingScreen(navController = rememberNavController())
+        OnboardingScreen()
     }
 }
 

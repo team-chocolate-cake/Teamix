@@ -8,6 +8,6 @@ sealed class Screen(val route: String) {
     object Login: Screen("login_screen")
     object ForgetPasswordWebView: Screen("forget_password_screen")
     object Profile: Screen("profile_screen")
-    object OwnerPower: Screen("owner_power_screen")
     object Home: Screen("Home")
+    object Topic: Screen("Topic")
 }

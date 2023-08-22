@@ -9,5 +9,6 @@ fun DraftDto.toEntity(): Draft = Draft(
     id = id,
     timestamp = timestamp,
     topic = topic,
+    targetAudienceIDs = to,
 )
 fun List<DraftDto>?.toEntity():List<Draft> = this?.map { it.toEntity() } ?: emptyList()

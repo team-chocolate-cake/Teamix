@@ -6,6 +6,4 @@ data class User (
     val fullName: String,
     val role: Int,
     val userId: Int,
-    val status: String,
-    val away: Boolean
 )

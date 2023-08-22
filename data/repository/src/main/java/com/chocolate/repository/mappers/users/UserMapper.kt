@@ -42,8 +42,6 @@ fun MemberDto.toUser(): User = User(
     fullName = fullName.orEmpty(),
     role = role?:100,
     userId = userId?:-1,
-    status = "",
-    away = false
 )
 
 fun List<MemberDto>?.toUsers(): List<User> = this?.map { it.toUser() }?: emptyList()

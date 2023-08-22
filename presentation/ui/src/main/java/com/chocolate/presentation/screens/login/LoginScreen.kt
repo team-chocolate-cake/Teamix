@@ -2,6 +2,8 @@ package com.chocolate.presentation.screens.login
 
 import android.annotation.SuppressLint
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,9 +26,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -35,11 +34,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixTextField
@@ -48,10 +44,12 @@ import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space24
 import com.chocolate.presentation.theme.Space4
+import com.chocolate.presentation.theme.Space42
 import com.chocolate.presentation.theme.Space48
 import com.chocolate.presentation.theme.Space56
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.login.LoginInteraction
 import com.chocolate.viewmodel.login.LoginUiEffect
 import com.chocolate.viewmodel.login.LoginUiState
@@ -60,13 +58,14 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun LoginScreen(
-    navController: NavController,
     loginViewModel: LoginViewModel = hiltViewModel()
 ) {
     val state by loginViewModel.state.collectAsState()
-    LaunchedEffect(key1 = Unit ){
+    val navController = LocalNavController.current
+    val scrollState = rememberScrollState()
+    LaunchedEffect(key1 = Unit) {
         loginViewModel.effect.collectLatest { effect ->
-            when(effect){
+            when (effect) {
                 LoginUiEffect.NavigateToForgetPassword -> navController.navigateToForgetPassword()
                 LoginUiEffect.NavigationToHome -> navController.navigateToHome()
             }
@@ -75,7 +74,8 @@ fun LoginScreen(
     LoginContent(
         loginInteraction = loginViewModel,
         navigateToForgetPassword = loginViewModel::onClickForgetPassword,
-        state = state
+        state = state,
+        scrollState
     )
 }
 
@@ -84,13 +84,15 @@ fun LoginScreen(
 fun LoginContent(
     loginInteraction: LoginInteraction,
     navigateToForgetPassword: () -> Unit,
-    state: LoginUiState
+    state: LoginUiState,
+    scrollState: ScrollState
 ) {
     val colors = MaterialTheme.customColors()
-    val scrollState = rememberScrollState()
     val context = LocalContext.current
+    val errorMessage = stringResource(R.string.email_and_password_cannot_be_empty)
 
     Column(
+
         modifier = Modifier
             .fillMaxSize()
             .background(color = colors.background)
@@ -98,7 +100,7 @@ fun LoginContent(
             .verticalScroll(scrollState),
     ) {
         Text(
-            modifier = Modifier.padding(top = 42.dp),
+            modifier = Modifier.padding(top = Space42),
             text = stringResource(R.string.welcome_to),
             style = MaterialTheme.typography.titleLarge,
             color = colors.onBackground87
@@ -116,7 +118,6 @@ fun LoginContent(
             style = MaterialTheme.typography.labelMedium,
             color = colors.onBackground87
         )
-
         TeamixTextField(
             modifier = Modifier
                 .fillMaxWidth()
@@ -134,8 +135,8 @@ fun LoginContent(
             style = MaterialTheme.typography.labelMedium,
             color = colors.onBackground87
         )
-        var passwordVisibility: Boolean by remember { mutableStateOf(false) }
-        val passwordIcon = if (passwordVisibility) R.drawable.ic_eye else R.drawable.ic_eye_closed
+        val passwordIcon =
+            if (state.passwordVisibility) R.drawable.ic_eye else R.drawable.ic_eye_closed
         TeamixTextField(
             modifier = Modifier
                 .fillMaxWidth()
@@ -144,12 +145,12 @@ fun LoginContent(
             onValueChange = { password -> loginInteraction.updatePasswordState(password) },
             placeholder = {},
             trailingIcon = {
-                IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
+                IconButton(onClick = { loginInteraction.onClickpasswordVisibility(!state.passwordVisibility) }) {
                     Icon(painter = painterResource(id = passwordIcon), contentDescription = null)
                 }
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+            visualTransformation = if (state.passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
         )
 
         Row(
@@ -171,7 +172,7 @@ fun LoginContent(
                 if (state.email.isBlank() || state.password.isBlank()) {
                     Toast.makeText(
                         context,
-                        "Email and Password cannot be empty",
+                        errorMessage,
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -185,14 +186,15 @@ fun LoginContent(
                 .height(Space56),
             colors = colors,
         ) {
-            if (state.isLoading) {
+            AnimatedVisibility(visible = state.isLoading) {
                 CircularProgressIndicator(
                     color = colors.card,
                     modifier = Modifier
-                        .size(24.dp)
+                        .size(Space24)
                         .align(Alignment.CenterVertically)
                 )
-            } else {
+            }
+            AnimatedVisibility(visible = !state.isLoading) {
                 Text(
                     text = stringResource(R.string.sign_in),
                     style = MaterialTheme.typography.bodyLarge,
@@ -201,11 +203,4 @@ fun LoginContent(
             }
         }
     }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun LogInPreview() {
-    val viewModel: LoginViewModel = hiltViewModel()
-    LoginContent(viewModel, {}, LoginUiState())
 }

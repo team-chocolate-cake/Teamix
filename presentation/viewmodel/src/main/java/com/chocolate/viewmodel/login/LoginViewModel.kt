@@ -56,6 +56,11 @@ class LoginViewModel @Inject constructor(
         login(_state.value.email, _state.value.password)
     }
 
+    override fun onClickpasswordVisibility(passwordVisibility: Boolean) {
+        _state.update { it.copy(passwordVisibility = passwordVisibility) }
+     }
+
+
     private fun onSuccess(isUserLogin: Boolean) {
         _state.update { it.copy(isLoading = false) }
         viewModelScope.launch {

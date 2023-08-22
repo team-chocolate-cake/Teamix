@@ -16,6 +16,7 @@ val Space24 = 24.dp
 val Space26 = 26.dp
 val Space32 = 32.dp
 val Space40 = 40.dp
+val Space42 = 42.dp
 val Space48 = 48.dp
 val Space56 = 56.dp
 val Space64 = 64.dp

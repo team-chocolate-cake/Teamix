@@ -10,7 +10,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,11 +17,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixAppBar
+import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.channel.composables.Topic
-import com.chocolate.presentation.screens.topic_details.ReactionUiState
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.viewmodel.topic.ReactionUiState
 
 @Composable
 fun ChannelScreen() {
@@ -48,11 +48,8 @@ fun ChannelContent(
     onSeeAll: () -> Unit,
     onClickReact: (Boolean, ReactionUiState) -> Unit,
 ) {
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        containerColor = MaterialTheme.customColors().background,
+    TeamixScaffold(
         topBar = {
-            //todo this app bar must be changed to be one composable for all screens
             TeamixAppBar(
                 title = channelScreenUiState.channelName,
                 navigationBack = navigationBack,

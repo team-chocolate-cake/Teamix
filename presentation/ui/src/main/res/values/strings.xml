@@ -105,4 +105,5 @@
     <string name="welcome_content">but build for \nboost Productivity</string>
     <string name="next">Next</string>
     <string name="lets_start">Lets start</string>
+    <string name="email_and_password_cannot_be_empty">Email and Password cannot be empty</string>
 </resources>

@@ -3,20 +3,21 @@ package com.chocolate.presentation.screens.create_organization
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import com.chocolate.presentation.composable.TeamixAppBar
+import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.LocalNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.accompanist.web.WebView
 import com.google.accompanist.web.rememberWebViewState
 
 @Composable
-fun CreateOrganizationWebViewScreen(navController: NavController) {
+fun CreateOrganizationWebViewScreen() {
+    val navController = LocalNavController.current
     OrganizationWebViewContent(navigateToOrganizationName = { navController.navigateToOrganizationName() })
 }
 
@@ -35,7 +36,7 @@ fun OrganizationWebViewContent(navigateToOrganizationName: () -> Unit) {
             darkIcons = true
         )
     }
-    Scaffold(
+    TeamixScaffold(
         topBar = {
             TeamixAppBar(
                 title = "Teamix",

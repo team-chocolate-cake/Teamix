@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.BottomSheetItem
-import com.chocolate.presentation.screens.topic_details.PhotoOrVideoUiState
+import com.chocolate.viewmodel.topic.PhotoOrVideoUiState
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.customColors
 

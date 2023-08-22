@@ -7,9 +7,9 @@ import com.chocolate.presentation.Screen
 import com.chocolate.presentation.screens.bottomNavigation.BottomNavigationItem
 import com.chocolate.viewmodel.main.MainViewModel
 
-fun NavGraphBuilder.homeRoute(navController: NavController,mainViewModel: MainViewModel) {
+fun NavGraphBuilder.homeRoute(mainViewModel: MainViewModel) {
     composable(BottomNavigationItem.Home.screen_route) {
-        HomeScreen(navController,mainViewModel)
+        HomeScreen(mainViewModel)
     }
 }
 

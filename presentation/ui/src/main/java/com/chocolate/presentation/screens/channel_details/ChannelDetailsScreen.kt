@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -24,7 +23,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -44,6 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixAppBar
+import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.channel_details.compasbles.ChannelAction
 import com.chocolate.presentation.screens.channel_details.compasbles.Member
 import com.chocolate.presentation.theme.Space16
@@ -121,11 +120,8 @@ fun ChannelDetailsContent(
         )
     }
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        containerColor = MaterialTheme.customColors().background,
+    TeamixScaffold(
         topBar = {
-            //todo this app bar must be changed to be one composable for all screens
             TeamixAppBar(
                 title = channelDetailsUiState.channelName,
                 navigationBack = navigationBack,

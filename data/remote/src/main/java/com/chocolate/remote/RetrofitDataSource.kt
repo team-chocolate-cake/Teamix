@@ -1,13 +1,10 @@
 package com.chocolate.remote
 
-import com.chocolate.entities.exceptions.CertificateException
-import com.chocolate.entities.exceptions.InvalidURlHostException
 import com.chocolate.entities.exceptions.NetworkException
 import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.entities.exceptions.NotFoundException
-import com.chocolate.entities.exceptions.NullResultException
-import com.chocolate.entities.exceptions.TimeoutException
-import com.chocolate.entities.exceptions.TooManyRequestsException
+import com.chocolate.entities.exceptions.NullDataException
+import com.chocolate.entities.exceptions.TimeOutException
+import com.chocolate.entities.exceptions.UnknownException
 import com.chocolate.entities.exceptions.UserDeactivatedException
 import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.remote.channels.service.ChannelsService
@@ -681,24 +678,23 @@ class RetrofitDataSource @Inject constructor(
     private suspend fun <T> wrapApiCall(call: suspend () -> Response<T>): T {
         return try {
             val result = call()
-
             when (result.code()) {
                 HttpStatusCodes.BAD_REQUEST.code -> throw NetworkException(result.message())
                 HttpStatusCodes.UNAUTHORIZED.code -> throw ValidationException(result.message())
                 HttpStatusCodes.USER_DEACTIVATED.code -> throw UserDeactivatedException(result.message())
-                HttpStatusCodes.TOO_MANY_REQUESTS.code -> throw TooManyRequestsException(result.message())
-                HttpStatusCodes.NO_CONNECTION.code -> throw NotFoundException(result.message())
-                else -> result.body() ?: throw NullResultException(result.message())
+                HttpStatusCodes.TOO_MANY_REQUESTS.code -> throw UnknownException(result.message())
+                HttpStatusCodes.NO_CONNECTION.code -> throw NullDataException(result.message())
+                else -> result.body() ?: throw NullDataException(result.message())
             }
 
         } catch (exception: SSLException) {
-            throw CertificateException(exception.message)
+            throw UnknownException(exception.message)
         } catch (exception: UnknownHostException) {
             throw NoConnectionException(exception.message)
         } catch (exception: SocketTimeoutException) {
-            throw TimeoutException(exception.message.toString())
+            throw TimeOutException(exception.message.toString())
         } catch (exception: IOException) {
-            throw InvalidURlHostException(exception.message)
+            throw UnknownException(exception.message)
         }
     }
 }

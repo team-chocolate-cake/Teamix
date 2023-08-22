@@ -164,9 +164,9 @@ class ProfileViewModel @Inject constructor(
 
     private fun onError(throwable: Throwable) {
         val error = when (throwable) {
-            EmptyEmailException -> stringsRes.emptyEmailMessage
-            EmptyFullNameException -> stringsRes.emptyFullNameMessage
-            SameUserDataException -> stringsRes.sameUserDataMessage
+            is EmptyEmailException -> stringsRes.emptyEmailMessage
+            is EmptyFullNameException -> stringsRes.emptyFullNameMessage
+            is SameUserDataException -> stringsRes.sameUserDataMessage
             is NoConnectionException -> stringsRes.noConnectionMessage
             else -> stringsRes.globalMessageError
         }

@@ -16,5 +16,4 @@ class OnboardingRepositoryImpl @Inject constructor(
     override suspend fun setOnboardingState(isComplete: Boolean) {
         preferencesDataSource.setOnboardingState(isComplete)
     }
-
 }

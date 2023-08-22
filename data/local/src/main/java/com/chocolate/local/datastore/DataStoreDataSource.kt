@@ -31,7 +31,6 @@ class DataStoreDataSource @Inject constructor(
         }
     }
 
-
     override val currentOrganization: String?
         get() = runBlocking { dataStore.data.map { it[NAME_ORGANIZATION] }.first() }
 

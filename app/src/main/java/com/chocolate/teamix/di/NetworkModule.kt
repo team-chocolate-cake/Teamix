@@ -56,7 +56,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideParser(): GsonConverterFactory = GsonConverterFactory.create()
+    fun provideGsonConverterFactory(): GsonConverterFactory = GsonConverterFactory.create()
 
     @Singleton
     @Provides

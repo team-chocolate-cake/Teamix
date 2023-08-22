@@ -18,7 +18,7 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideTeamixDatabaseInstance(
+    fun provideDatabase(
         @ApplicationContext context: Context,
         @Named("databaseName") databaseName: String
     ): TeamixDatabase {
@@ -32,5 +32,5 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideTeamixDao(teamixDatabase: TeamixDatabase): TeamixDao = teamixDatabase.teamixDao
+    fun provideDao(teamixDatabase: TeamixDatabase): TeamixDao = teamixDatabase.teamixDao
 }

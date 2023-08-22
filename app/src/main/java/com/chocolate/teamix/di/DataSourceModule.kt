@@ -18,7 +18,7 @@ abstract class DataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun bindTeamixLocalDataSource(
+    abstract fun bindLocalDataSource(
         roomDataSource: RoomDataSource
     ): LocalDataSource
 

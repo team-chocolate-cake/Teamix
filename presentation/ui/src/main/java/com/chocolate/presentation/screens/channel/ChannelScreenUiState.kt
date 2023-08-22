@@ -1,6 +1,6 @@
 package com.chocolate.presentation.screens.channel
 
-import com.chocolate.presentation.screens.topic_details.ReactionUiState
+import com.chocolate.viewmodel.topic.ReactionUiState
 
 data class ChannelScreenUiState(
     val channelName: String = "",

@@ -4,6 +4,7 @@ sealed interface HomeUiEffect{
     object NavigationToDrafts: HomeUiEffect
     object NavigationToStarred: HomeUiEffect
     object NavigationToSavedLater: HomeUiEffect
-    object NavigateToChaNNel: HomeUiEffect
+    object NavigateToChannel: HomeUiEffect
     object NavigateToOrganizationName: HomeUiEffect
+    object NavigateToTopic: HomeUiEffect
 }

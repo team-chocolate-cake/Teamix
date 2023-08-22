@@ -17,7 +17,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -35,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.Button
+import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.create_organization.navigateToCreateOrganization
 import com.chocolate.presentation.screens.login.navigateToLogin
 import com.chocolate.presentation.screens.organiztion.compose.SeparatorWithText
@@ -89,10 +89,8 @@ fun OrganizationContent(
     val colors = MaterialTheme.customColors()
     val context = LocalContext.current
     val scrollState = rememberScrollState()
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
-        containerColor = colors.background
+    TeamixScaffold(
+        modifier = Modifier.fillMaxSize()
     ) {
         Column(
             modifier = Modifier

@@ -37,8 +37,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.chocolate.presentation.R
-import com.chocolate.presentation.screens.topic_details.MessageUiState
-import com.chocolate.presentation.screens.topic_details.ReactionUiState
 import com.chocolate.presentation.theme.Space0
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space24
@@ -46,6 +44,8 @@ import com.chocolate.presentation.theme.Space4
 import com.chocolate.presentation.theme.Space40
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.viewmodel.topic.MessageUiState
+import com.chocolate.viewmodel.topic.ReactionUiState
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -56,7 +56,7 @@ fun ReplyMessage(
     onGetNotification: () -> Unit,
     onPinMessage: () -> Unit,
     onOpenReactTile: () -> Unit,
-    onClickReact: (Boolean,ReactionUiState) -> Unit,
+    onClickReact: (Boolean, ReactionUiState) -> Unit,
 ) {
     var showSheet by remember { mutableStateOf(false) }
 

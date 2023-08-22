@@ -14,6 +14,7 @@ import com.chocolate.presentation.screens.organiztion.organizationNameRoute
 import com.chocolate.presentation.screens.profile.profileRoute
 import com.chocolate.presentation.screens.search.searchRoute
 import com.chocolate.presentation.screens.task.taskRoute
+import com.chocolate.presentation.screens.topic_details.topicRoute
 import com.chocolate.presentation.screens.welcome.welcomeRoute
 import com.chocolate.viewmodel.main.MainViewModel
 
@@ -32,5 +33,6 @@ fun BottomNavigationNavGraph(navController: NavHostController,mainViewModel: Mai
         searchRoute()
         directMessageRoute()
         taskRoute()
+        topicRoute()
     }
 }

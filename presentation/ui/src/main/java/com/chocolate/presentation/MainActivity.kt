@@ -8,7 +8,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
@@ -19,6 +18,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.main_screen.BottomNavigationItem
 import com.chocolate.presentation.screens.main_screen.BottomNavigationNavGraph
 import com.chocolate.presentation.screens.main_screen.composables.MainScreenBottomNavigation
@@ -51,10 +51,10 @@ class MainActivity : ComponentActivity() {
                     BottomNavigationItem.Search.screen_route -> true
                     else -> false
                 }
-                Scaffold (  bottomBar = {
+                TeamixScaffold(bottomBar = {
                     if (shouldShowBottomNavigation)
                         MainScreenBottomNavigation(navController = navController)
-                }){innerPadding ->
+                }) { innerPadding ->
                     val isSystemInDarkMode = isSystemInDarkTheme()
                     val systemUiController = rememberSystemUiController()
                     systemUiController.setStatusBarColor(
@@ -79,7 +79,7 @@ class MainActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ApplySystemUi(isDark: Boolean) {
-    Scaffold {
+    TeamixScaffold {
         val systemUiController = rememberSystemUiController()
         systemUiController.setStatusBarColor(
             MaterialTheme.customColors().background, darkIcons = !isDark

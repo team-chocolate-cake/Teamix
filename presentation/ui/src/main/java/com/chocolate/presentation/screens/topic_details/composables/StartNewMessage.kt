@@ -26,7 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.R
-import com.chocolate.presentation.screens.topic_details.PhotoOrVideoUiState
+import com.chocolate.viewmodel.topic.PhotoOrVideoUiState
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space24
 import com.chocolate.presentation.theme.Space32
@@ -37,10 +37,10 @@ import com.chocolate.presentation.theme.customColors
 
 @Composable
 fun StartNewMessage(
-    openEmojisTile: () -> Unit  ,
-    onMessageInputChanged: (String) -> Unit ,
-    onSendMessage: () -> Unit ,
-    onStartVoiceRecording: () -> Unit ,
+    openEmojisTile: () -> Unit,
+    onMessageInputChanged: (String) -> Unit,
+    onSendMessage: () -> Unit,
+    onStartVoiceRecording: () -> Unit,
     onClickCamera:()->Unit,
     onClickPhotoOrVideo:(Int)->Unit,
     photoOrVideoList: List<PhotoOrVideoUiState> = emptyList(),

@@ -1,29 +1,25 @@
 package repositories
 
-import com.chocolate.entities.server_and_organizations.CustomEmoji
-import com.chocolate.entities.server_and_organizations.CustomProfileFields
-import com.chocolate.entities.server_and_organizations.DefaultOrganization
-import com.chocolate.entities.server_and_organizations.Linkifiers
-import com.chocolate.entities.server_and_organizations.ServerSettings
+import com.chocolate.entities.server_and_organizations.Linkifier
 
 interface ServerAndOrganizationsRepository {
-    suspend fun getServiceSettings(): ServerSettings
-    suspend fun getLinkifiers(): Linkifiers
-    suspend fun addLinkifiers(pattern: String, url: String): DefaultOrganization
-    suspend fun updateLinkifiers(filterId: Int, pattern: String, url: String): DefaultOrganization
-    suspend fun deleteLinkifier(filterId: Int): DefaultOrganization
-    suspend fun addCodePlayGround(name: String, language: String, url: String): DefaultOrganization
-    suspend fun deleteCodePlayGround(playGRound: Int): DefaultOrganization
-    suspend fun getAllCustomEmojis():CustomEmoji
-    suspend fun addCustomEmoji(emojiName: String): DefaultOrganization
-    suspend fun deActivateCustomEmoji(emojiName: String): DefaultOrganization
-    suspend fun getAllCustomProfileFields(): CustomProfileFields
-    suspend fun reorderCustomProfileFields(order: String): DefaultOrganization
+    suspend fun getOrganizationImage(): String
+    suspend fun getLinkifiers(): List<Linkifier>
+    suspend fun addLinkifiers(pattern: String, url: String): Int
+    suspend fun updateLinkifiers(filterId: Int, pattern: String, url: String): Int
+    suspend fun deleteLinkifier(filterId: Int): Int
+    suspend fun addCodePlayGround(name: String, language: String, url: String): Int
+    suspend fun deleteCodePlayGround(playGRound: Int): Int
+    //suspend fun getAllCustomEmojis():CustomEmoji
+//    suspend fun addCustomEmoji(emojiName: String): DefaultOrganization
+//    suspend fun deActivateCustomEmoji(emojiName: String): DefaultOrganization
+    //suspend fun getAllCustomProfileFields(): List<CustomFieldEntity>
+    suspend fun reorderCustomProfileFields(order: String): Int
     suspend fun createCustomProfileField(
         name: String,
         hint: String,
         fieldType: Int
-    ): DefaultOrganization
+    ): Int
     suspend fun saveNameOrganizations(nameOrganizations: String)
     suspend fun getNameOrganizations(): String
 }

@@ -1,6 +1,6 @@
 package com.chocolate.entities.user
 
-data class Settings (
+data class UserInformationSettings (
     val fullName: String = "",
     val email: String  = ""
 )

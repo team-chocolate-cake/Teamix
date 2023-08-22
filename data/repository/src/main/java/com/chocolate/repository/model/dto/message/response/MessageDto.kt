@@ -20,7 +20,7 @@ data class MessageDto(
     @SerializedName("is_me_message")
     val isMeMessage: Boolean?,
     @SerializedName("reactions")
-    val reactions: List<Any>?,
+    val reactions: List<ReactionDto>?,
     @SerializedName("recipient_id")
     val recipientId: Int?,
     @SerializedName("sender_email")
@@ -43,4 +43,14 @@ data class MessageDto(
     val topicLinks: List<Any>?,
     @SerializedName("type")
     val type: String?
+)
+data class ReactionDto(
+    @SerializedName("emoji_code")
+    val emoji_code: String,
+    @SerializedName("emoji_name")
+    val emoji_name: String,
+    @SerializedName("reaction_type")
+    val reaction_type: String,
+    @SerializedName("user_id")
+    val user_id: Int,
 )

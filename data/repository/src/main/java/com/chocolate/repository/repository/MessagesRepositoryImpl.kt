@@ -1,6 +1,6 @@
 package com.chocolate.repository.repository
 
-import com.chocolate.entities.exceptions.NullResultException
+import com.chocolate.entities.exceptions.NullDataException
 import com.chocolate.entities.messages.Message
 import com.chocolate.repository.mappers.messages.toEntity
 import com.chocolate.repository.service.remote.RemoteDataSource
@@ -153,7 +153,7 @@ class MessagesRepositoryImpl @Inject constructor(
 //    }
 
     override suspend fun fetchSingleMethod(messageId: Int): Message {
-        return messageDataSource.fetchSingleMessage(messageId).message?.toEntity() ?: throw NullResultException("")
+        return messageDataSource.fetchSingleMessage(messageId).message?.toEntity() ?: throw NullDataException("")
     }
 
     override suspend fun checkIfMessagesMatchNarrow(

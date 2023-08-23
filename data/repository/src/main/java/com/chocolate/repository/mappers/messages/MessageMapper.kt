@@ -23,6 +23,9 @@ fun MessageDto.toEntity(): Message {
     )
 }
 
+@JvmName("MessageDto")
 fun List<MessageDto>?.toEntity(): List<Message> = this?.map { it.toEntity() }.orEmpty()
+
+@JvmName("ReactionDto")
 fun List<ReactionDto>?.toEntity(): List<Reaction> =
     this?.map { Reaction(emojiCode = it.emoji_code, emojiName = it.emoji_name) }.orEmpty()

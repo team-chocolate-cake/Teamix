@@ -3,7 +3,6 @@ package com.chocolate.viewmodel.profile
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.ValidationException
-import com.chocolate.entities.user.UserInformationSettings
 import com.chocolate.entities.user.User
 import com.chocolate.usecases.user.CustomizeProfileSettingsUseCase
 import com.chocolate.usecases.user.GetCurrentUserDataUseCase
@@ -102,7 +101,13 @@ class ProfileViewModel @Inject constructor(
 
     override fun onUserInformationFocusChange() {
         _state.update { it.copy(showWarningDialog = false, message = null) }
-        val userInformationSettingsState = UserInformationSettings(fullName = _state.value.name, email = _state.value.email)
+        val userInformationSettingsState = User(
+            fullName = _state.value.name,
+            email = _state.value.email,
+            role = 0,
+            imageUrl = "",
+            id = 0
+        )
         tryToExecute(
             { updateUserInformationUseCase(userInformationSettingsState) },
             ::onUpdateUserInformationSuccess,

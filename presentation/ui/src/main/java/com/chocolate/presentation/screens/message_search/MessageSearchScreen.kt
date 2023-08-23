@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.chocolate.presentation.composable.PersonCardWithDetails
 import com.chocolate.presentation.composable.SearchBox
-import com.chocolate.presentation.screens.searchMessage
+import com.chocolate.presentation.screens.add_member.searchMessage
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors

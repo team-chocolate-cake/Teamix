@@ -11,7 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.chocolate.presentation.screens.allMembersUiState
+import com.chocolate.presentation.screens.add_member.allMembersUiState
 import com.chocolate.presentation.composable.PersonCardWithDetails
 import com.chocolate.presentation.composable.SearchBox
 import com.chocolate.presentation.theme.Space16

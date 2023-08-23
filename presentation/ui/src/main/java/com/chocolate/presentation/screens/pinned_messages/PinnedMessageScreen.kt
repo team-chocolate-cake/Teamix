@@ -27,7 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.PersonCardWithDetails
-import com.chocolate.presentation.screens.pinnedMessagesUiState
+import com.chocolate.presentation.screens.add_member.pinnedMessagesUiState
 import com.chocolate.presentation.theme.Radius12
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8

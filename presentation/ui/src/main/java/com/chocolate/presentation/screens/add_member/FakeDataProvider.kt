@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens
+package com.chocolate.presentation.screens.add_member
 
 import com.chocolate.viewmodel.addMember.AddMemberUiState
 import com.chocolate.viewmodel.addMember.SuggestedMemberItemUiState

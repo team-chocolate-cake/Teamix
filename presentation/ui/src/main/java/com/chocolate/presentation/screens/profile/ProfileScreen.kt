@@ -1,6 +1,8 @@
 package com.chocolate.presentation.screens.profile
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -40,6 +42,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionContext
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -99,9 +102,11 @@ import kotlinx.coroutines.launch
 import java.util.Locale
 
 @Composable
-fun ProfileScreen(mainViewModel: MainViewModel,
+fun ProfileScreen(
+    mainViewModel: MainViewModel= hiltViewModel(),
     viewModel: ProfileViewModel = hiltViewModel(),
 ) {
+
     val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
     val darkThemeState by mainViewModel.state.collectAsState()
@@ -384,6 +389,7 @@ fun ProfileContent(
                                                 coroutineScope.launch {
                                                     mainViewModel.updateDarkTheme(darkThemeState)
                                                 }
+                                                restart(context)
                                             },
                                         colors = CardDefaults.cardColors(color.card)
                                     ) {
@@ -448,20 +454,17 @@ fun ProfileContent(
                         }
                     }
                 }
-                state.error?.let {
-                    Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
-                }
-                state.message?.let {
-                    Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
-                }
+
             }
-            NoInternetLottie(
-                isShow = state.showNoInternetLottie,
-                onClickRetry = { profileInteraction.onClickRetryToGetPersonalInformation() },
-                isDarkMode = mainViewModel.state.value
-            )
+
+
         }
     }
+}
+private fun restart(context: Context){
+    val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+    intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+    context.startActivities(arrayOf(intent))
 }
 
 @Preview(showBackground = true, showSystemUi = true)

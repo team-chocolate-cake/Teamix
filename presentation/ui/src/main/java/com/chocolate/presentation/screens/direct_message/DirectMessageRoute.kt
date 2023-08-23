@@ -6,10 +6,10 @@ import androidx.navigation.compose.composable
 import com.chocolate.presentation.screens.bottomNavigation.BottomNavigationItem
 
 fun NavGraphBuilder.directMessageRoute(){
-    composable(BottomNavigationItem.DMs.screen_route){
+    composable(BottomNavigationItem.DMs.screenRoute){
         DirectMessageScreen()
     }
 }
 fun NavController.navigateToSearch(){
-    navigate(BottomNavigationItem.DMs.screen_route)
+    navigate(BottomNavigationItem.DMs.screenRoute)
 }

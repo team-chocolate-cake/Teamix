@@ -5,11 +5,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.chocolate.presentation.Screen
 import com.chocolate.presentation.screens.bottomNavigation.BottomNavigationItem
-import com.chocolate.viewmodel.main.MainViewModel
 
-fun NavGraphBuilder.homeRoute(mainViewModel: MainViewModel) {
-    composable(BottomNavigationItem.Home.screen_route) {
-        HomeScreen(mainViewModel)
+fun NavGraphBuilder.homeRoute() {
+    composable(BottomNavigationItem.Home.screenRoute) {
+        HomeScreen()
     }
 }
 

@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.organiztion
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -67,7 +68,10 @@ fun OrganizationScreen(
             }
         }
     }
+    Log.i("dsds",state.onboardingState.toString())
+
     if (state.onboardingState) {
+
         OrganizationContent(
             organizationNameInteraction = viewModel,
             state = state,

@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.chocolate.presentation.R
 import com.chocolate.presentation.screens.add_member.composable.CancelableRectangularProfileItem
-import com.chocolate.presentation.screens.addMemberUiState
 import com.chocolate.presentation.composable.PersonCardWithDetails
 import com.chocolate.presentation.composable.SearchBox
 import com.chocolate.presentation.theme.Border1

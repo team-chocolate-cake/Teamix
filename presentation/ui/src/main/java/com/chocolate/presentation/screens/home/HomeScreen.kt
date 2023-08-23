@@ -72,7 +72,7 @@ import kotlinx.coroutines.flow.collectLatest
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun HomeScreen(
-    mainViewModel: MainViewModel,
+    mainViewModel: MainViewModel = hiltViewModel(),
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val navController = LocalNavController.current

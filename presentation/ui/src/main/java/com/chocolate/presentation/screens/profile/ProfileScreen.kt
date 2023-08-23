@@ -389,7 +389,6 @@ fun ProfileContent(
                                                 coroutineScope.launch {
                                                     mainViewModel.updateDarkTheme(darkThemeState)
                                                 }
-                                                restart(context)
                                             },
                                         colors = CardDefaults.cardColors(color.card)
                                     ) {
@@ -461,12 +460,6 @@ fun ProfileContent(
         }
     }
 }
-private fun restart(context: Context){
-    val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
-    intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-    context.startActivities(arrayOf(intent))
-}
-
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ProfileScreenPreview() {

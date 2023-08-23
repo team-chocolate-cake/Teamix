@@ -9,32 +9,37 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.FitImage
+import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.Space24
+import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.customColors
 
 
 @Composable
 fun PagerScreen(
-    onBoardingPage: OnboardingPage
+    onBoardingPage: OnboardingPage, contentDescription: String
 ) {
     Column(Modifier.fillMaxSize()) {
         FitImage(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth(),
-            image = painterResource(id =onBoardingPage.imageResource ),
-            contentDescription = "Onboarding image"
+            image = painterResource(id = onBoardingPage.imageResource),
+            contentDescription = contentDescription
         )
         Text(
-            modifier = Modifier.padding(top = 32.dp, start = 24.dp, end = 24.dp),
+            modifier = Modifier.padding(top = Space32, start = Space24, end = Space24),
             text = onBoardingPage.title,
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.customColors().onBackground87
         )
         Text(
-            modifier = Modifier.padding(top = 16.dp, start = 24.dp, end = 24.dp),
+            modifier = Modifier.padding(top = Space16, start = Space24, end = Space24),
             text = onBoardingPage.description,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.customColors().onBackground60
@@ -45,16 +50,17 @@ fun PagerScreen(
 @Preview
 @Composable
 fun OnboardingOne() {
-    PagerScreen(OnboardingPage.First)
+    PagerScreen(OnboardingPage.First, stringResource(R.string.onboarding_image))
 }
+
 @Preview
 @Composable
 fun OnboardingTwo() {
-    PagerScreen(OnboardingPage.Second)
+    PagerScreen(OnboardingPage.Second, stringResource(R.string.onboarding_image))
 }
 
 @Preview
 @Composable
 fun OnboardingThree() {
-    PagerScreen(OnboardingPage.Third)
+    PagerScreen(OnboardingPage.Third, stringResource(R.string.onboarding_image))
 }

@@ -30,11 +30,19 @@ import com.chocolate.repository.service.remote.RemoteDataSource
 import kotlinx.coroutines.flow.Flow
 import repositories.UsersRepository
 import javax.inject.Inject
-class UserRepositoryImp @Inject constructor(
+class UserRepositoryImpl @Inject constructor(
     private val userDataSource: RemoteDataSource,
     private val preferencesDataSource: PreferencesDataSource,
     private val teamixLocalDataSource: TeamixLocalDataSource
 ) : UsersRepository {
+    override suspend fun setUserUsedAppForFirstTime(isComplete: Boolean) {
+        preferencesDataSource.setUserUsedAppForFirstTime(isComplete)
+    }
+
+    override suspend fun checkIfUserUsedAppOrNot(): Flow<Boolean> {
+        return preferencesDataSource.checkIfUserUsedAppOrNot()
+    }
+
     override suspend fun getAllUsers(
         clientGravatar: Boolean, includeCustomProfileFields: Boolean
     ): Users {
@@ -167,7 +175,7 @@ class UserRepositoryImp @Inject constructor(
             .takeIf {
                 it.result == "success"
             }?.run {
-                preferencesDataSource.putAuthenticationData(
+                preferencesDataSource.setAuthenticationData(
                     apikey = apiKey ?: "",
                     email = email ?: ""
                 )
@@ -179,8 +187,8 @@ class UserRepositoryImp @Inject constructor(
         preferencesDataSource.setUserLoginState(isComplete)
     }
 
-    override suspend fun getUserLoginState(): Flow<Boolean> {
-        return preferencesDataSource.currentUserLoginState
+    override suspend fun getUserLoginState(): Boolean {
+        return preferencesDataSource.getCurrentUserLoginState()
     }
 
     override suspend fun clearLoginInformation() {
@@ -189,14 +197,14 @@ class UserRepositoryImp @Inject constructor(
     }
 
     override suspend fun updateAppLanguage(newLanguage: String): Boolean {
-        return preferencesDataSource.updateAppLanguage(newLanguage)
+        return preferencesDataSource.upsertAppLanguage(newLanguage)
     }
 
     override suspend fun getLastSelectedAppLanguage(): String =
         preferencesDataSource.getLastSelectedAppLanguage()
 
     override suspend fun updateDarkTheme(isDarkTheme: Boolean): Boolean {
-        return preferencesDataSource.updateDarkTheme(isDarkTheme)
+        return preferencesDataSource.setDarkThemeValue(isDarkTheme)
     }
 
     override suspend fun isDarkThemeEnabled(): Boolean {

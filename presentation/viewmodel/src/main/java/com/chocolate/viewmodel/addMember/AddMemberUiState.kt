@@ -17,4 +17,3 @@ data class SuggestedMemberItemUiState(
     val jobTitle: String = "",
     val isSelected: Boolean = false
 )
-

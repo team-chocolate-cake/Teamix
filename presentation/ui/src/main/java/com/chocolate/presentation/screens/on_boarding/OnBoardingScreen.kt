@@ -30,7 +30,6 @@ import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.LocalNavController
-import com.chocolate.viewmodel.onboarding.OnboardingInteraction
 import com.chocolate.viewmodel.onboarding.OnboardingViewModel
 import kotlinx.coroutines.launch
 
@@ -41,7 +40,7 @@ fun OnboardingScreen(
     val navController = LocalNavController.current
     OnboardingContent(
         navigateToOrganization = { navController.navigateToOrganizationName() },
-        onboardingViewModel
+        { onboardingViewModel.onClickLetsStart() }
     )
 }
 
@@ -52,7 +51,7 @@ val onboardingPages = listOf(OnboardingPage.First, OnboardingPage.Second, Onboar
 @Composable
 fun OnboardingContent(
     navigateToOrganization: () -> Unit,
-    onboardingInteraction: OnboardingInteraction
+    onClickLetsStart: () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
@@ -77,7 +76,7 @@ fun OnboardingContent(
                                 pagerState.scrollToPage(pagerState.currentPage + 1)
                             }
                         } else {
-                            onboardingInteraction.onClickLetsStart()
+                            onClickLetsStart()
                             navigateToOrganization()
                         }
                     },
@@ -110,7 +109,10 @@ fun OnboardingContent(
                         state = pagerState,
                         verticalAlignment = Alignment.Top
                     ) { position ->
-                        PagerScreen(onBoardingPage = onboardingPages[position])
+                        PagerScreen(
+                            onBoardingPage = onboardingPages[position],
+                            stringResource(R.string.onboarding_image)
+                        )
                     }
                 }
             }
@@ -125,4 +127,3 @@ fun OnboardingScreenPreview() {
         OnboardingScreen()
     }
 }
-

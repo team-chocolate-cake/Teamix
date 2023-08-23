@@ -3,10 +3,9 @@ package com.chocolate.teamix.di
 import com.chocolate.repository.repository.ChannelsRepositoryImpl
 import com.chocolate.repository.repository.DraftRepositoryImpl
 import com.chocolate.repository.repository.MessagesRepositoryImpl
-import com.chocolate.repository.repository.OnboardingRepositoryImpl
 import com.chocolate.repository.repository.ScheduledMessageRepositoryImpl
 import com.chocolate.repository.repository.ServerAndOrganizationsRepositoryImpl
-import com.chocolate.repository.repository.UserRepositoryImp
+import com.chocolate.repository.repository.UserRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,7 +13,6 @@ import dagger.hilt.components.SingletonComponent
 import repositories.ChannelsRepository
 import repositories.DraftRepository
 import repositories.MessagesRepository
-import repositories.OnboardingRepository
 import repositories.ScheduledMessageRepository
 import repositories.ServerAndOrganizationsRepository
 import repositories.UsersRepository
@@ -34,7 +32,7 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindUserRepository(userRepositoriesImp: UserRepositoryImp): UsersRepository
+    abstract fun bindUserRepository(userRepositoriesImp: UserRepositoryImpl): UsersRepository
 
     @Binds
     @Singleton
@@ -47,11 +45,5 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindServerAndOrganizationsRepository(serverAndOrganizationsRepositoryImpl: ServerAndOrganizationsRepositoryImpl): ServerAndOrganizationsRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindOnboardingRepository(
-        onboardingRepository: OnboardingRepositoryImpl
-    ): OnboardingRepository
 
 }

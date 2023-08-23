@@ -4,21 +4,19 @@ import kotlinx.coroutines.flow.Flow
 
 interface PreferencesDataSource {
 
-    val currentOrganization: String?
+     fun currentOrganization(): String?
 
-    suspend fun setNameOrganization(currentOrganization: String)
-
-    suspend fun deleteDataStore()
+    suspend fun setOrganizationName(currentOrganization: String)
 
     suspend fun setUserLoginState(isComplete: Boolean)
 
-    val currentUserLoginState: Flow<Boolean>
+    suspend fun getCurrentUserLoginState(): Boolean
 
-    suspend fun putOnboardingState(isFirstTime: Boolean)
+    suspend fun setUserUsedAppForFirstTime(isFirstTime: Boolean)
 
-    suspend fun getOnboardingState(): Boolean
+    suspend fun checkIfUserUsedAppOrNot(): Flow<Boolean>
 
-    suspend fun putAuthenticationData(apikey: String, email: String)
+    suspend fun setAuthenticationData(apikey: String, email: String)
 
     fun getApiKey(): String
 
@@ -26,11 +24,11 @@ interface PreferencesDataSource {
 
     suspend fun deleteAuthenticationData()
 
-    suspend fun updateAppLanguage(newLanguage: String): Boolean
+    suspend fun upsertAppLanguage(newLanguage: String): Boolean
 
     suspend fun getLastSelectedAppLanguage(): String
 
-    suspend fun updateDarkTheme(isDarkTheme: Boolean): Boolean
+    suspend fun setDarkThemeValue(isDarkTheme: Boolean): Boolean
 
     suspend fun isDarkThemeEnabled(): Boolean
 }

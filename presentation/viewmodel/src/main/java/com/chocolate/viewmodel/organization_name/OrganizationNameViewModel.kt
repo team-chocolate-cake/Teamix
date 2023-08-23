@@ -1,24 +1,27 @@
 package com.chocolate.viewmodel.organization_name
 
+import android.util.Log
+import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.usecases.onboarding.ManageOnboardingUseCase
+import com.chocolate.usecases.onboarding.ManageUserUsedAppUseCase
 import com.chocolate.usecases.organization.SaveNameOrganizationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsRes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class OrganizationNameViewModel @Inject constructor(
     private val saveNameOrganizationsUseCase: SaveNameOrganizationUseCase,
-    private val manageOnboardingUseCase: ManageOnboardingUseCase,
+    private val manageUserUsedAppUseCase: ManageUserUsedAppUseCase,
     private val stringsRes: StringsRes
 ) : BaseViewModel<OrganizationNameUiState, OrganizationNameUiEffect>(OrganizationNameUiState()),
     OrganizationNameInteraction {
 
     init {
-        getOnboardingState()
+        getOnUserUsedAppForFirstTime()
     }
 
     override fun onClickCreateOrganization() {
@@ -45,15 +48,24 @@ class OrganizationNameViewModel @Inject constructor(
         _state.update { it.copy(isLoading = false, error = errorMessage) }
     }
 
-    private fun getOnboardingState() {
-        tryToExecute({ manageOnboardingUseCase.getOnboardingState() }, ::getOnboardingSuccess, ::getOnboardingError)
+    private fun getOnUserUsedAppForFirstTime() {
+     viewModelScope.launch {
+            collectFlow(manageUserUsedAppUseCase.checkIfUserUsedAppOrNot()) {
+                this.copy(
+                    onboardingState = it
+                )
+            }
+         Log.d("state",state.value.onboardingState.toString())
+     }
+      // tryToExecute({ manageUserUsedAppUseCase.checkIfUserUsedAppOrNot() }, ::getOnUserUsedAppForFirstTimeSuccess, ::getOnUserUsedAppForFirstTimeError)
     }
 
-    private fun getOnboardingSuccess(isFirstTime: Boolean) {
+    private fun getOnUserUsedAppForFirstTimeSuccess(isFirstTime: Boolean) {
         _state.update { it.copy(onboardingState = isFirstTime) }
+        Log.d("state",state.value.onboardingState.toString())
     }
 
-    private fun getOnboardingError(throwable: Throwable) {
+    private fun getOnUserUsedAppForFirstTimeError(throwable: Throwable) {
         _state.update { it.copy(error = throwable.message) }
     }
 

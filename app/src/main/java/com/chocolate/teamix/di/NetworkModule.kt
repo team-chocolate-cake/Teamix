@@ -90,6 +90,6 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideBaseUrl(prefs: PreferencesDataSource): String =
-        "https://${prefs.currentOrganization}.zulipchat.com/api/v1/"
+        "https://${prefs.currentOrganization()}.zulipchat.com/api/v1/"
 
 }

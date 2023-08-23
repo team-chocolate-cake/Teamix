@@ -84,10 +84,10 @@ class ServerAndOrganizationsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveNameOrganizations(nameOrganizations: String) {
-        preferencesDataSource.setNameOrganization(nameOrganizations)
+        preferencesDataSource.setOrganizationName(nameOrganizations)
     }
 
     override suspend fun getNameOrganizations(): String {
-        return preferencesDataSource.currentOrganization.toString()
+        return preferencesDataSource.currentOrganization().toString()
     }
 }

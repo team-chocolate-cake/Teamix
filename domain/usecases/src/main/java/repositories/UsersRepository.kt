@@ -14,6 +14,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface UsersRepository {
 
+    suspend fun checkIfUserUsedAppOrNot(): Flow<Boolean>
+
+    suspend fun setUserUsedAppForFirstTime(isComplete: Boolean)
+
     suspend fun getAllUsers(
         clientGravatar: Boolean,
         includeCustomProfileFields: Boolean
@@ -107,7 +111,7 @@ interface UsersRepository {
 
     suspend fun setUserLoginState(isComplete: Boolean)
 
-    suspend fun getUserLoginState(): Flow<Boolean>
+    suspend fun getUserLoginState(): Boolean
 
     suspend fun clearLoginInformation()
 

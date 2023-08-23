@@ -1,55 +1,52 @@
 package com.chocolate.local.datastore
 
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
+import com.chocolate.local.datastore.util.get
 import com.chocolate.repository.datastore.PreferencesDataSource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DataStoreDataSource @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val sharedPreferences: SharedPreferences
 ) : PreferencesDataSource {
-
-    override val currentOrganization: String?
-        get() = runBlocking { dataStore.data.map { it[NAME_ORGANIZATION] }.first() }
-
-    override suspend fun setNameOrganization(currentOrganization: String) {
-        dataStore.setValue(NAME_ORGANIZATION, currentOrganization)
+    override fun currentOrganization(): String? {
+        return sharedPreferences.getString(NAME_ORGANIZATION, null)
     }
 
-    override suspend fun deleteDataStore() {
-        dataStore.edit { preferences ->
-            preferences.clear()
-        }
+    override suspend fun setOrganizationName(currentOrganization: String) {
+        val editor = sharedPreferences.edit()
+        editor.putString(NAME_ORGANIZATION, currentOrganization)
+        editor.apply()
     }
 
     override suspend fun setUserLoginState(isComplete: Boolean) {
         dataStore.setValue(LOGIN_STATE, isComplete)
     }
 
-    override val currentUserLoginState: Flow<Boolean>
-        get() = dataStore.data.map { it[LOGIN_STATE] ?: false }
-
-    override suspend fun putOnboardingState(isFirstTime: Boolean) {
-        val editor = sharedPreferences.edit()
-        editor.putBoolean(IS_FIRST_TIME, isFirstTime)
-        editor.apply()
+    override suspend fun getCurrentUserLoginState(): Boolean {
+        return dataStore.get()[LOGIN_STATE] ?: false
     }
 
-    override suspend fun getOnboardingState(): Boolean {
-        return sharedPreferences.getBoolean(IS_FIRST_TIME,true)
+    override suspend fun setUserUsedAppForFirstTime(isFirstTime: Boolean) {
+        withContext(Dispatchers.IO){ dataStore.setValue(IS_FIRST_TIME, isFirstTime) }
     }
 
-    override suspend fun putAuthenticationData(apikey: String, email: String) {
+    override suspend fun checkIfUserUsedAppOrNot(): Flow<Boolean> {
+        return dataStore.data.map {
+            it[(IS_FIRST_TIME)] ?: false
+        }
+    }
+
+    override suspend fun setAuthenticationData(apikey: String, email: String) {
         val editor = sharedPreferences.edit()
         editor.putString(API_KEY, apikey)
         editor.putString(EMAIL, email)
@@ -65,29 +62,27 @@ class DataStoreDataSource @Inject constructor(
     }
 
     override suspend fun deleteAuthenticationData() {
-        deleteDataStore()
-        val editor = sharedPreferences.edit()
-        editor.clear().apply()
+        dataStore.edit { preferences -> preferences.clear() }
+        sharedPreferences.edit().clear().apply()
     }
 
-    override suspend fun updateAppLanguage(newLanguage: String): Boolean {
+    override suspend fun upsertAppLanguage(newLanguage: String): Boolean {
         val editor = sharedPreferences.edit()
         editor.putString(LANGUAGE, newLanguage)
-        Log.e("TAG", "updateAppLanguage: ${editor.commit()}", )
         return editor.commit()
     }
 
     override suspend fun getLastSelectedAppLanguage(): String =
-        sharedPreferences.getString(LANGUAGE, null) ?: "en"
+        sharedPreferences.getString(LANGUAGE, null) ?: ENGLISH
 
-    override suspend fun updateDarkTheme(isDarkTheme: Boolean): Boolean {
-        val editor=sharedPreferences.edit()
-        editor.putBoolean(DARK_THEME,isDarkTheme)
+    override suspend fun setDarkThemeValue(isDarkTheme: Boolean): Boolean {
+        val editor = sharedPreferences.edit()
+        editor.putBoolean(DARK_THEME, isDarkTheme)
         return editor.commit()
     }
 
     override suspend fun isDarkThemeEnabled(): Boolean {
-        return sharedPreferences.getBoolean(DARK_THEME,false)
+        return sharedPreferences.getBoolean(DARK_THEME, false)
     }
 
 
@@ -101,13 +96,13 @@ class DataStoreDataSource @Inject constructor(
     }
 
     companion object {
-        private val NAME_ORGANIZATION = stringPreferencesKey("CURRENT_USERNAME_ID")
+        private val IS_FIRST_TIME = booleanPreferencesKey("IS_FIRST_TIME")
         private val LOGIN_STATE = booleanPreferencesKey("LOGIN_STATE")
-        const val ONBOARDING_STATE = "ONBOARDING_STATE"
         const val API_KEY = "API_KEY"
         const val EMAIL = "EMAIL"
-        const val IS_FIRST_TIME = "IS_FIRST_TIME"
+        const val NAME_ORGANIZATION = "CURRENT_USERNAME_ID"
         const val LANGUAGE = "APP_LANGUAGE"
-        const val DARK_THEME="APP_DARK_THEME"
+        const val ENGLISH = "en"
+        const val DARK_THEME = "APP_DARK_THEME"
     }
 }

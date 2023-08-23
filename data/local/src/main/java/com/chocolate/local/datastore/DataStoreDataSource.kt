@@ -37,7 +37,7 @@ class DataStoreDataSource @Inject constructor(
     }
 
     override suspend fun setUserUsedAppForFirstTime(isFirstTime: Boolean) {
-        withContext(Dispatchers.IO){ dataStore.setValue(IS_FIRST_TIME, isFirstTime) }
+        runBlocking{ dataStore.setValue(IS_FIRST_TIME, isFirstTime) }
     }
 
     override suspend fun checkIfUserUsedAppOrNot(): Flow<Boolean> {

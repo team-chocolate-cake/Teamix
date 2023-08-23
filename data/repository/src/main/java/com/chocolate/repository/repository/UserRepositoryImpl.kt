@@ -27,6 +27,7 @@ import com.chocolate.repository.mappers.users.toUsers
 import com.chocolate.repository.mappers.users.toUsersState
 import com.chocolate.repository.service.local.TeamixLocalDataSource
 import com.chocolate.repository.service.remote.RemoteDataSource
+import kotlinx.coroutines.flow.Flow
 import repositories.UsersRepository
 import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
@@ -38,7 +39,7 @@ class UserRepositoryImpl @Inject constructor(
         preferencesDataSource.setUserUsedAppForFirstTime(isComplete)
     }
 
-    override suspend fun checkIfUserUsedAppOrNot(): Boolean {
+    override suspend fun checkIfUserUsedAppOrNot(): Flow<Boolean> {
         return preferencesDataSource.checkIfUserUsedAppOrNot()
     }
 

@@ -1,5 +1,6 @@
 package com.chocolate.usecases.onboarding
 
+import kotlinx.coroutines.flow.Flow
 import repositories.UsersRepository
 import javax.inject.Inject
 
@@ -10,7 +11,7 @@ class ManageUserUsedAppUseCase @Inject constructor(
         userRepository.setUserUsedAppForFirstTime(isComplete)
     }
 
-    suspend fun checkIfUserUsedAppOrNot(): Boolean {
+    suspend fun checkIfUserUsedAppOrNot(): Flow<Boolean> {
         return userRepository.checkIfUserUsedAppOrNot()
     }
 }

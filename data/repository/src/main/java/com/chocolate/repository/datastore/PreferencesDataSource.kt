@@ -1,5 +1,7 @@
 package com.chocolate.repository.datastore
 
+import kotlinx.coroutines.flow.Flow
+
 interface PreferencesDataSource {
 
      fun currentOrganization(): String?
@@ -12,7 +14,7 @@ interface PreferencesDataSource {
 
     suspend fun setUserUsedAppForFirstTime(isFirstTime: Boolean)
 
-    suspend fun checkIfUserUsedAppOrNot(): Boolean
+    suspend fun checkIfUserUsedAppOrNot(): Flow<Boolean>
 
     suspend fun setAuthenticationData(apikey: String, email: String)
 

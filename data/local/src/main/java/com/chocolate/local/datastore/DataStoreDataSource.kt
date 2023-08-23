@@ -7,6 +7,11 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import com.chocolate.local.datastore.util.get
 import com.chocolate.repository.datastore.PreferencesDataSource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DataStoreDataSource @Inject constructor(
@@ -32,11 +37,13 @@ class DataStoreDataSource @Inject constructor(
     }
 
     override suspend fun setUserUsedAppForFirstTime(isFirstTime: Boolean) {
-        dataStore.setValue(USER_LOGGED_IN_STATE, isFirstTime)
+        withContext(Dispatchers.IO){ dataStore.setValue(IS_FIRST_TIME, isFirstTime) }
     }
 
-    override suspend fun checkIfUserUsedAppOrNot(): Boolean {
-        return dataStore.get()[IS_FIRST_TIME] ?: true
+    override suspend fun checkIfUserUsedAppOrNot(): Flow<Boolean> {
+        return dataStore.data.map {
+            it[(IS_FIRST_TIME)] ?: false
+        }
     }
 
     override suspend fun setAuthenticationData(apikey: String, email: String) {
@@ -91,7 +98,6 @@ class DataStoreDataSource @Inject constructor(
     companion object {
         private val IS_FIRST_TIME = booleanPreferencesKey("IS_FIRST_TIME")
         private val LOGIN_STATE = booleanPreferencesKey("LOGIN_STATE")
-        private val USER_LOGGED_IN_STATE = booleanPreferencesKey("ONBOARDING_STATE")
         const val API_KEY = "API_KEY"
         const val EMAIL = "EMAIL"
         const val NAME_ORGANIZATION = "CURRENT_USERNAME_ID"

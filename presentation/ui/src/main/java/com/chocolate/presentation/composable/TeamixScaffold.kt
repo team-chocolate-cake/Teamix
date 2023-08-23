@@ -20,8 +20,8 @@ fun TeamixScaffold(
     onLoading: @Composable () -> Unit = {},
     error: BaseErrorUiState? = null,
     onError: @Composable () -> Unit = {},
-    onRetry: @Composable () -> Unit = {},
-    onClick: () -> Unit = {},
+    onRetry: () -> Unit = {},
+    isDarkMode: Boolean,
     snackBarHost: @Composable () -> Unit = {},
     floatingActionButton: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
@@ -38,6 +38,12 @@ fun TeamixScaffold(
     ) { paddingValues ->
         AnimatedVisibility(visible = isLoading) { onLoading() }
         AnimatedVisibility(visible = error != null) {
+            ErrorHandler(
+                error = error,
+                onError = { onError() },
+                onRetry = { onRetry() },
+                isDarkMode = isDarkMode
+            )
         }
         AnimatedVisibility(visible = !isLoading && error == null) {
             content(paddingValues)
@@ -48,12 +54,18 @@ fun TeamixScaffold(
 
 @Composable
 fun ErrorHandler(
-    error: BaseErrorUiState,
-    onError: @Composable () -> Unit = {},
-    onRetry: @Composable () -> Unit = {},
-    onClick: () -> Unit
+    error: BaseErrorUiState?,
+    onError: @Composable () -> Unit,
+    onRetry: () -> Unit,
+    isDarkMode: Boolean
 ) {
-    when (error) {
-        
+    if (error?.message?.isNotEmpty() == true) {
+        NoInternetLottie(
+            onClickRetry = { onRetry() },
+            isShow = error.isError,
+            isDarkMode = isDarkMode
+        )
+    } else {
+        onError()
     }
 }

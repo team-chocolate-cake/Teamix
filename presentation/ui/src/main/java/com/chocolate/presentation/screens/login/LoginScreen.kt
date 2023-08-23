@@ -92,7 +92,6 @@ fun LoginContent(
     val errorMessage = stringResource(R.string.email_and_password_cannot_be_empty)
 
     Column(
-
         modifier = Modifier
             .fillMaxSize()
             .background(color = colors.background)

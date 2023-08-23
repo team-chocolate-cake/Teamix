@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NetworkException
 import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.entities.exceptions.NotFoundException
+import com.chocolate.entities.exceptions.NullDataException
 import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.usecases.user.AttemptUserLoginUseCase
 import com.chocolate.usecases.user.SetUserLoginStateUseCase
@@ -72,7 +72,7 @@ class LoginViewModel @Inject constructor(
             is NoConnectionException -> stringsResource.noConnectionMessage
             is NetworkException -> stringsResource.enterValidEmailAddress
             is ValidationException -> stringsResource.invalidEmailOrPassword
-            is NotFoundException -> stringsResource.organizationNameNotFound
+            is NullDataException -> stringsResource.organizationNameNotFound
             else -> stringsResource.globalMessageError
         }
         _state.update {

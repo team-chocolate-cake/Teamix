@@ -6,8 +6,8 @@ import com.chocolate.entities.channel.Topic
 @JvmName("channelToChannelUiState")
 fun Channel.toUiState(): ChannelUiState =
     ChannelUiState(
-        channelId,
-        channelName,
+        id,
+        name,
         topics.toUiState(),
         false
     )

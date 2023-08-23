@@ -1,10 +1,9 @@
 package repositories
 
-import com.chocolate.entities.scheduled_messages.BaseScheduledMessage
-import com.chocolate.entities.scheduled_messages.ScheduledMessages
+import com.chocolate.entities.scheduled_messages.ScheduledMessage
 
 interface ScheduledMessageRepository {
-    suspend fun getScheduledMessages(): ScheduledMessages
+    suspend fun getScheduledMessages(): List<ScheduledMessage>
 
     suspend fun createScheduledMessage(
         type: String,
@@ -12,7 +11,7 @@ interface ScheduledMessageRepository {
         content: String,
         topic: String,
         scheduledDeliveryTimestamp: Long
-    ): BaseScheduledMessage
+    ): Int
 
     suspend fun editScheduledMessage(
         id: Int,
@@ -21,8 +20,8 @@ interface ScheduledMessageRepository {
         content: String,
         topic: String,
         scheduledDeliveryTimestamp: Long
-    ): BaseScheduledMessage
+    ): Int
 
-    suspend fun deleteScheduledMessage(id: Int): BaseScheduledMessage
+    suspend fun deleteScheduledMessage(id: Int)
 
 }

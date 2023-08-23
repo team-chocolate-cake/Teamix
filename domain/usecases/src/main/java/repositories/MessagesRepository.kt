@@ -1,15 +1,6 @@
 package repositories
 
-import com.chocolate.entities.messages.AttachmentMessage
-import com.chocolate.entities.messages.MatchNarrow
-import com.chocolate.entities.messages.MessageEditHistory
-import com.chocolate.entities.messages.MessageReadReceipts
-import com.chocolate.entities.messages.Messages
-import com.chocolate.entities.messages.PersonalMessage
-import com.chocolate.entities.messages.PersonalMessageForNarrow
-import com.chocolate.entities.messages.RenderMessage
-import com.chocolate.entities.messages.SendMessage
-import com.chocolate.entities.messages.SingleMessage
+import com.chocolate.entities.messages.Message
 import java.io.File
 
 interface MessagesRepository {
@@ -21,7 +12,7 @@ interface MessagesRepository {
         content: String,
         queueId: String? = null,
         localId: String? = null,
-    ): SendMessage
+    ): Int
 
     suspend fun sendDirectMessage(
         type: String,
@@ -29,7 +20,7 @@ interface MessagesRepository {
         content: String,
         queueId: String? = null,
         localId: String? = null,
-    ): SendMessage
+    ): Int
 
     suspend fun editMessage(
         messageId: Int,
@@ -50,7 +41,7 @@ interface MessagesRepository {
         narrow: List<String>? = null,
         clientGravatar: Boolean = true,
         applyMarkdown: Boolean = true
-    ): Messages
+    ): List<Message>?
 
     suspend fun addEmojiReaction(
         messageId: Int,
@@ -66,7 +57,7 @@ interface MessagesRepository {
         reactionType: String? = null
     )
 
-    suspend fun updateMessageFlags(messages: List<Int>, op: String, flag: String): PersonalMessage
+    //suspend fun updateMessageFlags(messages: List<Int>, op: String, flag: String): PersonalMessage
 
     suspend fun markAllMessagesAsRead()
 
@@ -74,25 +65,25 @@ interface MessagesRepository {
 
     suspend fun markTopicAsRead(steamId: Int, topicName: String)
 
-    suspend fun getMessageReadReceipts(messageId: Int): MessageReadReceipts
+    //suspend fun getMessageReadReceipts(messageId: Int): MessageReadReceipts
 
-    suspend fun uploadFile(file: File): AttachmentMessage
+    suspend fun uploadFile(file: File): String?
 
-    suspend fun renderMessage(content: String): RenderMessage
+    //suspend fun renderMessage(content: String): RenderMessage
 
-    suspend fun fetchSingleMethod(messageId: Int): SingleMessage
+    suspend fun fetchSingleMethod(messageId: Int): Message
 
-    suspend fun checkIfMessagesMatchNarrow(messagesIds: String, narrow: String): MatchNarrow
+    suspend fun checkIfMessagesMatchNarrow(messagesIds: String, narrow: String): String
 
-    suspend fun getMessagesEditHistory(messageId: Int): List<MessageEditHistory>
+//    suspend fun getMessagesEditHistory(messageId: Int): List<MessageEditHistory>
 
-    suspend fun updatePersonalMessageFlagsForNarrow(
-        anchor: String,
-        numBefore: Int,
-        numAfter: Int,
-        includeAnchor: Boolean = true,
-        narrow: String,
-        op: String,
-        flag: String
-    ): PersonalMessageForNarrow
+//    suspend fun updatePersonalMessageFlagsForNarrow(
+//        anchor: String,
+//        numBefore: Int,
+//        numAfter: Int,
+//        includeAnchor: Boolean = true,
+//        narrow: String,
+//        op: String,
+//        flag: String
+//    ): PersonalMessageForNarrow
 }

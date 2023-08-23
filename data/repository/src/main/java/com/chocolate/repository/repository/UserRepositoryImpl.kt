@@ -1,32 +1,12 @@
 package com.chocolate.repository.repository
 
-import com.chocolate.entities.user.Settings
-import com.chocolate.entities.user.SubgroupsOfUserGroup
+import com.chocolate.entities.user.Attachment
 import com.chocolate.entities.user.User
-import com.chocolate.entities.user.UserAttachments
-import com.chocolate.entities.user.UserGroupMemberships
-import com.chocolate.entities.user.UserGroups
-import com.chocolate.entities.user.UserMembershipState
-import com.chocolate.entities.user.UserState
-import com.chocolate.entities.user.Users
-import com.chocolate.entities.user.UsersState
 import com.chocolate.repository.datastore.PreferencesDataSource
-import com.chocolate.repository.mappers.users.toCurrentUser
-import com.chocolate.repository.mappers.users.toCurrentUserLocal
-import com.chocolate.repository.mappers.users.toOwnerUser
-import com.chocolate.repository.mappers.users.toSettingsDto
-import com.chocolate.repository.mappers.users.toSubgroupsOfUserGroup
-import com.chocolate.repository.mappers.users.toUser
-import com.chocolate.repository.mappers.users.toUserAttachments
-import com.chocolate.repository.mappers.users.toUserGroupMemberships
-import com.chocolate.repository.mappers.users.toUserGroups
-import com.chocolate.repository.mappers.users.toUserMembershipState
-import com.chocolate.repository.mappers.users.toUserSettings
-import com.chocolate.repository.mappers.users.toUserState
-import com.chocolate.repository.mappers.users.toUsers
-import com.chocolate.repository.mappers.users.toUsersState
-import com.chocolate.repository.service.local.LocalDataSource
+import com.chocolate.repository.mappers.users.toEntity
+import com.chocolate.repository.mappers.users.toLocalDto
 import com.chocolate.repository.service.remote.RemoteDataSource
+import com.chocolate.repository.service.local.LocalDataSource
 import kotlinx.coroutines.flow.Flow
 import repositories.UsersRepository
 import javax.inject.Inject
@@ -37,27 +17,27 @@ class UserRepositoryImpl @Inject constructor(
 ) : UsersRepository {
     override suspend fun getAllUsers(
         clientGravatar: Boolean, includeCustomProfileFields: Boolean
-    ): Users {
+    ): List<User> {
         return userDataSource.getAllUsers(
             clientGravatar, includeCustomProfileFields
-        ).toUsers()
+        ).memberDto.toEntity()
     }
 
     override suspend fun getRemoteCurrentUser(): User {
-        return userDataSource.getOwnUser().toOwnerUser()
+        return userDataSource.getOwnUser().toEntity()
     }
 
     override suspend fun getUserById(
         userId: Int, clientGravatar: Boolean, includeCustomProfileFields: Boolean
     ): User {
         return userDataSource.getUserById(userId, clientGravatar, includeCustomProfileFields)
-            .toUser()
+            .toEntity()
     }
 
     override suspend fun getUserByEmail(
         email: String
     ): User {
-        return userDataSource.getUserByEmail(email).toUser()
+        return userDataSource.getUserByEmail(email).toEntity()
     }
 
     override suspend fun updateUserById(
@@ -82,29 +62,30 @@ class UserRepositoryImpl @Inject constructor(
         userDataSource.deactivateOwnUserAccount()
     }
 
-    override suspend fun getUserPresence(email: String): UserState {
-        return userDataSource.getUserPresence(email).toUserState()
+    override suspend fun getUserPresence(email: String): String {
+        return userDataSource.getUserPresence(email).presenceDto?.aggregatedDto?.status ?: ""
     }
 
-    override suspend fun getRealmPresence(): UsersState {
-        return userDataSource.getRealmPresence().toUsersState()
+    override suspend fun getRealmPresence(): String {
+        return userDataSource.getRealmPresence().presencesDto?.iagoZulipComDto?.aggregatedDto?.status
+            ?: ""
     }
 
-    override suspend fun getAttachments(): UserAttachments {
-        return userDataSource.getAttachments().toUserAttachments()
+    override suspend fun getAttachments(): List<Attachment> {
+        return userDataSource.getAttachments().attachmentDto.toEntity()
     }
 
     override suspend fun deleteAttachment(attachmentId: Int) {
         userDataSource.deleteAttachment(attachmentId)
     }
 
-    override suspend fun updateSettings(settings: Settings) {
-        userDataSource.updateSettings(settings.toSettingsDto()).toUserSettings()
+    override suspend fun updateSettings(user: User) {
+        userDataSource.updateSettings(user)
     }
 
-    override suspend fun getUserGroups(): UserGroups {
-        return userDataSource.getUserGroups().toUserGroups()
-    }
+//    override suspend fun getUserGroups(): UserGroups {
+//        return userDataSource.getUserGroups().toUserGroups()
+//    }
 
     override suspend fun createUserGroup(
         name: String, description: String, members: String
@@ -130,28 +111,30 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun updateUserGroupSubgroups(
         userGroupId: Int, add: List<Int>, delete: List<Int>
-    ): SubgroupsOfUserGroup {
-        return userDataSource.updateUserGroupSubgroups(userGroupId, add, delete).toSubgroupsOfUserGroup()
+    ): List<Int> {
+        return userDataSource.updateUserGroupSubgroups(userGroupId, add, delete).subgroups
+            ?: emptyList()
     }
 
     override suspend fun getUserMembership(
         groupId: Int, userId: Int, directMemberOnly: Boolean
-    ): UserMembershipState {
-        return userDataSource.getUserMembership(groupId, userId, directMemberOnly).toUserMembershipState()
+    ): Boolean {
+        return userDataSource.getUserMembership(groupId, userId, directMemberOnly).isUserGroupMember
+            ?: false
     }
 
     override suspend fun getUserGroupMemberships(
         groupId: Int, directMemberOnly: Boolean
-    ): UserGroupMemberships {
-        return userDataSource.getUserGroupMemberships(groupId, directMemberOnly)
-            .toUserGroupMemberships()
+    ): List<Int> {
+        return userDataSource.getUserGroupMemberships(groupId, directMemberOnly).members
+            ?: emptyList()
     }
 
     override suspend fun getSubgroupsOfUserGroup(
         id: Int, directSubgroupOnly: Boolean
-    ): SubgroupsOfUserGroup {
-        return userDataSource.getSubgroupsOfUserGroup(id, directSubgroupOnly)
-            .toSubgroupsOfUserGroup()
+    ): List<Int> {
+        return userDataSource.getSubgroupsOfUserGroup(id, directSubgroupOnly).subgroups
+            ?: emptyList()
     }
 
     override suspend fun muteUser(mutedUserId: Int) {
@@ -159,7 +142,7 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun unMuteUser(mutedUserId: Int) {
-            userDataSource.unmuteUser(mutedUserId)
+        userDataSource.unmuteUser(mutedUserId)
     }
 
     override suspend fun userLogin(userName: String, password: String): Boolean {
@@ -205,15 +188,15 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun upsertCurrentUser(email: String) {
         val user = getUserByEmail(email)
-        teamixLocalDataSource.upsertUserData(user.toCurrentUserLocal())
+        teamixLocalDataSource.upsertUserData(user.toLocalDto())
     }
 
     override suspend fun getLocalCurrentUser(): User? {
-        return teamixLocalDataSource.getCurrentUserData()?.toCurrentUser()
+        return teamixLocalDataSource.getCurrentUserData()?.toEntity()
     }
 
     override suspend fun getCurrentUser(): User {
-      return  getLocalCurrentUser()
+        return getLocalCurrentUser()
             .takeIf { it != null }
             ?: getRemoteCurrentUser()
                 .also { upsertCurrentUser(it.email) }

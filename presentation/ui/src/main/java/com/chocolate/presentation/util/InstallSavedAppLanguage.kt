@@ -8,7 +8,7 @@ import com.chocolate.viewmodel.main.MainViewModel
 import java.util.Locale
 
 @Composable
-fun installSavedAppLanguage(context: Context){
+fun InstallSavedAppLanguage(context: Context){
     val userSettingsViewModel: MainViewModel = hiltViewModel()
     LaunchedEffect(key1 = Unit){
         val language = userSettingsViewModel.getLastSelectedAppLanguage()

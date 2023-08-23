@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.BottomSheetItem
 import com.chocolate.viewmodel.topic.PhotoOrVideoUiState
@@ -52,11 +53,11 @@ fun AttachmentBottomSheet(
                 photoOrVideoList = photoOrVideoList
             )
             BottomSheetItem(
-                icon = R.drawable.video_record,
+                icon = painterResource(id = R.drawable.video_record),
                 text = "Record a video"
             )
             BottomSheetItem(
-                icon = R.drawable.file,
+                icon = painterResource(id = R.drawable.file) ,
                 text = "Upload a file"
             )
         }

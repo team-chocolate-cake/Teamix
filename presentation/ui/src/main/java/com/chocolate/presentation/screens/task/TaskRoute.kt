@@ -6,10 +6,10 @@ import androidx.navigation.compose.composable
 import com.chocolate.presentation.screens.bottomNavigation.BottomNavigationItem
 
 fun NavGraphBuilder.taskRoute(){
-    composable(BottomNavigationItem.Tasks.screen_route){
+    composable(BottomNavigationItem.Tasks.screenRoute){
         TaskScreen()
     }
 }
 fun NavController.navigateToTask(){
-    navigate(BottomNavigationItem.Tasks.screen_route)
+    navigate(BottomNavigationItem.Tasks.screenRoute)
 }

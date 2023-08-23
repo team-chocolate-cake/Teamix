@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.chocolate.presentation.R
@@ -77,21 +78,21 @@ fun MessageOptionsBottomSheet(
             }
 
             BottomSheetItem(
-                icon = R.drawable.bookmark,
+                icon = painterResource(id =R.drawable.bookmark ),
                 text = "Add to saved items" ,
                 onClickItem = {
                     onSaveMessage()
                 }
             )
             BottomSheetItem(
-                icon = R.drawable.notification_notes,
+                icon = painterResource(id = R.drawable.notification_notes),
                 text = "Get notified about new replies" ,
                 onClickItem = {
                     onGetNotification()
                 }
             )
             BottomSheetItem(
-                icon = R.drawable.pin_message,
+                icon = painterResource(id =R.drawable.pin_message ),
                 text = "Pin to conversation" ,
                 onClickItem = {
                     onPinMessage()

@@ -13,21 +13,20 @@ import androidx.navigation.compose.rememberNavController
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.bottomNavigation.BottomNavigation
 import com.chocolate.presentation.screens.bottomNavigation.BottomNavigationItem
+import com.chocolate.presentation.screens.bottomNavigation.currentRoute
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.LocalNavController
-import com.chocolate.viewmodel.main.MainViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
-fun TeamixApp(isDark: Boolean, mainViewModel: MainViewModel) {
+fun TeamixApp(isDark: Boolean) {
     val navController = rememberNavController()
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val shouldShowBottomNavigation = when (navBackStackEntry?.destination?.route) {
-        BottomNavigationItem.Home.screen_route,
-        BottomNavigationItem.Profile.screen_route,
-        BottomNavigationItem.DMs.screen_route,
-        BottomNavigationItem.Tasks.screen_route,
-        BottomNavigationItem.Search.screen_route -> true
+    val shouldShowBottomNavigation = when (currentRoute(navController)) {
+        BottomNavigationItem.Home.screenRoute,
+        BottomNavigationItem.Profile.screenRoute,
+        BottomNavigationItem.DMs.screenRoute,
+        BottomNavigationItem.Tasks.screenRoute,
+        BottomNavigationItem.Search.screenRoute -> true
         else -> false
     }
     TeamixScaffold(bottomBar = {
@@ -41,10 +40,7 @@ fun TeamixApp(isDark: Boolean, mainViewModel: MainViewModel) {
         systemUiController.setNavigationBarColor(Color.Black)
         Box(modifier = Modifier.padding(innerPadding)) {
             CompositionLocalProvider(LocalNavController provides navController) {
-                TeamixNavGraph(
-                    navController = navController,
-                    mainViewModel
-                )
+                TeamixNavGraph(navController = navController,)
             }
         }
     }

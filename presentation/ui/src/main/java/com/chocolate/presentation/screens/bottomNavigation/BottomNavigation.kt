@@ -14,6 +14,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.chocolate.presentation.theme.customColors
 
 @Composable
+fun currentRoute(navController:NavController): String? {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    return navBackStackEntry?.destination?.route
+}
+@Composable
 fun BottomNavigation(navController: NavController) {
     val items = listOf(
         BottomNavigationItem.Home,
@@ -27,8 +32,7 @@ fun BottomNavigation(navController: NavController) {
     NavigationBar(
         containerColor = color.card
     ) {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
+
         items.forEach { item ->
             NavigationBarItem(
                 colors = NavigationBarItemDefaults.colors(
@@ -38,7 +42,7 @@ fun BottomNavigation(navController: NavController) {
                     unselectedIconColor = color.onBackground60,
                     unselectedTextColor = color.onBackground60,
                 ),
-                selected = currentRoute == item.screen_route,
+                selected = currentRoute(navController) == item.screenRoute,
                 alwaysShowLabel = false,
                 label = {
                     Text(
@@ -47,7 +51,7 @@ fun BottomNavigation(navController: NavController) {
                     )
                 },
                 onClick = {
-                    navController.navigate(item.screen_route) {
+                    navController.navigate(item.screenRoute) {
                         navController.graph.startDestinationRoute?.let { screen_route ->
                             popUpTo(screen_route) {
                                 saveState = true

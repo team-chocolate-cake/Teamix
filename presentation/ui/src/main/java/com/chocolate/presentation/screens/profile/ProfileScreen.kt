@@ -85,7 +85,6 @@ import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.Thickness2
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.presentation.util.updateResources
 import com.chocolate.viewmodel.main.MainViewModel
@@ -95,11 +94,13 @@ import com.chocolate.viewmodel.profile.ProfileInteraction
 import com.chocolate.viewmodel.profile.ProfileUiState
 import com.chocolate.viewmodel.profile.ProfileViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Locale
 
 @Composable
-fun ProfileScreen(mainViewModel: MainViewModel,
+fun ProfileScreen(
+    mainViewModel: MainViewModel= hiltViewModel(),
     viewModel: ProfileViewModel = hiltViewModel(),
 ) {
     val navController = LocalNavController.current

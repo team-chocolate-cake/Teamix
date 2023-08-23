@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.base
 
-interface StringsRes {
+interface StringsResource {
     val emptyEmailMessage: String
     val emptyFullNameMessage: String
     val sameUserDataMessage: String

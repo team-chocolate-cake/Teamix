@@ -10,7 +10,7 @@ data class ScheduledMessageContentDto(
     @SerializedName("rendered_content")
     val renderedContent: String?,
     @SerializedName("scheduled_delivery_timestamp")
-    val scheduledDeliveryTimestamp: Int?,
+    val scheduledDeliveryTimestamp: Long?,
     @SerializedName("scheduled_message_id")
     val scheduledMessageId: Int?,
     @SerializedName("to")

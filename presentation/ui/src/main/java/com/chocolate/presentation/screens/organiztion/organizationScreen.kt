@@ -44,12 +44,12 @@ import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.Space48
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.organization_name.OrganizationNameInteraction
 import com.chocolate.viewmodel.organization_name.OrganizationNameUiEffect
 import com.chocolate.viewmodel.organization_name.OrganizationNameUiState
 import com.chocolate.viewmodel.organization_name.OrganizationNameViewModel
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun OrganizationScreen(
@@ -57,15 +57,14 @@ fun OrganizationScreen(
 ) {
     val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
-    LaunchedEffect(key1 = Unit) {
-        viewModel.effect.collectLatest { effect ->
-            when (effect) {
-                OrganizationNameUiEffect.NavigateToCreateOrganization -> navController.navigateToCreateOrganization()
-                OrganizationNameUiEffect.NavigateToLoginScreen -> navController.navigateToLogin(
-                    organizationName = state.organizationName
-                )
-            }
+    CollectUiEffect(viewModel) { effect ->
+        when (effect) {
+            OrganizationNameUiEffect.NavigateToCreateOrganization -> navController.navigateToCreateOrganization()
+            OrganizationNameUiEffect.NavigateToLoginScreen -> navController.navigateToLogin(
+                organizationName = state.organizationName
+            )
         }
+
     }
     if (state.onboardingState) {
         OrganizationContent(

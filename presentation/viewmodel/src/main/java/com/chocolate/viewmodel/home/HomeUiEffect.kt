@@ -1,6 +1,8 @@
 package com.chocolate.viewmodel.home
 
-sealed interface HomeUiEffect{
+import com.chocolate.viewmodel.base.BaseViewModel
+
+sealed interface HomeUiEffect: BaseViewModel.BaseUiEffect{
     object NavigationToDrafts: HomeUiEffect
     object NavigationToStarred: HomeUiEffect
     object NavigationToSavedLater: HomeUiEffect

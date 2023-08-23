@@ -20,6 +20,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<STATE, UiEffect>(initialState: STATE) : ViewModel() {
+    interface BaseUiState
+
+    interface BaseUiEffect
+
     protected val _state: MutableStateFlow<STATE> by lazy { MutableStateFlow(initialState) }
     val state = _state.asStateFlow()
 

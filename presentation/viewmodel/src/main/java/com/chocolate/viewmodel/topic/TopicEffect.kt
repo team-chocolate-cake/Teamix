@@ -1,5 +1,7 @@
 package com.chocolate.viewmodel.topic
 
-sealed interface TopicEffect{
+import com.chocolate.viewmodel.base.BaseViewModel
+
+sealed interface TopicEffect : BaseViewModel.BaseUiEffect{
     object NavigationBack: TopicEffect
 }

@@ -17,14 +17,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.PersonCardWithDetails
-import com.chocolate.presentation.composable.SearchBox
-import com.chocolate.presentation.screens.addMemberUiState
+import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.add_member.composable.CancelableRectangularProfileItem
 import com.chocolate.presentation.theme.Border1
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.addMember.AddMemberUiState
 
@@ -33,7 +34,7 @@ fun AddMemberScreen(
     //navController: NavController,
 ) {
     AddMemberContent(
-        state = addMemberUiState
+        state = AddMemberUiState()
     )
 }
 
@@ -51,7 +52,11 @@ fun AddMemberContent(
                 .background(color = colors.background)
                 .padding(Space16),
         ) {
-            SearchBox()
+            TeamixTextField(
+                value = state.searchInput,
+                hint = stringResource(id = R.string.search),
+                painter = painterResource(id = R.drawable.ic_search),
+                onValueChange = {})
 
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(Space8),
@@ -94,3 +99,10 @@ fun AddMemberContent(
         }
 }
 
+@Preview
+@Composable
+fun AddMemberPreview() {
+    TeamixTheme {
+        AddMemberContent(AddMemberUiState())
+    }
+}

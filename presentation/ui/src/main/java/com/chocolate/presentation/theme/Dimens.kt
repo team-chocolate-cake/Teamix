@@ -103,6 +103,8 @@ val BoxHeight440 = 400.dp
 val RowWidth250 = 250.dp
 //endregion
 
+val Float1 = 1f
+
 
 
 

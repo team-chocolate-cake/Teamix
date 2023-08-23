@@ -29,6 +29,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.screens.add_member.composable.CircularButton
 import com.chocolate.presentation.theme.Border1
 import com.chocolate.presentation.theme.ButtonSize24
+import com.chocolate.presentation.theme.Float1
 import com.chocolate.presentation.theme.ImageSize40
 import com.chocolate.presentation.theme.Radius12
 import com.chocolate.presentation.theme.Space0
@@ -66,7 +67,7 @@ fun PersonCardWithDetails(
         ) {
             Image(
                 painter = rememberAsyncImagePainter(personImageUrl),
-                contentDescription = null,
+                contentDescription = contentDescription,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(ImageSize40)
@@ -101,7 +102,7 @@ fun PersonCardWithDetails(
                 )
             }
 
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(Float1))
             AnimatedVisibility (isSelected) {
                 CircularButton(
                     containerColor = MaterialTheme.customColors().primary,

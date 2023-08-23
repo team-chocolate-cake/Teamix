@@ -18,6 +18,7 @@ fun CreateOrganizationWebViewScreen() {
 }
 
 const val ZULIP: String = "https://zulip.com/new/"
+const val Title: String = "Teamix"
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "SetJavaScriptEnabled")
 @Composable
@@ -30,7 +31,7 @@ fun OrganizationWebViewContent() {
     TeamixScaffold(
         topBar = {
             TeamixAppBar(
-                title = "Teamix",
+                title = Title,
                 containerColor = color.secondary
             ) {}
         }

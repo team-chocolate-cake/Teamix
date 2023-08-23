@@ -12,12 +12,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.PersonCardWithDetails
-import com.chocolate.presentation.composable.SearchBox
-import com.chocolate.presentation.screens.allMembersUiState
+import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.allMembers.AllMembersUiState
 
@@ -26,7 +28,7 @@ fun AllMembersScreen(
     //navController: NavController,
 
 ) {
-    AllMembersContent(state = allMembersUiState)
+    AllMembersContent(state = AllMembersUiState())
 }
 
 @Composable
@@ -41,17 +43,21 @@ private fun AllMembersContent(
                 .background(color = colors.background)
                 .padding(Space16),
         ) {
-            SearchBox()
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(Space8),
-                contentPadding = PaddingValues(vertical = Space16)
-            ) {
-                items(state.members){ member ->
-                    PersonCardWithDetails(
-                        personImageUrl = member.imageUrl,
-                        title = member.name,
-                        subTitle = member.jobTitle,
-                        painter = painterResource(id = R.drawable.ic_check),
+        TeamixTextField(
+            value = state.searchInput,
+            hint = stringResource(id = R.string.search),
+            painter = painterResource(id = R.drawable.ic_search),
+            onValueChange = {})
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(Space8),
+            contentPadding = PaddingValues(vertical = Space16)
+        ) {
+            items(state.members) { member ->
+                PersonCardWithDetails(
+                    personImageUrl = member.imageUrl,
+                    title = member.name,
+                    subTitle = member.jobTitle,
+                    painter = painterResource(id = R.drawable.ic_check),
                         contentDescription = ""
                     )
                 }
@@ -59,3 +65,10 @@ private fun AllMembersContent(
         }
     }
 
+@Preview
+@Composable
+fun AllMembersPreview() {
+    TeamixTheme {
+        AllMembersContent(AllMembersUiState())
+    }
+}

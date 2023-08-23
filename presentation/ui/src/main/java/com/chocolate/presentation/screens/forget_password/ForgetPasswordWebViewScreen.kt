@@ -24,6 +24,7 @@ fun ForgetPasswordWebViewScreen(
     val state by viewModel.state.collectAsState()
     ForgetPasswordWebViewContent(state)
 }
+const val Title: String = "Teamix"
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "SetJavaScriptEnabled")
 @Composable
@@ -36,7 +37,7 @@ fun ForgetPasswordWebViewContent(forgetPasswordUiState: ForgetPasswordUiState) {
     TeamixScaffold(
         topBar = {
             TeamixAppBar(
-                title = "Teamix",
+                title = Title,
                 containerColor = color.secondary
             ) {}
         }

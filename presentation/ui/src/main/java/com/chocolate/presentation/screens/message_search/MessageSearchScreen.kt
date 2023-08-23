@@ -13,12 +13,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.PersonCardWithDetails
-import com.chocolate.presentation.composable.SearchBox
-import com.chocolate.presentation.screens.searchMessage
+import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.messageSearch.MessageSearchUiState
 
@@ -26,7 +28,7 @@ import com.chocolate.viewmodel.messageSearch.MessageSearchUiState
 fun MessageSearchScreen(
     //navController: NavController,
 ) {
-    MessageSearchContent(searchMessage)
+    MessageSearchContent(MessageSearchUiState())
 }
 
 @SuppressLint("SuspiciousIndentation")
@@ -42,7 +44,11 @@ private fun MessageSearchContent(
                 .background(color = colors.background)
                 .padding(Space16),
         ) {
-            SearchBox()
+            TeamixTextField(
+                value = state.searchInput,
+                hint = stringResource(id = R.string.search),
+                painter = painterResource(id = R.drawable.ic_search),
+                onValueChange = {})
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(Space8),
                 contentPadding = PaddingValues(vertical = Space16)
@@ -61,3 +67,11 @@ private fun MessageSearchContent(
             }
         }
     }
+
+@Preview
+@Composable
+fun MessageSearchPreview() {
+    TeamixTheme {
+        MessageSearchContent(MessageSearchUiState())
+    }
+}

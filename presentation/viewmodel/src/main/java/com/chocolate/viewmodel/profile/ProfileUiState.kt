@@ -1,5 +1,7 @@
 package com.chocolate.viewmodel.profile
 
+import com.chocolate.viewmodel.base.BaseViewModel
+
 data class ProfileUiState(
     val imageUrl: String = "",
     val name: String = "",
@@ -26,13 +28,6 @@ data class ProfileUiState(
     val originalEmail: String = "",
     val isLoading: Boolean = false,
     val error: String? = null
-)
-
-data class OwnerPowerUiState(
-    val showOrganizationNameSheet:Boolean=false,
-    val showOrganizationImageSheet:Boolean=false,
-    val showChangeMemberRoleDialog:Boolean=false,
-    val showCreateChannelSheet:Boolean=false,
-)
+): BaseViewModel.BaseUiState
 
 

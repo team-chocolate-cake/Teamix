@@ -20,7 +20,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -41,12 +40,12 @@ import com.chocolate.presentation.theme.Space42
 import com.chocolate.presentation.theme.Space48
 import com.chocolate.presentation.theme.Space56
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.login.LoginInteraction
 import com.chocolate.viewmodel.login.LoginUiEffect
 import com.chocolate.viewmodel.login.LoginUiState
 import com.chocolate.viewmodel.login.LoginViewModel
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun LoginScreen(
@@ -55,12 +54,10 @@ fun LoginScreen(
     val state by loginViewModel.state.collectAsState()
     val navController = LocalNavController.current
     val scrollState = rememberScrollState()
-    LaunchedEffect(key1 = Unit) {
-        loginViewModel.effect.collectLatest { effect ->
-            when (effect) {
-                LoginUiEffect.NavigateToForgetPassword -> navController.navigateToForgetPassword()
-                LoginUiEffect.NavigationToHome -> navController.navigateToHome()
-            }
+    CollectUiEffect(loginViewModel){ effect ->
+        when (effect) {
+            LoginUiEffect.NavigateToForgetPassword -> navController.navigateToForgetPassword()
+            LoginUiEffect.NavigationToHome -> navController.navigateToHome()
         }
     }
     LoginContent(loginViewModel, state, scrollState)

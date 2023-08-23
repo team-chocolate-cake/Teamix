@@ -63,12 +63,12 @@ import coil.request.CachePolicy
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.NoInternetLottie
-import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.composable.MultiChoiceDialog
+import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.ProfileDialog
 import com.chocolate.presentation.composable.ProfileTextField
 import com.chocolate.presentation.composable.SettingCard
+import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.BoxHeight440
 import com.chocolate.presentation.theme.ButtonSize110
 import com.chocolate.presentation.theme.CardHeight56
@@ -85,6 +85,7 @@ import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.Thickness2
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.presentation.util.updateResources
 import com.chocolate.viewmodel.main.MainViewModel

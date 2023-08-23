@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,11 +34,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
+import com.chocolate.presentation.composable.SeparatorWithText
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.create_organization.navigateToCreateOrganization
 import com.chocolate.presentation.screens.login.navigateToLogin
-import com.chocolate.presentation.composable.SeparatorWithText
 import com.chocolate.presentation.screens.welcome.navigateToWelcome
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space24
@@ -90,7 +91,7 @@ fun OrganizationContent(
     val colors = MaterialTheme.customColors()
     val context = LocalContext.current
     val scrollState = rememberScrollState()
-    TeamixScaffold {
+    TeamixScaffold(isDarkMode = isSystemInDarkTheme()) {
         Column(
             modifier = Modifier
                 .verticalScroll(scrollState)

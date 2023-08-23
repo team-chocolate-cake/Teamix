@@ -26,18 +26,19 @@ import com.chocolate.presentation.theme.customColors
 
 @Composable
 fun NoInternetLottie(
-    onClickRetry: () -> Unit,
+    text: String,
+    modifier: Modifier = Modifier,
     isShow: Boolean,
-    isDarkMode: Boolean
+    isDarkMode: Boolean,
+    onClickRetry: () -> Unit
 ) {
     val animationResId = if (isDarkMode) R.raw.animation_no_internet_dark else R.raw.animation_no_internet
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(animationResId))
-    val animationState =
-        animateLottieCompositionAsState(composition = composition, isPlaying = false)
+    animateLottieCompositionAsState(composition = composition, isPlaying = false)
     val color = MaterialTheme.customColors()
     AnimatedVisibility(visible = isShow) {
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .background(color.background),
             verticalArrangement = Arrangement.Center
@@ -54,7 +55,7 @@ fun NoInternetLottie(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.Bottom
             ) {
-                Text(text = "No internet connection", color = color.onBackground87)
+                Text(text = text, color = color.onBackground87)
                 Text(
                     text = ", retry",
                     color = color.primary,

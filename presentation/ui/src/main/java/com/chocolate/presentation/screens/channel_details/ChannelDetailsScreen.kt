@@ -2,6 +2,7 @@ package com.chocolate.presentation.screens.channel_details
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,10 +42,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.TeamixAppBar
-import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.ChannelAction
 import com.chocolate.presentation.composable.Member
+import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space24
 import com.chocolate.presentation.theme.Space32
@@ -119,7 +119,7 @@ fun ChannelDetailsContent(
     }
 
     TeamixScaffold(
-        topBar = { TeamixAppBar(title = channelDetailsUiState.channelName,) },
+        isDarkMode = isSystemInDarkTheme()
     ) { padding ->
         Column(
             modifier = Modifier

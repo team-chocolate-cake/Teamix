@@ -37,6 +37,7 @@ fun TeamixAppBar(
     modifier: Modifier = Modifier,
     hasImageUrl: Boolean,
     imageUrl: String,
+    contentDescription: String = "",
     containerColor: Color = MaterialTheme.customColors().primary,
 ) {
     val colors = MaterialTheme.customColors()
@@ -76,7 +77,7 @@ fun TeamixAppBar(
                     Icon(
                         painter = painterResource(id = R.drawable.alt_arrow_left),
                         tint = colors.onBackground87,
-                        contentDescription = ""
+                        contentDescription = contentDescription
                     )
                 }
             }

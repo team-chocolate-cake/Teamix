@@ -36,6 +36,7 @@ fun ForgetPasswordWebViewContent(forgetPasswordUiState: ForgetPasswordUiState) {
 
     TeamixScaffold(
         title = Title,
+        hasAppBar = true,
         hasBackArrow = true,
         isDarkMode = isSystemInDarkTheme()
     ) {

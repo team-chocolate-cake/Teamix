@@ -1,9 +1,9 @@
 package com.chocolate.presentation.screens.on_boarding
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -58,6 +58,7 @@ fun OnboardingContent(
     val pagerState = rememberPagerState()
     val colors = MaterialTheme.customColors()
     TeamixScaffold(
+        isDarkMode = isSystemInDarkTheme(),
         bottomBar = {
             Row(
                 modifier = Modifier

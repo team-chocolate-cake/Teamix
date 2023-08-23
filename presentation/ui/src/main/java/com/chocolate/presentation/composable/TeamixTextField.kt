@@ -1,7 +1,10 @@
 package com.chocolate.presentation.composable
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -17,8 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.theme.IconSize16
-import com.chocolate.presentation.theme.Radius12
+import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.TextFieldHeight48
 import com.chocolate.presentation.theme.customColors
 
@@ -28,6 +33,7 @@ fun TeamixTextField(
     value: String,
     modifier: Modifier = Modifier,
     painter: Painter? = null,
+    hasLeadingIcon: Boolean = false,
     contentDescription: String = "",
     hint: String,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -40,7 +46,8 @@ fun TeamixTextField(
     TextField(
         modifier = modifier
             .fillMaxWidth()
-            .height(TextFieldHeight48),
+            .height(TextFieldHeight48)
+            .padding(0.dp),
         value = value,
         onValueChange = onValueChange,
         textStyle = MaterialTheme.typography.bodySmall,
@@ -55,18 +62,20 @@ fun TeamixTextField(
             )
         },
         leadingIcon = {
-            painter?.let {
-                Icon(
-                    painter = it,
-                    contentDescription = contentDescription,
-                    modifier = Modifier.size(IconSize16)
-                )
+            AnimatedVisibility(visible = hasLeadingIcon) {
+                painter?.let {
+                    Icon(
+                        painter = it,
+                        contentDescription = contentDescription,
+                        modifier = Modifier.size(IconSize16)
+                    )
+                }
             }
         },
         trailingIcon = {
             trailingIcon()
         },
-        shape = RoundedCornerShape(Radius12),
+        shape = RoundedCornerShape(0),
         colors = TextFieldDefaults.textFieldColors(
             containerColor = colors.card,
             focusedIndicatorColor = Color.Transparent,
@@ -79,4 +88,14 @@ fun TeamixTextField(
             )
         )
     )
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun TeamixTextPreview() {
+    TeamixTheme {
+        TeamixTextField(modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .background(Color.Cyan), value = "a", hint = "", onValueChange = {})
+    }
 }

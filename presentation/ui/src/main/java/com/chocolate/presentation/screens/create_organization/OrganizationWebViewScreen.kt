@@ -31,6 +31,7 @@ fun OrganizationWebViewContent() {
     TeamixScaffold(
         title = Title,
         hasBackArrow = true,
+        hasAppBar = true,
         isDarkMode = isSystemInDarkTheme(),
     ) {
         WebView(

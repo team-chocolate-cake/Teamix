@@ -7,10 +7,10 @@ import androidx.navigation.compose.composable
 import com.chocolate.presentation.screens.bottomNavigation.BottomNavigationItem
 
 fun NavGraphBuilder.searchRoute(){
-    composable(BottomNavigationItem.Search.screen_route){
+    composable(BottomNavigationItem.Search.screenRoute){
         SearchScreen()
     }
 }
 fun NavController.navigateToSearch(builder: NavOptionsBuilder.() -> Unit = {}){
-    navigate(BottomNavigationItem.Search.screen_route,builder)
+    navigate(BottomNavigationItem.Search.screenRoute,builder)
 }

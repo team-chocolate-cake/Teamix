@@ -25,6 +25,7 @@ fun TeamixScaffold(
     isDarkMode: Boolean,
     title: String = "",
     imageUrl: String = "",
+    hasAppBar: Boolean = false,
     hasImageUrl: Boolean = false,
     hasBackArrow: Boolean = false,
     snackBarHost: @Composable () -> Unit = {},
@@ -35,7 +36,17 @@ fun TeamixScaffold(
     val colors = MaterialTheme.customColors()
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        topBar = { TeamixAppBar(title = title, hasBackArrow = hasBackArrow,hasImageUrl = hasImageUrl, imageUrl = imageUrl) },
+        topBar = {
+            AnimatedVisibility(visible = hasAppBar) {
+                TeamixAppBar(
+                    title = title,
+                    hasBackArrow = hasBackArrow,
+                    hasImageUrl = hasImageUrl,
+                    imageUrl = imageUrl
+                )
+
+            }
+        },
         containerColor = colors.background,
         snackbarHost = { snackBarHost() },
         floatingActionButton = { floatingActionButton() },

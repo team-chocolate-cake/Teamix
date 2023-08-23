@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.channel
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,9 +16,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.TeamixAppBar
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.screens.channel.composables.Topic
+import com.chocolate.presentation.composable.Topic
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
@@ -47,22 +46,9 @@ fun ChannelContent(
     onClickReact: (Boolean, ReactionUiState) -> Unit,
 ) {
     TeamixScaffold(
-        topBar = {
-            TeamixAppBar(
-                title = channelScreenUiState.channelName,
-                actions = {
-                    IconButton(
-                        onClick = meetingButtonClick
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.meeting_call),
-                            tint = MaterialTheme.customColors().onBackground60,
-                            contentDescription = ""
-                        )
-                    }
-                }
-            )
-        },
+        hasBackArrow = true,
+        title = channelScreenUiState.channelName,
+        isDarkMode = isSystemInDarkTheme(),
         floatingActionButton = {
             FloatingActionButton(
                 containerColor = MaterialTheme.customColors().primary,

@@ -45,12 +45,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
+import com.chocolate.presentation.composable.BadgeHome
+import com.chocolate.presentation.composable.ChannelItem
+import com.chocolate.presentation.composable.ManageChannelBottomSheet
+import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.screens.home.compose.BadgeHome
-import com.chocolate.presentation.screens.home.compose.ChannelItem
-import com.chocolate.presentation.screens.home.compose.ManageChannelBottomSheet
-import com.chocolate.presentation.screens.home.compose.NoInternetLottie
-import com.chocolate.presentation.screens.home.compose.TeamixTopAppBar
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.LightPrimary
@@ -139,13 +138,10 @@ fun HomeContent(state: HomeUiState,homeInteraction: HomeInteraction ) {
     }
     TeamixScaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = {
-            TeamixTopAppBar(
-                imageUrl = state.imageUrl,
-                title = state.organizationTitle,
-                colors = colors
-            )
-        }
+        isDarkMode = isSystemInDarkTheme(),
+        title = state.organizationTitle,
+        imageUrl = state.imageUrl,
+        hasImageUrl = true
     ) {
         LazyColumn(
             modifier = Modifier

@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.topic_details
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -16,8 +17,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.composable.TeamixAppBar
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.screens.topic_details.composables.ReplyMessage
-import com.chocolate.presentation.screens.topic_details.composables.StartNewMessage
+import com.chocolate.presentation.composable.ReplyMessage
+import com.chocolate.presentation.composable.StartNewMessage
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.util.CollectUiEffect
@@ -46,7 +47,8 @@ fun TopicScreen(
 @Composable
 fun TopicContent(topicUiState: TopicUiState, topicInteraction: TopicInteraction) {
     TeamixScaffold(
-        topBar = { TeamixAppBar( title = topicUiState.topicName,) },
+        title = topicUiState.topicName,
+        isDarkMode = isSystemInDarkTheme(),
         bottomBar = {
             StartNewMessage(
                 openEmojisTile = { topicInteraction.openEmojisTile() },

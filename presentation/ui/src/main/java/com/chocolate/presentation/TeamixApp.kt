@@ -1,14 +1,13 @@
 package com.chocolate.presentation
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.bottomNavigation.BottomNavigation
@@ -29,7 +28,7 @@ fun TeamixApp(isDark: Boolean) {
         BottomNavigationItem.Search.screenRoute -> true
         else -> false
     }
-    TeamixScaffold(bottomBar = {
+    TeamixScaffold(isDarkMode = isSystemInDarkTheme(), bottomBar = {
         if (shouldShowBottomNavigation)
             BottomNavigation(navController = navController)
     }) { innerPadding ->

@@ -1,11 +1,11 @@
 package com.chocolate.presentation.screens.create_organization
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.chocolate.presentation.composable.TeamixAppBar
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.theme.customColors
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -29,12 +29,9 @@ fun OrganizationWebViewContent() {
     systemUiController.setSystemBarsColor(color = color.secondary, darkIcons = true)
 
     TeamixScaffold(
-        topBar = {
-            TeamixAppBar(
-                title = Title,
-                containerColor = color.secondary
-            ) {}
-        }
+        title = Title,
+        hasBackArrow = true,
+        isDarkMode = isSystemInDarkTheme(),
     ) {
         WebView(
             state = state,

@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.forget_password
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -8,7 +9,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.chocolate.presentation.composable.TeamixAppBar
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.forgetPassowrd.ForgetPasswordUiState
@@ -35,12 +35,9 @@ fun ForgetPasswordWebViewContent(forgetPasswordUiState: ForgetPasswordUiState) {
     systemUiController.setSystemBarsColor(color = color.secondary, darkIcons = true)
 
     TeamixScaffold(
-        topBar = {
-            TeamixAppBar(
-                title = Title,
-                containerColor = color.secondary
-            ) {}
-        }
+        title = Title,
+        hasBackArrow = true,
+        isDarkMode = isSystemInDarkTheme()
     ) {
         WebView(
             state = state,

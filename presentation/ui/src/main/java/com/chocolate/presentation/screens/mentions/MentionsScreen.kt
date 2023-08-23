@@ -13,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
-import com.chocolate.presentation.screens.mentions.composables.MentionDays
-import com.chocolate.presentation.screens.mentions.composables.SecondaryAppBar
+import com.chocolate.presentation.composable.MentionDays
+import com.chocolate.presentation.composable.SecondaryAppBar
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.mentions.MentionsViewModel
 import com.chocolate.viewmodel.mentions.state.MentionsUiState

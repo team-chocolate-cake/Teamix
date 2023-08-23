@@ -15,13 +15,16 @@ import com.chocolate.viewmodel.base.BaseErrorUiState
 @Composable
 fun TeamixScaffold(
     modifier: Modifier = Modifier,
-    topBar: @Composable () -> Unit = {},
     isLoading: Boolean = false,
     onLoading: @Composable () -> Unit = {},
     error: BaseErrorUiState? = null,
     onError: @Composable () -> Unit = {},
     onRetry: () -> Unit = {},
     isDarkMode: Boolean,
+    title: String = "",
+    imageUrl: String = "",
+    hasImageUrl: Boolean = false,
+    hasBackArrow: Boolean = false,
     snackBarHost: @Composable () -> Unit = {},
     floatingActionButton: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
@@ -30,7 +33,7 @@ fun TeamixScaffold(
     val colors = MaterialTheme.customColors()
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        topBar = { topBar() },
+        topBar = { TeamixAppBar(title = title, hasBackArrow = hasBackArrow,hasImageUrl = hasImageUrl, imageUrl = imageUrl) },
         containerColor = colors.background,
         snackbarHost = { snackBarHost() },
         floatingActionButton = { floatingActionButton() },

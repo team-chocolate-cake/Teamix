@@ -37,7 +37,7 @@ import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.create_organization.navigateToCreateOrganization
 import com.chocolate.presentation.screens.login.navigateToLogin
-import com.chocolate.presentation.screens.organiztion.compose.SeparatorWithText
+import com.chocolate.presentation.composable.SeparatorWithText
 import com.chocolate.presentation.screens.welcome.navigateToWelcome
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space24

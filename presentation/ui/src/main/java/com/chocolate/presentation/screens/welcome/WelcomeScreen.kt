@@ -2,6 +2,7 @@ package com.chocolate.presentation.screens.welcome
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -46,6 +47,7 @@ fun WelcomeContent(
 ) {
     val colors = MaterialTheme.customColors()
     TeamixScaffold(
+        isDarkMode = isSystemInDarkTheme(),
         bottomBar = {
             Box(
                 modifier = Modifier

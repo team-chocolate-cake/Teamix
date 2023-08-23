@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.PersonCardWithDetails
 import com.chocolate.presentation.composable.TeamixTextField
-import com.chocolate.presentation.screens.add_member.composable.CancelableRectangularProfileItem
+import com.chocolate.presentation.composable.CancelableRectangularProfileItem
 import com.chocolate.presentation.theme.Border1
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8

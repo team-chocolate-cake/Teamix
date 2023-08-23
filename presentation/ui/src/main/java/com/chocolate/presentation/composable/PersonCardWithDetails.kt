@@ -26,7 +26,6 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import coil.compose.rememberAsyncImagePainter
-import com.chocolate.presentation.screens.add_member.composable.CircularButton
 import com.chocolate.presentation.theme.Border1
 import com.chocolate.presentation.theme.ButtonSize24
 import com.chocolate.presentation.theme.Float1

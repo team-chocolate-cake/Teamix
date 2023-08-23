@@ -43,8 +43,8 @@ import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixAppBar
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.screens.channel_details.compasbles.ChannelAction
-import com.chocolate.presentation.screens.channel_details.compasbles.Member
+import com.chocolate.presentation.composable.ChannelAction
+import com.chocolate.presentation.composable.Member
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space24
 import com.chocolate.presentation.theme.Space32

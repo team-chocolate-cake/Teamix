@@ -2,6 +2,7 @@ package com.chocolate.presentation.screens.search
 
 import android.annotation.SuppressLint
 import android.widget.Toast
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.chocolate.presentation.composable.TeamixScaffold
@@ -17,7 +18,7 @@ fun SearchScreen() {
 @Composable
 fun SearchContent() {
     val context = LocalContext.current
-    TeamixScaffold {
+    TeamixScaffold(isDarkMode = isSystemInDarkTheme()) {
         Toast.makeText(context, "Search Screen", Toast.LENGTH_SHORT).show()
     }
 }

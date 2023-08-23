@@ -65,10 +65,10 @@ import coil.transform.CircleCropTransformation
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
-import com.chocolate.presentation.screens.profile.composable.MultiChoiceDialog
-import com.chocolate.presentation.screens.profile.composable.ProfileDialog
-import com.chocolate.presentation.screens.profile.composable.ProfileTextField
-import com.chocolate.presentation.screens.profile.composable.SettingCard
+import com.chocolate.presentation.composable.MultiChoiceDialog
+import com.chocolate.presentation.composable.ProfileDialog
+import com.chocolate.presentation.composable.ProfileTextField
+import com.chocolate.presentation.composable.SettingCard
 import com.chocolate.presentation.theme.BoxHeight440
 import com.chocolate.presentation.theme.ButtonSize110
 import com.chocolate.presentation.theme.CardHeight56
@@ -94,7 +94,6 @@ import com.chocolate.viewmodel.profile.ProfileInteraction
 import com.chocolate.viewmodel.profile.ProfileUiState
 import com.chocolate.viewmodel.profile.ProfileViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Locale
 

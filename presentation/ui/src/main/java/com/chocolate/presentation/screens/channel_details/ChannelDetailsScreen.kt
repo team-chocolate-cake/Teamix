@@ -58,7 +58,6 @@ import com.chocolate.presentation.theme.customColors
 fun ChannelDetailsScreen() {
     ChannelDetailsContent(
         channelDetailsUiState = ChannelDetailsUiState(),
-        navigationBack = {},
         onAddUser = {},
         onMeetingCall = {},
         onSearch = {},
@@ -72,7 +71,6 @@ fun ChannelDetailsScreen() {
 @Composable
 fun ChannelDetailsContent(
     channelDetailsUiState: ChannelDetailsUiState,
-    navigationBack: () -> Unit,
     onAddUser: () -> Unit,
     onMeetingCall: () -> Unit,
     onSearch: () -> Unit,
@@ -121,12 +119,7 @@ fun ChannelDetailsContent(
     }
 
     TeamixScaffold(
-        topBar = {
-            TeamixAppBar(
-                title = channelDetailsUiState.channelName,
-                navigationBack = navigationBack,
-            )
-        },
+        topBar = { TeamixAppBar(title = channelDetailsUiState.channelName,) },
     ) { padding ->
         Column(
             modifier = Modifier

@@ -1,11 +1,13 @@
 package com.chocolate.viewmodel.topic
 
+import com.chocolate.viewmodel.base.BaseViewModel
+
 data class TopicUiState(
     val photoAndVideo: List<PhotoOrVideoUiState> = emptyList(),
     val messages: List<MessageUiState> = emptyList(),
     val topicName: String = "TopicName",
     val messageInput: String = ""
-)
+): BaseViewModel.BaseUiState
 
 data class PhotoOrVideoUiState(
     val isSelected: Boolean = false,

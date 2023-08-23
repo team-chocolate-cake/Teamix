@@ -26,37 +26,37 @@ class LoginViewModel @Inject constructor(
     private val loginArgs: LoginArgs = LoginArgs(savedStateHandle)
 
     init {
-        getNameOrganization()
+        getOrganizationName()
     }
 
-    private fun getNameOrganization() {
+    private fun getOrganizationName() {
         viewModelScope.launch {
             _state.update { it.copy(organizationName = loginArgs.organizationName) }
         }
     }
 
-    fun onClickForgetPassword(){
+    override fun onClickForgetPassword(){
         sendUiEffect(LoginUiEffect.NavigateToForgetPassword)
     }
 
-    override fun updateEmailState(email: String) {
+    override fun onChangeEmail(email: String) {
         _state.update { it.copy(email = email) }
     }
 
-    override fun updatePasswordState(password: String) {
+    override fun onChangePassword(password: String) {
         _state.update { it.copy(password = password) }
     }
 
-    override fun login(email: String, password: String) {
+    override fun onClickSignIn(email: String, password: String) {
         _state.update { it.copy(isLoading = true) }
         tryToExecute({ attemptUserLoginUseCase(email, password) }, ::onSuccess, ::onError)
     }
 
     override fun onClickRetry() {
-        login(_state.value.email, _state.value.password)
+        onClickSignIn(_state.value.email, _state.value.password)
     }
 
-    override fun onClickpasswordVisibility(passwordVisibility: Boolean) {
+    override fun onClickPasswordVisibility(passwordVisibility: Boolean) {
         _state.update { it.copy(passwordVisibility = passwordVisibility) }
      }
 

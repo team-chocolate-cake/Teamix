@@ -60,6 +60,7 @@ import com.chocolate.presentation.theme.Space64
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.home.HomeInteraction
 import com.chocolate.viewmodel.home.HomeUiEffect
@@ -67,7 +68,6 @@ import com.chocolate.viewmodel.home.HomeUiState
 import com.chocolate.viewmodel.home.HomeViewModel
 import com.chocolate.viewmodel.main.MainViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kotlinx.coroutines.flow.collectLatest
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -79,16 +79,14 @@ fun HomeScreen(
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = !isSystemInDarkTheme()
     val state by homeViewModel.state.collectAsState()
-    LaunchedEffect(key1 = Unit){
-        homeViewModel.effect.collectLatest {effect->
-            when(effect){
-                HomeUiEffect.NavigateToChannel -> {}
-                HomeUiEffect.NavigateToOrganizationName -> {navController.navigateToOrganizationName()}
-                HomeUiEffect.NavigationToDrafts -> {}
-                HomeUiEffect.NavigationToSavedLater -> {}
-                HomeUiEffect.NavigationToStarred -> {}
-                HomeUiEffect.NavigateToTopic -> {}
-            }
+    CollectUiEffect(viewModel = homeViewModel){effect->
+        when(effect){
+            HomeUiEffect.NavigateToChannel -> {}
+            HomeUiEffect.NavigateToOrganizationName -> {navController.navigateToOrganizationName()}
+            HomeUiEffect.NavigationToDrafts -> {}
+            HomeUiEffect.NavigationToSavedLater -> {}
+            HomeUiEffect.NavigationToStarred -> {}
+            HomeUiEffect.NavigateToTopic -> {}
         }
     }
     DisposableEffect(systemUiController, useDarkIcons) {

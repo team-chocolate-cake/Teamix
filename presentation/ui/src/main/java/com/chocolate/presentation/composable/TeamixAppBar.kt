@@ -13,16 +13,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.LocalNavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TeamixAppBar(
     title: String,
-    navigationBack: () -> Unit,
     containerColor: Color = MaterialTheme.customColors().primary,
     actions: @Composable RowScope.() -> Unit = {},
 ) {
     val colors = MaterialTheme.customColors()
+    val navController = LocalNavController.current
     TopAppBar(
         title = {
             Text(
@@ -33,7 +34,7 @@ fun TeamixAppBar(
         },
         navigationIcon = {
             IconButton(
-                onClick = navigationBack
+                onClick = {navController.popBackStack()}
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.alt_arrow_left),

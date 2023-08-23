@@ -28,7 +28,6 @@ import com.chocolate.viewmodel.topic.ReactionUiState
 fun ChannelScreen() {
     ChannelContent(
         channelScreenUiState = ChannelScreenUiState(),
-        navigationBack = {},
         meetingButtonClick = {},
         onOpenReactTile = {},
         onSeeAll = {},
@@ -42,7 +41,6 @@ fun ChannelScreen() {
 @Composable
 fun ChannelContent(
     channelScreenUiState: ChannelScreenUiState,
-    navigationBack: () -> Unit,
     meetingButtonClick: () -> Unit,
     onOpenReactTile: () -> Unit,
     onSeeAll: () -> Unit,
@@ -52,7 +50,6 @@ fun ChannelContent(
         topBar = {
             TeamixAppBar(
                 title = channelScreenUiState.channelName,
-                navigationBack = navigationBack,
                 actions = {
                     IconButton(
                         onClick = meetingButtonClick

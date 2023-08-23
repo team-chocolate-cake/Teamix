@@ -1,6 +1,8 @@
 package com.chocolate.viewmodel.organization_name
 
-sealed interface OrganizationNameUiEffect{
+import com.chocolate.viewmodel.base.BaseViewModel
+
+sealed interface OrganizationNameUiEffect: BaseViewModel.BaseUiEffect{
      object NavigateToLoginScreen: OrganizationNameUiEffect
      object NavigateToCreateOrganization: OrganizationNameUiEffect
 }

@@ -23,7 +23,3 @@ fun NavController.navigateToLogin(organizationName: String) {
         launchSingleTop = true
     }
 }
-
-fun NavController.backToLogin(){
-    popBackStack()
-}

@@ -49,7 +49,6 @@ class ProfileViewModel @Inject constructor(
 
     private fun onGetCurrentUserSuccess(user: User) {
         val currentUserUi = user.toOwnerUserUiState()
-        println("$currentUserUi 123")
         _state.update {
             it.copy(
                 name = currentUserUi.name,

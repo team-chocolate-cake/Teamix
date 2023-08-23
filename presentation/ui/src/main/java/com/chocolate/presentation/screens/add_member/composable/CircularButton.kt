@@ -25,7 +25,7 @@ fun CircularButton(
     containerColor: Color,
     modifier: Modifier = Modifier,
     size: Dp = ButtonSize18,
-    onClick: () -> Unit,
+    onClick: () -> Unit = {},
     content: @Composable () -> Unit
 ) {
 

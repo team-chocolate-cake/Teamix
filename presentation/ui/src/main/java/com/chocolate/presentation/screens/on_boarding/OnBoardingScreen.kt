@@ -25,12 +25,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
+import com.chocolate.presentation.screens.create_organization.navigateToCreateOrganization
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.Space24
 import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
+import com.chocolate.viewmodel.onboarding.OnboardingInteraction
+import com.chocolate.viewmodel.onboarding.OnboardingUiEffect
 import com.chocolate.viewmodel.onboarding.OnboardingViewModel
 import kotlinx.coroutines.launch
 
@@ -39,9 +43,14 @@ fun OnboardingScreen(
     onboardingViewModel: OnboardingViewModel = hiltViewModel()
 ) {
     val navController = LocalNavController.current
+    CollectUiEffect(viewModel = onboardingViewModel) { effect ->
+        when (effect) {
+            OnboardingUiEffect.NavigateToOrganizationName ->
+                navController.navigateToOrganizationName()
+        }
+    }
     OnboardingContent(
-        navigateToOrganization = { navController.navigateToOrganizationName() },
-        { onboardingViewModel.onClickLetsStart() }
+        onboardingViewModel
     )
 }
 
@@ -51,8 +60,7 @@ val onboardingPages = listOf(OnboardingPage.First, OnboardingPage.Second, Onboar
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnboardingContent(
-    navigateToOrganization: () -> Unit,
-    onClickLetsStart: () -> Unit
+    onboardingInteraction: OnboardingInteraction
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
@@ -78,8 +86,7 @@ fun OnboardingContent(
                                 pagerState.scrollToPage(pagerState.currentPage + 1)
                             }
                         } else {
-                            onClickLetsStart()
-                            navigateToOrganization()
+                            onboardingInteraction.onClickLetsStart()
                         }
                     },
                     colors = colors

@@ -1,9 +1,11 @@
 package com.chocolate.viewmodel.onboarding
 
+import com.chocolate.viewmodel.base.BaseViewModel
+
 data class OnboardingUiState(
-    val image: Int=0,
-    val title: String="",
-    val description: String="",
-    val buttonText: String="",
+    val image: Int = 0,
+    val title: String = "",
+    val description: String = "",
+    val buttonText: String = "",
     val isLastPage: Boolean = false
-)
+) : BaseViewModel.BaseUiState

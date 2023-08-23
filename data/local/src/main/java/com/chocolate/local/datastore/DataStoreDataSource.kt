@@ -7,7 +7,10 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import com.chocolate.local.datastore.util.get
 import com.chocolate.repository.datastore.PreferencesDataSource
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
@@ -37,7 +40,7 @@ class DataStoreDataSource @Inject constructor(
     }
 
     override suspend fun setUserUsedAppForFirstTime(isFirstTime: Boolean) {
-        runBlocking{ dataStore.setValue(IS_FIRST_TIME, isFirstTime) }
+        dataStore.setValue(IS_FIRST_TIME, isFirstTime)
     }
 
     override suspend fun checkIfUserUsedAppOrNot(): Flow<Boolean> {

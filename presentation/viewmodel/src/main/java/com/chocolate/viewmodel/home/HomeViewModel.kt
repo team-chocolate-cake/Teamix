@@ -3,7 +3,7 @@ package com.chocolate.viewmodel.home
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.entities.exceptions.UnknownException
+import com.chocolate.entities.exceptions.UnAuthorizedException
 import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.entities.server_and_organizations.ServerSettings
 import com.chocolate.usecases.channel.GetChannelsUseCase
@@ -95,7 +95,7 @@ class HomeViewModel @Inject constructor(
 
     private fun onError(throwable: Throwable) {
         when (throwable) {
-            is UnknownException, is ValidationException -> sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
+            is UnAuthorizedException, is ValidationException -> sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
             is NoConnectionException -> _state.update {
                 it.copy(
                     showNoInternetLottie = true,

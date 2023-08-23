@@ -1,12 +1,5 @@
 package com.chocolate.remote
 
-import com.chocolate.entities.exceptions.NetworkException
-import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.entities.exceptions.NullDataException
-import com.chocolate.entities.exceptions.TimeOutException
-import com.chocolate.entities.exceptions.UnknownException
-import com.chocolate.entities.exceptions.UserDeactivatedException
-import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.remote.channels.service.ChannelsService
 import com.chocolate.remote.drafts.service.DraftService
 import com.chocolate.remote.messages.service.MessageService
@@ -672,29 +665,6 @@ class RetrofitDataSource @Inject constructor(
     override suspend fun fetchApiKey(userName: String, password: String): FetchApiKeyDto {
         return wrapApiCall {
             userService.fetchApiKey(userName, password)
-        }
-    }
-
-    private suspend fun <T> wrapApiCall(call: suspend () -> Response<T>): T {
-        return try {
-            val result = call()
-            when (result.code()) {
-                HttpStatusCodes.BAD_REQUEST.code -> throw NetworkException(result.message())
-                HttpStatusCodes.UNAUTHORIZED.code -> throw ValidationException(result.message())
-                HttpStatusCodes.USER_DEACTIVATED.code -> throw UserDeactivatedException(result.message())
-                HttpStatusCodes.TOO_MANY_REQUESTS.code -> throw UnknownException(result.message())
-                HttpStatusCodes.NO_CONNECTION.code -> throw NullDataException(result.message())
-                else -> result.body() ?: throw NullDataException(result.message())
-            }
-
-        } catch (exception: SSLException) {
-            throw UnknownException(exception.message)
-        } catch (exception: UnknownHostException) {
-            throw NoConnectionException(exception.message)
-        } catch (exception: SocketTimeoutException) {
-            throw TimeOutException(exception.message.toString())
-        } catch (exception: IOException) {
-            throw UnknownException(exception.message)
         }
     }
 }

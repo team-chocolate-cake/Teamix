@@ -6,7 +6,7 @@ import com.chocolate.entities.exceptions.NetworkException
 import com.chocolate.entities.exceptions.NullDataException
 import com.chocolate.entities.exceptions.ServerException
 import com.chocolate.entities.exceptions.TeamixException
-import com.chocolate.entities.exceptions.UnknownException
+import com.chocolate.entities.exceptions.UnAuthorizedException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -37,7 +37,7 @@ abstract class BaseViewModel<STATE, UiEffect>(initialState: STATE) : ViewModel()
                 onError(e)
             } catch (e: NetworkException) {
                 onError(e)
-            } catch (e: UnknownException) {
+            } catch (e: UnAuthorizedException) {
                 onError(e)
             } catch (e: NullDataException) {
                 onError(e)

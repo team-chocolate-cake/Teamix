@@ -92,5 +92,5 @@ object NetworkModule {
     @Provides
     @Named("baseUrl")
     fun provideBaseUrl(preferencesDataSource: PreferencesDataSource): String =
-        "https://${preferencesDataSource.currentOrganization}.zulipchat.com/api/v1/"
+        "https://${preferencesDataSource.currentOrganization()}.zulipchat.com/api/v1/"
 }

@@ -65,7 +65,7 @@ class DataStoreDataSource @Inject constructor(
     }
 
     override suspend fun deleteAuthenticationData() {
-        dataStore.edit { preferences -> preferences.clear() }
+        dataStore.edit { preferences -> preferences.remove(LOGIN_STATE) }
         sharedPreferences.edit().clear().apply()
     }
 

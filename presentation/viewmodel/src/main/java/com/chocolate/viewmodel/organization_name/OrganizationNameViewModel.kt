@@ -6,7 +6,7 @@ import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.usecases.onboarding.ManageUserUsedAppUseCase
 import com.chocolate.usecases.organization.SaveNameOrganizationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
-import com.chocolate.viewmodel.base.StringsRes
+import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class OrganizationNameViewModel @Inject constructor(
     private val saveNameOrganizationsUseCase: SaveNameOrganizationUseCase,
     private val manageUserUsedAppUseCase: ManageUserUsedAppUseCase,
-    private val stringsRes: StringsRes
+    private val stringsResource: StringsResource
 ) : BaseViewModel<OrganizationNameUiState, OrganizationNameUiEffect>(OrganizationNameUiState()),
     OrganizationNameInteraction {
 
@@ -42,27 +42,27 @@ class OrganizationNameViewModel @Inject constructor(
 
     private fun onError(throwable: Throwable) {
         val errorMessage = when (throwable) {
-            is NoConnectionException -> stringsRes.noConnectionMessage
-            else -> stringsRes.organizationNameCannotBeEmpty
+            is NoConnectionException -> stringsResource.noConnectionMessage
+            else -> stringsResource.organizationNameCannotBeEmpty
         }
         _state.update { it.copy(isLoading = false, error = errorMessage) }
     }
 
     private fun getOnUserUsedAppForFirstTime() {
-     viewModelScope.launch {
+        viewModelScope.launch {
             collectFlow(manageUserUsedAppUseCase.checkIfUserUsedAppOrNot()) {
                 this.copy(
                     onboardingState = it
                 )
             }
-         Log.d("state",state.value.onboardingState.toString())
-     }
-      // tryToExecute({ manageUserUsedAppUseCase.checkIfUserUsedAppOrNot() }, ::getOnUserUsedAppForFirstTimeSuccess, ::getOnUserUsedAppForFirstTimeError)
+            Log.d("state", state.value.onboardingState.toString())
+        }
+        // tryToExecute({ manageUserUsedAppUseCase.checkIfUserUsedAppOrNot() }, ::getOnUserUsedAppForFirstTimeSuccess, ::getOnUserUsedAppForFirstTimeError)
     }
 
     private fun getOnUserUsedAppForFirstTimeSuccess(isFirstTime: Boolean) {
         _state.update { it.copy(onboardingState = isFirstTime) }
-        Log.d("state",state.value.onboardingState.toString())
+        Log.d("state", state.value.onboardingState.toString())
     }
 
     private fun getOnUserUsedAppForFirstTimeError(throwable: Throwable) {

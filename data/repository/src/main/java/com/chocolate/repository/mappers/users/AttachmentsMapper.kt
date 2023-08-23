@@ -1,11 +1,13 @@
 package com.chocolate.repository.mappers.users
 
 import com.chocolate.entities.user.Attachment
+import com.chocolate.repository.mappers.toDate
 import com.chocolate.repository.model.dto.users.response.AttachmentDto
+import java.util.Date
 
 fun AttachmentDto.toEntity(): Attachment {
         return Attachment(
-            createTime=createTime ?: 0,
+            createTime=createTime?.toDate() ?: Date(),
             id=id ?: 0,
             name = name ?: "",
             filePath = pathId ?: "",

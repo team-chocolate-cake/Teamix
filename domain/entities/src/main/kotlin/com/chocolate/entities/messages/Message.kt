@@ -1,5 +1,7 @@
 package com.chocolate.entities.messages
 
+import java.util.Date
+
 data class Message(
     val id: Int,
     val senderAvatarUrl: String,
@@ -10,5 +12,5 @@ data class Message(
     val messageContent: String,
     val streamId: Int,
     val topic: String,
-    val timestamp: Long,
+    val timestamp: Date,
 )

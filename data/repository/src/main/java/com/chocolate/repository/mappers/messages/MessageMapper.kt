@@ -2,8 +2,10 @@ package com.chocolate.repository.mappers.messages
 
 import com.chocolate.entities.messages.Message
 import com.chocolate.entities.messages.Reaction
+import com.chocolate.repository.mappers.toDate
 import com.chocolate.repository.model.dto.message.response.MessageDto
 import com.chocolate.repository.model.dto.message.response.ReactionDto
+import java.util.Date
 
 
 fun MessageDto.toEntity(): Message {
@@ -17,7 +19,7 @@ fun MessageDto.toEntity(): Message {
         senderId = this.senderId ?: 0,
         streamId = this.streamId ?: 0,
         topic = this.subject ?: "",
-        timestamp = this.timestamp ?: 0L,
+        timestamp = this.timestamp?.toDate() ?: Date(),
     )
 }
 

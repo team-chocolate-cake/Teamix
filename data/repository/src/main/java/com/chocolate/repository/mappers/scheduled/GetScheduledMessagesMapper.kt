@@ -1,12 +1,14 @@
 package com.chocolate.repository.mappers.scheduled
 
 import com.chocolate.entities.scheduled_messages.ScheduledMessage
+import com.chocolate.repository.mappers.toDate
 import com.chocolate.repository.model.dto.scheduled_message.response.ScheduledMessageContentDto
+import java.util.Date
 
 fun ScheduledMessageContentDto.toEntity(): ScheduledMessage {
     return ScheduledMessage(
         content = this.content ?: "",
-        deliveryTimestamp = this.scheduledDeliveryTimestamp ?: 0,
+        deliveryTimestamp = this.scheduledDeliveryTimestamp?.toDate() ?: Date(),
         id = this.scheduledMessageId ?: 0,
         topic = this.topic ?: "",
     )

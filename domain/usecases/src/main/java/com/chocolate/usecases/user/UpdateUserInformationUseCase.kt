@@ -1,8 +1,6 @@
 package com.chocolate.usecases.user
 
-import com.chocolate.entities.exceptions.EmptyEmailException
-import com.chocolate.entities.exceptions.EmptyFullNameException
-import com.chocolate.entities.exceptions.SameUserDataException
+import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.entities.user.Settings
 import com.chocolate.entities.user.User
 import repositories.UsersRepository
@@ -29,11 +27,11 @@ class UpdateUserInformationUseCase @Inject constructor(
     ): Boolean {
         if ((oldUserInformation.email == newUserInformation.email) &&
             (oldUserInformation.fullName == newUserInformation.fullName)) {
-            throw SameUserDataException
+            throw ValidationException("The same data")
         } else if (newUserInformation.email.isBlank()) {
-            throw EmptyEmailException
+            throw ValidationException("The email shouldn't be empty")
         } else if (newUserInformation.fullName.isBlank()) {
-            throw EmptyFullNameException
+            throw ValidationException("The full name shouldn't be empty")
         }
         return true
     }

@@ -1,10 +1,7 @@
 package com.chocolate.viewmodel.profile
 
 import androidx.lifecycle.viewModelScope
-import com.chocolate.entities.exceptions.EmptyEmailException
-import com.chocolate.entities.exceptions.EmptyFullNameException
 import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.entities.exceptions.SameUserDataException
 import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.entities.user.Settings
 import com.chocolate.entities.user.User
@@ -164,9 +161,7 @@ class ProfileViewModel @Inject constructor(
 
     private fun onError(throwable: Throwable) {
         val error = when (throwable) {
-            EmptyEmailException -> stringsRes.emptyEmailMessage
-            EmptyFullNameException -> stringsRes.emptyFullNameMessage
-            SameUserDataException -> stringsRes.sameUserDataMessage
+            is ValidationException -> throwable.message
             is NoConnectionException -> stringsRes.noConnectionMessage
             else -> stringsRes.globalMessageError
         }

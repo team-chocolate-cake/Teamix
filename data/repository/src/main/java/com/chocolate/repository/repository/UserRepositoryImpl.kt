@@ -5,16 +5,15 @@ import com.chocolate.entities.user.User
 import com.chocolate.repository.datastore.PreferencesDataSource
 import com.chocolate.repository.mappers.users.toEntity
 import com.chocolate.repository.mappers.users.toLocalDto
-import com.chocolate.repository.service.local.TeamixLocalDataSource
 import com.chocolate.repository.service.remote.RemoteDataSource
+import com.chocolate.repository.service.local.LocalDataSource
 import kotlinx.coroutines.flow.Flow
 import repositories.UsersRepository
 import javax.inject.Inject
-
-class UserRepositoryImp @Inject constructor(
+class UserRepositoryImpl @Inject constructor(
     private val userDataSource: RemoteDataSource,
     private val preferencesDataSource: PreferencesDataSource,
-    private val teamixLocalDataSource: TeamixLocalDataSource
+    private val teamixLocalDataSource: LocalDataSource
 ) : UsersRepository {
     override suspend fun getAllUsers(
         clientGravatar: Boolean, includeCustomProfileFields: Boolean

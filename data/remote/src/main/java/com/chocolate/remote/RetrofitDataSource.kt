@@ -1,5 +1,6 @@
 package com.chocolate.remote
 
+import com.chocolate.entities.user.User
 import com.chocolate.remote.channels.service.ChannelsService
 import com.chocolate.remote.drafts.service.DraftService
 import com.chocolate.remote.messages.service.MessageService
@@ -36,7 +37,6 @@ import com.chocolate.repository.model.dto.server_and_organizations.response.Cust
 import com.chocolate.repository.model.dto.server_and_organizations.response.DefaultOrganizationDto
 import com.chocolate.repository.model.dto.server_and_organizations.response.LinkifiersDto
 import com.chocolate.repository.model.dto.server_and_organizations.response.ServerSettingsDto
-import com.chocolate.repository.model.dto.users.request.SettingsDto
 import com.chocolate.repository.model.dto.users.response.FetchApiKeyDto
 import com.chocolate.repository.model.dto.users.response.StatusUserRemoteDto
 import com.chocolate.repository.service.remote.RemoteDataSource
@@ -588,8 +588,8 @@ class RetrofitDataSource @Inject constructor(
         userService.deleteAttachment(attachmentId)
     }
 
-    override suspend fun updateSettings(settings: SettingsDto) = wrapApiCall {
-        userService.updateSettings(settings.fullName,settings.email)
+    override suspend fun updateSettings(user: User) = wrapApiCall {
+        userService.updateSettings(user.fullName,user.email)
     }
 
     override suspend fun getUserGroups() = wrapApiCall {

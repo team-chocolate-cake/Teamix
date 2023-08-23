@@ -5,7 +5,6 @@ import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.UnAuthorizedException
 import com.chocolate.entities.exceptions.ValidationException
-import com.chocolate.entities.server_and_organizations.ServerSettings
 import com.chocolate.usecases.channel.GetChannelsUseCase
 import com.chocolate.usecases.channel.GetSubscribedChannelsUseCase
 import com.chocolate.usecases.organization.GetImageOrganizationUseCase
@@ -49,11 +48,11 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    private fun onGettingOrganizationImageSuccess(serverSettings: ServerSettings) {
+    private fun onGettingOrganizationImageSuccess(Image: String) {
         _state.update {
             it.copy(
                 isLoading = true,
-                imageUrl = serverSettings.realmIcon,
+                imageUrl = Image,
                 showNoInternetLottie = false,
                 error = null
             )

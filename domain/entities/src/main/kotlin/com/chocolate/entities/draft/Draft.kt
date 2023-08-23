@@ -1,11 +1,12 @@
 package com.chocolate.entities.draft
 
-data class Draft (
-    val content: String,
-    val id: Int,
-    val timestamp: Double,
-    val to: List<Int>,
-    val topic: String,
-    val type: String
+import java.util.Date
 
+data class Draft (
+    val id: Int,
+    val targetAudienceIDs: List<Int>,
+    val content: String,
+    val timestamp: Date,
+    val topic: String,
+    val isInStream: Boolean
 )

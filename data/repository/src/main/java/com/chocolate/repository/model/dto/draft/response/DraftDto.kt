@@ -8,7 +8,7 @@ data class DraftDto(
     @SerializedName("id")
     val id: Int,
     @SerializedName("timestamp")
-    val timestamp: Double,
+    val timestamp: Long,
     @SerializedName("to")
     val to: List<Int>,
     @SerializedName("topic")

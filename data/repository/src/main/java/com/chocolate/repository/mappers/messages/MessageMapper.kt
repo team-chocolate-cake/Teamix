@@ -1,38 +1,31 @@
 package com.chocolate.repository.mappers.messages
 
 import com.chocolate.entities.messages.Message
-import com.chocolate.entities.messages.Messages
+import com.chocolate.entities.messages.Reaction
+import com.chocolate.repository.mappers.toDate
 import com.chocolate.repository.model.dto.message.response.MessageDto
-import com.chocolate.repository.model.dto.message.response.MessagesRemoteDto
+import com.chocolate.repository.model.dto.message.response.ReactionDto
+import java.util.Date
 
 
-fun MessageDto.toMessage(): Message {
+fun MessageDto.toEntity(): Message {
     return Message(
-        avatarUrl = this.avatarUrl ?: "",
-        client = this.client ?: "",
-        content = this.content ?: "",
-        contentType = this.contentType ?: "",
-        displayRecipient = this.displayRecipient ?: "",
-        flags = this.flags ?: emptyList(),
+        senderAvatarUrl = this.avatarUrl ?: "",
+        messageContent = this.content ?: "",
         id = this.id ?: 0,
-        isMeMessage = this.isMeMessage ?: false,
-        reactions = this.reactions ?: emptyList(),
-        recipientId = this.recipientId ?: 0,
+        reactions = this.reactions.toEntity(),
         senderEmail = this.senderEmail ?: "",
         senderFullName = this.senderFullName ?: "",
         senderId = this.senderId ?: 0,
-        senderRealmStr = this.senderRealmStr ?: "",
         streamId = this.streamId ?: 0,
-        subject = this.subject ?: "",
-        subMessages = this.subMessages ?: emptyList(),
-        timestamp = this.timestamp ?: 0L,
-        topicLinks = this.topicLinks ?: emptyList(),
-        type = this.type ?: ""
+        topic = this.subject ?: "",
+        timestamp = this.timestamp?.toDate() ?: Date(),
     )
 }
 
-fun MessagesRemoteDto.toMessages(): Messages {
-    return Messages(
-        messages = this.messages?.map { it.toMessage() } ?: emptyList()
-    )
-}
+@JvmName("MessageDto")
+fun List<MessageDto>?.toEntity(): List<Message> = this?.map { it.toEntity() }.orEmpty()
+
+@JvmName("ReactionDto")
+fun List<ReactionDto>?.toEntity(): List<Reaction> =
+    this?.map { Reaction(emojiCode = it.emoji_code, emojiName = it.emoji_name) }.orEmpty()

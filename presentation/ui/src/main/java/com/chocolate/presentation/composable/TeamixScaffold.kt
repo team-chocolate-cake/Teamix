@@ -8,6 +8,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.base.BaseErrorUiState
 
@@ -66,7 +68,8 @@ fun ErrorHandler(
         NoInternetLottie(
             onClickRetry = { onRetry() },
             isShow = error.isError,
-            isDarkMode = isDarkMode
+            isDarkMode = isDarkMode,
+            text = stringResource(id = R.string.no_internet_connection)
         )
     } else {
         onError()

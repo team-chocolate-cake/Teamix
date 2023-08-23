@@ -103,6 +103,7 @@ fun HomeScreen(
                 isShow = true,
                 onClickRetry = homeViewModel::getData,
                 isDarkMode = mainViewModel.state.value,
+                text = stringResource(id = R.string.no_internet_connection)
                 )
         } else {
             when {

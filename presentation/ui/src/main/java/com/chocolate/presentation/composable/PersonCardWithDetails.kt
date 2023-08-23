@@ -1,5 +1,6 @@
 package com.chocolate.presentation.composable
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -21,11 +22,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import coil.compose.rememberAsyncImagePainter
-import com.chocolate.presentation.R
 import com.chocolate.presentation.screens.add_member.composable.CircularButton
 import com.chocolate.presentation.theme.Border1
 import com.chocolate.presentation.theme.ButtonSize24
@@ -35,20 +35,20 @@ import com.chocolate.presentation.theme.Space0
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
 
-
 @Composable
 fun PersonCardWithDetails(
+    modifier: Modifier = Modifier,
+    painter: Painter,
     personImageUrl: String,
     title: String,
     subTitle: String,
-    modifier: Modifier = Modifier,
+    contentDescription: String,
     subTitleMaxLine: Int = 1,
     date: String = "",
     isSelected: Boolean = false
 ) {
     Card(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(Radius12),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.customColors().card),
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = Space0),
@@ -102,17 +102,16 @@ fun PersonCardWithDetails(
             }
 
             Spacer(modifier = Modifier.weight(1f))
-            if (isSelected) {
+            AnimatedVisibility (isSelected) {
                 CircularButton(
                     containerColor = MaterialTheme.customColors().primary,
-                    onClick = {},
                     size = ButtonSize24
                 ) {
                     Icon(
                         modifier = Modifier.align(Alignment.CenterVertically),
-                        painter = painterResource(id = R.drawable.ic_check),
+                        painter = painter,
                         tint = MaterialTheme.customColors().onPrimary,
-                        contentDescription = null
+                        contentDescription = contentDescription
                     )
                 }
             }

@@ -21,8 +21,8 @@ fun TeamixTextField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    trailingIcon: @Composable (() -> Unit),
-    placeholder: @Composable (() -> Unit),
+    trailingIcon: @Composable (() -> Unit) = {},
+    placeholder: @Composable (() -> Unit) = {},
     visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
     val colors = MaterialTheme.customColors()

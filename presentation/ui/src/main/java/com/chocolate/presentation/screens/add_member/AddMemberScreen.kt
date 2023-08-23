@@ -15,12 +15,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.chocolate.presentation.R
-import com.chocolate.presentation.screens.add_member.composable.CancelableRectangularProfileItem
-import com.chocolate.presentation.screens.addMemberUiState
 import com.chocolate.presentation.composable.PersonCardWithDetails
 import com.chocolate.presentation.composable.SearchBox
+import com.chocolate.presentation.screens.addMemberUiState
+import com.chocolate.presentation.screens.add_member.composable.CancelableRectangularProfileItem
 import com.chocolate.presentation.theme.Border1
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
@@ -83,7 +84,9 @@ fun AddMemberContent(
                         personImageUrl = member.imageUrl,
                         title = member.name,
                         subTitle = member.jobTitle,
-                        isSelected = member.isSelected
+                        isSelected = member.isSelected,
+                        painter = painterResource(id = R.drawable.ic_check),
+                        contentDescription = ""
                     )
                 }
             }

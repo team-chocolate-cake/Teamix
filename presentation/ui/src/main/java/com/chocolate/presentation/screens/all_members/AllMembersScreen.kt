@@ -11,9 +11,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.chocolate.presentation.screens.allMembersUiState
+import androidx.compose.ui.res.painterResource
+import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.PersonCardWithDetails
 import com.chocolate.presentation.composable.SearchBox
+import com.chocolate.presentation.screens.allMembersUiState
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
@@ -48,7 +50,9 @@ private fun AllMembersContent(
                     PersonCardWithDetails(
                         personImageUrl = member.imageUrl,
                         title = member.name,
-                        subTitle = member.jobTitle
+                        subTitle = member.jobTitle,
+                        painter = painterResource(id = R.drawable.ic_check),
+                        contentDescription = ""
                     )
                 }
             }

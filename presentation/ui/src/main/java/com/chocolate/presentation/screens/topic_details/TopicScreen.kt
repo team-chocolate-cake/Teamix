@@ -48,12 +48,7 @@ fun TopicScreen(
 @Composable
 fun TopicContent(topicUiState: TopicUiState, topicInteraction: TopicInteraction) {
     TeamixScaffold(
-        topBar = {
-            TeamixAppBar(
-                title = topicUiState.topicName,
-                navigationBack = { topicInteraction.onClickBackButton() },
-            )
-        },
+        topBar = { TeamixAppBar( title = topicUiState.topicName,) },
         bottomBar = {
             StartNewMessage(
                 openEmojisTile = { topicInteraction.openEmojisTile() },

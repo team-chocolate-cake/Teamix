@@ -1,5 +1,6 @@
 package com.chocolate.presentation.screens.pinned_messages
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
@@ -24,6 +25,7 @@ import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.PersonCardWithDetails
@@ -41,6 +43,7 @@ fun PinnedMessageScreen(
     PinnedMessageContent(pinnedMessagesUiState)
 }
 
+@SuppressLint("SuspiciousIndentation")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 private fun PinnedMessageContent(
@@ -49,53 +52,56 @@ private fun PinnedMessageContent(
 ) {
     val colors = MaterialTheme.customColors()
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = colors.background)
-                .padding(Space16),
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = colors.background)
+            .padding(Space16),
+    ) {
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(Space8),
+            contentPadding = PaddingValues(vertical = Space16)
         ) {
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(Space8),
-                contentPadding = PaddingValues(vertical = Space16)
-            ) {
-                items(state.messages.count()) { index ->
-                    val currentItem = state.messages[index]
-                    val dismissState = rememberDismissState(
-                        confirmValueChange = {
-                            //todo: remove currentItem
-                            true
-                        }
-                    )
-                    AnimatedVisibility(
-                        visible = !dismissState.isDismissed(DismissDirection.EndToStart),
-                        enter = fadeIn() + scaleIn(),
-                        exit = fadeOut() + scaleOut()
-                    ){
+            items(state.messages.count()) { index ->
+                val currentItem = state.messages[index]
+                val dismissState = rememberDismissState(
+                    confirmValueChange = { true }
+                )
+                AnimatedVisibility(
+                    visible = !dismissState.isDismissed(DismissDirection.EndToStart),
+                    enter = fadeIn() + scaleIn(),
+                    exit = fadeOut() + scaleOut()
+                ) {
                     SwipeToDismiss(
                         state = dismissState,
                         directions = setOf(DismissDirection.EndToStart),
-                        background = { SwipeBackground() },
+                        background = { SwipeBackground(contentDescription = "", painter = painterResource(id = R.drawable.ic_remove)) },
                         dismissContent = {
                             PersonCardWithDetails(
                                 personImageUrl = currentItem.imageUrl,
                                 title = currentItem.name,
                                 subTitle = currentItem.messageContent,
+                                painter = painterResource(id = R.drawable.ic_check),
+                                contentDescription = "",
                                 date = currentItem.date
                             )
                         })
                 }
 
 
-                }
             }
         }
     }
+}
 
 @Composable
-private fun SwipeBackground() {
+private fun SwipeBackground(
+    modifier: Modifier = Modifier,
+    contentDescription: String,
+    painter: Painter,
+) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(
                 color = MaterialTheme.customColors().red, shape = RoundedCornerShape(Radius12)
@@ -105,9 +111,9 @@ private fun SwipeBackground() {
         horizontalArrangement = Arrangement.End
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_remove),
+            painter = painter,
             tint = MaterialTheme.customColors().card,
-            contentDescription = null
+            contentDescription = contentDescription
         )
     }
 }

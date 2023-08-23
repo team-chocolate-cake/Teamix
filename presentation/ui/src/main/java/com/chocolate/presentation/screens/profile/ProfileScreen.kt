@@ -456,9 +456,10 @@ fun ProfileContent(
                 }
             }
             NoInternetLottie(
+                text = stringResource(id = R.string.no_internet_connection),
                 isShow = state.showNoInternetLottie,
-                onClickRetry = { profileInteraction.onClickRetryToGetPersonalInformation() },
-                isDarkMode = mainViewModel.state.value
+                isDarkMode = mainViewModel.state.value,
+                onClickRetry = { profileInteraction.onClickRetryToGetPersonalInformation() }
             )
         }
     }

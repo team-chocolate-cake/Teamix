@@ -1,5 +1,6 @@
 package com.chocolate.presentation.screens.message_search
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.PersonCardWithDetails
 import com.chocolate.presentation.composable.SearchBox
 import com.chocolate.presentation.screens.searchMessage
@@ -26,6 +29,7 @@ fun MessageSearchScreen(
     MessageSearchContent(searchMessage)
 }
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 private fun MessageSearchContent(
     state: MessageSearchUiState
@@ -49,7 +53,9 @@ private fun MessageSearchContent(
                         title = message.name,
                         subTitle = message.messageContent,
                         date = message.date,
-                        subTitleMaxLine = 3
+                        subTitleMaxLine = 3,
+                        painter = painterResource(id = R.drawable.ic_check),
+                        contentDescription = ""
                     )
                 }
             }

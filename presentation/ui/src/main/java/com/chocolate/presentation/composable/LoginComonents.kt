@@ -40,8 +40,7 @@ fun LoginComponents(
             .fillMaxWidth()
             .padding(top = Space8),
         value = email,
-        onValueChange = { onChangeEmail(it) },
-        hint = stringResource(id = R.string.email))
+        onValueChange = { onChangeEmail(it) },)
 
     Text(
         modifier = Modifier.padding(top = Space16),
@@ -64,6 +63,5 @@ fun LoginComponents(
         },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
-        hint = stringResource(id = R.string.password)
     )
 }

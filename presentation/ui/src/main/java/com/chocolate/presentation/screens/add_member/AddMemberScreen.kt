@@ -19,9 +19,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.R
+import com.chocolate.presentation.composable.CancelableRectangularProfileItem
 import com.chocolate.presentation.composable.PersonCardWithDetails
 import com.chocolate.presentation.composable.TeamixTextField
-import com.chocolate.presentation.composable.CancelableRectangularProfileItem
 import com.chocolate.presentation.theme.Border1
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
@@ -55,7 +55,6 @@ fun AddMemberContent(
             TeamixTextField(
                 value = state.searchInput,
                 hint = stringResource(id = R.string.search),
-                painter = painterResource(id = R.drawable.ic_search),
                 onValueChange = {})
 
             LazyRow(

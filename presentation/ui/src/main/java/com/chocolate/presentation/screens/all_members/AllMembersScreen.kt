@@ -46,7 +46,6 @@ private fun AllMembersContent(
         TeamixTextField(
             value = state.searchInput,
             hint = stringResource(id = R.string.search),
-            painter = painterResource(id = R.drawable.ic_search),
             onValueChange = {})
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(Space8),

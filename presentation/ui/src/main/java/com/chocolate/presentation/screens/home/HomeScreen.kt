@@ -142,7 +142,8 @@ fun HomeContent(state: HomeUiState,homeInteraction: HomeInteraction ) {
         isDarkMode = isSystemInDarkTheme(),
         title = state.organizationTitle,
         imageUrl = state.imageUrl,
-        hasImageUrl = true
+        hasImageUrl = true,
+        hasAppBar = true,
     ) {
         LazyColumn(
             modifier = Modifier

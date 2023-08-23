@@ -2,15 +2,15 @@ package com.chocolate.presentation.util
 
 import android.content.Context
 import com.chocolate.presentation.R
-import com.chocolate.viewmodel.base.StringsRes
+import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class StringsResImpl @Inject constructor(
+class StringsResourceImpl @Inject constructor(
     @ApplicationContext private val context: Context,
-) : StringsRes {
+) : StringsResource {
 
     override val emptyEmailMessage: String = getString(R.string.email_can_t_be_empty)
 

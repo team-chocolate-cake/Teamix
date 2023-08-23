@@ -1,15 +1,6 @@
 package com.chocolate.remote
 
-import com.chocolate.entities.exceptions.CertificateException
-import com.chocolate.entities.exceptions.InvalidURlHostException
-import com.chocolate.entities.exceptions.NetworkException
-import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.entities.exceptions.NotFoundException
-import com.chocolate.entities.exceptions.NullResultException
-import com.chocolate.entities.exceptions.TimeoutException
-import com.chocolate.entities.exceptions.TooManyRequestsException
-import com.chocolate.entities.exceptions.UserDeactivatedException
-import com.chocolate.entities.exceptions.ValidationException
+import com.chocolate.entities.user.User
 import com.chocolate.remote.channels.service.ChannelsService
 import com.chocolate.remote.drafts.service.DraftService
 import com.chocolate.remote.messages.service.MessageService
@@ -46,7 +37,6 @@ import com.chocolate.repository.model.dto.server_and_organizations.response.Cust
 import com.chocolate.repository.model.dto.server_and_organizations.response.DefaultOrganizationDto
 import com.chocolate.repository.model.dto.server_and_organizations.response.LinkifiersDto
 import com.chocolate.repository.model.dto.server_and_organizations.response.ServerSettingsDto
-import com.chocolate.repository.model.dto.users.request.SettingsDto
 import com.chocolate.repository.model.dto.users.response.FetchApiKeyDto
 import com.chocolate.repository.model.dto.users.response.StatusUserRemoteDto
 import com.chocolate.repository.service.remote.RemoteDataSource
@@ -598,8 +588,8 @@ class RetrofitDataSource @Inject constructor(
         userService.deleteAttachment(attachmentId)
     }
 
-    override suspend fun updateSettings(settings: SettingsDto) = wrapApiCall {
-        userService.updateSettings(settings.fullName,settings.email)
+    override suspend fun updateSettings(user: User) = wrapApiCall {
+        userService.updateSettings(user.fullName,user.email)
     }
 
     override suspend fun getUserGroups() = wrapApiCall {
@@ -675,30 +665,6 @@ class RetrofitDataSource @Inject constructor(
     override suspend fun fetchApiKey(userName: String, password: String): FetchApiKeyDto {
         return wrapApiCall {
             userService.fetchApiKey(userName, password)
-        }
-    }
-
-    private suspend fun <T> wrapApiCall(call: suspend () -> Response<T>): T {
-        return try {
-            val result = call()
-
-            when (result.code()) {
-                HttpStatusCodes.BAD_REQUEST.code -> throw NetworkException(result.message())
-                HttpStatusCodes.UNAUTHORIZED.code -> throw ValidationException(result.message())
-                HttpStatusCodes.USER_DEACTIVATED.code -> throw UserDeactivatedException(result.message())
-                HttpStatusCodes.TOO_MANY_REQUESTS.code -> throw TooManyRequestsException(result.message())
-                HttpStatusCodes.NO_CONNECTION.code -> throw NotFoundException(result.message())
-                else -> result.body() ?: throw NullResultException(result.message())
-            }
-
-        } catch (exception: SSLException) {
-            throw CertificateException(exception.message)
-        } catch (exception: UnknownHostException) {
-            throw NoConnectionException(exception.message)
-        } catch (exception: SocketTimeoutException) {
-            throw TimeoutException(exception.message.toString())
-        } catch (exception: IOException) {
-            throw InvalidURlHostException(exception.message)
         }
     }
 }

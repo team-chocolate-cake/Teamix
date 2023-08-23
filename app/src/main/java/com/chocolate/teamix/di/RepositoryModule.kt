@@ -24,26 +24,26 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindMessagesRepository(messagesRepositoryImpl: MessagesRepositoryImpl): MessagesRepository
+    abstract fun bindMessagesRepository(messagesRepository: MessagesRepositoryImpl): MessagesRepository
 
     @Binds
     @Singleton
-    abstract fun bindChannelsRepository(channelsRepositoryImpl: ChannelsRepositoryImpl): ChannelsRepository
+    abstract fun bindChannelsRepository(channelsRepository: ChannelsRepositoryImpl): ChannelsRepository
 
     @Binds
     @Singleton
-    abstract fun bindUserRepository(userRepositoriesImp: UserRepositoryImpl): UsersRepository
+    abstract fun bindUserRepository(userRepositories: UserRepositoryImpl): UsersRepository
 
     @Binds
     @Singleton
-    abstract fun bindDraftRepository(draftRepositoryImpl: DraftRepositoryImpl): DraftRepository
+    abstract fun bindDraftRepository(draftRepository: DraftRepositoryImpl): DraftRepository
 
     @Binds
     @Singleton
-    abstract fun bindScheduledMessageRepository(scheduledMessageRepositoryImpl: ScheduledMessageRepositoryImpl): ScheduledMessageRepository
+    abstract fun bindScheduledMessageRepository(scheduledMessageRepository: ScheduledMessageRepositoryImpl): ScheduledMessageRepository
 
     @Binds
     @Singleton
-    abstract fun bindServerAndOrganizationsRepository(serverAndOrganizationsRepositoryImpl: ServerAndOrganizationsRepositoryImpl): ServerAndOrganizationsRepository
+    abstract fun bindServerAndOrganizationsRepository(serverAndOrganizationsRepository: ServerAndOrganizationsRepositoryImpl): ServerAndOrganizationsRepository
 
 }

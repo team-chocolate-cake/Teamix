@@ -1,15 +1,7 @@
 package repositories
 
-import com.chocolate.entities.user.Settings
-import com.chocolate.entities.user.SubgroupsOfUserGroup
+import com.chocolate.entities.user.Attachment
 import com.chocolate.entities.user.User
-import com.chocolate.entities.user.UserAttachments
-import com.chocolate.entities.user.UserGroupMemberships
-import com.chocolate.entities.user.UserGroups
-import com.chocolate.entities.user.UserMembershipState
-import com.chocolate.entities.user.UserState
-import com.chocolate.entities.user.Users
-import com.chocolate.entities.user.UsersState
 import kotlinx.coroutines.flow.Flow
 
 interface UsersRepository {
@@ -21,7 +13,7 @@ interface UsersRepository {
     suspend fun getAllUsers(
         clientGravatar: Boolean,
         includeCustomProfileFields: Boolean
-    ): Users
+    ): List<User>
 
     suspend fun getRemoteCurrentUser(): User
 
@@ -48,18 +40,18 @@ interface UsersRepository {
 
     suspend fun deactivateOwnUserAccount()
 
-    suspend fun getUserPresence(email: String): UserState
+    suspend fun getUserPresence(email: String): String
 
-    suspend fun getRealmPresence(): UsersState
+    suspend fun getRealmPresence(): String
 
-    suspend fun getAttachments(): UserAttachments
+    suspend fun getAttachments(): List<Attachment>
 
     suspend fun deleteAttachment(attachmentId: Int)
 
     //need to review
-    suspend fun updateSettings(settings: Settings)
+    suspend fun updateSettings(user: User)
 
-    suspend fun getUserGroups(): UserGroups
+    //suspend fun getUserGroups(): UserGroups
 
     suspend fun createUserGroup(
         name: String,
@@ -85,23 +77,23 @@ interface UsersRepository {
         userGroupId: Int,
         add: List<Int>,
         delete: List<Int>
-    ): SubgroupsOfUserGroup
+    ): List<Int>
 
     suspend fun getUserMembership(
         groupId: Int,
         userId: Int,
         directMemberOnly: Boolean
-    ): UserMembershipState
+    ): Boolean
 
     suspend fun getUserGroupMemberships(
         groupId: Int,
         directMemberOnly: Boolean
-    ): UserGroupMemberships
+    ): List<Int>
 
     suspend fun getSubgroupsOfUserGroup(
         id: Int,
         directSubgroupOnly: Boolean
-    ): SubgroupsOfUserGroup
+    ): List<Int>
 
     suspend fun muteUser(mutedUserId: Int)
 

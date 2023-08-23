@@ -1,36 +1,47 @@
 package com.chocolate.repository.mappers.users
 
 import com.chocolate.entities.user.User
+import com.chocolate.repository.model.dto.users.response.MemberDto
 import com.chocolate.repository.model.dto.users.response.UserDto
 import com.chocolate.repository.model.localDto.users.UserLocalDto
 
 
-fun UserDto.toUser(): User {
+fun UserDto.toEntity(): User {
     return User(
         imageUrl = this.userDetailsDto?.avatarUrl ?: "",
         email = this.userDetailsDto?.email ?: "",
         fullName = this.userDetailsDto?.fullName ?: "",
         role = this.userDetailsDto?.role ?: 0,
-        userId = this.userDetailsDto?.userId ?: 0
+        id = this.userDetailsDto?.userId ?: 0
     )
 }
 
-fun UserLocalDto.toCurrentUser(): User {
+fun UserLocalDto.toEntity(): User {
     return User(
         imageUrl = this.imageUrl,
         email = this.email,
         fullName = this.username,
         role = this.role,
-        userId = this.userId
+        id = this.userId
     )
 }
 
-fun User.toCurrentUserLocal(): UserLocalDto{
+fun User.toLocalDto(): UserLocalDto{
     return UserLocalDto(
         imageUrl = this.imageUrl,
         email = this.email,
         username = this.fullName,
         role = this.role,
-        userId = this.userId
+        userId = this.id
     )
 }
+
+fun MemberDto.toEntity(): User = User(
+    imageUrl = avatarUrl.orEmpty(),
+    email = email.orEmpty(),
+    fullName = fullName.orEmpty(),
+    role = role?:100,
+    id = userId?:-1,
+)
+
+fun List<MemberDto>?.toEntity(): List<User> = this?.map { it.toEntity() }.orEmpty()

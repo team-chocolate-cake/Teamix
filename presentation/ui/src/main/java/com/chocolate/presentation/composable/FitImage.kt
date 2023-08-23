@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.painter.Painter
 
 @Composable
 fun FitImage(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     image: Painter,
     contentDescription: String,
 ) {

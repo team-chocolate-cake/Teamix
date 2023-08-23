@@ -10,9 +10,12 @@ import com.chocolate.entities.user.UserMembershipState
 import com.chocolate.entities.user.UserState
 import com.chocolate.entities.user.Users
 import com.chocolate.entities.user.UsersState
-import kotlinx.coroutines.flow.Flow
 
 interface UsersRepository {
+
+    suspend fun checkIfUserUsedAppOrNot(): Boolean
+
+    suspend fun setUserUsedAppForFirstTime(isComplete: Boolean)
 
     suspend fun getAllUsers(
         clientGravatar: Boolean,
@@ -107,7 +110,7 @@ interface UsersRepository {
 
     suspend fun setUserLoginState(isComplete: Boolean)
 
-    suspend fun getUserLoginState(): Flow<Boolean>
+    suspend fun getUserLoginState(): Boolean
 
     suspend fun clearLoginInformation()
 

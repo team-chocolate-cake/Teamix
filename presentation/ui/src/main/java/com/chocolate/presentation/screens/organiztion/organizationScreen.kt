@@ -63,7 +63,7 @@ fun OrganizationScreen(
                 OrganizationNameUiEffect.NavigateToCreateOrganization -> navController.navigateToCreateOrganization()
                 OrganizationNameUiEffect.NavigateToLoginScreen -> navController.navigateToLogin(
                     organizationName = state.organizationName
-                )
+                ) { launchSingleTop = true }
             }
         }
     }

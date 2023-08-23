@@ -22,9 +22,8 @@ class HomeViewModel @Inject constructor(
     private val getUserLoginStatusUseCase: GetUserLoginStatusUseCase,
     private val getSubscribedChannelsUseCase: GetSubscribedChannelsUseCase,
     private val getImageOrganizationUseCase: GetImageOrganizationUseCase,
-    private val getChannelsUseCase: GetChannelsUseCase,
     private val getNameOrganizationsUseCase: GetNameOrganizationsUseCase
-) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()),HomeInteraction {
+) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()), HomeInteraction {
 
     init {
         getData()
@@ -90,7 +89,15 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun getUserLoginState() {
-        collectFlow(getUserLoginStatusUseCase()) { this.copy(isLoading = true, isLogged = it) }
+        tryToExecute({ getUserLoginStatusUseCase() }, ::onLoginStateSuccess, ::onLoginError)
+    }
+
+    private fun onLoginStateSuccess(userLoginStatus: Boolean) {
+        _state.update { it.copy(isLoading = false, isLogged = userLoginStatus) }
+    }
+
+    private fun onLoginError(throwable: Throwable) {
+        onError(throwable)
     }
 
     private fun onError(throwable: Throwable) {

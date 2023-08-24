@@ -1,7 +1,5 @@
 package com.chocolate.presentation.composable
 
-import android.content.Context
-import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -30,6 +28,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.compose.rememberNavController
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.CardHeight56
 import com.chocolate.presentation.theme.CustomColorsPalette
@@ -37,14 +36,12 @@ import com.chocolate.presentation.theme.Space12
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.Thickness2
-import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.main.MainViewModel
 import com.chocolate.viewmodel.profile.ProfileInteraction
-import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.launch
 
 @Composable
-fun ProfileSettingsScreen(
+fun ProfileSettingsPage(
     color: CustomColorsPalette,
     mainViewModel: MainViewModel,
     darkThemeState: Boolean,
@@ -69,8 +66,7 @@ fun ProfileSettingsScreen(
                         .fillMaxWidth()
                         .clickable {
                             coroutineScope.launch {
-                                mainViewModel.updateDarkTheme(darkThemeState)
-                               restart(context)
+                                mainViewModel.updateDarkTheme(darkThemeState, context)
                             }
                         },
                     colors = CardDefaults.cardColors(color.card)
@@ -97,9 +93,9 @@ fun ProfileSettingsScreen(
                         Switch(
                             checked = darkThemeState, onCheckedChange = {
                                 coroutineScope.launch {
-                                    mainViewModel.updateDarkTheme(darkThemeState)
-                                    restart(context)
+                                    mainViewModel.updateDarkTheme(darkThemeState,context)
                                 }
+
                             },
                             thumbContent = {
                                 Icon(
@@ -143,9 +139,3 @@ fun ProfileSettingsScreen(
     }
 }
 
-private fun restart(context: Context){
-    val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
-    intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-    context.startActivities(arrayOf(intent))
-
-}

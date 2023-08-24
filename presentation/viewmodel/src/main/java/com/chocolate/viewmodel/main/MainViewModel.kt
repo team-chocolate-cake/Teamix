@@ -27,8 +27,15 @@ class MainViewModel @Inject constructor(
         _state.update { customizeProfileSettingsUseCase.isDarkThem() }
     }
 
-    suspend fun updateDarkTheme(darkTheme: Boolean) {
+    suspend fun updateDarkTheme(darkTheme: Boolean,context: Context) {
         _state.update { !darkTheme }
         customizeProfileSettingsUseCase.updateDarkTheme(!darkTheme)
+        restart(context)
     }
+    private fun restart(context: Context){
+        val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+        intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        context.startActivities(arrayOf(intent))
+    }
+
 }

@@ -303,10 +303,7 @@ interface RemoteDataSource{
 
     suspend fun deleteScheduledMessage(id: Int): BaseScheduledMessageResponse
 
-    suspend fun getAllUsers(
-        clientGravatar: Boolean = true,
-        includeCustomProfileFields: Boolean = false
-    ): UsersDto
+    suspend fun getAllUsers(): UsersDto
 
     suspend fun getOwnUser(): OwnerUserDto
 

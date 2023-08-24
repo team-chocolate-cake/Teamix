@@ -521,11 +521,8 @@ class RetrofitDataSource @Inject constructor(
         }
     }
 
-    override suspend fun getAllUsers(
-        clientGravatar: Boolean,
-        includeCustomProfileFields: Boolean
-    ) = wrapApiCall {
-        userService.getAllUsers(clientGravatar, includeCustomProfileFields)
+    override suspend fun getAllUsers() = wrapApiCall {
+        userService.getAllUsers()
     }
 
     override suspend fun getOwnUser() = wrapApiCall {

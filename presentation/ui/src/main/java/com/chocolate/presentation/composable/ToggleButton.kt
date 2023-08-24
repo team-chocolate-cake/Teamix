@@ -1,6 +1,7 @@
 package com.chocolate.presentation.composable
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -14,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.theme.Border1
 import com.chocolate.presentation.theme.ButtonSize48
 import com.chocolate.presentation.theme.Radius8
+import com.chocolate.presentation.theme.Space4
 
 @Composable
 fun ToggleButton(
@@ -27,6 +29,7 @@ fun ToggleButton(
         modifier = modifier
             .height(ButtonSize48),
         onClick = onClick,
+        contentPadding = PaddingValues(bottom = Space4),
         shape = RoundedCornerShape(Radius8),
         colors = if(isFilled) ButtonDefaults.buttonColors(containerColor = color) else ButtonDefaults.buttonColors(containerColor = Color.Transparent),
         border = BorderStroke(width = Border1, color = color)
@@ -37,7 +40,7 @@ fun ToggleButton(
 
 @Preview
 @Composable
-fun ToggleButtonPrev() {
+private fun ToggleButtonPrev() {
     ToggleButton(onClick = {  }, color = MaterialTheme.colorScheme.primary, isFilled = false) {
         Text(text = "private", color = MaterialTheme.colorScheme.onPrimary)
     }

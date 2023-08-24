@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -128,9 +129,12 @@ private fun CreateChannelContent(
             }
         }
 
+        Spacer(modifier = Modifier.weight(1f))
 
         ToggleButton(
-            modifier = Modifier.fillMaxWidth().align(alignment = Alignment.End),
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(alignment = Alignment.End),
             color = colors.primary,
             isFilled = true,
             onClick = {createChannelInteraction.onCreateChannelClicked()}

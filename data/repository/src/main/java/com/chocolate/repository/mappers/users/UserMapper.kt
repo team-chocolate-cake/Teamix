@@ -13,7 +13,8 @@ fun UserDto.toEntity(): User {
         email = this.userDetailsDto?.email ?: "",
         fullName = this.userDetailsDto?.fullName ?: "",
         role = UserRole.fromValue(this.userDetailsDto?.role ?: 100),
-        id = this.userDetailsDto?.userId ?: 0
+        id = this.userDetailsDto?.userId ?: 0,
+        status = ""
     )
 }
 
@@ -23,7 +24,8 @@ fun UserLocalDto.toEntity(): User {
         email = this.email,
         fullName = this.username,
         role = UserRole.fromValue(role),
-        id = this.userId
+        id = this.userId,
+        status = ""
     )
 }
 
@@ -43,6 +45,7 @@ fun MemberDto.toEntity(): User = User(
     fullName = fullName.orEmpty(),
     role = UserRole.fromValue(this.role ?: 100),
     id = userId?:-1,
+    status = ""
 )
 
 fun List<MemberDto>?.toEntity(): List<User> = this?.map { it.toEntity() }.orEmpty()

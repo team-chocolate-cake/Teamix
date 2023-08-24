@@ -3,6 +3,7 @@ package com.chocolate.presentation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.chocolate.presentation.screens.chooseMember.chooseMemberRoute
 import com.chocolate.presentation.screens.create_organization.createOrganizationWebViewRoute
 import com.chocolate.presentation.screens.direct_message.directMessageRoute
 import com.chocolate.presentation.screens.forget_password.forgetPasswordWebViewRoute
@@ -31,5 +32,6 @@ fun TeamixNavGraph(navController: NavHostController) {
         directMessageRoute()
         taskRoute()
         topicRoute()
+        chooseMemberRoute()
     }
 }

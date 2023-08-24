@@ -3,6 +3,7 @@ package com.chocolate.presentation.composable
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -33,17 +34,20 @@ import com.chocolate.presentation.util.LocalNavController
 @Composable
 fun TeamixAppBar(
     title: String,
+    titleColor: Color,
     hasBackArrow: Boolean,
     modifier: Modifier = Modifier,
     hasImageUrl: Boolean,
+    actions: @Composable() (RowScope.() -> Unit),
     imageUrl: String,
     contentDescription: String = "",
-    containerColor: Color = MaterialTheme.customColors().primary,
+    containerColor: Color,
 ) {
     val colors = MaterialTheme.customColors()
     val navController = LocalNavController.current
     TopAppBar(
         modifier = modifier,
+        actions = {actions()},
         title = {
             Row(
                 modifier = Modifier
@@ -64,8 +68,8 @@ fun TeamixAppBar(
                 }
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = colors.onPrimary,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = titleColor,
                 )
             }
         },

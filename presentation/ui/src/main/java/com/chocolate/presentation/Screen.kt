@@ -9,5 +9,6 @@ sealed class Screen(val route: String) {
     object ForgetPasswordWebView: Screen("forget_password_screen")
     object Profile: Screen("profile_screen")
     object Home: Screen("Home")
+    object ChooseMembers: Screen("choose_members")
     object Topic: Screen("Topic")
 }

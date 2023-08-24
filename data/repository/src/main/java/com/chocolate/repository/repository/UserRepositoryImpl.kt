@@ -23,12 +23,8 @@ class UserRepositoryImpl @Inject constructor(
         return preferencesDataSource.checkIfUserUsedAppOrNot()
     }
 
-    override suspend fun getAllUsers(
-        clientGravatar: Boolean, includeCustomProfileFields: Boolean
-    ): List<User> {
-        return userDataSource.getAllUsers(
-            clientGravatar, includeCustomProfileFields
-        ).memberDto.toEntity()
+    override suspend fun getAllUsers(): List<User> {
+        return userDataSource.getAllUsers().memberDto.toEntity()
     }
 
     override suspend fun getRemoteCurrentUser(): User {

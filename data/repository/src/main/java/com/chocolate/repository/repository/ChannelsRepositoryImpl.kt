@@ -55,7 +55,7 @@ class ChannelsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getChannelIdByName(channel: String): Int {
-        return channelsRemoteDataSource.getChannelIdByName(channel).streamId ?: 0
+        return channelsRemoteDataSource.getChannelIdByName(channel).streamId ?: -1
     }
 
     override suspend fun updateChannel(

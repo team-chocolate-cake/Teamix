@@ -6,6 +6,7 @@ data class ChooseMemberUiState(
     val searchQuery: String = "",
     val selectedMembersUiState: List<SelectedMembersUiState> = emptyList(),
     val membersUiState: List<MembersUiState> = emptyList(),
+    val channelName: String = "",
     val isLoading: Boolean = false,
     val error: String? = null
 ): BaseViewModel.BaseUiState

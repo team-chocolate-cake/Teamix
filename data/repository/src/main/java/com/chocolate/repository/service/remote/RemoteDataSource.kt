@@ -51,7 +51,10 @@ import okhttp3.MultipartBody
 interface RemoteDataSource{
     suspend fun getSubscribedChannels(): SubscribedStreamDto
 
-    suspend fun subscribeToChannels(channelsName: List<Pair<String, String>>): SubscribeToStreamDto
+    suspend fun subscribeToChannels(
+        channelName: String,
+        usersId: List<Int>
+    ): SubscribeToStreamDto
 
     suspend fun unsubscribeFromChannels(channelsName: List<String>): UnsubscribeFromStreamDto
 

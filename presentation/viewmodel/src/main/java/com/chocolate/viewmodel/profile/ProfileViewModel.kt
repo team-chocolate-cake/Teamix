@@ -113,7 +113,6 @@ class ProfileViewModel @Inject constructor(
     }
 
     override fun onUserInformationFocusChange() {
-        _state.update { it.copy(showWarningDialog = false, message = null) }
         val userInformationSettingsState = User(
             fullName = _state.value.name,
             email = _state.value.email,

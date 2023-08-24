@@ -68,7 +68,7 @@ fun ChooseMemberContent(
     val navController = LocalNavController.current
     TeamixScaffold(
         isDarkMode = isSystemInDarkTheme(),
-        containerColorAppBar = colors.onPrimary,
+        containerColorAppBar = colors.card,
         hasAppBar = true,
         hasBackArrow = true,
         actionsAppbar = {
@@ -101,12 +101,12 @@ fun ChooseMemberContent(
             ) { CircularProgressIndicator(color = colors.primary) }
         },
         error = state.error,
+        onRetry = {chooseMemberInteraction.onClickRetry()},
         onError = {
             NoInternetLottie(
                 text = stringResource(id = R.string.no_internet_connection),
                 isShow = state.error != null && state.successMessage == null,
                 isDarkMode = isSystemInDarkTheme(),
-                onClickRetry = { chooseMemberInteraction.onClickRetry() }
             )
         }
     ) { paddingValues ->

@@ -1,7 +1,7 @@
 package repositories
 
-import com.chocolate.entities.channel.MutingStatus
 import com.chocolate.entities.channel.Channel
+import com.chocolate.entities.channel.MutingStatus
 import com.chocolate.entities.channel.Topic
 
 interface ChannelsRepository {

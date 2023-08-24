@@ -32,7 +32,7 @@ class ChannelsRepositoryImpl @Inject constructor(
     ): Boolean {
         return channelsRemoteDataSource.subscribeToChannels(
             createJsonArrayString(channelName = channelName, channelDescription = description),
-            usersId = usersId,
+            usersId = JSONArray(usersId).toString(),
             description = description,
             isPrivate = isPrivate
         )

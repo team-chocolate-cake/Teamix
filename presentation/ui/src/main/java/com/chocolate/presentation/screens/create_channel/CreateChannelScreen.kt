@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
+import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.composable.ToggleButton
@@ -70,10 +71,10 @@ private fun CreateChannelContent(
     TeamixScaffold(
         isDarkMode = isSystemInDarkTheme(),
         isLoading = state.isLoading,
-        error = state.error,
+        error = state.error.message,
         title = stringResource(id = R.string.create_channel),
         hasAppBar = true,
-        containerColorAppBar = colors.onPrimary,
+        containerColorAppBar = colors.card,
         hasBackArrow = true,
         onLoading = {
             Box(
@@ -82,10 +83,20 @@ private fun CreateChannelContent(
             ) { CircularProgressIndicator(color = colors.primary) }
         },
         onRetry = {},
-        onError = {},
+        onError = {
+            NoInternetLottie(
+                text = stringResource(id = R.string.no_internet_connection),
+                isShow = state.error.message != null,
+                isDarkMode = isSystemInDarkTheme(),
+            )
+        },
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().background(color = colors.background).padding(Space16)
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = colors.background)
+                .padding(it)
+                .padding(Space16)
         ) {
             Text(
                 modifier = Modifier.padding(bottom = Space8),

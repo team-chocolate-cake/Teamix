@@ -10,8 +10,8 @@ class AddUsersInChannelByChannelNameAndUsersIdUseCase @Inject constructor(
     suspend operator fun invoke(
         channelName: String,
         usersId: List<Int>,
-        description: String?,
-        isPrivate: Boolean
+        description: String? = "",
+        isPrivate: Boolean = false
     ): Boolean {
         return repository.subscribeToChannel(
             channelName = channelName,

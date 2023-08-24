@@ -27,12 +27,15 @@ import com.chocolate.presentation.theme.customColors
 @Composable
 fun TeamixTextField(
     value: String,
+    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     hint: String = "",
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    singleLine: Boolean = false,
+    minLines: Int = 1,
+    maxLines: Int = 1,
+    trailingIcon: @Composable (() -> Unit) = {},
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    onValueChange: (String) -> Unit,
-    trailingIcon: @Composable (() -> Unit) = {}
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
 ) {
     val colors = MaterialTheme.customColors()
 
@@ -43,7 +46,9 @@ fun TeamixTextField(
         value = value,
         onValueChange = onValueChange,
         textStyle = MaterialTheme.typography.bodySmall,
-        singleLine = true,
+        singleLine = singleLine,
+        maxLines = maxLines,
+        minLines = minLines,
         keyboardOptions = keyboardOptions,
         visualTransformation = visualTransformation,
         placeholder = {

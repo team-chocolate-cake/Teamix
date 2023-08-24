@@ -109,4 +109,7 @@
     <string name="onboarding_image">Onboarding image</string>
     <string name="channel_description">Channel Description</string>
     <string name="status">Status</string>
+    <string name="skip">Skip</string>
+    <string name="ok">Ok</string>
+    <string name="choose_members">Choose Members</string>
 </resources>

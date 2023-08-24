@@ -63,11 +63,11 @@ class RetrofitDataSource @Inject constructor(
     }
 
     override suspend fun subscribeToChannels(
-        channelsName: List<Pair<String, String>>
+        channelName: String,
+        usersId: List<Int>
     ): SubscribeToStreamDto {
-        return wrapApiCall { channelsService.subscribeToChannels(channelsName) }
+        return wrapApiCall { channelsService.subscribeToChannels(channelName, usersId) }
     }
-
 
     override suspend fun unsubscribeFromChannels(
         channelsName: List<String>
@@ -521,11 +521,8 @@ class RetrofitDataSource @Inject constructor(
         }
     }
 
-    override suspend fun getAllUsers(
-        clientGravatar: Boolean,
-        includeCustomProfileFields: Boolean
-    ) = wrapApiCall {
-        userService.getAllUsers(clientGravatar, includeCustomProfileFields)
+    override suspend fun getAllUsers() = wrapApiCall {
+        userService.getAllUsers()
     }
 
     override suspend fun getOwnUser() = wrapApiCall {

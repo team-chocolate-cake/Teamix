@@ -7,7 +7,7 @@ import com.chocolate.entities.channel.Topic
 interface ChannelsRepository {
     suspend fun getSubscribedChannels(): List<Channel>
 
-    suspend fun subscribeToChannel(channelName: String): Boolean
+    suspend fun subscribeToChannel(channelName: String, usersId: List<Int>): Boolean
 
     suspend fun unsubscribeFromChannel(channelName: String): Boolean
 

@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.base
 
 data class BaseErrorUiState(
-    val message: String = "",
+    val message: String? = null,
     val isError: Boolean = false
 )

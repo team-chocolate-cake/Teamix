@@ -32,8 +32,8 @@ fun TeamixTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     onValueChange: (String) -> Unit,
-    leadingIcon: @Composable() (() -> Unit)? = null,
-    trailingIcon: @Composable (() -> Unit) = {}
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null
 ) {
     val colors = MaterialTheme.customColors()
 
@@ -54,14 +54,8 @@ fun TeamixTextField(
                 color = MaterialTheme.customColors().onBackground60
             )
         },
-        trailingIcon = {
-            trailingIcon()
-        },
-        leadingIcon = {
-            if (leadingIcon != null) {
-                leadingIcon()
-            }
-        },
+        trailingIcon = trailingIcon,
+        leadingIcon = leadingIcon,
         shape = RoundedCornerShape(Radius12),
         colors = TextFieldDefaults.textFieldColors(
             containerColor = colors.card,

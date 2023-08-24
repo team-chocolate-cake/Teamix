@@ -29,11 +29,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.chocolate.presentation.R
+import com.chocolate.presentation.theme.Float1
 import com.chocolate.presentation.theme.Radius12
 import com.chocolate.presentation.theme.Space0
 import com.chocolate.presentation.theme.Space1
@@ -42,24 +42,30 @@ import com.chocolate.presentation.theme.Space40
 import com.chocolate.presentation.theme.Space56
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.viewmodel.chooseMember.MembersUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MemberItem(
     modifier: Modifier = Modifier,
-    membersUiState: MembersUiState,
+    animateLabel: String = "",
+    imageUrl: String,
+    username: String,
+    status: String,
+    isSelected: Boolean,
+    painter: Painter,
+    contentDescription: String = "",
+    userId: Int,
     onClickMemberItem: (Int) -> Unit
 ) {
     val colors = MaterialTheme.customColors()
     val cardBorderColor by animateColorAsState(
-        targetValue = if (membersUiState.isSelected) colors.primary else Color.Unspecified,
-        label = "card color"
+        targetValue = if (isSelected) colors.primary else Color.Unspecified,
+        label = animateLabel
     )
 
     val cardBorderWidth by animateDpAsState(
-        targetValue = if (membersUiState.isSelected) Space1 else Space0,
-        label = "card Border Width"
+        targetValue = if (isSelected) Space1 else Space0,
+        label = animateLabel
     )
     Card(
         modifier = modifier
@@ -68,7 +74,7 @@ fun MemberItem(
             .padding(horizontal = Space16),
         colors = CardDefaults.cardColors(colors.card),
         shape = RoundedCornerShape(Radius12),
-        onClick = {onClickMemberItem(membersUiState.userId)},
+        onClick = {onClickMemberItem(userId)},
         border = BorderStroke(width = cardBorderWidth, color = cardBorderColor)
     ) {
         Row(
@@ -78,8 +84,8 @@ fun MemberItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = rememberAsyncImagePainter(model = membersUiState.imageUrl),
-                contentDescription = "",
+                painter = rememberAsyncImagePainter(model = imageUrl),
+                contentDescription = contentDescription,
                 modifier = Modifier
                     .size(Space40)
                     .clip(CircleShape),
@@ -92,23 +98,23 @@ fun MemberItem(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
-                    text = membersUiState.name,
+                    text = username,
                     color = colors.onBackground87,
                     style = MaterialTheme.typography.labelMedium
                 )
                 Text(
-                    text = membersUiState.status,
+                    text = status,
                     color = colors.onBackground60,
                     style = MaterialTheme.typography.labelSmall
                 )
             }
-            Spacer(modifier = Modifier.weight(1f))
-            AnimatedVisibility(visible = membersUiState.isSelected) {
+            Spacer(modifier = Modifier.weight(Float1))
+            AnimatedVisibility(visible = isSelected) {
                 CircularButton(containerColor = colors.primary, size = Space16) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_check),
+                        painter = painter,
                         tint = colors.border,
-                        contentDescription = null,
+                        contentDescription = contentDescription,
                     )
                 }
             }

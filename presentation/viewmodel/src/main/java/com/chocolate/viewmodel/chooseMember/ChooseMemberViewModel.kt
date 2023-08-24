@@ -1,10 +1,12 @@
 package com.chocolate.viewmodel.chooseMember
 
+import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.user.User
 import com.chocolate.usecases.channel.AddUsersInChannelByChannelNameAndUsersIdUseCase
 import com.chocolate.usecases.user.GetUsersUseCase
 import com.chocolate.usecases.user.SearchUsersUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
+import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -14,7 +16,8 @@ class ChooseMemberViewModel @Inject constructor(
     private val searchUsersUseCase: SearchUsersUseCase,
     private val getUsersUseCase: GetUsersUseCase,
     private val addUsersInChannelByChannelNameAndUsersIdUseCase:
-    AddUsersInChannelByChannelNameAndUsersIdUseCase
+    AddUsersInChannelByChannelNameAndUsersIdUseCase,
+    private val stringsResource: StringsResource
 ) : BaseViewModel<ChooseMemberUiState, Unit>(ChooseMemberUiState()), ChooseMemberInteraction {
 
     init {
@@ -38,7 +41,48 @@ class ChooseMemberViewModel @Inject constructor(
     }
 
     private fun onGetUsersError(throwable: Throwable) {
-        _state.update { it.copy(error = throwable.message, isLoading = false) }
+        _state.update {
+            it.copy(
+                error = getMessageError(throwable),
+                isLoading = false,
+                successMessage = null
+            )
+        }
+    }
+
+    override fun addMembersInChannel(channelName: String, usersId: List<Int>) {
+        _state.update { it.copy(isLoading = true) }
+        tryToExecute(
+            { addUsersInChannelByChannelNameAndUsersIdUseCase(channelName, usersId) },
+            ::onAddMembersInChannelSuccess,
+            ::onAddMembersInChannelError
+        )
+    }
+
+    override fun onClickRetry() {
+        getUsers()
+    }
+
+    private fun onAddMembersInChannelSuccess(isCompleted: Boolean) {
+        if (isCompleted) {
+            _state.update {
+                it.copy(
+                    isLoading = false,
+                    error = null,
+                    successMessage = stringsResource.successMessage
+                )
+            }
+        }
+    }
+
+    private fun onAddMembersInChannelError(throwable: Throwable) {
+        _state.update {
+            it.copy(
+                isLoading = false,
+                error = getMessageError(throwable),
+                successMessage = null
+            )
+        }
     }
 
     override fun onClickMemberItem(memberId: Int) {
@@ -105,6 +149,39 @@ class ChooseMemberViewModel @Inject constructor(
         tryToExecute({ searchUsersUseCase(query) }, ::onChangeSearchSuccess, ::onChangeSearchError)
     }
 
+    override fun onRemoveSelectedItem(memberId: Int) {
+        _state.update { currentState ->
+            val updatedSelectedMembersUiState =
+                removeSelectedItem(memberId, currentState.selectedMembersUiState)
+            val updatedMembersUiState = updateMembersSelectedState(
+                currentState.membersUiState,
+                updatedSelectedMembersUiState
+            )
+            currentState.copy(
+                membersUiState = updatedMembersUiState,
+                selectedMembersUiState = updatedSelectedMembersUiState
+            )
+        }
+    }
+
+    private fun removeSelectedItem(
+        memberId: Int,
+        selectedMembers: List<SelectedMembersUiState>
+    ): List<SelectedMembersUiState> {
+        return selectedMembers.filterNot { it.userId == memberId }
+    }
+
+    private fun updateMembersSelectedState(
+        membersUiState: List<MembersUiState>,
+        selectedMembers: List<SelectedMembersUiState>
+    ): List<MembersUiState> {
+        return membersUiState.map { memberUiState ->
+            val isSelected = selectedMembers.any { it.userId == memberUiState.userId }
+            memberUiState.copy(isSelected = isSelected)
+        }
+    }
+
+
     private fun onChangeSearchSuccess(users: List<User>) {
         val membersUi = users.toUsersUiState()
         val updatedMembersUiState = membersUi.map { memberUi ->
@@ -122,7 +199,20 @@ class ChooseMemberViewModel @Inject constructor(
     }
 
     private fun onChangeSearchError(throwable: Throwable) {
-        _state.update { it.copy(error = throwable.message, isLoading = false) }
+        _state.update {
+            it.copy(
+                error = getMessageError(throwable),
+                isLoading = false,
+                successMessage = null
+            )
+        }
+    }
+
+    private fun getMessageError(throwable: Throwable): String {
+        return when (throwable) {
+            is NoConnectionException -> stringsResource.noConnectionMessage
+            else -> stringsResource.globalMessageError
+        }
     }
 
 }

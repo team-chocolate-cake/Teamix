@@ -13,7 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.viewmodel.base.BaseErrorUiState
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -21,7 +20,7 @@ fun TeamixScaffold(
     modifier: Modifier = Modifier,
     isDarkMode: Boolean,
     isLoading: Boolean = false,
-    error: BaseErrorUiState? = null,
+    error: String? = null,
     title: String = "",
     titleColor: Color = MaterialTheme.customColors().onBackground87,
     imageUrl: String = "",
@@ -78,15 +77,15 @@ fun TeamixScaffold(
 
 @Composable
 fun ErrorHandler(
-    error: BaseErrorUiState?,
+    error: String?,
     onError: @Composable () -> Unit,
     onRetry: () -> Unit,
     isDarkMode: Boolean
 ) {
-    if (error?.message?.isNotEmpty() == true) {
+    if (error?.isNotEmpty() == true) {
         NoInternetLottie(
             onClickRetry = { onRetry() },
-            isShow = error.isError,
+            isShow = error.isNotEmpty(),
             isDarkMode = isDarkMode,
             text = stringResource(id = R.string.no_internet_connection)
         )

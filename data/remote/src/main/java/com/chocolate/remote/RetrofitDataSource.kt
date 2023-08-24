@@ -64,7 +64,7 @@ class RetrofitDataSource @Inject constructor(
 
     override suspend fun subscribeToChannels(
         channelName: String,
-        usersId: List<Int>
+        usersId: String
     ): SubscribeToStreamDto {
         return wrapApiCall { channelsService.subscribeToChannels(channelName, usersId) }
     }

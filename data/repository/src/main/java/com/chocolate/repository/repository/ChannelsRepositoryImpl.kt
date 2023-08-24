@@ -3,7 +3,6 @@ package com.chocolate.repository.repository
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.channel.MutingStatus
 import com.chocolate.entities.channel.Topic
-import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.repository.mappers.channel_mappers.toEntity
 import com.chocolate.repository.mappers.channel_mappers.toSuccessOrFail
 import com.chocolate.repository.service.remote.RemoteDataSource
@@ -26,8 +25,7 @@ class ChannelsRepositoryImpl @Inject constructor(
         }
 
     override suspend fun subscribeToChannel(channelName: String, usersId: List<Int>): Boolean {
-        if (getChannelIdByName(channelName) < 0) throw ValidationException("Channel does not already Exist!")
-        return channelsRemoteDataSource.subscribeToChannels(createJsonArrayString(channelName), usersId)
+        return channelsRemoteDataSource.subscribeToChannels(createJsonArrayString(channelName), JSONArray(usersId).toString())
             .result?.equals("success") ?: false
     }
 

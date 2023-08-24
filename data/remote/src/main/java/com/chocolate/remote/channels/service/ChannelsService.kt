@@ -26,7 +26,7 @@ interface ChannelsService {
     @POST("users/me/subscriptions")
     suspend fun subscribeToChannels(
         @Query("subscriptions") channelsName: String,
-        @Query("principals") usersId: List<Int>,
+        @Query("principals") usersId: String,
     ): Response<SubscribeToStreamDto>
 
     @DELETE("users/me/subscriptions")

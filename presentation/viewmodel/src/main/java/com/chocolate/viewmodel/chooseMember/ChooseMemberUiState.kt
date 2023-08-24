@@ -7,13 +7,15 @@ data class ChooseMemberUiState(
     val selectedMembersUiState: List<SelectedMembersUiState> = emptyList(),
     val membersUiState: List<MembersUiState> = emptyList(),
     val isLoading: Boolean = false,
+    val successMessage: String? = null,
     val error: String? = null
 ): BaseViewModel.BaseUiState
 
 data class SelectedMembersUiState(
     val userId: Int = 0,
     val imageUrl: String ="",
-    val name: String = ""
+    val name: String = "",
+    val isClickedForRemoval: Boolean = false
 )
 
 data class MembersUiState(

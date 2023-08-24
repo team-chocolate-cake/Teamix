@@ -1,5 +1,7 @@
 package com.chocolate.viewmodel.profile
 
+import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.ValidationException
@@ -224,5 +226,4 @@ class ProfileViewModel @Inject constructor(
     private fun onUpdateAppLanguageFail(throwable: Throwable) {
         _state.update { it.copy(error = throwable.message, isLoading = false) }
     }
-
 }

@@ -3,6 +3,7 @@ package com.chocolate.presentation.util
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.viewmodel.main.MainViewModel
 import java.util.Locale

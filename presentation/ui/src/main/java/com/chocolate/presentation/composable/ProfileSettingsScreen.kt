@@ -1,5 +1,7 @@
 package com.chocolate.presentation.composable
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -25,6 +27,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.chocolate.presentation.R
@@ -34,8 +37,10 @@ import com.chocolate.presentation.theme.Space12
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.Thickness2
+import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.main.MainViewModel
 import com.chocolate.viewmodel.profile.ProfileInteraction
+import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.launch
 
 @Composable
@@ -46,6 +51,8 @@ fun ProfileSettingsScreen(
     profileInteraction: ProfileInteraction
 ) {
     val coroutineScope = rememberCoroutineScope()
+
+    val context= LocalContext.current
 
     LazyColumn(contentPadding = PaddingValues(all = Space16)) {
         item {
@@ -63,6 +70,7 @@ fun ProfileSettingsScreen(
                         .clickable {
                             coroutineScope.launch {
                                 mainViewModel.updateDarkTheme(darkThemeState)
+                               restart(context)
                             }
                         },
                     colors = CardDefaults.cardColors(color.card)
@@ -90,6 +98,7 @@ fun ProfileSettingsScreen(
                             checked = darkThemeState, onCheckedChange = {
                                 coroutineScope.launch {
                                     mainViewModel.updateDarkTheme(darkThemeState)
+                                    restart(context)
                                 }
                             },
                             thumbContent = {
@@ -132,4 +141,11 @@ fun ProfileSettingsScreen(
             )
         }
     }
+}
+
+private fun restart(context: Context){
+    val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+    intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+    context.startActivities(arrayOf(intent))
+
 }

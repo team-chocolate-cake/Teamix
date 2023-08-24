@@ -88,7 +88,6 @@ class DataStoreDataSource @Inject constructor(
         return sharedPreferences.getBoolean(DARK_THEME, false)
     }
 
-
     private suspend fun <T> DataStore<Preferences>.setValue(
         key: Preferences.Key<T>,
         value: T

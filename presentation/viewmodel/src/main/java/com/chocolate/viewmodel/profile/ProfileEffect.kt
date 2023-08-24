@@ -6,4 +6,5 @@ sealed interface ProfileEffect: BaseViewModel.BaseUiEffect{
     //not finished yet
     //object NavigateToOwnerPower: ProfileEffect
     object NavigateToOrganizationScreen: ProfileEffect
+    object NavigateToSearchScreen:ProfileEffect
 }

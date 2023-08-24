@@ -16,4 +16,5 @@ interface ProfileInteraction {
     fun onRevertChange()
     fun onClickProfileButton()
     fun onClickSettingsButton()
+    fun onClickChangeMemberRole()
 }

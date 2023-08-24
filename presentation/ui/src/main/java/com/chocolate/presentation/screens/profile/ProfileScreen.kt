@@ -100,7 +100,7 @@ import java.util.Locale
 
 @Composable
 fun ProfileScreen(
-    mainViewModel: MainViewModel= hiltViewModel(),
+    mainViewModel: MainViewModel = hiltViewModel(),
     viewModel: ProfileViewModel = hiltViewModel(),
 ) {
     val navController = LocalNavController.current
@@ -113,6 +113,10 @@ fun ProfileScreen(
         when (effect) {
             ProfileEffect.NavigateToOrganizationScreen -> {
                 navController.navigateToOrganizationName()
+            }
+
+            ProfileEffect.NavigateToSearchScreen -> {
+                // navigate to search screen
             }
         }
     }
@@ -226,12 +230,15 @@ fun ProfileContent(
                     state.languageMap[LocalLanguage.Arabic.name] -> {
                         LocalLanguage.Arabic.name
                     }
+
                     state.languageMap[LocalLanguage.Chinese.name] -> {
                         LocalLanguage.Chinese.name
                     }
+
                     state.languageMap[LocalLanguage.Spanish.name] -> {
                         LocalLanguage.Spanish.name
                     }
+
                     else -> {
                         LocalLanguage.English.name
                     }
@@ -431,6 +438,12 @@ fun ProfileContent(
                                 }
                                 Divider(color = color.background, thickness = Thickness2)
                                 SettingCard(
+                                    click = { profileInteraction.onClickChangeMemberRole() },
+                                    text = stringResource(id = R.string.change_member_role),
+                                    icon = painterResource(id = R.drawable.ownerpowers),
+                                )
+                                Divider(color = color.background, thickness = Thickness2)
+                                SettingCard(
                                     click = { profileInteraction.updateLanguageDialogState(true) },
                                     text = stringResource(R.string.language),
                                     icon = painterResource(id = R.drawable.language)
@@ -467,5 +480,5 @@ fun ProfileContent(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ProfileScreenPreview() {
-    ProfileScreen(hiltViewModel())
+    ProfileScreen()
 }

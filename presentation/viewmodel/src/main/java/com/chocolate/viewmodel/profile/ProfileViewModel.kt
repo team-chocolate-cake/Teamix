@@ -40,7 +40,11 @@ class ProfileViewModel @Inject constructor(
 
     private fun getCurrentUser() {
         _state.update { it.copy(isLoading = true) }
-        tryToExecute({ getCurrentUserDataUseCase() }, ::onGetCurrentUserSuccess, ::onGetCurrentUserError)
+        tryToExecute(
+            { getCurrentUserDataUseCase() },
+            ::onGetCurrentUserSuccess,
+            ::onGetCurrentUserError
+        )
     }
 
     private fun onGetCurrentUserSuccess(user: User) {
@@ -64,7 +68,14 @@ class ProfileViewModel @Inject constructor(
             is UnknownHostException, is ValidationException ->
                 sendUiEffect(ProfileEffect.NavigateToOrganizationScreen)
         }
-        _state.update { it.copy(isLoading = false, showNoInternetLottie = true, error = null, message = null) }
+        _state.update {
+            it.copy(
+                isLoading = false,
+                showNoInternetLottie = true,
+                error = null,
+                message = null
+            )
+        }
     }
 
     override fun updateLanguageDialogState(showDialog: Boolean) {
@@ -87,7 +98,14 @@ class ProfileViewModel @Inject constructor(
         if (_state.value.originalName.isEmpty()) {
             _state.update { it.copy(originalName = _state.value.name) }
         }
-        _state.update { it.copy(name = username, error = null, newUsername = username, message = null) }
+        _state.update {
+            it.copy(
+                name = username,
+                error = null,
+                newUsername = username,
+                message = null
+            )
+        }
     }
 
     override fun onEmailChange(email: String) {
@@ -147,6 +165,10 @@ class ProfileViewModel @Inject constructor(
         _state.update { it.copy(pagerNumber = 1, error = null, message = null) }
     }
 
+    override fun onClickChangeMemberRole() {
+        sendUiEffect(ProfileEffect.NavigateToSearchScreen)
+    }
+
     private fun onUpdateUserInformationSuccess(unit: Unit) {
         _state.update {
             it.copy(
@@ -193,7 +215,15 @@ class ProfileViewModel @Inject constructor(
         _state.value.lastAppLanguage = newLanguage
         tryToExecute(
             call = { customizeProfileSettingsUseCase.saveNewSelectedLanguage(newLanguage) },
-            onSuccess = {_state.update { it.copy(error = null, isLoading = false, message = null) }},
+            onSuccess = {
+                _state.update {
+                    it.copy(
+                        error = null,
+                        isLoading = false,
+                        message = null
+                    )
+                }
+            },
             onError = ::onUpdateAppLanguageFail
         )
     }

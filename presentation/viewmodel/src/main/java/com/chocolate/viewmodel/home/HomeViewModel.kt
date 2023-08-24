@@ -1,5 +1,6 @@
 package com.chocolate.viewmodel.home
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.exceptions.NoConnectionException
@@ -87,8 +88,16 @@ class HomeViewModel @Inject constructor(
         _state.update { it.copy(isLoading = false, channels = channels.toUiState(), error = null) }
     }
 
-    private suspend fun getUserLoginState() {
-        tryToExecute({ getUserLoginStatusUseCase() }, ::onLoginStateSuccess, ::onLoginError)
+    private fun getUserLoginState() {
+        viewModelScope.launch {
+            collectFlow(getUserLoginStatusUseCase()) {
+                this.copy(
+                    isLogged = it,
+                    isLoading = false
+                )
+            }
+        }
+        //  tryToExecute({ getUserLoginStatusUseCase() }, ::onLoginStateSuccess, ::onLoginError)
     }
 
     private fun onLoginStateSuccess(userLoginStatus: Boolean) {
@@ -100,6 +109,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onError(throwable: Throwable) {
+        Log.d("home", throwable.toString())
         when (throwable) {
             is UnAuthorizedException, is ValidationException -> sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
             is NoConnectionException -> _state.update {

@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -35,8 +36,10 @@ class DataStoreDataSource @Inject constructor(
         dataStore.setValue(LOGIN_STATE, isComplete)
     }
 
-    override suspend fun getCurrentUserLoginState(): Boolean {
-        return dataStore.get()[LOGIN_STATE] ?: false
+    override suspend fun getCurrentUserLoginState(): Flow<Boolean> {
+         return dataStore.data.map {
+            it[(LOGIN_STATE)] ?: false
+        }
     }
 
     override suspend fun setUserUsedAppForFirstTime(isFirstTime: Boolean) {

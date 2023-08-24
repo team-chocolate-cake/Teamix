@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.usecases.onboarding.ManageUserUsedAppUseCase
 import com.chocolate.usecases.organization.SaveNameOrganizationUseCase
+import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,12 +17,14 @@ import javax.inject.Inject
 class OrganizationNameViewModel @Inject constructor(
     private val saveNameOrganizationsUseCase: SaveNameOrganizationUseCase,
     private val manageUserUsedAppUseCase: ManageUserUsedAppUseCase,
+    private val getUserLoginStatusUseCase: GetUserLoginStatusUseCase,
     private val stringsResource: StringsResource
 ) : BaseViewModel<OrganizationNameUiState, OrganizationNameUiEffect>(OrganizationNameUiState()),
     OrganizationNameInteraction {
 
     init {
         getOnUserUsedAppForFirstTime()
+        viewModelScope.launch { collectFlow(getUserLoginStatusUseCase()) { this.copy(isLogged = it) } }
     }
 
     override fun onClickCreateOrganization() {

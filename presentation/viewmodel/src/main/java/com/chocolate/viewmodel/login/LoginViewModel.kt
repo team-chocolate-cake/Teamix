@@ -7,6 +7,7 @@ import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.NullDataException
 import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.usecases.user.AttemptUserLoginUseCase
+import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.usecases.user.SetUserLoginStateUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
@@ -21,7 +22,7 @@ class LoginViewModel @Inject constructor(
     private val attemptUserLoginUseCase: AttemptUserLoginUseCase,
     private val setUserLoginStateUseCase: SetUserLoginStateUseCase,
     private val stringsResource: StringsResource
-) : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState()),LoginInteraction {
+) : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState()), LoginInteraction {
 
     private val loginArgs: LoginArgs = LoginArgs(savedStateHandle)
 
@@ -29,13 +30,14 @@ class LoginViewModel @Inject constructor(
         getOrganizationName()
     }
 
+
     private fun getOrganizationName() {
         viewModelScope.launch {
             _state.update { it.copy(organizationName = loginArgs.organizationName) }
         }
     }
 
-    override fun onClickForgetPassword(){
+    override fun onClickForgetPassword() {
         sendUiEffect(LoginUiEffect.NavigateToForgetPassword)
     }
 
@@ -58,7 +60,7 @@ class LoginViewModel @Inject constructor(
 
     override fun onClickPasswordVisibility(passwordVisibility: Boolean) {
         _state.update { it.copy(passwordVisibility = passwordVisibility) }
-     }
+    }
 
 
     private fun onSuccess(isUserLogin: Boolean) {
@@ -69,11 +71,10 @@ class LoginViewModel @Inject constructor(
                 sendUiEffect(LoginUiEffect.NavigationToHome)
             }
         }
-
     }
 
     private fun onError(throwable: Throwable) {
-        val errorMessage = when(throwable){
+        val errorMessage = when (throwable) {
             is NoConnectionException -> stringsResource.noConnectionMessage
             is NetworkException -> stringsResource.enterValidEmailAddress
             is ValidationException -> stringsResource.invalidEmailOrPassword

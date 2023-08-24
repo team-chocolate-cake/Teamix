@@ -38,6 +38,7 @@ import com.chocolate.presentation.composable.SeparatorWithText
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.create_organization.navigateToCreateOrganization
+import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.screens.login.navigateToLogin
 import com.chocolate.presentation.screens.welcome.navigateToWelcome
 import com.chocolate.presentation.theme.Space16
@@ -66,18 +67,18 @@ fun OrganizationScreen(
                 organizationName = state.organizationName
             )
         }
-
     }
-    Log.i("dsds",state.onboardingState.toString())
-
-    if (state.onboardingState) {
-
+    if (state.onboardingState && state.isLogged) {
+        navController.navigateToHome()
+    } else if (state.onboardingState) {
         OrganizationContent(
             organizationNameInteraction = viewModel,
             state = state,
         )
     } else {
-        LaunchedEffect(Unit) { navController.navigateToWelcome() }
+        LaunchedEffect(Unit) {
+            navController.navigateToWelcome()
+        }
     }
 }
 

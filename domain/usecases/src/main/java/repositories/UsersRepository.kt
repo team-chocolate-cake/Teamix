@@ -103,7 +103,7 @@ interface UsersRepository {
 
     suspend fun setUserLoginState(isComplete: Boolean)
 
-    suspend fun getUserLoginState(): Boolean
+    suspend fun getUserLoginState(): Flow<Boolean>
 
     suspend fun clearLoginInformation()
 

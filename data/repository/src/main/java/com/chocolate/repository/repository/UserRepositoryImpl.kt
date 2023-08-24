@@ -170,7 +170,7 @@ class UserRepositoryImpl @Inject constructor(
         preferencesDataSource.setUserLoginState(isComplete)
     }
 
-    override suspend fun getUserLoginState(): Boolean {
+    override suspend fun getUserLoginState(): Flow<Boolean> {
         return preferencesDataSource.getCurrentUserLoginState()
     }
 

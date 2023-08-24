@@ -2,6 +2,7 @@ package com.chocolate.presentation.screens.home
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -81,10 +82,13 @@ fun HomeScreen(
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = !isSystemInDarkTheme()
     val state by homeViewModel.state.collectAsState()
-    CollectUiEffect(viewModel = homeViewModel){effect->
-        when(effect){
+    CollectUiEffect(viewModel = homeViewModel) { effect ->
+        when (effect) {
             HomeUiEffect.NavigateToChannel -> {}
-            HomeUiEffect.NavigateToOrganizationName -> {navController.navigateToOrganizationName()}
+            HomeUiEffect.NavigateToOrganizationName -> {
+                navController.navigateToOrganizationName()
+            }
+
             HomeUiEffect.NavigationToDrafts -> {}
             HomeUiEffect.NavigationToSavedLater -> {}
             HomeUiEffect.NavigationToStarred -> {}
@@ -99,41 +103,25 @@ fun HomeScreen(
             systemUiController.setSystemBarsColor(color = LightPrimary, darkIcons = false)
         }
     }
-
-    if (state.isLogged) {
-        if (state.showNoInternetLottie) {
+    when {
+        state.isLogged && state.showNoInternetLottie -> {
             NoInternetLottie(
                 isShow = true,
                 onClickRetry = homeViewModel::getData,
                 isDarkMode = mainViewModel.state.value,
                 text = stringResource(id = R.string.no_internet_connection)
             )
-        } else {
-            when {
-                state.isLoading -> {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        CircularProgressIndicator(color = LightPrimary)
-                    }
-                }
-
-                else -> {
-                    HomeContent(state = state,homeViewModel)
-                }
-            }
         }
-    } else {
-        LaunchedEffect(Unit) { navController.navigateToOrganizationName() }
+        state.isLogged && state.isLoading -> LoadingColumn()
+        state.isLogged -> HomeContent(state = state, homeViewModel)
+        else -> LaunchedEffect(Unit) { navController.navigateToOrganizationName() }
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeContent(state: HomeUiState,homeInteraction: HomeInteraction ) {
+fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
     val colors = MaterialTheme.customColors()
     var isShowSheet by remember { mutableStateOf(false) }
 
@@ -280,13 +268,24 @@ private fun CardItem(
 }
 
 @Composable
+fun LoadingColumn() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        CircularProgressIndicator(color = LightPrimary)
+    }
+}
+
+@Composable
 @Preview(
     showSystemUi = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL
 )
 fun HomePreview() {
-    val viewModel : HomeViewModel = hiltViewModel()
+    val viewModel: HomeViewModel = hiltViewModel()
     TeamixTheme {
-        HomeContent(state = HomeUiState(),viewModel)
+        HomeContent(state = HomeUiState(), viewModel)
     }
 }

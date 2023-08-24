@@ -37,7 +37,7 @@ class DataStoreDataSource @Inject constructor(
     }
 
     override suspend fun getCurrentUserLoginState(): Flow<Boolean> {
-         return dataStore.data.map {
+        return dataStore.data.map {
             it[(LOGIN_STATE)] ?: false
         }
     }

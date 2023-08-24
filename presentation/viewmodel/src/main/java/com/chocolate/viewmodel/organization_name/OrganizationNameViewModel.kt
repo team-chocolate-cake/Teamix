@@ -24,7 +24,7 @@ class OrganizationNameViewModel @Inject constructor(
 
     init {
         getOnUserUsedAppForFirstTime()
-        viewModelScope.launch { collectFlow(getUserLoginStatusUseCase()) { this.copy(isLogged = it) } }
+
     }
 
     override fun onClickCreateOrganization() {
@@ -54,11 +54,13 @@ class OrganizationNameViewModel @Inject constructor(
     private fun getOnUserUsedAppForFirstTime() {
         viewModelScope.launch {
             collectFlow(manageUserUsedAppUseCase.checkIfUserUsedAppOrNot()) {
-                this.copy(
-                    onboardingState = it
-                )
+                this.copy(onboardingState = it)
             }
             Log.d("state", state.value.onboardingState.toString())
+        }
+        viewModelScope.launch {
+            collectFlow(getUserLoginStatusUseCase()) { this.copy(isLogged = it) }
+            Log.d("logged", state.value.isLogged.toString())
         }
         // tryToExecute({ manageUserUsedAppUseCase.checkIfUserUsedAppOrNot() }, ::getOnUserUsedAppForFirstTimeSuccess, ::getOnUserUsedAppForFirstTimeError)
     }

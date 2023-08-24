@@ -68,7 +68,8 @@ fun OrganizationScreen(
             )
         }
     }
-    if (state.onboardingState && state.isLogged) {
+    Log.d("organization", "OrganizationScreen: ${state.isLogged}")
+    if (state.isLogged) {
         navController.navigateToHome()
     } else if (state.onboardingState) {
         OrganizationContent(
@@ -76,9 +77,7 @@ fun OrganizationScreen(
             state = state,
         )
     } else {
-        LaunchedEffect(Unit) {
-            navController.navigateToWelcome()
-        }
+        LaunchedEffect(Unit) { navController.navigateToWelcome() }
     }
 }
 

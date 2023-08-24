@@ -39,7 +39,6 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun getCurrentUser() {
-        _state.update { it.copy(isLoading = true) }
         tryToExecute(
             { getCurrentUserDataUseCase() },
             ::onGetCurrentUserSuccess,

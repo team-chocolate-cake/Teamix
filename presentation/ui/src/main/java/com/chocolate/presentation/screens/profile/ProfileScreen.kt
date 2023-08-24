@@ -5,9 +5,9 @@ import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,9 +20,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -30,21 +30,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -52,7 +45,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -66,24 +58,21 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.MultiChoiceDialog
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.ProfileDialog
+import com.chocolate.presentation.composable.ProfileSettingsScreen
 import com.chocolate.presentation.composable.ProfileTextField
-import com.chocolate.presentation.composable.SettingCard
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.BoxHeight440
 import com.chocolate.presentation.theme.ButtonSize110
-import com.chocolate.presentation.theme.CardHeight56
 import com.chocolate.presentation.theme.ImageSize110
 import com.chocolate.presentation.theme.ImageSize130
 import com.chocolate.presentation.theme.ImageSize158
 import com.chocolate.presentation.theme.Radius16
 import com.chocolate.presentation.theme.Radius24
 import com.chocolate.presentation.theme.RowWidth250
-import com.chocolate.presentation.theme.Space12
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space26
 import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.Space8
-import com.chocolate.presentation.theme.Thickness2
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
@@ -95,9 +84,9 @@ import com.chocolate.viewmodel.profile.ProfileInteraction
 import com.chocolate.viewmodel.profile.ProfileUiState
 import com.chocolate.viewmodel.profile.ProfileViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kotlinx.coroutines.launch
 import java.util.Locale
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProfileScreen(
     mainViewModel: MainViewModel = hiltViewModel(),
@@ -108,7 +97,8 @@ fun ProfileScreen(
     val darkThemeState by mainViewModel.state.collectAsState()
     val colors = MaterialTheme.customColors()
     val context = LocalContext.current
-
+    val pageState = rememberPagerState(initialPage = 0)
+    val scrollState = rememberScrollState()
     CollectUiEffect(viewModel) { effect ->
         when (effect) {
             ProfileEffect.NavigateToOrganizationScreen -> {
@@ -130,7 +120,10 @@ fun ProfileScreen(
                 val languageCode = state.languageMap[newLanguage] ?: "en"
                 viewModel.updateAppLanguage(languageCode)
                 updateResources(context = context, localeLanguage = Locale(languageCode))
-            })
+            },
+            pageState = pageState,
+            scrollState = scrollState,
+        )
     } else {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -142,23 +135,22 @@ fun ProfileScreen(
     }
 }
 
-@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun ProfileContent(
     state: ProfileUiState,
     darkThemeState: Boolean,
     mainViewModel: MainViewModel,
     onUpdateAppLanguage: (newLanguage: String) -> Unit,
-    profileInteraction: ProfileInteraction
+    profileInteraction: ProfileInteraction,
+    pageState: PagerState,
+    scrollState: ScrollState
 ) {
     val color = MaterialTheme.customColors()
-    val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
-    val pageState = rememberPagerState(initialPage = 0)
-    val scrollState = rememberScrollState()
     val systemUiController = rememberSystemUiController()
-
+    val typography = MaterialTheme.typography
     key(state.showThemeDialog) {
         systemUiController.setStatusBarColor(
             MaterialTheme.customColors().background, darkIcons = !mainViewModel.state.value
@@ -207,17 +199,17 @@ fun ProfileContent(
 
         Text(
             state.name, modifier = Modifier.padding(top = Space16),
-            style = MaterialTheme.typography.titleMedium,
+            style = typography.titleMedium,
             color = color.onBackground87
         )
         Text(
             state.email,
-            style = MaterialTheme.typography.titleMedium,
+            style = typography.titleMedium,
             color = color.onBackground60
         )
         Text(
             state.role,
-            style = MaterialTheme.typography.titleMedium,
+            style = typography.titleMedium,
             color = color.onBackground60
         )
 
@@ -373,106 +365,27 @@ fun ProfileContent(
                             }
                         }
                     } else {
-                        LazyColumn(contentPadding = PaddingValues(all = Space16)) {
-                            item {
-                                Box(
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .padding(top = Space8)
-                                        .clip(RoundedCornerShape(Space12))
-                                        .wrapContentHeight()
-                                        .background(color.card)
-                                ) {
-                                    Card(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .clickable {
-                                                coroutineScope.launch {
-                                                    mainViewModel.updateDarkTheme(darkThemeState)
-                                                }
-                                            },
-                                        colors = CardDefaults.cardColors(color.card)
-                                    ) {
-                                        Row(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .height(CardHeight56)
-                                                .padding(horizontal = Space16),
-                                            verticalAlignment = Alignment.CenterVertically,
-                                        ) {
-                                            Icon(
-                                                painter = painterResource(id = R.drawable.dark_mode_icon),
-                                                contentDescription = null,
-                                                modifier = Modifier.padding(end = Space8),
-                                                tint = color.onBackground60
-                                            )
-                                            Text(
-                                                text = stringResource(R.string.dark_theme),
-                                                style = MaterialTheme.typography.bodyMedium,
-                                                color = color.onBackground60
-                                            )
-                                            Spacer(modifier = Modifier.weight(1f))
-                                            Switch(
-                                                checked = darkThemeState, onCheckedChange = {
-                                                    coroutineScope.launch {
-                                                        mainViewModel.updateDarkTheme(darkThemeState)
-                                                    }
-                                                },
-                                                thumbContent = {
-                                                    Icon(
-                                                        painter = painterResource(id = R.drawable.check_24px),
-                                                        contentDescription = null,
-                                                        tint = color.white,
-                                                    )
-                                                }, colors = SwitchDefaults.colors(
-                                                    checkedThumbColor = color.primary,
-                                                    checkedIconColor = color.red,
-                                                    checkedBorderColor = color.card,
-                                                    uncheckedBorderColor = color.card,
-                                                    checkedTrackColor = color.onSecondary38,
-                                                    uncheckedTrackColor = color.gray
-                                                )
-                                            )
-                                        }
-                                    }
-                                }
-                                Divider(color = color.background, thickness = Thickness2)
-                                SettingCard(
-                                    click = { profileInteraction.onClickChangeMemberRole() },
-                                    text = stringResource(id = R.string.change_member_role),
-                                    icon = painterResource(id = R.drawable.ownerpowers),
-                                )
-                                Divider(color = color.background, thickness = Thickness2)
-                                SettingCard(
-                                    click = { profileInteraction.updateLanguageDialogState(true) },
-                                    text = stringResource(R.string.language),
-                                    icon = painterResource(id = R.drawable.language)
-                                )
-                                Divider(color = color.background, thickness = Thickness2)
-                                SettingCard(
-                                    click = { profileInteraction.updateLogoutDialogState(true) },
-                                    text = stringResource(R.string.log_out),
-                                    icon = painterResource(id = R.drawable.logout),
-                                    iconColor = color.red60,
-                                    textColor = color.red60
-                                )
-                            }
-                        }
+                        ProfileSettingsScreen(
+                            color = color,
+                            mainViewModel = mainViewModel,
+                            darkThemeState = darkThemeState,
+                            profileInteraction = profileInteraction,
+                        )
+                    }
+                    state.error?.let {
+                        Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+                    }
+                    state.message?.let {
+                        Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
                     }
                 }
-                state.error?.let {
-                    Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
-                }
-                state.message?.let {
-                    Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
-                }
+                NoInternetLottie(
+                    text = stringResource(id = R.string.no_internet_connection),
+                    isShow = state.showNoInternetLottie,
+                    isDarkMode = mainViewModel.state.value,
+                    onClickRetry = { profileInteraction.onClickRetryToGetPersonalInformation() }
+                )
             }
-            NoInternetLottie(
-                text = stringResource(id = R.string.no_internet_connection),
-                isShow = state.showNoInternetLottie,
-                isDarkMode = mainViewModel.state.value,
-                onClickRetry = { profileInteraction.onClickRetryToGetPersonalInformation() }
-            )
         }
     }
 }

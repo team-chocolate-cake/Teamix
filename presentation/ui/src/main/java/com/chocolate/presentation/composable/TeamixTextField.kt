@@ -34,6 +34,7 @@ fun TeamixTextField(
     minLines: Int = 1,
     maxLines: Int = 1,
     trailingIcon: @Composable (() -> Unit) = {},
+    leadingIcon: @Composable (() -> Unit) = {},
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
 ) {

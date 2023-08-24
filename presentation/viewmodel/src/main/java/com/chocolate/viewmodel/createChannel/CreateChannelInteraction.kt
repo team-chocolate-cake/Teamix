@@ -7,5 +7,5 @@ interface CreateChannelInteraction {
 
     fun onChannelDescriptionChange(channelDescription: String?)
 
-    fun onChannelStatusChange(newChannelStatus: ChannelStatus)
+    fun onChannelStatusChange(newChannelStatus: ChannelStatus, isPrivate: Boolean)
 }

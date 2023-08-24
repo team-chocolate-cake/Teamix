@@ -24,8 +24,18 @@ class ChannelsRepositoryImpl @Inject constructor(
             getTopicsInChannel(channelId)
         }
 
-    override suspend fun subscribeToChannel(channelName: String, usersId: List<Int>): Boolean {
-        return channelsRemoteDataSource.subscribeToChannels(createJsonArrayString(channelName), JSONArray(usersId).toString())
+    override suspend fun subscribeToChannel(
+        channelName: String,
+        usersId: List<Int>,
+        description: String?,
+        isPrivate: Boolean
+    ): Boolean {
+        return channelsRemoteDataSource.subscribeToChannels(
+            createJsonArrayString(channelName = channelName, channelDescription = description),
+            usersId = usersId,
+            description = description,
+            isPrivate = isPrivate
+        )
             .result?.equals("success") ?: false
     }
 
@@ -123,7 +133,10 @@ class ChannelsRepositoryImpl @Inject constructor(
             .toSuccessOrFail()
     }
 
-    private fun createJsonArrayString(channelName: String, channelDescription: String = ""): String {
+    private fun createJsonArrayString(
+        channelName: String,
+        channelDescription: String? = ""
+    ): String {
         val jsonArray = JSONArray()
         val jsonObject = JSONObject()
         jsonObject.put("name", channelName)

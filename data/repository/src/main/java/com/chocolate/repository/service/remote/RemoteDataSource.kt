@@ -53,6 +53,8 @@ interface RemoteDataSource{
 
     suspend fun subscribeToChannels(
         channelName: String,
+        description: String?,
+        isPrivate: Boolean,
         usersId: String
     ): SubscribeToStreamDto
 

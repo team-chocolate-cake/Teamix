@@ -1,18 +1,18 @@
 package com.chocolate.viewmodel.chooseMember
 
-import com.chocolate.entities.exceptions.NoConnectionException
+import androidx.lifecycle.SavedStateHandle
 import com.chocolate.entities.user.User
 import com.chocolate.usecases.channel.AddUsersInChannelByChannelNameAndUsersIdUseCase
 import com.chocolate.usecases.user.GetUsersUseCase
 import com.chocolate.usecases.user.SearchUsersUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
-import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
 class ChooseMemberViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val searchUsersUseCase: SearchUsersUseCase,
     private val getUsersUseCase: GetUsersUseCase,
     private val addUsersInChannelByChannelNameAndUsersIdUseCase:
@@ -20,8 +20,15 @@ class ChooseMemberViewModel @Inject constructor(
     private val stringsResource: StringsResource
 ) : BaseViewModel<ChooseMemberUiState, Unit>(ChooseMemberUiState()), ChooseMemberInteraction {
 
+    private val createChannelArgs: CreateChannelArgs = CreateChannelArgs(savedStateHandle)
+
     init {
+        getChannelName()
         getUsers()
+    }
+
+    private fun getChannelName() {
+        _state.update { it.copy(channelName = createChannelArgs.channelName) }
     }
 
     private fun getUsers() {

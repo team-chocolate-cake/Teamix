@@ -81,9 +81,6 @@ class ProfileViewModel @Inject constructor(
         _state.update { it.copy(showLanguageDialog = showDialog, error = null, message = null) }
     }
 
-    override fun updateThemeDialogState(showDialog: Boolean) {
-        _state.update { it.copy(showThemeDialog = showDialog, error = null, message = null) }
-    }
 
     override fun updateLogoutDialogState(showDialog: Boolean) {
         _state.update { it.copy(showLogoutDialog = showDialog, error = null, message = null) }
@@ -180,9 +177,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    override fun updateClearHistoryState(showDialog: Boolean) {
-        _state.update { it.copy(showClearHistoryDialog = showDialog, error = null) }
-    }
+
 
     private fun onError(throwable: Throwable) {
         val error = when (throwable) {

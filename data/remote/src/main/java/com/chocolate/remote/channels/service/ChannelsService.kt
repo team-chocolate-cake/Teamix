@@ -27,6 +27,8 @@ interface ChannelsService {
     suspend fun subscribeToChannels(
         @Query("subscriptions") channelsName: String,
         @Query("principals") usersId: List<Int>,
+        @Query("description") description: String?,
+        @Query("invite_only") isPrivate: Boolean,
     ): Response<SubscribeToStreamDto>
 
     @DELETE("users/me/subscriptions")

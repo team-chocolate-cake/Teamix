@@ -53,7 +53,9 @@ interface RemoteDataSource{
 
     suspend fun subscribeToChannels(
         channelName: String,
-        usersId: List<Int>
+        usersId: List<Int>,
+        description: String?,
+        isPrivate: Boolean
     ): SubscribeToStreamDto
 
     suspend fun unsubscribeFromChannels(channelsName: List<String>): UnsubscribeFromStreamDto

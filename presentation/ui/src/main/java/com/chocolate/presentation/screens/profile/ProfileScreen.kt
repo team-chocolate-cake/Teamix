@@ -149,14 +149,7 @@ fun ProfileContent(
 ) {
     val color = MaterialTheme.customColors()
     val context = LocalContext.current
-    val systemUiController = rememberSystemUiController()
     val typography = MaterialTheme.typography
-    key(state.showThemeDialog) {
-        systemUiController.setStatusBarColor(
-            MaterialTheme.customColors().background, darkIcons = !mainViewModel.state.value
-        )
-        systemUiController.setNavigationBarColor(Color.Black)
-    }
 
     LaunchedEffect(state.pagerNumber) {
         pageState.animateScrollToPage(state.pagerNumber)
@@ -235,14 +228,6 @@ fun ProfileContent(
                         LocalLanguage.English.name
                     }
                 }
-            )
-        }
-        AnimatedVisibility(state.showClearHistoryDialog) {
-            ProfileDialog(
-                title = stringResource(R.string.clear_history_title),
-                text = stringResource(R.string.clear_history_text),
-                onDismissButtonClick = { profileInteraction.updateClearHistoryState(false) },
-                onConfirmButtonClick = { },
             )
         }
         AnimatedVisibility(state.showWarningDialog) {

@@ -26,7 +26,7 @@ data class ProfileUiState(
     val newEmail: String = "",
     val originalName: String = "",
     val originalEmail: String = "",
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
     val error: String? = null
 ): BaseViewModel.BaseUiState
 

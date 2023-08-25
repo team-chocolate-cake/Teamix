@@ -25,7 +25,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.screens.create_organization.navigateToCreateOrganization
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.Space24
 import com.chocolate.presentation.theme.Space32
@@ -43,15 +42,14 @@ fun OnboardingScreen(
     onboardingViewModel: OnboardingViewModel = hiltViewModel()
 ) {
     val navController = LocalNavController.current
+
     CollectUiEffect(viewModel = onboardingViewModel) { effect ->
         when (effect) {
             OnboardingUiEffect.NavigateToOrganizationName ->
                 navController.navigateToOrganizationName()
         }
     }
-    OnboardingContent(
-        onboardingViewModel
-    )
+    OnboardingContent(onboardingViewModel)
 }
 
 val onboardingPages = listOf(OnboardingPage.First, OnboardingPage.Second, OnboardingPage.Third)

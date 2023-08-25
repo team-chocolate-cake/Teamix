@@ -30,7 +30,7 @@ import com.chocolate.viewmodel.search.MembersUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MemberItem(onClickMemberItem: (Int) -> Unit, state: MembersUiState,modifier: Modifier = Modifier) {
+fun MemberItem(onClickMemberItem: (Int) -> Unit, state: MembersUiState, modifier: Modifier = Modifier) {
     val colors = MaterialTheme.customColors()
     Card(
         onClick = { onClickMemberItem(state.memberId)}, modifier = modifier

@@ -24,11 +24,15 @@ import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.search.ChannelsUiState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChannelItem(onClickChannelItem: (Int)-> Unit, state: ChannelsUiState,modifier: Modifier = Modifier) {
+fun ChannelItem(
+    modifier: Modifier = Modifier,
+    onClickChannelItem: (Int) -> Unit,
+    state: ChannelsUiState
+) {
     val colors = MaterialTheme.customColors()
 
     Card(
-        onClick = {onClickChannelItem(state.channelId) }, modifier = modifier
+        onClick = { onClickChannelItem(state.channelId) }, modifier = modifier
             .fillMaxWidth()
             .height(48.dp),
         colors = CardDefaults.cardColors(containerColor = colors.card),

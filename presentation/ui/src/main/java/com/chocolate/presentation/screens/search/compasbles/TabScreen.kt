@@ -24,13 +24,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.Space40
+import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.search.SearchUiState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TabScreen(
+    modifier: Modifier = Modifier,
     onClickChannelItem: (Int) -> Unit,
     onClickMemberItem: (Int) -> Unit,
     state: SearchUiState
@@ -38,7 +41,7 @@ fun TabScreen(
     val colors = MaterialTheme.customColors()
     var tabIndex by remember { mutableStateOf(0) }
     val tabs = listOf("Channels", "Members")
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = modifier.fillMaxWidth()) {
         TabRow(
             selectedTabIndex = tabIndex,
             containerColor = colors.card,
@@ -48,7 +51,7 @@ fun TabScreen(
                     color = colors.primary,
                     modifier = Modifier
                         .tabIndicatorOffset(tabPositions[tabIndex])
-                        .padding(horizontal = 40.dp)
+                        .padding(horizontal = Space40)
                 )
             },
             divider = { }
@@ -72,12 +75,12 @@ fun TabScreen(
             text = "RecentSearch",
             color = colors.onBackground87,
             style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(start = 16.dp, top = 16.dp)
+            modifier = Modifier.padding(start = Space16, top = Space16)
         )
         LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(Space8),
             modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(horizontal = 16.dp)
+            contentPadding = PaddingValues(horizontal = Space16)
         ) {
             items(state.recentSearches) {
                 RecentSearchItem(text = it)
@@ -87,24 +90,24 @@ fun TabScreen(
             when (targetTab) {
                 0 -> LazyColumn(
                     modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    contentPadding = PaddingValues(Space16),
+                    verticalArrangement = Arrangement.spacedBy(Space8)
                 ) {
                     items(state.channelsUiState, key = { item ->
                         item.channelId
                     }) { channelState ->
                         ChannelItem(
+                            modifier = Modifier.animateItemPlacement(),
                             { onClickChannelItem(it) },
-                            channelState,
-                            modifier = Modifier.animateItemPlacement()
+                            channelState
                         )
                     }
                 }
 
                 1 -> LazyColumn(
                     modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    contentPadding = PaddingValues(Space16),
+                    verticalArrangement = Arrangement.spacedBy(Space8)
                 ) {
                     items(state.membersUiState, key = { item ->
                         item.memberId

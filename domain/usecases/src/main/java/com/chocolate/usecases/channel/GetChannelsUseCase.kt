@@ -10,4 +10,10 @@ class GetChannelsUseCase @Inject constructor(
     suspend operator fun invoke(): List<Channel> {
         return channelsRepository.getChannels()
     }
+
+    suspend fun searchChannels(channelName: String): List<Channel>{
+        return invoke().let {channels->
+            channels.filter { it.name.contains(channelName,true) }
+        }
+    }
 }

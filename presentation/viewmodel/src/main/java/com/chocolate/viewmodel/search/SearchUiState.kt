@@ -1,5 +1,7 @@
 package com.chocolate.viewmodel.search
 
+import com.chocolate.viewmodel.base.BaseViewModel
+
 data class SearchUiState(
     val searchQuery: String = "",
     val channelsUiState: List<ChannelsUiState> = emptyList(),
@@ -7,7 +9,7 @@ data class SearchUiState(
     val recentSearches: List<String> = listOf("abc","def","ghi","abv"),
     val isLoading: Boolean = false,
     val error: String? = null
-)
+): BaseViewModel.BaseUiState
 
 data class ChannelsUiState(
     val channelId: Int = 0,

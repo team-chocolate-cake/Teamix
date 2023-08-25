@@ -32,12 +32,13 @@ fun TeamixTextField(
     singleLine: Boolean = false,
     minLines: Int = 1,
     maxLines: Int = 1,
+    containerColor: Color = MaterialTheme.customColors().card,
     visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onValueChange: (String) -> Unit,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    ) {
+) {
     val colors = MaterialTheme.customColors()
 
     TextField(
@@ -63,7 +64,7 @@ fun TeamixTextField(
         leadingIcon = leadingIcon,
         shape = RoundedCornerShape(Radius12),
         colors = TextFieldDefaults.textFieldColors(
-            containerColor = colors.card,
+            containerColor = containerColor,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,

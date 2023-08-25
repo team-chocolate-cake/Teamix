@@ -1,6 +1,5 @@
 package com.chocolate.viewmodel.home
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.exceptions.NoConnectionException
@@ -21,11 +20,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getUserLoginStatusUseCase: GetUserLoginStatusUseCase,
-    private val getSubscribedChannelsUseCase: GetSubscribedChannelsUseCase,
-    private val getImageOrganizationUseCase: GetImageOrganizationUseCase,
-    private val getNameOrganizationsUseCase: GetNameOrganizationsUseCase,
-    private val getCurrentUserDataUseCase: GetCurrentUserDataUseCase
+    private val getUserLoginStatus: GetUserLoginStatusUseCase,
+    private val getSubscribedChannels: GetSubscribedChannelsUseCase,
+    private val getImageOrganization: GetImageOrganizationUseCase,
+    private val getNameOrganizations: GetNameOrganizationsUseCase,
+    private val getCurrentUserData: GetCurrentUserDataUseCase
 ) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()), HomeInteraction {
 
     init {
@@ -45,7 +44,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getCurrentUserData() {
         tryToExecute(
-            { getCurrentUserDataUseCase.getRemoteCurrentUser() },
+            { getCurrentUserData.getRemoteCurrentUser() },
             ::onGetCurrentUserDataSuccess,
             ::onGetCurrentUserDataError
         )
@@ -62,7 +61,7 @@ class HomeViewModel @Inject constructor(
 
     private fun onGettingOrganizationImage() {
         tryToExecute(
-            { getImageOrganizationUseCase() },
+            { getImageOrganization() },
             ::onGettingOrganizationImageSuccess,
             ::onError
         )
@@ -80,7 +79,7 @@ class HomeViewModel @Inject constructor(
 
     private fun onGettingOrganizationName() {
         tryToExecute(
-            { getNameOrganizationsUseCase() },
+            { getNameOrganizations() },
             ::onGettingOrganizationNameSuccess,
             ::onError
         )
@@ -97,7 +96,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onGettingChannels() {
-        tryToExecute({ getSubscribedChannelsUseCase() }, ::onGettingChannelsSuccess, ::onError)
+        tryToExecute({ getSubscribedChannels() }, ::onGettingChannelsSuccess, ::onError)
     }
 
     private fun onGettingChannelsSuccess(channels: List<Channel>) {
@@ -106,7 +105,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getUserLoginState() {
         viewModelScope.launch {
-            collectFlow(getUserLoginStatusUseCase()) {
+            collectFlow(getUserLoginStatus()) {
                 this.copy(isLogged = it)
             }
         }

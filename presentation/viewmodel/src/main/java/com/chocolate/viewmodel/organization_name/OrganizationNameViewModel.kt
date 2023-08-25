@@ -14,10 +14,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OrganizationNameViewModel @Inject constructor(
-    private val saveNameOrganizationsUseCase: SaveNameOrganizationUseCase,
-    private val getUserLoginStatusUseCase: GetUserLoginStatusUseCase,
+    private val saveNameOrganizations: SaveNameOrganizationUseCase,
+    private val getUserLoginStatus: GetUserLoginStatusUseCase,
     private val stringsResource: StringsResource,
-    private val manageUserUsedAppUseCase: ManageUserUsedAppUseCase
+    private val manageUserUsedApp: ManageUserUsedAppUseCase
 ) : BaseViewModel<OrganizationNameUiState, OrganizationNameUiEffect>(OrganizationNameUiState()),
     OrganizationNameInteraction {
 
@@ -32,7 +32,7 @@ class OrganizationNameViewModel @Inject constructor(
 
     override fun onClickActionButton(organizationName: String) {
         _state.update { it.copy(isLoading = true) }
-        tryToExecute({ saveNameOrganizationsUseCase(organizationName) }, ::onSuccess, ::onError)
+        tryToExecute({ saveNameOrganizations(organizationName) }, ::onSuccess, ::onError)
     }
 
     private fun onSuccess(isCheck: Boolean) {
@@ -43,7 +43,7 @@ class OrganizationNameViewModel @Inject constructor(
     }
     private fun getOnboardingStatus(){
         viewModelScope.launch {
-            collectFlow(manageUserUsedAppUseCase.checkIfUserUsedAppOrNot()) {
+            collectFlow(manageUserUsedApp.checkIfUserUsedAppOrNot()) {
                 this.copy(onboardingState = it)
             }
         }
@@ -60,7 +60,7 @@ class OrganizationNameViewModel @Inject constructor(
     private fun getOnUserLoggedIn(){
         viewModelScope.launch {
             viewModelScope.launch {
-                collectFlow(getUserLoginStatusUseCase()) { this.copy(isLogged = it) }
+                collectFlow(getUserLoginStatus()) { this.copy(isLogged = it) }
             }
         }
     }

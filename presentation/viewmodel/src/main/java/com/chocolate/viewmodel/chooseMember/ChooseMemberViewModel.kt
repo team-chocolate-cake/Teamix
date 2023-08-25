@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.user.User
 import com.chocolate.usecases.channel.AddUsersInChannelByChannelNameAndUsersIdUseCase
-import com.chocolate.usecases.user.GetUsersUseCase
+import com.chocolate.usecases.user.GetAllUsersUseCase
 import com.chocolate.usecases.user.SearchUsersUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
@@ -16,9 +16,9 @@ import javax.inject.Inject
 @HiltViewModel
 class ChooseMemberViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val searchUsersUseCase: SearchUsersUseCase,
-    private val getUsersUseCase: GetUsersUseCase,
-    private val addUsersInChannelByChannelNameAndUsersIdUseCase:
+    private val getSearchUsers: SearchUsersUseCase,
+    private val getAllUsers: GetAllUsersUseCase,
+    private val addUsersInChannel:
     AddUsersInChannelByChannelNameAndUsersIdUseCase,
     private val stringsResource: StringsResource
 ) : BaseViewModel<ChooseMemberUiState, Unit>(ChooseMemberUiState()), ChooseMemberInteraction {
@@ -36,7 +36,7 @@ class ChooseMemberViewModel @Inject constructor(
 
     private fun getUsers() {
         _state.update { it.copy(isLoading = true) }
-        tryToExecute({ getUsersUseCase() }, ::onGetUsersSuccess, ::onGetUsersError)
+        tryToExecute({ getAllUsers() }, ::onGetUsersSuccess, ::onGetUsersError)
     }
 
     private fun onGetUsersSuccess(users: List<User>) {
@@ -63,7 +63,7 @@ class ChooseMemberViewModel @Inject constructor(
     override fun addMembersInChannel(channelName: String, usersId: List<Int>) {
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
-            { addUsersInChannelByChannelNameAndUsersIdUseCase(channelName, usersId) },
+            { addUsersInChannel(channelName, usersId) },
             ::onAddMembersInChannelSuccess,
             ::onAddMembersInChannelError
         )
@@ -156,7 +156,7 @@ class ChooseMemberViewModel @Inject constructor(
 
     override fun onChangeSearchQuery(query: String) {
         _state.update { it.copy(isLoading = true, searchQuery = query) }
-        tryToExecute({ searchUsersUseCase(query) }, ::onChangeSearchSuccess, ::onChangeSearchError)
+        tryToExecute({ getSearchUsers(query) }, ::onChangeSearchSuccess, ::onChangeSearchError)
     }
 
     override fun onRemoveSelectedItem(memberId: Int) {

@@ -18,8 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val attemptUserLoginUseCase: AttemptUserLoginUseCase,
-    private val setUserLoginStateUseCase: SetUserLoginStateUseCase,
+    private val attemptUserLogin: AttemptUserLoginUseCase,
+    private val setUserLoginState: SetUserLoginStateUseCase,
     private val stringsResource: StringsResource
 ) : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState()), LoginInteraction {
 
@@ -49,7 +49,7 @@ class LoginViewModel @Inject constructor(
 
     override fun onClickSignIn(email: String, password: String) {
         _state.update { it.copy(isLoading = true) }
-        tryToExecute({ attemptUserLoginUseCase(email, password) }, ::onSuccess, ::onError)
+        tryToExecute({ attemptUserLogin(email, password) }, ::onSuccess, ::onError)
     }
 
     override fun onClickRetry() {
@@ -65,7 +65,7 @@ class LoginViewModel @Inject constructor(
         _state.update { it.copy(isLoading = false) }
         viewModelScope.launch {
             if (isUserLogin) {
-                setUserLoginStateUseCase(true)
+                setUserLoginState(true)
                 sendUiEffect(LoginUiEffect.NavigationToHome)
             }
         }

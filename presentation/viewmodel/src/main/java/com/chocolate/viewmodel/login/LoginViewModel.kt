@@ -7,7 +7,6 @@ import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.NullDataException
 import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.usecases.user.AttemptUserLoginUseCase
-import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.usecases.user.SetUserLoginStateUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
@@ -29,7 +28,6 @@ class LoginViewModel @Inject constructor(
     init {
         getOrganizationName()
     }
-
 
     private fun getOrganizationName() {
         viewModelScope.launch {

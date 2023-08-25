@@ -11,22 +11,31 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.Topic
+import com.chocolate.presentation.screens.home.LoadingColumn
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.viewmodel.channel.ChannelScreenUiState
+import com.chocolate.viewmodel.channel.ChannelViewModel
 import com.chocolate.viewmodel.topic.ReactionUiState
 
 @Composable
-fun ChannelScreen() {
+fun ChannelScreen(
+    channelViewModel:ChannelViewModel = hiltViewModel()
+) {
+    val state by channelViewModel.state.collectAsState()
     ChannelContent(
-        channelScreenUiState = ChannelScreenUiState(),
+        channelScreenUiState = state,
         meetingButtonClick = {},
         onOpenReactTile = {},
         onSeeAll = {},
@@ -62,6 +71,9 @@ fun ChannelContent(
             }
         }
     ) { padding ->
+        if(channelScreenUiState.isLoading)
+            LoadingColumn()
+        else
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -71,7 +83,7 @@ fun ChannelContent(
         ) {
             items(channelScreenUiState.topics.size) {
                 Topic(
-                    topicUiSate = channelScreenUiState.topics[it],
+                    topicState = channelScreenUiState.topics[it],
                     onClickReact = onClickReact,
                     onOpenReactTile = onOpenReactTile,
                     onSeeAll = onSeeAll,

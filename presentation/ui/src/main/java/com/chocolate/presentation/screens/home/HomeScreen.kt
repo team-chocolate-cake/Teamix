@@ -53,6 +53,7 @@ import com.chocolate.presentation.composable.ChannelItem
 import com.chocolate.presentation.composable.ManageChannelBottomSheet
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.TeamixScaffold
+import com.chocolate.presentation.screens.channel.toChannelScreen
 import com.chocolate.presentation.screens.create_channel.navigateToCreateChannel
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.CustomColorsPalette
@@ -96,7 +97,9 @@ fun HomeScreen(
 
     CollectUiEffect(viewModel = homeViewModel) { effect ->
         when (effect) {
-            HomeUiEffect.NavigateToChannel -> {}
+            is HomeUiEffect.NavigateToChannel -> {
+                navController.toChannelScreen(effect.id)
+            }
             HomeUiEffect.NavigateToOrganizationName -> {
                 navController.navigateToOrganizationName()
             }

@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.chocolate.presentation.R
-import com.chocolate.presentation.screens.channel.TopicUiSate
+import com.chocolate.viewmodel.channel.TopicState
 import com.chocolate.viewmodel.topic.ReactionUiState
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space4
@@ -48,7 +48,7 @@ import com.chocolate.presentation.theme.customColors
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun Topic(
-    topicUiSate: TopicUiSate,
+    topicState: TopicState,
     onClickReact: (Boolean, ReactionUiState) -> Unit,
     onOpenReactTile: () -> Unit,
     onSeeAll: () -> Unit,
@@ -58,7 +58,7 @@ fun Topic(
         modifier = Modifier.fillMaxWidth()
     ) {
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current).data(topicUiSate.creatorImage)
+            model = ImageRequest.Builder(LocalContext.current).data(topicState.creatorImage)
                 .build(),
             modifier = Modifier
                 .padding(end = Space4)
@@ -87,27 +87,27 @@ fun Topic(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = topicUiSate.creatorName,
+                            text = topicState.creatorName,
                             color = MaterialTheme.customColors().onBackground87,
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            text = topicUiSate.topicCreationDate.toString(),
+                            text = topicState.topicCreationDate.toString(),
                             color = MaterialTheme.customColors().onBackground60,
                             style = MaterialTheme.typography.labelSmall
                         )
                     }
                     Text(
-                        text = topicUiSate.topicName,
+                        text = topicState.topicName,
                         color = MaterialTheme.customColors().onBackground60,
                         style = MaterialTheme.typography.bodySmall
                     )
-                    if (!topicUiSate.reactions.isEmpty()) {
+                    if (!topicState.reactions.isEmpty()) {
                         FlowRow(
                             horizontalArrangement = Arrangement.spacedBy(Space8),
                             modifier = Modifier
                         ) {
-                            topicUiSate.reactions.forEach { reaction ->
+                            topicState.reactions.forEach { reaction ->
                                 ReactionButton(reaction) { clicked, reaction ->
                                     onClickReact(clicked, reaction)
                                 }
@@ -133,7 +133,7 @@ fun Topic(
                         }
                     }
 
-                    if (!topicUiSate.replayImages.isEmpty()) {
+                    if (!topicState.replayImages.isEmpty()) {
                         Row(
                             modifier = Modifier,
                             verticalAlignment = Alignment.CenterVertically,
@@ -143,11 +143,11 @@ fun Topic(
                                 horizontalArrangement = Arrangement.spacedBy(-Space4),
                                 reverseLayout = true
                             ) {
-                                if (topicUiSate.replayImages.size <= 4) {
-                                    items(topicUiSate.replayImages.size) {
+                                if (topicState.replayImages.size <= 4) {
+                                    items(topicState.replayImages.size) {
                                         AsyncImage(
                                             model = ImageRequest.Builder(LocalContext.current)
-                                                .data(topicUiSate.replayImages[it])
+                                                .data(topicState.replayImages[it])
                                                 .build(),
                                             contentScale = ContentScale.Crop,
                                             modifier = Modifier
@@ -171,7 +171,7 @@ fun Topic(
                                                 .size(18.dp),
                                         ) {
                                             Text(
-                                                text = "+${topicUiSate.replayImages.size - 4}",
+                                                text = "+${topicState.replayImages.size - 4}",
                                                 color = Color.White,
                                                 fontSize = 6.sp
                                             )
@@ -180,7 +180,7 @@ fun Topic(
                                     items(4) {
                                         AsyncImage(
                                             model = ImageRequest.Builder(LocalContext.current)
-                                                .data(topicUiSate.replayImages[it])
+                                                .data(topicState.replayImages[it])
                                                 .build(),
                                             contentScale = ContentScale.Crop,
                                             modifier = Modifier
@@ -248,7 +248,7 @@ fun Topic(
 fun TopicReview() {
     TeamixTheme {
         Topic(
-            topicUiSate = TopicUiSate(),
+            topicState = TopicState(),
             onClickReact = { clicked, react -> },
             onOpenReactTile = {},
             onSeeAll = {}

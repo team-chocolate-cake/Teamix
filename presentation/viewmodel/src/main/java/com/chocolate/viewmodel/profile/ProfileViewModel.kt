@@ -1,7 +1,5 @@
 package com.chocolate.viewmodel.profile
 
-import android.content.Context
-import android.content.Intent
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.ValidationException
@@ -22,10 +20,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val getCurrentUserDataUseCase: GetCurrentUserDataUseCase,
-    private val updateUserInformationUseCase: UpdateUserInformationUseCase,
-    private val logoutUseCase: LogoutUseCase,
-    private val customizeProfileSettingsUseCase: CustomizeProfileSettingsUseCase,
+    private val getCurrentUserData: GetCurrentUserDataUseCase,
+    private val updateUserInformation: UpdateUserInformationUseCase,
+    private val logout: LogoutUseCase,
+    private val customizeProfileSettings: CustomizeProfileSettingsUseCase,
     private val stringsResource: StringsResource
 ) : BaseViewModel<ProfileUiState, ProfileEffect>(ProfileUiState()), ProfileInteraction {
 
@@ -36,14 +34,14 @@ class ProfileViewModel @Inject constructor(
 
     private fun getLastSelectedAppLanguage() {
         viewModelScope.launch(Dispatchers.IO) {
-            val language = customizeProfileSettingsUseCase.getLastSelectedAppLanguage()
+            val language = customizeProfileSettings.getLastSelectedAppLanguage()
             _state.update { it.copy(lastAppLanguage = language) }
         }
     }
 
     private fun getCurrentUser() {
         tryToExecute(
-            { getCurrentUserDataUseCase() },
+            { getCurrentUserData() },
             ::onGetCurrentUserSuccess,
             ::onGetCurrentUserError
         )
@@ -125,7 +123,7 @@ class ProfileViewModel @Inject constructor(
             status = ""
         )
         tryToExecute(
-            { updateUserInformationUseCase(userInformationSettingsState) },
+            { updateUserInformation(userInformationSettingsState) },
             ::onUpdateUserInformationSuccess,
             ::onError
         )
@@ -193,7 +191,7 @@ class ProfileViewModel @Inject constructor(
 
     override fun onLogoutButtonClicked() {
         tryToExecute(
-            call = { logoutUseCase() },
+            call = { logout() },
             onSuccess = ::onLogoutSuccess,
             onError = ::onLogoutFail
         )
@@ -211,7 +209,7 @@ class ProfileViewModel @Inject constructor(
     fun updateAppLanguage(newLanguage: String) {
         _state.value.lastAppLanguage = newLanguage
         tryToExecute(
-            call = { customizeProfileSettingsUseCase.saveNewSelectedLanguage(newLanguage) },
+            call = { customizeProfileSettings.saveNewSelectedLanguage(newLanguage) },
             onSuccess = {
                 _state.update {
                     it.copy(

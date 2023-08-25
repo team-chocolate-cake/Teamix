@@ -6,7 +6,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TopicViewModel @Inject constructor(
-
 ): BaseViewModel<TopicUiState,TopicEffect>(TopicUiState()),TopicInteraction{
     override fun onClickBackButton() {
         sendUiEffect(TopicEffect.NavigationBack)

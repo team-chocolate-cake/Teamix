@@ -40,14 +40,9 @@ import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.welcome.WelcomeViewModel
 
 @Composable
-fun WelcomeScreen(welcomeViewModel: WelcomeViewModel = hiltViewModel()) {
+fun WelcomeScreen() {
     val navController = LocalNavController.current
-    val state by welcomeViewModel.state.collectAsState()
-    if (state.onboardingState) {
-        navController.navigateToOrganizationName()
-    } else {
-        WelcomeContent { navController.navigateToOnboarding() }
-    }
+    WelcomeContent { navController.navigateToOnboarding() }
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

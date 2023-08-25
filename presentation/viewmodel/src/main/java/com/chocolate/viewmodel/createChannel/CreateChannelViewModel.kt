@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreateChannelViewModel @Inject constructor(
-    private val createChannelUseCase: AddUsersInChannelByChannelNameAndUsersIdUseCase
+    private val createChannel: AddUsersInChannelByChannelNameAndUsersIdUseCase
 ) : BaseViewModel<CreateChannelUiState, CreateChannelUiEffect>(CreateChannelUiState()),
     CreateChannelInteraction {
 
@@ -23,7 +23,7 @@ class CreateChannelViewModel @Inject constructor(
 
     private suspend fun createChannel(): Boolean {
         _state.update { it.copy(isLoading = true) }
-        return createChannelUseCase(
+        return createChannel(
             channelName = _state.value.nameInput,
             usersId = listOf(),
             description = _state.value.description,

@@ -57,6 +57,7 @@ import com.chocolate.presentation.screens.create_channel.navigateToCreateChannel
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.LightPrimary
+import com.chocolate.presentation.theme.OnLightPrimary
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space4
 import com.chocolate.presentation.theme.Space64
@@ -83,24 +84,24 @@ fun HomeScreen(
     val useDarkIcons = !isSystemInDarkTheme()
     val state by homeViewModel.state.collectAsState()
 
+    DisposableEffect(systemUiController, useDarkIcons) {
+        systemUiController.setSystemBarsColor(color = LightPrimary, darkIcons = false)
+        onDispose {
+            systemUiController.setSystemBarsColor(color = LightPrimary, darkIcons = false)
+        }
+    }
+
     CollectUiEffect(viewModel = homeViewModel) { effect ->
         when (effect) {
             HomeUiEffect.NavigateToChannel -> {}
             HomeUiEffect.NavigateToOrganizationName -> {
                 navController.navigateToOrganizationName()
             }
-
             HomeUiEffect.NavigationToDrafts -> {}
             HomeUiEffect.NavigationToSavedLater -> {}
             HomeUiEffect.NavigationToStarred -> {}
             HomeUiEffect.NavigateToTopic -> {}
             HomeUiEffect.NavigateToCreateChannel -> navController.navigateToCreateChannel()
-        }
-    }
-    DisposableEffect(systemUiController, useDarkIcons) {
-        systemUiController.setSystemBarsColor(color = LightPrimary, darkIcons = false)
-        onDispose {
-            systemUiController.setSystemBarsColor(color = LightPrimary, darkIcons = false)
         }
     }
     when {
@@ -134,6 +135,7 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
         title = state.organizationTitle,
         imageUrl = state.imageUrl,
         hasImageUrl = true,
+        titleColor = OnLightPrimary,
         hasAppBar = true,
         floatingActionButton = {
             AnimatedVisibility(visible = state.role.lowercase() == "owner") {

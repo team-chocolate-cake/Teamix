@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.create_channel
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -11,6 +12,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,6 +32,7 @@ import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.composable.ToggleButton
 import com.chocolate.presentation.screens.chooseMember.navigateToChooseMember
 import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.Space24
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
@@ -55,6 +59,7 @@ fun CreateChannelScreen(
 
     CreateChannelContent(
         state = state,
+        scrollState = rememberScrollState(),
         createChannelInteraction = createChannelViewModel
     )
 }
@@ -63,6 +68,7 @@ fun CreateChannelScreen(
 @Composable
 private fun CreateChannelContent(
     state: CreateChannelUiState,
+    scrollState: ScrollState,
     createChannelInteraction: CreateChannelInteraction
 ) {
     val colors = MaterialTheme.customColors()
@@ -95,6 +101,7 @@ private fun CreateChannelContent(
             modifier = Modifier
                 .fillMaxSize()
                 .background(color = colors.background)
+                .verticalScroll(scrollState)
                 .padding(paddingValues)
                 .padding(Space16)
         ) {
@@ -185,6 +192,7 @@ private fun CreateChannelContent(
             ToggleButton(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(top = Space24)
                     .align(alignment = Alignment.End),
                 color = colors.primary,
                 isFilled = true,

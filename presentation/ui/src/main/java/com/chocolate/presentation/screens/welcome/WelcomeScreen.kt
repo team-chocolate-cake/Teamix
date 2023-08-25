@@ -13,8 +13,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -23,13 +21,11 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.FitImage
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.on_boarding.navigateToOnboarding
-import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.Space64
@@ -37,7 +33,6 @@ import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.TextSize24
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.LocalNavController
-import com.chocolate.viewmodel.welcome.WelcomeViewModel
 
 @Composable
 fun WelcomeScreen() {

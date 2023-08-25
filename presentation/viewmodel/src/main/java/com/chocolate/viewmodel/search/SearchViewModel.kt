@@ -5,7 +5,7 @@ import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.user.User
 import com.chocolate.usecases.channel.GetChannelsUseCase
-import com.chocolate.usecases.user.GetUsersUseCase
+import com.chocolate.usecases.user.GetAllUsersUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.home.toChannelsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val getChannels: GetChannelsUseCase,
-    private val getUsers: GetUsersUseCase
+    private val getUsers: GetAllUsersUseCase
 ): BaseViewModel<SearchUiState,SearchEffect>(SearchUiState()),SearchInteraction {
 
     private var searchJob: Job? = null

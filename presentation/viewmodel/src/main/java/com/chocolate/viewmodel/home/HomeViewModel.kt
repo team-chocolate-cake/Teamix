@@ -43,9 +43,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getCurrentUserData(){
-        _state.update { it.copy(isLoading = true) }
-        tryToExecute({getCurrentUserDataUseCase.getRemoteCurrentUser()},::onGetCurrentUserDataSuccess,::onGetCurrentUserDataError)
+    private fun getCurrentUserData() {
+        tryToExecute(
+            { getCurrentUserDataUseCase.getRemoteCurrentUser() },
+            ::onGetCurrentUserDataSuccess,
+            ::onGetCurrentUserDataError
+        )
     }
 
     private fun onGetCurrentUserDataSuccess(user: User) {
@@ -58,7 +61,6 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onGettingOrganizationImage() {
-        _state.update { it.copy(isLoading = true) }
         tryToExecute(
             { getImageOrganizationUseCase() },
             ::onGettingOrganizationImageSuccess,
@@ -69,7 +71,6 @@ class HomeViewModel @Inject constructor(
     private fun onGettingOrganizationImageSuccess(Image: String) {
         _state.update {
             it.copy(
-                isLoading = true,
                 imageUrl = Image,
                 showNoInternetLottie = false,
                 error = null
@@ -78,7 +79,6 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onGettingOrganizationName() {
-        _state.update { it.copy(isLoading = true) }
         tryToExecute(
             { getNameOrganizationsUseCase() },
             ::onGettingOrganizationNameSuccess,
@@ -89,7 +89,6 @@ class HomeViewModel @Inject constructor(
     private fun onGettingOrganizationNameSuccess(organizationName: String) {
         _state.update {
             it.copy(
-                isLoading = true,
                 organizationTitle = organizationName,
                 showNoInternetLottie = false,
                 error = null
@@ -98,46 +97,33 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onGettingChannels() {
-        _state.update { it.copy(isLoading = true) }
         tryToExecute({ getSubscribedChannelsUseCase() }, ::onGettingChannelsSuccess, ::onError)
     }
 
     private fun onGettingChannelsSuccess(channels: List<Channel>) {
-        _state.update { it.copy(isLoading = false, channels = channels.toUiState(), error = null) }
+        _state.update { it.copy(channels = channels.toUiState(), error = null, isLoading = false) }
     }
 
     private fun getUserLoginState() {
         viewModelScope.launch {
             collectFlow(getUserLoginStatusUseCase()) {
-                this.copy(
-                    isLogged = it,
-                    isLoading = false
-                )
+                this.copy(isLogged = it)
             }
         }
-        //  tryToExecute({ getUserLoginStatusUseCase() }, ::onLoginStateSuccess, ::onLoginError)
-    }
-
-    private fun onLoginStateSuccess(userLoginStatus: Boolean) {
-        _state.update { it.copy(isLoading = false, isLogged = userLoginStatus) }
-    }
-
-    private fun onLoginError(throwable: Throwable) {
-        onError(throwable)
     }
 
     private fun onError(throwable: Throwable) {
-        Log.d("home", throwable.toString())
         when (throwable) {
-            is UnAuthorizedException, is ValidationException -> sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
+            is UnAuthorizedException, is ValidationException ->
+                sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
             is NoConnectionException -> _state.update {
                 it.copy(
                     showNoInternetLottie = true,
-                    isLoading = false
+                    isLoading = false,
+                    error = throwable.message
                 )
             }
         }
-        _state.update { it.copy(isLoading = false, error = throwable.message) }
     }
 
     override fun onClickDrafts() {

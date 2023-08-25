@@ -42,6 +42,7 @@ fun SearchScreen(
     CollectUiEffect(viewModel = viewModel) { effect ->
         when (effect) {
             is SearchEffect.NavigateToChannel -> {}
+            is SearchEffect.NavigateToMember -> {}
         }
     }
     SearchContent(state, viewModel)
@@ -67,7 +68,7 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
             ) {
                 TeamixTextField(
                     modifier = Modifier.padding(Space16),
-                    value = state.searchQuery,
+                    value = state.query,
                     onValueChange = {searchInteraction.onChangeSearchQuery(it)},
                     containerColor = colors.background,
                     hint = stringResource(id = R.string.search),
@@ -80,9 +81,11 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
                 )
             }
             TabScreen(
+                state = state,
                 onClickChannelItem = { searchInteraction.onClickChannelItem(it) },
                 onClickMemberItem = { searchInteraction.onClickMemberItem(it) },
-                state = state
+                onChangeTabIndex = {searchInteraction.onChangeTabIndex(it)},
+                onClickRecentSearchItem = {searchInteraction.onClickRecentSearchItem(it)}
             )
         }
     }

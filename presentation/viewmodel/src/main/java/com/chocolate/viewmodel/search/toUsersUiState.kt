@@ -8,8 +8,8 @@ fun List<User>.toMembersUiState(): List<MembersUiState>{
 
 fun User.toMemberUiState(): MembersUiState {
     return MembersUiState(
-        memberId = this.id,
+        id = this.id,
         imageUrl = this.imageUrl,
-        memberName = this.fullName,
+        name = this.fullName,
     )
 }

@@ -27,27 +27,36 @@ class SearchViewModel @Inject constructor(
     }
 
     override fun onClickMemberItem(memberId: Int) {
-        TODO("Not yet implemented")
+        sendUiEffect(SearchEffect.NavigateToMember(memberId))
     }
 
     override fun onChangeSearchQuery(query: String) {
-        _state.update { it.copy(isLoading = true, searchQuery = query) }
+        _state.update { it.copy(isLoading = true, query = query) }
         onSearch()
+    }
 
+    override fun onChangeTabIndex(tabIndex: Int) {
+        _state.update { it.copy(currentTabIndex = tabIndex) }
+    }
+
+    override fun onClickRecentSearchItem(text: String) {
+        _state.update { it.copy(query = text) }
     }
 
     private fun onSearch() {
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             delay(1000)
-            onSearchChannels()
-            onSearchMembers()
+            when (_state.value.currentTabIndex) {
+                0 -> onSearchChannels()
+                1 -> onSearchMembers()
+            }
         }
     }
 
     private fun onSearchMembers() {
         tryToExecute(
-            { getUsersUseCase.searchUser(_state.value.searchQuery) },
+            { getUsersUseCase.searchUser(_state.value.query) },
             ::onChangeSearchUsersQuerySuccess,
             ::onChangeSearchUsersQueryError
         )
@@ -58,7 +67,7 @@ class SearchViewModel @Inject constructor(
             it.copy(
                 isLoading = false,
                 error = null,
-                membersUiState = users.toMembersUiState()
+                membersUiState = users.toMembersUiState(),
             )
         }
     }
@@ -69,7 +78,7 @@ class SearchViewModel @Inject constructor(
 
     private fun onSearchChannels() {
         tryToExecute(
-            { getChannelsUseCase.searchChannels(_state.value.searchQuery) },
+            { getChannelsUseCase.searchChannels(_state.value.query) },
             ::onChangeSearchChannelsQuerySuccess,
             ::onChangeSearchChannelsQueryError
         )
@@ -80,7 +89,7 @@ class SearchViewModel @Inject constructor(
             it.copy(
                 isLoading = false,
                 error = null,
-                channelsUiState = channels.toChannelsUiState()
+                channelsUiState = channels.toChannelsUiState(),
             )
         }
     }

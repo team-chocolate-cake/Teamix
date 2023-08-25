@@ -24,20 +24,27 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.chocolate.presentation.theme.Radius12
+import com.chocolate.presentation.theme.Space1
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.viewmodel.search.MembersUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MemberItem(onClickMemberItem: (Int) -> Unit, state: MembersUiState, modifier: Modifier = Modifier) {
+fun MemberItem(
+    modifier: Modifier = Modifier,
+    onClickMemberItem: (Int) -> Unit,
+    id: Int,
+    name: String,
+    imageUrl: String,
+) {
     val colors = MaterialTheme.customColors()
     Card(
-        onClick = { onClickMemberItem(state.memberId)}, modifier = modifier
+        onClick = { onClickMemberItem(id) }, modifier = modifier
             .fillMaxWidth()
             .height(56.dp),
         colors = CardDefaults.cardColors(containerColor = colors.card),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(Radius12)
     ) {
         Row(
             modifier = Modifier
@@ -49,7 +56,7 @@ fun MemberItem(onClickMemberItem: (Int) -> Unit, state: MembersUiState, modifier
                 .width(45.dp)
                 .wrapContentHeight()) {
                 Image(
-                    painter = rememberAsyncImagePainter(model = state.imageUrl),
+                    painter = rememberAsyncImagePainter(model = imageUrl),
                     contentDescription = null,
                     modifier = Modifier
                         .size(40.dp)
@@ -60,16 +67,16 @@ fun MemberItem(onClickMemberItem: (Int) -> Unit, state: MembersUiState, modifier
                     modifier = Modifier
                         .size(12.dp)
                         .align(Alignment.BottomEnd),
-                    border = BorderStroke(width = 1.dp, color = colors.card),
+                    border = BorderStroke(width = Space1, color = colors.card),
                     shape = CircleShape,
                     colors = CardDefaults.cardColors(containerColor = colors.green)
                 ) {}
             }
             Text(
-                text = state.memberName,
+                text = name,
                 style = MaterialTheme.typography.labelMedium,
                 color = colors.onBackground87,
-                modifier = Modifier.padding(start = 8.dp)
+                modifier = Modifier.padding(start = Space8)
             )
         }
     }

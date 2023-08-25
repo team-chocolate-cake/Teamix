@@ -18,25 +18,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
+import com.chocolate.presentation.theme.Float1
+import com.chocolate.presentation.theme.Radius12
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.viewmodel.search.ChannelsUiState
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChannelItem(
     modifier: Modifier = Modifier,
     onClickChannelItem: (Int) -> Unit,
-    state: ChannelsUiState
+    id: Int,
+    isPrivate: Boolean,
+    name: String,
+    numberOfMembers: Int,
+    contentDescription: String = ""
 ) {
     val colors = MaterialTheme.customColors()
 
     Card(
-        onClick = { onClickChannelItem(state.channelId) }, modifier = modifier
+        onClick = { onClickChannelItem(id) }, modifier = modifier
             .fillMaxWidth()
             .height(48.dp),
         colors = CardDefaults.cardColors(containerColor = colors.card),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(Radius12)
     ) {
         Row(
             modifier = Modifier
@@ -45,25 +51,24 @@ fun ChannelItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             val iconsChannel =
-                if (state.isPrivate) R.drawable.ic_lock else R.drawable.ic_hashtag
+                if (isPrivate) R.drawable.ic_lock else R.drawable.ic_hashtag
             Icon(
                 painter = painterResource(id = iconsChannel),
-                contentDescription = null,
+                contentDescription = contentDescription,
                 tint = colors.primary,
                 modifier = Modifier.padding(end = Space8)
             )
             Text(
-                text = state.channelName,
+                text = name,
                 style = MaterialTheme.typography.labelMedium,
                 color = colors.onBackground87
             )
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(Float1))
             Text(
-                text = state.numberOfMembers.toString() + " member",
+                text = "$numberOfMembers Members",
                 style = MaterialTheme.typography.labelSmall,
                 color = colors.onBackground60
             )
-
         }
     }
 }

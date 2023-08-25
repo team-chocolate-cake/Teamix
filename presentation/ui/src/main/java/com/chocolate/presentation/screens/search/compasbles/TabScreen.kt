@@ -1,5 +1,6 @@
 package com.chocolate.presentation.screens.search.compasbles
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -19,11 +20,10 @@ import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space40
 import com.chocolate.presentation.theme.Space8
@@ -34,23 +34,24 @@ import com.chocolate.viewmodel.search.SearchUiState
 @Composable
 fun TabScreen(
     modifier: Modifier = Modifier,
+    state: SearchUiState,
     onClickChannelItem: (Int) -> Unit,
     onClickMemberItem: (Int) -> Unit,
-    state: SearchUiState
+    onChangeTabIndex: (Int) -> Unit,
+    onClickRecentSearchItem: (String) -> Unit
 ) {
     val colors = MaterialTheme.customColors()
-    var tabIndex by remember { mutableStateOf(0) }
     val tabs = listOf("Channels", "Members")
     Column(modifier = modifier.fillMaxWidth()) {
         TabRow(
-            selectedTabIndex = tabIndex,
+            selectedTabIndex = state.currentTabIndex,
             containerColor = colors.card,
             contentColor = colors.card,
             indicator = { tabPositions ->
                 TabRowDefaults.Indicator(
                     color = colors.primary,
                     modifier = Modifier
-                        .tabIndicatorOffset(tabPositions[tabIndex])
+                        .tabIndicatorOffset(tabPositions[state.currentTabIndex])
                         .padding(horizontal = Space40)
                 )
             },
@@ -61,45 +62,41 @@ fun TabScreen(
                     text = {
                         Text(
                             title,
-                            color = if (tabIndex == index) colors.primary else colors.onBackground87,
+                            color = if (state.currentTabIndex == index) colors.primary else colors.onBackground87,
                             style = MaterialTheme.typography.titleSmall
                         )
                     },
-                    selected = tabIndex == index,
-                    onClick = { tabIndex = index },
+                    selected = state.currentTabIndex == index,
+                    onClick = { onChangeTabIndex(index) },
                 )
             }
         }
 
-        Text(
-            text = "RecentSearch",
-            color = colors.onBackground87,
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(start = Space16, top = Space16)
-        )
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(Space8),
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(horizontal = Space16)
-        ) {
-            items(state.recentSearches) {
-                RecentSearchItem(text = it)
-            }
-        }
-        Crossfade(targetState = tabIndex, animationSpec = tween(500), label = "") { targetTab ->
+        Crossfade(
+            targetState = state.currentTabIndex, animationSpec = tween(500), label = ""
+        ) { targetTab ->
             when (targetTab) {
                 0 -> LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(Space16),
                     verticalArrangement = Arrangement.spacedBy(Space8)
                 ) {
+
+                    item {
+                        RecentSearch(recentSearches = state.recentSearches,
+                            query = state.query,
+                            onClickRecentSearchItem = { onClickRecentSearchItem(it) })
+                    }
                     items(state.channelsUiState, key = { item ->
-                        item.channelId
+                        item.id
                     }) { channelState ->
                         ChannelItem(
                             modifier = Modifier.animateItemPlacement(),
-                            { onClickChannelItem(it) },
-                            channelState
+                            onClickChannelItem = { onClickChannelItem(it) },
+                            id = channelState.id,
+                            name = channelState.name,
+                            numberOfMembers = channelState.numberOfMembers,
+                            isPrivate = channelState.isPrivate
                         )
                     }
                 }
@@ -109,15 +106,50 @@ fun TabScreen(
                     contentPadding = PaddingValues(Space16),
                     verticalArrangement = Arrangement.spacedBy(Space8)
                 ) {
+                    item {
+                        RecentSearch(recentSearches = state.recentSearches,
+                            query = state.query,
+                            onClickRecentSearchItem = { onClickRecentSearchItem(it) })
+                    }
                     items(state.membersUiState, key = { item ->
-                        item.memberId
+                        item.id
                     }) { memberState ->
                         MemberItem(
-                            { onClickMemberItem(it) },
-                            memberState,
-                            modifier = Modifier.animateItemPlacement()
+                            modifier = Modifier.animateItemPlacement(),
+                            onClickMemberItem = { onClickMemberItem(it) },
+                            id = memberState.id,
+                            name = memberState.name,
+                            imageUrl = memberState.imageUrl
                         )
                     }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun RecentSearch(
+    recentSearches: List<String>, query: String, onClickRecentSearchItem: (String) -> Unit
+) {
+    val colors = MaterialTheme.customColors()
+    AnimatedVisibility(visible = query.isEmpty()) {
+        Column {
+            Text(
+                text = stringResource(R.string.recent_search),
+                color = colors.onBackground87,
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(start = Space16, top = Space16)
+            )
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(Space8),
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(horizontal = Space16)
+            ) {
+                items(recentSearches) {
+                    RecentSearchItem(text = it,
+                        painter = painterResource(id = R.drawable.ic_delete),
+                        onClickRecentSearchItem = { onClickRecentSearchItem(it) })
                 }
             }
         }

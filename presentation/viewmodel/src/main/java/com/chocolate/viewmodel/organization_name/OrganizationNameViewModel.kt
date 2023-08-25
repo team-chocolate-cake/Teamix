@@ -2,6 +2,7 @@ package com.chocolate.viewmodel.organization_name
 
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NoConnectionException
+import com.chocolate.usecases.onboarding.ManageUserUsedAppUseCase
 import com.chocolate.usecases.organization.SaveNameOrganizationUseCase
 import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
@@ -15,12 +16,14 @@ import javax.inject.Inject
 class OrganizationNameViewModel @Inject constructor(
     private val saveNameOrganizationsUseCase: SaveNameOrganizationUseCase,
     private val getUserLoginStatusUseCase: GetUserLoginStatusUseCase,
-    private val stringsResource: StringsResource
+    private val stringsResource: StringsResource,
+    private val manageUserUsedAppUseCase: ManageUserUsedAppUseCase
 ) : BaseViewModel<OrganizationNameUiState, OrganizationNameUiEffect>(OrganizationNameUiState()),
     OrganizationNameInteraction {
 
     init {
         getOnUserLoggedIn()
+        getOnboardingStatus()
     }
 
     override fun onClickCreateOrganization() {
@@ -36,6 +39,13 @@ class OrganizationNameViewModel @Inject constructor(
         _state.update { it.copy(isLoading = false, error = null) }
         if (isCheck) {
             sendUiEffect(OrganizationNameUiEffect.NavigateToLoginScreen)
+        }
+    }
+    private fun getOnboardingStatus(){
+        viewModelScope.launch {
+            collectFlow(manageUserUsedAppUseCase.checkIfUserUsedAppOrNot()) {
+                this.copy(onboardingState = it)
+            }
         }
     }
 

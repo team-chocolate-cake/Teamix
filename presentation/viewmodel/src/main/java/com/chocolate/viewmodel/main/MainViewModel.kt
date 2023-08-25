@@ -32,7 +32,7 @@ class MainViewModel @Inject constructor(
         customizeProfileSettingsUseCase.updateDarkTheme(!darkTheme)
         restart(context)
     }
-    private fun restart(context: Context){
+     fun restart(context: Context){
         val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
         intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         context.startActivities(arrayOf(intent))

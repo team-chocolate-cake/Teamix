@@ -42,7 +42,6 @@ import com.chocolate.presentation.composable.ProfileDialog
 import com.chocolate.presentation.composable.ProfileHorizontalPager
 import com.chocolate.presentation.composable.ProfileImage
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.main.MainActivity
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.BoxHeight440
 import com.chocolate.presentation.theme.ButtonSize110
@@ -135,7 +134,10 @@ fun ProfileContent(
 
     AnimatedVisibility(state.showLanguageDialog) {
         MultiChoiceDialog(
-            onDismissRequest = { profileInteraction.updateLanguageDialogState(false) },
+            onClickDone = {
+                profileInteraction.updateLanguageDialogState(false)
+                mainViewModel.restart(context)
+            },
             whenChoice = { newLanguage -> onUpdateAppLanguage(newLanguage) },
             choices = state.languageMap.keys.toList(),
             oldSelectedChoice = when (state.lastAppLanguage) {

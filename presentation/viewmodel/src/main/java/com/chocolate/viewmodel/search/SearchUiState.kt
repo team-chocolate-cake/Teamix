@@ -6,9 +6,10 @@ data class SearchUiState(
     val query: String = "",
     val channelsUiState: List<ChannelsUiState> = emptyList(),
     val membersUiState: List<MembersUiState> = emptyList(),
-    val recentSearches: List<String> = listOf("abc","def","ghi","abv"),
+    val recentSearches: List<String> = emptyList(),
     val currentTabIndex: Int = 0,
     val isLoading: Boolean = false,
+    val showNoInternetLottie: Boolean = false,
     val error: String? = null
 ): BaseViewModel.BaseUiState
 
@@ -23,5 +24,5 @@ data class MembersUiState(
     val id: Int = 0,
     val name: String = "",
     val imageUrl: String = "",
-    val isActive: Boolean = false
+    val isOnline: Boolean = false
 )

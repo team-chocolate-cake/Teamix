@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.search.compasbles
+package com.chocolate.presentation.composable
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding

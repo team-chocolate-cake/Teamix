@@ -1,5 +1,6 @@
-package com.chocolate.presentation.screens.search.compasbles
+package com.chocolate.presentation.composable
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -18,6 +19,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,12 +33,14 @@ import com.chocolate.presentation.theme.customColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MemberItem(
+fun MemberSearchItem(
     modifier: Modifier = Modifier,
-    onClickMemberItem: (Int) -> Unit,
-    id: Int,
-    name: String,
     imageUrl: String,
+    name: String,
+    id: Int,
+    label: String = "",
+    isOnline: Boolean,
+    onClickMemberItem: (Int) -> Unit,
 ) {
     val colors = MaterialTheme.customColors()
     Card(
@@ -63,13 +67,22 @@ fun MemberItem(
                         .clip(CircleShape),
                     contentScale = ContentScale.Crop
                 )
+
+                val borderColor by animateColorAsState(
+                    targetValue = if (isOnline) colors.card else colors.onBackground60,
+                    label = label
+                )
+                val circleColor by animateColorAsState(
+                    targetValue = if (isOnline) colors.green else colors.card,
+                    label = label
+                )
                 Card(
                     modifier = Modifier
                         .size(12.dp)
                         .align(Alignment.BottomEnd),
-                    border = BorderStroke(width = Space1, color = colors.card),
+                    border = BorderStroke(width = Space1, color = borderColor),
                     shape = CircleShape,
-                    colors = CardDefaults.cardColors(containerColor = colors.green)
+                    colors = CardDefaults.cardColors(containerColor = circleColor)
                 ) {}
             }
             Text(

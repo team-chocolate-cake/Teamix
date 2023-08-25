@@ -4,26 +4,31 @@ import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
+import com.chocolate.presentation.composable.NoInternetLottie
+import com.chocolate.presentation.composable.SearchLottie
+import com.chocolate.presentation.composable.TabScreen
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
-import com.chocolate.presentation.screens.search.compasbles.TabScreen
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
@@ -54,11 +59,28 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
     val colors = MaterialTheme.customColors()
     TeamixScaffold(
         modifier = Modifier.fillMaxSize(),
-        isDarkMode = isSystemInDarkTheme()
+        isDarkMode = isSystemInDarkTheme(),
+        isLoading = state.isLoading,
+        onLoading = {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) { CircularProgressIndicator(color = colors.primary) }
+        },
+        error = state.error,
+        onError = {
+            NoInternetLottie(
+                text = stringResource(id = R.string.no_internet_connection),
+                isShow = state.error != null && state.showNoInternetLottie,
+                isDarkMode = isSystemInDarkTheme()
+            )
+        },
+        onRetry = {searchInteraction.onClickRetry()},
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(paddingValues)
         ) {
             Row(
                 modifier = Modifier
@@ -80,12 +102,25 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
                     }
                 )
             }
+            val tabs = listOf(
+                stringResource(id = R.string.channels),
+                stringResource(R.string.members)
+            )
             TabScreen(
                 state = state,
+                textTabs = tabs,
                 onClickChannelItem = { searchInteraction.onClickChannelItem(it) },
                 onClickMemberItem = { searchInteraction.onClickMemberItem(it) },
-                onChangeTabIndex = {searchInteraction.onChangeTabIndex(it)},
-                onClickRecentSearchItem = {searchInteraction.onClickRecentSearchItem(it)}
+                onChangeTabIndex = { searchInteraction.onChangeTabIndex(it) },
+                onClickRecentSearchItem = { searchInteraction.onClickRecentSearchItem(it) }
+            )
+            SearchLottie(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.CenterHorizontally),
+                isShow = state.query.isEmpty() && !state.showNoInternetLottie,
+                isDarkMode = isSystemInDarkTheme(),
+                isPlaying = true,
             )
         }
     }

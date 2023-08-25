@@ -1,5 +1,6 @@
-package com.chocolate.presentation.screens.search.compasbles
+package com.chocolate.presentation.composable
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,7 +27,7 @@ import com.chocolate.presentation.theme.customColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChannelItem(
+fun ChannelSearchItem(
     modifier: Modifier = Modifier,
     onClickChannelItem: (Int) -> Unit,
     id: Int,
@@ -64,11 +65,13 @@ fun ChannelItem(
                 color = colors.onBackground87
             )
             Spacer(modifier = Modifier.weight(Float1))
-            Text(
-                text = "$numberOfMembers Members",
-                style = MaterialTheme.typography.labelSmall,
-                color = colors.onBackground60
-            )
+            AnimatedVisibility(visible = numberOfMembers != 0) {
+                Text(
+                    text = "$numberOfMembers Members",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = colors.onBackground60
+                )
+            }
         }
     }
 }

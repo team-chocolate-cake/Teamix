@@ -6,4 +6,5 @@ interface SearchInteraction {
     fun onChangeSearchQuery(query: String)
     fun onChangeTabIndex(tabIndex: Int)
     fun onClickRecentSearchItem(text: String)
+    fun onClickRetry()
 }

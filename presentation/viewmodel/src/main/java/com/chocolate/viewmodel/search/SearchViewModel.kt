@@ -2,6 +2,7 @@ package com.chocolate.viewmodel.search
 
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.channel.Channel
+import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.user.User
 import com.chocolate.usecases.channel.GetChannelsUseCase
 import com.chocolate.usecases.user.GetUsersUseCase
@@ -16,8 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getChannelsUseCase: GetChannelsUseCase,
-    private val getUsersUseCase: GetUsersUseCase
+    private val getChannels: GetChannelsUseCase,
+    private val getUsers: GetUsersUseCase
 ): BaseViewModel<SearchUiState,SearchEffect>(SearchUiState()),SearchInteraction {
 
     private var searchJob: Job? = null
@@ -36,11 +37,23 @@ class SearchViewModel @Inject constructor(
     }
 
     override fun onChangeTabIndex(tabIndex: Int) {
-        _state.update { it.copy(currentTabIndex = tabIndex) }
+        _state.update {
+            it.copy(
+                currentTabIndex = tabIndex,
+                query = "",
+                channelsUiState = emptyList(),
+                membersUiState = emptyList()
+            )
+        }
     }
 
     override fun onClickRecentSearchItem(text: String) {
         _state.update { it.copy(query = text) }
+    }
+
+    override fun onClickRetry() {
+        _state.update { it.copy(isLoading = true) }
+        onChangeSearchQuery(_state.value.query)
     }
 
     private fun onSearch() {
@@ -56,45 +69,50 @@ class SearchViewModel @Inject constructor(
 
     private fun onSearchMembers() {
         tryToExecute(
-            { getUsersUseCase.searchUser(_state.value.query) },
+            { getUsers.searchUser(_state.value.query) },
             ::onChangeSearchUsersQuerySuccess,
-            ::onChangeSearchUsersQueryError
+            ::onChangeSearchQueryError
         )
     }
 
     private fun onChangeSearchUsersQuerySuccess(users: List<User>) {
         _state.update {
             it.copy(
-                isLoading = false,
-                error = null,
                 membersUiState = users.toMembersUiState(),
+                isLoading = false,
+                showNoInternetLottie = false,
+                error = null,
             )
         }
     }
 
-    private fun onChangeSearchUsersQueryError(throwable: Throwable) {
-        _state.update { it.copy(isLoading = false, error = throwable.message) }
-    }
-
     private fun onSearchChannels() {
         tryToExecute(
-            { getChannelsUseCase.searchChannels(_state.value.query) },
+            { getChannels.searchChannels(_state.value.query) },
             ::onChangeSearchChannelsQuerySuccess,
-            ::onChangeSearchChannelsQueryError
+            ::onChangeSearchQueryError
         )
     }
 
     private fun onChangeSearchChannelsQuerySuccess(channels: List<Channel>) {
         _state.update {
             it.copy(
-                isLoading = false,
-                error = null,
                 channelsUiState = channels.toChannelsUiState(),
+                isLoading = false,
+                showNoInternetLottie = false,
+                error = null,
             )
         }
     }
 
-    private fun onChangeSearchChannelsQueryError(throwable: Throwable) {
-        _state.update { it.copy(isLoading = false, error = throwable.message) }
+    private fun onChangeSearchQueryError(throwable: Throwable) {
+        val showNoInternetLottie = throwable is NoConnectionException
+        _state.update {
+            it.copy(
+                isLoading = false,
+                error = throwable.message,
+                showNoInternetLottie = showNoInternetLottie
+            )
+        }
     }
 }

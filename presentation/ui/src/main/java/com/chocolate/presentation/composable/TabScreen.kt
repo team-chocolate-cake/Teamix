@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.search.compasbles
+package com.chocolate.presentation.composable
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
@@ -7,9 +7,10 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -35,14 +36,14 @@ import com.chocolate.viewmodel.search.SearchUiState
 fun TabScreen(
     modifier: Modifier = Modifier,
     state: SearchUiState,
+    textTabs: List<String>,
     onClickChannelItem: (Int) -> Unit,
     onClickMemberItem: (Int) -> Unit,
     onChangeTabIndex: (Int) -> Unit,
     onClickRecentSearchItem: (String) -> Unit
 ) {
     val colors = MaterialTheme.customColors()
-    val tabs = listOf("Channels", "Members")
-    Column(modifier = modifier.fillMaxWidth()) {
+    Column(modifier = modifier.fillMaxWidth().wrapContentHeight()) {
         TabRow(
             selectedTabIndex = state.currentTabIndex,
             containerColor = colors.card,
@@ -57,7 +58,7 @@ fun TabScreen(
             },
             divider = { }
         ) {
-            tabs.forEachIndexed { index, title ->
+            textTabs.forEachIndexed { index, title ->
                 Tab(
                     text = {
                         Text(
@@ -77,7 +78,7 @@ fun TabScreen(
         ) { targetTab ->
             when (targetTab) {
                 0 -> LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.wrapContentSize(),
                     contentPadding = PaddingValues(Space16),
                     verticalArrangement = Arrangement.spacedBy(Space8)
                 ) {
@@ -90,7 +91,7 @@ fun TabScreen(
                     items(state.channelsUiState, key = { item ->
                         item.id
                     }) { channelState ->
-                        ChannelItem(
+                        ChannelSearchItem(
                             modifier = Modifier.animateItemPlacement(),
                             onClickChannelItem = { onClickChannelItem(it) },
                             id = channelState.id,
@@ -102,7 +103,7 @@ fun TabScreen(
                 }
 
                 1 -> LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.wrapContentSize(),
                     contentPadding = PaddingValues(Space16),
                     verticalArrangement = Arrangement.spacedBy(Space8)
                 ) {
@@ -114,12 +115,13 @@ fun TabScreen(
                     items(state.membersUiState, key = { item ->
                         item.id
                     }) { memberState ->
-                        MemberItem(
+                        MemberSearchItem(
                             modifier = Modifier.animateItemPlacement(),
                             onClickMemberItem = { onClickMemberItem(it) },
                             id = memberState.id,
                             name = memberState.name,
-                            imageUrl = memberState.imageUrl
+                            imageUrl = memberState.imageUrl,
+                            isOnline = memberState.isOnline
                         )
                     }
                 }
@@ -133,7 +135,7 @@ private fun RecentSearch(
     recentSearches: List<String>, query: String, onClickRecentSearchItem: (String) -> Unit
 ) {
     val colors = MaterialTheme.customColors()
-    AnimatedVisibility(visible = query.isEmpty()) {
+    AnimatedVisibility(visible = query.isEmpty() && recentSearches.isNotEmpty()) {
         Column {
             Text(
                 text = stringResource(R.string.recent_search),

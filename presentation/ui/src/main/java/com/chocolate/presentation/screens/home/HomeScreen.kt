@@ -82,6 +82,7 @@ fun HomeScreen(
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = !isSystemInDarkTheme()
     val state by homeViewModel.state.collectAsState()
+
     CollectUiEffect(viewModel = homeViewModel) { effect ->
         when (effect) {
             HomeUiEffect.NavigateToChannel -> {}
@@ -98,9 +99,7 @@ fun HomeScreen(
     }
     DisposableEffect(systemUiController, useDarkIcons) {
         systemUiController.setSystemBarsColor(color = LightPrimary, darkIcons = false)
-        systemUiController.setNavigationBarColor(Color.Black)
         onDispose {
-            systemUiController.setNavigationBarColor(Color.Black)
             systemUiController.setSystemBarsColor(color = LightPrimary, darkIcons = false)
         }
     }
@@ -115,6 +114,7 @@ fun HomeScreen(
         }
         state.isLogged && state.isLoading -> LoadingColumn()
         state.isLogged -> HomeContent(state = state, homeViewModel)
+        !state.isLogged->navController.navigateToOrganizationName()
     }
 }
 

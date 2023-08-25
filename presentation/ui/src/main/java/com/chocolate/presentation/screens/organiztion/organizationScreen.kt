@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.organiztion
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -38,6 +39,7 @@ import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.create_organization.navigateToCreateOrganization
 import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.screens.login.navigateToLogin
+import com.chocolate.presentation.screens.welcome.navigateToWelcome
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space24
 import com.chocolate.presentation.theme.Space32
@@ -68,6 +70,7 @@ fun OrganizationScreen(
 
     when {
         state.isLogged -> { navController.navigateToHome() }
+        !state.onboardingState->{navController.navigateToWelcome()}
         else -> {
             OrganizationContent(
                 organizationNameInteraction = viewModel,

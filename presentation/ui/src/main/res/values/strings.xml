@@ -113,6 +113,6 @@
     <string name="ok">Ok</string>
     <string name="choose_members">Choose Members</string>
     <string name="recent_search">Recent Search</string>
-    <string name="retry">, retry</string>
     <string name="members">Members</string>
+    <string name="retry">Retry</string>
 </resources>

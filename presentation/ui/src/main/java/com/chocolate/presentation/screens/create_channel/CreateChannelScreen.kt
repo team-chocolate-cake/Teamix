@@ -82,7 +82,7 @@ private fun CreateChannelContent(
                 contentAlignment = Alignment.Center
             ) { CircularProgressIndicator(color = colors.primary) }
         },
-        onRetry = {},
+        onRetry = {createChannelInteraction.onClickRetry()},
         onError = {
             NoInternetLottie(
                 text = stringResource(id = R.string.no_internet_connection),
@@ -90,12 +90,12 @@ private fun CreateChannelContent(
                 isDarkMode = isSystemInDarkTheme(),
             )
         },
-    ) {
+    ) {paddingValues->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(color = colors.background)
-                .padding(it)
+                .padding(paddingValues)
                 .padding(Space16)
         ) {
             Text(

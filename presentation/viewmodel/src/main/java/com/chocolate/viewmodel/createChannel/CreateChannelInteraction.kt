@@ -8,4 +8,6 @@ interface CreateChannelInteraction {
     fun onChannelDescriptionChange(channelDescription: String?)
 
     fun onChannelStatusChange(newChannelStatus: ChannelStatus, isPrivate: Boolean)
+
+    fun onClickRetry()
 }

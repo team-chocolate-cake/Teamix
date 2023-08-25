@@ -9,4 +9,5 @@ sealed interface HomeUiEffect: BaseViewModel.BaseUiEffect{
     object NavigateToChannel: HomeUiEffect
     object NavigateToOrganizationName: HomeUiEffect
     object NavigateToTopic: HomeUiEffect
+    object NavigateToCreateChannel: HomeUiEffect
 }

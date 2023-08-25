@@ -62,5 +62,15 @@ class CreateChannelViewModel @Inject constructor(
         _state.update { it.copy(status = newChannelStatus, isPrivate = isPrivate) }
     }
 
+    override fun onClickRetry() {
+        _state.update {
+            it.copy(
+                error = BaseErrorUiState(message = null, isError = false),
+                isLoading = false,
+                nameInput = "",
+            )
+        }
+    }
+
 
 }

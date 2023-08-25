@@ -6,12 +6,14 @@ import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.UnAuthorizedException
 import com.chocolate.entities.exceptions.ValidationException
-import com.chocolate.usecases.channel.GetChannelsUseCase
+import com.chocolate.entities.user.User
 import com.chocolate.usecases.channel.GetSubscribedChannelsUseCase
 import com.chocolate.usecases.organization.GetImageOrganizationUseCase
 import com.chocolate.usecases.organization.GetNameOrganizationsUseCase
+import com.chocolate.usecases.user.GetCurrentUserDataUseCase
 import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
+import com.chocolate.viewmodel.profile.toOwnerUserUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -22,7 +24,8 @@ class HomeViewModel @Inject constructor(
     private val getUserLoginStatusUseCase: GetUserLoginStatusUseCase,
     private val getSubscribedChannelsUseCase: GetSubscribedChannelsUseCase,
     private val getImageOrganizationUseCase: GetImageOrganizationUseCase,
-    private val getNameOrganizationsUseCase: GetNameOrganizationsUseCase
+    private val getNameOrganizationsUseCase: GetNameOrganizationsUseCase,
+    private val getCurrentUserDataUseCase: GetCurrentUserDataUseCase
 ) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()), HomeInteraction {
 
     init {
@@ -36,7 +39,22 @@ class HomeViewModel @Inject constructor(
             onGettingOrganizationName()
             onGettingOrganizationImage()
             onGettingChannels()
+            getCurrentUserData()
         }
+    }
+
+    private fun getCurrentUserData(){
+        _state.update { it.copy(isLoading = true) }
+        tryToExecute({getCurrentUserDataUseCase.getRemoteCurrentUser()},::onGetCurrentUserDataSuccess,::onGetCurrentUserDataError)
+    }
+
+    private fun onGetCurrentUserDataSuccess(user: User) {
+        val userUiState = user.toOwnerUserUiState()
+        _state.update { it.copy(role = userUiState.role) }
+    }
+
+    private fun onGetCurrentUserDataError(throwable: Throwable) {
+        onError(throwable)
     }
 
     private fun onGettingOrganizationImage() {
@@ -140,5 +158,9 @@ class HomeViewModel @Inject constructor(
 
     override fun onClickTopic(name: String) {
         sendUiEffect(HomeUiEffect.NavigateToTopic)
+    }
+
+    override fun onClickFloatingActionButton() {
+        sendUiEffect(HomeUiEffect.NavigateToCreateChannel)
     }
 }

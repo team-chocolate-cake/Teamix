@@ -6,4 +6,5 @@ interface HomeInteraction {
     fun onClickSavedLater()
     fun onClickChannel(id: Int)
     fun onClickTopic(name: String)
+    fun onClickFloatingActionButton()
 }

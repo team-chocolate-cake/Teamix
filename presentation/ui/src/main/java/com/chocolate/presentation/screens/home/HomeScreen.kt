@@ -2,7 +2,7 @@ package com.chocolate.presentation.screens.home
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
-import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -54,6 +54,7 @@ import com.chocolate.presentation.composable.ChannelItem
 import com.chocolate.presentation.composable.ManageChannelBottomSheet
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.TeamixScaffold
+import com.chocolate.presentation.screens.create_channel.navigateToCreateChannel
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.LightPrimary
@@ -93,6 +94,7 @@ fun HomeScreen(
             HomeUiEffect.NavigationToSavedLater -> {}
             HomeUiEffect.NavigationToStarred -> {}
             HomeUiEffect.NavigateToTopic -> {}
+            HomeUiEffect.NavigateToCreateChannel -> navController.navigateToCreateChannel()
         }
     }
     DisposableEffect(systemUiController, useDarkIcons) {
@@ -136,16 +138,18 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
         hasImageUrl = true,
         hasAppBar = true,
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = {},
-                containerColor = MaterialTheme.customColors().primary,
-                shape = RoundedCornerShape(16.dp),
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Add,
-                    contentDescription = "Add FAB",
-                    tint = Color.White,
-                )
+            AnimatedVisibility(visible = state.role.lowercase() == "owner") {
+                FloatingActionButton(
+                    onClick = {homeInteraction.onClickFloatingActionButton()},
+                    containerColor = MaterialTheme.customColors().primary,
+                    shape = RoundedCornerShape(16.dp),
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Add,
+                        contentDescription = "Add FAB",
+                        tint = Color.White,
+                    )
+                }
             }
         }
     ) {

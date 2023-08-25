@@ -91,7 +91,7 @@
     <string name="email_can_t_be_empty">El correo electrónico no puede estar vacío</string>
     <string name="full_name_can_t_be_empty">El nombre completo no puede estar vacío</string>
     <string name="user_information_can_t_be_the_same">La información del usuario no puede ser la misma</string>
-    <string name="no_internet_connection">Sin conexión a Internet.</string>
+    <string name="no_internet_connection">Sin conexión a Internet</string>
     <string name="globalMessageError">Ocurrió un error; por favor, intenta nuevamente más tarde.</string>
     <string name="success">Éxito</string>
 

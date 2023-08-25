@@ -27,6 +27,7 @@ fun TeamixNavGraph(navController: NavHostController) {
         organizationNameRoute()
         createOrganizationWebViewRoute()
         loginRoute()
+        searchRoute()
         forgetPasswordWebViewRoute()
         profileRoute()
         searchRoute()

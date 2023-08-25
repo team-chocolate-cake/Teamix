@@ -91,7 +91,7 @@
     <string name="email_can_t_be_empty">电子邮件不能为空</string>
     <string name="full_name_can_t_be_empty">姓名不能为空</string>
     <string name="user_information_can_t_be_the_same">用户信息不能相同</string>
-    <string name="no_internet_connection">无网络连接。</string>
+    <string name="no_internet_connection">无网络连接</string>
     <string name="globalMessageError">发生错误；请稍后再试。</string>
     <string name="success">成功</string>
 

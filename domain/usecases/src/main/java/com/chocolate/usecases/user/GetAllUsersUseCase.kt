@@ -10,4 +10,10 @@ class GetAllUsersUseCase @Inject constructor(
     suspend operator fun invoke(): List<User> {
         return repository.getAllUsers()
     }
+
+    suspend fun searchUser(username: String): List<User>{
+        return invoke().let {users->
+            users.filter { it.fullName.contains(username,true) }
+        }
+    }
 }

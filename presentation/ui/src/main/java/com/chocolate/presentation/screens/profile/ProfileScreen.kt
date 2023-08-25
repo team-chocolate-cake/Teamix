@@ -57,20 +57,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.ImageLoader
 import coil.compose.rememberAsyncImagePainter
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.chocolate.presentation.R
+import com.chocolate.presentation.composable.MultiChoiceDialog
 import com.chocolate.presentation.composable.NoInternetLottie
+import com.chocolate.presentation.composable.ProfileDialog
+import com.chocolate.presentation.composable.ProfileTextField
+import com.chocolate.presentation.composable.SettingCard
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
-import com.chocolate.presentation.screens.profile.composable.MultiChoiceDialog
-import com.chocolate.presentation.screens.profile.composable.ProfileDialog
-import com.chocolate.presentation.screens.profile.composable.ProfileTextField
-import com.chocolate.presentation.screens.profile.composable.SettingCard
 import com.chocolate.presentation.theme.BoxHeight440
 import com.chocolate.presentation.theme.ButtonSize110
 import com.chocolate.presentation.theme.CardHeight56
@@ -87,6 +85,8 @@ import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.Thickness2
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.CollectUiEffect
+import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.presentation.util.updateResources
 import com.chocolate.viewmodel.main.MainViewModel
 import com.chocolate.viewmodel.profile.LocalLanguage
@@ -95,27 +95,24 @@ import com.chocolate.viewmodel.profile.ProfileInteraction
 import com.chocolate.viewmodel.profile.ProfileUiState
 import com.chocolate.viewmodel.profile.ProfileViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Locale
 
 @Composable
 fun ProfileScreen(
-    navController: NavController,
-    mainViewModel: MainViewModel,
+    mainViewModel: MainViewModel= hiltViewModel(),
     viewModel: ProfileViewModel = hiltViewModel(),
 ) {
+    val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
     val darkThemeState by mainViewModel.state.collectAsState()
     val colors = MaterialTheme.customColors()
     val context = LocalContext.current
 
-    LaunchedEffect(viewModel) {
-        viewModel.effect.collectLatest { effect ->
-            when (effect) {
-                ProfileEffect.NavigateToOrganizationScreen -> {
-                    navController.navigateToOrganizationName()
-                }
+    CollectUiEffect(viewModel) { effect ->
+        when (effect) {
+            ProfileEffect.NavigateToOrganizationScreen -> {
+                navController.navigateToOrganizationName()
             }
         }
     }
@@ -458,9 +455,10 @@ fun ProfileContent(
                 }
             }
             NoInternetLottie(
+                text = stringResource(id = R.string.no_internet_connection),
                 isShow = state.showNoInternetLottie,
-                onClickRetry = { profileInteraction.onClickRetryToGetPersonalInformation() },
-                isDarkMode = mainViewModel.state.value
+                isDarkMode = mainViewModel.state.value,
+                onClickRetry = { profileInteraction.onClickRetryToGetPersonalInformation() }
             )
         }
     }
@@ -469,5 +467,5 @@ fun ProfileContent(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ProfileScreenPreview() {
-    ProfileScreen(rememberNavController(), hiltViewModel())
+    ProfileScreen(hiltViewModel())
 }

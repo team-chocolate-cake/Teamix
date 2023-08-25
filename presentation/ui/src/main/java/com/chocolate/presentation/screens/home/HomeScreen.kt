@@ -2,7 +2,6 @@ package com.chocolate.presentation.screens.home
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
-import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,7 +24,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -40,20 +38,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.chocolate.presentation.R
-import com.chocolate.presentation.screens.home.compose.BadgeHome
-import com.chocolate.presentation.screens.home.compose.ChannelItem
-import com.chocolate.presentation.screens.home.compose.ManageChannelBottomSheet
-import com.chocolate.presentation.screens.home.compose.NoInternetLottie
-import com.chocolate.presentation.screens.home.compose.TeamixTopAppBar
+import com.chocolate.presentation.composable.BadgeHome
+import com.chocolate.presentation.composable.ChannelItem
+import com.chocolate.presentation.composable.ManageChannelBottomSheet
+import com.chocolate.presentation.composable.NoInternetLottie
+import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.LightPrimary
@@ -63,33 +59,33 @@ import com.chocolate.presentation.theme.Space64
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.CollectUiEffect
+import com.chocolate.presentation.util.LocalNavController
+import com.chocolate.viewmodel.home.HomeInteraction
 import com.chocolate.viewmodel.home.HomeUiEffect
 import com.chocolate.viewmodel.home.HomeUiState
 import com.chocolate.viewmodel.home.HomeViewModel
 import com.chocolate.viewmodel.main.MainViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kotlinx.coroutines.flow.collectLatest
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun HomeScreen(
-    navController: NavController,
-    mainViewModel: MainViewModel,
+    mainViewModel: MainViewModel = hiltViewModel(),
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
+    val navController = LocalNavController.current
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = !isSystemInDarkTheme()
     val state by homeViewModel.state.collectAsState()
-    val context = LocalContext.current
-    LaunchedEffect(key1 = Unit){
-        homeViewModel.effect.collectLatest {effect->
-            when(effect){
-                HomeUiEffect.NavigateToChaNNel -> {}
-                HomeUiEffect.NavigateToOrganizationName -> {navController.navigateToOrganizationName()}
-                HomeUiEffect.NavigationToDrafts -> {}
-                HomeUiEffect.NavigationToSavedLater -> {}
-                HomeUiEffect.NavigationToStarred -> {}
-            }
+    CollectUiEffect(viewModel = homeViewModel){effect->
+        when(effect){
+            HomeUiEffect.NavigateToChannel -> {}
+            HomeUiEffect.NavigateToOrganizationName -> {navController.navigateToOrganizationName()}
+            HomeUiEffect.NavigationToDrafts -> {}
+            HomeUiEffect.NavigationToSavedLater -> {}
+            HomeUiEffect.NavigationToStarred -> {}
+            HomeUiEffect.NavigateToTopic -> {}
         }
     }
     DisposableEffect(systemUiController, useDarkIcons) {
@@ -107,6 +103,7 @@ fun HomeScreen(
                 isShow = true,
                 onClickRetry = homeViewModel::getData,
                 isDarkMode = mainViewModel.state.value,
+                text = stringResource(id = R.string.no_internet_connection)
                 )
         } else {
             when {
@@ -121,32 +118,7 @@ fun HomeScreen(
                 }
 
                 else -> {
-                    HomeContent(
-                        state = state,
-                        navigationToDrafts = {
-                            Toast.makeText(context, "Drafts Coming soon!", Toast.LENGTH_SHORT)
-                                .show()
-                        },
-                        navigationToSavedLater = {
-                            Toast.makeText(context, "Saved Later Coming soon!", Toast.LENGTH_SHORT)
-                                .show()
-                        },
-                        navigateToChannel = {
-                            Toast.makeText(
-                                context,
-                                "Navigate to channel: $it ",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                        },
-                        navigateToTopic = {
-                            Toast.makeText(
-                                context,
-                                "Navigate to Topic: $it ",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    )
+                    HomeContent(state = state,homeViewModel)
                 }
             }
         }
@@ -158,30 +130,20 @@ fun HomeScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeContent(
-    state: HomeUiState,
-    navigationToDrafts: () -> Unit,
-    navigateToTopic: (String) -> Unit,
-    navigationToSavedLater: () -> Unit,
-    navigateToChannel: (Int) -> Unit
-) {
-    val context = LocalContext.current
+fun HomeContent(state: HomeUiState,homeInteraction: HomeInteraction ) {
     val colors = MaterialTheme.customColors()
     var isShowSheet by remember { mutableStateOf(false) }
 
     if (isShowSheet) {
         ManageChannelBottomSheet(onDismissBottomSheet = { isShowSheet = false }, colors = colors)
     }
-    Scaffold(
+    TeamixScaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = {
-            TeamixTopAppBar(
-                imageUrl = state.imageUrl,
-                title = state.organizationTitle,
-                colors = colors
-            )
-        },
-        containerColor = colors.background
+        isDarkMode = isSystemInDarkTheme(),
+        title = state.organizationTitle,
+        imageUrl = state.imageUrl,
+        hasImageUrl = true,
+        hasAppBar = true,
     ) {
         LazyColumn(
             modifier = Modifier
@@ -203,7 +165,7 @@ fun HomeContent(
                         painter = painterResource(R.drawable.ic_drafts),
                         title = "Drafts",
                         colors = colors,
-                        onClickItemCard = { navigationToDrafts() },
+                        onClickItemCard = { homeInteraction.onClickDrafts() },
                         modifier = Modifier
                             .padding(horizontal = Space4)
                             .weight(1f)
@@ -214,7 +176,7 @@ fun HomeContent(
                         painter = painterResource(R.drawable.ic_saved_later),
                         title = "SavedLater",
                         colors = colors,
-                        onClickItemCard = { navigationToSavedLater() },
+                        onClickItemCard = { homeInteraction.onClickSavedLater() },
                         modifier = Modifier
                             .padding(horizontal = Space4)
                             .weight(1f)
@@ -238,9 +200,9 @@ fun HomeContent(
                     channelUIState,
                     colors,
                     onClickItemChannel = {
-                        navigateToChannel(channelUIState.channelId)
+                        homeInteraction.onClickChannel(it)
                     }, onClickTopic = {
-                        navigateToTopic(it)
+                        homeInteraction.onClickTopic(it)
                     },
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
@@ -307,13 +269,8 @@ private fun CardItem(
     uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL
 )
 fun HomePreview() {
+    val viewModel : HomeViewModel = hiltViewModel()
     TeamixTheme {
-        HomeContent(
-            state = HomeUiState(),
-            navigationToDrafts = {},
-            navigationToSavedLater = {},
-            navigateToChannel = {},
-            navigateToTopic = {}
-        )
+        HomeContent(state = HomeUiState(),viewModel)
     }
 }

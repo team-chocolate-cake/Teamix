@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.Space16
@@ -18,7 +19,7 @@ import com.chocolate.presentation.theme.customColors
 
 @Composable
 fun BottomSheetItem(
-    @DrawableRes icon:Int,
+    icon:Painter,
     text:String,
     onClickItem:()->Unit = {}
 ) {
@@ -29,7 +30,7 @@ fun BottomSheetItem(
             .padding(Space16),
     ) {
         Icon(
-            painter = painterResource(id = icon),
+            painter = icon,
             contentDescription = "",
             modifier = Modifier.padding(end = Space8)
         )

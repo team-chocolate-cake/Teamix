@@ -16,6 +16,7 @@ val Space24 = 24.dp
 val Space26 = 26.dp
 val Space32 = 32.dp
 val Space40 = 40.dp
+val Space42 = 42.dp
 val Space48 = 48.dp
 val Space56 = 56.dp
 val Space64 = 64.dp
@@ -29,6 +30,8 @@ val TextSize12 = 12.sp
 val TextSize14 = 14.sp
 val TextSize16 = 16.sp
 val TextSize22 = 22.sp
+val TextSize24 = 24.sp
+
 //endregion
 
 //region Letter Height Dimensions
@@ -99,6 +102,8 @@ val BoxHeight440 = 400.dp
 // region row height
 val RowWidth250 = 250.dp
 //endregion
+
+val Float1 = 1f
 
 
 

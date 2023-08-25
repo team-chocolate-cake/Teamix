@@ -1,86 +1,65 @@
 package com.chocolate.presentation.screens.topic_details
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.composable.TeamixAppBar
-import com.chocolate.presentation.screens.topic_details.composables.ReplyMessage
-import com.chocolate.presentation.screens.topic_details.composables.StartNewMessage
+import com.chocolate.presentation.composable.TeamixScaffold
+import com.chocolate.presentation.composable.ReplyMessage
+import com.chocolate.presentation.composable.StartNewMessage
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.TeamixTheme
-import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.CollectUiEffect
+import com.chocolate.presentation.util.LocalNavController
+import com.chocolate.viewmodel.topic.TopicEffect
+import com.chocolate.viewmodel.topic.TopicInteraction
+import com.chocolate.viewmodel.topic.TopicUiState
+import com.chocolate.viewmodel.topic.TopicViewModel
 
 @Composable
-fun TopicScreen() {
-    TopicContent(
-        topicScreenUiState = TopicScreenUiState(),
-        navigationBack = {},
-        openEmojisTile = {},
-        onMessageInputChanged = {},
-        OnSendMessage = {},
-        OnStartVoiceRecording = {},
-        onClickPhotoOrVideo = {},
-        onClickCamera = {},
-        onAddReactionToMessage = {},
-        onGetNotification ={} ,
-        onPinMessage = {},
-        onSaveMessage ={},
-        onOpenReactTile ={},
-        onClickReact ={clicked , react->
+fun TopicScreen(
+    viewModel: TopicViewModel = hiltViewModel()
+) {
+    val navController = LocalNavController.current
+    val state by viewModel.state.collectAsState()
+    TopicContent(topicUiState = state, viewModel)
+    CollectUiEffect(viewModel){effect->
+            when(effect){
+                TopicEffect.NavigationBack -> navController.popBackStack()
+            }
+        }
+    }
 
-        },
-    )
-}
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun TopicContent(
-    topicScreenUiState: TopicScreenUiState,
-    navigationBack: () -> Unit,
-    openEmojisTile: () -> Unit,
-    onMessageInputChanged: (String) -> Unit,
-    OnSendMessage: () -> Unit,
-    OnStartVoiceRecording: () -> Unit,
-    onClickCamera: () -> Unit,
-    onClickPhotoOrVideo: (Int) -> Unit,
-    onAddReactionToMessage: (Int) -> Unit,
-    onSaveMessage: () -> Unit,
-    onGetNotification: () -> Unit,
-    onPinMessage: () -> Unit,
-    onOpenReactTile: () -> Unit,
-    onClickReact: (Boolean,ReactionUiState) -> Unit,
-    ) {
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        containerColor = MaterialTheme.customColors().background,
-        topBar = {
-            //todo this app bar must be changed to be one composable for all screens
-            TeamixAppBar(
-                title = topicScreenUiState.topicName,
-                navigationBack = navigationBack,
-            )
-        },
+fun TopicContent(topicUiState: TopicUiState, topicInteraction: TopicInteraction) {
+    TeamixScaffold(
+        title = topicUiState.topicName,
+        isDarkMode = isSystemInDarkTheme(),
         bottomBar = {
             StartNewMessage(
-                openEmojisTile = openEmojisTile,
-                onMessageInputChanged = onMessageInputChanged,
-                onSendMessage = OnSendMessage,
-                onStartVoiceRecording = OnStartVoiceRecording,
-                onClickCamera = onClickCamera,
-                onClickPhotoOrVideo = onClickPhotoOrVideo,
-                photoOrVideoList = topicScreenUiState.photoAndVideo,
+                openEmojisTile = { topicInteraction.openEmojisTile() },
+                onMessageInputChanged = { topicInteraction.onMessageInputChanged(it) },
+                onSendMessage = { topicInteraction.onSendMessage() },
+                onStartVoiceRecording = { topicInteraction.onStartVoiceRecording() },
+                onClickCamera = { topicInteraction.onClickCamera() },
+                onClickPhotoOrVideo = { topicInteraction.onClickPhotoOrVideo(it) },
+                photoOrVideoList = topicUiState.photoAndVideo,
                 modifier = Modifier,
-                messageInput = topicScreenUiState.messageInput,
+                messageInput = topicUiState.messageInput,
             )
         }
     ) { padding ->
@@ -100,15 +79,20 @@ fun TopicContent(
                 verticalArrangement = Arrangement.spacedBy(Space16),
                 contentPadding = PaddingValues(bottom = Space16)
             ) {
-                items(topicScreenUiState.messages.size) {
+                items(topicUiState.messages.size) {
                     ReplyMessage(
-                        messageUiState = topicScreenUiState.messages[it],
-                        onAddReactionToMessage = onAddReactionToMessage,
-                        onGetNotification =onGetNotification ,
-                        onPinMessage = onPinMessage,
-                        onSaveMessage =onSaveMessage,
-                        onOpenReactTile =onOpenReactTile,
-                        onClickReact = onClickReact
+                        messageUiState = topicUiState.messages[it],
+                        onAddReactionToMessage = { topicInteraction.onAddReactionToMessage(it) },
+                        onGetNotification = { topicInteraction.onGetNotification() },
+                        onPinMessage = { topicInteraction.onPinMessage() },
+                        onSaveMessage = { topicInteraction.onSaveMessage() },
+                        onOpenReactTile = { topicInteraction.onOpenReactTile() },
+                        onClickReact = { positive, state ->
+                            topicInteraction.onClickReact(
+                                positive,
+                                state
+                            )
+                        }
                     )
                 }
             }
@@ -118,7 +102,7 @@ fun TopicContent(
 
 @Composable
 @Preview(showSystemUi = true)
-fun TopicContentScreenPreview() {
+fun TopicPreview() {
     TeamixTheme() {
         TopicScreen()
     }

@@ -1,5 +1,7 @@
 package com.chocolate.viewmodel.home
 
+import com.chocolate.viewmodel.base.BaseViewModel
+
 data class HomeUiState(
     val organizationTitle: String = "",
     val imageUrl: String = "",
@@ -9,7 +11,7 @@ data class HomeUiState(
     val isLogged: Boolean = false,
     val isLoading: Boolean = true,
     val error: String? = null
-)
+): BaseViewModel.BaseUiState
 
 data class BadgeCountsUiState(
     val mentions: Int = 0,

@@ -2,14 +2,16 @@ package com.chocolate.presentation.screens.create_organization
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
 import com.chocolate.presentation.Screen
 
-fun NavGraphBuilder.createOrganizationWebViewRoute(navController: NavController) {
+fun NavGraphBuilder.createOrganizationWebViewRoute() {
     composable(Screen.OrganizationWebView.route) {
-        CreateOrganizationWebViewScreen(navController)
+        CreateOrganizationWebViewScreen()
     }
 }
-fun NavController.navigateToCreateOrganization(){
-    navigate(Screen.OrganizationWebView.route)
+
+fun NavController.navigateToCreateOrganization(builder: NavOptionsBuilder.() -> Unit = {}) {
+    navigate(Screen.OrganizationWebView.route, builder)
 }

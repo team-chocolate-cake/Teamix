@@ -1,5 +1,6 @@
 package com.chocolate.presentation.screens.message_search
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,11 +12,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.PersonCardWithDetails
-import com.chocolate.presentation.composable.SearchBox
-import com.chocolate.presentation.screens.searchMessage
+import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.messageSearch.MessageSearchUiState
 
@@ -23,9 +28,10 @@ import com.chocolate.viewmodel.messageSearch.MessageSearchUiState
 fun MessageSearchScreen(
     //navController: NavController,
 ) {
-    MessageSearchContent(searchMessage)
+    MessageSearchContent(MessageSearchUiState())
 }
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 private fun MessageSearchContent(
     state: MessageSearchUiState
@@ -38,7 +44,10 @@ private fun MessageSearchContent(
                 .background(color = colors.background)
                 .padding(Space16),
         ) {
-            SearchBox()
+            TeamixTextField(
+                value = state.searchInput,
+                hint = stringResource(id = R.string.search),
+                onValueChange = {})
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(Space8),
                 contentPadding = PaddingValues(vertical = Space16)
@@ -49,9 +58,19 @@ private fun MessageSearchContent(
                         title = message.name,
                         subTitle = message.messageContent,
                         date = message.date,
-                        subTitleMaxLine = 3
+                        subTitleMaxLine = 3,
+                        painter = painterResource(id = R.drawable.ic_check),
+                        contentDescription = ""
                     )
                 }
             }
         }
     }
+
+@Preview
+@Composable
+fun MessageSearchPreview() {
+    TeamixTheme {
+        MessageSearchContent(MessageSearchUiState())
+    }
+}

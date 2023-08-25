@@ -1,11 +1,12 @@
 package com.chocolate.presentation.screens.organiztion
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,7 +18,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -33,12 +33,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.Button
+import com.chocolate.presentation.composable.SeparatorWithText
+import com.chocolate.presentation.composable.TeamixButton
+import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.create_organization.navigateToCreateOrganization
 import com.chocolate.presentation.screens.login.navigateToLogin
-import com.chocolate.presentation.screens.organiztion.compose.SeparatorWithText
 import com.chocolate.presentation.screens.welcome.navigateToWelcome
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space24
@@ -46,29 +46,32 @@ import com.chocolate.presentation.theme.Space32
 import com.chocolate.presentation.theme.Space48
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.CollectUiEffect
+import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.organization_name.OrganizationNameInteraction
 import com.chocolate.viewmodel.organization_name.OrganizationNameUiEffect
 import com.chocolate.viewmodel.organization_name.OrganizationNameUiState
 import com.chocolate.viewmodel.organization_name.OrganizationNameViewModel
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun OrganizationScreen(
-    navController: NavController,
     viewModel: OrganizationNameViewModel = hiltViewModel(),
 ) {
+    val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
-    LaunchedEffect(key1 = Unit) {
-        viewModel.effect.collectLatest { effect ->
-            when (effect) {
-                OrganizationNameUiEffect.NavigateToCreateOrganization -> navController.navigateToCreateOrganization()
-                OrganizationNameUiEffect.NavigateToLoginScreen -> navController.navigateToLogin(
-                    organizationName = state.organizationName
-                )
-            }
+    CollectUiEffect(viewModel) { effect ->
+        when (effect) {
+            OrganizationNameUiEffect.NavigateToCreateOrganization -> navController.navigateToCreateOrganization()
+            OrganizationNameUiEffect.NavigateToLoginScreen -> navController.navigateToLogin(
+                organizationName = state.organizationName
+            )
         }
+
     }
+    Log.i("dsds",state.onboardingState.toString())
+
     if (state.onboardingState) {
+
         OrganizationContent(
             organizationNameInteraction = viewModel,
             state = state,
@@ -88,11 +91,7 @@ fun OrganizationContent(
     val colors = MaterialTheme.customColors()
     val context = LocalContext.current
     val scrollState = rememberScrollState()
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
-        containerColor = colors.background
-    ) {
+    TeamixScaffold(isDarkMode = isSystemInDarkTheme()) {
         Column(
             modifier = Modifier
                 .verticalScroll(scrollState)
@@ -136,7 +135,7 @@ fun OrganizationContent(
                 )
             )
             val operationFailed = stringResource(R.string.error_organization_name_empty)
-            Button(
+            TeamixButton(
                 onClick = {
                     organizationNameInteraction.onClickActionButton(state.organizationName)
                     if (state.organizationName.isBlank()) {

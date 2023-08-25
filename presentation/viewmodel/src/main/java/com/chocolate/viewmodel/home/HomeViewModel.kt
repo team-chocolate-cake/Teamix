@@ -2,10 +2,9 @@ package com.chocolate.viewmodel.home
 
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.channel.Channel
-import com.chocolate.entities.exceptions.InvalidURlHostException
 import com.chocolate.entities.exceptions.NoConnectionException
+import com.chocolate.entities.exceptions.UnAuthorizedException
 import com.chocolate.entities.exceptions.ValidationException
-import com.chocolate.entities.server_and_organizations.ServerSettings
 import com.chocolate.usecases.channel.GetChannelsUseCase
 import com.chocolate.usecases.channel.GetSubscribedChannelsUseCase
 import com.chocolate.usecases.organization.GetImageOrganizationUseCase
@@ -22,9 +21,8 @@ class HomeViewModel @Inject constructor(
     private val getUserLoginStatusUseCase: GetUserLoginStatusUseCase,
     private val getSubscribedChannelsUseCase: GetSubscribedChannelsUseCase,
     private val getImageOrganizationUseCase: GetImageOrganizationUseCase,
-    private val getChannelsUseCase: GetChannelsUseCase,
     private val getNameOrganizationsUseCase: GetNameOrganizationsUseCase
-) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()) {
+) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()), HomeInteraction {
 
     init {
         getData()
@@ -49,11 +47,11 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    private fun onGettingOrganizationImageSuccess(serverSettings: ServerSettings) {
+    private fun onGettingOrganizationImageSuccess(Image: String) {
         _state.update {
             it.copy(
                 isLoading = true,
-                imageUrl = serverSettings.realmIcon,
+                imageUrl = Image,
                 showNoInternetLottie = false,
                 error = null
             )
@@ -90,12 +88,20 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun getUserLoginState() {
-        collectFlow(getUserLoginStatusUseCase()) { this.copy(isLoading = true, isLogged = it) }
+        tryToExecute({ getUserLoginStatusUseCase() }, ::onLoginStateSuccess, ::onLoginError)
+    }
+
+    private fun onLoginStateSuccess(userLoginStatus: Boolean) {
+        _state.update { it.copy(isLoading = false, isLogged = userLoginStatus) }
+    }
+
+    private fun onLoginError(throwable: Throwable) {
+        onError(throwable)
     }
 
     private fun onError(throwable: Throwable) {
         when (throwable) {
-            is InvalidURlHostException, is ValidationException -> sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
+            is UnAuthorizedException, is ValidationException -> sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
             is NoConnectionException -> _state.update {
                 it.copy(
                     showNoInternetLottie = true,
@@ -104,5 +110,25 @@ class HomeViewModel @Inject constructor(
             }
         }
         _state.update { it.copy(isLoading = false, error = throwable.message) }
+    }
+
+    override fun onClickDrafts() {
+        sendUiEffect(HomeUiEffect.NavigationToDrafts)
+    }
+
+    override fun onClickStarred() {
+        sendUiEffect(HomeUiEffect.NavigationToStarred)
+    }
+
+    override fun onClickSavedLater() {
+        sendUiEffect(HomeUiEffect.NavigationToSavedLater)
+    }
+
+    override fun onClickChannel(id: Int) {
+        sendUiEffect(HomeUiEffect.NavigateToChannel)
+    }
+
+    override fun onClickTopic(name: String) {
+        sendUiEffect(HomeUiEffect.NavigateToTopic)
     }
 }

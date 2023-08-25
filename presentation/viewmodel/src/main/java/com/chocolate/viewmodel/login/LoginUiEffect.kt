@@ -1,6 +1,8 @@
 package com.chocolate.viewmodel.login
 
-sealed interface LoginUiEffect{
+import com.chocolate.viewmodel.base.BaseViewModel
+
+sealed interface LoginUiEffect : BaseViewModel.BaseUiEffect{
     object NavigationToHome: LoginUiEffect
     object NavigateToForgetPassword: LoginUiEffect
 }

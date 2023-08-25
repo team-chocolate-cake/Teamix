@@ -2,16 +2,17 @@ package com.chocolate.presentation.screens.welcome
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
 import com.chocolate.presentation.Screen
 
-fun NavGraphBuilder.welcomeRoute(navController: NavController) {
+fun NavGraphBuilder.welcomeRoute() {
     composable(Screen.Welcome.route) {
-        WelcomeScreen(navController)
+        WelcomeScreen()
     }
 }
 
-fun NavController.navigateToWelcome() {
+fun NavController.navigateToWelcome(builder: NavOptionsBuilder.() -> Unit = {}) {
     popBackStack()
-    navigate(Screen.Welcome.route)
+    navigate(Screen.Welcome.route,builder)
 }

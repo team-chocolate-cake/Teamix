@@ -5,9 +5,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.chocolate.presentation.Screen
 
-fun NavGraphBuilder.organizationNameRoute(navController: NavController) {
+fun NavGraphBuilder.organizationNameRoute() {
     composable(Screen.OrganizationName.route) {
-        OrganizationScreen(navController)
+        OrganizationScreen()
     }
 }
 

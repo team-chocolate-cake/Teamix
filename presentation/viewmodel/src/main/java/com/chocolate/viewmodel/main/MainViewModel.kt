@@ -1,11 +1,10 @@
 package com.chocolate.viewmodel.main
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chocolate.usecases.user.CustomizeProfileSettingsUseCase
+import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -13,18 +12,16 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val customizeProfileSettingsUseCase: CustomizeProfileSettingsUseCase
-) : ViewModel() {
-    private val _state = MutableStateFlow(false)
-    val state = _state.asStateFlow()
+) : BaseViewModel<Boolean,Unit>(false){
 
     init {
-        viewModelScope.launch { isDarkThem() }
+        viewModelScope.launch(Dispatchers.IO) { isDarkThem() }
     }
 
     suspend fun getLastSelectedAppLanguage() =
         customizeProfileSettingsUseCase.getLastSelectedAppLanguage()
 
-    suspend fun isDarkThem() {
+    private suspend fun isDarkThem() {
         _state.update { customizeProfileSettingsUseCase.isDarkThem() }
     }
 

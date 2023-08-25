@@ -2,13 +2,11 @@ package com.chocolate.viewmodel.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.chocolate.entities.exceptions.InvalidURlHostException
 import com.chocolate.entities.exceptions.NetworkException
 import com.chocolate.entities.exceptions.NullDataException
-import com.chocolate.entities.exceptions.RateLimitExceededException
-import com.chocolate.entities.exceptions.RequestException
 import com.chocolate.entities.exceptions.ServerException
 import com.chocolate.entities.exceptions.TeamixException
+import com.chocolate.entities.exceptions.UnAuthorizedException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -20,6 +18,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<STATE, UiEffect>(initialState: STATE) : ViewModel() {
+    interface BaseUiState
+
+    interface BaseUiEffect
+
     protected val _state: MutableStateFlow<STATE> by lazy { MutableStateFlow(initialState) }
     val state = _state.asStateFlow()
 
@@ -35,15 +37,11 @@ abstract class BaseViewModel<STATE, UiEffect>(initialState: STATE) : ViewModel()
         viewModelScope.launch(dispatcher) {
             try {
                 call().also(onSuccess)
-            } catch (e: RequestException) {
-                onError(e)
-            } catch (e: RateLimitExceededException) {
-                onError(e)
             } catch (e: ServerException) {
                 onError(e)
             } catch (e: NetworkException) {
                 onError(e)
-            } catch (e: InvalidURlHostException) {
+            } catch (e: UnAuthorizedException) {
                 onError(e)
             } catch (e: NullDataException) {
                 onError(e)

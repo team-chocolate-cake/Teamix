@@ -25,5 +25,4 @@ sealed class OnboardingPage(
         "Organize, Collaborate and Boost Productivity",
         "Personalize your profile, add a professional touch with avatars. Connect with colleagues and build strong relationships. Embrace a new era of work and learning in this unified platform"
     )
-
 }

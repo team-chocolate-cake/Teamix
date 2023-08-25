@@ -2,13 +2,15 @@ package com.chocolate.presentation.screens.task
 
 import android.annotation.SuppressLint
 import android.widget.Toast
-import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.NavController
+import com.chocolate.presentation.composable.TeamixScaffold
+import com.chocolate.presentation.util.LocalNavController
 
 @Composable
-fun TaskScreen(navController: NavController) {
+fun TaskScreen() {
+    val navController = LocalNavController.current
     TaskContent()
 }
 
@@ -16,7 +18,7 @@ fun TaskScreen(navController: NavController) {
 @Composable
 fun TaskContent() {
     val context = LocalContext.current
-    Scaffold {
+    TeamixScaffold(isDarkMode = isSystemInDarkTheme()) {
         Toast.makeText(context, "Task Screen", Toast.LENGTH_SHORT).show()
     }
 }

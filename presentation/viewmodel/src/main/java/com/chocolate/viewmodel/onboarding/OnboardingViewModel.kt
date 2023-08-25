@@ -1,20 +1,19 @@
 package com.chocolate.viewmodel.onboarding
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.chocolate.usecases.onboarding.SetOnboardingStateUseCase
+import com.chocolate.usecases.onboarding.ManageUserUsedAppUseCase
+import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
-    private val setOnboardingStateUseCase: SetOnboardingStateUseCase
-): ViewModel(), OnboardingEffect {
-    override fun setOnboardingShown() {
-        viewModelScope.launch {
-            setOnboardingStateUseCase(true)
-        }
+    private val manageUserUsedAppUseCase: ManageUserUsedAppUseCase
+) : BaseViewModel<OnboardingUiState, OnboardingUiEffect>(OnboardingUiState()),
+    OnboardingInteraction {
+    override fun onClickLetsStart() {
+        viewModelScope.launch { manageUserUsedAppUseCase.setUserUsedAppForFirstTime(true) }
+        sendUiEffect(OnboardingUiEffect.NavigateToOrganizationName)
     }
-
 }

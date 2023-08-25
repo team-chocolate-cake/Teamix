@@ -21,7 +21,7 @@ class AuthInterceptor @Inject constructor(
                 requestUrl.toString()
                     .replace(
                         "null",
-                        preferencesDataSource.currentOrganization ?: throw IOException()
+                        preferencesDataSource.currentOrganization() ?: throw IOException()
                     )
             )
             .header(

@@ -4,12 +4,11 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.chocolate.presentation.Screen
-import com.chocolate.presentation.screens.main_screen.BottomNavigationItem
-import com.chocolate.viewmodel.main.MainViewModel
+import com.chocolate.presentation.screens.bottomNavigation.BottomNavigationItem
 
-fun NavGraphBuilder.homeRoute(navController: NavController,mainViewModel: MainViewModel) {
-    composable(BottomNavigationItem.Home.screen_route) {
-        HomeScreen(navController,mainViewModel)
+fun NavGraphBuilder.homeRoute() {
+    composable(BottomNavigationItem.Home.screenRoute) {
+        HomeScreen()
     }
 }
 

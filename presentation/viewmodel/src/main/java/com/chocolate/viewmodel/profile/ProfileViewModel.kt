@@ -1,19 +1,15 @@
 package com.chocolate.viewmodel.profile
 
 import androidx.lifecycle.viewModelScope
-import com.chocolate.entities.exceptions.EmptyEmailException
-import com.chocolate.entities.exceptions.EmptyFullNameException
 import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.entities.exceptions.SameUserDataException
 import com.chocolate.entities.exceptions.ValidationException
-import com.chocolate.entities.user.Settings
 import com.chocolate.entities.user.User
 import com.chocolate.usecases.user.CustomizeProfileSettingsUseCase
 import com.chocolate.usecases.user.GetCurrentUserDataUseCase
 import com.chocolate.usecases.user.LogoutUseCase
 import com.chocolate.usecases.user.UpdateUserInformationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
-import com.chocolate.viewmodel.base.StringsRes
+import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
@@ -27,7 +23,7 @@ class ProfileViewModel @Inject constructor(
     private val updateUserInformationUseCase: UpdateUserInformationUseCase,
     private val logoutUseCase: LogoutUseCase,
     private val customizeProfileSettingsUseCase: CustomizeProfileSettingsUseCase,
-    private val stringsRes: StringsRes
+    private val stringsResource: StringsResource
 ) : BaseViewModel<ProfileUiState, ProfileEffect>(ProfileUiState()), ProfileInteraction {
 
     init {
@@ -49,7 +45,6 @@ class ProfileViewModel @Inject constructor(
 
     private fun onGetCurrentUserSuccess(user: User) {
         val currentUserUi = user.toOwnerUserUiState()
-        println("$currentUserUi 123")
         _state.update {
             it.copy(
                 name = currentUserUi.name,
@@ -105,9 +100,15 @@ class ProfileViewModel @Inject constructor(
 
     override fun onUserInformationFocusChange() {
         _state.update { it.copy(showWarningDialog = false, message = null) }
-        val settingsState = Settings(fullName = _state.value.name, email = _state.value.email)
+        val userInformationSettingsState = User(
+            fullName = _state.value.name,
+            email = _state.value.email,
+            role = 0,
+            imageUrl = "",
+            id = 0
+        )
         tryToExecute(
-            { updateUserInformationUseCase(settingsState) },
+            { updateUserInformationUseCase(userInformationSettingsState) },
             ::onUpdateUserInformationSuccess,
             ::onError
         )
@@ -153,7 +154,7 @@ class ProfileViewModel @Inject constructor(
                 newUsername = "",
                 newEmail = "",
                 error = null,
-                message = stringsRes.successMessage
+                message = stringsResource.successMessage
             )
         }
     }
@@ -164,11 +165,9 @@ class ProfileViewModel @Inject constructor(
 
     private fun onError(throwable: Throwable) {
         val error = when (throwable) {
-            EmptyEmailException -> stringsRes.emptyEmailMessage
-            EmptyFullNameException -> stringsRes.emptyFullNameMessage
-            SameUserDataException -> stringsRes.sameUserDataMessage
-            is NoConnectionException -> stringsRes.noConnectionMessage
-            else -> stringsRes.globalMessageError
+            is ValidationException -> throwable.message
+            is NoConnectionException -> stringsResource.noConnectionMessage
+            else -> stringsResource.globalMessageError
         }
         _state.update { it.copy(isLoading = false, error = error, message = null) }
     }

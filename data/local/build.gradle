@@ -29,6 +29,9 @@ android {
     kotlinOptions {
         jvmTarget = Configurations.JVM_TARGET
     }
+    kapt {
+        correctErrorTypes = true
+    }
 }
 
 dependencies {
@@ -43,5 +46,4 @@ dependencies {
     kapt(ProjectDependencies.roomCompiler)
 
     implementation(ProjectDependencies.encryptedSharedPreference)
-
 }

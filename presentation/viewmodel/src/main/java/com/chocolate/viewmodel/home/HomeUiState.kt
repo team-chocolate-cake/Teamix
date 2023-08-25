@@ -10,6 +10,7 @@ data class HomeUiState(
     val showNoInternetLottie: Boolean = false,
     val isLogged: Boolean = false,
     val isLoading: Boolean = true,
+    val role: String = "",
     val error: String? = null
 ): BaseViewModel.BaseUiState
 

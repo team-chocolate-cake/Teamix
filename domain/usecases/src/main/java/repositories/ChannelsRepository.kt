@@ -1,13 +1,18 @@
 package repositories
 
-import com.chocolate.entities.channel.MutingStatus
 import com.chocolate.entities.channel.Channel
+import com.chocolate.entities.channel.MutingStatus
 import com.chocolate.entities.channel.Topic
 
 interface ChannelsRepository {
     suspend fun getSubscribedChannels(): List<Channel>
 
-    suspend fun subscribeToChannel(channelName: String): Boolean
+    suspend fun subscribeToChannel(
+        channelName: String,
+        usersId: List<Int>,
+        description: String?,
+        isPrivate: Boolean
+    ): Boolean
 
     suspend fun unsubscribeFromChannel(channelName: String): Boolean
 

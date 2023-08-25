@@ -6,6 +6,8 @@ import com.chocolate.entities.channel.Topic
 import com.chocolate.repository.mappers.channel_mappers.toEntity
 import com.chocolate.repository.mappers.channel_mappers.toSuccessOrFail
 import com.chocolate.repository.service.remote.RemoteDataSource
+import org.json.JSONArray
+import org.json.JSONObject
 import repositories.ChannelsRepository
 import javax.inject.Inject
 
@@ -22,8 +24,18 @@ class ChannelsRepositoryImpl @Inject constructor(
             getTopicsInChannel(channelId)
         }
 
-    override suspend fun subscribeToChannel(channelName: String): Boolean {
-        return channelsRemoteDataSource.subscribeToChannels(listOf(Pair("name", channelName)))
+    override suspend fun subscribeToChannel(
+        channelName: String,
+        usersId: List<Int>,
+        description: String?,
+        isPrivate: Boolean
+    ): Boolean {
+        return channelsRemoteDataSource.subscribeToChannels(
+            createJsonArrayString(channelName = channelName, channelDescription = description),
+            usersId = JSONArray(usersId).toString(),
+            description = description,
+            isPrivate = isPrivate
+        )
             .result?.equals("success") ?: false
     }
 
@@ -51,7 +63,7 @@ class ChannelsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getChannelIdByName(channel: String): Int {
-        return channelsRemoteDataSource.getChannelIdByName(channel).streamId ?: 0
+        return channelsRemoteDataSource.getChannelIdByName(channel).streamId ?: -1
     }
 
     override suspend fun updateChannel(
@@ -120,4 +132,17 @@ class ChannelsRepositoryImpl @Inject constructor(
         return channelsRemoteDataSource.deleteDefaultStream(channelId)
             .toSuccessOrFail()
     }
+
+    private fun createJsonArrayString(
+        channelName: String,
+        channelDescription: String? = ""
+    ): String {
+        val jsonArray = JSONArray()
+        val jsonObject = JSONObject()
+        jsonObject.put("name", channelName)
+        jsonObject.put("description", channelDescription)
+        jsonArray.put(jsonObject)
+        return jsonArray.toString()
+    }
+
 }

@@ -51,6 +51,7 @@ val Thickness2 = 2.dp
 //endregion
 
 // region Radius Dimensions
+val Radius8 = 8.dp
 val Radius12 = 12.dp
 val Radius16 = 16.dp
 val Radius24 = 24.dp
@@ -75,6 +76,7 @@ val ImageSize158 = 158.dp
 // region Button Size
 val ButtonSize18 = 18.dp
 val ButtonSize24 = 24.dp
+val ButtonSize32 = 32.dp
 val ButtonSize48 = 48.dp
 val ButtonSize110 = 110.dp
 //endregion

@@ -40,14 +40,8 @@ import com.chocolate.repository.model.dto.server_and_organizations.response.Serv
 import com.chocolate.repository.model.dto.users.response.FetchApiKeyDto
 import com.chocolate.repository.model.dto.users.response.StatusUserRemoteDto
 import com.chocolate.repository.service.remote.RemoteDataSource
-import com.chocolate.repository.utils.HttpStatusCodes
 import okhttp3.MultipartBody
-import retrofit2.Response
-import java.io.IOException
-import java.net.SocketTimeoutException
-import java.net.UnknownHostException
 import javax.inject.Inject
-import javax.net.ssl.SSLException
 
 class RetrofitDataSource @Inject constructor(
     private val channelsService: ChannelsService,
@@ -56,18 +50,27 @@ class RetrofitDataSource @Inject constructor(
     private val scheduledMessageService: ScheduledMessageService,
     private val organizationService: OrganizationService,
     private val userService: UsersService,
-    ) : RemoteDataSource {
+) : RemoteDataSource {
 
     override suspend fun getSubscribedChannels(): SubscribedStreamDto {
         return wrapApiCall { channelsService.getSubscribedChannels() }
     }
 
     override suspend fun subscribeToChannels(
-        channelsName: List<Pair<String, String>>
+        channelName: String,
+        description: String?,
+        isPrivate: Boolean,
+        usersId: String
     ): SubscribeToStreamDto {
-        return wrapApiCall { channelsService.subscribeToChannels(channelsName) }
+        return wrapApiCall {
+            channelsService.subscribeToChannels(
+                channelsName = channelName,
+                usersId = usersId,
+                description = description,
+                isPrivate = isPrivate
+            )
+        }
     }
-
 
     override suspend fun unsubscribeFromChannels(
         channelsName: List<String>
@@ -521,11 +524,8 @@ class RetrofitDataSource @Inject constructor(
         }
     }
 
-    override suspend fun getAllUsers(
-        clientGravatar: Boolean,
-        includeCustomProfileFields: Boolean
-    ) = wrapApiCall {
-        userService.getAllUsers(clientGravatar, includeCustomProfileFields)
+    override suspend fun getAllUsers() = wrapApiCall {
+        userService.getAllUsers()
     }
 
     override suspend fun getOwnUser() = wrapApiCall {
@@ -589,7 +589,7 @@ class RetrofitDataSource @Inject constructor(
     }
 
     override suspend fun updateSettings(user: User) = wrapApiCall {
-        userService.updateSettings(user.fullName,user.email)
+        userService.updateSettings(user.fullName, user.email)
     }
 
     override suspend fun getUserGroups() = wrapApiCall {

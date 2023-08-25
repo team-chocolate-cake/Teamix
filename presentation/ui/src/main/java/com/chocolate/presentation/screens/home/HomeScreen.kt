@@ -2,6 +2,7 @@ package com.chocolate.presentation.screens.home
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,13 +22,15 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,6 +53,7 @@ import com.chocolate.presentation.composable.ChannelItem
 import com.chocolate.presentation.composable.ManageChannelBottomSheet
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.TeamixScaffold
+import com.chocolate.presentation.screens.create_channel.navigateToCreateChannel
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.LightPrimary
@@ -78,14 +82,18 @@ fun HomeScreen(
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = !isSystemInDarkTheme()
     val state by homeViewModel.state.collectAsState()
-    CollectUiEffect(viewModel = homeViewModel){effect->
-        when(effect){
+    CollectUiEffect(viewModel = homeViewModel) { effect ->
+        when (effect) {
             HomeUiEffect.NavigateToChannel -> {}
-            HomeUiEffect.NavigateToOrganizationName -> {navController.navigateToOrganizationName()}
+            HomeUiEffect.NavigateToOrganizationName -> {
+                navController.navigateToOrganizationName()
+            }
+
             HomeUiEffect.NavigationToDrafts -> {}
             HomeUiEffect.NavigationToSavedLater -> {}
             HomeUiEffect.NavigationToStarred -> {}
             HomeUiEffect.NavigateToTopic -> {}
+            HomeUiEffect.NavigateToCreateChannel -> navController.navigateToCreateChannel()
         }
     }
     DisposableEffect(systemUiController, useDarkIcons) {
@@ -96,41 +104,24 @@ fun HomeScreen(
             systemUiController.setSystemBarsColor(color = LightPrimary, darkIcons = false)
         }
     }
-
-    if (state.isLogged) {
-        if (state.showNoInternetLottie) {
+    when {
+        state.isLogged && state.showNoInternetLottie -> {
             NoInternetLottie(
                 isShow = true,
                 onClickRetry = homeViewModel::getData,
                 isDarkMode = mainViewModel.state.value,
                 text = stringResource(id = R.string.no_internet_connection)
-                )
-        } else {
-            when {
-                state.isLoading -> {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        CircularProgressIndicator(color = LightPrimary)
-                    }
-                }
-
-                else -> {
-                    HomeContent(state = state,homeViewModel)
-                }
-            }
+            )
         }
-    } else {
-        LaunchedEffect(Unit) { navController.navigateToOrganizationName() }
+        state.isLogged && state.isLoading -> LoadingColumn()
+        state.isLogged -> HomeContent(state = state, homeViewModel)
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeContent(state: HomeUiState,homeInteraction: HomeInteraction ) {
+fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
     val colors = MaterialTheme.customColors()
     var isShowSheet by remember { mutableStateOf(false) }
 
@@ -144,19 +135,30 @@ fun HomeContent(state: HomeUiState,homeInteraction: HomeInteraction ) {
         imageUrl = state.imageUrl,
         hasImageUrl = true,
         hasAppBar = true,
+        floatingActionButton = {
+            AnimatedVisibility(visible = state.role.lowercase() == "owner") {
+                FloatingActionButton(
+                    onClick = {homeInteraction.onClickFloatingActionButton()},
+                    containerColor = MaterialTheme.customColors().primary,
+                    shape = RoundedCornerShape(16.dp),
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Add,
+                        contentDescription = "Add FAB",
+                        tint = Color.White,
+                    )
+                }
+            }
+        }
     ) {
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = Space64),
+            modifier = Modifier.fillMaxSize().padding(top = Space64),
             contentPadding = PaddingValues(vertical = Space16),
             verticalArrangement = Arrangement.spacedBy(Space8),
         ) {
             item {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 12.dp)
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp)
                         .wrapContentHeight(),
                     horizontalArrangement = Arrangement.SpaceAround,
                 ) {
@@ -166,9 +168,7 @@ fun HomeContent(state: HomeUiState,homeInteraction: HomeInteraction ) {
                         title = "Drafts",
                         colors = colors,
                         onClickItemCard = { homeInteraction.onClickDrafts() },
-                        modifier = Modifier
-                            .padding(horizontal = Space4)
-                            .weight(1f)
+                        modifier = Modifier.padding(horizontal = Space4).weight(1f)
                     )
 
                     CardItem(
@@ -177,9 +177,7 @@ fun HomeContent(state: HomeUiState,homeInteraction: HomeInteraction ) {
                         title = "SavedLater",
                         colors = colors,
                         onClickItemCard = { homeInteraction.onClickSavedLater() },
-                        modifier = Modifier
-                            .padding(horizontal = Space4)
-                            .weight(1f)
+                        modifier = Modifier.padding(horizontal = Space4).weight(1f)
                     )
                 }
             }
@@ -188,9 +186,7 @@ fun HomeContent(state: HomeUiState,homeInteraction: HomeInteraction ) {
                     text = stringResource(R.string.channels),
                     style = MaterialTheme.typography.bodyLarge,
                     color = colors.onBackground87,
-                    modifier = Modifier
-                        .padding(top = Space8)
-                        .padding(horizontal = Space16)
+                    modifier = Modifier.padding(top = Space8).padding(horizontal = Space16)
                 )
             }
             items(items = state.channels, key = { currentChannel ->
@@ -204,9 +200,7 @@ fun HomeContent(state: HomeUiState,homeInteraction: HomeInteraction ) {
                     }, onClickTopic = {
                         homeInteraction.onClickTopic(it)
                     },
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .animateItemPlacement()
+                    modifier = Modifier.padding(horizontal = 16.dp).animateItemPlacement()
                 )
             }
         }
@@ -236,17 +230,13 @@ private fun CardItem(
                 number = badge,
                 textColor = colors.onPrimary,
                 cardColor = colors.primary,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.End)
+                modifier = Modifier.fillMaxWidth().align(Alignment.End)
                     .padding(end = Space4, top = Space4)
             )
             Icon(
                 painter = painter,
                 contentDescription = "icons",
-                modifier = Modifier
-                    .wrapContentSize()
-                    .padding(bottom = Space8)
+                modifier = Modifier.wrapContentSize().padding(bottom = Space8)
                     .align(Alignment.CenterHorizontally),
                 tint = colors.onBackground60,
             )
@@ -254,13 +244,20 @@ private fun CardItem(
                 text = title,
                 color = colors.onBackground60,
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 26.dp),
+                modifier = Modifier.fillMaxSize().padding(horizontal = 26.dp),
                 textAlign = TextAlign.Center
             )
         }
     }
+}
+
+@Composable
+fun LoadingColumn() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) { CircularProgressIndicator(color = LightPrimary) }
 }
 
 @Composable
@@ -269,8 +266,8 @@ private fun CardItem(
     uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL
 )
 fun HomePreview() {
-    val viewModel : HomeViewModel = hiltViewModel()
+    val viewModel: HomeViewModel = hiltViewModel()
     TeamixTheme {
-        HomeContent(state = HomeUiState(),viewModel)
+        HomeContent(state = HomeUiState(), viewModel)
     }
 }

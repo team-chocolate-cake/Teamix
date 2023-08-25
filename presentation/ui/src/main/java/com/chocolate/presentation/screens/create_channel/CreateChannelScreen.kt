@@ -26,7 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.NoInternetLottie
+import com.chocolate.presentation.composable.ActionSnakeBar
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.composable.ToggleButton
@@ -50,8 +50,8 @@ fun CreateChannelScreen(
     val state by createChannelViewModel.state.collectAsState()
     val navController = LocalNavController.current
 
-    CollectUiEffect(viewModel = createChannelViewModel ){ effect ->
-        when(effect){
+    CollectUiEffect(viewModel = createChannelViewModel) { effect ->
+        when (effect) {
             is CreateChannelUiEffect.NavigationToChooseMembers ->
                 navController.navigateToChooseMember(state.nameInput)
         }
@@ -77,7 +77,7 @@ private fun CreateChannelContent(
     TeamixScaffold(
         isDarkMode = isSystemInDarkTheme(),
         isLoading = state.isLoading,
-        error = state.error.message,
+        //error = state.error.message,
         title = stringResource(id = R.string.create_channel),
         hasAppBar = true,
         containerColorAppBar = colors.card,
@@ -88,15 +88,7 @@ private fun CreateChannelContent(
                 contentAlignment = Alignment.Center
             ) { CircularProgressIndicator(color = colors.primary) }
         },
-        onRetry = {createChannelInteraction.onClickRetry()},
-        onError = {
-            NoInternetLottie(
-                text = stringResource(id = R.string.no_internet_connection),
-                isShow = state.error.message != null,
-                isDarkMode = isSystemInDarkTheme(),
-            )
-        },
-    ) {paddingValues->
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -207,7 +199,14 @@ private fun CreateChannelContent(
                 )
             }
 
-
         }
+
+        ActionSnakeBar(
+            contentMessage = state.error.message.toString(),
+            isVisible = state.error.message != null,
+            onClick = { createChannelInteraction.onClickRetry() },
+            actionTitle = stringResource(id = R.string.retry)
+        )
+
     }
 }

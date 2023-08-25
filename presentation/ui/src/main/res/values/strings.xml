@@ -112,4 +112,5 @@
     <string name="skip">Skip</string>
     <string name="ok">Ok</string>
     <string name="choose_members">Choose Members</string>
+    <string name="retry">Retry</string>
 </resources>

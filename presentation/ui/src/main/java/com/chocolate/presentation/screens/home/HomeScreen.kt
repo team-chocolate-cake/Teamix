@@ -56,8 +56,11 @@ import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.create_channel.navigateToCreateChannel
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.CustomColorsPalette
+import com.chocolate.presentation.theme.Float1
 import com.chocolate.presentation.theme.LightPrimary
 import com.chocolate.presentation.theme.OnLightPrimary
+import com.chocolate.presentation.theme.Radius16
+import com.chocolate.presentation.theme.Space12
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space4
 import com.chocolate.presentation.theme.Space64
@@ -142,11 +145,11 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                 FloatingActionButton(
                     onClick = {homeInteraction.onClickFloatingActionButton()},
                     containerColor = MaterialTheme.customColors().primary,
-                    shape = RoundedCornerShape(16.dp),
+                    shape = RoundedCornerShape(Radius16),
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.Add,
-                        contentDescription = "Add FAB",
+                        contentDescription = stringResource(R.string.add_fab),
                         tint = Color.White,
                     )
                 }
@@ -154,32 +157,40 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
         }
     ) {
         LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(top = Space64),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = Space64),
             contentPadding = PaddingValues(vertical = Space16),
             verticalArrangement = Arrangement.spacedBy(Space8),
         ) {
             item {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Space12)
                         .wrapContentHeight(),
                     horizontalArrangement = Arrangement.SpaceAround,
                 ) {
                     CardItem(
                         badge = state.badgeCountsUiState.drafts,
                         painter = painterResource(R.drawable.ic_drafts),
-                        title = "Drafts",
+                        title = stringResource(R.string.drafts),
                         colors = colors,
                         onClickItemCard = { homeInteraction.onClickDrafts() },
-                        modifier = Modifier.padding(horizontal = Space4).weight(1f)
+                        modifier = Modifier
+                            .padding(horizontal = Space4)
+                            .weight(Float1)
                     )
 
                     CardItem(
                         badge = state.badgeCountsUiState.drafts,
                         painter = painterResource(R.drawable.ic_saved_later),
-                        title = "SavedLater",
+                        title = stringResource(R.string.savedlater),
                         colors = colors,
                         onClickItemCard = { homeInteraction.onClickSavedLater() },
-                        modifier = Modifier.padding(horizontal = Space4).weight(1f)
+                        modifier = Modifier
+                            .padding(horizontal = Space4)
+                            .weight(Float1)
                     )
                 }
             }
@@ -188,7 +199,9 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                     text = stringResource(R.string.channels),
                     style = MaterialTheme.typography.bodyLarge,
                     color = colors.onBackground87,
-                    modifier = Modifier.padding(top = Space8).padding(horizontal = Space16)
+                    modifier = Modifier
+                        .padding(top = Space8)
+                        .padding(horizontal = Space16)
                 )
             }
             items(items = state.channels, key = { currentChannel ->
@@ -202,7 +215,9 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                     }, onClickTopic = {
                         homeInteraction.onClickTopic(it)
                     },
-                    modifier = Modifier.padding(horizontal = 16.dp).animateItemPlacement()
+                    modifier = Modifier
+                        .padding(horizontal = Space16)
+                        .animateItemPlacement()
                 )
             }
         }
@@ -211,12 +226,12 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
 
 @Composable
 private fun CardItem(
+    modifier: Modifier = Modifier,
     badge: Int,
     painter: Painter,
     title: String,
     colors: CustomColorsPalette,
-    onClickItemCard: () -> Unit,
-    modifier: Modifier = Modifier
+    onClickItemCard: () -> Unit
 ) {
     Box(
         modifier = modifier
@@ -232,13 +247,17 @@ private fun CardItem(
                 number = badge,
                 textColor = colors.onPrimary,
                 cardColor = colors.primary,
-                modifier = Modifier.fillMaxWidth().align(Alignment.End)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.End)
                     .padding(end = Space4, top = Space4)
             )
             Icon(
                 painter = painter,
                 contentDescription = "icons",
-                modifier = Modifier.wrapContentSize().padding(bottom = Space8)
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(bottom = Space8)
                     .align(Alignment.CenterHorizontally),
                 tint = colors.onBackground60,
             )
@@ -246,7 +265,9 @@ private fun CardItem(
                 text = title,
                 color = colors.onBackground60,
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.fillMaxSize().padding(horizontal = 26.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 26.dp),
                 textAlign = TextAlign.Center
             )
         }

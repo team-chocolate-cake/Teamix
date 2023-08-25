@@ -115,4 +115,7 @@
     <string name="recent_search">Recent Search</string>
     <string name="members">Members</string>
     <string name="retry">Retry</string>
+    <string name="drafts">Drafts</string>
+    <string name="savedlater">SavedLater</string>
+    <string name="add_fab">Add FAB</string>
 </resources>

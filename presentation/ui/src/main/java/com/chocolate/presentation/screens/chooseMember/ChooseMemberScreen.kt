@@ -84,7 +84,7 @@ fun ChooseMemberContent(
                         } else {
                             val selectedMemberIds = state.selectedMembersUiState.map { it.userId }
                             chooseMemberInteraction.addMembersInChannel(
-                                channelName = "a",
+                                channelName = state.channelName,
                                 usersId = selectedMemberIds
                             )
                             navController.navigateToHome()

@@ -21,14 +21,14 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.customColors
 
 @Composable
-fun SearchLottie(
+fun NotFoundResultLottie(
     modifier: Modifier = Modifier,
+    isPlaying: Boolean = true,
     isShow: Boolean,
     isDarkMode: Boolean,
-    isPlaying: Boolean = true,
     backgroundColor: Color = MaterialTheme.customColors().background
-    ) {
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.search))
+)  {
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.search_not_found))
     animateLottieCompositionAsState(composition = composition, isPlaying = isPlaying)
     AnimatedVisibility(visible = isShow) {
         Column(
@@ -36,7 +36,9 @@ fun SearchLottie(
             verticalArrangement = Arrangement.Center
         ) {
             LottieAnimation(
-                modifier = Modifier.fillMaxWidth().height(350.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(350.dp),
                 composition = composition,
                 isPlaying = isPlaying,
                 alignment = Alignment.Center

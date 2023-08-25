@@ -2,6 +2,7 @@ package com.chocolate.presentation.screens.search
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -22,9 +24,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.NoInternetLottie
+import com.chocolate.presentation.composable.NotFoundResultLottie
 import com.chocolate.presentation.composable.SearchLottie
 import com.chocolate.presentation.composable.TabScreen
 import com.chocolate.presentation.composable.TeamixScaffold
@@ -60,13 +64,6 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
     TeamixScaffold(
         modifier = Modifier.fillMaxSize(),
         isDarkMode = isSystemInDarkTheme(),
-        isLoading = state.isLoading,
-        onLoading = {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) { CircularProgressIndicator(color = colors.primary) }
-        },
         error = state.error,
         onError = {
             NoInternetLottie(
@@ -112,17 +109,52 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
                 onClickChannelItem = { searchInteraction.onClickChannelItem(it) },
                 onClickMemberItem = { searchInteraction.onClickMemberItem(it) },
                 onChangeTabIndex = { searchInteraction.onChangeTabIndex(it) },
-                onClickRecentSearchItem = { searchInteraction.onClickRecentSearchItem(it) }
-            )
+                onClickRecentSearchItem = { searchInteraction.onClickRecentSearchItem(it) })
             SearchLottie(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.CenterHorizontally),
                 isShow = state.query.isEmpty() && !state.showNoInternetLottie,
                 isDarkMode = isSystemInDarkTheme(),
-                isPlaying = true,
             )
+            when (state.currentTabIndex) {
+                0 -> ShowNotFoundResultLottie(
+                    isShow = state.channelsUiState.isEmpty() &&
+                            state.query.isNotEmpty() && !state.isLoading
+                )
+
+                1 -> ShowNotFoundResultLottie(
+                    isShow = state.membersUiState.isEmpty() &&
+                            state.query.isNotEmpty() && !state.isLoading
+                )
+            }
+            AnimatedVisibility(visible = state.isLoading) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = Space16),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(
+                        color = colors.primary,
+                        modifier = Modifier.size(32.dp)
+                    )
+                }
+            }
         }
+    }
+}
+
+@Composable
+private fun ShowNotFoundResultLottie(isShow: Boolean) {
+    Column {
+        NotFoundResultLottie(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.CenterHorizontally),
+            isShow = isShow,
+            isDarkMode = isSystemInDarkTheme(),
+        )
     }
 }
 

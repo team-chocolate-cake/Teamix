@@ -8,4 +8,7 @@ class GetCurrentUserDataUseCase @Inject constructor(
 ) {
     suspend operator fun invoke() =
         usersRepository.getCurrentUser()
+
+    suspend fun getRemoteCurrentUser() = usersRepository.getRemoteCurrentUser()
 }
+

@@ -28,7 +28,7 @@ import retrofit2.http.Query
 interface UsersService {
     @GET("users")
     suspend fun getAllUsers(
-        @Query("client_gravatar") clientGravatar: Boolean = true,
+        @Query("client_gravatar") clientGravatar: Boolean = false,
         @Query("include_custom_profile_fields") includeCustomProfileFields: Boolean = false
     ): Response<UsersDto>
 

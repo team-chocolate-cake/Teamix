@@ -9,11 +9,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
-    private val manageUserUsedAppUseCase: ManageUserUsedAppUseCase
+    private val manageUserUsedAppUseCase: ManageUserUsedAppUseCase,
 ) : BaseViewModel<OnboardingUiState, OnboardingUiEffect>(OnboardingUiState()),
     OnboardingInteraction {
     override fun onClickLetsStart() {
-        viewModelScope.launch { manageUserUsedAppUseCase.setUserUsedAppForFirstTime(true) }
-        sendUiEffect(OnboardingUiEffect.NavigateToOrganizationName)
+        viewModelScope.launch {
+            manageUserUsedAppUseCase.setUserUsedAppForFirstTime(true)
+            sendUiEffect(OnboardingUiEffect.NavigateToOrganizationName)
+        }
     }
 }

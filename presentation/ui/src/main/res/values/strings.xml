@@ -107,4 +107,10 @@
     <string name="lets_start">Lets start</string>
     <string name="email_and_password_cannot_be_empty">Email and Password cannot be empty</string>
     <string name="onboarding_image">Onboarding image</string>
+    <string name="channel_description">Channel Description</string>
+    <string name="status">Status</string>
+    <string name="skip">Skip</string>
+    <string name="ok">Ok</string>
+    <string name="choose_members">Choose Members</string>
+    <string name="retry">Retry</string>
 </resources>

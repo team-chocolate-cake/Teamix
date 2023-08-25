@@ -21,7 +21,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -38,6 +37,7 @@ import com.chocolate.presentation.composable.SeparatorWithText
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.create_organization.navigateToCreateOrganization
+import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.screens.login.navigateToLogin
 import com.chocolate.presentation.screens.welcome.navigateToWelcome
 import com.chocolate.presentation.theme.Space16
@@ -66,18 +66,17 @@ fun OrganizationScreen(
                 organizationName = state.organizationName
             )
         }
-
     }
-    Log.i("dsds",state.onboardingState.toString())
 
-    if (state.onboardingState) {
-
-        OrganizationContent(
-            organizationNameInteraction = viewModel,
-            state = state,
-        )
-    } else {
-        LaunchedEffect(Unit) { navController.navigateToWelcome() }
+    when {
+        state.isLogged -> { navController.navigateToHome() }
+        !state.onboardingState->{navController.navigateToWelcome()}
+        else -> {
+            OrganizationContent(
+                organizationNameInteraction = viewModel,
+                state = state
+            )
+        }
     }
 }
 

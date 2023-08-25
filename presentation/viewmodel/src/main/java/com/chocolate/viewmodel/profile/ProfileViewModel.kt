@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.entities.user.User
+import com.chocolate.entities.user.UserRole
 import com.chocolate.usecases.user.CustomizeProfileSettingsUseCase
 import com.chocolate.usecases.user.GetCurrentUserDataUseCase
 import com.chocolate.usecases.user.LogoutUseCase
@@ -118,9 +119,10 @@ class ProfileViewModel @Inject constructor(
         val userInformationSettingsState = User(
             fullName = _state.value.name,
             email = _state.value.email,
-            role = 0,
+            role = UserRole.fromValue(0),
             imageUrl = "",
-            id = 0
+            id = 0,
+            status = ""
         )
         tryToExecute(
             { updateUserInformationUseCase(userInformationSettingsState) },

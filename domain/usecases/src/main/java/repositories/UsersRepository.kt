@@ -10,10 +10,7 @@ interface UsersRepository {
 
     suspend fun setUserUsedAppForFirstTime(isComplete: Boolean)
 
-    suspend fun getAllUsers(
-        clientGravatar: Boolean,
-        includeCustomProfileFields: Boolean
-    ): List<User>
+    suspend fun getAllUsers(): List<User>
 
     suspend fun getRemoteCurrentUser(): User
 
@@ -103,7 +100,7 @@ interface UsersRepository {
 
     suspend fun setUserLoginState(isComplete: Boolean)
 
-    suspend fun getUserLoginState(): Boolean
+    suspend fun getUserLoginState(): Flow<Boolean>
 
     suspend fun clearLoginInformation()
 

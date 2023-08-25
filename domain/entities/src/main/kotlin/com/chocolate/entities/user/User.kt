@@ -4,6 +4,7 @@ data class User (
     val imageUrl: String,
     val email: String,
     val fullName: String,
-    val role: Int,
+    val role: UserRole,
+    val status: String,
     val id: Int,
 )

@@ -1,16 +1,19 @@
 package com.chocolate.viewmodel.home
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.UnAuthorizedException
 import com.chocolate.entities.exceptions.ValidationException
-import com.chocolate.usecases.channel.GetChannelsUseCase
+import com.chocolate.entities.user.User
 import com.chocolate.usecases.channel.GetSubscribedChannelsUseCase
 import com.chocolate.usecases.organization.GetImageOrganizationUseCase
 import com.chocolate.usecases.organization.GetNameOrganizationsUseCase
+import com.chocolate.usecases.user.GetCurrentUserDataUseCase
 import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
+import com.chocolate.viewmodel.profile.toOwnerUserUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -21,7 +24,8 @@ class HomeViewModel @Inject constructor(
     private val getUserLoginStatusUseCase: GetUserLoginStatusUseCase,
     private val getSubscribedChannelsUseCase: GetSubscribedChannelsUseCase,
     private val getImageOrganizationUseCase: GetImageOrganizationUseCase,
-    private val getNameOrganizationsUseCase: GetNameOrganizationsUseCase
+    private val getNameOrganizationsUseCase: GetNameOrganizationsUseCase,
+    private val getCurrentUserDataUseCase: GetCurrentUserDataUseCase
 ) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()), HomeInteraction {
 
     init {
@@ -35,11 +39,28 @@ class HomeViewModel @Inject constructor(
             onGettingOrganizationName()
             onGettingOrganizationImage()
             onGettingChannels()
+            getCurrentUserData()
         }
     }
 
+    private fun getCurrentUserData() {
+        tryToExecute(
+            { getCurrentUserDataUseCase.getRemoteCurrentUser() },
+            ::onGetCurrentUserDataSuccess,
+            ::onGetCurrentUserDataError
+        )
+    }
+
+    private fun onGetCurrentUserDataSuccess(user: User) {
+        val userUiState = user.toOwnerUserUiState()
+        _state.update { it.copy(role = userUiState.role) }
+    }
+
+    private fun onGetCurrentUserDataError(throwable: Throwable) {
+        onError(throwable)
+    }
+
     private fun onGettingOrganizationImage() {
-        _state.update { it.copy(isLoading = true) }
         tryToExecute(
             { getImageOrganizationUseCase() },
             ::onGettingOrganizationImageSuccess,
@@ -50,7 +71,6 @@ class HomeViewModel @Inject constructor(
     private fun onGettingOrganizationImageSuccess(Image: String) {
         _state.update {
             it.copy(
-                isLoading = true,
                 imageUrl = Image,
                 showNoInternetLottie = false,
                 error = null
@@ -59,7 +79,6 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onGettingOrganizationName() {
-        _state.update { it.copy(isLoading = true) }
         tryToExecute(
             { getNameOrganizationsUseCase() },
             ::onGettingOrganizationNameSuccess,
@@ -70,7 +89,6 @@ class HomeViewModel @Inject constructor(
     private fun onGettingOrganizationNameSuccess(organizationName: String) {
         _state.update {
             it.copy(
-                isLoading = true,
                 organizationTitle = organizationName,
                 showNoInternetLottie = false,
                 error = null
@@ -79,37 +97,33 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onGettingChannels() {
-        _state.update { it.copy(isLoading = true) }
         tryToExecute({ getSubscribedChannelsUseCase() }, ::onGettingChannelsSuccess, ::onError)
     }
 
     private fun onGettingChannelsSuccess(channels: List<Channel>) {
-        _state.update { it.copy(isLoading = false, channels = channels.toUiState(), error = null) }
+        _state.update { it.copy(channels = channels.toUiState(), error = null, isLoading = false) }
     }
 
-    private suspend fun getUserLoginState() {
-        tryToExecute({ getUserLoginStatusUseCase() }, ::onLoginStateSuccess, ::onLoginError)
-    }
-
-    private fun onLoginStateSuccess(userLoginStatus: Boolean) {
-        _state.update { it.copy(isLoading = false, isLogged = userLoginStatus) }
-    }
-
-    private fun onLoginError(throwable: Throwable) {
-        onError(throwable)
+    private fun getUserLoginState() {
+        viewModelScope.launch {
+            collectFlow(getUserLoginStatusUseCase()) {
+                this.copy(isLogged = it)
+            }
+        }
     }
 
     private fun onError(throwable: Throwable) {
         when (throwable) {
-            is UnAuthorizedException, is ValidationException -> sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
+            is UnAuthorizedException, is ValidationException ->
+                sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
             is NoConnectionException -> _state.update {
                 it.copy(
                     showNoInternetLottie = true,
-                    isLoading = false
+                    isLoading = false,
+                    error = throwable.message
                 )
             }
         }
-        _state.update { it.copy(isLoading = false, error = throwable.message) }
     }
 
     override fun onClickDrafts() {
@@ -130,5 +144,9 @@ class HomeViewModel @Inject constructor(
 
     override fun onClickTopic(name: String) {
         sendUiEffect(HomeUiEffect.NavigateToTopic)
+    }
+
+    override fun onClickFloatingActionButton() {
+        sendUiEffect(HomeUiEffect.NavigateToCreateChannel)
     }
 }

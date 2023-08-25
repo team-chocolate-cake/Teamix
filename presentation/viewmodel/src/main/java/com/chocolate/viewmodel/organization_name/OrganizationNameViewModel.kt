@@ -1,10 +1,10 @@
 package com.chocolate.viewmodel.organization_name
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.usecases.onboarding.ManageUserUsedAppUseCase
 import com.chocolate.usecases.organization.SaveNameOrganizationUseCase
+import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,13 +15,15 @@ import javax.inject.Inject
 @HiltViewModel
 class OrganizationNameViewModel @Inject constructor(
     private val saveNameOrganizationsUseCase: SaveNameOrganizationUseCase,
-    private val manageUserUsedAppUseCase: ManageUserUsedAppUseCase,
-    private val stringsResource: StringsResource
+    private val getUserLoginStatusUseCase: GetUserLoginStatusUseCase,
+    private val stringsResource: StringsResource,
+    private val manageUserUsedAppUseCase: ManageUserUsedAppUseCase
 ) : BaseViewModel<OrganizationNameUiState, OrganizationNameUiEffect>(OrganizationNameUiState()),
     OrganizationNameInteraction {
 
     init {
-        getOnUserUsedAppForFirstTime()
+        getOnUserLoggedIn()
+        getOnboardingStatus()
     }
 
     override fun onClickCreateOrganization() {
@@ -39,6 +41,13 @@ class OrganizationNameViewModel @Inject constructor(
             sendUiEffect(OrganizationNameUiEffect.NavigateToLoginScreen)
         }
     }
+    private fun getOnboardingStatus(){
+        viewModelScope.launch {
+            collectFlow(manageUserUsedAppUseCase.checkIfUserUsedAppOrNot()) {
+                this.copy(onboardingState = it)
+            }
+        }
+    }
 
     private fun onError(throwable: Throwable) {
         val errorMessage = when (throwable) {
@@ -48,27 +57,13 @@ class OrganizationNameViewModel @Inject constructor(
         _state.update { it.copy(isLoading = false, error = errorMessage) }
     }
 
-    private fun getOnUserUsedAppForFirstTime() {
+    private fun getOnUserLoggedIn(){
         viewModelScope.launch {
-            collectFlow(manageUserUsedAppUseCase.checkIfUserUsedAppOrNot()) {
-                this.copy(
-                    onboardingState = it
-                )
+            viewModelScope.launch {
+                collectFlow(getUserLoginStatusUseCase()) { this.copy(isLogged = it) }
             }
-            Log.d("state", state.value.onboardingState.toString())
         }
-        // tryToExecute({ manageUserUsedAppUseCase.checkIfUserUsedAppOrNot() }, ::getOnUserUsedAppForFirstTimeSuccess, ::getOnUserUsedAppForFirstTimeError)
     }
-
-    private fun getOnUserUsedAppForFirstTimeSuccess(isFirstTime: Boolean) {
-        _state.update { it.copy(onboardingState = isFirstTime) }
-        Log.d("state", state.value.onboardingState.toString())
-    }
-
-    private fun getOnUserUsedAppForFirstTimeError(throwable: Throwable) {
-        _state.update { it.copy(error = throwable.message) }
-    }
-
     override fun onOrganizationNameChange(organizationName: String) {
         _state.update { it.copy(organizationName = organizationName.trim(), isLoading = false) }
     }

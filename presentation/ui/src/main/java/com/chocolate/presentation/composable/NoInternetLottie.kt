@@ -30,7 +30,7 @@ fun NoInternetLottie(
     modifier: Modifier = Modifier,
     isShow: Boolean,
     isDarkMode: Boolean,
-    onClickRetry: () -> Unit
+    onClickRetry: () -> Unit = {}
 ) {
     val animationResId = if (isDarkMode) R.raw.animation_no_internet_dark else R.raw.animation_no_internet
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(animationResId))

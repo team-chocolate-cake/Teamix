@@ -39,7 +39,7 @@ fun TeamixApp(isDark: Boolean) {
         systemUiController.setNavigationBarColor(Color.Black)
         Box(modifier = Modifier.padding(innerPadding)) {
             CompositionLocalProvider(LocalNavController provides navController) {
-                TeamixNavGraph(navController = navController,)
+                    TeamixNavGraph(navController = navController)
             }
         }
     }

@@ -35,7 +35,7 @@ import com.chocolate.presentation.theme.customColors
 
 @Composable
 fun MultiChoiceDialog(
-    onDismissRequest: () -> Unit,
+    onClickDone: () -> Unit,
     whenChoice: (choice: String) -> Unit,
     choices: List<String>,
     oldSelectedChoice: String
@@ -44,7 +44,7 @@ fun MultiChoiceDialog(
     val color = MaterialTheme.customColors()
     AlertDialog(
         modifier = Modifier,
-        onDismissRequest = { onDismissRequest() },
+        onDismissRequest = { onClickDone() },
         confirmButton = {},
         dismissButton = {},
         text = {
@@ -78,7 +78,7 @@ fun MultiChoiceDialog(
                         .align(Alignment.End),
                     shape= RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = color.primary, contentColor = color.onPrimary),
-                    onClick = { onDismissRequest() }
+                    onClick = { onClickDone() }
                 ) {
                     Text(text = stringResource(id = R.string.done), style = MaterialTheme.typography.bodyLarge)
                 }

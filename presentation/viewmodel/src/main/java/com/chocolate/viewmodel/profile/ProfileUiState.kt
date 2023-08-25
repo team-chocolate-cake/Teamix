@@ -18,15 +18,13 @@ data class ProfileUiState(
     var lastAppLanguage: String = "English",
     val showNoInternetLottie: Boolean = false,
     val showLanguageDialog: Boolean = false,
-    val showThemeDialog: Boolean = false,
-    val showClearHistoryDialog: Boolean = false,
     val showWarningDialog: Boolean = false,
     val showLogoutDialog: Boolean = false,
     val newUsername: String = "",
     val newEmail: String = "",
     val originalName: String = "",
     val originalEmail: String = "",
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
     val error: String? = null
 ): BaseViewModel.BaseUiState
 

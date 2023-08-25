@@ -1,5 +1,7 @@
 package com.chocolate.viewmodel.profile
 
+import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.ValidationException
@@ -40,8 +42,11 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun getCurrentUser() {
-        _state.update { it.copy(isLoading = true) }
-        tryToExecute({ getCurrentUserDataUseCase() }, ::onGetCurrentUserSuccess, ::onGetCurrentUserError)
+        tryToExecute(
+            { getCurrentUserDataUseCase() },
+            ::onGetCurrentUserSuccess,
+            ::onGetCurrentUserError
+        )
     }
 
     private fun onGetCurrentUserSuccess(user: User) {
@@ -65,16 +70,20 @@ class ProfileViewModel @Inject constructor(
             is UnknownHostException, is ValidationException ->
                 sendUiEffect(ProfileEffect.NavigateToOrganizationScreen)
         }
-        _state.update { it.copy(isLoading = false, showNoInternetLottie = true, error = null, message = null) }
+        _state.update {
+            it.copy(
+                isLoading = false,
+                showNoInternetLottie = true,
+                error = null,
+                message = null
+            )
+        }
     }
 
     override fun updateLanguageDialogState(showDialog: Boolean) {
         _state.update { it.copy(showLanguageDialog = showDialog, error = null, message = null) }
     }
 
-    override fun updateThemeDialogState(showDialog: Boolean) {
-        _state.update { it.copy(showThemeDialog = showDialog, error = null, message = null) }
-    }
 
     override fun updateLogoutDialogState(showDialog: Boolean) {
         _state.update { it.copy(showLogoutDialog = showDialog, error = null, message = null) }
@@ -88,7 +97,14 @@ class ProfileViewModel @Inject constructor(
         if (_state.value.originalName.isEmpty()) {
             _state.update { it.copy(originalName = _state.value.name) }
         }
-        _state.update { it.copy(name = username, error = null, newUsername = username, message = null) }
+        _state.update {
+            it.copy(
+                name = username,
+                error = null,
+                newUsername = username,
+                message = null
+            )
+        }
     }
 
     override fun onEmailChange(email: String) {
@@ -100,7 +116,6 @@ class ProfileViewModel @Inject constructor(
     }
 
     override fun onUserInformationFocusChange() {
-        _state.update { it.copy(showWarningDialog = false, message = null) }
         val userInformationSettingsState = User(
             fullName = _state.value.name,
             email = _state.value.email,
@@ -149,6 +164,10 @@ class ProfileViewModel @Inject constructor(
         _state.update { it.copy(pagerNumber = 1, error = null, message = null) }
     }
 
+    override fun onClickChangeMemberRole() {
+        sendUiEffect(ProfileEffect.NavigateToSearchScreen)
+    }
+
     private fun onUpdateUserInformationSuccess(unit: Unit) {
         _state.update {
             it.copy(
@@ -161,9 +180,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    override fun updateClearHistoryState(showDialog: Boolean) {
-        _state.update { it.copy(showClearHistoryDialog = showDialog, error = null) }
-    }
+
 
     private fun onError(throwable: Throwable) {
         val error = when (throwable) {
@@ -195,7 +212,15 @@ class ProfileViewModel @Inject constructor(
         _state.value.lastAppLanguage = newLanguage
         tryToExecute(
             call = { customizeProfileSettingsUseCase.saveNewSelectedLanguage(newLanguage) },
-            onSuccess = {_state.update { it.copy(error = null, isLoading = false, message = null) }},
+            onSuccess = {
+                _state.update {
+                    it.copy(
+                        error = null,
+                        isLoading = false,
+                        message = null
+                    )
+                }
+            },
             onError = ::onUpdateAppLanguageFail
         )
     }
@@ -203,5 +228,4 @@ class ProfileViewModel @Inject constructor(
     private fun onUpdateAppLanguageFail(throwable: Throwable) {
         _state.update { it.copy(error = throwable.message, isLoading = false) }
     }
-
 }

@@ -45,13 +45,10 @@ import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun Topic(
     topicState: TopicState,
-    onClickReact: (Boolean, ReactionUiState) -> Unit,
-    onOpenReactTile: () -> Unit,
-    onSeeAll: () -> Unit,
+    onSeeAll: (String) -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.Top,
@@ -102,36 +99,6 @@ fun Topic(
                         color = MaterialTheme.customColors().onBackground60,
                         style = MaterialTheme.typography.bodySmall
                     )
-                    if (!topicState.reactions.isEmpty()) {
-                        FlowRow(
-                            horizontalArrangement = Arrangement.spacedBy(Space8),
-                            modifier = Modifier
-                        ) {
-                            topicState.reactions.forEach { reaction ->
-                                ReactionButton(reaction) { clicked, reaction ->
-                                    onClickReact(clicked, reaction)
-                                }
-                            }
-                            Box(contentAlignment = Alignment.Center,
-                                modifier = Modifier
-                                    .padding(vertical = Space4)
-                                    .clip(RoundedCornerShape(100.dp))
-                                    .background(
-                                        MaterialTheme.customColors().lightGray
-                                    )
-                                    .clickable {
-                                        onOpenReactTile()
-                                    }
-                                    .padding(vertical = Space4, horizontal = Space8)) {
-                                AsyncImage(
-                                    model = ImageRequest.Builder(LocalContext.current)
-                                        .data(R.drawable.add_reaction).build(),
-                                    contentDescription = "Reaction",
-                                    modifier = Modifier.size(Space16)
-                                )
-                            }
-                        }
-                    }
 
                     if (!topicState.replayImages.isEmpty()) {
                         Row(
@@ -214,7 +181,7 @@ fun Topic(
                         .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
                         .background(MaterialTheme.customColors().primary)
                         .clickable {
-                            onSeeAll()
+                            onSeeAll(topicState.topicName)
                         }
                 ) {
                     Row(
@@ -249,8 +216,6 @@ fun TopicReview() {
     TeamixTheme {
         Topic(
             topicState = TopicState(),
-            onClickReact = { clicked, react -> },
-            onOpenReactTile = {},
             onSeeAll = {}
         )
     }

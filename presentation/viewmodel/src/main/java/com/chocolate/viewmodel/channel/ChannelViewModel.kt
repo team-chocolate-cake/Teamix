@@ -1,11 +1,9 @@
 package com.chocolate.viewmodel.channel
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import com.chocolate.entities.channel.Topic
 import com.chocolate.usecases.channel.GetTopicsInChannelById
 import com.chocolate.viewmodel.base.BaseViewModel
-import com.chocolate.viewmodel.login.LoginArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -14,7 +12,7 @@ import javax.inject.Inject
 class ChannelViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getTopicsInChannelById: GetTopicsInChannelById
-) : BaseViewModel<ChannelScreenUiState, ChannelEvents>(ChannelScreenUiState()) {
+) : BaseViewModel<ChannelScreenUiState, ChannelUiEffect>(ChannelScreenUiState()) , ChannelInteraction {
     private val channelArgs = ChannelArgs(savedStateHandle)
 
     init {
@@ -33,6 +31,10 @@ class ChannelViewModel @Inject constructor(
 
     private fun onGetTopicsSuccess(topics: List<Topic>) {
         _state.update { it.copy(isLoading = false , topics = topics.toUiState()) }
+    }
+
+    override fun onClickSeeAll(topicName: String) {
+        sendUiEffect(ChannelUiEffect.NavigateToTopicDetails(topicName))
     }
 
 }

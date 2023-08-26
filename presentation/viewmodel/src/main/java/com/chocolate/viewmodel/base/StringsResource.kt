@@ -11,5 +11,10 @@ interface StringsResource {
     val invalidEmailOrPassword: String
     val organizationNameNotFound: String
     val organizationNameCannotBeEmpty: String
-
+    val channelNameValidation: String
+    val nullOrEmptyNewLanguage: String
+    val failedSaveSelectedLanguage: String
+    val theSameData: String
+    val failedEmailWhenEmpty: String
+    val failedFullNameWhenEmpty: String
 }

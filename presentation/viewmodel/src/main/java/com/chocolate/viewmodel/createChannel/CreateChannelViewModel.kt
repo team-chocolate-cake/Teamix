@@ -1,16 +1,20 @@
 package com.chocolate.viewmodel.createChannel
 
+import com.chocolate.entities.exceptions.NoConnectionException
+import com.chocolate.entities.exceptions.ValidationException
+import com.chocolate.entities.uills.Empty
 import com.chocolate.usecases.channel.AddUsersInChannelByChannelNameAndUsersIdUseCase
 import com.chocolate.viewmodel.base.BaseErrorUiState
 import com.chocolate.viewmodel.base.BaseViewModel
-import com.chocolate.entities.uills.Empty
+import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
 class CreateChannelViewModel @Inject constructor(
-    private val createChannel: AddUsersInChannelByChannelNameAndUsersIdUseCase
+    private val createChannel: AddUsersInChannelByChannelNameAndUsersIdUseCase,
+    private val stringsResource: StringsResource
 ) : BaseViewModel<CreateChannelUiState, CreateChannelUiEffect>(CreateChannelUiState()),
     CreateChannelInteraction {
     override fun onCreateChannelClicked() {
@@ -63,10 +67,15 @@ class CreateChannelViewModel @Inject constructor(
     }
 
     private fun onCreateChannelError(throwable: Throwable) {
+        val errorMessage = when(throwable){
+            is ValidationException -> stringsResource.channelNameValidation
+            is NoConnectionException -> stringsResource.noConnectionMessage
+            else -> stringsResource.globalMessageError
+        }
         _state.update {
             it.copy(
                 error = BaseErrorUiState(
-                    message = throwable.message,
+                    message = errorMessage,
                     isError = true
                 ), isLoading = false
             )

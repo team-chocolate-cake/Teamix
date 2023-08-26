@@ -1,6 +1,7 @@
 package com.chocolate.usecases.channel
 
 import com.chocolate.entities.exceptions.ValidationException
+import com.chocolate.entities.uills.Empty
 import repositories.ChannelsRepository
 import javax.inject.Inject
 
@@ -23,7 +24,7 @@ class AddUsersInChannelByChannelNameAndUsersIdUseCase @Inject constructor(
             )
             return true
         } else {
-            throw ValidationException("Channel name must not be empty and should have fewer than 60 characters.")
+            throw ValidationException(String.Empty)
         }
     }
 

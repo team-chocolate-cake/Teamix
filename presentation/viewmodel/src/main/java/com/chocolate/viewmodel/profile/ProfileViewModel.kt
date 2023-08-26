@@ -2,6 +2,8 @@ package com.chocolate.viewmodel.profile
 
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NoConnectionException
+import com.chocolate.entities.exceptions.NullDataException
+import com.chocolate.entities.exceptions.TeamixException
 import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.entities.uills.Empty
 import com.chocolate.entities.user.User
@@ -142,8 +144,14 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun onError(throwable: Throwable) {
+        val validationMessage = when (throwable.message) {
+            ErrorCode.THE_SAME_DATA.code -> stringsResource.theSameData
+            ErrorCode.FAILED_EMAIL_WHEN_EMPTY.code -> stringsResource.failedEmailWhenEmpty
+            ErrorCode.FAILED_FULL_NAME_WHEN_EMPTY.code -> stringsResource.failedFullNameWhenEmpty
+            else -> stringsResource.globalMessageError
+        }
         val error = when (throwable) {
-            is ValidationException -> throwable.message
+            is ValidationException -> validationMessage
             is NoConnectionException -> stringsResource.noConnectionMessage
             else -> stringsResource.globalMessageError
         }
@@ -177,7 +185,12 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun onUpdateAppLanguageFail(throwable: Throwable) {
-        _state.update { it.copy(error = throwable.message, isLoading = false) }
+        val messageError = when (throwable) {
+            is NullDataException -> stringsResource.nullOrEmptyNewLanguage
+            is TeamixException -> stringsResource.failedSaveSelectedLanguage
+            else -> stringsResource.globalMessageError
+        }
+        _state.update { it.copy(error = messageError, isLoading = false) }
     }
 
     private fun getLastSelectedAppLanguage() {

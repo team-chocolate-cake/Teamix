@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.chocolate.presentation.composable.MyReplyMessage
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.ReplyMessage
 import com.chocolate.presentation.composable.StartNewMessage
@@ -34,12 +35,12 @@ fun TopicScreen(
     val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
     TopicContent(topicUiState = state, viewModel)
-    CollectUiEffect(viewModel){effect->
-            when(effect){
-                TopicEffect.NavigationBack -> navController.popBackStack()
-            }
+    CollectUiEffect(viewModel) { effect ->
+        when (effect) {
+            TopicEffect.NavigationBack -> navController.popBackStack()
         }
     }
+}
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -48,6 +49,8 @@ fun TopicContent(topicUiState: TopicUiState, topicInteraction: TopicInteraction)
     TeamixScaffold(
         title = topicUiState.topicName,
         isDarkMode = isSystemInDarkTheme(),
+        hasAppBar = true,
+        hasBackArrow = true,
         bottomBar = {
             StartNewMessage(
                 openEmojisTile = { topicInteraction.openEmojisTile() },
@@ -76,23 +79,38 @@ fun TopicContent(topicUiState: TopicUiState, topicInteraction: TopicInteraction)
                     },
                 reverseLayout = true,
                 verticalArrangement = Arrangement.spacedBy(Space16),
-                contentPadding = PaddingValues(bottom = Space16)
+                contentPadding = PaddingValues(bottom = Space16 , top =Space16  )
             ) {
                 items(topicUiState.messages.size) {
-                    ReplyMessage(
-                        messageUiState = topicUiState.messages[it],
-                        onAddReactionToMessage = { topicInteraction.onAddReactionToMessage(it) },
-                        onGetNotification = { topicInteraction.onGetNotification() },
-                        onPinMessage = { topicInteraction.onPinMessage() },
-                        onSaveMessage = { topicInteraction.onSaveMessage() },
-                        onOpenReactTile = { topicInteraction.onOpenReactTile() },
-                        onClickReact = { positive, state ->
-                            topicInteraction.onClickReact(
-                                positive,
-                                state
-                            )
-                        }
-                    )
+                    if (topicUiState.messages[it].isMyReplay)
+                        MyReplyMessage(
+                            messageUiState = topicUiState.messages[it],
+                            onAddReactionToMessage = { topicInteraction.onAddReactionToMessage(it) },
+                            onGetNotification = { topicInteraction.onGetNotification() },
+                            onPinMessage = { topicInteraction.onPinMessage() },
+                            onSaveMessage = { topicInteraction.onSaveMessage() },
+                            onClickReact = { positive, state ->
+                                topicInteraction.onClickReact(
+                                    positive,
+                                    state
+                                )
+                            }
+                        )
+                    else
+                        ReplyMessage(
+                            messageUiState = topicUiState.messages[it],
+                            onAddReactionToMessage = { topicInteraction.onAddReactionToMessage(it) },
+                            onGetNotification = { topicInteraction.onGetNotification() },
+                            onPinMessage = { topicInteraction.onPinMessage() },
+                            onSaveMessage = { topicInteraction.onSaveMessage() },
+                            onOpenReactTile = { topicInteraction.onOpenReactTile() },
+                            onClickReact = { positive, state ->
+                                topicInteraction.onClickReact(
+                                    positive,
+                                    state
+                                )
+                            }
+                        )
                 }
             }
         }

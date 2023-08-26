@@ -25,20 +25,16 @@ class MessagesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun createDraft(
-        id: Int,
         type: String,
-        to: List<Int>,
+        recipients: Int,
         topic: String,
-        content: String,
-        timestamp: Long
+        content: String
     ): List<Int> {
         return messageDataSource.createDraft(
-            id = id,
             type = type,
             content = content,
             topic = topic,
-            to = to.toJson(),
-            timestamp = timestamp
+            recipients = recipients,
         ).ids ?: emptyList()
     }
 
@@ -197,38 +193,5 @@ class MessagesRepositoryImpl @Inject constructor(
             messagesIds,
             narrow
         ).messages?.messageId?.matchContent.orEmpty()
-    }
-
-    override suspend fun getScheduledMessages(): List<ScheduledMessage> {
-        return messageDataSource.getScheduledMessages().scheduledMessages.toEntity()
-    }
-
-    override suspend fun createScheduledMessage(
-        type: String,
-        to: Any,
-        content: String,
-        topic: String,
-        scheduledDeliveryTimestamp: Long
-    ): Int {
-        return messageDataSource.createScheduledMessage(
-            type, to, content, topic, scheduledDeliveryTimestamp
-        ).scheduledMessageId ?: -1
-    }
-
-    override suspend fun editScheduledMessage(
-        id: Int,
-        type: String,
-        to: Any,
-        content: String,
-        topic: String,
-        scheduledDeliveryTimestamp: Long
-    ): Int {
-        return messageDataSource.editScheduledMessage(
-            id, type, to, content, topic, scheduledDeliveryTimestamp
-        ).scheduledMessageId ?: -1
-    }
-
-    override suspend fun deleteScheduledMessage(id: Int) {
-        messageDataSource.deleteScheduledMessage(id)
     }
 }

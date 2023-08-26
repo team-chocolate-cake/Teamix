@@ -1,6 +1,5 @@
 package com.chocolate.remote.api
 
-
 import com.chocolate.repository.model.dto.channels.response.AllStreamsDto
 import com.chocolate.repository.model.dto.channels.response.AllSubscribersDto
 import com.chocolate.repository.model.dto.channels.response.DefaultStreamDto
@@ -27,7 +26,6 @@ interface ChannelsService {
     suspend fun subscribeToChannels(
         @Query("subscriptions") channelsName: String,
         @Query("principals") usersId: String,
-        @Query("description") description: String?,
         @Query("invite_only") isPrivate: Boolean,
     ): Response<SubscribeToStreamDto>
 
@@ -66,11 +64,6 @@ interface ChannelsService {
         @Query("description") description: String? = null,
         @Query("new_name") newName: String? = null,
         @Query("is_private") isPrivate: Boolean? = null,
-        @Query("is_web_public") isWebPublic: Boolean? = null,
-        @Query("history_public_to_subscribers") historyPublicToSubscribers: Boolean? = null,
-        @Query("stream_post_policy") streamPostPolicy: Int? = null,
-        @Query("message_retention_days") messageRetentionDays: String? = null,
-        @Query("can_remove_subscribers_group_id") canRemoveSubscribersGroupId: Int? = null,
     ): Response<DefaultStreamDto>
 
     @DELETE("streams/{stream_id}")

@@ -4,7 +4,6 @@ import com.chocolate.remote.AuthInterceptor
 import com.chocolate.remote.api.ChannelsService
 import com.chocolate.remote.api.DraftService
 import com.chocolate.remote.api.MessageService
-import com.chocolate.remote.api.ScheduledMessageService
 import com.chocolate.remote.api.OrganizationService
 import com.chocolate.remote.api.UsersService
 import com.chocolate.repository.datastore.local.PreferencesDataSource
@@ -74,11 +73,6 @@ object NetworkModule {
     @Provides
     fun provideMessageService(retrofit: Retrofit): MessageService =
         retrofit.create(MessageService::class.java)
-
-    @Singleton
-    @Provides
-    fun provideScheduledMessageService(retrofit: Retrofit): ScheduledMessageService =
-        retrofit.create(ScheduledMessageService::class.java)
 
     @Singleton
     @Provides

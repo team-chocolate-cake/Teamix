@@ -6,8 +6,6 @@ import com.chocolate.repository.model.dto.message.response.MatchNarrowDto
 import com.chocolate.repository.model.dto.message.response.MessageEditHistoryDto
 import com.chocolate.repository.model.dto.message.response.MessageReadReceiptsDto
 import com.chocolate.repository.model.dto.message.response.MessagesRemoteDto
-import com.chocolate.repository.model.dto.message.response.PersonalMessageFlagsDto
-import com.chocolate.repository.model.dto.message.response.PersonalMessageForNarrowDto
 import com.chocolate.repository.model.dto.message.response.RenderMessageDto
 import com.chocolate.repository.model.dto.message.response.SendMessageDto
 import com.chocolate.repository.model.dto.message.response.SingleMessageDto
@@ -29,18 +27,14 @@ interface MessageService {
         @Query("type") type: String,
         @Query("to") to: Any,
         @Query("topic") topic: String,
-        @Query("content") content: String,
-        @Query("queue_id") queueId: String?,
-        @Query("local_id") localId: String?,
+        @Query("content") content: String
     ): Response<SendMessageDto>
 
     @POST("messages")
     suspend fun sendDirectMessage(
         @Query("type") type: String,
         @Query("to") to: Any,
-        @Query("content") content: String,
-        @Query("queue_id") queueId: String?,
-        @Query("local_id") localId: String?,
+        @Query("content") content: String
     ): Response<SendMessageDto>
 
     @Multipart
@@ -52,9 +46,6 @@ interface MessageService {
         @Path("message_id") messageId: Int,
         @Query("content") content: String,
         @Query("topic") topic: String = "",
-        @Query("propagate_mode") propagateMode: String = "change_one",
-        @Query("send_notification_to_old_thread") sendNotificationToOldThread: Boolean = false,
-        @Query("send_notification_to_new_thread") sendNotificationToNewThread: Boolean = true
     ): Response<DefaultMessageRemoteDto>
 
     @DELETE("messages/{message_id}")
@@ -64,29 +55,20 @@ interface MessageService {
 
     @GET("messages")
     suspend fun getMessages(
-        @Query("anchor") anchor: String?,
-        @Query("include_anchor") includeAnchor: Boolean = true,
         @Query("num_before") numBefore: Int,
         @Query("num_after") numAfter: Int,
-        @Query("narrow") narrow: List<String>? = null,
-        @Query("client_gravatar") clientGravatar: Boolean = true,
-        @Query("apply_markdown") applyMarkdown: Boolean = true
     ): Response<MessagesRemoteDto>
 
     @POST("messages/{message_id}/reactions")
     suspend fun addEmojiReaction(
         @Path("message_id") messageId: Int,
         @Query("emoji_name") emojiName: String,
-        @Query("emoji_code") emojiCode: String?,
-        @Query("reaction_type") reactionType: String?
     ): Response<DefaultMessageRemoteDto>
 
     @DELETE("messages/{message_id}/reactions")
     suspend fun deleteEmojiReaction(
         @Path("message_id") messageId: Int,
         @Query("emoji_name") emojiName: String,
-        @Query("emoji_code") emojiCode: String?,
-        @Query("reaction_type") reactionType: String?
     ): Response<DefaultMessageRemoteDto>
 
     @POST("messages/render")
@@ -109,24 +91,6 @@ interface MessageService {
     suspend fun getMessagesEditHistory(
         @Path("message_id") messageId: Int
     ): Response<MessageEditHistoryDto>
-
-    @POST("messages/flags")
-    suspend fun updateMessageFlags(
-        @Query("messages") messages: List<Int>,
-        @Query("op") op: String,
-        @Query("flag") flag: String,
-    ): Response<PersonalMessageFlagsDto>
-
-    @POST("messages/flags/narrow")
-    suspend fun updatePersonalMessageFlagsForNarrow(
-        @Query("anchor") anchor: String,
-        @Query("num_before") numBefore: Int,
-        @Query("num_after") numAfter: Int,
-        @Query("include_anchor") includeAnchor: Boolean = true,
-        @Query("narrow") narrow: String,
-        @Query("op") op: String,
-        @Query("flag") flag: String
-    ): Response<PersonalMessageForNarrowDto>
 
     @POST("mark_all_as_read")
     suspend fun markAllMessagesAsRead(): Response<DefaultMessageRemoteDto>

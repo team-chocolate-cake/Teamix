@@ -179,7 +179,7 @@ fun ProfileContent(
             onConfirmButtonClick = {
                 profileInteraction.onUpdateLogoutDialogState(false)
                 profileInteraction.onLogoutButtonClicked()
-            },
+            }
         )
     }
 

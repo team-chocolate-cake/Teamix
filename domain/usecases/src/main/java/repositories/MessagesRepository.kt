@@ -2,7 +2,6 @@ package repositories
 
 import com.chocolate.entities.draft.Draft
 import com.chocolate.entities.messages.Message
-import com.chocolate.entities.scheduled_messages.ScheduledMessage
 import java.io.File
 
 interface MessagesRepository {
@@ -10,12 +9,10 @@ interface MessagesRepository {
     suspend fun getDrafts(): List<Draft>
 
     suspend fun createDraft(
-        id: Int,
         type: String,
-        to: List<Int>,
+        recipients: Int,
         topic: String,
-        content: String,
-        timestamp: Long
+        content: String
     ): List<Int>
 
     suspend fun editDraft(
@@ -92,24 +89,4 @@ interface MessagesRepository {
 
     suspend fun checkIfMessagesMatchNarrow(messagesIds: String, narrow: String): String
 
-    suspend fun getScheduledMessages(): List<ScheduledMessage>
-
-    suspend fun createScheduledMessage(
-        type: String,
-        to: Any,
-        content: String,
-        topic: String,
-        scheduledDeliveryTimestamp: Long
-    ): Int
-
-    suspend fun editScheduledMessage(
-        id: Int,
-        type: String,
-        to: Any,
-        content: String,
-        topic: String,
-        scheduledDeliveryTimestamp: Long
-    ): Int
-
-    suspend fun deleteScheduledMessage(id: Int)
 }

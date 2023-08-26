@@ -8,13 +8,9 @@ import com.chocolate.repository.model.dto.message.response.MatchNarrowDto
 import com.chocolate.repository.model.dto.message.response.MessageEditHistoryDto
 import com.chocolate.repository.model.dto.message.response.MessageReadReceiptsDto
 import com.chocolate.repository.model.dto.message.response.MessagesRemoteDto
-import com.chocolate.repository.model.dto.message.response.PersonalMessageFlagsDto
-import com.chocolate.repository.model.dto.message.response.PersonalMessageForNarrowDto
 import com.chocolate.repository.model.dto.message.response.RenderMessageDto
 import com.chocolate.repository.model.dto.message.response.SendMessageDto
 import com.chocolate.repository.model.dto.message.response.SingleMessageDto
-import com.chocolate.repository.model.dto.scheduled_message.response.BaseScheduledMessageResponse
-import com.chocolate.repository.model.dto.scheduled_message.response.ScheduledMessagesDto
 import okhttp3.MultipartBody
 
 interface MessagesRemoteDataSource {
@@ -24,12 +20,10 @@ interface MessagesRemoteDataSource {
     suspend fun deleteDraft(id: Int): BaseDraftResponse
 
     suspend fun createDraft(
-        id: Int,
         type: String,
-        to: String,
+        recipients: Int,
         topic: String,
         content: String,
-        timestamp: Long
     ): BaseDraftResponse
 
     suspend fun editDraft(
@@ -40,27 +34,6 @@ interface MessagesRemoteDataSource {
         content: String,
         timestamp: Long
     ): BaseDraftResponse
-
-    suspend fun getScheduledMessages(): ScheduledMessagesDto
-
-    suspend fun createScheduledMessage(
-        type: String,
-        to: Any,
-        content: String,
-        topic: String,
-        scheduledDeliveryTimestamp: Long
-    ): BaseScheduledMessageResponse
-
-    suspend fun editScheduledMessage(
-        id: Int,
-        type: String? = null,
-        to: Any? = null,
-        content: String? = null,
-        topic: String? = null,
-        scheduledDeliveryTimestamp: Long? = null
-    ): BaseScheduledMessageResponse
-
-    suspend fun deleteScheduledMessage(id: Int): BaseScheduledMessageResponse
     suspend fun sendStreamMessage(
         type: String,
         to: Any,
@@ -124,29 +97,13 @@ interface MessagesRemoteDataSource {
     ): SingleMessageDto
 
     suspend fun checkIfMessagesMatchNarrow(
-        msg_ids: String,
+        messagesIds: String,
         narrow: String
     ): MatchNarrowDto
 
     suspend fun getMessagesEditHistory(
         messageId: Int
     ): MessageEditHistoryDto
-
-    suspend fun updateMessageFlags(
-        messages: List<Int>,
-        op: String,
-        flag: String,
-    ): PersonalMessageFlagsDto
-
-    suspend fun updatePersonalMessageFlagsForNarrow(
-        anchor: String,
-        numBefore: Int,
-        numAfter: Int,
-        includeAnchor: Boolean = true,
-        narrow: String,
-        op: String,
-        flag: String
-    ): PersonalMessageForNarrowDto
 
     suspend fun markAllMessagesAsRead(): DefaultMessageRemoteDto
 

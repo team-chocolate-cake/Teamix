@@ -33,7 +33,6 @@ class ChannelRetrofitDataSource @Inject constructor(
             channelsService.subscribeToChannels(
                 channelsName = channelName,
                 usersId = usersId,
-                description = description,
                 isPrivate = isPrivate
             )
         }
@@ -84,11 +83,6 @@ class ChannelRetrofitDataSource @Inject constructor(
                 description,
                 newName,
                 isPrivate,
-                isWebPublic,
-                historyPublicToSubscribers,
-                streamPostPolicy,
-                messageRetentionDays,
-                canRemoveSubscribersGroupId
             )
         }
     }

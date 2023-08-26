@@ -19,7 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.CancelableRectangularProfileItem
+import com.chocolate.presentation.screens.add_member.composable.CancelableRectangularProfileItem
 import com.chocolate.presentation.composable.PersonCardWithDetails
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.theme.Border1
@@ -31,7 +31,6 @@ import com.chocolate.viewmodel.addMember.AddMemberUiState
 
 @Composable
 fun AddMemberScreen(
-    //navController: NavController,
 ) {
     AddMemberContent(
         state = AddMemberUiState()
@@ -90,7 +89,6 @@ fun AddMemberContent(
                         subTitle = member.jobTitle,
                         isSelected = member.isSelected,
                         painter = painterResource(id = R.drawable.ic_check),
-                        contentDescription = ""
                     )
                 }
             }

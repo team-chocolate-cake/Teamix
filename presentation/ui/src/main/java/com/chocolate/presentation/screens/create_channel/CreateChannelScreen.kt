@@ -26,10 +26,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.ActionSnakeBar
+import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
-import com.chocolate.presentation.composable.ToggleButton
+import com.chocolate.presentation.screens.create_channel.composable.ToggleButton
 import com.chocolate.presentation.screens.chooseMember.navigateToChooseMember
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space24
@@ -121,7 +121,6 @@ private fun CreateChannelContent(
             TeamixTextField(
                 value = state.description ?: "",
                 singleLine = true,
-                maxLines = 3,
                 minLines = 3,
                 onValueChange = { createChannelInteraction.onChannelDescriptionChange(it) }
             )

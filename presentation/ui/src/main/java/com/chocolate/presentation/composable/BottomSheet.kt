@@ -17,7 +17,7 @@ import com.chocolate.presentation.theme.Space16
 fun BottomSheet(
     colors: CustomColorsPalette,
     onDismissBottomSheet: () -> Unit,
-    content:  @Composable (ColumnScope.() -> Unit)
+    content: @Composable (ColumnScope.() -> Unit)
 ) {
     val modelBottomSheetScaffoldState = rememberModalBottomSheetState()
     ModalBottomSheet(

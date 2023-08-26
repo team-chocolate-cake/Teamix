@@ -25,7 +25,6 @@ import com.chocolate.viewmodel.allMembers.AllMembersUiState
 
 @Composable
 fun AllMembersScreen(
-    //navController: NavController,
 
 ) {
     AllMembersContent(state = AllMembersUiState())
@@ -57,7 +56,6 @@ private fun AllMembersContent(
                     title = member.name,
                     subTitle = member.jobTitle,
                     painter = painterResource(id = R.drawable.ic_check),
-                        contentDescription = ""
                     )
                 }
             }

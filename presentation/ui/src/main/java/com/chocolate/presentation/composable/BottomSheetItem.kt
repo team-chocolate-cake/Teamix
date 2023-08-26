@@ -1,6 +1,5 @@
 package com.chocolate.presentation.composable
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,8 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
-import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.Space16
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
@@ -21,7 +18,8 @@ import com.chocolate.presentation.theme.customColors
 fun BottomSheetItem(
     icon:Painter,
     text:String,
-    onClickItem:()->Unit = {}
+    onClickItem:()->Unit = {},
+    contentDescription:String? = null
 ) {
     Row(
         modifier = Modifier
@@ -31,7 +29,7 @@ fun BottomSheetItem(
     ) {
         Icon(
             painter = icon,
-            contentDescription = "",
+            contentDescription = contentDescription,
             modifier = Modifier.padding(end = Space8)
         )
         Text(

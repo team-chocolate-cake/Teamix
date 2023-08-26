@@ -38,11 +38,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.MultiChoiceDialog
-import com.chocolate.presentation.composable.ProfileDialog
-import com.chocolate.presentation.composable.ProfileHorizontalPager
-import com.chocolate.presentation.composable.ProfileImage
+import com.chocolate.presentation.screens.profile.composable.ProfileHorizontalPager
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
+import com.chocolate.presentation.screens.profile.composable.ProfileDialog
+import com.chocolate.presentation.screens.profile.composable.ProfileImage
 import com.chocolate.presentation.theme.BoxHeight440
 import com.chocolate.presentation.theme.ButtonSize110
 import com.chocolate.presentation.theme.Radius16
@@ -61,6 +61,7 @@ import com.chocolate.viewmodel.profile.ProfileEffect
 import com.chocolate.viewmodel.profile.ProfileInteraction
 import com.chocolate.viewmodel.profile.ProfileUiState
 import com.chocolate.viewmodel.profile.ProfileViewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import java.util.Locale
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -76,6 +77,8 @@ fun ProfileScreen(
     val context = LocalContext.current
     val pageState = rememberPagerState(initialPage = 0)
     val scrollState = rememberScrollState()
+
+
     CollectUiEffect(viewModel) { effect ->
         when (effect) {
             ProfileEffect.NavigateToOrganizationScreen -> {
@@ -101,6 +104,7 @@ fun ProfileScreen(
             pageState = pageState,
             scrollState = scrollState,
         )
+
     } else {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -124,9 +128,13 @@ fun ProfileContent(
     pageState: PagerState,
     scrollState: ScrollState
 ) {
+
     val color = MaterialTheme.customColors()
     val context = LocalContext.current
     val typography = MaterialTheme.typography
+    val systemUiController = rememberSystemUiController()
+
+    systemUiController.setSystemBarsColor(color = color.background, darkIcons = !darkThemeState)
 
     LaunchedEffect(state.pagerNumber) {
         pageState.animateScrollToPage(state.pagerNumber)

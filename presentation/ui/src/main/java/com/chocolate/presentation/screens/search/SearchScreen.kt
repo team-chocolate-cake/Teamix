@@ -24,8 +24,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.NotFoundResultLottie
-import com.chocolate.presentation.composable.SearchLottie
-import com.chocolate.presentation.composable.TabScreen
+import com.chocolate.presentation.screens.search.composable.SearchLottie
+import com.chocolate.presentation.screens.search.composable.TabScreen
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.theme.Space16

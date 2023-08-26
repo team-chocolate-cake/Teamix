@@ -42,7 +42,7 @@ fun PersonCardWithDetails(
     personImageUrl: String,
     title: String,
     subTitle: String,
-    contentDescription: String,
+    contentDescription: String?=null,
     subTitleMaxLine: Int = 1,
     date: String = "",
     isSelected: Boolean = false

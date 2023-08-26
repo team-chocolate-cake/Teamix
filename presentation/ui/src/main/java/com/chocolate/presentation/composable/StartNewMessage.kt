@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.Space16
@@ -41,11 +42,12 @@ fun StartNewMessage(
     onMessageInputChanged: (String) -> Unit,
     onSendMessage: () -> Unit,
     onStartVoiceRecording: () -> Unit,
-    onClickCamera:()->Unit,
-    onClickPhotoOrVideo:(Int)->Unit,
+    onClickCamera: () -> Unit,
+    onClickPhotoOrVideo: (Int) -> Unit,
     photoOrVideoList: List<PhotoOrVideoUiState> = emptyList(),
     modifier: Modifier = Modifier,
     messageInput: String = "",
+    contentDescription: String? = null
 ) {
     var showSheet by remember { mutableStateOf(false) }
     if (showSheet) {
@@ -73,7 +75,7 @@ fun StartNewMessage(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     painter = painterResource(id = R.drawable.add_attachment),
-                    contentDescription = "",
+                    contentDescription = contentDescription,
                     tint = MaterialTheme.customColors().onBackground60,
                     modifier = Modifier
                         .padding(end = Space8 + Space4)
@@ -85,7 +87,7 @@ fun StartNewMessage(
 
                 Icon(
                     painter = painterResource(id = R.drawable.smile_circle),
-                    contentDescription = "",
+                    contentDescription = contentDescription,
                     tint = MaterialTheme.customColors().onBackground60,
                     modifier = Modifier
                         .padding(end = Space8)
@@ -115,7 +117,7 @@ fun StartNewMessage(
                         ) {
                             if (messageInput.isEmpty()) {
                                 Text(
-                                    text = "Start new message",
+                                    text = stringResource(R.string.start_new_message),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.customColors().onBackground60
                                 )
@@ -147,7 +149,7 @@ fun StartNewMessage(
                 AnimatedVisibility(visible = messageInput.isEmpty()) {
                     Icon(
                         painter = painterResource(id = R.drawable.microphone),
-                        contentDescription = "",
+                        contentDescription = contentDescription,
                         tint = MaterialTheme.customColors().onBackground60,
                         modifier = Modifier
                             .size(Space24)
@@ -167,7 +169,7 @@ fun StartNewMessage(
 fun StartNewMessagePreview() {
     TeamixTheme {
         StartNewMessage(
-            {} , {} ,{} ,{} ,{} ,{}
+            {}, {}, {}, {}, {}, {}
         )
     }
 }

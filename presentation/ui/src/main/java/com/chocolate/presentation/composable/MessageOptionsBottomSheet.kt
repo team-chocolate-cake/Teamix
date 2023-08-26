@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.chocolate.presentation.R
@@ -65,7 +66,7 @@ fun MessageOptionsBottomSheet(
                         alignment = Alignment.Center,
                         model = ImageRequest.Builder(LocalContext.current)
                             .data(reacts[it]).build(),
-                        contentDescription = "Reaction",
+                        contentDescription = stringResource(R.string.reaction),
                         modifier = Modifier
                             .size(Space32)
                             .clip(CircleShape)
@@ -79,21 +80,21 @@ fun MessageOptionsBottomSheet(
 
             BottomSheetItem(
                 icon = painterResource(id =R.drawable.bookmark ),
-                text = "Add to saved items" ,
+                text = stringResource(R.string.add_to_saved_items) ,
                 onClickItem = {
                     onSaveMessage()
                 }
             )
             BottomSheetItem(
                 icon = painterResource(id = R.drawable.notification_notes),
-                text = "Get notified about new replies" ,
+                text = stringResource(R.string.get_notified_about_new_replies) ,
                 onClickItem = {
                     onGetNotification()
                 }
             )
             BottomSheetItem(
                 icon = painterResource(id =R.drawable.pin_message ),
-                text = "Pin to conversation" ,
+                text = stringResource(R.string.pin_to_conversation) ,
                 onClickItem = {
                     onPinMessage()
                 }

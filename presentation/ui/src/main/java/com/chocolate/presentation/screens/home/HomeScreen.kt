@@ -48,9 +48,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.BadgeHome
-import com.chocolate.presentation.composable.ChannelItem
-import com.chocolate.presentation.composable.ManageChannelBottomSheet
+import com.chocolate.presentation.screens.home.composable.BadgeHome
+import com.chocolate.presentation.screens.home.composable.ChannelItem
+import com.chocolate.presentation.screens.home.composable.ManageChannelBottomSheet
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.create_channel.navigateToCreateChannel

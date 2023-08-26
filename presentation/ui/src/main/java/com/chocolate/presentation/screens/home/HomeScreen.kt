@@ -56,6 +56,7 @@ import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.channel.toChannelScreen
 import com.chocolate.presentation.screens.create_channel.navigateToCreateChannel
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
+import com.chocolate.presentation.screens.topic_details.navigateToTopic
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Float1
 import com.chocolate.presentation.theme.LightPrimary
@@ -106,7 +107,9 @@ fun HomeScreen(
             HomeUiEffect.NavigationToDrafts -> {}
             HomeUiEffect.NavigationToSavedLater -> {}
             HomeUiEffect.NavigationToStarred -> {}
-            HomeUiEffect.NavigateToTopic -> {}
+            is HomeUiEffect.NavigateToTopic -> {
+                navController.navigateToTopic(effect.topicName)
+            }
             HomeUiEffect.NavigateToCreateChannel -> navController.navigateToCreateChannel()
         }
     }

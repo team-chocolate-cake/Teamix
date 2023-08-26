@@ -8,6 +8,6 @@ sealed interface HomeUiEffect: BaseViewModel.BaseUiEffect{
     object NavigationToSavedLater: HomeUiEffect
     data class NavigateToChannel(val id: Int, val name: String): HomeUiEffect
     object NavigateToOrganizationName: HomeUiEffect
-    object NavigateToTopic: HomeUiEffect
+    data class NavigateToTopic(val topicName: String): HomeUiEffect
     object NavigateToCreateChannel: HomeUiEffect
 }

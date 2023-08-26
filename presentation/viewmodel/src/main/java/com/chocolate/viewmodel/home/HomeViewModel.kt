@@ -142,7 +142,7 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun onClickTopic(name: String) {
-        sendUiEffect(HomeUiEffect.NavigateToTopic)
+        sendUiEffect(HomeUiEffect.NavigateToTopic(name))
     }
 
     override fun onClickFloatingActionButton() {

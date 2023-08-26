@@ -28,8 +28,6 @@ fun ProfileHorizontalPager(
     pageState: PagerState,
     state: ProfileUiState,
     profileInteraction: ProfileInteraction,
-    mainViewModel: MainViewModel,
-    darkThemeState: Boolean,
     context: Context
 ) {
     val color = MaterialTheme.customColors()
@@ -58,24 +56,18 @@ fun ProfileHorizontalPager(
                     )
                     TeamixOutLinedTextField(
                         text = state.email,
-                        onValueChange = { email ->
-                            profileInteraction.onEmailChange(email)
-                        },
-                        onDone = {
-                            keyboardController?.hide()
-                            profileInteraction.onUserInformationFocusChange()
-                        },
-                        colorFocused = color.primary,
+                        onValueChange = {},
+                        colorFocused = color.background,
                         colorUnFocused = color.background,
-                        colorIcon = color.primary
+                        colorIcon = color.card,
+                        readOnly = true
                     )
                 }
             }
         } else {
             ProfileSettingsPage(
                 color = color,
-                mainViewModel = mainViewModel,
-                darkThemeState = darkThemeState,
+                darkThemeState = state.isDarkTheme,
                 profileInteraction = profileInteraction,
             )
         }

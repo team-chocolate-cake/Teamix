@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.profile
 
-import org.intellij.lang.annotations.Language
+import android.content.Context
 
 interface ProfileInteraction {
     fun onUpdateLanguage(language: String)
@@ -18,4 +18,7 @@ interface ProfileInteraction {
     fun onClickProfileButton()
     fun onClickSettingsButton()
     fun onClickChangeMemberRole()
+    fun onClickDarkThemeSwitch(darkTheme: Boolean,context:Context)
+    fun restartActivity(context:Context)
+
 }

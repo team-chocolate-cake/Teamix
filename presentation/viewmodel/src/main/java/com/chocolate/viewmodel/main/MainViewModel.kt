@@ -22,17 +22,6 @@ class MainViewModel @Inject constructor(
     suspend fun getLastSelectedAppLanguage() =
         customizeProfileSettings.getLastSelectedAppLanguage()
 
-    suspend fun updateDarkTheme(darkTheme: Boolean, context: Context) {
-        _state.update { !darkTheme }
-        customizeProfileSettings.updateDarkTheme(!darkTheme)
-        restart(context)
-    }
-
-    fun restart(context: Context) {
-        val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
-        intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        context.startActivities(arrayOf(intent))
-    }
 
     private suspend fun isDarkThem() {
         _state.update { customizeProfileSettings.isDarkThem() }

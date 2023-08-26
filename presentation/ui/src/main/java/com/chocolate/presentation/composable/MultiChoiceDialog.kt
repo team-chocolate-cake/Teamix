@@ -37,14 +37,15 @@ import com.chocolate.presentation.theme.customColors
 fun MultiChoiceDialog(
     onClickDone: () -> Unit,
     whenChoice: (choice: String) -> Unit,
+    onDismissRequest: () -> Unit = {},
     choices: List<String>,
-    oldSelectedChoice: String
+    oldSelectedChoice: String,
 ) {
     val (selected) = choices.map { remember { mutableStateOf(oldSelectedChoice) } }
     val color = MaterialTheme.customColors()
     AlertDialog(
         modifier = Modifier,
-        onDismissRequest = { onClickDone() },
+        onDismissRequest = { onDismissRequest() },
         confirmButton = {},
         dismissButton = {},
         text = {
@@ -62,10 +63,17 @@ fun MultiChoiceDialog(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = text, style = MaterialTheme.typography.bodyMedium, color = color.onBackground87)
+                        Text(
+                            text = text,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = color.onBackground87
+                        )
                         RadioButton(
                             selected = text == selected.value,
-                            colors = RadioButtonDefaults.colors(selectedColor = color.primary, unselectedColor = color.onBackground60),
+                            colors = RadioButtonDefaults.colors(
+                                selectedColor = color.primary,
+                                unselectedColor = color.onBackground60
+                            ),
                             onClick = {
                                 whenChoice(text)
                                 selected.value = text
@@ -74,13 +82,21 @@ fun MultiChoiceDialog(
                 }
 
                 Button(
-                    modifier = Modifier.fillMaxWidth().height(ButtonSize48)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(ButtonSize48)
                         .align(Alignment.End),
-                    shape= RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = color.primary, contentColor = color.onPrimary),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = color.primary,
+                        contentColor = color.onPrimary
+                    ),
                     onClick = { onClickDone() }
                 ) {
-                    Text(text = stringResource(id = R.string.done), style = MaterialTheme.typography.bodyLarge)
+                    Text(
+                        text = stringResource(id = R.string.done),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
                 }
             }
 
@@ -92,5 +108,5 @@ fun MultiChoiceDialog(
 @Preview(showBackground = true)
 @Composable
 fun MultiChoiceDialogPreview() {
-    MultiChoiceDialog({},{}, emptyList(), "")
+    MultiChoiceDialog({}, {},{}, emptyList(), "")
 }

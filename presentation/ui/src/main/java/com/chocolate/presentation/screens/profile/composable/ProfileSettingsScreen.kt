@@ -42,7 +42,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun ProfileSettingsPage(
     color: CustomColorsPalette,
-    mainViewModel: MainViewModel,
     darkThemeState: Boolean,
     profileInteraction: ProfileInteraction
 ) {
@@ -65,7 +64,8 @@ fun ProfileSettingsPage(
                         .fillMaxWidth()
                         .clickable {
                             coroutineScope.launch {
-                                mainViewModel.updateDarkTheme(darkThemeState, context)
+                               // mainViewModel.updateDarkTheme(darkThemeState, context)
+                                profileInteraction.onClickDarkThemeSwitch(darkThemeState,context)
                             }
                         },
                     colors = CardDefaults.cardColors(color.card)
@@ -92,7 +92,9 @@ fun ProfileSettingsPage(
                         Switch(
                             checked = darkThemeState, onCheckedChange = {
                                 coroutineScope.launch {
-                                    mainViewModel.updateDarkTheme(darkThemeState,context)
+                                    //mainViewModel.updateDarkTheme(darkThemeState,context)
+                                    profileInteraction.onClickDarkThemeSwitch(darkThemeState,context)
+
                                 }
 
                             },

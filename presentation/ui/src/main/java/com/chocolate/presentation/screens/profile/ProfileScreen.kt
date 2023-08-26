@@ -55,7 +55,6 @@ import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.presentation.util.updateResources
-import com.chocolate.viewmodel.main.MainViewModel
 import com.chocolate.viewmodel.profile.LocalLanguage
 import com.chocolate.viewmodel.profile.ProfileEffect
 import com.chocolate.viewmodel.profile.ProfileInteraction
@@ -67,12 +66,10 @@ import java.util.Locale
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProfileScreen(
-    mainViewModel: MainViewModel = hiltViewModel(),
     viewModel: ProfileViewModel = hiltViewModel(),
 ) {
     val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
-    val darkThemeState by mainViewModel.state.collectAsState()
     val colors = MaterialTheme.customColors()
     val pageState = rememberPagerState(initialPage = 0)
     val scrollState = rememberScrollState()
@@ -92,8 +89,6 @@ fun ProfileScreen(
     if (!state.isLoading) {
         ProfileContent(
             state = state,
-            darkThemeState = darkThemeState,
-            mainViewModel = mainViewModel,
             profileInteraction = viewModel,
             pageState = pageState,
             scrollState = scrollState,
@@ -115,8 +110,6 @@ fun ProfileScreen(
 @Composable
 fun ProfileContent(
     state: ProfileUiState,
-    darkThemeState: Boolean,
-    mainViewModel: MainViewModel,
     profileInteraction: ProfileInteraction,
     pageState: PagerState,
     scrollState: ScrollState
@@ -127,7 +120,7 @@ fun ProfileContent(
     val typography = MaterialTheme.typography
     val systemUiController = rememberSystemUiController()
 
-    systemUiController.setSystemBarsColor(color = color.background, darkIcons = !darkThemeState)
+    systemUiController.setSystemBarsColor(color = color.background, darkIcons = !state.isDarkTheme)
 
     LaunchedEffect(state.pagerNumber) {
         pageState.animateScrollToPage(state.pagerNumber)
@@ -137,11 +130,12 @@ fun ProfileContent(
         MultiChoiceDialog(
             onClickDone = {
                 profileInteraction.onUpdateLanguageDialogState(false)
-                mainViewModel.restart(context)
+                profileInteraction.restartActivity(context)
             },
+            onDismissRequest = { profileInteraction.onUpdateLanguageDialogState(false) },
             whenChoice = { language ->
-                profileInteraction.onUpdateLanguage(language)
                 val languageCode = state.languageMap[language] ?: "en"
+                profileInteraction.onUpdateLanguage(languageCode)
                 updateResources(context = context, localeLanguage = Locale(languageCode))
             },
             choices = state.languageMap.keys.toList(),
@@ -183,7 +177,7 @@ fun ProfileContent(
         )
     }
 
-    TeamixScaffold(isDarkMode = darkThemeState) {
+    TeamixScaffold(isDarkMode = state.isDarkTheme) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -276,9 +270,7 @@ fun ProfileContent(
                         pageState = pageState,
                         state = state,
                         profileInteraction = profileInteraction,
-                        mainViewModel = mainViewModel,
-                        darkThemeState = darkThemeState,
-                        context = context
+                        context = context,
                     )
 
                 }

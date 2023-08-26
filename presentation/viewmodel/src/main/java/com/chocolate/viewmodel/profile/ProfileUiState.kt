@@ -7,7 +7,7 @@ data class ProfileUiState(
     val name: String = String.Empty,
     val email: String = String.Empty,
     val message: String? = null,
-    val role:String = String.Empty,
+    val role: String = String.Empty,
     val languageMap: Map<String, String> = mapOf(
         LocalLanguage.English.name to "en",
         LocalLanguage.Arabic.name to "ar",
@@ -24,6 +24,7 @@ data class ProfileUiState(
     val newEmail: String = String.Empty,
     val originalName: String = String.Empty,
     val originalEmail: String = String.Empty,
+    val isDarkTheme: Boolean = false,
     val isLoading: Boolean = true,
     val error: String? = null
 )

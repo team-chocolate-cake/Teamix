@@ -83,16 +83,7 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val navController = LocalNavController.current
-    val systemUiController = rememberSystemUiController()
-    val useDarkIcons = !isSystemInDarkTheme()
     val state by homeViewModel.state.collectAsState()
-
-    DisposableEffect(systemUiController, useDarkIcons) {
-        systemUiController.setSystemBarsColor(color = LightPrimary, darkIcons = false)
-        onDispose {
-            systemUiController.setSystemBarsColor(color = LightPrimary, darkIcons = false)
-        }
-    }
 
     CollectUiEffect(homeViewModel.effect) { effect ->
         when (effect) {
@@ -129,9 +120,12 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
     val colors = MaterialTheme.customColors()
     var isShowSheet by remember { mutableStateOf(false) }
 
-    if (isShowSheet) {
+    AnimatedVisibility(isShowSheet) {
         ManageChannelBottomSheet(onDismissBottomSheet = { isShowSheet = false }, colors = colors)
     }
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setSystemBarsColor(color = LightPrimary, darkIcons = false)
+
     TeamixScaffold(
         modifier = Modifier.fillMaxSize(),
         isDarkMode = isSystemInDarkTheme(),

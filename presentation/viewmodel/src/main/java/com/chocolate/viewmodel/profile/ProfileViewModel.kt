@@ -1,5 +1,7 @@
 package com.chocolate.viewmodel.profile
 
+import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.NullDataException
@@ -32,10 +34,24 @@ class ProfileViewModel @Inject constructor(
     init {
         getLastSelectedAppLanguage()
         getCurrentUser()
+        isDarkTheme()
     }
 
     override fun onUpdateLanguage(language: String) {
         _state.update { it.copy(lastAppLanguage = language, error = null, message = null) }
+        tryToExecute(
+            call = { customizeProfileSettings.saveNewSelectedLanguage(language) },
+            onSuccess = {
+                _state.update {
+                    it.copy(
+                        error = null,
+                        isLoading = false,
+                        message = null
+                    )
+                }
+            },
+            onError = ::onUpdateAppLanguageFail
+        )
     }
 
     override fun onUpdateLanguageDialogState(showDialog: Boolean) {
@@ -123,6 +139,21 @@ class ProfileViewModel @Inject constructor(
         sendUiEffect(ProfileEffect.NavigateToSearchScreen)
     }
 
+    override fun onClickDarkThemeSwitch(darkTheme: Boolean,context: Context) {
+        _state.update { it.copy(isDarkTheme =!darkTheme) }
+        viewModelScope.launch{
+            customizeProfileSettings.updateDarkTheme(!darkTheme)
+            restartActivity(context)
+        }
+    }
+
+    override fun restartActivity(context: Context) {
+        val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+        intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        context.startActivities(arrayOf(intent))
+    }
+
+
     override fun onLogoutButtonClicked() {
         tryToExecute(
             call = logout::invoke,
@@ -167,22 +198,7 @@ class ProfileViewModel @Inject constructor(
         _state.update { it.copy(error = throwable.message) }
     }
 
-    private fun updateAppLanguage(newLanguage: String) {
-        _state.value.lastAppLanguage = newLanguage
-        tryToExecute(
-            call = { customizeProfileSettings.saveNewSelectedLanguage(newLanguage) },
-            onSuccess = {
-                _state.update {
-                    it.copy(
-                        error = null,
-                        isLoading = false,
-                        message = null
-                    )
-                }
-            },
-            onError = ::onUpdateAppLanguageFail
-        )
-    }
+
 
     private fun onUpdateAppLanguageFail(throwable: Throwable) {
         val messageError = when (throwable) {
@@ -197,6 +213,11 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val language = customizeProfileSettings.getLastSelectedAppLanguage()
             _state.update { it.copy(lastAppLanguage = language) }
+        }
+    }
+    private  fun isDarkTheme() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _state.update { it.copy(isDarkTheme = customizeProfileSettings.isDarkThem()) }
         }
     }
 

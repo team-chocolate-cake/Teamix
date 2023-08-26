@@ -3,9 +3,10 @@ package com.chocolate.repository.repository
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.channel.MutingStatus
 import com.chocolate.entities.channel.Topic
+import com.chocolate.repository.datastore.remote.RemoteDataSource
 import com.chocolate.repository.mappers.channel_mappers.toEntity
 import com.chocolate.repository.mappers.channel_mappers.toSuccessOrFail
-import com.chocolate.repository.datastore.remote.RemoteDataSource
+import com.chocolate.repository.utils.SUCCESS
 import org.json.JSONArray
 import org.json.JSONObject
 import repositories.ChannelsRepository
@@ -36,14 +37,14 @@ class ChannelsRepositoryImpl @Inject constructor(
             description = description,
             isPrivate = isPrivate
         )
-            .result?.equals("success") ?: false
+            .result?.equals(SUCCESS) ?: false
     }
 
     override suspend fun unsubscribeFromChannel(
         channelName: String,
     ): Boolean {
         return channelsRemoteDataSource.unsubscribeFromChannels(listOf(channelName))
-            .result?.equals("success") ?: false
+            .result?.equals(SUCCESS) ?: false
     }
 
     override suspend fun getSubscriptionStatus(

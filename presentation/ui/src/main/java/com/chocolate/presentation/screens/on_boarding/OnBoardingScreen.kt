@@ -26,8 +26,8 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
-import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.SpacingExtraHuge
+import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
@@ -43,7 +43,7 @@ fun OnboardingScreen(
 ) {
     val navController = LocalNavController.current
 
-    CollectUiEffect(viewModel = onboardingViewModel) { effect ->
+    CollectUiEffect(onboardingViewModel.effect) { effect ->
         when (effect) {
             OnboardingUiEffect.NavigateToOrganizationName ->
                 navController.navigateToOrganizationName()

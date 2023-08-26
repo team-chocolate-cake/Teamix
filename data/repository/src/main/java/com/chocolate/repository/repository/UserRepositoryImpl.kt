@@ -1,12 +1,14 @@
 package com.chocolate.repository.repository
 
+import com.chocolate.entities.uills.Empty
 import com.chocolate.entities.user.Attachment
 import com.chocolate.entities.user.User
+import com.chocolate.repository.datastore.local.LocalDataSource
 import com.chocolate.repository.datastore.local.PreferencesDataSource
+import com.chocolate.repository.datastore.remote.RemoteDataSource
 import com.chocolate.repository.mappers.users.toEntity
 import com.chocolate.repository.mappers.users.toLocalDto
-import com.chocolate.repository.datastore.remote.RemoteDataSource
-import com.chocolate.repository.datastore.local.LocalDataSource
+import com.chocolate.repository.utils.SUCCESS
 import kotlinx.coroutines.flow.Flow
 import repositories.UsersRepository
 import javax.inject.Inject
@@ -67,12 +69,12 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getUserPresence(email: String): String {
-        return userDataSource.getUserPresence(email).presenceDto?.aggregatedDto?.status ?: ""
+        return userDataSource.getUserPresence(email).presenceDto?.aggregatedDto?.status ?: String.Empty
     }
 
     override suspend fun getRealmPresence(): String {
         return userDataSource.getRealmPresence().presencesDto?.iagoZulipComDto?.aggregatedDto?.status
-            ?: ""
+            ?: String.Empty
     }
 
     override suspend fun getAttachments(): List<Attachment> {
@@ -152,11 +154,11 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun userLogin(userName: String, password: String): Boolean {
         return userDataSource.fetchApiKey(userName, password)
             .takeIf {
-                it.result == "success"
+                it.result == SUCCESS
             }?.run {
                 preferencesDataSource.setAuthenticationData(
-                    apikey = apiKey ?: "",
-                    email = email ?: ""
+                    apikey = apiKey ?: String.Empty,
+                    email = email ?: String.Empty
                 )
                 true
             } ?: false

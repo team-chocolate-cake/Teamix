@@ -20,7 +20,6 @@ class ChooseMemberViewModel @Inject constructor(
     AddUsersInChannelByChannelNameAndUsersIdUseCase,
     private val stringsResource: StringsResource
 ) : BaseViewModel<ChooseMemberUiState, Unit>(ChooseMemberUiState()), ChooseMemberInteraction {
-
     private val createChannelArgs: CreateChannelArgs = CreateChannelArgs(savedStateHandle)
 
     init {
@@ -83,7 +82,7 @@ class ChooseMemberViewModel @Inject constructor(
 
     private fun getUsers() {
         _state.update { it.copy(isLoading = true) }
-        tryToExecute({ getAllUsers() }, ::onGetUsersSuccess, ::onGetUsersError)
+        tryToExecute(getAllUsers::invoke, ::onGetUsersSuccess, ::onGetUsersError)
     }
 
     private fun onGetUsersSuccess(users: List<User>) {

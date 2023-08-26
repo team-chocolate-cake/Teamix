@@ -48,12 +48,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
-import com.chocolate.presentation.screens.home.composable.BadgeHome
-import com.chocolate.presentation.screens.home.composable.ChannelItem
-import com.chocolate.presentation.screens.home.composable.ManageChannelBottomSheet
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.create_channel.navigateToCreateChannel
+import com.chocolate.presentation.screens.home.composable.BadgeHome
+import com.chocolate.presentation.screens.home.composable.ChannelItem
+import com.chocolate.presentation.screens.home.composable.ManageChannelBottomSheet
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Float1
@@ -61,9 +61,9 @@ import com.chocolate.presentation.theme.LightPrimary
 import com.chocolate.presentation.theme.OnLightPrimary
 import com.chocolate.presentation.theme.Radius16
 import com.chocolate.presentation.theme.SpacingLarge
-import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingMegaGigantic
+import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
@@ -94,7 +94,7 @@ fun HomeScreen(
         }
     }
 
-    CollectUiEffect(viewModel = homeViewModel) { effect ->
+    CollectUiEffect(homeViewModel.effect) { effect ->
         when (effect) {
             HomeUiEffect.NavigateToChannel -> {}
             HomeUiEffect.NavigateToOrganizationName -> {

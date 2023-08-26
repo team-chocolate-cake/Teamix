@@ -38,18 +38,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.MultiChoiceDialog
-import com.chocolate.presentation.screens.profile.composable.ProfileHorizontalPager
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.screens.profile.composable.ProfileDialog
+import com.chocolate.presentation.screens.profile.composable.ProfileHorizontalPager
 import com.chocolate.presentation.screens.profile.composable.ProfileImage
 import com.chocolate.presentation.theme.BoxHeight440
 import com.chocolate.presentation.theme.ButtonSize110
 import com.chocolate.presentation.theme.Radius16
 import com.chocolate.presentation.theme.Radius24
 import com.chocolate.presentation.theme.RowWidth250
-import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingHuge
+import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
@@ -78,7 +78,7 @@ fun ProfileScreen(
     val scrollState = rememberScrollState()
 
 
-    CollectUiEffect(viewModel) { effect ->
+    CollectUiEffect(viewModel.effect) { effect ->
         when (effect) {
             ProfileEffect.NavigateToOrganizationScreen -> {
                 navController.navigateToOrganizationName()

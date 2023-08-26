@@ -22,7 +22,6 @@ class LoginViewModel @Inject constructor(
     private val setUserLoginState: SetUserLoginStateUseCase,
     private val stringsResource: StringsResource
 ) : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState()), LoginInteraction {
-
     private val loginArgs: LoginArgs = LoginArgs(savedStateHandle)
 
     init {

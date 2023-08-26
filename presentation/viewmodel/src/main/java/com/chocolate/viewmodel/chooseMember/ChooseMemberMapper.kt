@@ -11,6 +11,5 @@ fun User.toUserUiState(): ChooseMembersUiState{
         userId = this.id,
         imageUrl = this.imageUrl,
         name = this.fullName,
-        status = this.status,
     )
 }

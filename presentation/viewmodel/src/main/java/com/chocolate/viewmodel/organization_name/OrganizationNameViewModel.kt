@@ -20,7 +20,6 @@ class OrganizationNameViewModel @Inject constructor(
     private val manageUserUsedApp: ManageUserUsedAppUseCase
 ) : BaseViewModel<OrganizationNameUiState, OrganizationNameUiEffect>(OrganizationNameUiState()),
     OrganizationNameInteraction {
-
     init {
         getOnUserLoggedIn()
         getOnboardingStatus()

@@ -24,10 +24,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.NotFoundResultLottie
-import com.chocolate.presentation.screens.search.composable.SearchLottie
-import com.chocolate.presentation.screens.search.composable.TabScreen
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
+import com.chocolate.presentation.screens.search.composable.SearchLottie
+import com.chocolate.presentation.screens.search.composable.TabScreen
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
@@ -43,7 +43,7 @@ fun SearchScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val navController = LocalNavController.current
-    CollectUiEffect(viewModel = viewModel) { effect ->
+    CollectUiEffect(viewModel.effect) { effect ->
         when (effect) {
             is SearchEffect.NavigateToChannel -> {}
             is SearchEffect.NavigateToMember -> {}

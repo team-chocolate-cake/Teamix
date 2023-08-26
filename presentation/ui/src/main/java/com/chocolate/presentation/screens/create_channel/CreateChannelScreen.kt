@@ -26,14 +26,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
-import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
-import com.chocolate.presentation.screens.create_channel.composable.ToggleButton
 import com.chocolate.presentation.screens.chooseMember.navigateToChooseMember
+import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
+import com.chocolate.presentation.screens.create_channel.composable.ToggleButton
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
@@ -50,7 +50,7 @@ fun CreateChannelScreen(
     val state by createChannelViewModel.state.collectAsState()
     val navController = LocalNavController.current
 
-    CollectUiEffect(viewModel = createChannelViewModel) { effect ->
+    CollectUiEffect(createChannelViewModel.effect) { effect ->
         when (effect) {
             is CreateChannelUiEffect.NavigationToChooseMembers ->
                 navController.navigateToChooseMember(state.nameInput)

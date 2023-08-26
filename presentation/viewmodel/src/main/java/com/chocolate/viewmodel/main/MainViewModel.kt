@@ -15,7 +15,6 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val customizeProfileSettings: CustomizeProfileSettingsUseCase
 ) : BaseViewModel<Boolean, Unit>(false) {
-
     init {
         viewModelScope.launch(Dispatchers.IO) { isDarkThem() }
     }

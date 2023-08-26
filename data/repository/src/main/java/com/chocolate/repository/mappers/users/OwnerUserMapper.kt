@@ -9,8 +9,7 @@ fun OwnerUserDto.toEntity(): User {
         imageUrl = this.avatarUrl.orEmpty(),
         email = this.email.orEmpty(),
         fullName = this.fullName.orEmpty(),
-        role = UserRole.fromValue(this.role ?: 400),
+        role = UserRole.fromValue(this.role ?: UserRole.GUEST.value),
         id = this.userId ?: 0,
-        status = ""
     )
 }

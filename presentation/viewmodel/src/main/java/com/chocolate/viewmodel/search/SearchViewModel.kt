@@ -3,6 +3,7 @@ package com.chocolate.viewmodel.search
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.exceptions.NoConnectionException
+import com.chocolate.entities.uills.Empty
 import com.chocolate.entities.user.User
 import com.chocolate.usecases.channel.ManageChannelsUseCase
 import com.chocolate.usecases.user.GetAllUsersUseCase
@@ -20,7 +21,6 @@ class SearchViewModel @Inject constructor(
     private val manageChannels: ManageChannelsUseCase,
     private val getUsers: GetAllUsersUseCase
 ): BaseViewModel<SearchUiState,SearchEffect>(SearchUiState()),SearchInteraction {
-
     private var searchJob: Job? = null
 
     override fun onClickChannelItem(channelId: Int) {
@@ -40,7 +40,7 @@ class SearchViewModel @Inject constructor(
         _state.update {
             it.copy(
                 currentTabIndex = tabIndex,
-                query = "",
+                query = String.Empty,
                 channelsUiState = emptyList(),
                 membersUiState = emptyList()
             )

@@ -35,11 +35,11 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.theme.Float1
 import com.chocolate.presentation.theme.Radius12
-import com.chocolate.presentation.theme.SpacingTiny
-import com.chocolate.presentation.theme.SpacingSmall
-import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingMassive
+import com.chocolate.presentation.theme.SpacingSmall
+import com.chocolate.presentation.theme.SpacingTiny
 import com.chocolate.presentation.theme.SpacingUltraGigantic
+import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.chooseMember.ChooseMembersUiState
@@ -99,11 +99,6 @@ fun MemberItem(
                     text = chooseMemberUiState.name,
                     color = colors.onBackground87,
                     style = MaterialTheme.typography.labelMedium
-                )
-                Text(
-                    text = chooseMemberUiState.status,
-                    color = colors.onBackground60,
-                    style = MaterialTheme.typography.labelSmall
                 )
             }
             Spacer(modifier = Modifier.weight(Float1))

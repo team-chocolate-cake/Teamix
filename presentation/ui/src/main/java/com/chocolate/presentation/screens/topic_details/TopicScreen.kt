@@ -15,9 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.ReplyMessage
 import com.chocolate.presentation.composable.StartNewMessage
+import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.util.CollectUiEffect
@@ -34,7 +34,7 @@ fun TopicScreen(
     val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
     TopicContent(topicUiState = state, viewModel)
-    CollectUiEffect(viewModel){effect->
+    CollectUiEffect(viewModel.effect){effect->
             when(effect){
                 TopicEffect.NavigationBack -> navController.popBackStack()
             }

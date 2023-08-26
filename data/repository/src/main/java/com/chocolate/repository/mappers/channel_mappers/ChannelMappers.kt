@@ -8,8 +8,7 @@ import com.chocolate.repository.model.dto.channels.response.SubscribedStreamDto
 import com.chocolate.repository.model.dto.channels.response.SubscriptionsItemDto
 import com.chocolate.repository.model.dto.channels.response.TopicsInStreamDto
 import com.chocolate.repository.model.dto.channels.response.TopicsItemDto
-
-const val SUCCESS = "success"
+import com.chocolate.repository.utils.SUCCESS
 
 fun SubscriptionsItemDto.toEntity(
     topics: List<Topic>,

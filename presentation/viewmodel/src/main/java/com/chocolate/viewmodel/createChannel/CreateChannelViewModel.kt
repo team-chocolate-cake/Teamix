@@ -3,6 +3,7 @@ package com.chocolate.viewmodel.createChannel
 import com.chocolate.usecases.channel.AddUsersInChannelByChannelNameAndUsersIdUseCase
 import com.chocolate.viewmodel.base.BaseErrorUiState
 import com.chocolate.viewmodel.base.BaseViewModel
+import com.chocolate.entities.uills.Empty
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -12,7 +13,6 @@ class CreateChannelViewModel @Inject constructor(
     private val createChannel: AddUsersInChannelByChannelNameAndUsersIdUseCase
 ) : BaseViewModel<CreateChannelUiState, CreateChannelUiEffect>(CreateChannelUiState()),
     CreateChannelInteraction {
-
     override fun onCreateChannelClicked() {
         tryToExecute(
             call = ::createChannel,
@@ -21,12 +21,12 @@ class CreateChannelViewModel @Inject constructor(
         )
     }
 
-    override fun onChannelNameTextChange(newChannelName: String) {
-        _state.update { it.copy(nameInput = newChannelName) }
+    override fun onChannelNameTextChange(channelName: String) {
+        _state.update { it.copy(nameInput = channelName) }
     }
 
-    override fun onChannelDescriptionChange(newChannelDescription: String?) {
-        _state.update { it.copy(description = newChannelDescription) }
+    override fun onChannelDescriptionChange(channelDescription: String?) {
+        _state.update { it.copy(description = channelDescription) }
     }
 
     override fun onChannelStatusChange(newChannelStatus: ChannelStatus, isPrivate: Boolean) {
@@ -38,7 +38,7 @@ class CreateChannelViewModel @Inject constructor(
             it.copy(
                 error = BaseErrorUiState(message = null, isError = false),
                 isLoading = false,
-                nameInput = "",
+                nameInput = String.Empty,
             )
         }
     }

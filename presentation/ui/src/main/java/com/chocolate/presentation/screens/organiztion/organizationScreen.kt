@@ -39,11 +39,11 @@ import com.chocolate.presentation.screens.create_organization.navigateToCreateOr
 import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.screens.login.navigateToLogin
 import com.chocolate.presentation.screens.welcome.navigateToWelcome
-import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.SpacingGigantic
+import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
@@ -58,7 +58,7 @@ fun OrganizationScreen(
 ) {
     val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
-    CollectUiEffect(viewModel) { effect ->
+    CollectUiEffect(viewModel.effect) { effect ->
         when (effect) {
             OrganizationNameUiEffect.NavigateToCreateOrganization -> navController.navigateToCreateOrganization()
             OrganizationNameUiEffect.NavigateToLoginScreen -> navController.navigateToLogin(

@@ -9,8 +9,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ForgetPasswordViewModel @Inject constructor(
     private val manageOrganizationDetails: ManageOrganizationDetailsUseCase
-) : BaseViewModel<ForgetPasswordUiState, ForgetPasswordEffect>(ForgetPasswordUiState()) {
-
+) : BaseViewModel<ForgetPasswordUiState, Unit>(ForgetPasswordUiState()) {
     init {
         getOrganizationName()
     }
@@ -18,7 +17,7 @@ class ForgetPasswordViewModel @Inject constructor(
     private fun getOrganizationName() {
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
-            { manageOrganizationDetails.getOrganizationName() },
+            manageOrganizationDetails::getOrganizationName,
             ::onGetOrganizationNameSuccess,
             ::onGetOrganizationNameError
         )

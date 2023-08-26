@@ -42,17 +42,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
-import com.chocolate.presentation.screens.channel_details.composable.ChannelAction
 import com.chocolate.presentation.composable.Member
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXXLarge
+import com.chocolate.presentation.screens.channel_details.composable.ChannelAction
 import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingUltraGigantic
+import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.viewmodel.channelDeails.ChannelDetailsUiState
 
 @Composable
 fun ChannelDetailsScreen() {

@@ -3,6 +3,7 @@ package com.chocolate.viewmodel.profile
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.ValidationException
+import com.chocolate.entities.uills.Empty
 import com.chocolate.entities.user.User
 import com.chocolate.entities.user.UserRole
 import com.chocolate.usecases.user.CustomizeProfileSettingsUseCase
@@ -26,7 +27,6 @@ class ProfileViewModel @Inject constructor(
     private val customizeProfileSettings: CustomizeProfileSettingsUseCase,
     private val stringsResource: StringsResource
 ) : BaseViewModel<ProfileUiState, ProfileEffect>(ProfileUiState()), ProfileInteraction {
-
     init {
         getLastSelectedAppLanguage()
         getCurrentUser()
@@ -74,9 +74,8 @@ class ProfileViewModel @Inject constructor(
             fullName = _state.value.name,
             email = _state.value.email,
             role = UserRole.fromValue(0),
-            imageUrl = "",
+            imageUrl = String.Empty,
             id = 0,
-            status = ""
         )
         tryToExecute(
             { updateUserInformation(userInformationSettingsState) },
@@ -101,8 +100,8 @@ class ProfileViewModel @Inject constructor(
     override fun onRevertChange() {
         val currentState = _state.value
         val updatedState = currentState.copy(
-            name = if (currentState.originalName == "") _state.value.name else currentState.originalName,
-            email = if (currentState.originalEmail == "") _state.value.email else currentState.originalEmail,
+            name = if (currentState.originalName == String.Empty) _state.value.name else currentState.originalName,
+            email = if (currentState.originalEmail == String.Empty) _state.value.email else currentState.originalEmail,
             error = null
         )
         _state.update { updatedState }
@@ -124,7 +123,7 @@ class ProfileViewModel @Inject constructor(
 
     override fun onLogoutButtonClicked() {
         tryToExecute(
-            call = { logout() },
+            call = logout::invoke,
             onSuccess = ::onLogoutSuccess,
             onError = ::onLogoutFail
         )
@@ -134,8 +133,8 @@ class ProfileViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isLoading = false,
-                newUsername = "",
-                newEmail = "",
+                newUsername = String.Empty,
+                newEmail = String.Empty,
                 error = null,
                 message = stringsResource.successMessage
             )
@@ -190,7 +189,7 @@ class ProfileViewModel @Inject constructor(
 
     private fun getCurrentUser() {
         tryToExecute(
-            { getCurrentUserData() },
+            getCurrentUserData::invoke,
             ::onGetCurrentUserSuccess,
             ::onGetCurrentUserError
         )

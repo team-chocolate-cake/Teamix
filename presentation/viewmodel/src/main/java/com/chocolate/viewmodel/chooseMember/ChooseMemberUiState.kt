@@ -1,28 +1,27 @@
 package com.chocolate.viewmodel.chooseMember
 
-import com.chocolate.viewmodel.base.BaseViewModel
+import com.chocolate.entities.uills.Empty
 
 data class ChooseMemberUiState(
-    val searchQuery: String = "",
+    val searchQuery: String = String.Empty,
     val selectedMembersUiState: List<SelectedMembersUiState> = emptyList(),
     val membersUiState: List<ChooseMembersUiState> = emptyList(),
-    val channelName: String = "",
+    val channelName: String = String.Empty,
     val isLoading: Boolean = false,
     val successMessage: String? = null,
     val error: String? = null
-): BaseViewModel.BaseUiState
+)
 
 data class SelectedMembersUiState(
     val userId: Int = 0,
-    val imageUrl: String ="",
-    val name: String = "",
+    val imageUrl: String =String.Empty,
+    val name: String = String.Empty,
     val isClickedForRemoval: Boolean = false
 )
 
 data class ChooseMembersUiState(
     val userId: Int = 0,
-    val imageUrl: String ="",
-    val name: String = "",
-    val status: String = "",
+    val imageUrl: String =String.Empty,
+    val name: String = String.Empty,
     val isSelected: Boolean = false
 )

@@ -24,7 +24,6 @@ class HomeViewModel @Inject constructor(
     private val manageOrganizationDetails: ManageOrganizationDetailsUseCase,
     private val getCurrentUserData: GetCurrentUserDataUseCase
 ) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()), HomeInteraction {
-
     init {
         getData()
     }
@@ -67,7 +66,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getCurrentUserData() {
         tryToExecute(
-            { getCurrentUserData.getRemoteCurrentUser() },
+            getCurrentUserData::getRemoteCurrentUser,
             ::onGetCurrentUserDataSuccess,
             ::onGetCurrentUserDataError
         )
@@ -84,16 +83,16 @@ class HomeViewModel @Inject constructor(
 
     private fun getOrganizationImage() {
         tryToExecute(
-            { manageOrganizationDetails.getOrganizationImage() },
+            manageOrganizationDetails::getOrganizationImage,
             ::onGettingOrganizationImageSuccess,
             ::onError
         )
     }
 
-    private fun onGettingOrganizationImageSuccess(Image: String) {
+    private fun onGettingOrganizationImageSuccess(image: String) {
         _state.update {
             it.copy(
-                imageUrl = Image,
+                imageUrl = image,
                 showNoInternetLottie = false,
                 error = null
             )
@@ -102,7 +101,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getOrganizationName() {
         tryToExecute(
-            { manageOrganizationDetails.getOrganizationName() },
+            manageOrganizationDetails::getOrganizationName,
             ::onGettingOrganizationNameSuccess,
             ::onError
         )
@@ -120,7 +119,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getChannels() {
         tryToExecute(
-            { manageChannels.getSubscribedChannels() },
+            manageChannels::getSubscribedChannels,
             ::onGettingChannelsSuccess,
             ::onError
         )
@@ -142,7 +141,6 @@ class HomeViewModel @Inject constructor(
         when (throwable) {
             is UnAuthorizedException, is ValidationException ->
                 sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
-
             is NoConnectionException -> _state.update {
                 it.copy(
                     showNoInternetLottie = true,

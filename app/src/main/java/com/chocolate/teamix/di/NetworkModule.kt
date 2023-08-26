@@ -23,6 +23,8 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
+    private const val BASE_URL = "baseUrl"
+
     @Singleton
     @Provides
     fun provideOkHttpClient(
@@ -46,7 +48,7 @@ object NetworkModule {
     fun provideRetrofitBuilder(
         client: OkHttpClient,
         factory: GsonConverterFactory,
-        @Named("baseUrl") baseUrl: String
+        @Named(BASE_URL) baseUrl: String
     ): Retrofit =
         Retrofit.Builder()
             .baseUrl(baseUrl)
@@ -90,7 +92,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    @Named("baseUrl")
+    @Named(BASE_URL)
     fun provideBaseUrl(preferencesDataSource: PreferencesDataSource): String =
         "https://${preferencesDataSource.currentOrganization()}.zulipchat.com/api/v1/"
 }

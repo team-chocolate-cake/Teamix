@@ -19,18 +19,22 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object PreferenceModule {
+
+    private const val DATASTORE_FILE_NAME = "dataStoreFileName"
+    private const val ENCRYPTED_SHARED_PREFERENCES = "encryptedSharedPreferencesFileName"
+
     @Provides
     @Singleton
     fun provideDataStore(
         @ApplicationContext applicationContext: Context,
-        @Named("dataStoreFileName") dataStoreFileName: String
+        @Named(DATASTORE_FILE_NAME) dataStoreFileName: String
     ): DataStore<Preferences> {
         return PreferenceDataStoreFactory.create {
             applicationContext.preferencesDataStoreFile(dataStoreFileName)
         }
     }
 
-    @Named("dataStoreFileName")
+    @Named(DATASTORE_FILE_NAME)
     @Provides
     @Singleton
     fun provideDataStoreFileName(): String = "AppPrefStorage"
@@ -40,7 +44,7 @@ object PreferenceModule {
     fun provideEncryptedSharedPreferences(
         @ApplicationContext context: Context,
         masterKey: MasterKey,
-        @Named("encryptedSharedPreferencesFileName") encryptedSharedPreferencesFileName: String
+        @Named(ENCRYPTED_SHARED_PREFERENCES) encryptedSharedPreferencesFileName: String
     ): SharedPreferences {
         return EncryptedSharedPreferences.create(
             context,
@@ -51,7 +55,7 @@ object PreferenceModule {
         )
     }
 
-    @Named("encryptedSharedPreferencesFileName")
+    @Named(ENCRYPTED_SHARED_PREFERENCES)
     @Provides
     @Singleton
     fun provideEncryptedSharedPreferencesFileName(): String = "user_encrypted_file"

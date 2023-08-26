@@ -12,5 +12,4 @@ enum class UserRole(val value: Int, val stringValue: String) {
             return values().find { it.value == value } ?: MEMBER
         }
     }
-
 }

@@ -1,9 +1,14 @@
 package com.chocolate.repository.repository
 
+import com.chocolate.entities.draft.Draft
 import com.chocolate.entities.exceptions.NullDataException
 import com.chocolate.entities.messages.Message
-import com.chocolate.repository.datastore.remote.RemoteDataSource
+import com.chocolate.entities.scheduled_messages.ScheduledMessage
+import com.chocolate.repository.datastore.remote.MessagesRemoteDataSource
+import com.chocolate.repository.mappers.draft.toEntity
 import com.chocolate.repository.mappers.messages.toEntity
+import com.chocolate.repository.mappers.scheduled.toEntity
+import com.chocolate.repository.utils.toJson
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -12,8 +17,53 @@ import java.io.File
 import javax.inject.Inject
 
 class MessagesRepositoryImpl @Inject constructor(
-    private val messageDataSource: RemoteDataSource
+    private val messageDataSource: MessagesRemoteDataSource
 ) : MessagesRepository {
+
+    override suspend fun getDrafts(): List<Draft> {
+        return messageDataSource.getDrafts().drafts.toEntity()
+    }
+
+    override suspend fun createDraft(
+        id: Int,
+        type: String,
+        to: List<Int>,
+        topic: String,
+        content: String,
+        timestamp: Long
+    ): List<Int> {
+        return messageDataSource.createDraft(
+            id = id,
+            type = type,
+            content = content,
+            topic = topic,
+            to = to.toJson(),
+            timestamp = timestamp
+        ).ids ?: emptyList()
+    }
+
+    override suspend fun editDraft(
+        id: Int,
+        type: String,
+        to: List<Int>,
+        topic: String,
+        content: String,
+        timestamp: Long
+    ) {
+        messageDataSource.editDraft(
+            id = id,
+            type = type,
+            content = content,
+            topic = topic,
+            to = to.toJson(),
+            timestamp = timestamp
+        )
+    }
+
+    override suspend fun deleteDraft(id: Int) {
+        messageDataSource.deleteDraft(id)
+    }
+
     override suspend fun sendStreamMessage(
         type: String,
         to: Any,
@@ -75,7 +125,7 @@ class MessagesRepositoryImpl @Inject constructor(
         narrow: List<String>?,
         clientGravatar: Boolean,
         applyMarkdown: Boolean
-    ): List<Message>? {
+    ): List<Message> {
         val messagesDto = messageDataSource.getMessages(
             anchor,
             includeAnchor,
@@ -147,5 +197,38 @@ class MessagesRepositoryImpl @Inject constructor(
             messagesIds,
             narrow
         ).messages?.messageId?.matchContent.orEmpty()
+    }
+
+    override suspend fun getScheduledMessages(): List<ScheduledMessage> {
+        return messageDataSource.getScheduledMessages().scheduledMessages.toEntity()
+    }
+
+    override suspend fun createScheduledMessage(
+        type: String,
+        to: Any,
+        content: String,
+        topic: String,
+        scheduledDeliveryTimestamp: Long
+    ): Int {
+        return messageDataSource.createScheduledMessage(
+            type, to, content, topic, scheduledDeliveryTimestamp
+        ).scheduledMessageId ?: -1
+    }
+
+    override suspend fun editScheduledMessage(
+        id: Int,
+        type: String,
+        to: Any,
+        content: String,
+        topic: String,
+        scheduledDeliveryTimestamp: Long
+    ): Int {
+        return messageDataSource.editScheduledMessage(
+            id, type, to, content, topic, scheduledDeliveryTimestamp
+        ).scheduledMessageId ?: -1
+    }
+
+    override suspend fun deleteScheduledMessage(id: Int) {
+        messageDataSource.deleteScheduledMessage(id)
     }
 }

@@ -2,10 +2,16 @@ package com.chocolate.teamix.di
 
 import com.chocolate.local.dao.RoomDataSource
 import com.chocolate.local.datastore.DataStoreDataSource
-import com.chocolate.remote.RetrofitDataSource
-import com.chocolate.repository.datastore.local.PreferencesDataSource
+import com.chocolate.remote.data_source.ChannelRetrofitDataSource
+import com.chocolate.remote.data_source.MessagesRetrofitDataSource
+import com.chocolate.remote.data_source.OrganizationRetrofitDataSource
+import com.chocolate.remote.data_source.UserRetrofitDataSource
 import com.chocolate.repository.datastore.local.LocalDataSource
-import com.chocolate.repository.datastore.remote.RemoteDataSource
+import com.chocolate.repository.datastore.local.PreferencesDataSource
+import com.chocolate.repository.datastore.remote.ChannelRemoteDataSource
+import com.chocolate.repository.datastore.remote.MessagesRemoteDataSource
+import com.chocolate.repository.datastore.remote.OrganizationRemoteDataSource
+import com.chocolate.repository.datastore.remote.UserRemoteDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -30,5 +36,20 @@ abstract class DataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun bindRemoteDataSource(retrofitDataSource: RetrofitDataSource): RemoteDataSource
+    abstract fun bindChannelDataSource(channelDataSource: ChannelRetrofitDataSource):
+            ChannelRemoteDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindMessagesDataSource(messagesDataSource: MessagesRetrofitDataSource):
+            MessagesRemoteDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindOrganizationDataSource(organizationDataSource: OrganizationRetrofitDataSource):
+            OrganizationRemoteDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindUserDataSource(userDataSource: UserRetrofitDataSource): UserRemoteDataSource
 }

@@ -14,5 +14,4 @@ abstract class ResourcesModule {
     @Binds
     @ViewModelScoped
     abstract fun bindStringsResource(stringsResource: StringsResourceImpl): StringsResource
-
 }

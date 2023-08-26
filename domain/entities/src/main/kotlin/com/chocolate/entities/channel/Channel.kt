@@ -9,4 +9,3 @@ data class Channel(
     val isCurrentUserSubscribed: Boolean,
     val isMuted: Boolean,
 )
-

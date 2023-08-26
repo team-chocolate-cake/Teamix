@@ -5,7 +5,7 @@ import com.chocolate.entities.user.Attachment
 import com.chocolate.entities.user.User
 import com.chocolate.repository.datastore.local.LocalDataSource
 import com.chocolate.repository.datastore.local.PreferencesDataSource
-import com.chocolate.repository.datastore.remote.RemoteDataSource
+import com.chocolate.repository.datastore.remote.UserRemoteDataSource
 import com.chocolate.repository.mappers.users.toEntity
 import com.chocolate.repository.mappers.users.toLocalDto
 import com.chocolate.repository.utils.SUCCESS
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import repositories.UsersRepository
 import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
-    private val userDataSource: RemoteDataSource,
+    private val userRemoteDataSource: UserRemoteDataSource,
     private val preferencesDataSource: PreferencesDataSource,
     private val teamixLocalDataSource: LocalDataSource
 ) : UsersRepository {
@@ -26,30 +26,30 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAllUsers(): List<User> {
-        return userDataSource.getAllUsers().memberDto.toEntity()
+        return userRemoteDataSource.getAllUsers().memberDto.toEntity()
     }
 
     override suspend fun getRemoteCurrentUser(): User {
-        return userDataSource.getOwnUser().toEntity()
+        return userRemoteDataSource.getOwnUser().toEntity()
     }
 
     override suspend fun getUserById(
         userId: Int, clientGravatar: Boolean, includeCustomProfileFields: Boolean
     ): User {
-        return userDataSource.getUserById(userId, clientGravatar, includeCustomProfileFields)
+        return userRemoteDataSource.getUserById(userId, clientGravatar, includeCustomProfileFields)
             .toEntity()
     }
 
     override suspend fun getUserByEmail(
         email: String
     ): User {
-        return userDataSource.getUserByEmail(email).toEntity()
+        return userRemoteDataSource.getUserByEmail(email).toEntity()
     }
 
     override suspend fun updateUserById(
         id: Int, fullName: String, role: Int
     ) {
-        userDataSource.updateUserById(
+        userRemoteDataSource.updateUserById(
             id,
             fullName,
             role,
@@ -57,102 +57,98 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deactivateUserAccount(id: Int) {
-        userDataSource.deactivateUserAccount(id)
+        userRemoteDataSource.deactivateUserAccount(id)
     }
 
     override suspend fun reactivateUserAccount(id: Int) {
-        userDataSource.reactivateUserAccount(id)
+        userRemoteDataSource.reactivateUserAccount(id)
     }
 
     override suspend fun deactivateOwnUserAccount() {
-        userDataSource.deactivateOwnUserAccount()
+        userRemoteDataSource.deactivateOwnUserAccount()
     }
 
     override suspend fun getUserPresence(email: String): String {
-        return userDataSource.getUserPresence(email).presenceDto?.aggregatedDto?.status ?: String.Empty
+        return userRemoteDataSource.getUserPresence(email).presenceDto?.aggregatedDto?.status ?: String.Empty
     }
 
     override suspend fun getRealmPresence(): String {
-        return userDataSource.getRealmPresence().presencesDto?.iagoZulipComDto?.aggregatedDto?.status
+        return userRemoteDataSource.getRealmPresence().presencesDto?.iagoZulipComDto?.aggregatedDto?.status
             ?: String.Empty
     }
 
     override suspend fun getAttachments(): List<Attachment> {
-        return userDataSource.getAttachments().attachmentDto.toEntity()
+        return userRemoteDataSource.getAttachments().attachmentDto.toEntity()
     }
 
     override suspend fun deleteAttachment(attachmentId: Int) {
-        userDataSource.deleteAttachment(attachmentId)
+        userRemoteDataSource.deleteAttachment(attachmentId)
     }
 
     override suspend fun updateSettings(user: User) {
-        userDataSource.updateSettings(user)
+        userRemoteDataSource.updateSettings(user)
     }
-
-//    override suspend fun getUserGroups(): UserGroups {
-//        return userDataSource.getUserGroups().toUserGroups()
-//    }
 
     override suspend fun createUserGroup(
         name: String, description: String, members: String
     ) {
-        userDataSource.createUserGroup(name, description, members)
+        userRemoteDataSource.createUserGroup(name, description, members)
     }
 
     override suspend fun updateUserGroup(
         userGroupId: Int, name: String, description: String
     ) {
-        userDataSource.updateUserGroup(userGroupId, name, description)
+        userRemoteDataSource.updateUserGroup(userGroupId, name, description)
     }
 
     override suspend fun removeUserGroup(userGroupId: Int) {
-        userDataSource.removeUserGroup(userGroupId)
+        userRemoteDataSource.removeUserGroup(userGroupId)
     }
 
     override suspend fun updateUserGroupMembers(
         id: Int, add: List<Int>, delete: List<Int>
     ) {
-        userDataSource.updateUserGroupMembers(id, add, delete)
+        userRemoteDataSource.updateUserGroupMembers(id, add, delete)
     }
 
     override suspend fun updateUserGroupSubgroups(
         userGroupId: Int, add: List<Int>, delete: List<Int>
     ): List<Int> {
-        return userDataSource.updateUserGroupSubgroups(userGroupId, add, delete).subgroups
+        return userRemoteDataSource.updateUserGroupSubgroups(userGroupId, add, delete).subgroups
             ?: emptyList()
     }
 
     override suspend fun getUserMembership(
         groupId: Int, userId: Int, directMemberOnly: Boolean
     ): Boolean {
-        return userDataSource.getUserMembership(groupId, userId, directMemberOnly).isUserGroupMember
+        return userRemoteDataSource.getUserMembership(groupId, userId, directMemberOnly).isUserGroupMember
             ?: false
     }
 
     override suspend fun getUserGroupMemberships(
         groupId: Int, directMemberOnly: Boolean
     ): List<Int> {
-        return userDataSource.getUserGroupMemberships(groupId, directMemberOnly).members
+        return userRemoteDataSource.getUserGroupMemberships(groupId, directMemberOnly).members
             ?: emptyList()
     }
 
     override suspend fun getSubgroupsOfUserGroup(
         id: Int, directSubgroupOnly: Boolean
     ): List<Int> {
-        return userDataSource.getSubgroupsOfUserGroup(id, directSubgroupOnly).subgroups
+        return userRemoteDataSource.getSubgroupsOfUserGroup(id, directSubgroupOnly).subgroups
             ?: emptyList()
     }
 
     override suspend fun muteUser(mutedUserId: Int) {
-        userDataSource.muteUser(mutedUserId)
+        userRemoteDataSource.muteUser(mutedUserId)
     }
 
     override suspend fun unMuteUser(mutedUserId: Int) {
-        userDataSource.unmuteUser(mutedUserId)
+        userRemoteDataSource.unMuteUser(mutedUserId)
     }
 
     override suspend fun userLogin(userName: String, password: String): Boolean {
-        return userDataSource.fetchApiKey(userName, password)
+        return userRemoteDataSource.fetchApiKey(userName, password)
             .takeIf {
                 it.result == SUCCESS
             }?.run {
@@ -207,6 +203,4 @@ class UserRepositoryImpl @Inject constructor(
             ?: getRemoteCurrentUser()
                 .also { upsertCurrentUser(it.email) }
     }
-
 }
-

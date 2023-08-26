@@ -6,9 +6,9 @@ import com.chocolate.repository.model.dto.users.response.OwnerUserDto
 
 fun OwnerUserDto.toEntity(): User {
     return User(
-        imageUrl = this.avatarUrl ?: "",
-        email = this.email ?: "",
-        fullName = this.fullName ?: "",
+        imageUrl = this.avatarUrl.orEmpty(),
+        email = this.email.orEmpty(),
+        fullName = this.fullName.orEmpty(),
         role = UserRole.fromValue(this.role ?: 400),
         id = this.userId ?: 0,
         status = ""

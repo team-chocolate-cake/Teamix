@@ -1,6 +1,6 @@
 package com.chocolate.remote
 
-import com.chocolate.repository.datastore.PreferencesDataSource
+import com.chocolate.repository.datastore.local.PreferencesDataSource
 import okhttp3.Credentials
 import okhttp3.Interceptor
 import okhttp3.Response

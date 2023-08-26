@@ -1,15 +1,15 @@
 package com.chocolate.repository.repository
 
 import com.chocolate.entities.draft.Draft
+import com.chocolate.repository.datastore.remote.RemoteDataSource
 import com.chocolate.repository.mappers.draft.toEntity
-import com.chocolate.repository.service.remote.RemoteDataSource
-import com.google.gson.Gson
+import com.chocolate.repository.utils.toJson
 import repositories.DraftRepository
 import javax.inject.Inject
 
 class DraftRepositoryImpl @Inject constructor(
     private val draftDataSource: RemoteDataSource
-) : DraftRepository{
+) : DraftRepository {
     override suspend fun getDrafts(): List<Draft> {
         return draftDataSource.getDrafts().drafts.toEntity()
     }
@@ -54,5 +54,3 @@ class DraftRepositoryImpl @Inject constructor(
         draftDataSource.deleteDraft(id)
     }
 }
-
-fun Any.toJson() = Gson().toJson(this)

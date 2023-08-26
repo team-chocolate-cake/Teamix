@@ -21,35 +21,6 @@ class CreateChannelViewModel @Inject constructor(
         )
     }
 
-    private suspend fun createChannel(): Boolean {
-        _state.update { it.copy(isLoading = true) }
-        return createChannel(
-            channelName = _state.value.nameInput,
-            usersId = listOf(),
-            description = _state.value.description,
-            isPrivate = _state.value.isPrivate
-        )
-    }
-
-    private fun onCreateChannelSuccess(isCreatedSuccessfully: Boolean) {
-        _state.update {
-            it.copy(isLoading = false, error = BaseErrorUiState(message = null, isError = false))
-        }
-        if (isCreatedSuccessfully) {
-            sendUiEffect(effect = CreateChannelUiEffect.NavigationToChooseMembers(channelName = _state.value.nameInput))
-        }
-    }
-
-    private fun onCreateChannelError(throwable: Throwable) {
-        _state.update {
-            it.copy(error = BaseErrorUiState(
-                    message = throwable.message,
-                    isError = true
-                ), isLoading = false
-            )
-        }
-    }
-
     override fun onChannelNameTextChange(newChannelName: String) {
         _state.update { it.copy(nameInput = newChannelName) }
     }
@@ -72,5 +43,33 @@ class CreateChannelViewModel @Inject constructor(
         }
     }
 
+    private suspend fun createChannel(): Boolean {
+        _state.update { it.copy(isLoading = true) }
+        return createChannel(
+            channelName = _state.value.nameInput,
+            usersId = listOf(),
+            description = _state.value.description,
+            isPrivate = _state.value.isPrivate
+        )
+    }
 
+    private fun onCreateChannelSuccess(isCreatedSuccessfully: Boolean) {
+        _state.update {
+            it.copy(isLoading = false, error = BaseErrorUiState(message = null, isError = false))
+        }
+        if (isCreatedSuccessfully) {
+            sendUiEffect(effect = CreateChannelUiEffect.NavigationToChooseMembers(channelName = _state.value.nameInput))
+        }
+    }
+
+    private fun onCreateChannelError(throwable: Throwable) {
+        _state.update {
+            it.copy(
+                error = BaseErrorUiState(
+                    message = throwable.message,
+                    isError = true
+                ), isLoading = false
+            )
+        }
+    }
 }

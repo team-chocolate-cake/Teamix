@@ -1,12 +1,13 @@
 package com.chocolate.remote
 
 import com.chocolate.entities.user.User
-import com.chocolate.remote.channels.service.ChannelsService
-import com.chocolate.remote.drafts.service.DraftService
-import com.chocolate.remote.messages.service.MessageService
-import com.chocolate.remote.scheduled_message.service.ScheduledMessageService
-import com.chocolate.remote.server_and_organizations.service.OrganizationService
-import com.chocolate.remote.users.service.UsersService
+import com.chocolate.remote.api.ChannelsService
+import com.chocolate.remote.api.DraftService
+import com.chocolate.remote.api.MessageService
+import com.chocolate.remote.api.OrganizationService
+import com.chocolate.remote.api.ScheduledMessageService
+import com.chocolate.remote.api.UsersService
+import com.chocolate.repository.datastore.remote.RemoteDataSource
 import com.chocolate.repository.model.dto.channels.response.AllStreamsDto
 import com.chocolate.repository.model.dto.channels.response.AllSubscribersDto
 import com.chocolate.repository.model.dto.channels.response.DefaultStreamDto
@@ -39,7 +40,6 @@ import com.chocolate.repository.model.dto.server_and_organizations.response.Link
 import com.chocolate.repository.model.dto.server_and_organizations.response.ServerSettingsDto
 import com.chocolate.repository.model.dto.users.response.FetchApiKeyDto
 import com.chocolate.repository.model.dto.users.response.StatusUserRemoteDto
-import com.chocolate.repository.service.remote.RemoteDataSource
 import okhttp3.MultipartBody
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package com.chocolate.repository.service.remote
+package com.chocolate.repository.datastore.remote
 
 import com.chocolate.entities.user.User
 import com.chocolate.repository.model.dto.channels.response.AllStreamsDto

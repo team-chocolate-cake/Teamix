@@ -1,7 +1,7 @@
 package com.chocolate.repository.repository
 
-import com.chocolate.repository.datastore.PreferencesDataSource
-import com.chocolate.repository.service.remote.RemoteDataSource
+import com.chocolate.repository.datastore.local.PreferencesDataSource
+import com.chocolate.repository.datastore.remote.RemoteDataSource
 import repositories.ServerAndOrganizationsRepository
 import javax.inject.Inject
 
@@ -73,11 +73,11 @@ class ServerAndOrganizationsRepositoryImpl @Inject constructor(
         return organizationRemoteDataSource.createCustomProfileField(name, hint, fieldType).id ?:-1
     }
 
-    override suspend fun saveNameOrganizations(nameOrganizations: String) {
+    override suspend fun saveOrganizationName(nameOrganizations: String) {
         preferencesDataSource.setOrganizationName(nameOrganizations)
     }
 
-    override suspend fun getNameOrganizations(): String {
+    override suspend fun getOrganizationName(): String {
         return preferencesDataSource.currentOrganization().toString()
     }
 }

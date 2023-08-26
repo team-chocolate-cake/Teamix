@@ -1,9 +1,12 @@
 package com.chocolate.viewmodel.profile
 
+import org.intellij.lang.annotations.Language
+
 interface ProfileInteraction {
-    fun updateLanguageDialogState(showDialog:Boolean)
-    fun updateLogoutDialogState(showDialog:Boolean)
-    fun updateWarningDialog(showDialog: Boolean)
+    fun onUpdateLanguage(language: String)
+    fun onUpdateLanguageDialogState(showDialog: Boolean)
+    fun onUpdateLogoutDialogState(showDialog: Boolean)
+    fun onUpdateWarningDialog(showDialog: Boolean)
     fun onLogoutButtonClicked()
     fun onUsernameChange(username: String)
     fun onEmailChange(email: String)

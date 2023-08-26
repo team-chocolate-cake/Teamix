@@ -122,13 +122,13 @@ fun ProfileSettingsPage(
             )
             Divider(color = color.background, thickness = Thickness2)
             SettingCard(
-                click = { profileInteraction.updateLanguageDialogState(true) },
+                click = { profileInteraction.onUpdateLanguageDialogState(true) },
                 text = stringResource(R.string.language),
                 icon = painterResource(id = R.drawable.language)
             )
             Divider(color = color.background, thickness = Thickness2)
             SettingCard(
-                click = { profileInteraction.updateLogoutDialogState(true) },
+                click = { profileInteraction.onUpdateLogoutDialogState(true) },
                 text = stringResource(R.string.log_out),
                 icon = painterResource(id = R.drawable.logout),
                 iconColor = color.red60,

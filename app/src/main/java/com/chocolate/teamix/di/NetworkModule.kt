@@ -1,13 +1,13 @@
 package com.chocolate.teamix.di
 
 import com.chocolate.remote.AuthInterceptor
-import com.chocolate.remote.channels.service.ChannelsService
-import com.chocolate.remote.drafts.service.DraftService
-import com.chocolate.remote.messages.service.MessageService
-import com.chocolate.remote.scheduled_message.service.ScheduledMessageService
-import com.chocolate.remote.server_and_organizations.service.OrganizationService
-import com.chocolate.remote.users.service.UsersService
-import com.chocolate.repository.datastore.PreferencesDataSource
+import com.chocolate.remote.api.ChannelsService
+import com.chocolate.remote.api.DraftService
+import com.chocolate.remote.api.MessageService
+import com.chocolate.remote.api.ScheduledMessageService
+import com.chocolate.remote.api.OrganizationService
+import com.chocolate.remote.api.UsersService
+import com.chocolate.repository.datastore.local.PreferencesDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

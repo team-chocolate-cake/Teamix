@@ -1,4 +1,4 @@
-package com.chocolate.repository.datastore
+package com.chocolate.repository.datastore.local
 
 import kotlinx.coroutines.flow.Flow
 

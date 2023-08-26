@@ -6,9 +6,8 @@ import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.UnAuthorizedException
 import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.entities.user.User
-import com.chocolate.usecases.channel.GetSubscribedChannelsUseCase
-import com.chocolate.usecases.organization.GetImageOrganizationUseCase
-import com.chocolate.usecases.organization.GetNameOrganizationsUseCase
+import com.chocolate.usecases.channel.ManageChannelsUseCase
+import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.usecases.user.GetCurrentUserDataUseCase
 import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
@@ -21,9 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getUserLoginStatus: GetUserLoginStatusUseCase,
-    private val getSubscribedChannels: GetSubscribedChannelsUseCase,
-    private val getImageOrganization: GetImageOrganizationUseCase,
-    private val getNameOrganizations: GetNameOrganizationsUseCase,
+    private val manageChannels: ManageChannelsUseCase,
+    private val manageOrganizationDetails: ManageOrganizationDetailsUseCase,
     private val getCurrentUserData: GetCurrentUserDataUseCase
 ) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()), HomeInteraction {
 
@@ -35,93 +33,10 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             getUserLoginState()
-            onGettingOrganizationName()
-            onGettingOrganizationImage()
-            onGettingChannels()
+            getOrganizationName()
+            getOrganizationImage()
+            getChannels()
             getCurrentUserData()
-        }
-    }
-
-    private fun getCurrentUserData() {
-        tryToExecute(
-            { getCurrentUserData.getRemoteCurrentUser() },
-            ::onGetCurrentUserDataSuccess,
-            ::onGetCurrentUserDataError
-        )
-    }
-
-    private fun onGetCurrentUserDataSuccess(user: User) {
-        val userUiState = user.toOwnerUserUiState()
-        _state.update { it.copy(role = userUiState.role) }
-    }
-
-    private fun onGetCurrentUserDataError(throwable: Throwable) {
-        onError(throwable)
-    }
-
-    private fun onGettingOrganizationImage() {
-        tryToExecute(
-            { getImageOrganization() },
-            ::onGettingOrganizationImageSuccess,
-            ::onError
-        )
-    }
-
-    private fun onGettingOrganizationImageSuccess(Image: String) {
-        _state.update {
-            it.copy(
-                imageUrl = Image,
-                showNoInternetLottie = false,
-                error = null
-            )
-        }
-    }
-
-    private fun onGettingOrganizationName() {
-        tryToExecute(
-            { getNameOrganizations() },
-            ::onGettingOrganizationNameSuccess,
-            ::onError
-        )
-    }
-
-    private fun onGettingOrganizationNameSuccess(organizationName: String) {
-        _state.update {
-            it.copy(
-                organizationTitle = organizationName,
-                showNoInternetLottie = false,
-                error = null
-            )
-        }
-    }
-
-    private fun onGettingChannels() {
-        tryToExecute({ getSubscribedChannels() }, ::onGettingChannelsSuccess, ::onError)
-    }
-
-    private fun onGettingChannelsSuccess(channels: List<Channel>) {
-        _state.update { it.copy(channels = channels.toUiState(), error = null, isLoading = false) }
-    }
-
-    private fun getUserLoginState() {
-        viewModelScope.launch {
-            collectFlow(getUserLoginStatus()) {
-                this.copy(isLogged = it)
-            }
-        }
-    }
-
-    private fun onError(throwable: Throwable) {
-        when (throwable) {
-            is UnAuthorizedException, is ValidationException ->
-                sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
-            is NoConnectionException -> _state.update {
-                it.copy(
-                    showNoInternetLottie = true,
-                    isLoading = false,
-                    error = throwable.message
-                )
-            }
         }
     }
 
@@ -147,5 +62,94 @@ class HomeViewModel @Inject constructor(
 
     override fun onClickFloatingActionButton() {
         sendUiEffect(HomeUiEffect.NavigateToCreateChannel)
+    }
+
+
+    private fun getCurrentUserData() {
+        tryToExecute(
+            { getCurrentUserData.getRemoteCurrentUser() },
+            ::onGetCurrentUserDataSuccess,
+            ::onGetCurrentUserDataError
+        )
+    }
+
+    private fun onGetCurrentUserDataSuccess(user: User) {
+        val userUiState = user.toOwnerUserUiState()
+        _state.update { it.copy(role = userUiState.role) }
+    }
+
+    private fun onGetCurrentUserDataError(throwable: Throwable) {
+        onError(throwable)
+    }
+
+    private fun getOrganizationImage() {
+        tryToExecute(
+            { manageOrganizationDetails.getOrganizationImage() },
+            ::onGettingOrganizationImageSuccess,
+            ::onError
+        )
+    }
+
+    private fun onGettingOrganizationImageSuccess(Image: String) {
+        _state.update {
+            it.copy(
+                imageUrl = Image,
+                showNoInternetLottie = false,
+                error = null
+            )
+        }
+    }
+
+    private fun getOrganizationName() {
+        tryToExecute(
+            { manageOrganizationDetails.getOrganizationName() },
+            ::onGettingOrganizationNameSuccess,
+            ::onError
+        )
+    }
+
+    private fun onGettingOrganizationNameSuccess(organizationName: String) {
+        _state.update {
+            it.copy(
+                organizationTitle = organizationName,
+                showNoInternetLottie = false,
+                error = null
+            )
+        }
+    }
+
+    private fun getChannels() {
+        tryToExecute(
+            { manageChannels.getSubscribedChannels() },
+            ::onGettingChannelsSuccess,
+            ::onError
+        )
+    }
+
+    private fun onGettingChannelsSuccess(channels: List<Channel>) {
+        _state.update { it.copy(channels = channels.toUiState(), error = null, isLoading = false) }
+    }
+
+    private fun getUserLoginState() {
+        viewModelScope.launch {
+            collectFlow(getUserLoginStatus()) {
+                this.copy(isLogged = it)
+            }
+        }
+    }
+
+    private fun onError(throwable: Throwable) {
+        when (throwable) {
+            is UnAuthorizedException, is ValidationException ->
+                sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
+
+            is NoConnectionException -> _state.update {
+                it.copy(
+                    showNoInternetLottie = true,
+                    isLoading = false,
+                    error = throwable.message
+                )
+            }
+        }
     }
 }

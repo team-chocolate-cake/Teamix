@@ -1,4 +1,4 @@
-package com.chocolate.remote.scheduled_message.service
+package com.chocolate.remote.api
 
 import com.chocolate.repository.model.dto.scheduled_message.response.BaseScheduledMessageResponse
 import com.chocolate.repository.model.dto.scheduled_message.response.ScheduledMessagesDto

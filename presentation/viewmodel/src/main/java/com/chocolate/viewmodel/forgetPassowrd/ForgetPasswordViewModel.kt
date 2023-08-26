@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.forgetPassowrd
 
-import com.chocolate.usecases.organization.GetNameOrganizationsUseCase
+import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ForgetPasswordViewModel @Inject constructor(
-    private val getNameOrganizations: GetNameOrganizationsUseCase
+    private val manageOrganizationDetails: ManageOrganizationDetailsUseCase
 ) : BaseViewModel<ForgetPasswordUiState, ForgetPasswordEffect>(ForgetPasswordUiState()) {
 
     init {
@@ -18,7 +18,7 @@ class ForgetPasswordViewModel @Inject constructor(
     private fun getOrganizationName() {
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
-            { getNameOrganizations() },
+            { manageOrganizationDetails.getOrganizationName() },
             ::onGetOrganizationNameSuccess,
             ::onGetOrganizationNameError
         )

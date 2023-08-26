@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -21,7 +21,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.theme.Radius12
-import com.chocolate.presentation.theme.Size68
 import com.chocolate.presentation.theme.Space4
 import com.chocolate.presentation.theme.Space8
 import com.chocolate.presentation.theme.customColors
@@ -32,15 +31,17 @@ fun SaveLaterCard(item: MessageItemUiState) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(Size68)
+            .wrapContentHeight()
             .clip(RoundedCornerShape(Radius12)),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.customColors().card)
     ) {
 
     }
-    Row(modifier = Modifier
-        .fillMaxSize()
-        .padding(Space8)) {
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(Space8)
+    ) {
         Image(
             painter = rememberAsyncImagePainter(model = item.imageUrl),
             contentDescription = null,

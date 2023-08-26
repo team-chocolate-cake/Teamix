@@ -3,6 +3,8 @@ package com.chocolate.repository.repository
 import com.chocolate.entities.exceptions.NullDataException
 import com.chocolate.entities.messages.Message
 import com.chocolate.repository.mappers.messages.toEntity
+import com.chocolate.repository.mappers.messages.toLocalDto
+import com.chocolate.repository.service.local.LocalDataSource
 import com.chocolate.repository.service.remote.RemoteDataSource
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -12,7 +14,8 @@ import java.io.File
 import javax.inject.Inject
 
 class MessagesRepositoryImpl @Inject constructor(
-    private val messageDataSource: RemoteDataSource
+    private val messageDataSource: RemoteDataSource,
+    private val teamixLocalDataSource: LocalDataSource
 ) : MessagesRepository {
     override suspend fun sendStreamMessage(
         type: String,
@@ -164,6 +167,18 @@ class MessagesRepositoryImpl @Inject constructor(
             messagesIds,
             narrow
         ).messages?.messageId?.matchContent.orEmpty()
+    }
+
+    override suspend fun getSavedMessages(): List<Message> {
+        return teamixLocalDataSource.getSavedMessages().map { it.toEntity() }
+    }
+
+    override suspend fun saveMessage(message: Message) {
+        teamixLocalDataSource.saveMessage(message.toLocalDto())
+    }
+
+    override suspend fun deleteSavedMessageById(id: Int) {
+        teamixLocalDataSource.deleteSavedMessageById(id)
     }
 
     //todo we will not use this

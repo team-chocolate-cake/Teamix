@@ -1,6 +1,7 @@
 package com.chocolate.local.dao
 
 import com.chocolate.local.database.TeamixDatabase
+import com.chocolate.repository.model.localDto.message.SavedMessageLocalDto
 import com.chocolate.repository.model.localDto.stream.StreamLocalDto
 import com.chocolate.repository.model.localDto.users.UserLocalDto
 import com.chocolate.repository.service.local.LocalDataSource
@@ -25,6 +26,18 @@ class RoomDataSource @Inject constructor(
 
     override suspend fun deleteDataBase() {
         teamixDatabase.clearAllTables()
+    }
+
+    override suspend fun saveMessage(message: SavedMessageLocalDto) {
+        teamixDao.saveMessage(message)
+    }
+
+    override suspend fun getSavedMessages(): List<SavedMessageLocalDto> {
+        return teamixDao.getSavedMessages()
+    }
+
+    override suspend fun deleteSavedMessageById(id: Int) {
+        teamixDao.deleteSavedMessageById(id)
     }
 
     override suspend fun upsertUserData(userLocalDto: UserLocalDto) {

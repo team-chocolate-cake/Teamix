@@ -5,6 +5,7 @@ import com.chocolate.entities.messages.Reaction
 import com.chocolate.repository.mappers.toDate
 import com.chocolate.repository.model.dto.message.response.MessageDto
 import com.chocolate.repository.model.dto.message.response.ReactionDto
+import com.chocolate.repository.model.localDto.message.SavedMessageLocalDto
 import java.util.Date
 
 
@@ -29,3 +30,31 @@ fun List<MessageDto>?.toEntity(): List<Message> = this?.map { it.toEntity() }.or
 @JvmName("ReactionDto")
 fun List<ReactionDto>?.toEntity(): List<Reaction> =
     this?.map { Reaction(emojiCode = it.emoji_code, emojiName = it.emoji_name) }.orEmpty()
+
+fun SavedMessageLocalDto.toEntity(): Message{
+    return Message(
+        id = this.id,
+        senderAvatarUrl = this.senderImageUrl,
+        senderId = this.senderId,
+        senderEmail = "",
+        senderFullName = this.senderName,
+        reactions = emptyList(),
+        messageContent = this.messageContent,
+        streamId = 0,
+        topic = "",
+        timestamp = this.date
+
+    )
+}
+
+fun Message.toLocalDto(): SavedMessageLocalDto{
+    return SavedMessageLocalDto(
+        id = this.id,
+        senderId = this.senderId,
+        senderName = this.senderFullName,
+        senderImageUrl = this.senderAvatarUrl,
+        messageContent = this.messageContent,
+        date = this.timestamp
+
+    )
+}

@@ -30,9 +30,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space40
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingMassive
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.search.SearchUiState
 
@@ -58,7 +58,7 @@ fun TabScreen(
                     color = colors.primary,
                     modifier = Modifier
                         .tabIndicatorOffset(tabPositions[state.currentTabIndex])
-                        .padding(horizontal = Space40)
+                        .padding(horizontal = SpacingMassive)
                 )
             },
             divider = { }
@@ -81,7 +81,7 @@ fun TabScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = Space16),
+                    .padding(top = SpacingXLarge),
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator(
@@ -96,8 +96,8 @@ fun TabScreen(
             when (targetTab) {
                 0 -> LazyColumn(
                     modifier = Modifier.wrapContentSize(),
-                    contentPadding = PaddingValues(Space16),
-                    verticalArrangement = Arrangement.spacedBy(Space8)
+                    contentPadding = PaddingValues(SpacingXLarge),
+                    verticalArrangement = Arrangement.spacedBy(SpacingXMedium)
                 ) {
 
                     item {
@@ -121,8 +121,8 @@ fun TabScreen(
 
                 1 -> LazyColumn(
                     modifier = Modifier.wrapContentSize(),
-                    contentPadding = PaddingValues(Space16),
-                    verticalArrangement = Arrangement.spacedBy(Space8)
+                    contentPadding = PaddingValues(SpacingXLarge),
+                    verticalArrangement = Arrangement.spacedBy(SpacingXMedium)
                 ) {
                     item {
                         RecentSearch(recentSearches = state.recentSearches,
@@ -158,12 +158,12 @@ private fun RecentSearch(
                 text = stringResource(R.string.recent_search),
                 color = colors.onBackground87,
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(start = Space16, top = Space16)
+                modifier = Modifier.padding(start = SpacingXLarge, top = SpacingXLarge)
             )
             LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(Space8),
+                horizontalArrangement = Arrangement.spacedBy(SpacingXMedium),
                 modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(horizontal = Space16)
+                contentPadding = PaddingValues(horizontal = SpacingXLarge)
             ) {
                 items(recentSearches) {
                     RecentSearchItem(text = it,

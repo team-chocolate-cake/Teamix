@@ -15,9 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space4
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXMedium
 
 @Composable
 fun BadgeHome(number: Int, textColor: Color, cardColor: Color, modifier: Modifier = Modifier) {
@@ -27,11 +27,11 @@ fun BadgeHome(number: Int, textColor: Color, cardColor: Color, modifier: Modifie
     )
     Card(
         modifier = modifier.wrapContentSize().alpha(badgeAlpha),
-        shape = RoundedCornerShape(Space16),
+        shape = RoundedCornerShape(SpacingXLarge),
         colors = CardDefaults.cardColors(cardColor)
     ) {
         Text(
-            modifier = Modifier.wrapContentSize().padding(vertical = Space4, horizontal = Space8),
+            modifier = Modifier.wrapContentSize().padding(vertical = SpacingMedium, horizontal = SpacingXMedium),
             text = number.toString(), style = MaterialTheme.typography.labelMedium,
             color = textColor, textAlign = TextAlign.End
         )

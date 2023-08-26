@@ -13,9 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.R
-import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.topic.PhotoOrVideoUiState
 
@@ -43,7 +42,7 @@ fun AttachmentBottomSheet(
         ) {
             Text(
                 modifier = Modifier
-                    .padding(start = Space16),
+                    .padding(start = SpacingXLarge),
                 text = stringResource(R.string.photo_videos),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.customColors().onBackground87

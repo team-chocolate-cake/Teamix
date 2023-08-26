@@ -33,12 +33,12 @@ import com.chocolate.presentation.screens.login.composable.LoginComponents
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.screens.forget_password.navigateToForgetPassword
 import com.chocolate.presentation.screens.home.navigateToHome
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space24
-import com.chocolate.presentation.theme.Space4
-import com.chocolate.presentation.theme.Space42
-import com.chocolate.presentation.theme.Space48
-import com.chocolate.presentation.theme.Space56
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXXLarge
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingSuperMassive
+import com.chocolate.presentation.theme.SpacingGigantic
+import com.chocolate.presentation.theme.SpacingUltraGigantic
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
@@ -78,17 +78,17 @@ fun LoginContent(
         modifier = Modifier
             .fillMaxSize()
             .background(color = colors.background)
-            .padding(horizontal = Space16)
+            .padding(horizontal = SpacingXLarge)
             .verticalScroll(scrollState),
     ) {
         Text(
-            modifier = Modifier.padding(top = Space42),
+            modifier = Modifier.padding(top = SpacingSuperMassive),
             text = stringResource(R.string.welcome_to),
             style = MaterialTheme.typography.titleLarge,
             color = colors.onBackground87
         )
         Text(
-            modifier = Modifier.padding(bottom = Space48),
+            modifier = Modifier.padding(bottom = SpacingGigantic),
             text = state.organizationName,
             style = MaterialTheme.typography.titleLarge,
             color = colors.primary
@@ -106,7 +106,7 @@ fun LoginContent(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = Space4, bottom = Space24, end = Space16),
+                .padding(top = SpacingMedium, bottom = SpacingXXLarge, end = SpacingXLarge),
             horizontalArrangement = Arrangement.End
         ) {
             Text(
@@ -133,14 +133,14 @@ fun LoginContent(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(Space56),
+                .height(SpacingUltraGigantic),
             colors = colors,
         ) {
             AnimatedVisibility(visible = state.isLoading) {
                 CircularProgressIndicator(
                     color = colors.card,
                     modifier = Modifier
-                        .size(Space24)
+                        .size(SpacingXXLarge)
                         .align(Alignment.CenterVertically)
                 )
             }

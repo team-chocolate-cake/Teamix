@@ -26,10 +26,10 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.CircularButton
 import com.chocolate.presentation.theme.ImageSize40
 import com.chocolate.presentation.theme.Radius12
-import com.chocolate.presentation.theme.Space0
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space4
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingTiny
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 
 @Composable
@@ -46,11 +46,11 @@ fun CancelableRectangularProfileItem(
             modifier = modifier.fillMaxWidth(),
             shape = RoundedCornerShape(Radius12),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.customColors().card),
-            elevation = CardDefaults.elevatedCardElevation(defaultElevation = Space0)
+            elevation = CardDefaults.elevatedCardElevation(defaultElevation = SpacingTiny)
         ) {
             Column(
-                modifier = Modifier.padding(Space16),
-                verticalArrangement = Arrangement.spacedBy(Space4),
+                modifier = Modifier.padding(SpacingXLarge),
+                verticalArrangement = Arrangement.spacedBy(SpacingMedium),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
@@ -71,7 +71,7 @@ fun CancelableRectangularProfileItem(
 
         CircularButton(
             containerColor = MaterialTheme.customColors().red60,
-            modifier = Modifier.align(Alignment.TopEnd).offset(y = (-Space8), x = Space8),
+            modifier = Modifier.align(Alignment.TopEnd).offset(y = (-SpacingXMedium), x = SpacingXMedium),
             onClick = { onCancelButtonClicked() }
         ) {
             Icon(

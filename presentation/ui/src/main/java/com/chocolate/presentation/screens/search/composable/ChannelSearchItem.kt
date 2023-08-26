@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.Float1
 import com.chocolate.presentation.theme.Radius12
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,7 +48,7 @@ fun ChannelSearchItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(Space16),
+                .padding(SpacingXLarge),
             verticalAlignment = Alignment.CenterVertically
         ) {
             val iconsChannel =
@@ -57,7 +57,7 @@ fun ChannelSearchItem(
                 painter = painterResource(id = iconsChannel),
                 contentDescription = contentDescription,
                 tint = colors.primary,
-                modifier = Modifier.padding(end = Space8)
+                modifier = Modifier.padding(end = SpacingXMedium)
             )
             Text(
                 text = name,

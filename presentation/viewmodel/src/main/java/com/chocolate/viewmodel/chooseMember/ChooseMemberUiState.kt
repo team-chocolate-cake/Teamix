@@ -5,7 +5,7 @@ import com.chocolate.viewmodel.base.BaseViewModel
 data class ChooseMemberUiState(
     val searchQuery: String = "",
     val selectedMembersUiState: List<SelectedMembersUiState> = emptyList(),
-    val membersUiState: List<MembersUiState> = emptyList(),
+    val membersUiState: List<ChooseMembersUiState> = emptyList(),
     val channelName: String = "",
     val isLoading: Boolean = false,
     val successMessage: String? = null,
@@ -19,7 +19,7 @@ data class SelectedMembersUiState(
     val isClickedForRemoval: Boolean = false
 )
 
-data class MembersUiState(
+data class ChooseMembersUiState(
     val userId: Int = 0,
     val imageUrl: String ="",
     val name: String = "",

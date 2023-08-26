@@ -108,9 +108,9 @@ class ChooseMemberViewModel @Inject constructor(
     }
 
     private fun toggleMemberSelection(
-        membersUiState: List<MembersUiState>,
+        membersUiState: List<ChooseMembersUiState>,
         memberId: Int
-    ): List<MembersUiState> {
+    ): List<ChooseMembersUiState> {
         return membersUiState.map { memberUiState ->
             if (memberUiState.userId == memberId) {
                 memberUiState.copy(isSelected = !memberUiState.isSelected)
@@ -143,7 +143,7 @@ class ChooseMemberViewModel @Inject constructor(
 
     private fun addSelectedMember(
         selectedMembers: List<SelectedMembersUiState>,
-        selectedMemberUiState: MembersUiState?
+        selectedMemberUiState: ChooseMembersUiState?
     ): List<SelectedMembersUiState> {
         return selectedMemberUiState?.let { selectedMember ->
             selectedMembers + SelectedMembersUiState(
@@ -182,9 +182,9 @@ class ChooseMemberViewModel @Inject constructor(
     }
 
     private fun updateMembersSelectedState(
-        membersUiState: List<MembersUiState>,
+        membersUiState: List<ChooseMembersUiState>,
         selectedMembers: List<SelectedMembersUiState>
-    ): List<MembersUiState> {
+    ): List<ChooseMembersUiState> {
         return membersUiState.map { memberUiState ->
             val isSelected = selectedMembers.any { it.userId == memberUiState.userId }
             memberUiState.copy(isSelected = isSelected)

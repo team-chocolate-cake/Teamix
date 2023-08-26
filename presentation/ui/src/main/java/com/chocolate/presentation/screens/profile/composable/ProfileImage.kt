@@ -22,7 +22,7 @@ import coil.transform.CircleCropTransformation
 import com.chocolate.presentation.theme.ImageSize110
 import com.chocolate.presentation.theme.ImageSize130
 import com.chocolate.presentation.theme.ImageSize158
-import com.chocolate.presentation.theme.Space32
+import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.profile.ProfileUiState
 
@@ -33,7 +33,7 @@ fun ProfileImage(state: ProfileUiState) {
     Box(Modifier.height(ImageSize158)) {
         Box(
             modifier = Modifier
-                .padding(top = Space32)
+                .padding(top = SpacingExtraHuge)
                 .size(ImageSize130)
                 .clip(CircleShape)
                 .border(2.dp, color.primary, CircleShape),

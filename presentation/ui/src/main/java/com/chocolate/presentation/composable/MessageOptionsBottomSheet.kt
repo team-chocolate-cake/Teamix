@@ -21,10 +21,9 @@ import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.BottomSheetItem
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space32
-import com.chocolate.presentation.theme.Space4
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingExtraHuge
+import com.chocolate.presentation.theme.SpacingMedium
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,8 +57,8 @@ fun MessageOptionsBottomSheet(
         Column() {
             LazyRow(
                 modifier = Modifier
-                    .padding(Space16),
-                horizontalArrangement = Arrangement.spacedBy(Space16),
+                    .padding(SpacingXLarge),
+                horizontalArrangement = Arrangement.spacedBy(SpacingXLarge),
             ) {
                 items(reacts.size) {
                     AsyncImage(
@@ -68,12 +67,12 @@ fun MessageOptionsBottomSheet(
                             .data(reacts[it]).build(),
                         contentDescription = stringResource(R.string.reaction),
                         modifier = Modifier
-                            .size(Space32)
+                            .size(SpacingExtraHuge)
                             .clip(CircleShape)
                             .clickable {
                                 onAddReactionToMessage(reacts[it])
                             }
-                            .padding(end = Space4)
+                            .padding(end = SpacingMedium)
                     )
                 }
             }

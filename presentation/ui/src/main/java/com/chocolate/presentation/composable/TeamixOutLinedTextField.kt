@@ -15,8 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import com.chocolate.presentation.R
-import com.chocolate.presentation.theme.Space12
-import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.SpacingLarge
+import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.customColors
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,10 +33,10 @@ fun TeamixOutLinedTextField(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = Space16),
+            .padding(top = SpacingXLarge),
         value = text,
         onValueChange = { onValueChange(it) },
-        shape = RoundedCornerShape(Space12),
+        shape = RoundedCornerShape(SpacingLarge),
         colors = TextFieldDefaults.outlinedTextFieldColors(
             containerColor = colors.card,
             focusedBorderColor = colorFocused,

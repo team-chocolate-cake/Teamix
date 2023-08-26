@@ -27,8 +27,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.theme.Radius12
-import com.chocolate.presentation.theme.Space1
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingSmall
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,7 +53,7 @@ fun MemberSearchItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(Space8),
+                .padding(SpacingXMedium),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(modifier = Modifier
@@ -80,7 +80,7 @@ fun MemberSearchItem(
                     modifier = Modifier
                         .size(12.dp)
                         .align(Alignment.BottomEnd),
-                    border = BorderStroke(width = Space1, color = borderColor),
+                    border = BorderStroke(width = SpacingSmall, color = borderColor),
                     shape = CircleShape,
                     colors = CardDefaults.cardColors(containerColor = circleColor)
                 ) {}
@@ -89,7 +89,7 @@ fun MemberSearchItem(
                 text = name,
                 style = MaterialTheme.typography.labelMedium,
                 color = colors.onBackground87,
-                modifier = Modifier.padding(start = Space8)
+                modifier = Modifier.padding(start = SpacingXMedium)
             )
         }
     }

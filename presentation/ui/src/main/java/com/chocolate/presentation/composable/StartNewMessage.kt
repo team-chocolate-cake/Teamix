@@ -27,11 +27,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.R
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space24
-import com.chocolate.presentation.theme.Space32
-import com.chocolate.presentation.theme.Space4
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXXLarge
+import com.chocolate.presentation.theme.SpacingExtraHuge
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.topic.PhotoOrVideoUiState
@@ -63,12 +63,12 @@ fun StartNewMessage(
         modifier = modifier
             .fillMaxWidth()
             .background(MaterialTheme.customColors().background)
-            .padding(Space16)
+            .padding(SpacingXLarge)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = Space8),
+                .padding(top = SpacingXMedium),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -78,8 +78,8 @@ fun StartNewMessage(
                     contentDescription = contentDescription,
                     tint = MaterialTheme.customColors().onBackground60,
                     modifier = Modifier
-                        .padding(end = Space8 + Space4)
-                        .size(Space32)
+                        .padding(end = SpacingXMedium + SpacingMedium)
+                        .size(SpacingExtraHuge)
                         .clickable {
                             showSheet = true
                         }
@@ -90,30 +90,30 @@ fun StartNewMessage(
                     contentDescription = contentDescription,
                     tint = MaterialTheme.customColors().onBackground60,
                     modifier = Modifier
-                        .padding(end = Space8)
-                        .size(Space24)
+                        .padding(end = SpacingXMedium)
+                        .size(SpacingXXLarge)
                         .clickable {
                             openEmojisTile()
                         }
                 )
             }
             Surface(
-                shape = RoundedCornerShape(Space8),
+                shape = RoundedCornerShape(SpacingXMedium),
                 modifier = Modifier
                     .fillMaxWidth(0.9f)
-                    .padding(end = Space16),
+                    .padding(end = SpacingXLarge),
                 color = MaterialTheme.customColors().lightGray
             ) {
                 BasicTextField(
                     singleLine = true,
                     modifier = Modifier
-                        .height(Space32),
+                        .height(SpacingExtraHuge),
                     value = messageInput,
                     onValueChange = { onMessageInputChanged(it) },
                     decorationBox = { innerTextField ->
                         Box(
                             contentAlignment = Alignment.CenterStart,
-                            modifier = Modifier.padding(Space8)
+                            modifier = Modifier.padding(SpacingXMedium)
                         ) {
                             if (messageInput.isEmpty()) {
                                 Text(
@@ -129,13 +129,13 @@ fun StartNewMessage(
             }
             Surface(
                 modifier = Modifier
-                    .padding(end = Space4)
-                    .size(Space24)
+                    .padding(end = SpacingMedium)
+                    .size(SpacingXXLarge)
             ) {
                 AnimatedVisibility(visible = !messageInput.isEmpty()) {
                     Icon(
                         modifier = Modifier
-                            .size(Space24)
+                            .size(SpacingXXLarge)
                             .clickable {
                                 onSendMessage()
                             },
@@ -152,7 +152,7 @@ fun StartNewMessage(
                         contentDescription = contentDescription,
                         tint = MaterialTheme.customColors().onBackground60,
                         modifier = Modifier
-                            .size(Space24)
+                            .size(SpacingXXLarge)
                             .clickable {
                                 onStartVoiceRecording()
                             }

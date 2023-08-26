@@ -36,8 +36,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.CustomColorsPalette
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.viewmodel.home.ChannelUiState
 
 @SuppressLint("RememberReturnType")
@@ -61,7 +61,7 @@ fun ChannelItem(
             .clip(RoundedCornerShape(12.dp))
             .clickable { onClickItemChannel(state.channelId) }
             .background(color = colors.card)
-            .padding(Space16), verticalArrangement = Arrangement.Center
+            .padding(SpacingXLarge), verticalArrangement = Arrangement.Center
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),
@@ -73,7 +73,7 @@ fun ChannelItem(
                 painter = painterResource(id = iconsChannel),
                 contentDescription = null,
                 tint = colors.primary,
-                modifier = Modifier.padding(end = Space8)
+                modifier = Modifier.padding(end = SpacingXMedium)
             )
             Text(
                 text = state.name,
@@ -102,7 +102,7 @@ fun ChannelItem(
                         },
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Divider(modifier = Modifier.padding(Space8), color = colors.border)
+                    Divider(modifier = Modifier.padding(SpacingXMedium), color = colors.border)
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()

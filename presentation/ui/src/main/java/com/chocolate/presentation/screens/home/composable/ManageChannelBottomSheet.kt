@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.BottomSheet
 import com.chocolate.presentation.theme.CustomColorsPalette
-import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.SpacingXLarge
 
 @Composable
 fun ManageChannelBottomSheet(onDismissBottomSheet: () -> Unit, colors: CustomColorsPalette) {
@@ -53,7 +53,7 @@ fun ManageChannelBottomSheet(onDismissBottomSheet: () -> Unit, colors: CustomCol
             openDialog = true
         }
         Divider(
-            modifier = Modifier.wrapContentSize().padding(horizontal = Space16),
+            modifier = Modifier.wrapContentSize().padding(horizontal = SpacingXLarge),
             color = colors.border
         )
         ItemManageChannelBottomSheet(
@@ -64,7 +64,7 @@ fun ManageChannelBottomSheet(onDismissBottomSheet: () -> Unit, colors: CustomCol
             openDialog = true
         }
         Divider(
-            modifier = Modifier.wrapContentSize().padding(horizontal = Space16),
+            modifier = Modifier.wrapContentSize().padding(horizontal = SpacingXLarge),
             color = colors.border
         )
         ItemManageChannelBottomSheet(
@@ -73,7 +73,7 @@ fun ManageChannelBottomSheet(onDismissBottomSheet: () -> Unit, colors: CustomCol
             painter = painterResource(id = R.drawable.ic_copy)
         ) { }
         Divider(
-            modifier = Modifier.wrapContentSize().padding(horizontal = Space16),
+            modifier = Modifier.wrapContentSize().padding(horizontal = SpacingXLarge),
             color = colors.border
         )
         ItemManageChannelBottomSheet(
@@ -82,7 +82,7 @@ fun ManageChannelBottomSheet(onDismissBottomSheet: () -> Unit, colors: CustomCol
             painter = painterResource(id = R.drawable.ic_copy)
         ) { }
         Divider(
-            modifier = Modifier.wrapContentSize().padding(horizontal = Space16),
+            modifier = Modifier.wrapContentSize().padding(horizontal = SpacingXLarge),
             color = colors.border
         )
         ItemManageChannelBottomSheet(

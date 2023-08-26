@@ -37,10 +37,10 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.ReactionButton
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space4
-import com.chocolate.presentation.theme.Space40
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingMassive
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.channel.TopicUiSate
@@ -62,9 +62,9 @@ fun Topic(
             model = ImageRequest.Builder(LocalContext.current).data(topicUiSate.creatorImage)
                 .build(),
             modifier = Modifier
-                .padding(end = Space4)
+                .padding(end = SpacingMedium)
                 .clip(CircleShape)
-                .size(Space40),
+                .size(SpacingMassive),
             contentDescription = ""
         )
         Card(
@@ -79,8 +79,8 @@ fun Topic(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(Space8),
-                    verticalArrangement = Arrangement.spacedBy(Space8)
+                        .padding(SpacingXMedium),
+                    verticalArrangement = Arrangement.spacedBy(SpacingXMedium)
                 ) {
                     Row(
                         modifier = Modifier
@@ -105,7 +105,7 @@ fun Topic(
                     )
                     if (!topicUiSate.reactions.isEmpty()) {
                         FlowRow(
-                            horizontalArrangement = Arrangement.spacedBy(Space8),
+                            horizontalArrangement = Arrangement.spacedBy(SpacingXMedium),
                             modifier = Modifier
                         ) {
                             topicUiSate.reactions.forEach { reaction ->
@@ -115,7 +115,7 @@ fun Topic(
                             }
                             Box(contentAlignment = Alignment.Center,
                                 modifier = Modifier
-                                    .padding(vertical = Space4)
+                                    .padding(vertical = SpacingMedium)
                                     .clip(RoundedCornerShape(100.dp))
                                     .background(
                                         MaterialTheme.customColors().lightGray
@@ -123,12 +123,12 @@ fun Topic(
                                     .clickable {
                                         onOpenReactTile()
                                     }
-                                    .padding(vertical = Space4, horizontal = Space8)) {
+                                    .padding(vertical = SpacingMedium, horizontal = SpacingXMedium)) {
                                 AsyncImage(
                                     model = ImageRequest.Builder(LocalContext.current)
                                         .data(R.drawable.add_reaction).build(),
                                     contentDescription = "Reaction",
-                                    modifier = Modifier.size(Space16)
+                                    modifier = Modifier.size(SpacingXLarge)
                                 )
                             }
                         }
@@ -138,10 +138,10 @@ fun Topic(
                         Row(
                             modifier = Modifier,
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(Space4)
+                            horizontalArrangement = Arrangement.spacedBy(SpacingMedium)
                         ) {
                             LazyRow(
-                                horizontalArrangement = Arrangement.spacedBy(-Space4),
+                                horizontalArrangement = Arrangement.spacedBy(-SpacingMedium),
                                 reverseLayout = true
                             ) {
                                 if (topicUiSate.replayImages.size <= 4) {
@@ -211,7 +211,7 @@ fun Topic(
                     contentAlignment = Alignment.CenterEnd,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = Space4)
+                        .padding(vertical = SpacingMedium)
                         .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
                         .background(MaterialTheme.customColors().primary)
                         .clickable {
@@ -219,9 +219,9 @@ fun Topic(
                         }
                 ) {
                     Row(
-                        horizontalArrangement = Arrangement.spacedBy(Space4),
+                        horizontalArrangement = Arrangement.spacedBy(SpacingMedium),
                         modifier = Modifier
-                            .padding(vertical = Space4, horizontal = Space8)
+                            .padding(vertical = SpacingMedium, horizontal = SpacingXMedium)
                     ) {
                         Text(
                             text = stringResource(R.string.see_all),

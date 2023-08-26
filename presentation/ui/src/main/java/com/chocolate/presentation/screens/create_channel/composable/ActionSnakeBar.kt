@@ -16,8 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.chocolate.presentation.theme.ButtonSize32
 import com.chocolate.presentation.theme.Radius12
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space4
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.customColors
 
 @Composable
@@ -32,7 +32,7 @@ fun ActionSnakeBar(
     val textStyle = MaterialTheme.typography
 
     Box(
-        modifier = modifier.fillMaxSize().padding(Space16)
+        modifier = modifier.fillMaxSize().padding(SpacingXLarge)
     ) {
         AnimatedVisibility(
             modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter),
@@ -40,7 +40,7 @@ fun ActionSnakeBar(
         ) {
             Snackbar(shape = RoundedCornerShape(Radius12),) {
                 Row(
-                    modifier = Modifier.padding(vertical = Space4),
+                    modifier = Modifier.padding(vertical = SpacingMedium),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(modifier = Modifier.weight(3f),text = contentMessage, style = textStyle.bodyMedium)

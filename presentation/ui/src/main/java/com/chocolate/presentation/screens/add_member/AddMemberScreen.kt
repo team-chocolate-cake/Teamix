@@ -23,8 +23,8 @@ import com.chocolate.presentation.screens.add_member.composable.CancelableRectan
 import com.chocolate.presentation.composable.PersonCardWithDetails
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.theme.Border1
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.addMember.AddMemberUiState
@@ -49,7 +49,7 @@ fun AddMemberContent(
             modifier = Modifier
                 .fillMaxSize()
                 .background(color = colors.background)
-                .padding(Space16),
+                .padding(SpacingXLarge),
         ) {
             TeamixTextField(
                 value = state.searchInput,
@@ -57,8 +57,8 @@ fun AddMemberContent(
                 onValueChange = {})
 
             LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(Space8),
-                contentPadding = PaddingValues(end = Space16, top = Space16, bottom = Space16)
+                horizontalArrangement = Arrangement.spacedBy(SpacingXMedium),
+                contentPadding = PaddingValues(end = SpacingXLarge, top = SpacingXLarge, bottom = SpacingXLarge)
             ) {
                 items(state.selectedMembers) { member ->
                     CancelableRectangularProfileItem(
@@ -72,15 +72,15 @@ fun AddMemberContent(
             Divider(thickness = Border1, color = colors.border)
 
             Text(
-                modifier = Modifier.padding(top = Space16, bottom = Space8),
+                modifier = Modifier.padding(top = SpacingXLarge, bottom = SpacingXMedium),
                 text = stringResource(id = R.string.suggested),
                 style = typography.bodyLarge,
                 color = colors.onBackground87
             )
 
             LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(Space8),
-                contentPadding = PaddingValues(bottom = Space16)
+                verticalArrangement = Arrangement.spacedBy(SpacingXMedium),
+                contentPadding = PaddingValues(bottom = SpacingXLarge)
             ) {
                 items(state.suggestedMembers) { member ->
                     PersonCardWithDetails(

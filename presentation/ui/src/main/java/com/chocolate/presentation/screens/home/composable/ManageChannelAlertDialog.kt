@@ -20,9 +20,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.CustomColorsPalette
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space24
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXXLarge
+import com.chocolate.presentation.theme.SpacingXMedium
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,21 +43,21 @@ fun ManageChannelAlertDialog(
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth()
-                    .padding(start = Space24, top = Space24, bottom = Space16),
+                    .padding(start = SpacingXXLarge, top = SpacingXXLarge, bottom = SpacingXLarge),
                 text = "Do you want to $title channel",
                 style = MaterialTheme.typography.titleMedium,
                 color = colors.onBackground87,
             )
             Text(
-                modifier = Modifier.fillMaxWidth().padding(start = Space24),
+                modifier = Modifier.fillMaxWidth().padding(start = SpacingXXLarge),
                 text = subTitle,
                 style = MaterialTheme.typography.bodySmall,
                 color = colors.onBackground60,
             )
             Row(
                 modifier = Modifier.fillMaxWidth().wrapContentHeight()
-                    .padding(vertical = 34.dp).padding(end = Space24),
-                horizontalArrangement = Arrangement.spacedBy(Space24, alignment = Alignment.End)
+                    .padding(vertical = 34.dp).padding(end = SpacingXXLarge),
+                horizontalArrangement = Arrangement.spacedBy(SpacingXXLarge, alignment = Alignment.End)
             ) {
                 Text(
                     text = stringResource(R.string.dismiss),
@@ -68,7 +68,7 @@ fun ManageChannelAlertDialog(
                     text = title,
                     style = MaterialTheme.typography.bodySmall,
                     color = colors.red60,
-                    modifier = Modifier.padding(end = Space8).clickable { onDismiss() })
+                    modifier = Modifier.padding(end = SpacingXMedium).clickable { onDismiss() })
             }
         }
     }

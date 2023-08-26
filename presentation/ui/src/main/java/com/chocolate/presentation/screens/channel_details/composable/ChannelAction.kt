@@ -15,8 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space4
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.customColors
 
 @Composable
@@ -27,12 +27,12 @@ fun ChannelAction(
 ) {
     Box(
         modifier = Modifier
-            .clip(RoundedCornerShape(Space16))
+            .clip(RoundedCornerShape(SpacingXLarge))
             .background(Color.White)
             .clickable {
                 onItemClicked()
             }
-            .padding(vertical = Space16),
+            .padding(vertical = SpacingXLarge),
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -40,7 +40,7 @@ fun ChannelAction(
                 painter = icon,
                 contentDescription = "",
                 tint = MaterialTheme.customColors().onBackground60,
-                modifier = Modifier.padding(bottom = Space4)
+                modifier = Modifier.padding(bottom = SpacingMedium)
             )
             Text(
                 text = text,

@@ -35,82 +35,80 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.theme.Float1
 import com.chocolate.presentation.theme.Radius12
-import com.chocolate.presentation.theme.Space0
-import com.chocolate.presentation.theme.Space1
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space40
-import com.chocolate.presentation.theme.Space56
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingTiny
+import com.chocolate.presentation.theme.SpacingSmall
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingMassive
+import com.chocolate.presentation.theme.SpacingUltraGigantic
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.viewmodel.chooseMember.ChooseMembersUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MemberItem(
     modifier: Modifier = Modifier,
     animateLabel: String = "",
-    imageUrl: String,
-    username: String,
-    status: String,
-    isSelected: Boolean,
+    chooseMemberUiState: ChooseMembersUiState,
     painter: Painter,
     contentDescription: String = "",
-    userId: Int,
     onClickMemberItem: (Int) -> Unit
 ) {
+
     val colors = MaterialTheme.customColors()
     val cardBorderColor by animateColorAsState(
-        targetValue = if (isSelected) colors.primary else Color.Unspecified,
+        targetValue = if (chooseMemberUiState.isSelected) colors.primary else Color.Unspecified,
         label = animateLabel
     )
 
     val cardBorderWidth by animateDpAsState(
-        targetValue = if (isSelected) Space1 else Space0,
+        targetValue = if (chooseMemberUiState.isSelected) SpacingSmall else SpacingTiny,
         label = animateLabel
     )
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .height(Space56)
-            .padding(horizontal = Space16),
+            .height(SpacingUltraGigantic)
+            .padding(horizontal = SpacingXLarge),
         colors = CardDefaults.cardColors(colors.card),
         shape = RoundedCornerShape(Radius12),
-        onClick = {onClickMemberItem(userId)},
+        onClick = { onClickMemberItem(chooseMemberUiState.userId) },
         border = BorderStroke(width = cardBorderWidth, color = cardBorderColor)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(Space8),
+                .padding(SpacingXMedium),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = rememberAsyncImagePainter(model = imageUrl),
+                painter = rememberAsyncImagePainter(model = chooseMemberUiState.imageUrl),
                 contentDescription = contentDescription,
                 modifier = Modifier
-                    .size(Space40)
+                    .size(SpacingMassive)
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop
             )
             Column(
                 modifier = Modifier
                     .wrapContentSize()
-                    .padding(start = Space8),
+                    .padding(start = SpacingXMedium),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
-                    text = username,
+                    text = chooseMemberUiState.name,
                     color = colors.onBackground87,
                     style = MaterialTheme.typography.labelMedium
                 )
                 Text(
-                    text = status,
+                    text = chooseMemberUiState.status,
                     color = colors.onBackground60,
                     style = MaterialTheme.typography.labelSmall
                 )
             }
             Spacer(modifier = Modifier.weight(Float1))
-            AnimatedVisibility(visible = isSelected) {
-                CircularButton(containerColor = colors.primary, size = Space16) {
+            AnimatedVisibility(visible = chooseMemberUiState.isSelected) {
+                CircularButton(containerColor = colors.primary, size = SpacingXLarge) {
                     Icon(
                         painter = painter,
                         tint = colors.border,

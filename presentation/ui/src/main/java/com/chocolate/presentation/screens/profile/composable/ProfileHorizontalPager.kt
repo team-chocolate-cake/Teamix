@@ -14,8 +14,8 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import com.chocolate.presentation.composable.TeamixOutLinedTextField
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.main.MainViewModel
 import com.chocolate.viewmodel.profile.ProfileInteraction
@@ -34,13 +34,13 @@ fun ProfileHorizontalPager(
 ) {
     val color = MaterialTheme.customColors()
     HorizontalPager(
-        modifier = Modifier.padding(top = Space8),
+        modifier = Modifier.padding(top = SpacingXMedium),
         state = pageState,
         pageCount = 2,
         userScrollEnabled = false
     ) {
         if (pageState.currentPage == 0) {
-            LazyColumn(contentPadding = PaddingValues(all = Space16)) {
+            LazyColumn(contentPadding = PaddingValues(all = SpacingXLarge)) {
                 item {
                     val keyboardController = LocalSoftwareKeyboardController.current
                     TeamixOutLinedTextField(

@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,13 +34,13 @@ fun RecentSearchItem(
         Row(
             modifier = Modifier
                 .wrapContentSize()
-                .padding(Space8), verticalAlignment = Alignment.CenterVertically
+                .padding(SpacingXMedium), verticalAlignment = Alignment.CenterVertically
         ) {
             Text(text = text, style = MaterialTheme.typography.bodyMedium, color = colors.onPrimary)
             Icon(
                 painter = painter,
                 contentDescription = contentDescription,
-                modifier = Modifier.padding(start = Space8)
+                modifier = Modifier.padding(start = SpacingXMedium)
             )
         }
     }

@@ -29,12 +29,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.chocolate.presentation.R
-import com.chocolate.presentation.screens.profile.composable.SettingCard
 import com.chocolate.presentation.theme.CardHeight56
 import com.chocolate.presentation.theme.CustomColorsPalette
-import com.chocolate.presentation.theme.Space12
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingLarge
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.Thickness2
 import com.chocolate.viewmodel.main.MainViewModel
 import com.chocolate.viewmodel.profile.ProfileInteraction
@@ -51,13 +50,13 @@ fun ProfileSettingsPage(
 
     val context= LocalContext.current
 
-    LazyColumn(contentPadding = PaddingValues(all = Space16)) {
+    LazyColumn(contentPadding = PaddingValues(all = SpacingXLarge)) {
         item {
             Box(
                 Modifier
                     .fillMaxWidth()
-                    .padding(top = Space8)
-                    .clip(RoundedCornerShape(Space12))
+                    .padding(top = SpacingXMedium)
+                    .clip(RoundedCornerShape(SpacingLarge))
                     .wrapContentHeight()
                     .background(color.card)
             ) {
@@ -75,13 +74,13 @@ fun ProfileSettingsPage(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(CardHeight56)
-                            .padding(horizontal = Space16),
+                            .padding(horizontal = SpacingXLarge),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.dark_mode_icon),
                             contentDescription = null,
-                            modifier = Modifier.padding(end = Space8),
+                            modifier = Modifier.padding(end = SpacingXMedium),
                             tint = color.onBackground60
                         )
                         Text(

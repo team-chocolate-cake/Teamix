@@ -29,8 +29,8 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.ButtonSize48
 import com.chocolate.presentation.theme.RadioButtonsHeight350
 import com.chocolate.presentation.theme.RadioButtonsWidth300
-import com.chocolate.presentation.theme.Space12
-import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.SpacingLarge
+import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.customColors
 
 @Composable
@@ -51,14 +51,14 @@ fun MultiChoiceDialog(
             Column(
                 modifier = Modifier
                     .size(width = RadioButtonsWidth300, height = RadioButtonsHeight350)
-                    .clip(RoundedCornerShape(Space12)),
+                    .clip(RoundedCornerShape(SpacingLarge)),
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 choices.forEach { text ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = Space16),
+                            .padding(horizontal = SpacingXLarge),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {

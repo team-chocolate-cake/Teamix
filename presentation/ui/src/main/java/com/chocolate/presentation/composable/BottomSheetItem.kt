@@ -10,8 +10,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 
 @Composable
@@ -25,12 +25,12 @@ fun BottomSheetItem(
         modifier = Modifier
             .fillMaxWidth()
             .clickable{onClickItem()}
-            .padding(Space16),
+            .padding(SpacingXLarge),
     ) {
         Icon(
             painter = icon,
             contentDescription = contentDescription,
-            modifier = Modifier.padding(end = Space8)
+            modifier = Modifier.padding(end = SpacingXMedium)
         )
         Text(
             text = text,

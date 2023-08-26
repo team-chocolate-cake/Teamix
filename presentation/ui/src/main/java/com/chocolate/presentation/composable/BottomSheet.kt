@@ -10,7 +10,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.chocolate.presentation.theme.CustomColorsPalette
-import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.SpacingXLarge
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -24,7 +24,7 @@ fun BottomSheet(
         onDismissRequest = { onDismissBottomSheet() },
         sheetState = modelBottomSheetScaffoldState,
         dragHandle = { BottomSheetDefaults.DragHandle() },
-        shape = RoundedCornerShape(topStart = Space16, topEnd = Space16),
+        shape = RoundedCornerShape(topStart = SpacingXLarge, topEnd = SpacingXLarge),
         contentColor = colors.card,
         modifier = Modifier.wrapContentSize()
     ) {

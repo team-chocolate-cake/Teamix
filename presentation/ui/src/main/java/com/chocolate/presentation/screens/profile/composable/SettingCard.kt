@@ -21,8 +21,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.CardHeight56
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 
 @Composable
@@ -45,13 +45,13 @@ fun SettingCard(click: () -> Unit,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(CardHeight56)
-                .padding(horizontal = Space16),
+                .padding(horizontal = SpacingXLarge),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
                 painter = icon,
                 contentDescription = null,
-                modifier = Modifier.padding(end = Space8),
+                modifier = Modifier.padding(end = SpacingXMedium),
                 tint = iconColor
             )
 

@@ -21,7 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.channel.composable.Topic
-import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.channel.ChannelUiState
@@ -29,7 +29,7 @@ import com.chocolate.viewmodel.channel.ChannelViewModel
 import com.chocolate.viewmodel.topic.ReactionUiState
 
 @Composable
-fun ChannelScreen(viewModel: ChannelViewModel= hiltViewModel()) {
+fun ChannelScreen(viewModel: ChannelViewModel = hiltViewModel()) {
     val state by viewModel.state.collectAsState()
     ChannelContent(
         channelScreenUiState = state,
@@ -72,8 +72,8 @@ fun ChannelContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding),
-            verticalArrangement = Arrangement.spacedBy(Space16),
-            contentPadding = PaddingValues(Space16)
+            verticalArrangement = Arrangement.spacedBy(SpacingXLarge),
+            contentPadding = PaddingValues(SpacingXLarge)
         ) {
             items(channelScreenUiState.topics.size) {
                 Topic(

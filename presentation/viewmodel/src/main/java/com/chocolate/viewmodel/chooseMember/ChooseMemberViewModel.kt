@@ -28,6 +28,55 @@ class ChooseMemberViewModel @Inject constructor(
         getUsers()
     }
 
+    override fun onChangeSearchQuery(query: String) {
+        _state.update { it.copy(isLoading = true, searchQuery = query) }
+        tryToExecute(
+            { getAllUsers.searchUser(query) },
+            ::onChangeSearchSuccess,
+            ::onChangeSearchError
+        )
+    }
+
+    override fun onRemoveSelectedItem(memberId: Int) {
+        _state.update { currentState ->
+            val updatedSelectedMembersUiState =
+                removeSelectedItem(memberId, currentState.selectedMembersUiState)
+            val updatedMembersUiState = updateMembersSelectedState(
+                currentState.membersUiState,
+                updatedSelectedMembersUiState
+            )
+            currentState.copy(
+                membersUiState = updatedMembersUiState,
+                selectedMembersUiState = updatedSelectedMembersUiState
+            )
+        }
+    }
+
+    override fun addMembersInChannel(channelName: String, usersId: List<Int>) {
+        _state.update { it.copy(isLoading = true) }
+        tryToExecute(
+            { addUsersInChannel(channelName, usersId) },
+            ::onAddMembersInChannelSuccess,
+            ::onAddMembersInChannelError
+        )
+    }
+
+    override fun onClickMemberItem(memberId: Int) {
+        _state.update { currentState ->
+            val updatedMembersUiState = toggleMemberSelection(currentState.membersUiState, memberId)
+            val updatedSelectedMembersUiState =
+                updateSelectedMembers(currentState, memberId).distinct()
+            currentState.copy(
+                membersUiState = updatedMembersUiState,
+                selectedMembersUiState = updatedSelectedMembersUiState
+            )
+        }
+    }
+
+    override fun onClickRetry() {
+        getUsers()
+    }
+
     private fun getChannelName() {
         _state.update { it.copy(channelName = createChannelArgs.channelName) }
     }
@@ -55,15 +104,6 @@ class ChooseMemberViewModel @Inject constructor(
                 successMessage = null
             )
         }
-    }
-
-    override fun addMembersInChannel(channelName: String, usersId: List<Int>) {
-        _state.update { it.copy(isLoading = true) }
-        tryToExecute(
-            { addUsersInChannel(channelName, usersId) },
-            ::onAddMembersInChannelSuccess,
-            ::onAddMembersInChannelError
-        )
     }
 
     private fun onAddMembersInChannelSuccess(isCompleted: Boolean) {
@@ -183,45 +223,5 @@ class ChooseMemberViewModel @Inject constructor(
             is NoConnectionException -> stringsResource.noConnectionMessage
             else -> stringsResource.globalMessageError
         }
-    }
-
-    override fun onChangeSearchQuery(query: String) {
-        _state.update { it.copy(isLoading = true, searchQuery = query) }
-        tryToExecute(
-            { getAllUsers.searchUser(query) },
-            ::onChangeSearchSuccess,
-            ::onChangeSearchError
-        )
-    }
-
-    override fun onRemoveSelectedItem(memberId: Int) {
-        _state.update { currentState ->
-            val updatedSelectedMembersUiState =
-                removeSelectedItem(memberId, currentState.selectedMembersUiState)
-            val updatedMembersUiState = updateMembersSelectedState(
-                currentState.membersUiState,
-                updatedSelectedMembersUiState
-            )
-            currentState.copy(
-                membersUiState = updatedMembersUiState,
-                selectedMembersUiState = updatedSelectedMembersUiState
-            )
-        }
-    }
-
-    override fun onClickMemberItem(memberId: Int) {
-        _state.update { currentState ->
-            val updatedMembersUiState = toggleMemberSelection(currentState.membersUiState, memberId)
-            val updatedSelectedMembersUiState =
-                updateSelectedMembers(currentState, memberId).distinct()
-            currentState.copy(
-                membersUiState = updatedMembersUiState,
-                selectedMembersUiState = updatedSelectedMembersUiState
-            )
-        }
-    }
-
-    override fun onClickRetry() {
-        getUsers()
     }
 }

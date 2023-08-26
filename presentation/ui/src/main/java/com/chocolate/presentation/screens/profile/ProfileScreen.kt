@@ -73,7 +73,6 @@ fun ProfileScreen(
     val state by viewModel.state.collectAsState()
     val darkThemeState by mainViewModel.state.collectAsState()
     val colors = MaterialTheme.customColors()
-    val context = LocalContext.current
     val pageState = rememberPagerState(initialPage = 0)
     val scrollState = rememberScrollState()
     CollectUiEffect(viewModel) { effect ->
@@ -93,11 +92,6 @@ fun ProfileScreen(
             darkThemeState = darkThemeState,
             mainViewModel = mainViewModel,
             profileInteraction = viewModel,
-            onUpdateAppLanguage = { newLanguage ->
-                val languageCode = state.languageMap[newLanguage] ?: "en"
-                viewModel.updateAppLanguage(languageCode)
-                updateResources(context = context, localeLanguage = Locale(languageCode))
-            },
             pageState = pageState,
             scrollState = scrollState,
         )
@@ -119,7 +113,6 @@ fun ProfileContent(
     state: ProfileUiState,
     darkThemeState: Boolean,
     mainViewModel: MainViewModel,
-    onUpdateAppLanguage: (newLanguage: String) -> Unit,
     profileInteraction: ProfileInteraction,
     pageState: PagerState,
     scrollState: ScrollState
@@ -135,10 +128,14 @@ fun ProfileContent(
     AnimatedVisibility(state.showLanguageDialog) {
         MultiChoiceDialog(
             onClickDone = {
-                profileInteraction.updateLanguageDialogState(false)
+                profileInteraction.onUpdateLanguageDialogState(false)
                 mainViewModel.restart(context)
             },
-            whenChoice = { newLanguage -> onUpdateAppLanguage(newLanguage) },
+            whenChoice = { language ->
+                profileInteraction.onUpdateLanguage(language)
+                val languageCode = state.languageMap[language] ?: "en"
+                updateResources(context = context, localeLanguage = Locale(languageCode))
+            },
             choices = state.languageMap.keys.toList(),
             oldSelectedChoice = when (state.lastAppLanguage) {
                 state.languageMap[LocalLanguage.Arabic.name] -> {
@@ -170,9 +167,9 @@ fun ProfileContent(
         ProfileDialog(
             title = stringResource(R.string.logout_title),
             text = stringResource(R.string.logout_content_message),
-            onDismissButtonClick = { profileInteraction.updateLogoutDialogState(false) },
+            onDismissButtonClick = { profileInteraction.onUpdateLogoutDialogState(false) },
             onConfirmButtonClick = {
-                profileInteraction.updateLogoutDialogState(false)
+                profileInteraction.onUpdateLogoutDialogState(false)
                 profileInteraction.onLogoutButtonClicked()
             },
         )
@@ -246,7 +243,7 @@ fun ProfileContent(
                         Button(
                             onClick = {
                                 if (profileInteraction.areUserDataEqual()) {
-                                    profileInteraction.updateWarningDialog(true)
+                                    profileInteraction.onUpdateWarningDialog(true)
                                 } else {
                                     profileInteraction.onClickSettingsButton()
                                 }

@@ -32,7 +32,15 @@ class OrganizationNameViewModel @Inject constructor(
 
     override fun onClickActionButton(organizationName: String) {
         _state.update { it.copy(isLoading = true) }
-        tryToExecute({ manageOrganizationDetails.saveOrganizationName(organizationName) }, ::onSuccess, ::onError)
+        tryToExecute(
+            { manageOrganizationDetails.saveOrganizationName(organizationName) },
+            ::onSuccess,
+            ::onError
+        )
+    }
+
+    override fun onOrganizationNameChange(organizationName: String) {
+        _state.update { it.copy(organizationName = organizationName.trim(), isLoading = false) }
     }
 
     private fun onSuccess(isCheck: Boolean) {
@@ -41,7 +49,8 @@ class OrganizationNameViewModel @Inject constructor(
             sendUiEffect(OrganizationNameUiEffect.NavigateToLoginScreen)
         }
     }
-    private fun getOnboardingStatus(){
+
+    private fun getOnboardingStatus() {
         viewModelScope.launch {
             collectFlow(manageUserUsedApp.checkIfUserUsedAppOrNot()) {
                 this.copy(onboardingState = it)
@@ -57,14 +66,11 @@ class OrganizationNameViewModel @Inject constructor(
         _state.update { it.copy(isLoading = false, error = errorMessage) }
     }
 
-    private fun getOnUserLoggedIn(){
+    private fun getOnUserLoggedIn() {
         viewModelScope.launch {
             viewModelScope.launch {
                 collectFlow(getUserLoginStatus()) { this.copy(isLogged = it) }
             }
         }
-    }
-    override fun onOrganizationNameChange(organizationName: String) {
-        _state.update { it.copy(organizationName = organizationName.trim(), isLoading = false) }
     }
 }

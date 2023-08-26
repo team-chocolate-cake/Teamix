@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val customizeProfileSettings: CustomizeProfileSettingsUseCase
-) : BaseViewModel<Boolean,Unit>(false){
+) : BaseViewModel<Boolean, Unit>(false) {
 
     init {
         viewModelScope.launch(Dispatchers.IO) { isDarkThem() }
@@ -23,19 +23,19 @@ class MainViewModel @Inject constructor(
     suspend fun getLastSelectedAppLanguage() =
         customizeProfileSettings.getLastSelectedAppLanguage()
 
-    private suspend fun isDarkThem() {
-        _state.update { customizeProfileSettings.isDarkThem() }
-    }
-
-    suspend fun updateDarkTheme(darkTheme: Boolean,context: Context) {
+    suspend fun updateDarkTheme(darkTheme: Boolean, context: Context) {
         _state.update { !darkTheme }
         customizeProfileSettings.updateDarkTheme(!darkTheme)
         restart(context)
     }
-     fun restart(context: Context){
+
+    fun restart(context: Context) {
         val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
         intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         context.startActivities(arrayOf(intent))
     }
 
+    private suspend fun isDarkThem() {
+        _state.update { customizeProfileSettings.isDarkThem() }
+    }
 }

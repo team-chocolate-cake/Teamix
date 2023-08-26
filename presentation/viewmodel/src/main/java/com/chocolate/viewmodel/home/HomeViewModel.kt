@@ -33,12 +33,37 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             getUserLoginState()
-            onGettingOrganizationName()
-            onGettingOrganizationImage()
-            onGettingChannels()
+            getOrganizationName()
+            getOrganizationImage()
+            getChannels()
             getCurrentUserData()
         }
     }
+
+    override fun onClickDrafts() {
+        sendUiEffect(HomeUiEffect.NavigationToDrafts)
+    }
+
+    override fun onClickStarred() {
+        sendUiEffect(HomeUiEffect.NavigationToStarred)
+    }
+
+    override fun onClickSavedLater() {
+        sendUiEffect(HomeUiEffect.NavigationToSavedLater)
+    }
+
+    override fun onClickChannel(id: Int) {
+        sendUiEffect(HomeUiEffect.NavigateToChannel)
+    }
+
+    override fun onClickTopic(name: String) {
+        sendUiEffect(HomeUiEffect.NavigateToTopic)
+    }
+
+    override fun onClickFloatingActionButton() {
+        sendUiEffect(HomeUiEffect.NavigateToCreateChannel)
+    }
+
 
     private fun getCurrentUserData() {
         tryToExecute(
@@ -57,7 +82,7 @@ class HomeViewModel @Inject constructor(
         onError(throwable)
     }
 
-    private fun onGettingOrganizationImage() {
+    private fun getOrganizationImage() {
         tryToExecute(
             { manageOrganizationDetails.getOrganizationImage() },
             ::onGettingOrganizationImageSuccess,
@@ -75,7 +100,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun onGettingOrganizationName() {
+    private fun getOrganizationName() {
         tryToExecute(
             { manageOrganizationDetails.getOrganizationName() },
             ::onGettingOrganizationNameSuccess,
@@ -93,8 +118,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun onGettingChannels() {
-        tryToExecute({ manageChannels.getSubscribedChannels() }, ::onGettingChannelsSuccess, ::onError)
+    private fun getChannels() {
+        tryToExecute(
+            { manageChannels.getSubscribedChannels() },
+            ::onGettingChannelsSuccess,
+            ::onError
+        )
     }
 
     private fun onGettingChannelsSuccess(channels: List<Channel>) {
@@ -122,29 +151,5 @@ class HomeViewModel @Inject constructor(
                 )
             }
         }
-    }
-
-    override fun onClickDrafts() {
-        sendUiEffect(HomeUiEffect.NavigationToDrafts)
-    }
-
-    override fun onClickStarred() {
-        sendUiEffect(HomeUiEffect.NavigationToStarred)
-    }
-
-    override fun onClickSavedLater() {
-        sendUiEffect(HomeUiEffect.NavigationToSavedLater)
-    }
-
-    override fun onClickChannel(id: Int) {
-        sendUiEffect(HomeUiEffect.NavigateToChannel)
-    }
-
-    override fun onClickTopic(name: String) {
-        sendUiEffect(HomeUiEffect.NavigateToTopic)
-    }
-
-    override fun onClickFloatingActionButton() {
-        sendUiEffect(HomeUiEffect.NavigateToCreateChannel)
     }
 }

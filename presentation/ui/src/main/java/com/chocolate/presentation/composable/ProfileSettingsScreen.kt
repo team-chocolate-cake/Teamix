@@ -28,7 +28,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.compose.rememberNavController
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.CardHeight56
 import com.chocolate.presentation.theme.CustomColorsPalette
@@ -123,13 +122,13 @@ fun ProfileSettingsPage(
             )
             Divider(color = color.background, thickness = Thickness2)
             SettingCard(
-                click = { profileInteraction.updateLanguageDialogState(true) },
+                click = { profileInteraction.onUpdateLanguageDialogState(true) },
                 text = stringResource(R.string.language),
                 icon = painterResource(id = R.drawable.language)
             )
             Divider(color = color.background, thickness = Thickness2)
             SettingCard(
-                click = { profileInteraction.updateLogoutDialogState(true) },
+                click = { profileInteraction.onUpdateLogoutDialogState(true) },
                 text = stringResource(R.string.log_out),
                 icon = painterResource(id = R.drawable.logout),
                 iconColor = color.red60,

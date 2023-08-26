@@ -32,6 +32,155 @@ class ProfileViewModel @Inject constructor(
         getCurrentUser()
     }
 
+    override fun onUpdateLanguage(language: String) {
+        _state.update { it.copy(lastAppLanguage = language, error = null, message = null) }
+    }
+
+    override fun onUpdateLanguageDialogState(showDialog: Boolean) {
+        _state.update { it.copy(showLanguageDialog = showDialog, error = null, message = null) }
+    }
+
+    override fun onUpdateLogoutDialogState(showDialog: Boolean) {
+        _state.update { it.copy(showLogoutDialog = showDialog, error = null, message = null) }
+    }
+
+    override fun onUpdateWarningDialog(showDialog: Boolean) {
+        _state.update { it.copy(showWarningDialog = showDialog, error = null, message = null) }
+    }
+
+    override fun onUsernameChange(username: String) {
+        if (_state.value.originalName.isEmpty()) {
+            _state.update { it.copy(originalName = _state.value.name) }
+        }
+        _state.update {
+            it.copy(
+                name = username,
+                error = null,
+                newUsername = username,
+                message = null
+            )
+        }
+    }
+
+    override fun onEmailChange(email: String) {
+        if (_state.value.originalEmail.isEmpty()) {
+            _state.update { it.copy(originalEmail = _state.value.email) }
+        }
+        _state.update { it.copy(email = email, error = null, newEmail = email, message = null) }
+    }
+
+    override fun onUserInformationFocusChange() {
+        val userInformationSettingsState = User(
+            fullName = _state.value.name,
+            email = _state.value.email,
+            role = UserRole.fromValue(0),
+            imageUrl = "",
+            id = 0,
+            status = ""
+        )
+        tryToExecute(
+            { updateUserInformation(userInformationSettingsState) },
+            ::onUpdateUserInformationSuccess,
+            ::onError
+        )
+    }
+
+    override fun onClickRetryToUpdatePersonalInformation() {
+        onUserInformationFocusChange()
+    }
+
+    override fun onClickRetryToGetPersonalInformation() {
+        getCurrentUser()
+    }
+
+    override fun areUserDataEqual(): Boolean {
+        val currentState = _state.value
+        return currentState.name == currentState.newUsername || currentState.email == currentState.newEmail
+    }
+
+    override fun onRevertChange() {
+        val currentState = _state.value
+        val updatedState = currentState.copy(
+            name = if (currentState.originalName == "") _state.value.name else currentState.originalName,
+            email = if (currentState.originalEmail == "") _state.value.email else currentState.originalEmail,
+            error = null
+        )
+        _state.update { updatedState }
+        onUpdateWarningDialog(false)
+        _state.update { it.copy(pagerNumber = 1, error = null) }
+    }
+
+    override fun onClickProfileButton() {
+        _state.update { it.copy(pagerNumber = 0, error = null, message = null) }
+    }
+
+    override fun onClickSettingsButton() {
+        _state.update { it.copy(pagerNumber = 1, error = null, message = null) }
+    }
+
+    override fun onClickChangeMemberRole() {
+        sendUiEffect(ProfileEffect.NavigateToSearchScreen)
+    }
+
+    override fun onLogoutButtonClicked() {
+        tryToExecute(
+            call = { logout() },
+            onSuccess = ::onLogoutSuccess,
+            onError = ::onLogoutFail
+        )
+    }
+
+    private fun onUpdateUserInformationSuccess(unit: Unit) {
+        _state.update {
+            it.copy(
+                isLoading = false,
+                newUsername = "",
+                newEmail = "",
+                error = null,
+                message = stringsResource.successMessage
+            )
+        }
+    }
+
+    private fun onError(throwable: Throwable) {
+        val error = when (throwable) {
+            is ValidationException -> throwable.message
+            is NoConnectionException -> stringsResource.noConnectionMessage
+            else -> stringsResource.globalMessageError
+        }
+        _state.update { it.copy(isLoading = false, error = error, message = null) }
+    }
+
+    private fun onLogoutSuccess(unit: Unit) {
+        _state.update { it.copy(isLoading = false, error = null, message = null) }
+        sendUiEffect(ProfileEffect.NavigateToOrganizationScreen)
+    }
+
+    private fun onLogoutFail(throwable: Throwable) {
+        _state.update { it.copy(error = throwable.message) }
+    }
+
+    private fun updateAppLanguage(newLanguage: String) {
+        _state.value.lastAppLanguage = newLanguage
+        tryToExecute(
+            call = { customizeProfileSettings.saveNewSelectedLanguage(newLanguage) },
+            onSuccess = {
+                _state.update {
+                    it.copy(
+                        error = null,
+                        isLoading = false,
+                        message = null
+                    )
+                }
+            },
+            onError = ::onUpdateAppLanguageFail
+        )
+    }
+
+    private fun onUpdateAppLanguageFail(throwable: Throwable) {
+        _state.update { it.copy(error = throwable.message, isLoading = false) }
+    }
+
     private fun getLastSelectedAppLanguage() {
         viewModelScope.launch(Dispatchers.IO) {
             val language = customizeProfileSettings.getLastSelectedAppLanguage()
@@ -76,154 +225,5 @@ class ProfileViewModel @Inject constructor(
                 message = null
             )
         }
-    }
-
-    override fun updateLanguageDialogState(showDialog: Boolean) {
-        _state.update { it.copy(showLanguageDialog = showDialog, error = null, message = null) }
-    }
-
-
-    override fun updateLogoutDialogState(showDialog: Boolean) {
-        _state.update { it.copy(showLogoutDialog = showDialog, error = null, message = null) }
-    }
-
-    override fun updateWarningDialog(showDialog: Boolean) {
-        _state.update { it.copy(showWarningDialog = showDialog, error = null, message = null) }
-    }
-
-    override fun onUsernameChange(username: String) {
-        if (_state.value.originalName.isEmpty()) {
-            _state.update { it.copy(originalName = _state.value.name) }
-        }
-        _state.update {
-            it.copy(
-                name = username,
-                error = null,
-                newUsername = username,
-                message = null
-            )
-        }
-    }
-
-    override fun onEmailChange(email: String) {
-        if (_state.value.originalEmail.isEmpty()) {
-            _state.update { it.copy(originalEmail = _state.value.email) }
-        }
-
-        _state.update { it.copy(email = email, error = null, newEmail = email, message = null) }
-    }
-
-    override fun onUserInformationFocusChange() {
-        val userInformationSettingsState = User(
-            fullName = _state.value.name,
-            email = _state.value.email,
-            role = UserRole.fromValue(0),
-            imageUrl = "",
-            id = 0,
-            status = ""
-        )
-        tryToExecute(
-            { updateUserInformation(userInformationSettingsState) },
-            ::onUpdateUserInformationSuccess,
-            ::onError
-        )
-    }
-
-    override fun onClickRetryToUpdatePersonalInformation() {
-        onUserInformationFocusChange()
-    }
-
-    override fun onClickRetryToGetPersonalInformation() {
-        getCurrentUser()
-    }
-
-    override fun areUserDataEqual(): Boolean {
-        val currentState = _state.value
-        return currentState.name == currentState.newUsername || currentState.email == currentState.newEmail
-    }
-
-    override fun onRevertChange() {
-        val currentState = _state.value
-        val updatedState = currentState.copy(
-            name = if (currentState.originalName == "") _state.value.name else currentState.originalName,
-            email = if (currentState.originalEmail == "") _state.value.email else currentState.originalEmail,
-            error = null
-        )
-        _state.update { updatedState }
-        updateWarningDialog(false)
-        _state.update { it.copy(pagerNumber = 1, error = null) }
-    }
-
-    override fun onClickProfileButton() {
-        _state.update { it.copy(pagerNumber = 0, error = null, message = null) }
-    }
-
-    override fun onClickSettingsButton() {
-        _state.update { it.copy(pagerNumber = 1, error = null, message = null) }
-    }
-
-    override fun onClickChangeMemberRole() {
-        sendUiEffect(ProfileEffect.NavigateToSearchScreen)
-    }
-
-    private fun onUpdateUserInformationSuccess(unit: Unit) {
-        _state.update {
-            it.copy(
-                isLoading = false,
-                newUsername = "",
-                newEmail = "",
-                error = null,
-                message = stringsResource.successMessage
-            )
-        }
-    }
-
-
-
-    private fun onError(throwable: Throwable) {
-        val error = when (throwable) {
-            is ValidationException -> throwable.message
-            is NoConnectionException -> stringsResource.noConnectionMessage
-            else -> stringsResource.globalMessageError
-        }
-        _state.update { it.copy(isLoading = false, error = error, message = null) }
-    }
-
-    override fun onLogoutButtonClicked() {
-        tryToExecute(
-            call = { logout() },
-            onSuccess = ::onLogoutSuccess,
-            onError = ::onLogoutFail
-        )
-    }
-
-    private fun onLogoutSuccess(unit: Unit) {
-        _state.update { it.copy(isLoading = false, error = null, message = null) }
-        sendUiEffect(ProfileEffect.NavigateToOrganizationScreen)
-    }
-
-    private fun onLogoutFail(throwable: Throwable) {
-        _state.update { it.copy(error = throwable.message) }
-    }
-
-    fun updateAppLanguage(newLanguage: String) {
-        _state.value.lastAppLanguage = newLanguage
-        tryToExecute(
-            call = { customizeProfileSettings.saveNewSelectedLanguage(newLanguage) },
-            onSuccess = {
-                _state.update {
-                    it.copy(
-                        error = null,
-                        isLoading = false,
-                        message = null
-                    )
-                }
-            },
-            onError = ::onUpdateAppLanguageFail
-        )
-    }
-
-    private fun onUpdateAppLanguageFail(throwable: Throwable) {
-        _state.update { it.copy(error = throwable.message, isLoading = false) }
     }
 }

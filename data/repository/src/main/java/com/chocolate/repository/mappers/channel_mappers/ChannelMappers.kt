@@ -9,6 +9,8 @@ import com.chocolate.repository.model.dto.channels.response.SubscriptionsItemDto
 import com.chocolate.repository.model.dto.channels.response.TopicsInStreamDto
 import com.chocolate.repository.model.dto.channels.response.TopicsItemDto
 
+const val SUCCESS = "success"
+
 fun SubscriptionsItemDto.toEntity(
     topics: List<Topic>,
 ): Channel {
@@ -47,5 +49,3 @@ fun DefaultStreamDto.toSuccessOrFail(): Boolean = this.result?.equals(SUCCESS) ?
 fun TopicsItemDto.toEntity(): Topic = Topic(name = name.orEmpty(), id = maxId ?: 0)
 
 fun TopicsInStreamDto.toEntity(): List<Topic> = topics?.map { it.toEntity() } ?: emptyList()
-
-const val SUCCESS = "success"

@@ -107,6 +107,7 @@ val RowWidth250 = 250.dp
 
 val Float1 = 1f
 
+val Size68 = 68.dp
 
 
 

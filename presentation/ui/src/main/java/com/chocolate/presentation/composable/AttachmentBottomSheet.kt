@@ -12,16 +12,17 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.chocolate.presentation.R
-import com.chocolate.viewmodel.topic.PhotoOrVideoUiState
-import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.viewmodel.topic.PhotoOrVideoUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AttachmentBottomSheet(
-    onClickCamera:()->Unit,
-    onClickPhotoOrVideo:(Int)->Unit,
+    onClickCamera: () -> Unit,
+    onClickPhotoOrVideo: (Int) -> Unit,
     photoOrVideoList: List<PhotoOrVideoUiState> = emptyList(),
     onDismiss: () -> Unit,
 ) {
@@ -41,8 +42,8 @@ fun AttachmentBottomSheet(
         ) {
             Text(
                 modifier = Modifier
-                    .padding(start = Space16),
-                text = "Photo & videos",
+                    .padding(start = SpacingXLarge),
+                text = stringResource(R.string.photo_videos),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.customColors().onBackground87
             )
@@ -53,11 +54,11 @@ fun AttachmentBottomSheet(
             )
             BottomSheetItem(
                 icon = painterResource(id = R.drawable.video_record),
-                text = "Record a video"
+                text = stringResource(R.string.record_a_video)
             )
             BottomSheetItem(
-                icon = painterResource(id = R.drawable.file) ,
-                text = "Upload a file"
+                icon = painterResource(id = R.drawable.file),
+                text = stringResource(R.string.upload_a_file)
             )
         }
     }

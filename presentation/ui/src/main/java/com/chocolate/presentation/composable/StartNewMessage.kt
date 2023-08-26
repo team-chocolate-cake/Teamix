@@ -24,13 +24,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.R
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space24
-import com.chocolate.presentation.theme.Space32
-import com.chocolate.presentation.theme.Space4
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXXLarge
+import com.chocolate.presentation.theme.SpacingExtraHuge
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.topic.PhotoOrVideoUiState
@@ -41,11 +42,12 @@ fun StartNewMessage(
     onMessageInputChanged: (String) -> Unit,
     onSendMessage: () -> Unit,
     onStartVoiceRecording: () -> Unit,
-    onClickCamera:()->Unit,
-    onClickPhotoOrVideo:(Int)->Unit,
+    onClickCamera: () -> Unit,
+    onClickPhotoOrVideo: (Int) -> Unit,
     photoOrVideoList: List<PhotoOrVideoUiState> = emptyList(),
     modifier: Modifier = Modifier,
     messageInput: String = "",
+    contentDescription: String? = null
 ) {
     var showSheet by remember { mutableStateOf(false) }
     if (showSheet) {
@@ -61,23 +63,23 @@ fun StartNewMessage(
         modifier = modifier
             .fillMaxWidth()
             .background(MaterialTheme.customColors().background)
-            .padding(Space16)
+            .padding(SpacingXLarge)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = Space8),
+                .padding(top = SpacingXMedium),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     painter = painterResource(id = R.drawable.add_attachment),
-                    contentDescription = "",
+                    contentDescription = contentDescription,
                     tint = MaterialTheme.customColors().onBackground60,
                     modifier = Modifier
-                        .padding(end = Space8 + Space4)
-                        .size(Space32)
+                        .padding(end = SpacingXMedium + SpacingMedium)
+                        .size(SpacingExtraHuge)
                         .clickable {
                             showSheet = true
                         }
@@ -85,37 +87,37 @@ fun StartNewMessage(
 
                 Icon(
                     painter = painterResource(id = R.drawable.smile_circle),
-                    contentDescription = "",
+                    contentDescription = contentDescription,
                     tint = MaterialTheme.customColors().onBackground60,
                     modifier = Modifier
-                        .padding(end = Space8)
-                        .size(Space24)
+                        .padding(end = SpacingXMedium)
+                        .size(SpacingXXLarge)
                         .clickable {
                             openEmojisTile()
                         }
                 )
             }
             Surface(
-                shape = RoundedCornerShape(Space8),
+                shape = RoundedCornerShape(SpacingXMedium),
                 modifier = Modifier
                     .fillMaxWidth(0.9f)
-                    .padding(end = Space16),
+                    .padding(end = SpacingXLarge),
                 color = MaterialTheme.customColors().lightGray
             ) {
                 BasicTextField(
                     singleLine = true,
                     modifier = Modifier
-                        .height(Space32),
+                        .height(SpacingExtraHuge),
                     value = messageInput,
                     onValueChange = { onMessageInputChanged(it) },
                     decorationBox = { innerTextField ->
                         Box(
                             contentAlignment = Alignment.CenterStart,
-                            modifier = Modifier.padding(Space8)
+                            modifier = Modifier.padding(SpacingXMedium)
                         ) {
                             if (messageInput.isEmpty()) {
                                 Text(
-                                    text = "Start new message",
+                                    text = stringResource(R.string.start_new_message),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.customColors().onBackground60
                                 )
@@ -127,13 +129,13 @@ fun StartNewMessage(
             }
             Surface(
                 modifier = Modifier
-                    .padding(end = Space4)
-                    .size(Space24)
+                    .padding(end = SpacingMedium)
+                    .size(SpacingXXLarge)
             ) {
                 AnimatedVisibility(visible = !messageInput.isEmpty()) {
                     Icon(
                         modifier = Modifier
-                            .size(Space24)
+                            .size(SpacingXXLarge)
                             .clickable {
                                 onSendMessage()
                             },
@@ -147,10 +149,10 @@ fun StartNewMessage(
                 AnimatedVisibility(visible = messageInput.isEmpty()) {
                     Icon(
                         painter = painterResource(id = R.drawable.microphone),
-                        contentDescription = "",
+                        contentDescription = contentDescription,
                         tint = MaterialTheme.customColors().onBackground60,
                         modifier = Modifier
-                            .size(Space24)
+                            .size(SpacingXXLarge)
                             .clickable {
                                 onStartVoiceRecording()
                             }
@@ -167,7 +169,7 @@ fun StartNewMessage(
 fun StartNewMessagePreview() {
     TeamixTheme {
         StartNewMessage(
-            {} , {} ,{} ,{} ,{} ,{}
+            {}, {}, {}, {}, {}, {}
         )
     }
 }

@@ -32,8 +32,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.theme.ImageSize40
 import com.chocolate.presentation.theme.Radius12
-import com.chocolate.presentation.theme.Space4
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 
 @Composable
@@ -58,7 +58,7 @@ fun SelectedMemberItem(
                 .wrapContentHeight()
                 .align(Alignment.Center)
         ) {
-            Spacer(modifier = Modifier.height(Space8))
+            Spacer(modifier = Modifier.height(SpacingXMedium))
             Image(
                 painter = rememberAsyncImagePainter(model = imageUrl),
                 contentDescription = contentDescription,
@@ -73,8 +73,8 @@ fun SelectedMemberItem(
                 style = MaterialTheme.typography.labelSmall,
                 color = colors.onBackground87,
                 modifier = Modifier
-                    .padding(horizontal = Space8)
-                    .padding(top = Space4, bottom = Space8)
+                    .padding(horizontal = SpacingXMedium)
+                    .padding(top = SpacingMedium, bottom = SpacingXMedium)
                     .align(Alignment.CenterHorizontally),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,

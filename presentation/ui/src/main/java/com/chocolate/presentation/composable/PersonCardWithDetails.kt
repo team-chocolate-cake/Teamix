@@ -31,8 +31,8 @@ import com.chocolate.presentation.theme.ButtonSize24
 import com.chocolate.presentation.theme.Float1
 import com.chocolate.presentation.theme.ImageSize40
 import com.chocolate.presentation.theme.Radius12
-import com.chocolate.presentation.theme.Space0
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingTiny
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 
 @Composable
@@ -42,7 +42,7 @@ fun PersonCardWithDetails(
     personImageUrl: String,
     title: String,
     subTitle: String,
-    contentDescription: String,
+    contentDescription: String?=null,
     subTitleMaxLine: Int = 1,
     date: String = "",
     isSelected: Boolean = false
@@ -51,7 +51,7 @@ fun PersonCardWithDetails(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(Radius12),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.customColors().card),
-        elevation = CardDefaults.elevatedCardElevation(defaultElevation = Space0),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = SpacingTiny),
         border = if (isSelected) {
             BorderStroke(Border1, color = MaterialTheme.customColors().primary)
         } else {
@@ -61,7 +61,7 @@ fun PersonCardWithDetails(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(Space8),
+                .padding(SpacingXMedium),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
@@ -74,8 +74,8 @@ fun PersonCardWithDetails(
             )
 
             Column(
-                modifier = Modifier.padding(horizontal = Space8),
-                verticalArrangement = Arrangement.spacedBy(Space8)
+                modifier = Modifier.padding(horizontal = SpacingXMedium),
+                verticalArrangement = Arrangement.spacedBy(SpacingXMedium)
             ) {
                 Row(
                     modifier = if (!isSelected) { Modifier.fillMaxWidth() } else { Modifier },

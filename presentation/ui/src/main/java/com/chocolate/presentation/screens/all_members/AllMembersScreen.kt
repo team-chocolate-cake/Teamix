@@ -17,15 +17,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.PersonCardWithDetails
 import com.chocolate.presentation.composable.TeamixTextField
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.allMembers.AllMembersUiState
 
 @Composable
 fun AllMembersScreen(
-    //navController: NavController,
 
 ) {
     AllMembersContent(state = AllMembersUiState())
@@ -41,15 +40,15 @@ private fun AllMembersContent(
             modifier = Modifier
                 .fillMaxSize()
                 .background(color = colors.background)
-                .padding(Space16),
+                .padding(SpacingXLarge),
         ) {
         TeamixTextField(
             value = state.searchInput,
             hint = stringResource(id = R.string.search),
             onValueChange = {})
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(Space8),
-            contentPadding = PaddingValues(vertical = Space16)
+            verticalArrangement = Arrangement.spacedBy(SpacingXMedium),
+            contentPadding = PaddingValues(vertical = SpacingXLarge)
         ) {
             items(state.members) { member ->
                 PersonCardWithDetails(
@@ -57,7 +56,6 @@ private fun AllMembersContent(
                     title = member.name,
                     subTitle = member.jobTitle,
                     painter = painterResource(id = R.drawable.ic_check),
-                        contentDescription = ""
                     )
                 }
             }

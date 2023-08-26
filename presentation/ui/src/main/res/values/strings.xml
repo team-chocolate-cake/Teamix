@@ -118,4 +118,12 @@
     <string name="drafts">Drafts</string>
     <string name="savedlater">SavedLater</string>
     <string name="add_fab">Add FAB</string>
+    <string name="photo_videos"><![CDATA[Photo & videos]]></string>
+    <string name="record_a_video">Record a video</string>
+    <string name="upload_a_file">Upload a file</string>
+    <string name="start_new_message">Start new message</string>
+    <string name="add_to_saved_items">Add to saved items</string>
+    <string name="get_notified_about_new_replies">Get notified about new replies</string>
+    <string name="pin_to_conversation">Pin to conversation</string>
+    <string name="reaction">Reaction</string>
 </resources>

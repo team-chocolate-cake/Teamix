@@ -14,15 +14,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXMedium
 
 @Composable
 fun SeparatorWithText(modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = Space16),
+            .padding(horizontal = SpacingXLarge),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -31,21 +31,21 @@ fun SeparatorWithText(modifier: Modifier = Modifier) {
                 .weight(1f)
                 .height(1.dp)
                 .background(Color.Gray)
-                .padding(horizontal = Space8)
+                .padding(horizontal = SpacingXMedium)
         )
         Text(
             text = "OR",
             color = Color.Gray,
             modifier = Modifier
                 .background(Color.Transparent, shape = RoundedCornerShape(4.dp))
-                .padding(horizontal = Space8)
+                .padding(horizontal = SpacingXMedium)
         )
         Box(
             modifier = Modifier
                 .weight(1f)
                 .height(1.dp)
                 .background(Color.Gray)
-                .padding(horizontal = Space8)
+                .padding(horizontal = SpacingXMedium)
         )
     }
 }

@@ -26,11 +26,11 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.chocolate.presentation.R
 import com.chocolate.viewmodel.topic.PhotoOrVideoUiState
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space24
-import com.chocolate.presentation.theme.Space4
-import com.chocolate.presentation.theme.Space56
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXXLarge
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingUltraGigantic
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 
@@ -42,16 +42,16 @@ fun PhotoAndVideoPicker(
 ) {
     LazyRow(
         modifier = Modifier
-            .padding(start = Space16 , top = Space16 , bottom = Space16 ),
-        horizontalArrangement = Arrangement.spacedBy(Space8)
+            .padding(start = SpacingXLarge , top = SpacingXLarge , bottom = SpacingXLarge ),
+        horizontalArrangement = Arrangement.spacedBy(SpacingXMedium)
     ) {
         item {
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .padding(end = Space8)
-                    .size(Space56)
-                    .clip(RoundedCornerShape(Space8 + Space4))
+                    .padding(end = SpacingXMedium)
+                    .size(SpacingUltraGigantic)
+                    .clip(RoundedCornerShape(SpacingXMedium + SpacingMedium))
                     .background(MaterialTheme.customColors().primary)
                     .clickable {
                         onClickCamera()
@@ -60,7 +60,7 @@ fun PhotoAndVideoPicker(
                 ) {
 
                 Icon(
-                    modifier = Modifier.size(Space24),
+                    modifier = Modifier.size(SpacingXXLarge),
                     painter = painterResource(id = R.drawable.camera),
                     contentDescription = "",
                     tint = MaterialTheme.customColors().onPrimary
@@ -71,8 +71,8 @@ fun PhotoAndVideoPicker(
             Box(
                 contentAlignment = Alignment.TopEnd,
                 modifier = Modifier
-                    .size(Space56)
-                    .clip(RoundedCornerShape(Space8 + Space4))
+                    .size(SpacingUltraGigantic)
+                    .clip(RoundedCornerShape(SpacingXMedium + SpacingMedium))
                     .clickable {
                         onClickPhotoOrVideo(it)
                     }
@@ -88,7 +88,7 @@ fun PhotoAndVideoPicker(
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
-                        .padding(top = Space4 , end = Space4)
+                        .padding(top = SpacingMedium , end = SpacingMedium)
                         .size(10.dp)
                         .clip(CircleShape)
                         .border(width = if(photoOrVideoList[it].isSelected)0.dp else (0.5).dp, color = Color.White)

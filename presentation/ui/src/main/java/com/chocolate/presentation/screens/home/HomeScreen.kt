@@ -48,9 +48,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.BadgeHome
-import com.chocolate.presentation.composable.ChannelItem
-import com.chocolate.presentation.composable.ManageChannelBottomSheet
+import com.chocolate.presentation.screens.home.composable.BadgeHome
+import com.chocolate.presentation.screens.home.composable.ChannelItem
+import com.chocolate.presentation.screens.home.composable.ManageChannelBottomSheet
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.create_channel.navigateToCreateChannel
@@ -60,11 +60,11 @@ import com.chocolate.presentation.theme.Float1
 import com.chocolate.presentation.theme.LightPrimary
 import com.chocolate.presentation.theme.OnLightPrimary
 import com.chocolate.presentation.theme.Radius16
-import com.chocolate.presentation.theme.Space12
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space4
-import com.chocolate.presentation.theme.Space64
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingLarge
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingMegaGigantic
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
@@ -159,15 +159,15 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = Space64),
-            contentPadding = PaddingValues(vertical = Space16),
-            verticalArrangement = Arrangement.spacedBy(Space8),
+                .padding(top = SpacingMegaGigantic),
+            contentPadding = PaddingValues(vertical = SpacingXLarge),
+            verticalArrangement = Arrangement.spacedBy(SpacingXMedium),
         ) {
             item {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = Space12)
+                        .padding(horizontal = SpacingLarge)
                         .wrapContentHeight(),
                     horizontalArrangement = Arrangement.SpaceAround,
                 ) {
@@ -178,7 +178,7 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                         colors = colors,
                         onClickItemCard = { homeInteraction.onClickDrafts() },
                         modifier = Modifier
-                            .padding(horizontal = Space4)
+                            .padding(horizontal = SpacingMedium)
                             .weight(Float1)
                     )
 
@@ -189,7 +189,7 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                         colors = colors,
                         onClickItemCard = { homeInteraction.onClickSavedLater() },
                         modifier = Modifier
-                            .padding(horizontal = Space4)
+                            .padding(horizontal = SpacingMedium)
                             .weight(Float1)
                     )
                 }
@@ -200,8 +200,8 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                     style = MaterialTheme.typography.bodyLarge,
                     color = colors.onBackground87,
                     modifier = Modifier
-                        .padding(top = Space8)
-                        .padding(horizontal = Space16)
+                        .padding(top = SpacingXMedium)
+                        .padding(horizontal = SpacingXLarge)
                 )
             }
             items(items = state.channels, key = { currentChannel ->
@@ -216,7 +216,7 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                         homeInteraction.onClickTopic(it)
                     },
                     modifier = Modifier
-                        .padding(horizontal = Space16)
+                        .padding(horizontal = SpacingXLarge)
                         .animateItemPlacement()
                 )
             }
@@ -250,14 +250,14 @@ private fun CardItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.End)
-                    .padding(end = Space4, top = Space4)
+                    .padding(end = SpacingMedium, top = SpacingMedium)
             )
             Icon(
                 painter = painter,
                 contentDescription = "icons",
                 modifier = Modifier
                     .wrapContentSize()
-                    .padding(bottom = Space8)
+                    .padding(bottom = SpacingXMedium)
                     .align(Alignment.CenterHorizontally),
                 tint = colors.onBackground60,
             )

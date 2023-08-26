@@ -1,7 +1,6 @@
 package com.chocolate.presentation.screens.organiztion
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -40,11 +39,11 @@ import com.chocolate.presentation.screens.create_organization.navigateToCreateOr
 import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.screens.login.navigateToLogin
 import com.chocolate.presentation.screens.welcome.navigateToWelcome
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space24
-import com.chocolate.presentation.theme.Space32
-import com.chocolate.presentation.theme.Space48
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXXLarge
+import com.chocolate.presentation.theme.SpacingExtraHuge
+import com.chocolate.presentation.theme.SpacingGigantic
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
@@ -105,7 +104,7 @@ fun OrganizationContent(
             Text(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
-                    .padding(top = Space32),
+                    .padding(top = SpacingExtraHuge),
                 text = stringResource(R.string.enter_your_name_organization),
                 style = MaterialTheme.typography.labelMedium,
                 color = colors.onBackground87
@@ -115,7 +114,7 @@ fun OrganizationContent(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
                     .padding(bottom = 24.dp)
-                    .padding(top = Space8),
+                    .padding(top = SpacingXMedium),
                 value = state.organizationName,
                 onValueChange = { nameOrganization ->
                     organizationNameInteraction.onOrganizationNameChange(nameOrganization)
@@ -146,8 +145,8 @@ fun OrganizationContent(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(Space48)
-                    .padding(horizontal = Space16),
+                    .height(SpacingGigantic)
+                    .padding(horizontal = SpacingXLarge),
                 colors = colors,
             ) {
                 if (state.isLoading) {
@@ -160,7 +159,7 @@ fun OrganizationContent(
                     )
                 }
             }
-            SeparatorWithText(modifier = Modifier.padding(bottom = Space8, top = Space32))
+            SeparatorWithText(modifier = Modifier.padding(bottom = SpacingXMedium, top = SpacingExtraHuge))
             Text(
                 text = stringResource(R.string.create_new_organizat),
                 color = colors.primary,
@@ -168,7 +167,7 @@ fun OrganizationContent(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .clickable { organizationNameInteraction.onClickCreateOrganization() }
-                    .padding(bottom = Space24),
+                    .padding(bottom = SpacingXXLarge),
                 textAlign = TextAlign.Center
             )
         }

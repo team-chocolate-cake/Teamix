@@ -38,19 +38,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.MultiChoiceDialog
-import com.chocolate.presentation.composable.ProfileDialog
-import com.chocolate.presentation.composable.ProfileHorizontalPager
-import com.chocolate.presentation.composable.ProfileImage
+import com.chocolate.presentation.screens.profile.composable.ProfileHorizontalPager
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
+import com.chocolate.presentation.screens.profile.composable.ProfileDialog
+import com.chocolate.presentation.screens.profile.composable.ProfileImage
 import com.chocolate.presentation.theme.BoxHeight440
 import com.chocolate.presentation.theme.ButtonSize110
 import com.chocolate.presentation.theme.Radius16
 import com.chocolate.presentation.theme.Radius24
 import com.chocolate.presentation.theme.RowWidth250
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space26
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingHuge
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
@@ -61,6 +61,7 @@ import com.chocolate.viewmodel.profile.ProfileEffect
 import com.chocolate.viewmodel.profile.ProfileInteraction
 import com.chocolate.viewmodel.profile.ProfileUiState
 import com.chocolate.viewmodel.profile.ProfileViewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import java.util.Locale
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -75,6 +76,8 @@ fun ProfileScreen(
     val colors = MaterialTheme.customColors()
     val pageState = rememberPagerState(initialPage = 0)
     val scrollState = rememberScrollState()
+
+
     CollectUiEffect(viewModel) { effect ->
         when (effect) {
             ProfileEffect.NavigateToOrganizationScreen -> {
@@ -95,6 +98,7 @@ fun ProfileScreen(
             pageState = pageState,
             scrollState = scrollState,
         )
+
     } else {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -117,9 +121,13 @@ fun ProfileContent(
     pageState: PagerState,
     scrollState: ScrollState
 ) {
+
     val color = MaterialTheme.customColors()
     val context = LocalContext.current
     val typography = MaterialTheme.typography
+    val systemUiController = rememberSystemUiController()
+
+    systemUiController.setSystemBarsColor(color = color.background, darkIcons = !darkThemeState)
 
     LaunchedEffect(state.pagerNumber) {
         pageState.animateScrollToPage(state.pagerNumber)
@@ -180,12 +188,12 @@ fun ProfileContent(
             modifier = Modifier
                 .fillMaxSize()
                 .background(color.background)
-                .padding(top = Space26)
+                .padding(top = SpacingHuge)
                 .verticalScroll(scrollState), horizontalAlignment = Alignment.CenterHorizontally
         ) {
             ProfileImage(state)
             Text(
-                state.name, modifier = Modifier.padding(top = Space16),
+                state.name, modifier = Modifier.padding(top = SpacingXLarge),
                 style = typography.titleMedium,
                 color = color.onBackground87
             )
@@ -204,8 +212,8 @@ fun ProfileContent(
 
             Box(
                 Modifier
-                    .padding(horizontal = Space16)
-                    .padding(bottom = Space16)
+                    .padding(horizontal = SpacingXLarge)
+                    .padding(bottom = SpacingXLarge)
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(Radius16))
                     .height(BoxHeight440)
@@ -214,7 +222,7 @@ fun ProfileContent(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = Space16),
+                        .padding(top = SpacingXLarge),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Row(
@@ -228,7 +236,7 @@ fun ProfileContent(
                         Button(
                             onClick = { profileInteraction.onClickProfileButton() },
                             modifier = Modifier
-                                .padding(start = Space8)
+                                .padding(start = SpacingXMedium)
                                 .width(ButtonSize110),
                             colors = ButtonDefaults.buttonColors(
                                 if (pageState.currentPage == 0) color.primary.copy(alpha = 1f) else
@@ -249,7 +257,7 @@ fun ProfileContent(
                                 }
                             },
                             modifier = Modifier
-                                .padding(end = Space8)
+                                .padding(end = SpacingXMedium)
                                 .width(ButtonSize110),
                             colors = ButtonDefaults.buttonColors(
                                 if (pageState.currentPage == 1) color.primary.copy(alpha = 1f) else

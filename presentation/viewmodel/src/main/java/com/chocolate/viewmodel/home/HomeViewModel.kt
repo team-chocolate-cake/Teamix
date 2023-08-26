@@ -6,9 +6,8 @@ import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.UnAuthorizedException
 import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.entities.user.User
-import com.chocolate.usecases.channel.GetSubscribedChannelsUseCase
-import com.chocolate.usecases.organization.GetImageOrganizationUseCase
-import com.chocolate.usecases.organization.GetNameOrganizationsUseCase
+import com.chocolate.usecases.channel.ManageChannelsUseCase
+import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.usecases.user.GetCurrentUserDataUseCase
 import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
@@ -21,9 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getUserLoginStatus: GetUserLoginStatusUseCase,
-    private val getSubscribedChannels: GetSubscribedChannelsUseCase,
-    private val getImageOrganization: GetImageOrganizationUseCase,
-    private val getNameOrganizations: GetNameOrganizationsUseCase,
+    private val manageChannels: ManageChannelsUseCase,
+    private val manageOrganizationDetails: ManageOrganizationDetailsUseCase,
     private val getCurrentUserData: GetCurrentUserDataUseCase
 ) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()), HomeInteraction {
 
@@ -61,7 +59,7 @@ class HomeViewModel @Inject constructor(
 
     private fun onGettingOrganizationImage() {
         tryToExecute(
-            { getImageOrganization() },
+            { manageOrganizationDetails.getOrganizationImage() },
             ::onGettingOrganizationImageSuccess,
             ::onError
         )
@@ -79,7 +77,7 @@ class HomeViewModel @Inject constructor(
 
     private fun onGettingOrganizationName() {
         tryToExecute(
-            { getNameOrganizations() },
+            { manageOrganizationDetails.getOrganizationName() },
             ::onGettingOrganizationNameSuccess,
             ::onError
         )
@@ -96,7 +94,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onGettingChannels() {
-        tryToExecute({ getSubscribedChannels() }, ::onGettingChannelsSuccess, ::onError)
+        tryToExecute({ manageChannels.getSubscribedChannels() }, ::onGettingChannelsSuccess, ::onError)
     }
 
     private fun onGettingChannelsSuccess(channels: List<Channel>) {
@@ -115,6 +113,7 @@ class HomeViewModel @Inject constructor(
         when (throwable) {
             is UnAuthorizedException, is ValidationException ->
                 sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
+
             is NoConnectionException -> _state.update {
                 it.copy(
                     showNoInternetLottie = true,

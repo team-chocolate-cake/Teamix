@@ -1,4 +1,4 @@
-package com.chocolate.remote.channels.service
+package com.chocolate.remote.api
 
 
 import com.chocolate.repository.model.dto.channels.response.AllStreamsDto

@@ -2,8 +2,8 @@ package com.chocolate.repository.repository
 
 import com.chocolate.entities.exceptions.NullDataException
 import com.chocolate.entities.messages.Message
+import com.chocolate.repository.datastore.remote.RemoteDataSource
 import com.chocolate.repository.mappers.messages.toEntity
-import com.chocolate.repository.service.remote.RemoteDataSource
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -116,15 +116,6 @@ class MessagesRepositoryImpl @Inject constructor(
         )
     }
 
-//    override suspend fun updateMessageFlags(
-//        messages: List<Int>,
-//        op: String,
-//        flag: String
-//    ): PersonalMessage {
-//        val personalMessageDto = messageDataSource.updateMessageFlags(messages, op, flag)
-//        return personalMessageDto.toPersonalMessage()
-//    }
-
     override suspend fun markAllMessagesAsRead() {
         messageDataSource.markAllMessagesAsRead()
     }
@@ -137,23 +128,15 @@ class MessagesRepositoryImpl @Inject constructor(
         messageDataSource.markTopicAsRead(steamId, topicName)
     }
 
-//    override suspend fun getMessageReadReceipts(messageId: Int): MessageReadReceipts {
-//        val messageReadReceiptsDto = messageDataSource.getMessageReadReceipts(messageId)
-//        return messageReadReceiptsDto.toMessageReadReceipts()
-//    }
-
     override suspend fun uploadFile(file: File): String {
         val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
         val filePart = MultipartBody.Part.createFormData("file", file.name, requestFile)
         return messageDataSource.uploadFile(filePart).uri.orEmpty()
     }
 
-//    override suspend fun renderMessage(content: String): RenderMessage {
-//        return messageDataSource.renderMessage(content).toRenderMessage()
-//    }
-
     override suspend fun fetchSingleMethod(messageId: Int): Message {
-        return messageDataSource.fetchSingleMessage(messageId).message?.toEntity() ?: throw NullDataException("")
+        return messageDataSource.fetchSingleMessage(messageId).message?.toEntity()
+            ?: throw NullDataException("")
     }
 
     override suspend fun checkIfMessagesMatchNarrow(
@@ -165,23 +148,4 @@ class MessagesRepositoryImpl @Inject constructor(
             narrow
         ).messages?.messageId?.matchContent.orEmpty()
     }
-
-    //todo we will not use this
-//    override suspend fun getMessagesEditHistory(messageId: Int): List<MessageEditHistory> {
-//        return messageDataSource.getMessagesEditHistory(messageId).toMessageEditHistory()
-//    }
-
-//    override suspend fun updatePersonalMessageFlagsForNarrow(
-//        anchor: String,
-//        numBefore: Int,
-//        numAfter: Int,
-//        includeAnchor: Boolean,
-//        narrow: String,
-//        op: String,
-//        flag: String
-//    ): PersonalMessageForNarrow {
-//        return messageDataSource.updatePersonalMessageFlagsForNarrow(
-//            anchor, numBefore, numAfter, includeAnchor, narrow, op, flag
-//        ).toPersonalMessageForNarrow()
-//    }
 }

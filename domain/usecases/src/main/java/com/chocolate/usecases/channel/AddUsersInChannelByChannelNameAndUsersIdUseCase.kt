@@ -14,7 +14,7 @@ class AddUsersInChannelByChannelNameAndUsersIdUseCase @Inject constructor(
         description: String? = "",
         isPrivate: Boolean = false
     ): Boolean {
-        if(isValidChannelName(channelName)){
+        if (isValidChannelName(channelName)) {
             createChannel(
                 channelName = channelName,
                 usersId = usersId,
@@ -22,12 +22,12 @@ class AddUsersInChannelByChannelNameAndUsersIdUseCase @Inject constructor(
                 isPrivate = isPrivate
             )
             return true
-        }else{
+        } else {
             throw ValidationException("Channel name must not be empty and should have fewer than 60 characters.")
         }
     }
 
-    private fun isValidChannelName(channelName: String): Boolean{
+    private fun isValidChannelName(channelName: String): Boolean {
         return channelName.isNotBlank() && channelName.length < 60
     }
 
@@ -36,7 +36,7 @@ class AddUsersInChannelByChannelNameAndUsersIdUseCase @Inject constructor(
         usersId: List<Int>,
         description: String?,
         isPrivate: Boolean
-    ): Boolean{
+    ): Boolean {
         return repository.subscribeToChannel(
             channelName = channelName,
             usersId = usersId,

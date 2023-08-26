@@ -18,9 +18,6 @@ interface ChannelsRepository {
 
     suspend fun getSubscriptionStatus(userId: Int, channelId: Int): Boolean
 
-    /**
-     * @return A list containing the IDs of all active users who are subscribed to the channel.
-     */
     suspend fun getSubscribersByChannelId(channelId: Int): List<Int>
 
     suspend fun getChannels(): List<Channel>

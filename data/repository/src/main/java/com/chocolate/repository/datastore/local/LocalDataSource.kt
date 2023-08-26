@@ -1,4 +1,4 @@
-package com.chocolate.repository.service.local
+package com.chocolate.repository.datastore.local
 
 import com.chocolate.repository.model.localDto.stream.StreamLocalDto
 import com.chocolate.repository.model.localDto.users.UserLocalDto

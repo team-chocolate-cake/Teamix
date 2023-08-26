@@ -3,7 +3,7 @@ package com.chocolate.viewmodel.organization_name
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.usecases.onboarding.ManageUserUsedAppUseCase
-import com.chocolate.usecases.organization.SaveNameOrganizationUseCase
+import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OrganizationNameViewModel @Inject constructor(
-    private val saveNameOrganizations: SaveNameOrganizationUseCase,
+    private val manageOrganizationDetails: ManageOrganizationDetailsUseCase,
     private val getUserLoginStatus: GetUserLoginStatusUseCase,
     private val stringsResource: StringsResource,
     private val manageUserUsedApp: ManageUserUsedAppUseCase
@@ -32,7 +32,7 @@ class OrganizationNameViewModel @Inject constructor(
 
     override fun onClickActionButton(organizationName: String) {
         _state.update { it.copy(isLoading = true) }
-        tryToExecute({ saveNameOrganizations(organizationName) }, ::onSuccess, ::onError)
+        tryToExecute({ manageOrganizationDetails.saveOrganizationName(organizationName) }, ::onSuccess, ::onError)
     }
 
     private fun onSuccess(isCheck: Boolean) {

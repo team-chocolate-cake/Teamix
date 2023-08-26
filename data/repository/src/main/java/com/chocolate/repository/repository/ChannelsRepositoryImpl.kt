@@ -5,7 +5,7 @@ import com.chocolate.entities.channel.MutingStatus
 import com.chocolate.entities.channel.Topic
 import com.chocolate.repository.mappers.channel_mappers.toEntity
 import com.chocolate.repository.mappers.channel_mappers.toSuccessOrFail
-import com.chocolate.repository.service.remote.RemoteDataSource
+import com.chocolate.repository.datastore.remote.RemoteDataSource
 import org.json.JSONArray
 import org.json.JSONObject
 import repositories.ChannelsRepository

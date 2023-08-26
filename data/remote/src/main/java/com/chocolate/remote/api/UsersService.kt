@@ -1,4 +1,4 @@
-package com.chocolate.remote.users.service
+package com.chocolate.remote.api
 
 
 import com.chocolate.repository.model.dto.users.response.FetchApiKeyDto

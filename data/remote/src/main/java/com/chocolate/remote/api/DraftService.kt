@@ -1,4 +1,4 @@
-package com.chocolate.remote.drafts.service
+package com.chocolate.remote.api
 
 import com.chocolate.repository.model.dto.draft.response.BaseDraftResponse
 import com.chocolate.repository.model.dto.draft.response.DraftsDto
@@ -17,20 +17,19 @@ interface DraftService {
 
     @POST("drafts")
     suspend fun createDraft(
-        @Query("id") id : Int,
+        @Query("id") id: Int,
         @Query("type") type: String,
         @Query("to") to: String,
         @Query("topic") topic: String,
         @Query("content") content: String,
         @Query("timestamp") timestamp: Long,
-
-        ) : Response<BaseDraftResponse>
+        ): Response<BaseDraftResponse>
 
     @PATCH("drafts/{draft_id}")
     suspend fun editDraft(
         @Path("draft_id") id: Int,
         @Query("type") type: String,
-        @Query("to") to:String,
+        @Query("to") to: String,
         @Query("topic") topic: String,
         @Query("content") content: String,
         @Query("timestamp") timestamp: Long,

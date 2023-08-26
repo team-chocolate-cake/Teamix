@@ -1,4 +1,4 @@
-package com.chocolate.remote.messages.service
+package com.chocolate.remote.api
 
 import com.chocolate.repository.model.dto.message.response.DefaultMessageRemoteDto
 import com.chocolate.repository.model.dto.message.response.FileRemoteDto

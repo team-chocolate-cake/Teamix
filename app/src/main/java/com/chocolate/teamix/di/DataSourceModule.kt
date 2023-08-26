@@ -3,9 +3,9 @@ package com.chocolate.teamix.di
 import com.chocolate.local.dao.RoomDataSource
 import com.chocolate.local.datastore.DataStoreDataSource
 import com.chocolate.remote.RetrofitDataSource
-import com.chocolate.repository.datastore.PreferencesDataSource
-import com.chocolate.repository.service.local.LocalDataSource
-import com.chocolate.repository.service.remote.RemoteDataSource
+import com.chocolate.repository.datastore.local.PreferencesDataSource
+import com.chocolate.repository.datastore.local.LocalDataSource
+import com.chocolate.repository.datastore.remote.RemoteDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

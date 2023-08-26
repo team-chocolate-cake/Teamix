@@ -2,7 +2,7 @@ package com.chocolate.repository.repository
 
 import com.chocolate.entities.scheduled_messages.ScheduledMessage
 import com.chocolate.repository.mappers.scheduled.toEntity
-import com.chocolate.repository.service.remote.RemoteDataSource
+import com.chocolate.repository.datastore.remote.RemoteDataSource
 import repositories.ScheduledMessageRepository
 import javax.inject.Inject
 

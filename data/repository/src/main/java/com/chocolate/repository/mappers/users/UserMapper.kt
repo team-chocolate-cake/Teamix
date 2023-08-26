@@ -9,9 +9,9 @@ import com.chocolate.repository.model.localDto.users.UserLocalDto
 
 fun UserDto.toEntity(): User {
     return User(
-        imageUrl = this.userDetailsDto?.avatarUrl ?: "",
-        email = this.userDetailsDto?.email ?: "",
-        fullName = this.userDetailsDto?.fullName ?: "",
+        imageUrl = this.userDetailsDto?.avatarUrl.orEmpty(),
+        email = this.userDetailsDto?.email.orEmpty(),
+        fullName = this.userDetailsDto?.fullName.orEmpty(),
         role = UserRole.fromValue(this.userDetailsDto?.role ?: 100),
         id = this.userDetailsDto?.userId ?: 0,
         status = ""
@@ -29,7 +29,7 @@ fun UserLocalDto.toEntity(): User {
     )
 }
 
-fun User.toLocalDto(): UserLocalDto{
+fun User.toLocalDto(): UserLocalDto {
     return UserLocalDto(
         imageUrl = this.imageUrl,
         email = this.email,
@@ -44,7 +44,7 @@ fun MemberDto.toEntity(): User = User(
     email = email.orEmpty(),
     fullName = fullName.orEmpty(),
     role = UserRole.fromValue(this.role ?: 100),
-    id = userId?:-1,
+    id = userId ?: -1,
     status = ""
 )
 

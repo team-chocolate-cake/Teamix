@@ -14,8 +14,8 @@ fun SubscriptionsItemDto.toEntity(
 ): Channel {
     return Channel(
         id = streamId ?: 0,
-        name = name ?: "",
-        description = description ?: "",
+        name = name.orEmpty(),
+        description = description.orEmpty(),
         isPrivate = inviteOnly ?: false,
         topics = topics,
         isCurrentUserSubscribed = true,
@@ -33,8 +33,8 @@ fun List<StreamDto>?.toEntity(): List<Channel> =
 fun StreamDto.toEntity(): Channel {
     return Channel(
         id = this.streamId ?: 0,
-        name = this.name ?: "",
-        description = this.description ?: "",
+        name = this.name.orEmpty(),
+        description = this.description.orEmpty(),
         isPrivate = this.inviteOnly ?: false,
         topics = emptyList(),
         isCurrentUserSubscribed = false,
@@ -42,8 +42,10 @@ fun StreamDto.toEntity(): Channel {
     )
 }
 
-fun DefaultStreamDto.toSuccessOrFail(): Boolean = this.result?.equals("success") ?: false
+fun DefaultStreamDto.toSuccessOrFail(): Boolean = this.result?.equals(SUCCESS) ?: false
 
-fun TopicsItemDto.toEntity(): Topic = Topic(name= name ?: "", id = maxId ?: 0)
+fun TopicsItemDto.toEntity(): Topic = Topic(name = name.orEmpty(), id = maxId ?: 0)
 
 fun TopicsInStreamDto.toEntity(): List<Topic> = topics?.map { it.toEntity() } ?: emptyList()
+
+const val SUCCESS = "success"

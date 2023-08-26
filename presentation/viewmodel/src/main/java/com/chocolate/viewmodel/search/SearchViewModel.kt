@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.user.User
-import com.chocolate.usecases.channel.GetChannelsUseCase
+import com.chocolate.usecases.channel.ManageChannelsUseCase
 import com.chocolate.usecases.user.GetAllUsersUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.home.toChannelsUiState
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getChannels: GetChannelsUseCase,
+    private val manageChannels: ManageChannelsUseCase,
     private val getUsers: GetAllUsersUseCase
 ): BaseViewModel<SearchUiState,SearchEffect>(SearchUiState()),SearchInteraction {
 
@@ -88,7 +88,7 @@ class SearchViewModel @Inject constructor(
 
     private fun onSearchChannels() {
         tryToExecute(
-            { getChannels.searchChannels(_state.value.query) },
+            { manageChannels.searchChannels(_state.value.query) },
             ::onChangeSearchChannelsQuerySuccess,
             ::onChangeSearchQueryError
         )

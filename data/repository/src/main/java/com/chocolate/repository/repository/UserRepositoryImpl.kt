@@ -2,11 +2,11 @@ package com.chocolate.repository.repository
 
 import com.chocolate.entities.user.Attachment
 import com.chocolate.entities.user.User
-import com.chocolate.repository.datastore.PreferencesDataSource
+import com.chocolate.repository.datastore.local.PreferencesDataSource
 import com.chocolate.repository.mappers.users.toEntity
 import com.chocolate.repository.mappers.users.toLocalDto
-import com.chocolate.repository.service.remote.RemoteDataSource
-import com.chocolate.repository.service.local.LocalDataSource
+import com.chocolate.repository.datastore.remote.RemoteDataSource
+import com.chocolate.repository.datastore.local.LocalDataSource
 import kotlinx.coroutines.flow.Flow
 import repositories.UsersRepository
 import javax.inject.Inject

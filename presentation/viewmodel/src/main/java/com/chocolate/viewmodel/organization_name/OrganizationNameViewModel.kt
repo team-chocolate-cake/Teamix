@@ -67,9 +67,7 @@ class OrganizationNameViewModel @Inject constructor(
 
     private fun getOnUserLoggedIn() {
         viewModelScope.launch {
-            viewModelScope.launch {
-                collectFlow(getUserLoginStatus()) { this.copy(isLogged = it) }
-            }
+            collectFlow(getUserLoginStatus()) { this.copy(isLogged = it) }
         }
     }
 }

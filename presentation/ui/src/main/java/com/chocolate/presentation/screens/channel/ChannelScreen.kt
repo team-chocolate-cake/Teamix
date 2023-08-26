@@ -30,9 +30,7 @@ import com.chocolate.viewmodel.channel.ChannelViewModel
 import com.chocolate.viewmodel.topic.ReactionUiState
 
 @Composable
-fun ChannelScreen(
-    channelViewModel:ChannelViewModel = hiltViewModel()
-) {
+fun ChannelScreen(channelViewModel:ChannelViewModel = hiltViewModel()) {
     val state by channelViewModel.state.collectAsState()
     ChannelContent(
         channelScreenUiState = state,
@@ -58,6 +56,7 @@ fun ChannelContent(
         hasBackArrow = true,
         title = channelScreenUiState.channelName,
         isDarkMode = isSystemInDarkTheme(),
+        hasAppBar = true,
         floatingActionButton = {
             FloatingActionButton(
                 containerColor = MaterialTheme.customColors().primary,

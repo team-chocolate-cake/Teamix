@@ -5,7 +5,7 @@ import com.chocolate.viewmodel.topic.ReactionUiState
 import com.chocolate.viewmodel.topic.TopicUiState
 
 data class ChannelScreenUiState(
-    val channelName: String = "",
+    val channelName: String = "Marwan",
     val topics: List<TopicState> = emptyList(),
     val isLoading: Boolean = false,
     val error: String? = null

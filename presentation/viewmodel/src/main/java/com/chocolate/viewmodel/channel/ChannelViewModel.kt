@@ -18,6 +18,7 @@ class ChannelViewModel @Inject constructor(
     private val channelArgs = ChannelArgs(savedStateHandle)
 
     init {
+        _state.update { it.copy(channelName = channelArgs.channelName) }
         getTopics()
     }
 

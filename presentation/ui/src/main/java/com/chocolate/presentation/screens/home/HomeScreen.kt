@@ -98,7 +98,7 @@ fun HomeScreen(
     CollectUiEffect(viewModel = homeViewModel) { effect ->
         when (effect) {
             is HomeUiEffect.NavigateToChannel -> {
-                navController.toChannelScreen(effect.id)
+                navController.toChannelScreen(effect.id , effect.name)
             }
             HomeUiEffect.NavigateToOrganizationName -> {
                 navController.navigateToOrganizationName()
@@ -213,8 +213,8 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                 ChannelItem(
                     channelUIState,
                     colors,
-                    onClickItemChannel = {
-                        homeInteraction.onClickChannel(it)
+                    onClickItemChannel = {channelId , channelName->
+                        homeInteraction.onClickChannel(channelId ,channelName )
                     }, onClickTopic = {
                         homeInteraction.onClickTopic(it)
                     },

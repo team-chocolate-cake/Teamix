@@ -137,8 +137,8 @@ class HomeViewModel @Inject constructor(
         sendUiEffect(HomeUiEffect.NavigationToSavedLater)
     }
 
-    override fun onClickChannel(id: Int) {
-        sendUiEffect(HomeUiEffect.NavigateToChannel(id))
+    override fun onClickChannel(id: Int, name: String) {
+        sendUiEffect(HomeUiEffect.NavigateToChannel(id , name))
     }
 
     override fun onClickTopic(name: String) {

@@ -50,11 +50,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.TeamixScaffold
+import com.chocolate.presentation.screens.channel.toChannelScreen
 import com.chocolate.presentation.screens.create_channel.navigateToCreateChannel
 import com.chocolate.presentation.screens.home.composable.BadgeHome
 import com.chocolate.presentation.screens.home.composable.ChannelItem
 import com.chocolate.presentation.screens.home.composable.ManageChannelBottomSheet
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
+import com.chocolate.presentation.screens.topic_details.navigateToTopic
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Float1
 import com.chocolate.presentation.theme.LightPrimary
@@ -87,14 +89,18 @@ fun HomeScreen(
 
     CollectUiEffect(homeViewModel.effect) { effect ->
         when (effect) {
-            HomeUiEffect.NavigateToChannel -> {}
+            is HomeUiEffect.NavigateToChannel -> {
+                navController.toChannelScreen(effect.id , effect.name)
+            }
             HomeUiEffect.NavigateToOrganizationName -> {
                 navController.navigateToOrganizationName()
             }
             HomeUiEffect.NavigationToDrafts -> {}
             HomeUiEffect.NavigationToSavedLater -> {}
             HomeUiEffect.NavigationToStarred -> {}
-            HomeUiEffect.NavigateToTopic -> {}
+            is HomeUiEffect.NavigateToTopic -> {
+                navController.navigateToTopic(effect.topicName)
+            }
             HomeUiEffect.NavigateToCreateChannel -> navController.navigateToCreateChannel()
         }
     }
@@ -204,8 +210,8 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                 ChannelItem(
                     channelUIState,
                     colors,
-                    onClickItemChannel = {
-                        homeInteraction.onClickChannel(it)
+                    onClickItemChannel = {channelId , channelName->
+                        homeInteraction.onClickChannel(channelId ,channelName )
                     }, onClickTopic = {
                         homeInteraction.onClickTopic(it)
                     },

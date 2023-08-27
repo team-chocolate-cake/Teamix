@@ -37,12 +37,12 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.chocolate.presentation.R
+import com.chocolate.presentation.theme.SpacingMassive
+import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingTiny
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXXLarge
-import com.chocolate.presentation.theme.SpacingMedium
-import com.chocolate.presentation.theme.SpacingMassive
 import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.topic.MessageUiState
 import com.chocolate.viewmodel.topic.ReactionUiState
@@ -56,7 +56,7 @@ fun ReplyMessage(
     onGetNotification: () -> Unit,
     onPinMessage: () -> Unit,
     onOpenReactTile: () -> Unit,
-    onClickReact: (Boolean, ReactionUiState) -> Unit,
+    onClickReact: (Boolean, ReactionUiState) -> Unit
 ) {
     var showSheet by remember { mutableStateOf(false) }
 

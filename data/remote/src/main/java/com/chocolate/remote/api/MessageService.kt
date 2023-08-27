@@ -25,7 +25,7 @@ interface MessageService {
     @POST("messages")
     suspend fun sendStreamMessage(
         @Query("type") type: String,
-        @Query("to") to: Any,
+        @Query("to") recipients: Any,
         @Query("topic") topic: String,
         @Query("content") content: String
     ): Response<SendMessageDto>
@@ -33,7 +33,7 @@ interface MessageService {
     @POST("messages")
     suspend fun sendDirectMessage(
         @Query("type") type: String,
-        @Query("to") to: Any,
+        @Query("to") recipients: String,
         @Query("content") content: String
     ): Response<SendMessageDto>
 

@@ -37,14 +37,12 @@ class MessagesRetrofitDataSource @Inject constructor(
     }
 
     override suspend fun editDraft(
-        id: Int,
         type: String,
-        to: String,
+        recipients: String,
         topic: String,
-        content: String,
-        timestamp: Long
+        content: String
     ): BaseDraftResponse {
-        return wrapApiCall { draftService.editDraft(type, to, topic, content) }
+        return wrapApiCall { draftService.editDraft(type, recipients, topic, content) }
     }
 
     override suspend fun deleteDraft(id: Int): BaseDraftResponse {
@@ -53,26 +51,22 @@ class MessagesRetrofitDataSource @Inject constructor(
 
     override suspend fun sendStreamMessage(
         type: String,
-        to: Any,
+        recipients: String,
         topic: String,
-        content: String,
-        queueId: String?,
-        localId: String?
+        content: String
     ): SendMessageDto {
         return wrapApiCall {
-            messageService.sendStreamMessage(type, to, topic, content)
+            messageService.sendStreamMessage(type, recipients, topic, content)
         }
     }
 
     override suspend fun sendDirectMessage(
         type: String,
-        to: Any,
+        recipients: String,
         content: String,
-        queueId: String?,
-        localId: String?
     ): SendMessageDto {
         return wrapApiCall {
-            messageService.sendDirectMessage(type, to, content)
+            messageService.sendDirectMessage(type, recipients, content)
         }
     }
 
@@ -86,9 +80,6 @@ class MessagesRetrofitDataSource @Inject constructor(
         messageId: Int,
         content: String,
         topic: String,
-        propagateMode: String,
-        sendNotificationToOldThread: Boolean,
-        sendNotificationToNewThread: Boolean
     ): DefaultMessageRemoteDto {
         return wrapApiCall {
             messageService.editMessage(
@@ -107,12 +98,8 @@ class MessagesRetrofitDataSource @Inject constructor(
 
     override suspend fun getMessages(
         anchor: String?,
-        includeAnchor: Boolean,
         numBefore: Int,
         numAfter: Int,
-        narrow: List<String>?,
-        clientGravatar: Boolean,
-        applyMarkdown: Boolean
     ): MessagesRemoteDto {
         return wrapApiCall { messageService.getMessages(numBefore, numAfter) }
     }
@@ -120,8 +107,6 @@ class MessagesRetrofitDataSource @Inject constructor(
     override suspend fun addEmojiReaction(
         messageId: Int,
         emojiName: String,
-        emojiCode: String?,
-        reactionType: String?
     ): DefaultMessageRemoteDto {
         return wrapApiCall {
             messageService.addEmojiReaction(messageId, emojiName)
@@ -131,8 +116,6 @@ class MessagesRetrofitDataSource @Inject constructor(
     override suspend fun deleteEmojiReaction(
         messageId: Int,
         emojiName: String,
-        emojiCode: String?,
-        reactionType: String?
     ): DefaultMessageRemoteDto {
         return wrapApiCall { messageService.deleteEmojiReaction(messageId, emojiName) }
     }
@@ -150,11 +133,11 @@ class MessagesRetrofitDataSource @Inject constructor(
     }
 
     override suspend fun checkIfMessagesMatchNarrow(
-        msg_ids: String,
+        messagesIds: String,
         narrow: String
     ): MatchNarrowDto {
         return wrapApiCall {
-            messageService.checkIfMessagesMatchNarrow(msg_ids, narrow)
+            messageService.checkIfMessagesMatchNarrow(messagesIds, narrow)
         }
     }
 

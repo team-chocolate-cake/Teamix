@@ -3,11 +3,9 @@ package com.chocolate.repository.repository
 import com.chocolate.entities.draft.Draft
 import com.chocolate.entities.exceptions.NullDataException
 import com.chocolate.entities.messages.Message
-import com.chocolate.entities.scheduled_messages.ScheduledMessage
 import com.chocolate.repository.datastore.remote.MessagesRemoteDataSource
 import com.chocolate.repository.mappers.draft.toEntity
 import com.chocolate.repository.mappers.messages.toEntity
-import com.chocolate.repository.mappers.scheduled.toEntity
 import com.chocolate.repository.utils.toJson
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -39,20 +37,16 @@ class MessagesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun editDraft(
-        id: Int,
         type: String,
-        to: List<Int>,
+        recipients: List<Int>,
         topic: String,
-        content: String,
-        timestamp: Long
+        content: String
     ) {
         messageDataSource.editDraft(
-            id = id,
             type = type,
             content = content,
             topic = topic,
-            to = to.toJson(),
-            timestamp = timestamp
+            recipients = recipients.toJson(),
         )
     }
 
@@ -62,50 +56,38 @@ class MessagesRepositoryImpl @Inject constructor(
 
     override suspend fun sendStreamMessage(
         type: String,
-        to: Any,
+        recipients: String,
         topic: String,
-        content: String,
-        queueId: String?,
-        localId: String?
+        content: String
     ): Int {
         val sendSteamMessageDto = messageDataSource.sendStreamMessage(
             type,
-            to,
+            recipients,
             topic,
-            content,
-            queueId,
-            localId
+            content
         )
         return sendSteamMessageDto.id ?: -1
     }
 
     override suspend fun sendDirectMessage(
         type: String,
-        to: Any,
-        content: String,
-        queueId: String?,
-        localId: String?
+        recipients: String,
+        content: String
     ): Int {
         val sendDirectMessageDto =
-            messageDataSource.sendDirectMessage(type, to, content, queueId, localId)
+            messageDataSource.sendDirectMessage(type, recipients, content)
         return sendDirectMessageDto.id ?: -1
     }
 
     override suspend fun editMessage(
         messageId: Int,
         content: String,
-        topic: String,
-        propagateMode: String,
-        sendNotificationToOldThread: Boolean,
-        sendNotificationToNewThread: Boolean
+        topic: String
     ) {
         messageDataSource.editMessage(
             messageId,
             content,
-            topic,
-            propagateMode,
-            sendNotificationToOldThread,
-            sendNotificationToNewThread
+            topic
         )
     }
 
@@ -115,50 +97,34 @@ class MessagesRepositoryImpl @Inject constructor(
 
     override suspend fun getMessages(
         anchor: String?,
-        includeAnchor: Boolean,
         numBefore: Int,
         numAfter: Int,
-        narrow: List<String>?,
-        clientGravatar: Boolean,
-        applyMarkdown: Boolean
     ): List<Message> {
         val messagesDto = messageDataSource.getMessages(
             anchor,
-            includeAnchor,
             numBefore,
-            numAfter,
-            narrow,
-            clientGravatar,
-            applyMarkdown
+            numAfter
         )
         return messagesDto.messages.toEntity()
     }
 
     override suspend fun addEmojiReaction(
         messageId: Int,
-        emojiName: String,
-        emojiCode: String?,
-        reactionType: String?
+        emojiName: String
     ) {
         messageDataSource.addEmojiReaction(
             messageId,
-            emojiName,
-            emojiCode,
-            reactionType
+            emojiName
         )
     }
 
     override suspend fun deleteEmojiReaction(
         messageId: Int,
-        emojiName: String,
-        emojiCode: String?,
-        reactionType: String?
+        emojiName: String
     ) {
         messageDataSource.deleteEmojiReaction(
             messageId,
             emojiName,
-            emojiCode,
-            reactionType
         )
     }
 

@@ -27,28 +27,23 @@ interface MessagesRemoteDataSource {
     ): BaseDraftResponse
 
     suspend fun editDraft(
-        id: Int,
         type: String,
-        to: String,
+        recipients: String,
         topic: String,
-        content: String,
-        timestamp: Long
+        content: String
     ): BaseDraftResponse
+
     suspend fun sendStreamMessage(
         type: String,
-        to: Any,
+        recipients: String,
         topic: String,
-        content: String,
-        queueId: String?,
-        localId: String?,
+        content: String
     ): SendMessageDto
 
     suspend fun sendDirectMessage(
         type: String,
-        to: Any,
+        recipients: String,
         content: String,
-        queueId: String?,
-        localId: String?,
     ): SendMessageDto
 
     suspend fun uploadFile(file: MultipartBody.Part): FileRemoteDto
@@ -56,36 +51,25 @@ interface MessagesRemoteDataSource {
     suspend fun editMessage(
         messageId: Int,
         content: String,
-        topic: String = "",
-        propagateMode: String = "change_one",
-        sendNotificationToOldThread: Boolean = false,
-        sendNotificationToNewThread: Boolean = true
+        topic: String = ""
     ): DefaultMessageRemoteDto
 
     suspend fun deleteMessage(messageId: Int): DefaultMessageRemoteDto
 
     suspend fun getMessages(
         anchor: String?,
-        includeAnchor: Boolean = true,
         numBefore: Int,
-        numAfter: Int,
-        narrow: List<String>? = null,
-        clientGravatar: Boolean = true,
-        applyMarkdown: Boolean = true
+        numAfter: Int
     ): MessagesRemoteDto
 
     suspend fun addEmojiReaction(
         messageId: Int,
         emojiName: String,
-        emojiCode: String?,
-        reactionType: String?
     ): DefaultMessageRemoteDto
 
     suspend fun deleteEmojiReaction(
         messageId: Int,
-        emojiName: String,
-        emojiCode: String?,
-        reactionType: String?
+        emojiName: String
     ): DefaultMessageRemoteDto
 
     suspend fun renderMessage(

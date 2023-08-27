@@ -30,7 +30,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -87,23 +86,6 @@ fun HomeScreen(
     val navController = LocalNavController.current
     val state by homeViewModel.state.collectAsState()
 
-    CollectUiEffect(homeViewModel.effect) { effect ->
-        when (effect) {
-            is HomeUiEffect.NavigateToChannel -> {
-                navController.toChannelScreen(effect.id , effect.name)
-            }
-            HomeUiEffect.NavigateToOrganizationName -> {
-                navController.navigateToOrganizationName()
-            }
-            HomeUiEffect.NavigationToDrafts -> {}
-            HomeUiEffect.NavigationToSavedLater -> {}
-            HomeUiEffect.NavigationToStarred -> {}
-            is HomeUiEffect.NavigateToTopic -> {
-                navController.navigateToTopic(effect.topicName)
-            }
-            HomeUiEffect.NavigateToCreateChannel -> navController.navigateToCreateChannel()
-        }
-    }
     when {
         state.isLogged && state.showNoInternetLottie -> {
             NoInternetLottie(
@@ -115,7 +97,28 @@ fun HomeScreen(
         }
         state.isLogged && state.isLoading -> LoadingColumn()
         state.isLogged -> HomeContent(state = state, homeViewModel)
-        !state.isLogged->navController.navigateToOrganizationName()
+        !state.isLogged -> navController.navigateToOrganizationName()
+    }
+
+    CollectUiEffect(homeViewModel.effect) { effect ->
+        when (effect) {
+            is HomeUiEffect.NavigateToChannel -> {
+                navController.toChannelScreen(effect.id, effect.name)
+            }
+
+            HomeUiEffect.NavigateToOrganizationName -> {
+                navController.navigateToOrganizationName()
+            }
+
+            HomeUiEffect.NavigationToDrafts -> {}
+            HomeUiEffect.NavigationToSavedLater -> {}
+            HomeUiEffect.NavigationToStarred -> {}
+            is HomeUiEffect.NavigateToTopic -> {
+                navController.navigateToTopic(effect.topicName)
+            }
+
+            HomeUiEffect.NavigateToCreateChannel -> navController.navigateToCreateChannel()
+        }
     }
 }
 
@@ -143,7 +146,7 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
         floatingActionButton = {
             AnimatedVisibility(visible = state.role.lowercase() == "owner") {
                 FloatingActionButton(
-                    onClick = {homeInteraction.onClickFloatingActionButton()},
+                    onClick = { homeInteraction.onClickFloatingActionButton() },
                     containerColor = MaterialTheme.customColors().primary,
                     shape = RoundedCornerShape(Radius16),
                 ) {
@@ -210,8 +213,8 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                 ChannelItem(
                     channelUIState,
                     colors,
-                    onClickItemChannel = {channelId , channelName->
-                        homeInteraction.onClickChannel(channelId ,channelName )
+                    onClickItemChannel = { channelId, channelName ->
+                        homeInteraction.onClickChannel(channelId, channelName)
                     }, onClickTopic = {
                         homeInteraction.onClickTopic(it)
                     },

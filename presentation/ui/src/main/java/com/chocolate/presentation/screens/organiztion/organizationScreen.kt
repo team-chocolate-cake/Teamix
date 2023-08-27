@@ -36,7 +36,6 @@ import com.chocolate.presentation.composable.SeparatorWithText
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.create_organization.navigateToCreateOrganization
-import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.screens.login.navigateToLogin
 import com.chocolate.presentation.screens.welcome.navigateToWelcome
 import com.chocolate.presentation.theme.SpacingExtraHuge
@@ -67,15 +66,13 @@ fun OrganizationScreen(
         }
     }
 
-    when {
-        state.isLogged -> { navController.navigateToHome() }
-        !state.onboardingState->{navController.navigateToWelcome()}
-        else -> {
-            OrganizationContent(
-                organizationNameInteraction = viewModel,
-                state = state
-            )
-        }
+    if (state.onboardingState){
+        OrganizationContent(
+            organizationNameInteraction = viewModel,
+            state = state
+        )
+    }else{
+        navController.navigateToWelcome()
     }
 }
 
@@ -159,7 +156,12 @@ fun OrganizationContent(
                     )
                 }
             }
-            SeparatorWithText(modifier = Modifier.padding(bottom = SpacingXMedium, top = SpacingExtraHuge))
+            SeparatorWithText(
+                modifier = Modifier.padding(
+                    bottom = SpacingXMedium,
+                    top = SpacingExtraHuge
+                )
+            )
             Text(
                 text = stringResource(R.string.create_new_organizat),
                 color = colors.primary,

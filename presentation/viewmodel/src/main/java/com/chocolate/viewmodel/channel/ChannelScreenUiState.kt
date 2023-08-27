@@ -1,16 +1,13 @@
 package com.chocolate.viewmodel.channel
 
 import com.chocolate.entities.channel.Topic
-import com.chocolate.viewmodel.base.BaseViewModel
-import com.chocolate.viewmodel.topic.ReactionUiState
-import com.chocolate.viewmodel.topic.TopicUiState
 
 data class ChannelScreenUiState(
     val channelName: String = "Marwan",
     val topics: List<TopicState> = emptyList(),
     val isLoading: Boolean = false,
     val error: String? = null
-) : BaseViewModel.BaseUiState
+)
 
 data class TopicState(
     val id: Int = 0,

@@ -16,10 +16,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.composable.MyReplyMessage
-import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.ReplyMessage
 import com.chocolate.presentation.composable.StartNewMessage
-import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.composable.TeamixScaffold
+import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
@@ -35,7 +35,7 @@ fun TopicScreen(
     val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
     TopicContent(topicUiState = state, viewModel)
-    CollectUiEffect(viewModel) { effect ->
+    CollectUiEffect(viewModel.effect) { effect ->
         when (effect) {
             TopicEffect.NavigationBack -> navController.popBackStack()
         }
@@ -78,8 +78,8 @@ fun TopicContent(topicUiState: TopicUiState, topicInteraction: TopicInteraction)
                         bottom.linkTo(parent.bottom)
                     },
                 reverseLayout = true,
-                verticalArrangement = Arrangement.spacedBy(Space16),
-                contentPadding = PaddingValues(bottom = Space16 , top =Space16  )
+                verticalArrangement = Arrangement.spacedBy(SpacingXLarge),
+                contentPadding = PaddingValues(bottom = SpacingXLarge, top = SpacingXLarge)
             ) {
                 items(topicUiState.messages.size) {
                     if (topicUiState.messages[it].isMyReplay)

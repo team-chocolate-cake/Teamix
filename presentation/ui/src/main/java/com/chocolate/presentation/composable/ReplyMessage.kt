@@ -38,12 +38,12 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.chocolate.presentation.R
-import com.chocolate.presentation.theme.Space0
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space24
-import com.chocolate.presentation.theme.Space4
-import com.chocolate.presentation.theme.Space40
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingMassive
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingTiny
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.topic.MessageUiState
 import com.chocolate.viewmodel.topic.ReactionUiState
@@ -74,10 +74,10 @@ fun ReplyMessage(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                end = Space24,
-                start = Space0
+                end = SpacingXXLarge,
+                start = SpacingTiny
             )
-            .padding(horizontal = Space8)
+            .padding(horizontal = SpacingXMedium)
     ) {
         val (image, messageCard, emojis) = createRefs()
 
@@ -85,9 +85,9 @@ fun ReplyMessage(
             model = ImageRequest.Builder(LocalContext.current).data(messageUiState.userImage)
                 .build(),
             modifier = Modifier
-                .padding(end = Space8)
+                .padding(end = SpacingXMedium)
                 .clip(CircleShape)
-                .size(Space40)
+                .size(SpacingMassive)
                 .constrainAs(image) {
                     start.linkTo(parent.start)
                     if (messageUiState.reactions.isNotEmpty()) bottom.linkTo(emojis.top)
@@ -103,7 +103,7 @@ fun ReplyMessage(
                 .fillMaxWidth()
                 .wrapContentSize(align = Alignment.CenterStart)
                 .padding(
-                    end = Space24
+                    end = SpacingXXLarge
                 )
                 .constrainAs(messageCard) {
                     start.linkTo(image.end)
@@ -123,11 +123,11 @@ fun ReplyMessage(
                 topStart = 12.dp,
                 topEnd = 12.dp,
                 bottomEnd = 12.dp,
-                bottomStart =  0.dp
+                bottomStart = 0.dp
             )
         ) {
             Column(
-                modifier = Modifier.padding(Space8)
+                modifier = Modifier.padding(SpacingXMedium)
             ) {
 
                 Text(
@@ -142,10 +142,10 @@ fun ReplyMessage(
                             .data(messageUiState.messageImageUrl)
                             .build(),
                         modifier = Modifier
-                            .padding(bottom = Space4)
+                            .padding(bottom = SpacingMedium)
                             .fillMaxWidth()
                             .height(150.dp)
-                            .clip(RoundedCornerShape(Space8)),
+                            .clip(RoundedCornerShape(SpacingXMedium)),
                         contentDescription = "",
                         contentScale = ContentScale.FillWidth
                     )
@@ -160,7 +160,7 @@ fun ReplyMessage(
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = Space4),
+                        .padding(top = SpacingMedium),
                     textAlign = TextAlign.Start,
                     text = messageUiState.replayDate,
                     style = MaterialTheme.typography.bodySmall,
@@ -171,7 +171,7 @@ fun ReplyMessage(
         }
 
         AnimatedVisibility(messageUiState.reactions.isNotEmpty()) {
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(Space8),
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingXMedium),
                 modifier = Modifier.constrainAs(emojis) {
                     start.linkTo(image.end)
                     top.linkTo(messageCard.bottom)
@@ -184,7 +184,7 @@ fun ReplyMessage(
 
                 Box(contentAlignment = Alignment.Center,
                     modifier = Modifier
-                        .padding(vertical = Space4)
+                        .padding(vertical = SpacingMedium)
                         .clip(RoundedCornerShape(100.dp))
                         .background(
                             MaterialTheme.customColors().lightGray
@@ -192,12 +192,12 @@ fun ReplyMessage(
                         .clickable {
                             onOpenReactTile()
                         }
-                        .padding(vertical = Space4, horizontal = Space8)) {
+                        .padding(vertical = SpacingMedium, horizontal = SpacingXMedium)) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
                             .data(R.drawable.add_reaction).build(),
                         contentDescription = "Reaction",
-                        modifier = Modifier.size(Space16)
+                        modifier = Modifier.size(SpacingXLarge)
                     )
                 }
             }

@@ -32,10 +32,10 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.chocolate.presentation.theme.Space0
-import com.chocolate.presentation.theme.Space24
-import com.chocolate.presentation.theme.Space4
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingTiny
+import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.topic.MessageUiState
 import com.chocolate.viewmodel.topic.ReactionUiState
@@ -66,10 +66,10 @@ fun MyReplyMessage(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                end = Space0,
-                start =Space24,
+                end = SpacingTiny,
+                start = SpacingXXLarge,
             )
-            .padding(horizontal = Space8)
+            .padding(horizontal = SpacingXMedium)
     ) {
         val (image, messageCard, emojis) = createRefs()
 
@@ -104,17 +104,17 @@ fun MyReplyMessage(
             )
         ) {
             Column(
-                modifier = Modifier.padding(Space8)
+                modifier = Modifier.padding(SpacingXMedium)
             ) {
                 AnimatedVisibility (messageUiState.messageImageUrl.isNotEmpty()) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current).data(messageUiState.messageImageUrl)
                             .build(),
                         modifier = Modifier
-                            .padding(bottom = Space4)
+                            .padding(bottom = SpacingMedium)
                             .fillMaxWidth()
                             .height(150.dp)
-                            .clip(RoundedCornerShape(Space8)),
+                            .clip(RoundedCornerShape(SpacingXMedium)),
                         contentDescription = "",
                         contentScale = ContentScale.FillWidth
                     )
@@ -129,7 +129,7 @@ fun MyReplyMessage(
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = Space4),
+                        .padding(top = SpacingMedium),
                     textAlign = TextAlign.End,
                     text = messageUiState.replayDate,
                     style = MaterialTheme.typography.bodySmall,
@@ -140,7 +140,7 @@ fun MyReplyMessage(
         }
 
         AnimatedVisibility (messageUiState.reactions.isNotEmpty()) {
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(Space8),
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingXMedium),
                 modifier = Modifier.constrainAs(emojis) {
                     start.linkTo(image.end)
                     top.linkTo(messageCard.bottom)

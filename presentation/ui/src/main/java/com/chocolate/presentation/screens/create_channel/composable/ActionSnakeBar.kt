@@ -37,13 +37,15 @@ fun ActionSnakeBar(
     val colors = MaterialTheme.customColors()
     val textStyle = MaterialTheme.typography
 
-    val snackBarVisible by remember { mutableStateOf(isVisible) }
     var timeVisible by remember { mutableStateOf(isVisible) }
 
-    LaunchedEffect(snackBarVisible) {
-        if (snackBarVisible) {
+    LaunchedEffect(isVisible) {
+        if (isVisible) {
             timeVisible = true
             delay(2000)
+            onClick()
+            timeVisible = false
+        }else {
             timeVisible = false
         }
     }
@@ -53,7 +55,7 @@ fun ActionSnakeBar(
     ) {
         AnimatedVisibility(
             modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter),
-            visible = snackBarVisible && timeVisible
+            visible = timeVisible
         ) {
             Snackbar(shape = RoundedCornerShape(Radius12),) {
                 Row(

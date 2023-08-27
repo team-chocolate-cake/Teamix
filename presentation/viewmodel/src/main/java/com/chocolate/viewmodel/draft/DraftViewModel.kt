@@ -2,7 +2,6 @@ package com.chocolate.viewmodel.draft
 
 import com.chocolate.entities.draft.Draft
 import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.usecases.draft.ManageDraftsUseCases
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
@@ -14,17 +13,9 @@ import javax.inject.Inject
 class DraftViewModel @Inject constructor(
     private val manageDraftsUseCases: ManageDraftsUseCases,
     private val stringsResource: StringsResource
-) : BaseViewModel<DraftUiState, Unit>(DraftUiState()), DraftInteraction {
+) : BaseViewModel<DraftsUiState, Unit>(DraftsUiState()), DraftInteraction {
 
     init {
-        getData()
-    }
-
-    override fun onClickDismisse() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onClickRetry() {
         getData()
     }
 
@@ -37,8 +28,43 @@ class DraftViewModel @Inject constructor(
         )
     }
 
+    override fun deleteDraft(id: Int) {
+        deleteDraftFromRemote(id)
+        deleteDraftFromUi(id)
+    }
+
+    override fun onClickRetry() {
+        getData()
+    }
+
+    private fun deleteDraftFromUi(id: Int) {
+        _state.update { currentState ->
+            val updatedDraftItems = currentState.draftItems.filter { it.id != id }
+            currentState.copy(draftItems = updatedDraftItems)
+        }
+    }
+
+    private fun deleteDraftFromRemote(id: Int) {
+        tryToExecute(
+            { manageDraftsUseCases.deleteDraft(id) },
+            ::onDeleteDraftSuccess,
+            ::onError
+        )
+    }
+
+    private fun onDeleteDraftSuccess(unit: Unit) {
+        _state.update { it.copy(showNoInternetLottie = false, error = null, isLoading = false) }
+    }
+
     private fun onGetDraftsSuccess(drafts: List<Draft>) {
-        _state.update { it.copy(isLoading = false, error = null, messages = drafts.toUiState()) }
+        _state.update {
+            it.copy(
+                isLoading = false,
+                error = null,
+                showNoInternetLottie = false,
+                draftItems = drafts.toUiState()
+            )
+        }
     }
 
     private fun onError(throwable: Throwable) {
@@ -46,7 +72,14 @@ class DraftViewModel @Inject constructor(
             is NoConnectionException -> stringsResource.noConnectionMessage
             else -> stringsResource.globalMessageError
         }
-        _state.update { it.copy(isLoading = false, error = error) }
+        val noInternet = throwable is NoConnectionException
+        _state.update {
+            it.copy(
+                isLoading = false,
+                error = error,
+                showNoInternetLottie = noInternet
+            )
+        }
     }
 
 }

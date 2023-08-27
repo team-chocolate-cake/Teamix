@@ -1,7 +1,9 @@
 package com.chocolate.viewmodel.saveLater
 
 data class SaveLaterMessageUiState(
-    val messages: Map<String, List<MessageItemUiState>> = emptyMap()
+    val messages: List<MessageItemUiState> = emptyList(),
+    val isLoading: Boolean = false,
+    val error: String? = null
 )
 
 data class MessageItemUiState(

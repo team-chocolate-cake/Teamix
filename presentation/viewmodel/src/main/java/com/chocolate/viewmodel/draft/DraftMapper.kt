@@ -6,13 +6,12 @@ import com.chocolate.entities.draft.Draft
 @JvmName("toDraftItemUiState")
 fun Draft.toUiState(): DraftItemUiState {
    return DraftItemUiState(
-        id = id,
-        username = "",
-        imageUrl = "",
-        messageContent = content,
-        time = timestamp.toString()
-
-    )
+       id = id,
+       messageContent = content,
+       time = timestamp.toString(),
+       topicName = topic,
+       isInStream = isInStream,
+   )
 
 }
 

@@ -7,12 +7,14 @@ import com.chocolate.presentation.screens.chooseMember.chooseMemberRoute
 import com.chocolate.presentation.screens.create_channel.createChannelRoute
 import com.chocolate.presentation.screens.create_organization.createOrganizationWebViewRoute
 import com.chocolate.presentation.screens.direct_message.directMessageRoute
+import com.chocolate.presentation.screens.drafts.draftsRoute
 import com.chocolate.presentation.screens.forget_password.forgetPasswordWebViewRoute
 import com.chocolate.presentation.screens.home.homeRoute
 import com.chocolate.presentation.screens.login.loginRoute
 import com.chocolate.presentation.screens.on_boarding.onboardingRoute
 import com.chocolate.presentation.screens.organiztion.organizationNameRoute
 import com.chocolate.presentation.screens.profile.profileRoute
+import com.chocolate.presentation.screens.saveLater.saveLaterRoute
 import com.chocolate.presentation.screens.search.searchRoute
 import com.chocolate.presentation.screens.task.taskRoute
 import com.chocolate.presentation.screens.topic_details.topicRoute
@@ -36,5 +38,7 @@ fun TeamixNavGraph(navController: NavHostController) {
         topicRoute()
         chooseMemberRoute()
         createChannelRoute()
+        saveLaterRoute()
+        draftsRoute()
     }
 }

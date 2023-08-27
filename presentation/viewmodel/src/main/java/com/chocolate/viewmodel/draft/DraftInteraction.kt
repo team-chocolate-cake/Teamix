@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.draft
 
 interface DraftInteraction {
-   fun onClickDismisse()
+   fun deleteDraft(id: Int)
    fun onClickRetry()
 }

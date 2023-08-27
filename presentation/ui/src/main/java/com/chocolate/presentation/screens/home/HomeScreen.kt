@@ -30,7 +30,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -51,10 +50,12 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.create_channel.navigateToCreateChannel
+import com.chocolate.presentation.screens.drafts.navigateToDrafts
 import com.chocolate.presentation.screens.home.composable.BadgeHome
 import com.chocolate.presentation.screens.home.composable.ChannelItem
 import com.chocolate.presentation.screens.home.composable.ManageChannelBottomSheet
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
+import com.chocolate.presentation.screens.saveLater.navigateToSaveLater
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Float1
 import com.chocolate.presentation.theme.LightPrimary
@@ -91,8 +92,8 @@ fun HomeScreen(
             HomeUiEffect.NavigateToOrganizationName -> {
                 navController.navigateToOrganizationName()
             }
-            HomeUiEffect.NavigationToDrafts -> {}
-            HomeUiEffect.NavigationToSavedLater -> {}
+            HomeUiEffect.NavigationToDrafts -> navController.navigateToDrafts()
+            HomeUiEffect.NavigationToSavedLater -> navController.navigateToSaveLater()
             HomeUiEffect.NavigationToStarred -> {}
             HomeUiEffect.NavigateToTopic -> {}
             HomeUiEffect.NavigateToCreateChannel -> navController.navigateToCreateChannel()

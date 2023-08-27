@@ -14,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.Radius12
-import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.theme.SpacingXLarge
 
 @Composable
 fun SwipeBackGround() {
@@ -25,10 +25,10 @@ fun SwipeBackGround() {
                 color = Color.Red,
                 shape = RoundedCornerShape(Radius12)
             )
-            .padding(Space16)
+            .padding(SpacingXLarge)
     ) {
         Icon(
-            modifier = Modifier.align(Alignment.Center),
+            modifier = Modifier.align(Alignment.CenterEnd),
             painter = painterResource(id = R.drawable.ic_remove),
             contentDescription = null,
         )

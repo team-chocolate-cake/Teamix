@@ -22,17 +22,10 @@ class LoginViewModel @Inject constructor(
     private val setUserLoginState: SetUserLoginStateUseCase,
     private val stringsResource: StringsResource
 ) : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState()), LoginInteraction {
-
     private val loginArgs: LoginArgs = LoginArgs(savedStateHandle)
 
     init {
         getOrganizationName()
-    }
-
-    private fun getOrganizationName() {
-        viewModelScope.launch {
-            _state.update { it.copy(organizationName = loginArgs.organizationName) }
-        }
     }
 
     override fun onClickForgetPassword() {
@@ -60,6 +53,9 @@ class LoginViewModel @Inject constructor(
         _state.update { it.copy(passwordVisibility = passwordVisibility) }
     }
 
+    private fun getOrganizationName() {
+        _state.update { it.copy(organizationName = loginArgs.organizationName) }
+    }
 
     private fun onSuccess(isUserLogin: Boolean) {
         _state.update { it.copy(isLoading = false) }

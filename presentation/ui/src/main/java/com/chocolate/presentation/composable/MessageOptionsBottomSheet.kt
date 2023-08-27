@@ -17,13 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.BottomSheetItem
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space32
-import com.chocolate.presentation.theme.Space4
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingExtraHuge
+import com.chocolate.presentation.theme.SpacingMedium
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,43 +57,43 @@ fun MessageOptionsBottomSheet(
         Column() {
             LazyRow(
                 modifier = Modifier
-                    .padding(Space16),
-                horizontalArrangement = Arrangement.spacedBy(Space16),
+                    .padding(SpacingXLarge),
+                horizontalArrangement = Arrangement.spacedBy(SpacingXLarge),
             ) {
                 items(reacts.size) {
                     AsyncImage(
                         alignment = Alignment.Center,
                         model = ImageRequest.Builder(LocalContext.current)
                             .data(reacts[it]).build(),
-                        contentDescription = "Reaction",
+                        contentDescription = stringResource(R.string.reaction),
                         modifier = Modifier
-                            .size(Space32)
+                            .size(SpacingExtraHuge)
                             .clip(CircleShape)
                             .clickable {
                                 onAddReactionToMessage(reacts[it])
                             }
-                            .padding(end = Space4)
+                            .padding(end = SpacingMedium)
                     )
                 }
             }
 
             BottomSheetItem(
                 icon = painterResource(id =R.drawable.bookmark ),
-                text = "Add to saved items" ,
+                text = stringResource(R.string.add_to_saved_items) ,
                 onClickItem = {
                     onSaveMessage()
                 }
             )
             BottomSheetItem(
                 icon = painterResource(id = R.drawable.notification_notes),
-                text = "Get notified about new replies" ,
+                text = stringResource(R.string.get_notified_about_new_replies) ,
                 onClickItem = {
                     onGetNotification()
                 }
             )
             BottomSheetItem(
                 icon = painterResource(id =R.drawable.pin_message ),
-                text = "Pin to conversation" ,
+                text = stringResource(R.string.pin_to_conversation) ,
                 onClickItem = {
                     onPinMessage()
                 }

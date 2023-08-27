@@ -118,4 +118,18 @@
     <string name="drafts">Drafts</string>
     <string name="savedlater">SavedLater</string>
     <string name="add_fab">Add FAB</string>
+    <string name="photo_videos"><![CDATA[Photo & videos]]></string>
+    <string name="record_a_video">Record a video</string>
+    <string name="upload_a_file">Upload a file</string>
+    <string name="start_new_message">Start new message</string>
+    <string name="add_to_saved_items">Add to saved items</string>
+    <string name="get_notified_about_new_replies">Get notified about new replies</string>
+    <string name="pin_to_conversation">Pin to conversation</string>
+    <string name="reaction">Reaction</string>
+    <string name="an_error_occurred_due_to_null_or_empty_new_language_string_value">An error occurred due to null or empty new language string value</string>
+    <string name="failed_to_save_the_selected_language_settings">Failed to save the selected language settings.</string>
+    <string name="the_same_data">The same data</string>
+    <string name="the_email_shouldn_t_be_empty">The email shouldn\'t be empty</string>
+    <string name="the_full_name_shouldn_t_be_empty">The full name shouldn\'t be empty</string>
+    <string name="channel_name_validation">Channel name must not be empty and should have fewer than 60 characters.</string>
 </resources>

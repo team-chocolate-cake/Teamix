@@ -30,8 +30,8 @@ import androidx.compose.ui.res.painterResource
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.PersonCardWithDetails
 import com.chocolate.presentation.theme.Radius12
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.pinnedMessages.PinnedMessagesUiState
 
@@ -55,11 +55,11 @@ private fun PinnedMessageContent(
         modifier = Modifier
             .fillMaxSize()
             .background(color = colors.background)
-            .padding(Space16),
+            .padding(SpacingXLarge),
     ) {
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(Space8),
-            contentPadding = PaddingValues(vertical = Space16)
+            verticalArrangement = Arrangement.spacedBy(SpacingXMedium),
+            contentPadding = PaddingValues(vertical = SpacingXLarge)
         ) {
             items(state.messages.count()) { index ->
                 val currentItem = state.messages[index]
@@ -105,7 +105,7 @@ private fun SwipeBackground(
             .background(
                 color = MaterialTheme.customColors().red, shape = RoundedCornerShape(Radius12)
             )
-            .padding(Space16),
+            .padding(SpacingXLarge),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.End
     ) {

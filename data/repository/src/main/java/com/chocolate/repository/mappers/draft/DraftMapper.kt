@@ -4,7 +4,6 @@ import com.chocolate.entities.draft.Draft
 import com.chocolate.repository.mappers.toDate
 import com.chocolate.repository.model.dto.draft.response.DraftDto
 
-
 fun DraftDto.toEntity(): Draft = Draft(
     content=content,
     id = id,

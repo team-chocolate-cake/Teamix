@@ -7,10 +7,10 @@ import java.util.Date
 
 fun ScheduledMessageContentDto.toEntity(): ScheduledMessage {
     return ScheduledMessage(
-        content = this.content ?: "",
+        content = this.content.orEmpty(),
         deliveryTimestamp = this.scheduledDeliveryTimestamp?.toDate() ?: Date(),
         id = this.scheduledMessageId ?: 0,
-        topic = this.topic ?: "",
+        topic = this.topic.orEmpty(),
     )
 }
 

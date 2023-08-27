@@ -1,10 +1,16 @@
 package com.chocolate.repository.repository
 
+import com.chocolate.entities.draft.Draft
 import com.chocolate.entities.exceptions.NullDataException
 import com.chocolate.entities.messages.Message
+import com.chocolate.entities.scheduled_messages.ScheduledMessage
+import com.chocolate.repository.datastore.remote.MessagesRemoteDataSource
+import com.chocolate.repository.mappers.draft.toEntity
 import com.chocolate.repository.mappers.messages.toEntity
-import com.chocolate.repository.mappers.messages.toLocalDto
 import com.chocolate.repository.service.local.LocalDataSource
+import com.chocolate.repository.mappers.scheduled.toEntity
+import com.chocolate.repository.utils.toJson
+import com.chocolate.repository.mappers.messages.toLocalDto
 import com.chocolate.repository.service.remote.RemoteDataSource
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -14,9 +20,50 @@ import java.io.File
 import javax.inject.Inject
 
 class MessagesRepositoryImpl @Inject constructor(
-    private val messageDataSource: RemoteDataSource,
+    private val messageDataSource: MessagesRemoteDataSource,
     private val teamixLocalDataSource: LocalDataSource
 ) : MessagesRepository {
+
+    override suspend fun getDrafts(): List<Draft> {
+        return messageDataSource.getDrafts().drafts.toEntity()
+    }
+
+    override suspend fun createDraft(
+        type: String,
+        recipients: Int,
+        topic: String,
+        content: String
+    ): List<Int> {
+        return messageDataSource.createDraft(
+            type = type,
+            content = content,
+            topic = topic,
+            recipients = recipients,
+        ).ids ?: emptyList()
+    }
+
+    override suspend fun editDraft(
+        id: Int,
+        type: String,
+        to: List<Int>,
+        topic: String,
+        content: String,
+        timestamp: Long
+    ) {
+        messageDataSource.editDraft(
+            id = id,
+            type = type,
+            content = content,
+            topic = topic,
+            to = to.toJson(),
+            timestamp = timestamp
+        )
+    }
+
+    override suspend fun deleteDraft(id: Int) {
+        messageDataSource.deleteDraft(id)
+    }
+
     override suspend fun sendStreamMessage(
         type: String,
         to: Any,
@@ -78,7 +125,7 @@ class MessagesRepositoryImpl @Inject constructor(
         narrow: List<String>?,
         clientGravatar: Boolean,
         applyMarkdown: Boolean
-    ): List<Message>? {
+    ): List<Message> {
         val messagesDto = messageDataSource.getMessages(
             anchor,
             includeAnchor,
@@ -119,15 +166,6 @@ class MessagesRepositoryImpl @Inject constructor(
         )
     }
 
-//    override suspend fun updateMessageFlags(
-//        messages: List<Int>,
-//        op: String,
-//        flag: String
-//    ): PersonalMessage {
-//        val personalMessageDto = messageDataSource.updateMessageFlags(messages, op, flag)
-//        return personalMessageDto.toPersonalMessage()
-//    }
-
     override suspend fun markAllMessagesAsRead() {
         messageDataSource.markAllMessagesAsRead()
     }
@@ -140,23 +178,15 @@ class MessagesRepositoryImpl @Inject constructor(
         messageDataSource.markTopicAsRead(steamId, topicName)
     }
 
-//    override suspend fun getMessageReadReceipts(messageId: Int): MessageReadReceipts {
-//        val messageReadReceiptsDto = messageDataSource.getMessageReadReceipts(messageId)
-//        return messageReadReceiptsDto.toMessageReadReceipts()
-//    }
-
     override suspend fun uploadFile(file: File): String {
         val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
         val filePart = MultipartBody.Part.createFormData("file", file.name, requestFile)
         return messageDataSource.uploadFile(filePart).uri.orEmpty()
     }
 
-//    override suspend fun renderMessage(content: String): RenderMessage {
-//        return messageDataSource.renderMessage(content).toRenderMessage()
-//    }
-
     override suspend fun fetchSingleMethod(messageId: Int): Message {
-        return messageDataSource.fetchSingleMessage(messageId).message?.toEntity() ?: throw NullDataException("")
+        return messageDataSource.fetchSingleMessage(messageId).message?.toEntity()
+            ?: throw NullDataException("")
     }
 
     override suspend fun checkIfMessagesMatchNarrow(
@@ -180,23 +210,4 @@ class MessagesRepositoryImpl @Inject constructor(
     override suspend fun deleteSavedMessageById(id: Int) {
         teamixLocalDataSource.deleteSavedMessageById(id)
     }
-
-    //todo we will not use this
-//    override suspend fun getMessagesEditHistory(messageId: Int): List<MessageEditHistory> {
-//        return messageDataSource.getMessagesEditHistory(messageId).toMessageEditHistory()
-//    }
-
-//    override suspend fun updatePersonalMessageFlagsForNarrow(
-//        anchor: String,
-//        numBefore: Int,
-//        numAfter: Int,
-//        includeAnchor: Boolean,
-//        narrow: String,
-//        op: String,
-//        flag: String
-//    ): PersonalMessageForNarrow {
-//        return messageDataSource.updatePersonalMessageFlagsForNarrow(
-//            anchor, numBefore, numAfter, includeAnchor, narrow, op, flag
-//        ).toPersonalMessageForNarrow()
-//    }
 }

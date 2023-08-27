@@ -3,8 +3,9 @@ package com.chocolate.viewmodel.search
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.exceptions.NoConnectionException
+import com.chocolate.entities.uills.Empty
 import com.chocolate.entities.user.User
-import com.chocolate.usecases.channel.GetChannelsUseCase
+import com.chocolate.usecases.channel.ManageChannelsUseCase
 import com.chocolate.usecases.user.GetAllUsersUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.home.toChannelsUiState
@@ -17,10 +18,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getChannels: GetChannelsUseCase,
+    private val manageChannels: ManageChannelsUseCase,
     private val getUsers: GetAllUsersUseCase
 ): BaseViewModel<SearchUiState,SearchEffect>(SearchUiState()),SearchInteraction {
-
     private var searchJob: Job? = null
 
     override fun onClickChannelItem(channelId: Int) {
@@ -40,7 +40,7 @@ class SearchViewModel @Inject constructor(
         _state.update {
             it.copy(
                 currentTabIndex = tabIndex,
-                query = "",
+                query = String.Empty,
                 channelsUiState = emptyList(),
                 membersUiState = emptyList()
             )
@@ -88,7 +88,7 @@ class SearchViewModel @Inject constructor(
 
     private fun onSearchChannels() {
         tryToExecute(
-            { getChannels.searchChannels(_state.value.query) },
+            { manageChannels.searchChannels(_state.value.query) },
             ::onChangeSearchChannelsQuerySuccess,
             ::onChangeSearchQueryError
         )

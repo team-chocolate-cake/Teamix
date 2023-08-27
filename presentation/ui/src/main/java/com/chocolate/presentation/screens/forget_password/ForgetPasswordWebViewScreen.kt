@@ -24,12 +24,16 @@ fun ForgetPasswordWebViewScreen(
     val state by viewModel.state.collectAsState()
     ForgetPasswordWebViewContent(state)
 }
+
 const val Title: String = "Teamix"
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "SetJavaScriptEnabled")
 @Composable
 fun ForgetPasswordWebViewContent(forgetPasswordUiState: ForgetPasswordUiState) {
-    val state = rememberWebViewState(url = "https://${forgetPasswordUiState.organizationsName}.zulipchat.com/accounts/password/reset/")
+    val state = rememberWebViewState(
+        url =
+        "https://${forgetPasswordUiState.organizationsName}.zulipchat.com/accounts/password/reset/"
+    )
     val systemUiController = rememberSystemUiController()
     val color = MaterialTheme.customColors()
     systemUiController.setSystemBarsColor(color = color.secondary, darkIcons = true)

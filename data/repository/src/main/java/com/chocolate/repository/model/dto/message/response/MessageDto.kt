@@ -44,6 +44,7 @@ data class MessageDto(
     @SerializedName("type")
     val type: String?
 )
+
 data class ReactionDto(
     @SerializedName("emoji_code")
     val emoji_code: String,

@@ -8,18 +8,17 @@ import com.chocolate.repository.model.dto.message.response.ReactionDto
 import com.chocolate.repository.model.localDto.message.SavedMessageLocalDto
 import java.util.Date
 
-
 fun MessageDto.toEntity(): Message {
     return Message(
-        senderAvatarUrl = this.avatarUrl ?: "",
-        messageContent = this.content ?: "",
+        senderAvatarUrl = this.avatarUrl.orEmpty(),
+        messageContent = this.content.orEmpty(),
         id = this.id ?: 0,
         reactions = this.reactions.toEntity(),
-        senderEmail = this.senderEmail ?: "",
-        senderFullName = this.senderFullName ?: "",
+        senderEmail = this.senderEmail.orEmpty(),
+        senderFullName = this.senderFullName.orEmpty(),
         senderId = this.senderId ?: 0,
         streamId = this.streamId ?: 0,
-        topic = this.subject ?: "",
+        topic = this.subject.orEmpty(),
         timestamp = this.timestamp?.toDate() ?: Date(),
     )
 }

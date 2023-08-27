@@ -35,8 +35,8 @@ import com.chocolate.presentation.composable.SelectedMemberItem
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.home.navigateToHome
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.LocalNavController
@@ -77,7 +77,7 @@ fun ChooseMemberContent(
                 style = MaterialTheme.typography.bodyMedium,
                 color = colors.primary,
                 modifier = Modifier
-                    .padding(end = Space8)
+                    .padding(end = SpacingXMedium)
                     .clickable {
                         if (state.selectedMembersUiState.isEmpty()) {
                             navController.navigateToHome()
@@ -114,12 +114,12 @@ fun ChooseMemberContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            contentPadding = PaddingValues(vertical = Space16),
-            verticalArrangement = Arrangement.spacedBy(Space16)
+            contentPadding = PaddingValues(vertical = SpacingXLarge),
+            verticalArrangement = Arrangement.spacedBy(SpacingXLarge)
         ) {
             item {
                 TeamixTextField(value = state.searchQuery,
-                    modifier = Modifier.padding(horizontal = Space16),
+                    modifier = Modifier.padding(horizontal = SpacingXLarge),
                     hint = stringResource(id = R.string.search),
                     onValueChange = { chooseMemberInteraction.onChangeSearchQuery(it) },
                     leadingIcon = {
@@ -133,8 +133,8 @@ fun ChooseMemberContent(
                 AnimatedVisibility(visible = state.selectedMembersUiState.isNotEmpty()) {
                     LazyRow(
                         Modifier.fillMaxWidth(),
-                        contentPadding = PaddingValues(horizontal = Space16),
-                        horizontalArrangement = Arrangement.spacedBy(Space8)
+                        contentPadding = PaddingValues(horizontal = SpacingXLarge),
+                        horizontalArrangement = Arrangement.spacedBy(SpacingXMedium)
                     ) {
                         items(
                             state.selectedMembersUiState,
@@ -155,13 +155,8 @@ fun ChooseMemberContent(
                 MemberItem(
                     modifier = Modifier.animateItemPlacement(),
                     painter = painterResource(id = R.drawable.ic_check),
-                    imageUrl = membersUiState.imageUrl,
-                    status = membersUiState.status,
-                    username = membersUiState.name,
-                    isSelected = membersUiState.isSelected,
-                    userId = membersUiState.userId,
-                    onClickMemberItem = { chooseMemberInteraction.onClickMemberItem(it) }
-                )
+                    chooseMemberUiState = membersUiState
+                ) { chooseMemberInteraction.onClickMemberItem(it) }
             }
 
         }

@@ -26,14 +26,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.ActionSnakeBar
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
-import com.chocolate.presentation.composable.ToggleButton
 import com.chocolate.presentation.screens.chooseMember.navigateToChooseMember
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space24
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
+import com.chocolate.presentation.screens.create_channel.composable.ToggleButton
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
@@ -50,7 +50,7 @@ fun CreateChannelScreen(
     val state by createChannelViewModel.state.collectAsState()
     val navController = LocalNavController.current
 
-    CollectUiEffect(viewModel = createChannelViewModel) { effect ->
+    CollectUiEffect(createChannelViewModel.effect) { effect ->
         when (effect) {
             is CreateChannelUiEffect.NavigationToChooseMembers ->
                 navController.navigateToChooseMember(state.nameInput)
@@ -95,10 +95,10 @@ private fun CreateChannelContent(
                 .background(color = colors.background)
                 .verticalScroll(scrollState)
                 .padding(paddingValues)
-                .padding(Space16)
+                .padding(SpacingXLarge)
         ) {
             Text(
-                modifier = Modifier.padding(bottom = Space8),
+                modifier = Modifier.padding(bottom = SpacingXMedium),
                 text = stringResource(id = R.string.channel_name),
                 style = textStyle.labelMedium,
                 color = colors.onBackground87,
@@ -111,7 +111,7 @@ private fun CreateChannelContent(
             )
 
             Text(
-                modifier = Modifier.padding(bottom = Space8, top = Space16),
+                modifier = Modifier.padding(bottom = SpacingXMedium, top = SpacingXLarge),
                 text = stringResource(id = R.string.channel_description),
                 style = textStyle.labelMedium,
                 color = colors.onBackground87,
@@ -121,13 +121,12 @@ private fun CreateChannelContent(
             TeamixTextField(
                 value = state.description ?: "",
                 singleLine = true,
-                maxLines = 3,
                 minLines = 3,
                 onValueChange = { createChannelInteraction.onChannelDescriptionChange(it) }
             )
 
             Text(
-                modifier = Modifier.padding(bottom = Space8, top = Space16),
+                modifier = Modifier.padding(bottom = SpacingXMedium, top = SpacingXLarge),
                 text = stringResource(id = R.string.status),
                 style = textStyle.labelMedium,
                 color = colors.onBackground87,
@@ -136,7 +135,7 @@ private fun CreateChannelContent(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(Space8)
+                horizontalArrangement = Arrangement.spacedBy(SpacingXMedium)
             ) {
                 ToggleButton(
                     modifier = Modifier.weight(1f),
@@ -150,7 +149,7 @@ private fun CreateChannelContent(
                     }
                 ) {
                     Text(
-                        modifier = Modifier.padding(bottom = Space8, top = Space16),
+                        modifier = Modifier.padding(bottom = SpacingXMedium, top = SpacingXLarge),
                         text = stringResource(id = R.string.private_text),
                         style = textStyle.labelSmall,
                         color = if (state.status == ChannelStatus.Private) colors.white else colors.primary,
@@ -170,7 +169,7 @@ private fun CreateChannelContent(
                     }
                 ) {
                     Text(
-                        modifier = Modifier.padding(bottom = Space8, top = Space16),
+                        modifier = Modifier.padding(bottom = SpacingXMedium, top = SpacingXLarge),
                         text = stringResource(id = R.string.public_text),
                         style = textStyle.labelSmall,
                         color = if (state.status == ChannelStatus.Public) colors.white else colors.primary,
@@ -184,14 +183,14 @@ private fun CreateChannelContent(
             ToggleButton(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = Space24)
+                    .padding(top = SpacingXXLarge)
                     .align(alignment = Alignment.End),
                 color = colors.primary,
                 isFilled = true,
                 onClick = { createChannelInteraction.onCreateChannelClicked() }
             ) {
                 Text(
-                    modifier = Modifier.padding(bottom = Space8, top = Space16),
+                    modifier = Modifier.padding(bottom = SpacingXMedium, top = SpacingXLarge),
                     text = stringResource(id = R.string.create_channel),
                     style = textStyle.bodyLarge,
                     color = colors.white,

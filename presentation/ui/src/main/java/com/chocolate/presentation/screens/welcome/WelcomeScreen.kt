@@ -26,9 +26,9 @@ import com.chocolate.presentation.composable.FitImage
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.on_boarding.navigateToOnboarding
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space32
-import com.chocolate.presentation.theme.Space64
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingExtraHuge
+import com.chocolate.presentation.theme.SpacingMegaGigantic
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.TextSize24
 import com.chocolate.presentation.theme.customColors
@@ -57,7 +57,7 @@ fun WelcomeContent(
                     onClick = { navigateToOnBoarding() },
                     colors = colors,
                     modifier = Modifier
-                        .padding(start = Space16, end = Space16, bottom = Space32)
+                        .padding(start = SpacingXLarge, end = SpacingXLarge, bottom = SpacingExtraHuge)
                         .fillMaxWidth()
                 ) {
                     Text(
@@ -80,7 +80,7 @@ fun WelcomeContent(
             ) {
                 item {
                     Text(
-                        modifier = Modifier.padding(top = Space64, start = Space16, end = Space16),
+                        modifier = Modifier.padding(top = SpacingMegaGigantic, start = SpacingXLarge, end = SpacingXLarge),
                         text = buildAnnotatedString {
                             append(stringResource(R.string.welcome_text))
                             withStyle(style = SpanStyle(color = colors.primary)) {
@@ -93,7 +93,7 @@ fun WelcomeContent(
                     )
                     FitImage(
                         modifier = Modifier
-                            .padding(Space16)
+                            .padding(SpacingXLarge)
                             .wrapContentSize(),
                         image = painterResource(id = R.drawable.img_welcome),
                         contentDescription = stringResource(R.string.welcome_image)

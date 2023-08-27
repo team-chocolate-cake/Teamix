@@ -2,6 +2,7 @@ package com.chocolate.usecases.user
 
 import com.chocolate.entities.exceptions.NullDataException
 import com.chocolate.entities.exceptions.TeamixException
+import com.chocolate.entities.uills.Empty
 import repositories.UsersRepository
 import javax.inject.Inject
 
@@ -10,11 +11,11 @@ class CustomizeProfileSettingsUseCase @Inject constructor(
 ) {
     suspend fun saveNewSelectedLanguage(newLanguage: String){
         if(newLanguage.isBlank()){
-            throw NullDataException("An error occurred due to null or empty new language string value")
+            throw NullDataException(String.Empty)
         }
         val isUpdateSuccessful = usersRepositories.updateAppLanguage(newLanguage)
         if (!isUpdateSuccessful){
-            throw TeamixException("Failed to save the selected language settings.")
+            throw TeamixException(String.Empty)
         }
     }
 

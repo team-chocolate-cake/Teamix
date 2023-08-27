@@ -16,18 +16,20 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
 
+    private const val DATABASE_NAME = "databaseName"
+
     @Singleton
     @Provides
     fun provideDatabase(
         @ApplicationContext context: Context,
-        @Named("databaseName") databaseName: String
+        @Named(DATABASE_NAME) databaseName: String
     ): TeamixDatabase {
         return Room.databaseBuilder(context, TeamixDatabase::class.java, databaseName).build()
     }
 
     @Singleton
     @Provides
-    @Named("databaseName")
+    @Named(DATABASE_NAME)
     fun provideDataBaseName(): String = "TeamixDatabase.db"
 
     @Singleton

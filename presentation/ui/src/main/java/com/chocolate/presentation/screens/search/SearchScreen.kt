@@ -24,11 +24,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.NotFoundResultLottie
-import com.chocolate.presentation.composable.SearchLottie
-import com.chocolate.presentation.composable.TabScreen
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
-import com.chocolate.presentation.theme.Space16
+import com.chocolate.presentation.screens.search.composable.SearchLottie
+import com.chocolate.presentation.screens.search.composable.TabScreen
+import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
@@ -43,7 +43,7 @@ fun SearchScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val navController = LocalNavController.current
-    CollectUiEffect(viewModel = viewModel) { effect ->
+    CollectUiEffect(viewModel.effect) { effect ->
         when (effect) {
             is SearchEffect.NavigateToChannel -> {}
             is SearchEffect.NavigateToMember -> {}
@@ -81,7 +81,7 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
                     .background(colors.card)
             ) {
                 TeamixTextField(
-                    modifier = Modifier.padding(Space16),
+                    modifier = Modifier.padding(SpacingXLarge),
                     value = state.query,
                     onValueChange = {searchInteraction.onChangeSearchQuery(it)},
                     containerColor = colors.background,

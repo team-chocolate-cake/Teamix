@@ -42,17 +42,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.ChannelAction
 import com.chocolate.presentation.composable.Member
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space24
-import com.chocolate.presentation.theme.Space32
-import com.chocolate.presentation.theme.Space4
-import com.chocolate.presentation.theme.Space56
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.screens.channel_details.composable.ChannelAction
+import com.chocolate.presentation.theme.SpacingExtraHuge
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingUltraGigantic
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.viewmodel.channelDeails.ChannelDetailsUiState
 
 @Composable
 fun ChannelDetailsScreen() {
@@ -124,16 +125,16 @@ fun ChannelDetailsContent(
         Column(
             modifier = Modifier
                 .fillMaxHeight()
-                .padding(bottom = Space32),
+                .padding(bottom = SpacingExtraHuge),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column(
                 modifier = Modifier.padding(padding)
             ) {
                 LazyVerticalGrid(
-                    modifier = Modifier.padding(Space16),
+                    modifier = Modifier.padding(SpacingXLarge),
                     columns = GridCells.Fixed(3),
-                    horizontalArrangement = Arrangement.spacedBy(Space8)
+                    horizontalArrangement = Arrangement.spacedBy(SpacingXMedium)
                 ) {
                     item {
                         ChannelAction(
@@ -160,7 +161,7 @@ fun ChannelDetailsContent(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = Space16, end = Space16, bottom = Space8),
+                        .padding(start = SpacingXLarge, end = SpacingXLarge, bottom = SpacingXMedium),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
@@ -180,8 +181,8 @@ fun ChannelDetailsContent(
                     )
                 }
                 LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(Space16),
-                    contentPadding = PaddingValues(horizontal = Space16, vertical = Space8)
+                    horizontalArrangement = Arrangement.spacedBy(SpacingXLarge),
+                    contentPadding = PaddingValues(horizontal = SpacingXLarge, vertical = SpacingXMedium)
                 ) {
                     items(channelDetailsUiState.memberUiState.size) {
                         Member(channelDetailsUiState.memberUiState[it])
@@ -192,7 +193,7 @@ fun ChannelDetailsContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .border(width = 1.dp, color = MaterialTheme.customColors().border)
-                        .padding(Space16)
+                        .padding(SpacingXLarge)
                         .clip(RoundedCornerShape(12.dp))
                         .clickable {
                             onNavigateToPin()
@@ -204,18 +205,18 @@ fun ChannelDetailsContent(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(Space16)
+                            .padding(SpacingXLarge)
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
-                                modifier = Modifier.size(Space24),
+                                modifier = Modifier.size(SpacingXXLarge),
                                 painter = painterResource(id = R.drawable.pin_message),
                                 contentDescription = "",
                                 tint = MaterialTheme.customColors().onBackground60
                             )
-                            Column(modifier = Modifier.padding(start = Space8)) {
+                            Column(modifier = Modifier.padding(start = SpacingXMedium)) {
                                 Text(
-                                    modifier = Modifier.padding(top = Space4),
+                                    modifier = Modifier.padding(top = SpacingMedium),
                                     text = stringResource(
                                         R.string.pinned_message
                                     ),
@@ -234,7 +235,7 @@ fun ChannelDetailsContent(
                         }
                         Icon(
                             modifier = Modifier
-                                .size(Space24)
+                                .size(SpacingXXLarge)
                                 .rotate(180f),
                             painter = painterResource(id = R.drawable.alt_arrow_left),
                             contentDescription = "",
@@ -246,7 +247,7 @@ fun ChannelDetailsContent(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(Space16),
+                        .padding(SpacingXLarge),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -254,7 +255,7 @@ fun ChannelDetailsContent(
                         modifier = Modifier
                     ) {
                         Text(
-                            modifier = Modifier.padding(top = Space4),
+                            modifier = Modifier.padding(top = SpacingMedium),
                             text = stringResource(R.string.mute_channel),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.customColors().onBackground87
@@ -274,16 +275,16 @@ fun ChannelDetailsContent(
                 }
                 Box(contentAlignment = Alignment.Center,
                     modifier = Modifier
-                        .padding(vertical = Space8)
+                        .padding(vertical = SpacingXMedium)
                         .fillMaxWidth()
-                        .height(Space56)
-                        .padding(horizontal = Space32)
+                        .height(SpacingUltraGigantic)
+                        .padding(horizontal = SpacingExtraHuge)
                         .border(
                             1.dp,
                             color = MaterialTheme.customColors().red60,
-                            shape = RoundedCornerShape(Space16)
+                            shape = RoundedCornerShape(SpacingXLarge)
                         )
-                        .clip(RoundedCornerShape(Space16))
+                        .clip(RoundedCornerShape(SpacingXLarge))
                         .clickable {
                             showDialog = true
                         }) {
@@ -293,7 +294,7 @@ fun ChannelDetailsContent(
                             contentDescription = "",
                             tint = MaterialTheme.customColors().red
                         )
-                        Spacer(modifier = Modifier.width(Space8))
+                        Spacer(modifier = Modifier.width(SpacingXMedium))
                         Text(
                             text = stringResource(R.string.leave_channel),
                             style = MaterialTheme.typography.titleMedium,

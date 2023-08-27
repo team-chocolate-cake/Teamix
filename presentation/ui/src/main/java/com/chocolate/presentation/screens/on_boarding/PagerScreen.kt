@@ -14,9 +14,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.FitImage
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space24
-import com.chocolate.presentation.theme.Space32
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXXLarge
+import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.customColors
 
 
@@ -33,13 +33,13 @@ fun PagerScreen(
             contentDescription = contentDescription
         )
         Text(
-            modifier = Modifier.padding(top = Space32, start = Space24, end = Space24),
+            modifier = Modifier.padding(top = SpacingExtraHuge, start = SpacingXXLarge, end = SpacingXXLarge),
             text = onBoardingPage.title,
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.customColors().onBackground87
         )
         Text(
-            modifier = Modifier.padding(top = Space16, start = Space24, end = Space24),
+            modifier = Modifier.padding(top = SpacingXLarge, start = SpacingXXLarge, end = SpacingXXLarge),
             text = onBoardingPage.description,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.customColors().onBackground60

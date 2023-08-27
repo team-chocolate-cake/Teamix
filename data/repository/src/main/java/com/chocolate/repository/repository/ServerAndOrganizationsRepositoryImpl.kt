@@ -1,21 +1,17 @@
 package com.chocolate.repository.repository
 
-import com.chocolate.repository.datastore.PreferencesDataSource
-import com.chocolate.repository.service.remote.RemoteDataSource
+import com.chocolate.repository.datastore.local.PreferencesDataSource
+import com.chocolate.repository.datastore.remote.OrganizationRemoteDataSource
 import repositories.ServerAndOrganizationsRepository
 import javax.inject.Inject
 
 class ServerAndOrganizationsRepositoryImpl @Inject constructor(
-    private val organizationRemoteDataSource: RemoteDataSource,
+    private val organizationRemoteDataSource: OrganizationRemoteDataSource,
     private val preferencesDataSource: PreferencesDataSource
 ) : ServerAndOrganizationsRepository{
     override suspend fun getOrganizationImage(): String {
         return organizationRemoteDataSource.getServerSettings().realmIcon ?:""
     }
-
-//    override suspend fun getLinkifiers(): List<Linkifier> {
-//        return organizationRemoteDataSource.getLinkifiers().linkifierDtos.toLinkifiers()
-//    }
 
     override suspend fun addLinkifiers(pattern: String, url: String): Int {
         return organizationRemoteDataSource.addLinkifiers(pattern, url).id ?:-1
@@ -45,22 +41,6 @@ class ServerAndOrganizationsRepositoryImpl @Inject constructor(
         return organizationRemoteDataSource.deleteCodePlayground(playGRound).id ?:-1
     }
 
-//    override suspend fun getAllCustomEmojis(): CustomEmoji {
-//        return organizationRemoteDataSource.getAllCustomEmojis().toCustomEmoji()
-//    }
-
-//    override suspend fun addCustomEmoji(emojiName: String): DefaultOrganization {
-//        return organizationRemoteDataSource.addCustomEmoji(emojiName).toDefaultOrganization()
-//    }
-//
-//    override suspend fun deActivateCustomEmoji(emojiName: String): DefaultOrganization {
-//        return organizationRemoteDataSource.deactivateCustomEmoji(emojiName).toDefaultOrganization()
-//    }
-
-//    override suspend fun getAllCustomProfileFields(): List<CustomFieldEntity> {
-//        return organizationRemoteDataSource.getAllCustomProfileFields().customFieldDtos
-//    }
-
     override suspend fun reorderCustomProfileFields(order: String): Int {
         return organizationRemoteDataSource.reorderCustomProfileFields(order).id ?:-1
     }
@@ -73,11 +53,11 @@ class ServerAndOrganizationsRepositoryImpl @Inject constructor(
         return organizationRemoteDataSource.createCustomProfileField(name, hint, fieldType).id ?:-1
     }
 
-    override suspend fun saveNameOrganizations(nameOrganizations: String) {
+    override suspend fun saveOrganizationName(nameOrganizations: String) {
         preferencesDataSource.setOrganizationName(nameOrganizations)
     }
 
-    override suspend fun getNameOrganizations(): String {
+    override suspend fun getOrganizationName(): String {
         return preferencesDataSource.currentOrganization().toString()
     }
 }

@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -20,15 +19,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.chocolate.presentation.R
-import com.chocolate.presentation.screens.channel_details.MemberUiState
-import com.chocolate.presentation.theme.Space4
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.viewmodel.channelDeails.ChannelMemberUiState
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 
 @Composable
 fun Member(
-    memberUiState: MemberUiState
+    memberUiState: ChannelMemberUiState,
+    contentDescription:String?=null
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -44,16 +43,16 @@ fun Member(
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(memberUiState.name).build(),
-                modifier = Modifier.padding(top = Space8)
+                modifier = Modifier.padding(top = SpacingXMedium)
                     .clip(CircleShape)
                     .size(40.dp),
-                contentDescription = ""
+                contentDescription = contentDescription
             )
             Text(
                 modifier = Modifier
-                    .padding(top = Space4),
+                    .padding(top = SpacingMedium),
                 textAlign = TextAlign.Center,
-                text = memberUiState.Image,
+                text = memberUiState.image,
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.customColors().onBackground87
             )

@@ -1,3 +1,10 @@
 package com.chocolate.repository.model.dto.message.request
 
-data class NarrowFilterDto(val operand: String, val operator: String)
+import com.google.gson.annotations.SerializedName
+
+data class NarrowFilterDto(
+    @SerializedName("operand")
+    val operand: String,
+    @SerializedName("operator")
+    val operator: String
+)

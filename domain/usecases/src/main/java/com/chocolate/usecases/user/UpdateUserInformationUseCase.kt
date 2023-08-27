@@ -26,11 +26,11 @@ class UpdateUserInformationUseCase @Inject constructor(
     ): Boolean {
         if ((oldUserInformation.email == newUserInformation.email) &&
             (oldUserInformation.fullName == newUserInformation.fullName)) {
-            throw ValidationException("The same data")
+            throw ValidationException("100")
         } else if (newUserInformation.email.isBlank()) {
-            throw ValidationException("The email shouldn't be empty")
+            throw ValidationException("200")
         } else if (newUserInformation.fullName.isBlank()) {
-            throw ValidationException("The full name shouldn't be empty")
+            throw ValidationException("300")
         }
         return true
     }

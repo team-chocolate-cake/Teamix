@@ -1,13 +1,12 @@
 package com.chocolate.teamix.di
 
 import com.chocolate.remote.AuthInterceptor
-import com.chocolate.remote.channels.service.ChannelsService
-import com.chocolate.remote.drafts.service.DraftService
-import com.chocolate.remote.messages.service.MessageService
-import com.chocolate.remote.scheduled_message.service.ScheduledMessageService
-import com.chocolate.remote.server_and_organizations.service.OrganizationService
-import com.chocolate.remote.users.service.UsersService
-import com.chocolate.repository.datastore.PreferencesDataSource
+import com.chocolate.remote.api.ChannelsService
+import com.chocolate.remote.api.DraftService
+import com.chocolate.remote.api.MessageService
+import com.chocolate.remote.api.OrganizationService
+import com.chocolate.remote.api.UsersService
+import com.chocolate.repository.datastore.local.PreferencesDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,6 +21,8 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
+    private const val BASE_URL = "baseUrl"
 
     @Singleton
     @Provides
@@ -46,7 +47,7 @@ object NetworkModule {
     fun provideRetrofitBuilder(
         client: OkHttpClient,
         factory: GsonConverterFactory,
-        @Named("baseUrl") baseUrl: String
+        @Named(BASE_URL) baseUrl: String
     ): Retrofit =
         Retrofit.Builder()
             .baseUrl(baseUrl)
@@ -75,11 +76,6 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideScheduledMessageService(retrofit: Retrofit): ScheduledMessageService =
-        retrofit.create(ScheduledMessageService::class.java)
-
-    @Singleton
-    @Provides
     fun provideUserService(retrofit: Retrofit): UsersService =
         retrofit.create(UsersService::class.java)
 
@@ -90,7 +86,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    @Named("baseUrl")
+    @Named(BASE_URL)
     fun provideBaseUrl(preferencesDataSource: PreferencesDataSource): String =
         "https://${preferencesDataSource.currentOrganization()}.zulipchat.com/api/v1/"
 }

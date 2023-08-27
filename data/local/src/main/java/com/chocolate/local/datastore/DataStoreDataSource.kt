@@ -5,17 +5,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import com.chocolate.local.datastore.util.get
-import com.chocolate.repository.datastore.PreferencesDataSource
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
+import com.chocolate.repository.datastore.local.PreferencesDataSource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DataStoreDataSource @Inject constructor(
@@ -60,11 +52,11 @@ class DataStoreDataSource @Inject constructor(
     }
 
     override fun getApiKey(): String {
-        return sharedPreferences.getString(API_KEY, null) ?: ""
+        return sharedPreferences.getString(API_KEY, null).orEmpty()
     }
 
     override fun getEmail(): String {
-        return sharedPreferences.getString(EMAIL, null) ?: ""
+        return sharedPreferences.getString(EMAIL, null).orEmpty()
     }
 
     override suspend fun deleteAuthenticationData() {

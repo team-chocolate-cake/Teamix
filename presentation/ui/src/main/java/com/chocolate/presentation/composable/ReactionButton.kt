@@ -16,10 +16,10 @@ import androidx.compose.ui.platform.LocalContext
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.chocolate.viewmodel.topic.ReactionUiState
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space32
-import com.chocolate.presentation.theme.Space4
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingExtraHuge
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 
 @Composable
@@ -29,8 +29,8 @@ fun ReactionButton(
 ) {
     Box(
         modifier = Modifier
-            .padding(vertical = Space4)
-            .clip(RoundedCornerShape(Space32))
+            .padding(vertical = SpacingMedium)
+            .clip(RoundedCornerShape(SpacingExtraHuge))
             .background(
                 if (reaction.clicked) MaterialTheme.customColors().gray
                 else MaterialTheme.customColors().lightGray
@@ -38,7 +38,7 @@ fun ReactionButton(
             .clickable {
                 onReactionClicked(reaction.clicked , reaction)
             }
-            .padding(vertical = Space4, horizontal = Space8)
+            .padding(vertical = SpacingMedium, horizontal = SpacingXMedium)
     ) {
         Row() {
             AsyncImage(
@@ -46,8 +46,8 @@ fun ReactionButton(
                     .data(reaction.reaction).build(),
                 contentDescription = "Reaction",
                 modifier = Modifier
-                    .size(Space16)
-                    .padding(end = Space4)
+                    .size(SpacingXLarge)
+                    .padding(end = SpacingMedium)
             )
             Text(
                 text = reaction.count.toString(),

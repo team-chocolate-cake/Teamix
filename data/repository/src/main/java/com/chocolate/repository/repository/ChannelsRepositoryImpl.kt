@@ -3,24 +3,25 @@ package com.chocolate.repository.repository
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.channel.MutingStatus
 import com.chocolate.entities.channel.Topic
+import com.chocolate.repository.datastore.remote.ChannelRemoteDataSource
 import com.chocolate.repository.mappers.channel_mappers.toEntity
 import com.chocolate.repository.mappers.channel_mappers.toSuccessOrFail
-import com.chocolate.repository.service.remote.RemoteDataSource
+import com.chocolate.repository.utils.SUCCESS
 import org.json.JSONArray
 import org.json.JSONObject
 import repositories.ChannelsRepository
 import javax.inject.Inject
 
 class ChannelsRepositoryImpl @Inject constructor(
-    private val channelsRemoteDataSource: RemoteDataSource,
+    private val channelRemoteDataSource: ChannelRemoteDataSource,
 ) : ChannelsRepository {
 
     override suspend fun getChannels(): List<Channel> {
-        return channelsRemoteDataSource.getChannels().streams.toEntity()
+        return channelRemoteDataSource.getChannels().streams.toEntity()
     }
 
     override suspend fun getSubscribedChannels(): List<Channel> =
-        channelsRemoteDataSource.getSubscribedChannels().toEntity { channelId ->
+        channelRemoteDataSource.getSubscribedChannels().toEntity { channelId ->
             getTopicsInChannel(channelId)
         }
 
@@ -30,40 +31,40 @@ class ChannelsRepositoryImpl @Inject constructor(
         description: String?,
         isPrivate: Boolean
     ): Boolean {
-        return channelsRemoteDataSource.subscribeToChannels(
+        return channelRemoteDataSource.subscribeToChannels(
             createJsonArrayString(channelName = channelName, channelDescription = description),
             usersId = JSONArray(usersId).toString(),
             description = description,
             isPrivate = isPrivate
         )
-            .result?.equals("success") ?: false
+            .result?.equals(SUCCESS) ?: false
     }
 
     override suspend fun unsubscribeFromChannel(
         channelName: String,
     ): Boolean {
-        return channelsRemoteDataSource.unsubscribeFromChannels(listOf(channelName))
-            .result?.equals("success") ?: false
+        return channelRemoteDataSource.unsubscribeFromChannels(listOf(channelName))
+            .result?.equals(SUCCESS) ?: false
     }
 
     override suspend fun getSubscriptionStatus(
         userId: Int,
         channelId: Int
     ): Boolean {
-        return channelsRemoteDataSource.getSubscriptionStatus(userId, channelId).isSubscribed
+        return channelRemoteDataSource.getSubscriptionStatus(userId, channelId).isSubscribed
             ?: false
     }
 
     override suspend fun getSubscribersByChannelId(channelId: Int): List<Int> =
-        channelsRemoteDataSource.getSubscribersInChannel(channelId).subscribers
+        channelRemoteDataSource.getSubscribersInChannel(channelId).subscribers
             ?: emptyList()
 
     override suspend fun getChannelById(channelId: Int): Channel? {
-        return channelsRemoteDataSource.getChannelById(channelId).streamDto?.toEntity()
+        return channelRemoteDataSource.getChannelById(channelId).streamDto?.toEntity()
     }
 
     override suspend fun getChannelIdByName(channel: String): Int {
-        return channelsRemoteDataSource.getChannelIdByName(channel).streamId ?: -1
+        return channelRemoteDataSource.getChannelIdByName(channel).streamId ?: -1
     }
 
     override suspend fun updateChannel(
@@ -77,7 +78,7 @@ class ChannelsRepositoryImpl @Inject constructor(
         messageRetentionDays: String?,
         canRemoveSubscribersGroupId: Int?
     ): Boolean {
-        return channelsRemoteDataSource.updateStream(
+        return channelRemoteDataSource.updateStream(
             streamId,
             description,
             newName,
@@ -91,11 +92,11 @@ class ChannelsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun archiveChannel(channelId: Int): Boolean {
-        return channelsRemoteDataSource.archiveChannel(channelId).toSuccessOrFail()
+        return channelRemoteDataSource.archiveChannel(channelId).toSuccessOrFail()
     }
 
     override suspend fun getTopicsInChannel(channelId: Int): List<Topic> {
-        return channelsRemoteDataSource.getTopicsInChannel(channelId).toEntity()
+        return channelRemoteDataSource.getTopicsInChannel(channelId).toEntity()
     }
 
     override suspend fun setTopicMuting(
@@ -103,7 +104,7 @@ class ChannelsRepositoryImpl @Inject constructor(
         status: MutingStatus,
         streamId: Int?,
     ): Boolean {
-        return channelsRemoteDataSource.setTopicMuting(topic, status.value, streamId)
+        return channelRemoteDataSource.setTopicMuting(topic, status.value, streamId)
             .toSuccessOrFail()
     }
 
@@ -112,7 +113,7 @@ class ChannelsRepositoryImpl @Inject constructor(
         topic: String,
         visibilityPolicy: Int
     ): Boolean {
-        return channelsRemoteDataSource.updatePersonalPreferenceTopic(
+        return channelRemoteDataSource.updatePersonalPreferenceTopic(
             channelId,
             topic,
             visibilityPolicy
@@ -120,16 +121,16 @@ class ChannelsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteTopic(channelId: Int, topicName: String): Boolean {
-        return channelsRemoteDataSource.deleteTopic(channelId, topicName)
+        return channelRemoteDataSource.deleteTopic(channelId, topicName)
             .toSuccessOrFail()
     }
 
     override suspend fun addDefaultChannel(channelId: Int): Boolean {
-        return channelsRemoteDataSource.addDefaultStream(channelId).toSuccessOrFail()
+        return channelRemoteDataSource.addDefaultStream(channelId).toSuccessOrFail()
     }
 
     override suspend fun deleteDefaultChannel(channelId: Int): Boolean {
-        return channelsRemoteDataSource.deleteDefaultStream(channelId)
+        return channelRemoteDataSource.deleteDefaultStream(channelId)
             .toSuccessOrFail()
     }
 

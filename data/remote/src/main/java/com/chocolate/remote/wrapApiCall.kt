@@ -26,13 +26,13 @@ suspend fun <T> wrapApiCall(call: suspend () -> Response<T>): T {
         }
     } catch (exception: UnknownHostException) {
         throw NoConnectionException(exception.message)
-    } catch (e:SocketTimeoutException){
+    } catch (e: SocketTimeoutException) {
         throw ServerException(e.message)
-    } catch (e:SSLException){
+    } catch (e: SSLException) {
         throw ServerException(e.message)
-    } catch (e:IOException){
+    } catch (e: IOException) {
         throw NetworkException(e.message)
-    } catch (e:Exception){
+    } catch (e: Exception) {
         throw TeamixException(e.message)
     }
 }

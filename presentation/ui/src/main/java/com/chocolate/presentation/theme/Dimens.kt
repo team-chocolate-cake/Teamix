@@ -5,24 +5,25 @@ import androidx.compose.ui.unit.sp
 
 //region Space Dimensions
 
-val Space0 = 0.dp
-val Space1 = 1.dp
-val Space2 = 2.dp
-val Space4 = 4.dp
-val Space8 = 8.dp
-val Space12 = 12.dp
-val Space16 = 16.dp
-val Space24 = 24.dp
-val Space26 = 26.dp
-val Space32 = 32.dp
-val Space40 = 40.dp
-val Space42 = 42.dp
-val Space48 = 48.dp
-val Space56 = 56.dp
-val Space64 = 64.dp
-val Space72 = 72.dp
-val Space80 = 80.dp
+val SpacingTiny = 0.dp
+val SpacingSmall = 1.dp
+val SpacingXSmall = 2.dp
+val SpacingMedium = 4.dp
+val SpacingXMedium = 8.dp
+val SpacingLarge = 12.dp
+val SpacingXLarge = 16.dp
+val SpacingXXLarge = 24.dp
+val SpacingHuge = 26.dp
+val SpacingExtraHuge = 32.dp
+val SpacingMassive = 40.dp
+val SpacingSuperMassive = 42.dp
+val SpacingGigantic = 48.dp
+val SpacingUltraGigantic = 56.dp
+val SpacingMegaGigantic = 64.dp
+val SpacingHyperGigantic = 72.dp
+val SpacingUltimateGigantic = 80.dp
 //endregion
+
 
 //region Text Size Dimensions
 val TextSize11 = 11.sp

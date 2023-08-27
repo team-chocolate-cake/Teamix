@@ -3,7 +3,7 @@ package com.chocolate.viewmodel.organization_name
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.usecases.onboarding.ManageUserUsedAppUseCase
-import com.chocolate.usecases.organization.SaveNameOrganizationUseCase
+import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
@@ -14,13 +14,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OrganizationNameViewModel @Inject constructor(
-    private val saveNameOrganizations: SaveNameOrganizationUseCase,
+    private val manageOrganizationDetails: ManageOrganizationDetailsUseCase,
     private val getUserLoginStatus: GetUserLoginStatusUseCase,
     private val stringsResource: StringsResource,
     private val manageUserUsedApp: ManageUserUsedAppUseCase
 ) : BaseViewModel<OrganizationNameUiState, OrganizationNameUiEffect>(OrganizationNameUiState()),
     OrganizationNameInteraction {
-
     init {
         getOnUserLoggedIn()
         getOnboardingStatus()
@@ -32,7 +31,15 @@ class OrganizationNameViewModel @Inject constructor(
 
     override fun onClickActionButton(organizationName: String) {
         _state.update { it.copy(isLoading = true) }
-        tryToExecute({ saveNameOrganizations(organizationName) }, ::onSuccess, ::onError)
+        tryToExecute(
+            { manageOrganizationDetails.saveOrganizationName(organizationName) },
+            ::onSuccess,
+            ::onError
+        )
+    }
+
+    override fun onOrganizationNameChange(organizationName: String) {
+        _state.update { it.copy(organizationName = organizationName.trim(), isLoading = false) }
     }
 
     private fun onSuccess(isCheck: Boolean) {
@@ -41,7 +48,8 @@ class OrganizationNameViewModel @Inject constructor(
             sendUiEffect(OrganizationNameUiEffect.NavigateToLoginScreen)
         }
     }
-    private fun getOnboardingStatus(){
+
+    private fun getOnboardingStatus() {
         viewModelScope.launch {
             collectFlow(manageUserUsedApp.checkIfUserUsedAppOrNot()) {
                 this.copy(onboardingState = it)
@@ -57,14 +65,9 @@ class OrganizationNameViewModel @Inject constructor(
         _state.update { it.copy(isLoading = false, error = errorMessage) }
     }
 
-    private fun getOnUserLoggedIn(){
+    private fun getOnUserLoggedIn() {
         viewModelScope.launch {
-            viewModelScope.launch {
-                collectFlow(getUserLoginStatus()) { this.copy(isLogged = it) }
-            }
+            collectFlow(getUserLoginStatus()) { this.copy(isLogged = it) }
         }
-    }
-    override fun onOrganizationNameChange(organizationName: String) {
-        _state.update { it.copy(organizationName = organizationName.trim(), isLoading = false) }
     }
 }

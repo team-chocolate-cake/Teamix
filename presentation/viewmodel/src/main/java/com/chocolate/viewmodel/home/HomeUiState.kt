@@ -1,19 +1,18 @@
 package com.chocolate.viewmodel.home
 
-import com.chocolate.viewmodel.base.BaseViewModel
+import com.chocolate.entities.uills.Empty
 
 data class HomeUiState(
-    val organizationTitle: String = "",
-    val imageUrl: String = "",
+    val organizationTitle: String = String.Empty,
+    val imageUrl: String = String.Empty,
     val badgeCountsUiState: BadgeCountsUiState = BadgeCountsUiState(),
     val channels: List<ChannelUiState> = emptyList(),
     val showNoInternetLottie: Boolean = false,
     val isLogged: Boolean = false,
     val isLoading: Boolean = true,
-    val role: String = "",
+    val role: String = String.Empty,
     val error: String? = null
-): BaseViewModel.BaseUiState
-
+)
 data class BadgeCountsUiState(
     val mentions: Int = 0,
     val drafts: Int = 0,
@@ -23,12 +22,12 @@ data class BadgeCountsUiState(
 
 data class ChannelUiState(
     val channelId: Int = 0,
-    val name: String = "",
+    val name: String = String.Empty,
     val topics: List<TopicUiState> = emptyList(),
     val isPrivateChannel: Boolean = false,
 )
 
 data class TopicUiState(
-    val name: String = "",
+    val name: String = String.Empty,
     val topicBadge: Int = 0
 )

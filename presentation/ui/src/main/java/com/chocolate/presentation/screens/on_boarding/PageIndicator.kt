@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 
 @Composable
@@ -31,7 +31,7 @@ fun PageIndicator(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(Space8),
+        horizontalArrangement = Arrangement.spacedBy(SpacingXMedium),
         modifier = modifier,
     ) {
         (0 until numberOfPages).forEach { pageNumber ->
@@ -69,7 +69,7 @@ private fun PageIndicatorItem(
     )
 
     Canvas(
-        modifier = modifier.size(width = width, height = Space8),
+        modifier = modifier.size(width = width, height = SpacingXMedium),
     ) {
         drawRoundRect(
             color = color,

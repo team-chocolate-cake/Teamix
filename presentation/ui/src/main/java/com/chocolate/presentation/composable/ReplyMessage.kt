@@ -37,12 +37,12 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.chocolate.presentation.R
-import com.chocolate.presentation.theme.Space0
-import com.chocolate.presentation.theme.Space16
-import com.chocolate.presentation.theme.Space24
-import com.chocolate.presentation.theme.Space4
-import com.chocolate.presentation.theme.Space40
-import com.chocolate.presentation.theme.Space8
+import com.chocolate.presentation.theme.SpacingTiny
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXXLarge
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingMassive
+import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.topic.MessageUiState
 import com.chocolate.viewmodel.topic.ReactionUiState
@@ -74,10 +74,10 @@ fun ReplyMessage(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                end = if (!messageUiState.isMyReplay) Space24 else Space0,
-                start = if (!messageUiState.isMyReplay) Space0 else Space24,
+                end = if (!messageUiState.isMyReplay) SpacingXXLarge else SpacingTiny,
+                start = if (!messageUiState.isMyReplay) SpacingTiny else SpacingXXLarge,
             )
-            .padding(horizontal = Space8)
+            .padding(horizontal = SpacingXMedium)
     ) {
         val (image, messageCard, emojis) = createRefs()
 
@@ -85,9 +85,9 @@ fun ReplyMessage(
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current).data(messageUiState.userImage).build(),
                 modifier = Modifier
-                    .padding(end = Space8)
+                    .padding(end = SpacingXMedium)
                     .clip(CircleShape)
-                    .size(Space40)
+                    .size(SpacingMassive)
                     .constrainAs(image) {
                         start.linkTo(parent.start)
                         if (!messageUiState.reactions.isEmpty()) bottom.linkTo(emojis.top)
@@ -103,7 +103,7 @@ fun ReplyMessage(
                 .fillMaxWidth()
                 .wrapContentSize(align = if (!messageUiState.isMyReplay) Alignment.CenterStart else Alignment.CenterEnd)
                 .padding(
-                    end = if (!messageUiState.isMyReplay) Space24 else 0.dp
+                    end = if (!messageUiState.isMyReplay) SpacingXXLarge else 0.dp
                 )
                 .constrainAs(messageCard) {
                     if (!messageUiState.isMyReplay) start.linkTo(image.end)
@@ -128,7 +128,7 @@ fun ReplyMessage(
             )
         ) {
             Column(
-                modifier = Modifier.padding(Space8)
+                modifier = Modifier.padding(SpacingXMedium)
             ) {
                 if (!messageUiState.isMyReplay) {
                     Text(
@@ -142,10 +142,10 @@ fun ReplyMessage(
                         model = ImageRequest.Builder(LocalContext.current).data(messageUiState.messageImageUrl)
                             .build(),
                         modifier = Modifier
-                            .padding(bottom = Space4)
+                            .padding(bottom = SpacingMedium)
                             .fillMaxWidth()
                             .height(150.dp)
-                            .clip(RoundedCornerShape(Space8)),
+                            .clip(RoundedCornerShape(SpacingXMedium)),
                         contentDescription = "",
                         contentScale = ContentScale.FillWidth
                     )
@@ -160,7 +160,7 @@ fun ReplyMessage(
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = Space4),
+                        .padding(top = SpacingMedium),
                     textAlign = if (!messageUiState.isMyReplay) TextAlign.Start else TextAlign.End,
                     text = messageUiState.replayDate,
                     style = MaterialTheme.typography.bodySmall,
@@ -171,7 +171,7 @@ fun ReplyMessage(
         }
 
         if (!messageUiState.reactions.isEmpty()) {
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(Space8),
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingXMedium),
                 modifier = Modifier.constrainAs(emojis) {
                     start.linkTo(image.end)
                     top.linkTo(messageCard.bottom)
@@ -184,7 +184,7 @@ fun ReplyMessage(
                 if (!messageUiState.isMyReplay) {
                     Box(contentAlignment = Alignment.Center,
                         modifier = Modifier
-                            .padding(vertical = Space4)
+                            .padding(vertical = SpacingMedium)
                             .clip(RoundedCornerShape(100.dp))
                             .background(
                                 MaterialTheme.customColors().lightGray
@@ -192,12 +192,12 @@ fun ReplyMessage(
                             .clickable {
                                 onOpenReactTile()
                             }
-                            .padding(vertical = Space4, horizontal = Space8)) {
+                            .padding(vertical = SpacingMedium, horizontal = SpacingXMedium)) {
                         AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
                                 .data(R.drawable.add_reaction).build(),
                             contentDescription = "Reaction",
-                            modifier = Modifier.size(Space16)
+                            modifier = Modifier.size(SpacingXLarge)
                         )
                     }
                 }

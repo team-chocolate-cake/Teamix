@@ -1,16 +1,16 @@
 package com.chocolate.local.dao
 
 import com.chocolate.local.database.TeamixDatabase
+import com.chocolate.repository.datastore.local.LocalDataSource
 import com.chocolate.repository.model.localDto.message.SavedMessageLocalDto
 import com.chocolate.repository.model.localDto.stream.StreamLocalDto
 import com.chocolate.repository.model.localDto.users.UserLocalDto
-import com.chocolate.repository.service.local.LocalDataSource
 import javax.inject.Inject
 
 class RoomDataSource @Inject constructor(
     private val teamixDao: TeamixDao,
     private val teamixDatabase: TeamixDatabase
-): LocalDataSource{
+) : LocalDataSource {
 
     override suspend fun insertStream(stream: StreamLocalDto) {
         teamixDao.upsertStream(stream)
@@ -47,5 +47,4 @@ class RoomDataSource @Inject constructor(
     override suspend fun getCurrentUserData(): UserLocalDto {
         return teamixDao.getCurrentUserData()
     }
-    
 }

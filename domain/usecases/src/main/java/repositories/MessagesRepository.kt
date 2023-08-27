@@ -1,10 +1,30 @@
 package repositories
 
+import com.chocolate.entities.draft.Draft
 import com.chocolate.entities.messages.Message
 import java.io.File
 
 interface MessagesRepository {
 
+    suspend fun getDrafts(): List<Draft>
+
+    suspend fun createDraft(
+        type: String,
+        recipients: Int,
+        topic: String,
+        content: String
+    ): List<Int>
+
+    suspend fun editDraft(
+        id: Int,
+        type: String,
+        to: List<Int>,
+        topic: String,
+        content: String,
+        timestamp: Long
+    )
+
+    suspend fun deleteDraft(id: Int)
     suspend fun sendStreamMessage(
         type: String,
         to: Any,
@@ -57,19 +77,13 @@ interface MessagesRepository {
         reactionType: String? = null
     )
 
-    //suspend fun updateMessageFlags(messages: List<Int>, op: String, flag: String): PersonalMessage
-
     suspend fun markAllMessagesAsRead()
 
     suspend fun markStreamAsRead(steamId: Int)
 
     suspend fun markTopicAsRead(steamId: Int, topicName: String)
 
-    //suspend fun getMessageReadReceipts(messageId: Int): MessageReadReceipts
-
     suspend fun uploadFile(file: File): String?
-
-    //suspend fun renderMessage(content: String): RenderMessage
 
     suspend fun fetchSingleMethod(messageId: Int): Message
 

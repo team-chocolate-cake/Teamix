@@ -3,11 +3,11 @@ package com.chocolate.repository.repository
 import com.chocolate.entities.draft.Draft
 import com.chocolate.entities.exceptions.NullDataException
 import com.chocolate.entities.messages.Message
-import com.chocolate.entities.scheduled_messages.ScheduledMessage
+import com.chocolate.repository.datastore.local.LocalDataSource
 import com.chocolate.repository.datastore.remote.MessagesRemoteDataSource
 import com.chocolate.repository.mappers.draft.toEntity
 import com.chocolate.repository.mappers.messages.toEntity
-import com.chocolate.repository.mappers.scheduled.toEntity
+import com.chocolate.repository.mappers.messages.toLocalDto
 import com.chocolate.repository.utils.toJson
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -17,7 +17,8 @@ import java.io.File
 import javax.inject.Inject
 
 class MessagesRepositoryImpl @Inject constructor(
-    private val messageDataSource: MessagesRemoteDataSource
+    private val messageDataSource: MessagesRemoteDataSource,
+    private val teamixLocalDataSource: LocalDataSource
 ) : MessagesRepository {
 
     override suspend fun getDrafts(): List<Draft> {
@@ -193,5 +194,17 @@ class MessagesRepositoryImpl @Inject constructor(
             messagesIds,
             narrow
         ).messages?.messageId?.matchContent.orEmpty()
+    }
+
+    override suspend fun getSavedMessages(): List<Message> {
+        return teamixLocalDataSource.getSavedMessages().map { it.toEntity() }
+    }
+
+    override suspend fun saveMessage(message: Message) {
+        teamixLocalDataSource.saveMessage(message.toLocalDto())
+    }
+
+    override suspend fun deleteSavedMessageById(id: Int) {
+        teamixLocalDataSource.deleteSavedMessageById(id)
     }
 }

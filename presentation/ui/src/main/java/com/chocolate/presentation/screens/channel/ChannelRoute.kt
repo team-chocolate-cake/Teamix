@@ -20,6 +20,6 @@ fun NavGraphBuilder.channelRoute() {
     }
 }
 
-fun NavController.toChannelScreen(id: Int, name: String) {
+fun NavController.navigateToChannel(id: Int, name: String) {
     navigate("${Screen.Channel.route}/$id/$name")
 }

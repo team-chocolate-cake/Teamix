@@ -89,4 +89,21 @@ interface MessagesRepository {
 
     suspend fun checkIfMessagesMatchNarrow(messagesIds: String, narrow: String): String
 
+    suspend fun getSavedMessages(): List<Message>
+
+    suspend fun saveMessage(message: Message)
+
+    suspend fun deleteSavedMessageById(id: Int)
+
+//    suspend fun getMessagesEditHistory(messageId: Int): List<MessageEditHistory>
+
+//    suspend fun updatePersonalMessageFlagsForNarrow(
+//        anchor: String,
+//        numBefore: Int,
+//        numAfter: Int,
+//        includeAnchor: Boolean = true,
+//        narrow: String,
+//        op: String,
+//        flag: String
+//    ): PersonalMessageForNarrow
 }

@@ -132,4 +132,6 @@
     <string name="the_email_shouldn_t_be_empty">The email shouldn\'t be empty</string>
     <string name="the_full_name_shouldn_t_be_empty">The full name shouldn\'t be empty</string>
     <string name="channel_name_validation">Channel name must not be empty and should have fewer than 60 characters.</string>
+    <string name="draft_messages_to_send_when_you_re_ready">Draft messages to send when you’re ready</string>
+    <string name="sub_title_empty_data">Start typing a message anywhere, then find it here. Re-read, revise, and send whenever you’d like.</string>
 </resources>

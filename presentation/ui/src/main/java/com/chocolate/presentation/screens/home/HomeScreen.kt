@@ -81,7 +81,6 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun HomeScreen(
-    mainViewModel: MainViewModel = hiltViewModel(),
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val navController = LocalNavController.current
@@ -100,15 +99,13 @@ fun HomeScreen(
             HomeUiEffect.NavigateToCreateChannel -> navController.navigateToCreateChannel()
         }
     }
-    TeamixScaffold(
-        isDarkMode = mainViewModel.state.value,
-    ) {
-        if (state.isLogged) {
-            HomeContent(state = state, homeViewModel)
-        } else {
-            navController.navigateToOrganizationName()
-        }
+
+    if (state.isLogged) {
+        HomeContent(state = state, homeViewModel)
+    } else {
+        navController.navigateToOrganizationName()
     }
+
 }
 
 @OptIn(ExperimentalFoundationApi::class)

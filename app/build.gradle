@@ -70,4 +70,5 @@ dependencies {
     implementation (ProjectDependencies.roomRuntime)
     kapt (ProjectDependencies.roomCompiler)
     implementation(ProjectDependencies.dataStore)
+
 }

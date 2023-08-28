@@ -64,5 +64,7 @@ dependencies {
     implementation (ProjectDependencies.systemUiController)
 
     implementation(ProjectDependencies.webView)
+    implementation("io.getstream:stream-video-android-compose:0.3.2")
+
 
 }

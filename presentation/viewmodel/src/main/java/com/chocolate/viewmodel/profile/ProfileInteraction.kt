@@ -9,7 +9,6 @@ interface ProfileInteraction {
     fun onUpdateWarningDialog(showDialog: Boolean)
     fun onLogoutButtonClicked()
     fun onUsernameChange(username: String)
-    fun onEmailChange(email: String)
     fun onUserInformationFocusChange()
     fun onClickRetryToUpdatePersonalInformation()
     fun onClickRetryToGetPersonalInformation()

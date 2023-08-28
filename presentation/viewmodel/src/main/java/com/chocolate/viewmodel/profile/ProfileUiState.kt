@@ -21,9 +21,7 @@ data class ProfileUiState(
     val showWarningDialog: Boolean = false,
     val showLogoutDialog: Boolean = false,
     val newUsername: String = String.Empty,
-    val newEmail: String = String.Empty,
     val originalName: String = String.Empty,
-    val originalEmail: String = String.Empty,
     val isDarkTheme: Boolean = false,
     val isLoading: Boolean = true,
     val error: String? = null

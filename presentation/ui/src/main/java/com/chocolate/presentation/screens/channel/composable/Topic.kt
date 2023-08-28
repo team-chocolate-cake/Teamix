@@ -6,8 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -36,30 +34,24 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.ReactionButton
-import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingMassive
+import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.viewmodel.channel.TopicUiSate
-import com.chocolate.viewmodel.topic.ReactionUiState
+import com.chocolate.viewmodel.channel.TopicState
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun Topic(
-    topicUiSate: TopicUiSate,
-    onClickReact: (Boolean, ReactionUiState) -> Unit,
-    onOpenReactTile: () -> Unit,
-    onSeeAll: () -> Unit,
+    topicState: TopicState,
+    onSeeAll: (String) -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.Top,
         modifier = Modifier.fillMaxWidth()
     ) {
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current).data(topicUiSate.creatorImage)
+            model = ImageRequest.Builder(LocalContext.current).data(topicState.creatorImage)
                 .build(),
             modifier = Modifier
                 .padding(end = SpacingMedium)
@@ -88,53 +80,23 @@ fun Topic(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = topicUiSate.creatorName,
+                            text = topicState.creatorName,
                             color = MaterialTheme.customColors().onBackground87,
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(
-                            text = topicUiSate.topicCreationDate.toString(),
+                            text = topicState.topicCreationDate.toString(),
                             color = MaterialTheme.customColors().onBackground60,
                             style = MaterialTheme.typography.labelSmall
                         )
                     }
                     Text(
-                        text = topicUiSate.topicName,
+                        text = topicState.topicName,
                         color = MaterialTheme.customColors().onBackground60,
                         style = MaterialTheme.typography.bodySmall
                     )
-                    if (!topicUiSate.reactions.isEmpty()) {
-                        FlowRow(
-                            horizontalArrangement = Arrangement.spacedBy(SpacingXMedium),
-                            modifier = Modifier
-                        ) {
-                            topicUiSate.reactions.forEach { reaction ->
-                                ReactionButton(reaction) { clicked, reaction ->
-                                    onClickReact(clicked, reaction)
-                                }
-                            }
-                            Box(contentAlignment = Alignment.Center,
-                                modifier = Modifier
-                                    .padding(vertical = SpacingMedium)
-                                    .clip(RoundedCornerShape(100.dp))
-                                    .background(
-                                        MaterialTheme.customColors().lightGray
-                                    )
-                                    .clickable {
-                                        onOpenReactTile()
-                                    }
-                                    .padding(vertical = SpacingMedium, horizontal = SpacingXMedium)) {
-                                AsyncImage(
-                                    model = ImageRequest.Builder(LocalContext.current)
-                                        .data(R.drawable.add_reaction).build(),
-                                    contentDescription = "Reaction",
-                                    modifier = Modifier.size(SpacingXLarge)
-                                )
-                            }
-                        }
-                    }
 
-                    if (!topicUiSate.replayImages.isEmpty()) {
+                    if (!topicState.replayImages.isEmpty()) {
                         Row(
                             modifier = Modifier,
                             verticalAlignment = Alignment.CenterVertically,
@@ -144,11 +106,11 @@ fun Topic(
                                 horizontalArrangement = Arrangement.spacedBy(-SpacingMedium),
                                 reverseLayout = true
                             ) {
-                                if (topicUiSate.replayImages.size <= 4) {
-                                    items(topicUiSate.replayImages.size) {
+                                if (topicState.replayImages.size <= 4) {
+                                    items(topicState.replayImages.size) {
                                         AsyncImage(
                                             model = ImageRequest.Builder(LocalContext.current)
-                                                .data(topicUiSate.replayImages[it])
+                                                .data(topicState.replayImages[it])
                                                 .build(),
                                             contentScale = ContentScale.Crop,
                                             modifier = Modifier
@@ -172,7 +134,7 @@ fun Topic(
                                                 .size(18.dp),
                                         ) {
                                             Text(
-                                                text = "+${topicUiSate.replayImages.size - 4}",
+                                                text = "+${topicState.replayImages.size - 4}",
                                                 color = Color.White,
                                                 fontSize = 6.sp
                                             )
@@ -181,7 +143,7 @@ fun Topic(
                                     items(4) {
                                         AsyncImage(
                                             model = ImageRequest.Builder(LocalContext.current)
-                                                .data(topicUiSate.replayImages[it])
+                                                .data(topicState.replayImages[it])
                                                 .build(),
                                             contentScale = ContentScale.Crop,
                                             modifier = Modifier
@@ -215,7 +177,7 @@ fun Topic(
                         .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
                         .background(MaterialTheme.customColors().primary)
                         .clickable {
-                            onSeeAll()
+                            onSeeAll(topicState.topicName)
                         }
                 ) {
                     Row(
@@ -241,7 +203,6 @@ fun Topic(
             }
         }
     }
-
 }
 
 @Composable
@@ -249,9 +210,7 @@ fun Topic(
 fun TopicReview() {
     TeamixTheme {
         Topic(
-            topicUiSate = TopicUiSate(),
-            onClickReact = { clicked, react -> },
-            onOpenReactTile = {},
+            topicState = TopicState(),
             onSeeAll = {}
         )
     }

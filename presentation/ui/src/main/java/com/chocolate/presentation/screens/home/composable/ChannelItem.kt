@@ -46,7 +46,7 @@ fun ChannelItem(
     state: ChannelUiState,
     colors: CustomColorsPalette,
     onClickTopic: (String) -> Unit,
-    onClickItemChannel: (Int) -> Unit,
+    onClickItemChannel: (Int , String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val haptics = LocalHapticFeedback.current
@@ -59,7 +59,7 @@ fun ChannelItem(
             .wrapContentHeight()
             .animateContentSize(animationSpec = tween(durationMillis = 300))
             .clip(RoundedCornerShape(12.dp))
-            .clickable { onClickItemChannel(state.channelId) }
+            .clickable { onClickItemChannel(state.channelId , state.name) }
             .background(color = colors.card)
             .padding(SpacingXLarge), verticalArrangement = Arrangement.Center
     ) {
@@ -98,7 +98,7 @@ fun ChannelItem(
                     modifier = Modifier
                         .fillMaxSize()
                         .clickable {
-                            onClickItemChannel(state.channelId)
+                            onClickItemChannel(state.channelId , state.name)
                         },
                     verticalArrangement = Arrangement.Center
                 ) {

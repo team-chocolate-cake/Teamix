@@ -36,7 +36,7 @@ class ManageChannelsUseCase @Inject constructor(
     private suspend fun unsubscribeFromChannel(channelName: String) =
         channelsRepository.unsubscribeFromChannel(channelName)
 
-    private suspend fun getTopicsInChannel(channelId: Int): List<Topic> =
+    suspend fun getTopicsInChannel(channelId: Int): List<Topic> =
         channelsRepository.getTopicsInChannel(channelId)
 
     private suspend fun setTopicMuting(topic: String, status: MutingStatus, streamId: Int) =

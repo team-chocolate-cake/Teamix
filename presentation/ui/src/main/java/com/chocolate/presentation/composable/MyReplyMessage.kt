@@ -2,20 +2,15 @@ package com.chocolate.presentation.composable
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -37,11 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.chocolate.presentation.R
-import com.chocolate.presentation.theme.SpacingMassive
 import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingTiny
-import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.customColors
@@ -50,22 +42,22 @@ import com.chocolate.viewmodel.topic.ReactionUiState
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun ReplyMessage(
+fun MyReplyMessage(
     messageUiState: MessageUiState,
     onAddReactionToMessage: (Int) -> Unit,
     onSaveMessage: () -> Unit,
     onGetNotification: () -> Unit,
     onPinMessage: () -> Unit,
-    onOpenReactTile: () -> Unit,
     onClickReact: (Boolean, ReactionUiState) -> Unit,
 ) {
     var showSheet by remember { mutableStateOf(false) }
-    AnimatedVisibility(showSheet) {
+
+    AnimatedVisibility (showSheet) {
         MessageOptionsBottomSheet(
             onAddReactionToMessage = onAddReactionToMessage,
-            onGetNotification = onGetNotification,
+            onGetNotification =onGetNotification ,
             onPinMessage = onPinMessage,
-            onSaveMessage = onSaveMessage
+            onSaveMessage =onSaveMessage
         ) {
             showSheet = false
         }
@@ -74,46 +66,31 @@ fun ReplyMessage(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                end = SpacingXXLarge,
-                start = SpacingTiny
+                end = SpacingTiny,
+                start = SpacingXXLarge,
             )
             .padding(horizontal = SpacingXMedium)
     ) {
         val (image, messageCard, emojis) = createRefs()
 
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current).data(messageUiState.userImage)
-                .build(),
-            modifier = Modifier
-                .padding(end = SpacingXMedium)
-                .clip(CircleShape)
-                .size(SpacingMassive)
-                .constrainAs(image) {
-                    start.linkTo(parent.start)
-                    if (messageUiState.reactions.isNotEmpty()) bottom.linkTo(emojis.top)
-                    else bottom.linkTo(parent.bottom)
-                },
-            contentDescription = ""
-        )
-
         Card(colors = CardDefaults.cardColors(
-            containerColor = Color.White
+            containerColor = MaterialTheme.customColors().primary
         ),
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentSize(align = Alignment.CenterStart)
+                .wrapContentSize(align = Alignment.CenterEnd)
                 .padding(
-                    end = SpacingXXLarge
+                    end = 0.dp
                 )
                 .constrainAs(messageCard) {
-                    start.linkTo(image.end)
+                    end.linkTo(parent.end)
                 }
                 .clip(
                     RoundedCornerShape(
                         topStart = 12.dp,
                         topEnd = 12.dp,
-                        bottomEnd = 12.dp,
-                        bottomStart = 0.dp
+                        bottomEnd =  0.dp,
+                        bottomStart = 12.dp
                     )
                 )
                 .combinedClickable(onClick = {}, onLongClick = {
@@ -122,24 +99,16 @@ fun ReplyMessage(
             shape = RoundedCornerShape(
                 topStart = 12.dp,
                 topEnd = 12.dp,
-                bottomEnd = 12.dp,
-                bottomStart = 0.dp
+                bottomEnd = 0.dp,
+                bottomStart =12.dp
             )
         ) {
             Column(
                 modifier = Modifier.padding(SpacingXMedium)
             ) {
-
-                Text(
-                    text = messageUiState.username,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.customColors().primary
-                )
-
-                AnimatedVisibility(messageUiState.messageImageUrl.isNotEmpty()) {
+                AnimatedVisibility (messageUiState.messageImageUrl.isNotEmpty()) {
                     AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(messageUiState.messageImageUrl)
+                        model = ImageRequest.Builder(LocalContext.current).data(messageUiState.messageImageUrl)
                             .build(),
                         modifier = Modifier
                             .padding(bottom = SpacingMedium)
@@ -152,25 +121,25 @@ fun ReplyMessage(
                 }
 
                 Text(
-                    textAlign = TextAlign.Start,
+                    textAlign = TextAlign.End,
                     text = messageUiState.message,
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.customColors().onBackground87
+                    color = Color.White
                 )
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = SpacingMedium),
-                    textAlign = TextAlign.Start,
+                    textAlign = TextAlign.End,
                     text = messageUiState.replayDate,
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.customColors().onBackground87
+                    color =  Color.White
                 )
             }
 
         }
 
-        AnimatedVisibility(messageUiState.reactions.isNotEmpty()) {
+        AnimatedVisibility (messageUiState.reactions.isNotEmpty()) {
             FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingXMedium),
                 modifier = Modifier.constrainAs(emojis) {
                     start.linkTo(image.end)
@@ -178,27 +147,8 @@ fun ReplyMessage(
                 }) {
                 messageUiState.reactions.forEach { reaction ->
                     ReactionButton(reaction) { clicked, reaction ->
-                        onClickReact(clicked, reaction)
+                        onClickReact(clicked,reaction)
                     }
-                }
-
-                Box(contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .padding(vertical = SpacingMedium)
-                        .clip(RoundedCornerShape(100.dp))
-                        .background(
-                            MaterialTheme.customColors().lightGray
-                        )
-                        .clickable {
-                            onOpenReactTile()
-                        }
-                        .padding(vertical = SpacingMedium, horizontal = SpacingXMedium)) {
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(R.drawable.add_reaction).build(),
-                        contentDescription = "Reaction",
-                        modifier = Modifier.size(SpacingXLarge)
-                    )
                 }
             }
         }

@@ -49,13 +49,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.TeamixScaffold
+import com.chocolate.presentation.screens.channel.toChannelScreen
 import com.chocolate.presentation.screens.create_channel.navigateToCreateChannel
-import com.chocolate.presentation.screens.drafts.navigateToDrafts
 import com.chocolate.presentation.screens.home.composable.BadgeHome
 import com.chocolate.presentation.screens.home.composable.ChannelItem
 import com.chocolate.presentation.screens.home.composable.ManageChannelBottomSheet
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
-import com.chocolate.presentation.screens.saveLater.navigateToSaveLater
+import com.chocolate.presentation.screens.topic_details.navigateToTopic
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Float1
 import com.chocolate.presentation.theme.LightPrimary
@@ -86,19 +86,6 @@ fun HomeScreen(
     val navController = LocalNavController.current
     val state by homeViewModel.state.collectAsState()
 
-    CollectUiEffect(homeViewModel.effect) { effect ->
-        when (effect) {
-            HomeUiEffect.NavigateToChannel -> {}
-            HomeUiEffect.NavigateToOrganizationName -> {
-                navController.navigateToOrganizationName()
-            }
-            HomeUiEffect.NavigationToDrafts -> navController.navigateToDrafts()
-            HomeUiEffect.NavigationToSavedLater -> navController.navigateToSaveLater()
-            HomeUiEffect.NavigationToStarred -> {}
-            HomeUiEffect.NavigateToTopic -> {}
-            HomeUiEffect.NavigateToCreateChannel -> navController.navigateToCreateChannel()
-        }
-    }
     when {
         state.isLogged && state.showNoInternetLottie -> {
             NoInternetLottie(
@@ -110,7 +97,28 @@ fun HomeScreen(
         }
         state.isLogged && state.isLoading -> LoadingColumn()
         state.isLogged -> HomeContent(state = state, homeViewModel)
-        !state.isLogged->navController.navigateToOrganizationName()
+        !state.isLogged -> navController.navigateToOrganizationName()
+    }
+
+    CollectUiEffect(homeViewModel.effect) { effect ->
+        when (effect) {
+            is HomeUiEffect.NavigateToChannel -> {
+                navController.toChannelScreen(effect.id, effect.name)
+            }
+
+            HomeUiEffect.NavigateToOrganizationName -> {
+                navController.navigateToOrganizationName()
+            }
+
+            HomeUiEffect.NavigationToDrafts -> {}
+            HomeUiEffect.NavigationToSavedLater -> {}
+            HomeUiEffect.NavigationToStarred -> {}
+            is HomeUiEffect.NavigateToTopic -> {
+                navController.navigateToTopic(effect.topicName)
+            }
+
+            HomeUiEffect.NavigateToCreateChannel -> navController.navigateToCreateChannel()
+        }
     }
 }
 
@@ -138,7 +146,7 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
         floatingActionButton = {
             AnimatedVisibility(visible = state.role.lowercase() == "owner") {
                 FloatingActionButton(
-                    onClick = {homeInteraction.onClickFloatingActionButton()},
+                    onClick = { homeInteraction.onClickFloatingActionButton() },
                     containerColor = MaterialTheme.customColors().primary,
                     shape = RoundedCornerShape(Radius16),
                 ) {
@@ -205,8 +213,8 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                 ChannelItem(
                     channelUIState,
                     colors,
-                    onClickItemChannel = {
-                        homeInteraction.onClickChannel(it)
+                    onClickItemChannel = { channelId, channelName ->
+                        homeInteraction.onClickChannel(channelId, channelName)
                     }, onClickTopic = {
                         homeInteraction.onClickTopic(it)
                     },

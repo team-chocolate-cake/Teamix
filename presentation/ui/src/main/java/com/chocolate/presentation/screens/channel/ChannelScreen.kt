@@ -18,43 +18,53 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.channel.composable.Topic
+import com.chocolate.presentation.screens.home.LoadingColumn
+import com.chocolate.presentation.screens.topic_details.navigateToTopic
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.viewmodel.channel.ChannelUiState
+import com.chocolate.presentation.util.CollectUiEffect
+import com.chocolate.presentation.util.LocalNavController
+import com.chocolate.viewmodel.channel.ChannelInteraction
+import com.chocolate.viewmodel.channel.ChannelScreenUiState
+import com.chocolate.viewmodel.channel.ChannelUiEffect
 import com.chocolate.viewmodel.channel.ChannelViewModel
-import com.chocolate.viewmodel.topic.ReactionUiState
 
 @Composable
-fun ChannelScreen(viewModel: ChannelViewModel = hiltViewModel()) {
-    val state by viewModel.state.collectAsState()
+fun ChannelScreen(
+    channelViewModel: ChannelViewModel = hiltViewModel(),
+    navController: NavController = LocalNavController.current
+) {
+    val state by channelViewModel.state.collectAsState()
+    CollectUiEffect(channelViewModel.effect) { channelUiEffect ->
+        when (channelUiEffect) {
+            is ChannelUiEffect.NavigateToTopicDetails -> navController.navigateToTopic(
+                channelUiEffect.topicName
+            )
+        }
+    }
+
     ChannelContent(
         channelScreenUiState = state,
-        meetingButtonClick = {},
-        onOpenReactTile = {},
-        onSeeAll = {},
-        onClickReact = { clicked, react ->
-
-        }
+        channelInteraction = channelViewModel
     )
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ChannelContent(
-    channelScreenUiState: ChannelUiState,
-    meetingButtonClick: () -> Unit,
-    onOpenReactTile: () -> Unit,
-    onSeeAll: () -> Unit,
-    onClickReact: (Boolean, ReactionUiState) -> Unit,
+    channelScreenUiState: ChannelScreenUiState,
+    channelInteraction: ChannelInteraction
 ) {
     TeamixScaffold(
         hasBackArrow = true,
         title = channelScreenUiState.channelName,
         isDarkMode = isSystemInDarkTheme(),
+        hasAppBar = true,
         floatingActionButton = {
             FloatingActionButton(
                 containerColor = MaterialTheme.customColors().primary,
@@ -68,22 +78,23 @@ fun ChannelContent(
             }
         }
     ) { padding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
-            verticalArrangement = Arrangement.spacedBy(SpacingXLarge),
-            contentPadding = PaddingValues(SpacingXLarge)
-        ) {
-            items(channelScreenUiState.topics.size) {
-                Topic(
-                    topicUiSate = channelScreenUiState.topics[it],
-                    onClickReact = onClickReact,
-                    onOpenReactTile = onOpenReactTile,
-                    onSeeAll = onSeeAll,
-                )
+        if (channelScreenUiState.isLoading)
+            LoadingColumn()
+        else
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding),
+                verticalArrangement = Arrangement.spacedBy(SpacingXLarge),
+                contentPadding = PaddingValues(SpacingXLarge)
+            ) {
+                items(channelScreenUiState.topics.size) {
+                    Topic(
+                        topicState = channelScreenUiState.topics[it],
+                        onSeeAll = channelInteraction::onClickSeeAll,
+                    )
+                }
             }
-        }
     }
 }
 

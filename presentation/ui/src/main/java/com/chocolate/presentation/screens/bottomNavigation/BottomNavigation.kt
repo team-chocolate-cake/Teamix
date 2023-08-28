@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.chocolate.presentation.theme.customColors
@@ -46,8 +47,8 @@ fun BottomNavigation(navController: NavController) {
                 alwaysShowLabel = false,
                 label = {
                     Text(
-                        text = item.title,
-                        style = MaterialTheme.typography.labelMedium
+                        text = stringResource(id = item.title),
+                        style = MaterialTheme.typography.labelMedium,
                     )
                 },
                 onClick = {
@@ -64,7 +65,7 @@ fun BottomNavigation(navController: NavController) {
                 icon = {
                     Icon(
                         painterResource(id = item.icon),
-                        contentDescription = item.title
+                        contentDescription = stringResource(id = item.title)
                     )
                 }
             )

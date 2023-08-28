@@ -40,7 +40,7 @@
     <string name="clear_history">مسح التاريخ</string>
     <string name="log_out">تسجيل الخروج</string>
     <string name="settings">الإعدادات</string>
-    <string name="profile">الملف الشخصي</string>
+    <string name="profile">ملفي</string>
     <string name="clear_history_text">سيؤدي هذا الإجراء إلى إزالة جميع بيانات التصفح الخاصة بك بشكل دائم، بما في ذلك تاريخ البحث والملفات المخزنة مؤقتًا</string>
     <string name="clear_history_title">هل أنت متأكد من حذف التاريخ؟</string>
     <string name="logout_title">هل أنت متأكد من تسجيل الخروج؟</string>
@@ -133,4 +133,7 @@
     <string name="the_email_shouldn_t_be_empty">لا ينبغي أن يكون البريد الإلكتروني فارغًا</string>
     <string name="the_full_name_shouldn_t_be_empty">لا ينبغي أن يكون الاسم الكامل فارغًا</string>
     <string name="channel_name_validation">اسم القناة يجب ألا يكون فارغًا ويجب أن يحتوي على أقل من 60 حرفًا.</string>
+    <string name="tasks">المهام</string>
+    <string name="home">القنوات</string>
+    <string name="dms"> الرسائل</string>
 </resources>

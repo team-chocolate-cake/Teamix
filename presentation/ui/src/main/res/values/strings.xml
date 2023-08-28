@@ -134,4 +134,7 @@
     <string name="channel_name_validation">Channel name must not be empty and should have fewer than 60 characters.</string>
     <string name="draft_messages_to_send_when_you_re_ready">Draft messages to send when you’re ready</string>
     <string name="sub_title_empty_data">Start typing a message anywhere, then find it here. Re-read, revise, and send whenever you’d like.</string>
+    <string name="home">Home</string>
+    <string name="tasks">Tasks</string>
+    <string name="dms">DMs</string>
 </resources>

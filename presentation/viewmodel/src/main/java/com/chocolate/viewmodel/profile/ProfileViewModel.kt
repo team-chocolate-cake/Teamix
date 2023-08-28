@@ -80,13 +80,6 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    override fun onEmailChange(email: String) {
-        if (_state.value.originalEmail.isEmpty()) {
-            _state.update { it.copy(originalEmail = _state.value.email) }
-        }
-        _state.update { it.copy(email = email, error = null, newEmail = email, message = null) }
-    }
-
     override fun onUserInformationFocusChange() {
         val userInformationSettingsState = User(
             fullName = _state.value.name,
@@ -112,14 +105,13 @@ class ProfileViewModel @Inject constructor(
 
     override fun areUserDataEqual(): Boolean {
         val currentState = _state.value
-        return currentState.name == currentState.newUsername || currentState.email == currentState.newEmail
+        return currentState.name == currentState.newUsername
     }
 
     override fun onRevertChange() {
         val currentState = _state.value
         val updatedState = currentState.copy(
             name = if (currentState.originalName == String.Empty) _state.value.name else currentState.originalName,
-            email = if (currentState.originalEmail == String.Empty) _state.value.email else currentState.originalEmail,
             error = null
         )
         _state.update { updatedState }
@@ -167,7 +159,6 @@ class ProfileViewModel @Inject constructor(
             it.copy(
                 isLoading = false,
                 newUsername = String.Empty,
-                newEmail = String.Empty,
                 error = null,
                 message = stringsResource.successMessage
             )

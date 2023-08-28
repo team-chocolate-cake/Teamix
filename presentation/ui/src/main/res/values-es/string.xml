@@ -133,4 +133,7 @@
     <string name="the_email_shouldn_t_be_empty">El correo electrónico no debe estar vacío</string>
     <string name="the_full_name_shouldn_t_be_empty">El nombre completo no debe estar vacío</string>
     <string name="channel_name_validation">El nombre del canal no debe estar vacío y debe tener menos de 60 caracteres.</string>
+    <string name="tasks">Tareas</string>
+    <string name="home">Canales</string>
+    <string name="dms">Mensajes</string>
 </resources>

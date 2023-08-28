@@ -137,4 +137,5 @@
     <string name="home">Home</string>
     <string name="tasks">Tasks</string>
     <string name="dms">DMs</string>
+    <string name="no_internet">No internet</string>
 </resources>

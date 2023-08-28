@@ -127,7 +127,7 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
         isDarkMode = isSystemInDarkTheme(),
         isLoading = state.isLogged && state.isLoading,
         onLoading = { LoadingColumn() },
-        error = if (state.isLogged && state.showNoInternetLottie) "No internet" else null,
+        error = if (state.isLogged && state.showNoInternetLottie) stringResource(R.string.no_internet) else null,
         title = state.organizationTitle,
         imageUrl = state.imageUrl,
         hasImageUrl = true,
@@ -201,8 +201,8 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                 currentChannel.name
             }) { channelUIState ->
                 ChannelItem(
-                    channelUIState,
-                    colors,
+                    state = channelUIState,
+                    colors = colors,
                     onClickItemChannel = {id, name ->
                         homeInteraction.onClickChannel(id,name)
                     }, onClickTopic = {

@@ -49,13 +49,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.screens.channel.toChannelScreen
 import com.chocolate.presentation.screens.create_channel.navigateToCreateChannel
+import com.chocolate.presentation.screens.drafts.navigateToDrafts
 import com.chocolate.presentation.screens.home.composable.BadgeHome
 import com.chocolate.presentation.screens.home.composable.ChannelItem
 import com.chocolate.presentation.screens.home.composable.ManageChannelBottomSheet
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
-import com.chocolate.presentation.screens.topic_details.navigateToTopic
+import com.chocolate.presentation.screens.saveLater.navigateToSaveLater
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Float1
 import com.chocolate.presentation.theme.LightPrimary
@@ -85,39 +85,27 @@ fun HomeScreen(
 ) {
     val navController = LocalNavController.current
     val state by homeViewModel.state.collectAsState()
-
-    when {
-        state.isLogged && state.showNoInternetLottie -> {
-            NoInternetLottie(
-                isShow = true,
-                onClickRetry = homeViewModel::getData,
-                isDarkMode = mainViewModel.state.value,
-                text = stringResource(id = R.string.no_internet_connection)
-            )
-        }
-        state.isLogged && state.isLoading -> LoadingColumn()
-        state.isLogged -> HomeContent(state = state, homeViewModel)
-        !state.isLogged -> navController.navigateToOrganizationName()
-    }
-
     CollectUiEffect(homeViewModel.effect) { effect ->
         when (effect) {
-            is HomeUiEffect.NavigateToChannel -> {
-                navController.toChannelScreen(effect.id, effect.name)
-            }
-
+            HomeUiEffect.NavigateToChannel  -> {}
             HomeUiEffect.NavigateToOrganizationName -> {
                 navController.navigateToOrganizationName()
             }
 
-            HomeUiEffect.NavigationToDrafts -> {}
-            HomeUiEffect.NavigationToSavedLater -> {}
+            HomeUiEffect.NavigationToDrafts -> navController.navigateToDrafts()
+            HomeUiEffect.NavigationToSavedLater -> navController.navigateToSaveLater()
             HomeUiEffect.NavigationToStarred -> {}
-            is HomeUiEffect.NavigateToTopic -> {
-                navController.navigateToTopic(effect.topicName)
-            }
-
+            HomeUiEffect.NavigateToTopic -> {}
             HomeUiEffect.NavigateToCreateChannel -> navController.navigateToCreateChannel()
+        }
+    }
+    TeamixScaffold(
+        isDarkMode = mainViewModel.state.value,
+    ) {
+        if (state.isLogged) {
+            HomeContent(state = state, homeViewModel)
+        } else {
+            navController.navigateToOrganizationName()
         }
     }
 }
@@ -128,16 +116,17 @@ fun HomeScreen(
 fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
     val colors = MaterialTheme.customColors()
     var isShowSheet by remember { mutableStateOf(false) }
-
     AnimatedVisibility(isShowSheet) {
         ManageChannelBottomSheet(onDismissBottomSheet = { isShowSheet = false }, colors = colors)
     }
     val systemUiController = rememberSystemUiController()
     systemUiController.setSystemBarsColor(color = LightPrimary, darkIcons = false)
-
     TeamixScaffold(
         modifier = Modifier.fillMaxSize(),
         isDarkMode = isSystemInDarkTheme(),
+        isLoading = state.isLogged && state.isLoading,
+        onLoading = { LoadingColumn() },
+        error = if (state.isLogged && state.showNoInternetLottie) "No internet" else null,
         title = state.organizationTitle,
         imageUrl = state.imageUrl,
         hasImageUrl = true,
@@ -213,8 +202,8 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                 ChannelItem(
                     channelUIState,
                     colors,
-                    onClickItemChannel = { channelId, channelName ->
-                        homeInteraction.onClickChannel(channelId, channelName)
+                    onClickItemChannel = {
+                        homeInteraction.onClickChannel(it)
                     }, onClickTopic = {
                         homeInteraction.onClickTopic(it)
                     },

@@ -49,8 +49,6 @@ fun ChannelItem(
     onClickItemChannel: (Int , String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val haptics = LocalHapticFeedback.current
-    val context = LocalContext.current
     var isExpanded by remember { mutableStateOf(false) }
     val animateIcon by animateFloatAsState(targetValue = if (isExpanded) 180f else 0f, label = "")
     Column(
@@ -66,6 +64,7 @@ fun ChannelItem(
         Row(
             modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
+
         ) {
             val iconsChannel =
                 if (state.isPrivateChannel) R.drawable.ic_lock else R.drawable.ic_hashtag
@@ -78,10 +77,10 @@ fun ChannelItem(
             Text(
                 text = state.name,
                 style = MaterialTheme.typography.labelLarge,
-                color = colors.onBackground87
+                color = colors.onBackground87,
+                modifier = Modifier.weight(1f)
             )
-            Spacer(modifier = Modifier.weight(1f))
-            if (state.topics.isNotEmpty()) {
+             if (state.topics.isNotEmpty()) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_down),
                     contentDescription = null,
@@ -89,6 +88,7 @@ fun ChannelItem(
                     modifier = Modifier
                         .rotate(animateIcon)
                         .clickable { isExpanded = !isExpanded }
+
                 )
             }
         }

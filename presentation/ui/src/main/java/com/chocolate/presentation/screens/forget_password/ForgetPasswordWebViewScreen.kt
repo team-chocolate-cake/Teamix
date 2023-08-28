@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.composable.TeamixScaffold
+import com.chocolate.presentation.theme.OnLightPrimary
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.forgetPassowrd.ForgetPasswordUiState
 import com.chocolate.viewmodel.forgetPassowrd.ForgetPasswordViewModel
@@ -41,6 +42,7 @@ fun ForgetPasswordWebViewContent(forgetPasswordUiState: ForgetPasswordUiState) {
     TeamixScaffold(
         title = Title,
         hasAppBar = true,
+        titleColor = OnLightPrimary,
         hasBackArrow = true,
         isDarkMode = isSystemInDarkTheme()
     ) {

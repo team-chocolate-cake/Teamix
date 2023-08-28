@@ -25,7 +25,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,7 +37,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -61,7 +59,6 @@ import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Float1
 import com.chocolate.presentation.theme.LightPrimary
 import com.chocolate.presentation.theme.OnLightPrimary
-import com.chocolate.presentation.theme.Radius16
 import com.chocolate.presentation.theme.SpacingLarge
 import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingMegaGigantic
@@ -133,21 +130,6 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
         hasImageUrl = true,
         titleColor = OnLightPrimary,
         hasAppBar = true,
-        floatingActionButton = {
-            AnimatedVisibility(visible = state.role.lowercase() == "owner") {
-                FloatingActionButton(
-                    onClick = { homeInteraction.onClickFloatingActionButton() },
-                    containerColor = MaterialTheme.customColors().primary,
-                    shape = RoundedCornerShape(Radius16),
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Add,
-                        contentDescription = stringResource(R.string.add_fab),
-                        tint = Color.White,
-                    )
-                }
-            }
-        }
     ) {
         LazyColumn(
             modifier = Modifier
@@ -188,14 +170,28 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                 }
             }
             item {
-                Text(
-                    text = stringResource(R.string.channels),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = colors.onBackground87,
-                    modifier = Modifier
-                        .padding(top = SpacingXMedium)
-                        .padding(horizontal = SpacingXLarge)
-                )
+                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = stringResource(R.string.channels),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = colors.onBackground87,
+                        modifier = Modifier
+                            .padding(top = SpacingXMedium)
+                            .padding(horizontal = SpacingXLarge)
+                            .weight(Float1)
+                    )
+                    AnimatedVisibility(visible = state.role.lowercase() == "owner") {
+                        Icon(
+                            imageVector = Icons.Rounded.Add,
+                            contentDescription = stringResource(R.string.add_fab),
+                            tint = MaterialTheme.customColors().onBackground87,
+                            modifier = Modifier
+                                .padding(end = SpacingXLarge)
+                                .clickable { homeInteraction.onClickFloatingActionButton() }
+                        )
+                    }
+                }
+
             }
             items(items = state.channels, key = { currentChannel ->
                 currentChannel.name

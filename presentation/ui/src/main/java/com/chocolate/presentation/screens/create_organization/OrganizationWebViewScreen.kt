@@ -7,6 +7,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.chocolate.presentation.composable.TeamixScaffold
+import com.chocolate.presentation.theme.OnLightPrimary
 import com.chocolate.presentation.theme.customColors
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.accompanist.web.WebView
@@ -30,6 +31,7 @@ fun OrganizationWebViewContent() {
 
     TeamixScaffold(
         title = Title,
+        titleColor = OnLightPrimary,
         hasBackArrow = true,
         hasAppBar = true,
         isDarkMode = isSystemInDarkTheme(),

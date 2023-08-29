@@ -1,6 +1,5 @@
 package com.chocolate.viewmodel.home
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.exceptions.NoConnectionException
@@ -14,7 +13,6 @@ import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.profile.toOwnerUserUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,7 +28,7 @@ class HomeViewModel @Inject constructor(
         getData()
 
     }
-    fun getData() {
+    private fun getData() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             getUserLoginState()
@@ -133,16 +131,13 @@ class HomeViewModel @Inject constructor(
 
     private fun getUserLoginState() {
         viewModelScope.launch {
-            getUserLoginStatus().collect() { islogged ->
-                Log.d("loooog", "${islogged}")
+            getUserLoginStatus().collect { islogged ->
                 if (islogged) {
                     _state.update {
-                        Log.d("loooog", "${islogged}")
                         it.copy(isLogged = islogged)
                     }
                 }else{
                     sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
-                    Log.d("1234","${state.value.isLogged}")
                 }
             }
         }

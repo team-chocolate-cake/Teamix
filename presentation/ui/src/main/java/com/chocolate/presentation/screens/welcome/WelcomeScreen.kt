@@ -2,14 +2,15 @@ package com.chocolate.presentation.screens.welcome
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,9 +27,9 @@ import com.chocolate.presentation.composable.FitImage
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.on_boarding.navigateToOnboarding
-import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.SpacingMegaGigantic
+import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.TextSize24
 import com.chocolate.presentation.theme.customColors
@@ -47,8 +48,38 @@ fun WelcomeContent(
 ) {
     val colors = MaterialTheme.customColors()
     TeamixScaffold(
-        isDarkMode = isSystemInDarkTheme(),
-        bottomBar = {
+        isDarkMode = false,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(colors.background)
+                .verticalScroll(rememberScrollState())
+        ) {
+            Text(
+                modifier = Modifier.padding(
+                    top = SpacingMegaGigantic,
+                    start = SpacingXLarge,
+                    end = SpacingXLarge
+                ),
+                text = buildAnnotatedString {
+                    append(stringResource(R.string.welcome_text))
+                    withStyle(style = SpanStyle(color = colors.primary)) {
+                        append(stringResource(R.string.welcome_content))
+                    }
+                },
+                style = MaterialTheme.typography.titleLarge,
+                color = colors.onBackground87,
+                fontSize = TextSize24
+            )
+            FitImage(
+                modifier = Modifier
+                    .padding(SpacingXLarge)
+                    .wrapContentSize(),
+                image = painterResource(id = R.drawable.img_welcome),
+                contentDescription = stringResource(R.string.welcome_image)
+            )
+            Spacer(modifier = Modifier.weight(1f))
             Box(
                 modifier = Modifier
                     .fillMaxSize(), contentAlignment = Alignment.BottomCenter
@@ -57,46 +88,17 @@ fun WelcomeContent(
                     onClick = { navigateToOnBoarding() },
                     colors = colors,
                     modifier = Modifier
-                        .padding(start = SpacingXLarge, end = SpacingXLarge, bottom = SpacingExtraHuge)
+                        .padding(
+                            start = SpacingXLarge,
+                            end = SpacingXLarge,
+                            bottom = SpacingExtraHuge
+                        )
                         .fillMaxWidth()
                 ) {
                     Text(
                         text = stringResource(R.string.get_stated),
                         style = MaterialTheme.typography.bodyLarge,
                         color = colors.onPrimary
-                    )
-                }
-            }
-        }) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(colors.background)
-        ) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(colors.background)
-            ) {
-                item {
-                    Text(
-                        modifier = Modifier.padding(top = SpacingMegaGigantic, start = SpacingXLarge, end = SpacingXLarge),
-                        text = buildAnnotatedString {
-                            append(stringResource(R.string.welcome_text))
-                            withStyle(style = SpanStyle(color = colors.primary)) {
-                                append(stringResource(R.string.welcome_content))
-                            }
-                        },
-                        style = MaterialTheme.typography.titleLarge,
-                        color = colors.onBackground87,
-                        fontSize = TextSize24
-                    )
-                    FitImage(
-                        modifier = Modifier
-                            .padding(SpacingXLarge)
-                            .wrapContentSize(),
-                        image = painterResource(id = R.drawable.img_welcome),
-                        contentDescription = stringResource(R.string.welcome_image)
                     )
                 }
             }

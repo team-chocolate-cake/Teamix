@@ -3,16 +3,17 @@ package com.chocolate.presentation.screens.on_boarding
 import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -64,8 +65,23 @@ fun OnboardingContent(
     val pagerState = rememberPagerState()
     val colors = MaterialTheme.customColors()
     TeamixScaffold(
-        isDarkMode = isSystemInDarkTheme(),
-        bottomBar = {
+        isDarkMode =false
+     ) {
+        Column(  Modifier.fillMaxSize()
+            .background(colors.background)
+            .verticalScroll(rememberScrollState())
+        ) {
+            HorizontalPager(
+                pageCount = onboardingPages.size,
+                state = pagerState,
+                verticalAlignment = Alignment.Top
+            ) { position ->
+                PagerScreen(
+                    onBoardingPage = onboardingPages[position],
+                    stringResource(R.string.onboarding_image)
+                )
+            }
+            Spacer(modifier = Modifier.weight(1f))
             Row(
                 modifier = Modifier
                     .padding(horizontal = SpacingXXLarge, vertical = SpacingExtraHuge)
@@ -96,31 +112,6 @@ fun OnboardingContent(
                         style = MaterialTheme.typography.titleMedium,
                         color = colors.onPrimary
                     )
-                }
-            }
-        }) {
-        Column(
-            Modifier
-                .fillMaxSize()
-                .background(colors.background)
-        ) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(colors.background)
-            ) {
-                item {
-                    HorizontalPager(
-                        modifier = Modifier.weight(8f),
-                        pageCount = onboardingPages.size,
-                        state = pagerState,
-                        verticalAlignment = Alignment.Top
-                    ) { position ->
-                        PagerScreen(
-                            onBoardingPage = onboardingPages[position],
-                            stringResource(R.string.onboarding_image)
-                        )
-                    }
                 }
             }
         }

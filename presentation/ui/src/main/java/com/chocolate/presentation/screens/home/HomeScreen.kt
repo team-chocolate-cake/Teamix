@@ -82,7 +82,6 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun HomeScreen(
-    mainViewModel: MainViewModel = hiltViewModel(),
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val navController = LocalNavController.current
@@ -103,6 +102,7 @@ fun HomeScreen(
     }
     if (state.isLogged){   HomeContent(state = state, homeViewModel)}
 }
+
 @OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable

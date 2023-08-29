@@ -2,6 +2,7 @@ package com.chocolate.presentation.screens.home
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -96,13 +97,7 @@ fun HomeScreen(
             HomeUiEffect.NavigateToCreateChannel -> navController.navigateToCreateChannel()
         }
     }
-
-    if (state.isLogged) {
-        HomeContent(state = state, homeViewModel)
-    } else {
-        navController.navigateToOrganizationName()
-    }
-
+    if (state.isLogged){   HomeContent(state = state, homeViewModel)}
 }
 
 @OptIn(ExperimentalFoundationApi::class)

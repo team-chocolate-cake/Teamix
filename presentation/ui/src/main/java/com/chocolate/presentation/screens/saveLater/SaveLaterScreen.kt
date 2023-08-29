@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -17,7 +18,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.SaveLaterCard
-import com.chocolate.presentation.composable.SwipeCard
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
 import com.chocolate.presentation.theme.SpacingXLarge
@@ -35,7 +35,7 @@ fun SaveLaterScreen(
     SaveLaterContent(state, viewModel)
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInteraction) {
     val colors = MaterialTheme.customColors()
@@ -53,12 +53,13 @@ fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInter
             verticalArrangement = Arrangement.spacedBy(SpacingXMedium)
         ) {
             items(state.messages, key = { it.id }) { message ->
-                SwipeCard(messageId = message.id, onClickDismiss = interaction::onDismissMessage) {
+
+                //SwipeCard(messageId = message.id, onClickDismiss = interaction::onDismissMessage) {
                     SaveLaterCard(
                         item = message,
                         painter = rememberAsyncImagePainter(model = message.imageUrl)
                     )
-                }
+               // }
             }
         }
 

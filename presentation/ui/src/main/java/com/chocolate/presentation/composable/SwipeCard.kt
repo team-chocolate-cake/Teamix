@@ -32,7 +32,7 @@ fun SwipeCard(
     SwipeToDismiss(
         modifier = modifier,
         state = state,
-        background = { SwipeBackGround() },
+        background = { SwipeBackground() },
         dismissContent = {
             cardItem()
         },

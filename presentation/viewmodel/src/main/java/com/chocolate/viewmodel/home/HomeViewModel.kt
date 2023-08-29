@@ -1,5 +1,6 @@
 package com.chocolate.viewmodel.home
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.exceptions.NoConnectionException
@@ -13,6 +14,7 @@ import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.profile.toOwnerUserUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,8 +28,8 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()), HomeInteraction {
     init {
         getData()
-    }
 
+    }
     fun getData() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
@@ -51,8 +53,8 @@ class HomeViewModel @Inject constructor(
         sendUiEffect(HomeUiEffect.NavigationToSavedLater)
     }
 
-    override fun onClickChannel(id: Int,name: String) {
-        sendUiEffect(HomeUiEffect.NavigateToChannel(id,name))
+    override fun onClickChannel(id: Int, name: String) {
+        sendUiEffect(HomeUiEffect.NavigateToChannel(id, name))
     }
 
     override fun onClickTopic(name: String) {
@@ -131,8 +133,17 @@ class HomeViewModel @Inject constructor(
 
     private fun getUserLoginState() {
         viewModelScope.launch {
-            collectFlow(getUserLoginStatus()) {
-                this.copy(isLogged = it)
+            getUserLoginStatus().collect() { islogged ->
+                Log.d("loooog", "${islogged}")
+                if (islogged) {
+                    _state.update {
+                        Log.d("loooog", "${islogged}")
+                        it.copy(isLogged = islogged)
+                    }
+                }else{
+                    sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
+                    Log.d("1234","${state.value.isLogged}")
+                }
             }
         }
     }

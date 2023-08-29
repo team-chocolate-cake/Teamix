@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -63,6 +64,8 @@ dependencies {
     implementation (ProjectDependencies.logging)
 
     implementation (ProjectDependencies.hilt)
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.7.1'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.2.1'
     kapt (ProjectDependencies.hiltCompiler)
 
     implementation(ProjectDependencies.encryptedSharedPreference)

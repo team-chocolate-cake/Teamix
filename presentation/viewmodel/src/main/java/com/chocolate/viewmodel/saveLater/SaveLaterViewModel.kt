@@ -46,10 +46,16 @@ class SaveLaterViewModel @Inject constructor(
         )
     }
 
+    override fun onDeleteStateDismiss() =
+        _state.update { it.copy(deleteStateMessage = null, isLoading = false) }
+
+
+    override fun onErrorDismiss() = _state.update { it.copy(error = null, isLoading = false) }
+
     private fun onDeleteMessageSuccess(unit: Unit) {
         _state.update {
             it.copy(
-                message = "message Deleted successfully",
+                deleteStateMessage = "message Deleted successfully",
                 error = null,
                 isLoading = false
             )

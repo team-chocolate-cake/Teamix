@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,7 +39,7 @@ fun SaveLaterCard(item: MessageItemUiState, painter: Painter) {
             .fillMaxWidth()
             .wrapContentHeight()
             .clip(RoundedCornerShape(Radius12)),
-        colors = CardDefaults.cardColors(containerColor = colors.card)
+        colors = CardDefaults.cardColors(containerColor = colors.onBackground87)
     ) {
 
     }
@@ -53,21 +54,23 @@ fun SaveLaterCard(item: MessageItemUiState, painter: Painter) {
             modifier = Modifier
                 .clip(CircleShape)
                 .size(SpacingMassive)
-                .align(Alignment.CenterVertically)
+                .align(Alignment.CenterVertically),
+            contentScale = ContentScale.Crop
         )
         Column(verticalArrangement = Arrangement.spacedBy(SpacingMedium)) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = item.username, color = colors.onBackground87)
-                Text(text = item.time, color = colors.onBackground87)
+                Text(text = item.username, color = colors.onBackground87, style = MaterialTheme.typography.labelMedium)
+                Text(text = item.time, color = colors.onBackground60, style = MaterialTheme.typography.labelSmall)
             }
             Text(
                 text = item.messageContent,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                color = colors.onBackground87
+                color = colors.onBackground60,
+                style = MaterialTheme.typography.labelMedium
             )
         }
     }

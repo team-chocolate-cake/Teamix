@@ -1,6 +1,5 @@
 package com.chocolate.presentation.screens.saveLater
 
-import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -13,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
@@ -21,6 +19,7 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.SaveLaterCard
 import com.chocolate.presentation.composable.SwipeCard
 import com.chocolate.presentation.composable.TeamixScaffold
+import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
@@ -40,7 +39,6 @@ fun SaveLaterScreen(
 @Composable
 fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInteraction) {
     val colors = MaterialTheme.customColors()
-    val context = LocalContext.current
     TeamixScaffold(
         isDarkMode = isSystemInDarkTheme(),
         hasAppBar = true,
@@ -48,7 +46,6 @@ fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInter
         containerColorAppBar = colors.card,
         title = stringResource(id = R.string.savedlater),
         isLoading = state.isLoading,
-        error = state.error,
     ) { padding ->
         LazyColumn(
             modifier = Modifier.padding(padding),
@@ -56,19 +53,31 @@ fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInter
             verticalArrangement = Arrangement.spacedBy(SpacingXMedium)
         ) {
             items(state.messages, key = { it.id }) { message ->
-                SwipeCard(messageId = message.id, onclickDismiss = interaction::onDismissMessage) {
+                SwipeCard(messageId = message.id, onClickDismiss = interaction::onDismissMessage) {
                     SaveLaterCard(
                         item = message,
                         painter = rememberAsyncImagePainter(model = message.imageUrl)
                     )
                 }
             }
-            state.message.let {
-                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-            }
-            state.error.let {
-                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-            }
+        }
+
+        state.deleteStateMessage?.let {
+            ActionSnakeBar(
+                isVisible = true,
+                contentMessage = it,
+                onClick = interaction::onDeleteStateDismiss,
+                actionTitle = stringResource(id = R.string.dismiss)
+            )
+        }
+
+        state.error?.let {
+            ActionSnakeBar(
+                isVisible = true,
+                contentMessage = it,
+                onClick = interaction::onErrorDismiss,
+                actionTitle = stringResource(id = R.string.dismiss)
+            )
         }
     }
 }

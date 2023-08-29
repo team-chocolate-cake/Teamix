@@ -15,8 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.chocolate.presentation.composable.MyReplyMessage
-import com.chocolate.presentation.composable.ReplyMessage
 import com.chocolate.presentation.composable.StartNewMessage
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.theme.SpacingXLarge
@@ -82,7 +80,7 @@ fun TopicContent(topicUiState: TopicUiState, topicInteraction: TopicInteraction)
                 contentPadding = PaddingValues(bottom = SpacingXLarge, top = SpacingXLarge)
             ) {
                 items(topicUiState.messages.size) {
-                    if (topicUiState.messages[it].isMyReplay)
+              /*      if (topicUiState.messages[it].isMyReplay)
                         MyReplyMessage(
                             messageUiState = topicUiState.messages[it],
                             onAddReactionToMessage = { topicInteraction.onAddReactionToMessage(it) },
@@ -96,8 +94,8 @@ fun TopicContent(topicUiState: TopicUiState, topicInteraction: TopicInteraction)
                                 )
                             }
                         )
-                    else
-                        ReplyMessage(
+                    else*/
+               /*         ReplyMessage(
                             messageUiState = topicUiState.messages[it],
                             onAddReactionToMessage = { topicInteraction.onAddReactionToMessage(it) },
                             onGetNotification = { topicInteraction.onGetNotification() },
@@ -110,7 +108,7 @@ fun TopicContent(topicUiState: TopicUiState, topicInteraction: TopicInteraction)
                                     state
                                 )
                             }
-                        )
+                        )*/
                 }
             }
         }

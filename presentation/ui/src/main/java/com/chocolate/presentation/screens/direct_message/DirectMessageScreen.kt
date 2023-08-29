@@ -29,7 +29,7 @@ fun DirectMessageScreen(
 ) {
     val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
-    DirectMessageContent(state,{})
+    DirectMessageContent(state) {}
 }
 
 @OptIn(ExperimentalFoundationApi::class)

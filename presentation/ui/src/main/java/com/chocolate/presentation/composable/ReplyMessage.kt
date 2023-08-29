@@ -2,14 +2,9 @@ package com.chocolate.presentation.composable
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -37,21 +32,18 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.SpacingMassive
 import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingTiny
-import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.viewmodel.topic.MessageUiState
 import com.chocolate.viewmodel.topic.ReactionUiState
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun ReplyMessage(
-    messageUiState: MessageUiState,
+    messageUiState: com.chocolate.viewmodel.conversation.MessageUiState,
     onAddReactionToMessage: (Int) -> Unit,
     onSaveMessage: () -> Unit,
     onGetNotification: () -> Unit,
@@ -90,8 +82,8 @@ fun ReplyMessage(
                 .size(SpacingMassive)
                 .constrainAs(image) {
                     start.linkTo(parent.start)
-                    if (messageUiState.reactions.isNotEmpty()) bottom.linkTo(emojis.top)
-                    else bottom.linkTo(parent.bottom)
+                    /*if (messageUiState.reactions.isNotEmpty()) bottom.linkTo(emojis.top)
+                    else bottom.linkTo(parent.bottom)*/
                 },
             contentDescription = ""
         )
@@ -170,7 +162,7 @@ fun ReplyMessage(
 
         }
 
-        AnimatedVisibility(messageUiState.reactions.isNotEmpty()) {
+/*        AnimatedVisibility(messageUiState.reactions.isNotEmpty()) {
             FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingXMedium),
                 modifier = Modifier.constrainAs(emojis) {
                     start.linkTo(image.end)
@@ -201,7 +193,7 @@ fun ReplyMessage(
                     )
                 }
             }
-        }
+        }*/
     }
 
 }

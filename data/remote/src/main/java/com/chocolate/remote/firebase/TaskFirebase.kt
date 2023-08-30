@@ -1,10 +1,13 @@
 package com.chocolate.remote.firebase
 
 import com.chocolate.entities.exceptions.NullDataException
+import com.chocolate.entities.task.Task
 import com.chocolate.entities.uills.Empty
 import com.chocolate.entities.user.User
 import com.chocolate.repository.datastore.remote.TaskRemoteDataSource
+import com.chocolate.repository.mappers.task.toEntity
 import com.chocolate.repository.mappers.users.toEntity
+import com.chocolate.repository.model.dto.task.TaskDataDto
 import com.chocolate.repository.model.dto.users.response.UserDataDto
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -26,6 +29,22 @@ class TaskFirebase @Inject constructor(
             .documents
             .map { documentSnapshot ->
                 documentSnapshot.toObject(UserDataDto::class.java)?.toEntity()
+            }
+    } catch (e: Exception) {
+        throw NullDataException(String.Empty)
+    }
+
+    override suspend fun setTeamTask(task: Task) {
+         firebaseFirestore.collection(TEAM_TASK).document(task.id.toString()).set(task::class.java)
+             .addOnFailureListener { throw NullDataException(it.message) }.await()
+    }
+    override suspend fun getTeamTasks(): List<Task?> = try {
+        firebaseFirestore.collection(TEAM_TASK)
+            .get()
+            .await()
+            .documents
+            .map { documentSnapshot ->
+                documentSnapshot.toObject(TaskDataDto::class.java)?.toEntity()
             }
     } catch (e: Exception) {
         throw NullDataException(String.Empty)

@@ -1,7 +1,6 @@
 package com.chocolate.entities.task
 
 import java.util.Date
-
 data class Task(
     val id: Int,
     val startDate: Date,

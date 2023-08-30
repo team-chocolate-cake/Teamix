@@ -3,6 +3,7 @@ package com.chocolate.repository.mappers.users
 import com.chocolate.entities.user.User
 import com.chocolate.entities.user.UserRole
 import com.chocolate.repository.model.dto.users.response.MemberDto
+import com.chocolate.repository.model.dto.users.response.UserDataDto
 import com.chocolate.repository.model.dto.users.response.UserDto
 import com.chocolate.repository.model.localDto.users.UserLocalDto
 
@@ -46,3 +47,13 @@ fun MemberDto.toEntity(): User = User(
 )
 
 fun List<MemberDto>?.toEntity(): List<User> = this?.map { it.toEntity() }.orEmpty()
+
+fun UserDataDto.toEntity(): User{
+    return User(
+        id ?: 0,
+        imageUrl.orEmpty(),
+        email.orEmpty(),
+        name.orEmpty(),
+        UserRole.valueOf(role ?: UserRole.GUEST.stringValue)
+    )
+}

@@ -48,6 +48,7 @@ import com.chocolate.presentation.theme.ButtonSize110
 import com.chocolate.presentation.theme.Radius16
 import com.chocolate.presentation.theme.Radius24
 import com.chocolate.presentation.theme.RowWidth250
+import com.chocolate.presentation.theme.SpacingGigantic
 import com.chocolate.presentation.theme.SpacingHuge
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
@@ -128,16 +129,14 @@ fun ProfileContent(
 
     AnimatedVisibility(state.showLanguageDialog) {
         MultiChoiceDialog(
-            onClickDone = {
+            onClickDone = {language ->
                 profileInteraction.onUpdateLanguageDialogState(false)
-                profileInteraction.restartActivity(context)
-            },
-            onDismissRequest = { profileInteraction.onUpdateLanguageDialogState(false) },
-            whenChoice = { language ->
                 val languageCode = state.languageMap[language] ?: "en"
                 profileInteraction.onUpdateLanguage(languageCode)
                 updateResources(context = context, localeLanguage = Locale(languageCode))
+                profileInteraction.restartActivity(context)
             },
+            onDismissRequest = { profileInteraction.onUpdateLanguageDialogState(false) },
             choices = state.languageMap.keys.toList(),
             oldSelectedChoice = when (state.lastAppLanguage) {
                 state.languageMap[LocalLanguage.Arabic.name] -> {
@@ -161,8 +160,8 @@ fun ProfileContent(
     AnimatedVisibility(state.showWarningDialog) {
         ProfileDialog(title = stringResource(R.string.warning),
             text = stringResource(R.string.waring_details),
-            onDismissButtonClick = { profileInteraction.onRevertChange() },
-            onConfirmButtonClick = { profileInteraction.onUserInformationFocusChange() }
+            onDismissButtonClick = {profileInteraction.onUpdateWarningDialog(false)},
+            onConfirmButtonClick = { profileInteraction.onRevertChange()}
         )
     }
     AnimatedVisibility(state.showLogoutDialog) {
@@ -207,7 +206,7 @@ fun ProfileContent(
             Box(
                 Modifier
                     .padding(horizontal = SpacingXLarge)
-                    .padding(bottom = SpacingXLarge)
+                    .padding(bottom = SpacingXLarge, top =SpacingGigantic )
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(Radius16))
                     .height(BoxHeight440)

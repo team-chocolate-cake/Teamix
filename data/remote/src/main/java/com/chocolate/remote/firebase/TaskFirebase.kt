@@ -15,15 +15,8 @@ class TaskFirebase @Inject constructor(
 ): TaskRemoteDataSource {
 
     override suspend fun setUsers(user: User) {
-        val userData = hashMapOf(
-            "id" to user.id,
-            "name" to user.fullName,
-            "role" to user.role,
-            "email" to user.email,
-            "imageUrl" to user.imageUrl
-        )
-        val userCollection = firebaseFirestore.collection(USERS).document(user.id.toString())
-        userCollection.set(userData).await()
+        firebaseFirestore.collection(USERS).document(user.id.toString()).set(user::class.java)
+            .addOnFailureListener { throw NullDataException(it.message) }.await()
     }
 
     override suspend fun getAllUser(): List<User?> = try {

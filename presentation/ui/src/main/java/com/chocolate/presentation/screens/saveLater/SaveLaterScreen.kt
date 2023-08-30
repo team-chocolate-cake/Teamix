@@ -18,6 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.SaveLaterCard
+import com.chocolate.presentation.composable.SwipeCard
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
 import com.chocolate.presentation.theme.SpacingXLarge
@@ -53,13 +54,18 @@ fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInter
             verticalArrangement = Arrangement.spacedBy(SpacingXMedium)
         ) {
             items(state.messages, key = { it.id }) { message ->
+                SwipeCard(
+                    modifier = Modifier.animateItemPlacement(),
+                    messageId = message.id,
+                    onClickDismiss = interaction::onDismissMessage,
+                    cardItem = {
+                        SaveLaterCard(
+                            item = message,
+                            painter = rememberAsyncImagePainter(model = message.imageUrl)
+                        )
+                    }
+                )
 
-                //SwipeCard(messageId = message.id, onClickDismiss = interaction::onDismissMessage) {
-                    SaveLaterCard(
-                        item = message,
-                        painter = rememberAsyncImagePainter(model = message.imageUrl)
-                    )
-               // }
             }
         }
 

@@ -81,10 +81,6 @@ fun ProfileScreen(
             ProfileEffect.NavigateToOrganizationScreen -> {
                 navController.navigateToOrganizationName()
             }
-
-            ProfileEffect.NavigateToSearchScreen -> {
-                // navigate to search screen
-            }
         }
     }
     if (!state.isLoading) {

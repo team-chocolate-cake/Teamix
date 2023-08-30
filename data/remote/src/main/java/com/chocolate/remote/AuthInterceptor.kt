@@ -18,11 +18,10 @@ class AuthInterceptor @Inject constructor(
         val request = chain.request()
             .newBuilder()
             .url(
-                requestUrl.toString()
-                    .replace(
-                        "null",
-                        preferencesDataSource.currentOrganization() ?: throw IOException()
-                    )
+                setDomainName(
+                    requestUrl.toString(),
+                    preferencesDataSource.currentOrganization() ?: throw IOException()
+                )
             )
             .header(
                 AUTHORIZATION, Credentials.basic(
@@ -32,6 +31,12 @@ class AuthInterceptor @Inject constructor(
             )
             .build()
         return chain.proceed(request)
+    }
+
+    private fun setDomainName(url: String, domainName: String): String {
+        val startIndex = 8
+        val endIndex = url.indexOf(".zulipchat.com")
+        return url.substring(0, startIndex) + domainName + url.substring(endIndex)
     }
 
     private companion object {

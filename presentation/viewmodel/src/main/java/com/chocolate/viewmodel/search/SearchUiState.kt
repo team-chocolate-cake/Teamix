@@ -5,9 +5,6 @@ import com.chocolate.entities.uills.Empty
 data class SearchUiState(
     val query: String = String.Empty,
     val channelsUiState: List<ChannelsUiState> = emptyList(),
-    val membersUiState: List<SearchMembersUiState> = emptyList(),
-    val recentSearches: List<String> = emptyList(),
-    val currentTabIndex: Int = 0,
     val isLoading: Boolean = false,
     val showNoInternetLottie: Boolean = false,
     val error: String? = null

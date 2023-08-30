@@ -29,7 +29,7 @@ import com.chocolate.presentation.theme.customColors
 @Composable
 fun ChannelSearchItem(
     modifier: Modifier = Modifier,
-    onClickChannelItem: (Int) -> Unit,
+    onClickChannelItem: (Int , String) -> Unit,
     id: Int,
     isPrivate: Boolean,
     name: String,
@@ -39,7 +39,7 @@ fun ChannelSearchItem(
     val colors = MaterialTheme.customColors()
 
     Card(
-        onClick = { onClickChannelItem(id) }, modifier = modifier
+        onClick = { onClickChannelItem(id,name) }, modifier = modifier
             .fillMaxWidth()
             .height(48.dp),
         colors = CardDefaults.cardColors(containerColor = colors.card),

@@ -13,11 +13,11 @@ import com.chocolate.presentation.screens.forget_password.forgetPasswordWebViewR
 import com.chocolate.presentation.screens.home.homeRoute
 import com.chocolate.presentation.screens.login.loginRoute
 import com.chocolate.presentation.screens.on_boarding.onboardingRoute
+import com.chocolate.presentation.screens.organizationTasks.organizationTasksRoute
 import com.chocolate.presentation.screens.organiztion.organizationNameRoute
 import com.chocolate.presentation.screens.profile.profileRoute
 import com.chocolate.presentation.screens.saveLater.saveLaterRoute
 import com.chocolate.presentation.screens.search.searchRoute
-import com.chocolate.presentation.screens.task.taskRoute
 import com.chocolate.presentation.screens.topic_details.topicRoute
 import com.chocolate.presentation.screens.welcome.welcomeRoute
 
@@ -35,7 +35,7 @@ fun TeamixNavGraph(navController: NavHostController) {
         profileRoute()
         searchRoute()
         directMessageRoute()
-        taskRoute()
+        organizationTasksRoute()
         topicRoute()
         chooseMemberRoute()
         createChannelRoute()

@@ -10,7 +10,6 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -30,12 +29,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.CustomColorsPalette
+import com.chocolate.presentation.theme.Float1
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.viewmodel.home.ChannelUiState
@@ -43,11 +41,12 @@ import com.chocolate.viewmodel.home.ChannelUiState
 @SuppressLint("RememberReturnType")
 @Composable
 fun ChannelItem(
+    modifier: Modifier = Modifier,
     state: ChannelUiState,
     colors: CustomColorsPalette,
+    contentDescription: String = "",
     onClickTopic: (String) -> Unit,
-    onClickItemChannel: (Int , String) -> Unit,
-    modifier: Modifier = Modifier
+    onClickItemChannel: (Int , String) -> Unit
 ) {
     var isExpanded by remember { mutableStateOf(false) }
     val animateIcon by animateFloatAsState(targetValue = if (isExpanded) 180f else 0f, label = "")
@@ -57,7 +56,7 @@ fun ChannelItem(
             .wrapContentHeight()
             .animateContentSize(animationSpec = tween(durationMillis = 300))
             .clip(RoundedCornerShape(12.dp))
-            .clickable { onClickItemChannel(state.channelId , state.name) }
+            .clickable { onClickItemChannel(state.channelId, state.name) }
             .background(color = colors.card)
             .padding(SpacingXLarge), verticalArrangement = Arrangement.Center
     ) {
@@ -70,7 +69,7 @@ fun ChannelItem(
                 if (state.isPrivateChannel) R.drawable.ic_lock else R.drawable.ic_hashtag
             Icon(
                 painter = painterResource(id = iconsChannel),
-                contentDescription = null,
+                contentDescription = contentDescription,
                 tint = colors.primary,
                 modifier = Modifier.padding(end = SpacingXMedium)
             )
@@ -78,12 +77,12 @@ fun ChannelItem(
                 text = state.name,
                 style = MaterialTheme.typography.labelLarge,
                 color = colors.onBackground87,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(Float1)
             )
              if (state.topics.isNotEmpty()) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_down),
-                    contentDescription = null,
+                    contentDescription = contentDescription,
                     tint = colors.onBackground60,
                     modifier = Modifier
                         .rotate(animateIcon)
@@ -98,7 +97,7 @@ fun ChannelItem(
                     modifier = Modifier
                         .fillMaxSize()
                         .clickable {
-                            onClickItemChannel(state.channelId , state.name)
+                            onClickItemChannel(state.channelId, state.name)
                         },
                     verticalArrangement = Arrangement.Center
                 ) {

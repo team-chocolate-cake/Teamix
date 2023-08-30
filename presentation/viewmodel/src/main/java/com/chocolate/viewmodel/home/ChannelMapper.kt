@@ -10,14 +10,14 @@ fun Channel.toUiState(): ChannelUiState =
         id,
         name,
         topics.toUiState(),
-        false
+        isPrivate
     )
 
 fun Channel.toChannelsUiState(): ChannelsUiState =
     ChannelsUiState(
         id,
         name,
-        isPrivate = false
+        isPrivate = isPrivate
     )
 
 @JvmName("channelsToChannelsUiState")

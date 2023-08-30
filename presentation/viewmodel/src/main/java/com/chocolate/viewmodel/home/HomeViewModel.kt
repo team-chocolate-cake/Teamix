@@ -26,9 +26,9 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()), HomeInteraction {
     init {
         getData()
-    }
 
-    fun getData() {
+    }
+    private fun getData() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             getUserLoginState()
@@ -51,8 +51,8 @@ class HomeViewModel @Inject constructor(
         sendUiEffect(HomeUiEffect.NavigationToSavedLater)
     }
 
-    override fun onClickChannel(id: Int,name: String) {
-        sendUiEffect(HomeUiEffect.NavigateToChannel(id,name))
+    override fun onClickChannel(id: Int, name: String) {
+        sendUiEffect(HomeUiEffect.NavigateToChannel(id, name))
     }
 
     override fun onClickTopic(name: String) {
@@ -131,8 +131,14 @@ class HomeViewModel @Inject constructor(
 
     private fun getUserLoginState() {
         viewModelScope.launch {
-            collectFlow(getUserLoginStatus()) {
-                this.copy(isLogged = it)
+            getUserLoginStatus().collect { islogged ->
+                if (islogged) {
+                    _state.update {
+                        it.copy(isLogged = islogged)
+                    }
+                }else{
+                    sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
+                }
             }
         }
     }

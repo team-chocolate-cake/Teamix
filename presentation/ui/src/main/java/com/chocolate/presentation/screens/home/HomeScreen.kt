@@ -2,6 +2,7 @@ package com.chocolate.presentation.screens.home
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -25,7 +26,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,7 +38,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -61,7 +60,6 @@ import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Float1
 import com.chocolate.presentation.theme.LightPrimary
 import com.chocolate.presentation.theme.OnLightPrimary
-import com.chocolate.presentation.theme.Radius16
 import com.chocolate.presentation.theme.SpacingLarge
 import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingMegaGigantic
@@ -81,7 +79,6 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun HomeScreen(
-    mainViewModel: MainViewModel = hiltViewModel(),
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val navController = LocalNavController.current
@@ -100,15 +97,7 @@ fun HomeScreen(
             HomeUiEffect.NavigateToCreateChannel -> navController.navigateToCreateChannel()
         }
     }
-    TeamixScaffold(
-        isDarkMode = mainViewModel.state.value,
-    ) {
-        if (state.isLogged) {
-            HomeContent(state = state, homeViewModel)
-        } else {
-            navController.navigateToOrganizationName()
-        }
-    }
+    if (state.isLogged){   HomeContent(state = state, homeViewModel)}
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -128,27 +117,12 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
         containerColorAppBar = MaterialTheme.customColors().primary,
         isLoading = state.isLogged && state.isLoading,
         onLoading = { LoadingColumn() },
-        error = if (state.isLogged && state.showNoInternetLottie) "No internet" else null,
+        error = if (state.isLogged && state.showNoInternetLottie) stringResource(R.string.no_internet) else null,
         title = state.organizationTitle,
         imageUrl = state.imageUrl,
         hasImageUrl = true,
         titleColor = OnLightPrimary,
         hasAppBar = true,
-        floatingActionButton = {
-            AnimatedVisibility(visible = state.role.lowercase() == "owner") {
-                FloatingActionButton(
-                    onClick = { homeInteraction.onClickFloatingActionButton() },
-                    containerColor = MaterialTheme.customColors().primary,
-                    shape = RoundedCornerShape(Radius16),
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Add,
-                        contentDescription = stringResource(R.string.add_fab),
-                        tint = Color.White,
-                    )
-                }
-            }
-        }
     ) {
         LazyColumn(
             modifier = Modifier
@@ -189,21 +163,35 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                 }
             }
             item {
-                Text(
-                    text = stringResource(R.string.channels),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = colors.onBackground87,
-                    modifier = Modifier
-                        .padding(top = SpacingXMedium)
-                        .padding(horizontal = SpacingXLarge)
-                )
+                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = stringResource(R.string.channels),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = colors.onBackground87,
+                        modifier = Modifier
+                            .padding(top = SpacingXMedium)
+                            .padding(horizontal = SpacingXLarge)
+                            .weight(Float1)
+                    )
+                    AnimatedVisibility(visible = state.role.lowercase() == "owner") {
+                        Icon(
+                            imageVector = Icons.Rounded.Add,
+                            contentDescription = stringResource(R.string.add_fab),
+                            tint = MaterialTheme.customColors().onBackground87,
+                            modifier = Modifier
+                                .padding(end = SpacingXLarge)
+                                .clickable { homeInteraction.onClickFloatingActionButton() }
+                        )
+                    }
+                }
+
             }
             items(items = state.channels, key = { currentChannel ->
                 currentChannel.name
             }) { channelUIState ->
                 ChannelItem(
-                    channelUIState,
-                    colors,
+                    state = channelUIState,
+                    colors = colors,
                     onClickItemChannel = {id, name ->
                         homeInteraction.onClickChannel(id,name)
                     }, onClickTopic = {

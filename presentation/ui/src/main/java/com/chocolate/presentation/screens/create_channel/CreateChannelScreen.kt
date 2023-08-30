@@ -202,7 +202,7 @@ private fun CreateChannelContent(
 
         ActionSnakeBar(
             contentMessage = state.error.message.toString(),
-            isVisible = state.error.message != null,
+            isVisible = state.error.isError,
             onClick = { createChannelInteraction.onClickRetry() },
             actionTitle = stringResource(id = R.string.retry)
         )

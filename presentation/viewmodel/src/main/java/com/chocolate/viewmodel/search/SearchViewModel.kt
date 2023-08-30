@@ -4,9 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.uills.Empty
-import com.chocolate.entities.user.User
 import com.chocolate.usecases.channel.ManageChannelsUseCase
-import com.chocolate.usecases.user.GetAllUsersUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.home.toChannelsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,36 +17,20 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val manageChannels: ManageChannelsUseCase,
-    private val getUsers: GetAllUsersUseCase
 ): BaseViewModel<SearchUiState,SearchEffect>(SearchUiState()),SearchInteraction {
     private var searchJob: Job? = null
 
-    override fun onClickChannelItem(channelId: Int) {
-        sendUiEffect(SearchEffect.NavigateToChannel(channelId))
-    }
-
-    override fun onClickMemberItem(memberId: Int) {
-        sendUiEffect(SearchEffect.NavigateToMember(memberId))
+    override fun onClickChannelItem(id: Int, name: String) {
+        sendUiEffect(SearchEffect.NavigateToChannel(id,name))
     }
 
     override fun onChangeSearchQuery(query: String) {
+        if(query.isEmpty()){
+            _state.update { it.copy(isLoading = false, channelsUiState = emptyList(), query = query) }
+            return
+        }
         _state.update { it.copy(isLoading = true, query = query) }
         onSearch()
-    }
-
-    override fun onChangeTabIndex(tabIndex: Int) {
-        _state.update {
-            it.copy(
-                currentTabIndex = tabIndex,
-                query = String.Empty,
-                channelsUiState = emptyList(),
-                membersUiState = emptyList()
-            )
-        }
-    }
-
-    override fun onClickRecentSearchItem(text: String) {
-        _state.update { it.copy(query = text) }
     }
 
     override fun onClickRetry() {
@@ -56,33 +38,15 @@ class SearchViewModel @Inject constructor(
         onChangeSearchQuery(_state.value.query)
     }
 
+    override fun onClickDeleteQuery() {
+        _state.update { it.copy(query = String.Empty, channelsUiState = emptyList()) }
+    }
+
     private fun onSearch() {
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             delay(1000)
-            when (_state.value.currentTabIndex) {
-                0 -> onSearchChannels()
-                1 -> onSearchMembers()
-            }
-        }
-    }
-
-    private fun onSearchMembers() {
-        tryToExecute(
-            { getUsers.searchUser(_state.value.query) },
-            ::onChangeSearchUsersQuerySuccess,
-            ::onChangeSearchQueryError
-        )
-    }
-
-    private fun onChangeSearchUsersQuerySuccess(users: List<User>) {
-        _state.update {
-            it.copy(
-                membersUiState = users.toMembersUiState(),
-                isLoading = false,
-                showNoInternetLottie = false,
-                error = null,
-            )
+            onSearchChannels()
         }
     }
 

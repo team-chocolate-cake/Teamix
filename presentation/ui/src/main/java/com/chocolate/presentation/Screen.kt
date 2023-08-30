@@ -15,4 +15,5 @@ sealed class Screen(val route: String) {
     object SaveLater: Screen("save_later")
     object Drafts: Screen("drafts")
     object Channel: Screen("channel")
+    object TaskDetails:Screen("task_details")
 }

@@ -1,7 +1,6 @@
 package com.chocolate.presentation.screens.login
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
@@ -22,14 +21,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixButton
+import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.forget_password.navigateToForgetPassword
 import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.screens.login.composable.LoginComponents
@@ -54,7 +55,7 @@ fun LoginScreen(
     val state by loginViewModel.state.collectAsState()
     val navController = LocalNavController.current
     val scrollState = rememberScrollState()
-    CollectUiEffect(loginViewModel.effect){ effect ->
+    CollectUiEffect(loginViewModel.effect) { effect ->
         when (effect) {
             LoginUiEffect.NavigateToForgetPassword -> navController.navigateToForgetPassword()
             LoginUiEffect.NavigationToHome -> navController.navigateToHome()
@@ -71,8 +72,24 @@ fun LoginContent(
     scrollState: ScrollState
 ) {
     val colors = MaterialTheme.customColors()
-    val context = LocalContext.current
     val errorMessage = stringResource(R.string.email_and_password_cannot_be_empty)
+    val showEmailErrorSnackBar = remember { mutableStateOf(false) }
+    val showErrorStateSnackBar = remember { mutableStateOf(false) }
+
+    AnimatedVisibility(showEmailErrorSnackBar.value) {
+        ActionSnakeBar(
+            contentMessage = errorMessage,
+            isVisible = true,
+            isToggleButtonVisible = false
+        )
+    }
+    AnimatedVisibility(showErrorStateSnackBar.value) {
+        ActionSnakeBar(
+            contentMessage = state.error.toString(),
+            isVisible = true,
+            isToggleButtonVisible = false
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -98,9 +115,9 @@ fun LoginContent(
             email = state.email,
             password = state.password,
             passwordVisibility = state.passwordVisibility,
-            onClickPasswordVisibility = {loginInteraction.onClickPasswordVisibility(it)},
-            onChangeEmail = {loginInteraction.onChangeEmail(it)},
-            onChangePassword = {loginInteraction.onChangePassword(it)}
+            onClickPasswordVisibility = { loginInteraction.onClickPasswordVisibility(it) },
+            onChangeEmail = { loginInteraction.onChangeEmail(it) },
+            onChangePassword = { loginInteraction.onChangePassword(it) }
         )
 
         Row(
@@ -120,14 +137,10 @@ fun LoginContent(
         TeamixButton(
             onClick = {
                 if (state.email.isBlank() || state.password.isBlank()) {
-                    Toast.makeText(
-                        context,
-                        errorMessage,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showEmailErrorSnackBar.value = true
                 }
                 if (state.error != null) {
-                    Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+                    showErrorStateSnackBar.value = true
                 }
                 loginInteraction.onClickSignIn(state.email, state.password)
             },

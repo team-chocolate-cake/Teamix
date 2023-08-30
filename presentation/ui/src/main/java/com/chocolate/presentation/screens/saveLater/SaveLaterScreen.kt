@@ -1,9 +1,8 @@
 package com.chocolate.presentation.screens.saveLater
 
-import android.widget.Toast
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,6 +20,7 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.SaveLaterCard
 import com.chocolate.presentation.composable.SwipeCard
 import com.chocolate.presentation.composable.TeamixScaffold
+import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
@@ -36,7 +36,6 @@ fun SaveLaterScreen(
     SaveLaterContent(state, viewModel)
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInteraction) {
     val colors = MaterialTheme.customColors()
@@ -50,25 +49,34 @@ fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInter
         isLoading = state.isLoading,
         error = state.error,
     ) { padding ->
-        LazyColumn(
-            modifier = Modifier.padding(padding),
-            contentPadding = PaddingValues(SpacingXLarge),
-            verticalArrangement = Arrangement.spacedBy(SpacingXMedium)
-        ) {
-            items(state.messages, key = { it.id }) { message ->
-                SwipeCard(messageId = message.id, onclickDismiss = interaction::onDismissMessage) {
-                    SaveLaterCard(
-                        item = message,
-                        painter = rememberAsyncImagePainter(model = message.imageUrl)
-                    )
+        Box {
+            LazyColumn(
+                modifier = Modifier.padding(padding),
+                contentPadding = PaddingValues(SpacingXLarge),
+                verticalArrangement = Arrangement.spacedBy(SpacingXMedium)
+            ) {
+                items(state.messages, key = { it.id }) { message ->
+                    SwipeCard(
+                        messageId = message.id,
+                        onclickDismiss = interaction::onDismissMessage
+                    ) {
+                        SaveLaterCard(
+                            item = message,
+                            painter = rememberAsyncImagePainter(model = message.imageUrl)
+                        )
+                    }
                 }
             }
-            state.message.let {
-                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-            }
-            state.error.let {
-                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-            }
+            ActionSnakeBar(
+                contentMessage = state.message.toString(),
+                isVisible = true,
+                isToggleButtonVisible = false
+            )
+            ActionSnakeBar(
+                contentMessage = state.error.toString(),
+                isVisible = true,
+                isToggleButtonVisible = false
+            )
         }
     }
 }

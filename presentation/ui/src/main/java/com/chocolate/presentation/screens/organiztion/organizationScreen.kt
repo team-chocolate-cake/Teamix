@@ -1,7 +1,7 @@
 package com.chocolate.presentation.screens.organiztion
 
 import android.annotation.SuppressLint
-import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -11,23 +11,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -40,6 +35,7 @@ import com.chocolate.presentation.composable.SeparatorWithText
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
+import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.create_organization.navigateToCreateOrganization
 import com.chocolate.presentation.screens.login.navigateToLogin
 import com.chocolate.presentation.screens.welcome.navigateToWelcome
@@ -82,7 +78,6 @@ fun OrganizationScreen(
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OrganizationContent(
     organizationNameInteraction: OrganizationNameInteraction,
@@ -91,6 +86,25 @@ fun OrganizationContent(
     val colors = MaterialTheme.customColors()
     val context = LocalContext.current
     val scrollState = rememberScrollState()
+    val operationFailed = stringResource(R.string.error_organization_name_empty)
+    val showOperationFailedSnackBar = remember { mutableStateOf(false) }
+    val showErrorSnackBar = remember { mutableStateOf(false) }
+
+    AnimatedVisibility(showOperationFailedSnackBar.value) {
+        ActionSnakeBar(
+            contentMessage = operationFailed,
+            isVisible = true,
+            isToggleButtonVisible = false
+        )
+    }
+    AnimatedVisibility(showErrorSnackBar.value) {
+        ActionSnakeBar(
+            contentMessage = state.error.toString(),
+            isVisible = true,
+            isToggleButtonVisible = false
+        )
+    }
+
     TeamixScaffold(isDarkMode = isSystemInDarkTheme()) {
         Column(
             modifier = Modifier
@@ -125,15 +139,14 @@ fun OrganizationContent(
                 visualTransformation = VisualTransformation.None,
                 keyboardOptions = KeyboardOptions.Default,
             )
-            val operationFailed = stringResource(R.string.error_organization_name_empty)
             TeamixButton(
                 onClick = {
                     organizationNameInteraction.onClickActionButton(state.organizationName)
                     if (state.organizationName.isBlank()) {
-                        Toast.makeText(context, operationFailed, Toast.LENGTH_SHORT).show()
+                        showOperationFailedSnackBar.value = true
                     }
                     if (!state.error.isNullOrEmpty()) {
-                        Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+                        showErrorSnackBar.value = true
                     }
                 },
                 modifier = Modifier

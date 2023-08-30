@@ -136,4 +136,7 @@
     <string name="tasks">任务</string>
     <string name="home">频道</string>
     <string name="dms">私信</string>
+    <string name="no_saved_items">\"没有保存的项目</string>
+    <string name="no_saved_items_body">您的已保存项目将显示在此处，以便轻松访问和参考。</string>
+
 </resources>

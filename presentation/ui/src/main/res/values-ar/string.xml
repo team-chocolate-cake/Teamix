@@ -136,4 +136,7 @@
     <string name="tasks">المهام</string>
     <string name="home">القنوات</string>
     <string name="dms"> الرسائل</string>
+    <string name="no_saved_items">لا رسائل محفوظة</string>
+    <string name="no_saved_items_body">ستظهر عناصرك المحفوظة هنا لسهولة الوصول والإشارة إليها.</string>
+
 </resources>

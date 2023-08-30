@@ -3,16 +3,16 @@ package com.chocolate.remote.firebase
 import com.chocolate.entities.exceptions.NullDataException
 import com.chocolate.entities.uills.Empty
 import com.chocolate.entities.user.User
+import com.chocolate.repository.datastore.remote.TaskRemoteDataSource
 import com.chocolate.repository.mappers.users.toEntity
 import com.chocolate.repository.model.dto.users.response.UserDataDto
-import com.chocolate.repository.repository.UserDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class FirebaseUsersDatabase @Inject constructor(
+class TaskFirebase @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore
-): UserDatabase {
+): TaskRemoteDataSource {
 
     override suspend fun setUsers(user: User) {
         val userData = hashMapOf(

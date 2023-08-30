@@ -6,14 +6,14 @@ import com.chocolate.remote.data_source.ChannelRetrofitDataSource
 import com.chocolate.remote.data_source.MessagesRetrofitDataSource
 import com.chocolate.remote.data_source.OrganizationRetrofitDataSource
 import com.chocolate.remote.data_source.UserRetrofitDataSource
-import com.chocolate.remote.firebase.FirebaseUsersDatabase
+import com.chocolate.remote.firebase.TaskFirebase
 import com.chocolate.repository.datastore.local.LocalDataSource
 import com.chocolate.repository.datastore.local.PreferencesDataSource
 import com.chocolate.repository.datastore.remote.ChannelRemoteDataSource
 import com.chocolate.repository.datastore.remote.MessagesRemoteDataSource
 import com.chocolate.repository.datastore.remote.OrganizationRemoteDataSource
 import com.chocolate.repository.datastore.remote.UserRemoteDataSource
-import com.chocolate.repository.repository.UserDatabase
+import com.chocolate.repository.datastore.remote.TaskRemoteDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -57,5 +57,5 @@ abstract class DataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun bindUserDatabase(firebaseUsersDatabase: FirebaseUsersDatabase): UserDatabase
+    abstract fun bindUserDatabase(taskFirebase: TaskFirebase): TaskRemoteDataSource
 }

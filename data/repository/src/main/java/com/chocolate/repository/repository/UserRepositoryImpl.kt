@@ -5,6 +5,7 @@ import com.chocolate.entities.user.Attachment
 import com.chocolate.entities.user.User
 import com.chocolate.repository.datastore.local.LocalDataSource
 import com.chocolate.repository.datastore.local.PreferencesDataSource
+import com.chocolate.repository.datastore.remote.TaskRemoteDataSource
 import com.chocolate.repository.datastore.remote.UserRemoteDataSource
 import com.chocolate.repository.mappers.users.toEntity
 import com.chocolate.repository.mappers.users.toLocalDto
@@ -16,7 +17,7 @@ class UserRepositoryImpl @Inject constructor(
     private val userRemoteDataSource: UserRemoteDataSource,
     private val preferencesDataSource: PreferencesDataSource,
     private val teamixLocalDataSource: LocalDataSource,
-    private val userDatabase: UserDatabase
+    private val taskRemoteDataSource: TaskRemoteDataSource
 ) : UsersRepository {
     override suspend fun setUserUsedAppForFirstTime(isComplete: Boolean) {
         preferencesDataSource.setUserUsedAppForFirstTime(isComplete)
@@ -158,7 +159,7 @@ class UserRepositoryImpl @Inject constructor(
                     email = email ?: String.Empty
                 )
                 val currentUser = getRemoteCurrentUser()
-                userDatabase.setUsers(currentUser)
+                taskRemoteDataSource.setUsers(currentUser)
                 true
             } ?: false
     }

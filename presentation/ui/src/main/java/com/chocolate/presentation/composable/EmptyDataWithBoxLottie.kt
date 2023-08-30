@@ -52,7 +52,7 @@ fun EmptyDataWithBoxLottie(
             Text(
                 text = title,
                 color = MaterialTheme.customColors().onBackground87,
-                style = MaterialTheme.typography.titleSmall,
+                style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )

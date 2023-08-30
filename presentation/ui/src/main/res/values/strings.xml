@@ -138,4 +138,9 @@
     <string name="tasks">Tasks</string>
     <string name="dms">DMs</string>
     <string name="no_internet">No internet</string>
+    <string name="no_tasks_found">No Tasks Found</string>
+    <string name="sub_title_no_tasks">You currently have no tasks assigned. Stay productive by adding tasks and organizing your workflow</string>
+    <string name="add_new_tasks">Add New Tasks</string>
+    <string name="set_time">Set Time</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -16,10 +16,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.chocolate.presentation.R
+import com.chocolate.presentation.composable.EmptyDataWithBoxLottie
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.channel.composable.Topic
 import com.chocolate.presentation.screens.home.LoadingColumn
@@ -50,7 +52,7 @@ fun ChannelScreen(
     }
 
     ChannelContent(
-        channelScreenUiState = state,
+        state = state,
         channelInteraction = channelViewModel
     )
 }
@@ -58,12 +60,12 @@ fun ChannelScreen(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ChannelContent(
-    channelScreenUiState: ChannelScreenUiState,
+    state: ChannelScreenUiState,
     channelInteraction: ChannelInteraction
 ) {
     TeamixScaffold(
         hasBackArrow = true,
-        title = channelScreenUiState.channelName,
+        title = state.channelName,
         isDarkMode = isSystemInDarkTheme(),
         hasAppBar = true,
         titleColor = OnLightPrimary,
@@ -80,7 +82,7 @@ fun ChannelContent(
             }
         }
     ) { padding ->
-        if (channelScreenUiState.isLoading)
+        if (state.isLoading)
             LoadingColumn()
         else
             LazyColumn(
@@ -90,9 +92,19 @@ fun ChannelContent(
                 verticalArrangement = Arrangement.spacedBy(SpacingXLarge),
                 contentPadding = PaddingValues(SpacingXLarge)
             ) {
-                items(channelScreenUiState.topics.size) {
+                item {
+                    EmptyDataWithBoxLottie(
+                        modifier = Modifier.padding(padding),
+                        isPlaying = true,
+                        isShow = state.topics.isEmpty(),
+                        title = stringResource(R.string.draft_messages_to_send_when_you_re_ready),
+                        subTitle = stringResource(R.string.sub_title_empty_data)
+                    )
+                }
+
+                items(state.topics.size) {
                     Topic(
-                        topicState = channelScreenUiState.topics[it],
+                        topicName = state.topics[it].topicName,
                         onSeeAll = channelInteraction::onClickSeeAll,
                     )
                 }

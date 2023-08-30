@@ -161,7 +161,9 @@ fun ProfileContent(
         ProfileDialog(title = stringResource(R.string.warning),
             text = stringResource(R.string.waring_details),
             onDismissButtonClick = {profileInteraction.onUpdateWarningDialog(false)},
-            onConfirmButtonClick = { profileInteraction.onRevertChange()}
+            onConfirmButtonClick = {
+                profileInteraction.onConfirmChange()
+              }
         )
     }
     AnimatedVisibility(state.showLogoutDialog) {

@@ -13,7 +13,7 @@ interface ProfileInteraction {
     fun onClickRetryToUpdatePersonalInformation()
     fun onClickRetryToGetPersonalInformation()
     fun areUserDataEqual(): Boolean
-    fun onRevertChange()
+    fun onConfirmChange()
     fun onClickProfileButton()
     fun onClickSettingsButton()
     fun onClickChangeMemberRole()

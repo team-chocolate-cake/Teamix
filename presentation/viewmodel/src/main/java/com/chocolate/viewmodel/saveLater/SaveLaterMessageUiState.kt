@@ -9,7 +9,7 @@ data class SaveLaterMessageUiState(
     val messages: List<MessageItemUiState> = emptyList(),
     val isLoading: Boolean = true,
     val error: String? = null,
-    val message: String? = null,
+    val deleteStateMessage: String? = null,
 )
 
 data class MessageItemUiState(
@@ -31,7 +31,7 @@ fun Message.toMessageUiState(): MessageItemUiState {
 }
 
 private fun formatDate(date: Date): String {
-    val dateFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.US)
+    val dateFormat = SimpleDateFormat("MMM dd", Locale.US)
     return dateFormat.format(date)
 }
 

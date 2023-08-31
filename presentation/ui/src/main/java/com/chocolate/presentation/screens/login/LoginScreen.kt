@@ -25,7 +25,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -37,8 +36,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.ShowErrorSnackBarLogic
 import com.chocolate.presentation.composable.SeparatorWithText
+import com.chocolate.presentation.composable.ShowErrorSnackBarLogic
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.screens.create_account.navigateToCreateAccount
 import com.chocolate.presentation.screens.forget_password.navigateToForgetPassword
@@ -62,7 +61,7 @@ import com.chocolate.viewmodel.login.LoginViewModel
 
 @Composable
 fun LoginScreen(
-    loginViewModel: LoginViewModel = hiltViewModel()
+    loginViewModel: LoginViewModel = hiltViewModel(),
 ) {
     val state by loginViewModel.state.collectAsState()
     val navController = LocalNavController.current
@@ -83,7 +82,7 @@ fun LoginScreen(
 fun LoginContent(
     loginInteraction: LoginInteraction,
     state: LoginUiState,
-    scrollState: ScrollState
+    scrollState: ScrollState,
 ) {
     val colors = MaterialTheme.customColors()
     val errorMessage = stringResource(R.string.email_and_password_cannot_be_empty)
@@ -138,13 +137,11 @@ fun LoginContent(
         TeamixButton(
             onClick = {
                 hideKeyboard(context, rootView)
-                if (state.email.isBlank() || state.password.isBlank()) {
+                if (state.email.isEmpty() || state.password.isEmpty()) {
                     showEmailErrorSnackBar.value = true
-                }
-                if (state.error != null) {
-                    showErrorStateSnackBar.value = true
-                }
-                loginInteraction.onClickSignIn(state.email, state.password)
+                } else
+                    loginInteraction.onClickSignIn(state.email, state.password)
+                showErrorStateSnackBar.value = state.error != null
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -179,11 +176,9 @@ fun LoginContent(
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .clickable(
-                    indication = null,
+                .clickable(indication = null,
                     interactionSource = remember { MutableInteractionSource() },
-                    onClick = { loginInteraction.onClickCreateNewAccount() }
-                )
+                    onClick = { loginInteraction.onClickCreateNewAccount() })
                 .padding(bottom = SpacingXXLarge),
             textAlign = TextAlign.Center
         )

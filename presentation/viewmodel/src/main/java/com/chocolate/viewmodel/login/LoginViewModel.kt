@@ -20,7 +20,7 @@ class LoginViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val attemptUserLogin: AttemptUserLoginUseCase,
     private val setUserLoginState: SetUserLoginStateUseCase,
-    private val stringsResource: StringsResource
+    private val stringsResource: StringsResource,
 ) : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState()), LoginInteraction {
     private val loginArgs: LoginArgs = LoginArgs(savedStateHandle)
 
@@ -37,7 +37,7 @@ class LoginViewModel @Inject constructor(
     }
 
     override fun onChangeEmail(email: String) {
-        _state.update { it.copy(email = email) }
+        _state.update { it.copy(email = email.trim()) }
     }
 
     override fun onChangePassword(password: String) {
@@ -54,7 +54,7 @@ class LoginViewModel @Inject constructor(
     }
 
     override fun onClickPasswordVisibility(passwordVisibility: Boolean) {
-        _state.update { it.copy(passwordVisibility = passwordVisibility) }
+        _state.update { it.copy(passwordVisibility = passwordVisibility, error = null) }
     }
 
     private fun getOrganizationName() {

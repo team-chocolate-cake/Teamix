@@ -17,7 +17,7 @@ class OrganizationNameViewModel @Inject constructor(
     private val manageOrganizationDetails: ManageOrganizationDetailsUseCase,
     private val getUserLoginStatus: GetUserLoginStatusUseCase,
     private val stringsResource: StringsResource,
-    private val manageUserUsedApp: ManageUserUsedAppUseCase
+    private val manageUserUsedApp: ManageUserUsedAppUseCase,
 ) : BaseViewModel<OrganizationNameUiState, OrganizationNameUiEffect>(OrganizationNameUiState()),
     OrganizationNameInteraction {
     init {
@@ -39,7 +39,13 @@ class OrganizationNameViewModel @Inject constructor(
     }
 
     override fun onOrganizationNameChange(organizationName: String) {
-        _state.update { it.copy(organizationName = organizationName.trim(), isLoading = false) }
+        _state.update {
+            it.copy(
+                organizationName = organizationName.trim(),
+                isLoading = false,
+                error = null
+            )
+        }
     }
 
     private fun onSuccess(isCheck: Boolean) {
@@ -67,7 +73,11 @@ class OrganizationNameViewModel @Inject constructor(
 
     private fun getOnUserLoggedIn() {
         viewModelScope.launch {
-            collectFlow(getUserLoginStatus()) { this.copy(isLogged = it) }
+            _state.update {
+                it.copy(
+                    isLogged = getUserLoginStatus()
+                )
+            }
         }
     }
 }

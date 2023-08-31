@@ -7,12 +7,14 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import com.chocolate.repository.datastore.local.PreferencesDataSource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class DataStoreDataSource @Inject constructor(
     private val dataStore: DataStore<Preferences>,
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
 ) : PreferencesDataSource {
     override fun currentOrganization(): String? {
         return sharedPreferences.getString(NAME_ORGANIZATION, null)
@@ -28,10 +30,10 @@ class DataStoreDataSource @Inject constructor(
         dataStore.setValue(LOGIN_STATE, isComplete)
     }
 
-    override suspend fun getCurrentUserLoginState(): Flow<Boolean> {
+    override suspend fun getCurrentUserLoginState(): Boolean {
         return dataStore.data.map {
             it[(LOGIN_STATE)] ?: false
-        }
+        }.first()
     }
 
     override suspend fun setUserUsedAppForFirstTime(isFirstTime: Boolean) {
@@ -85,7 +87,7 @@ class DataStoreDataSource @Inject constructor(
 
     private suspend fun <T> DataStore<Preferences>.setValue(
         key: Preferences.Key<T>,
-        value: T
+        value: T,
     ) {
         this.edit { preferences ->
             preferences[key] = value

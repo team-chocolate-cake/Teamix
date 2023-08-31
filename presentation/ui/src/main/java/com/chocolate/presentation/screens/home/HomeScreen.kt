@@ -102,7 +102,7 @@ fun HomeScreen(
             HomeUiEffect.NavigateToCreateChannel -> navController.navigateToCreateChannel()
         }
     }
-    if (state.isLogged) {
+    AnimatedVisibility(state.isLogged) {
         HomeContent(state = state, homeViewModel)
     }
 }

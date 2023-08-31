@@ -18,18 +18,20 @@ import com.chocolate.presentation.util.LocalNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
-fun TeamixApp(isDark: Boolean) {
+fun TeamixApp(isDark: Boolean, isLoggedIn: Boolean) {
     val navController = rememberNavController()
     val shouldShowBottomNavigation = when (currentRoute(navController)) {
         BottomNavigationItem.Home.screenRoute,
         BottomNavigationItem.Profile.screenRoute,
         BottomNavigationItem.DMs.screenRoute,
         BottomNavigationItem.Tasks.screenRoute,
-        BottomNavigationItem.Search.screenRoute -> true
+        BottomNavigationItem.Search.screenRoute,
+        -> true
+
         else -> false
     }
     TeamixScaffold(isDarkMode = isSystemInDarkTheme(), bottomBar = {
-        if (shouldShowBottomNavigation)
+        if (shouldShowBottomNavigation && isLoggedIn)
             BottomNavigation(navController = navController)
     }) { innerPadding ->
         val systemUiController = rememberSystemUiController()
@@ -39,7 +41,7 @@ fun TeamixApp(isDark: Boolean) {
         systemUiController.setNavigationBarColor(Color.Black)
         Box(modifier = Modifier.padding(innerPadding)) {
             CompositionLocalProvider(LocalNavController provides navController) {
-                    TeamixNavGraph(navController = navController)
+                TeamixNavGraph(navController = navController)
             }
         }
     }

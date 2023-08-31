@@ -22,12 +22,13 @@ class HomeViewModel @Inject constructor(
     private val getUserLoginStatus: GetUserLoginStatusUseCase,
     private val manageChannels: ManageChannelsUseCase,
     private val manageOrganizationDetails: ManageOrganizationDetailsUseCase,
-    private val getCurrentUserData: GetCurrentUserDataUseCase
+    private val getCurrentUserData: GetCurrentUserDataUseCase,
 ) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()), HomeInteraction {
     init {
         getData()
 
     }
+
     private fun getData() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
@@ -131,14 +132,13 @@ class HomeViewModel @Inject constructor(
 
     private fun getUserLoginState() {
         viewModelScope.launch {
-            getUserLoginStatus().collect { islogged ->
-                if (islogged) {
-                    _state.update {
-                        it.copy(isLogged = islogged)
-                    }
-                }else{
-                    sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
+            val islogged = getUserLoginStatus()
+            if (islogged) {
+                _state.update {
+                    it.copy(isLogged = islogged)
                 }
+            } else {
+                sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
             }
         }
     }
@@ -147,6 +147,7 @@ class HomeViewModel @Inject constructor(
         when (throwable) {
             is UnAuthorizedException, is ValidationException ->
                 sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
+
             is NoConnectionException -> _state.update {
                 it.copy(
                     showNoInternetLottie = true,

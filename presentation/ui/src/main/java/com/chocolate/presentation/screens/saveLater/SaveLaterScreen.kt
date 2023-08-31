@@ -89,25 +89,24 @@ fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInter
             title = stringResource(id = R.string.no_saved_items),
             subTitle = stringResource(id = R.string.no_saved_items_body)
         )
-
-        state.deleteStateMessage?.let {
+        val deleteMessage = state.deleteStateMessage
+        val error = state.error
+        if (deleteMessage != null && error == null) {
             ActionSnakeBar(
                 isVisible = true,
-                contentMessage = it,
+                contentMessage = deleteMessage,
                 onClick = interaction::onDeleteStateDismiss,
                 actionTitle = stringResource(id = R.string.dismiss)
             )
         }
 
-        state.error?.let {
+        if (error != null && deleteMessage == null) {
             ActionSnakeBar(
                 isVisible = true,
-                contentMessage = it,
+                contentMessage = error,
                 onClick = interaction::onErrorDismiss,
                 actionTitle = stringResource(id = R.string.dismiss)
             )
         }
-
-
     }
 }

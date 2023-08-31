@@ -1,52 +1,20 @@
 package com.chocolate.viewmodel.saveLater
 
-import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.messages.Message
 import com.chocolate.usecases.message.ManageSaveLaterMessageUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
+import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
 class SaveLaterViewModel @Inject constructor(
-    private val manageSaveLaterMessageUseCase: ManageSaveLaterMessageUseCase
+    private val manageSaveLaterMessageUseCase: ManageSaveLaterMessageUseCase,
+    private val stringsResource: StringsResource
 ) : BaseViewModel<SaveLaterMessageUiState, SaveLaterEffect>(SaveLaterMessageUiState()),
     SaveLaterInteraction {
     init {
-        viewModelScope.launch {
-            manageSaveLaterMessageUseCase.saveMassage(
-                Message(
-                    messageContent = "ana henaaa",
-                    id =1,
-                    reactions = emptyList(),
-                    senderAvatarUrl ="https://media.istockphoto.com/id/1166651462/vector/cartoon-face-with-red-eyes-vector-illustration-for-anime-manga-in-japanese-style.jpg?s=612x612&w=0&k=20&c=KIyKkZte9nTt8Dv4gp_j7cnkhK3PP_UOiQm-dxmMpwA=",
-                    senderEmail ="kareemesam52@yahoo.com",
-                    senderId =2,
-                    senderFullName ="kareem esam",
-                    streamId =3,
-                    timestamp = Date(12),
-                    topic ="anything",
-                )
-            )
-            manageSaveLaterMessageUseCase.saveMassage(
-                Message(
-                    messageContent = "ana henaaaaaaa",
-                    id =2,
-                    reactions = emptyList(),
-                    senderAvatarUrl ="https://media.istockphoto.com/id/1166651462/vector/cartoon-face-with-red-eyes-vector-illustration-for-anime-manga-in-japanese-style.jpg?s=612x612&w=0&k=20&c=KIyKkZte9nTt8Dv4gp_j7cnkhK3PP_UOiQm-dxmMpwA=",
-                    senderEmail ="kareemesam52@yahoo.com",
-                    senderId =2,
-                    senderFullName ="kareem esam",
-                    streamId =4,
-                    timestamp = Date(13),
-                    topic ="anything",
-                )
-            )
-        }
-
         getAllSavedMessages()
     }
 
@@ -93,7 +61,7 @@ class SaveLaterViewModel @Inject constructor(
     private fun onDeleteMessageSuccess(unit: Unit) {
         _state.update {
             it.copy(
-                deleteStateMessage = "message Deleted successfully",
+                deleteStateMessage = stringsResource.messageDeletedSuccessfully,
                 error = null,
                 isLoading = false
             )

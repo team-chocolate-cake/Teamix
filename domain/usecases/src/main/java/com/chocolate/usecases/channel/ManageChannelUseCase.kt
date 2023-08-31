@@ -3,12 +3,16 @@ package com.chocolate.usecases.channel
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.channel.MutingStatus
 import com.chocolate.entities.channel.Topic
+import com.chocolate.entities.exceptions.EmptyTopicContentException
+import com.chocolate.entities.exceptions.EmptyTopicNameException
 import repositories.ChannelsRepository
+import repositories.MessagesRepository
 import repositories.UsersRepository
 import javax.inject.Inject
 
 class ManageChannelsUseCase @Inject constructor(
     private val channelsRepository: ChannelsRepository,
+    private val messagesRepository: MessagesRepository,
     private val usersRepositories: UsersRepository
 ) {
 
@@ -41,4 +45,13 @@ class ManageChannelsUseCase @Inject constructor(
 
     private suspend fun setTopicMuting(topic: String, status: MutingStatus, streamId: Int) =
         channelsRepository.setTopicMuting(topic, status, streamId)
+
+    suspend fun createNewTopic(topicName: String, channelName: String, content: String):Int {
+        if (topicName.isBlank())
+            throw EmptyTopicNameException
+        else if (content.isBlank())
+            throw EmptyTopicContentException
+        return messagesRepository.sendStreamMessage("stream", channelName, topicName , content)
+    }
+
 }

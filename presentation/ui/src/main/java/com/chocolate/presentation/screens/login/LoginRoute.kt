@@ -17,10 +17,10 @@ fun NavGraphBuilder.loginRoute() {
         LoginScreen()
     }
 }
+
 fun NavController.navigateToLogin(
     organizationName: String,
-    builder: NavOptionsBuilder.() -> Unit = {}
+    builder: NavOptionsBuilder.() -> Unit = {},
 ) {
-    popBackStack()
     navigate("${Screen.Login.route}/$organizationName", builder = builder)
 }

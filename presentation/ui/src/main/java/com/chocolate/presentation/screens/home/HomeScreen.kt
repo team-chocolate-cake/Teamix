@@ -105,6 +105,9 @@ fun HomeScreen(
     AnimatedVisibility(state.isLogged) {
         HomeContent(state = state, homeViewModel)
     }
+    AnimatedVisibility(visible = state.isLoading) {
+        CircularProgressIndicator()
+    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)

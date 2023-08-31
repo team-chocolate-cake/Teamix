@@ -69,18 +69,18 @@ fun ChannelContent(
         isDarkMode = isSystemInDarkTheme(),
         hasAppBar = true,
         titleColor = OnLightPrimary,
-        floatingActionButton = {
-            FloatingActionButton(
-                containerColor = MaterialTheme.customColors().primary,
-                onClick = {}
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.add),
-                    tint = Color.White,
-                    contentDescription = ""
-                )
-            }
-        }
+//        floatingActionButton = {
+//            FloatingActionButton(
+//                containerColor = MaterialTheme.customColors().primary,
+//                onClick = {}
+//            ) {
+//                Icon(
+//                    painter = painterResource(id = R.drawable.add),
+//                    tint = Color.White,
+//                    contentDescription = ""
+//                )
+//            }
+//        }
     ) { padding ->
         if (state.isLoading)
             LoadingColumn()

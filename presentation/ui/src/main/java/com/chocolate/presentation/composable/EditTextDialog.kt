@@ -18,8 +18,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.customColors
 
 @Composable
@@ -36,6 +38,7 @@ fun EditTextDialog(
     var error by remember {
         mutableStateOf("")
     }
+    val errorMessage = stringResource(id = R.string.full_name_can_t_be_empty)
     val color = MaterialTheme.customColors()
 
     Dialog(onDismiss) {
@@ -80,7 +83,7 @@ fun EditTextDialog(
                                 confirmButton(text)
                                 dismissButton()
                             }else{
-                                error = "Name shouldn't be empty."
+                                error = errorMessage
                             }
                         },
                         content = { Text("OK", color = color.primary) },

@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.R
+import com.chocolate.presentation.composable.EmptyDataWithBoxLottie
 import com.chocolate.presentation.composable.SaveLaterCard
 import com.chocolate.presentation.composable.SwipeCard
 import com.chocolate.presentation.composable.TeamixScaffold
@@ -67,16 +68,30 @@ fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInter
                     }
                 }
             }
-            ActionSnakeBar(
-                contentMessage = state.message.toString(),
-                isVisible = true,
-                isToggleButtonVisible = false
+            EmptyDataWithBoxLottie(
+                modifier = Modifier.padding(padding),
+                isPlaying = true,
+                isShow = state.messages.isEmpty() && !state.isLoading,
+                title = stringResource(R.string.no_saved_items),
+                subTitle = stringResource(R.string.your_saved_items_will_appear_here_for_easy_access_and_reference)
             )
-            ActionSnakeBar(
-                contentMessage = state.error.toString(),
-                isVisible = true,
-                isToggleButtonVisible = false
-            )
+
+            val message = state.message
+            val error = state.error
+            if (message != null && error == null) {
+                ActionSnakeBar(
+                    contentMessage = message,
+                    isVisible = true,
+                    isToggleButtonVisible = false
+                )
+            }
+            if (error != null && message == null) {
+                ActionSnakeBar(
+                    contentMessage = error,
+                    isVisible = true,
+                    isToggleButtonVisible = false
+                )
+            }
         }
     }
 }

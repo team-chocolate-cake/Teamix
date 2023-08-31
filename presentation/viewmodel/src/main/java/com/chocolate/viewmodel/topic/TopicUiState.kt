@@ -5,7 +5,7 @@ import com.chocolate.entities.uills.Empty
 data class TopicUiState(
     val photoAndVideo: List<PhotoOrVideoUiState> = emptyList(),
     val messages: List<MessageUiState> = emptyList(),
-    val topicName: String = "TopicName",
+    val topicName: String = String.Empty,
     val messageInput: String = String.Empty
 )
 

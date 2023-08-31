@@ -136,4 +136,11 @@
     <string name="tasks">المهام</string>
     <string name="home">القنوات</string>
     <string name="dms"> الرسائل</string>
+    <string name="draft_messages_to_send_when_you_re_ready">الرسائل المسودة للإرسال عندما تكون جاهزًا</string>
+    <string name="sub_title_empty_data">ابدأ في كتابة رسالة في أي مكان، ثم اعثر عليها هنا. أعد قراءتها ومراجعتها وإرسالها في أي وقت تريد.</string>
+    <string name="no_internet">لا يوجد اتصال بالإنترنت</string>
+    <string name="search_for_channels">البحث عن القنوات</string>
+    <string name="create_new_account">إنشاء حساب جديد</string>
+    <string name="no_saved_items">لا توجد عناصر محفوظة</string>
+    <string name="your_saved_items_will_appear_here_for_easy_access_and_reference">ستظهر عناصرك المحفوظة هنا للوصول والرجوع السهل</string>
 </resources>

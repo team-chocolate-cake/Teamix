@@ -22,6 +22,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.FitImage
 import com.chocolate.presentation.composable.TeamixButton
@@ -44,7 +45,7 @@ fun WelcomeScreen() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun WelcomeContent(
-    navigateToOnBoarding: () -> Unit
+    navigateToOnBoarding: () -> Unit,
 ) {
     val colors = MaterialTheme.customColors()
     TeamixScaffold(
@@ -70,7 +71,8 @@ fun WelcomeContent(
                 },
                 style = MaterialTheme.typography.titleLarge,
                 color = colors.onBackground87,
-                fontSize = TextSize24
+                fontSize = TextSize24,
+                lineHeight = 32.sp,
             )
             FitImage(
                 modifier = Modifier

@@ -64,6 +64,8 @@ dependencies {
     implementation (ProjectDependencies.logging)
 
     implementation (ProjectDependencies.hilt)
+    implementation (ProjectDependencies.firebase_firestore)
+
     kapt (ProjectDependencies.hiltCompiler)
 
     implementation(ProjectDependencies.encryptedSharedPreference)

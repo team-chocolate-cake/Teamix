@@ -14,11 +14,11 @@ interface ProfileInteraction {
     fun onClickRetryToUpdatePersonalInformation()
     fun onClickRetryToGetPersonalInformation()
     fun areUserDataEqual(): Boolean
-    fun onConfirmChange()
     fun onClickProfileButton()
     fun onClickSettingsButton()
     fun onClickChangeMemberRole()
     fun onClickDarkThemeSwitch(darkTheme: Boolean,context:Context)
     fun restartActivity(context:Context)
+    fun onDismissEditTextDialog()
 
 }

@@ -10,6 +10,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,6 +27,7 @@ import com.chocolate.presentation.theme.customColors
 fun TeamixOutLinedTextField(
     text: String,
     onValueChange: (String) -> Unit,
+    error: String = "",
     onDone: (() -> Unit)? = null,
     colorFocused: Color,
     colorUnFocused: Color,
@@ -57,7 +59,11 @@ fun TeamixOutLinedTextField(
                 onDone()
             }
         }),
-        readOnly = readOnly
+        readOnly = readOnly,
+        isError = error.isNotEmpty(),
+        supportingText = {
+            Text(text = error)
+        }
 
     )
 }

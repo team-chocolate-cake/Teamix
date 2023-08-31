@@ -109,11 +109,6 @@ class ProfileViewModel @Inject constructor(
         return currentState.name == currentState.newUsername
     }
 
-    override fun onConfirmChange() {
-        onUserInformationFocusChange()
-        _state.update { it.copy(pagerNumber = 1, error = null) }
-    }
-
     override fun onClickProfileButton() {
         _state.update { it.copy(pagerNumber = 0, error = null, message = null) }
     }
@@ -138,6 +133,10 @@ class ProfileViewModel @Inject constructor(
         val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
         intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         context.startActivities(arrayOf(intent))
+    }
+
+    override fun onDismissEditTextDialog() {
+        _state.update { it.copy(showEditUsernameDialog = false) }
     }
 
 

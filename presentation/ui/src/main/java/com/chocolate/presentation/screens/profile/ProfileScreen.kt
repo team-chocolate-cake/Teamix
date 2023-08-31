@@ -21,11 +21,15 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -38,6 +42,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
+import com.chocolate.presentation.composable.EditTextDialog
 import com.chocolate.presentation.composable.MultiChoiceDialog
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
@@ -103,7 +108,7 @@ fun ProfileScreen(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun ProfileContent(
@@ -126,7 +131,7 @@ fun ProfileContent(
 
     AnimatedVisibility(state.showLanguageDialog) {
         MultiChoiceDialog(
-            onClickDone = {language ->
+            onClickDone = { language ->
                 profileInteraction.onUpdateLanguageDialogState(false)
                 val languageCode = state.languageMap[language] ?: "en"
                 profileInteraction.onUpdateLanguage(languageCode)
@@ -166,7 +171,16 @@ fun ProfileContent(
         )
     }
     AnimatedVisibility(state.showEditUsernameDialog) {
-
+        EditTextDialog(
+            title = "Enter Name",
+            value = state.name,
+            dismissButton = profileInteraction::onDismissEditTextDialog
+            ,
+            confirmButton = {
+                profileInteraction.onUsernameChange(it)
+                profileInteraction.onUserInformationFocusChange()
+            }) {
+        }
     }
 
     TeamixScaffold(isDarkMode = state.isDarkTheme) {
@@ -199,7 +213,7 @@ fun ProfileContent(
             Box(
                 Modifier
                     .padding(horizontal = SpacingXLarge)
-                    .padding(bottom = SpacingXLarge, top =SpacingGigantic )
+                    .padding(bottom = SpacingXLarge, top = SpacingGigantic)
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(Radius16))
                     .height(BoxHeight440)

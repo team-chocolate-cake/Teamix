@@ -64,7 +64,6 @@ fun ProfileSettingsPage(
                         .fillMaxWidth()
                         .clickable {
                             coroutineScope.launch {
-                               // mainViewModel.updateDarkTheme(darkThemeState, context)
                                 profileInteraction.onClickDarkThemeSwitch(darkThemeState,context)
                             }
                         },
@@ -92,9 +91,7 @@ fun ProfileSettingsPage(
                         Switch(
                             checked = darkThemeState, onCheckedChange = {
                                 coroutineScope.launch {
-                                    //mainViewModel.updateDarkTheme(darkThemeState,context)
                                     profileInteraction.onClickDarkThemeSwitch(darkThemeState,context)
-
                                 }
 
                             },
@@ -116,12 +113,6 @@ fun ProfileSettingsPage(
                     }
                 }
             }
-            Divider(color = color.background, thickness = Thickness2)
-            SettingCard(
-                click = { profileInteraction.onClickChangeMemberRole() },
-                text = stringResource(id = R.string.change_member_role),
-                icon = painterResource(id = R.drawable.ownerpowers),
-            )
             Divider(color = color.background, thickness = Thickness2)
             SettingCard(
                 click = { profileInteraction.onUpdateLanguageDialogState(true) },

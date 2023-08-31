@@ -108,14 +108,9 @@ class ProfileViewModel @Inject constructor(
         return currentState.name == currentState.newUsername
     }
 
-    override fun onRevertChange() {
-        val currentState = _state.value
-        val updatedState = currentState.copy(
-            name = if (currentState.originalName == String.Empty) _state.value.name else currentState.originalName,
-            error = null
-        )
-        _state.update { updatedState }
+    override fun onConfirmChange() {
         onUpdateWarningDialog(false)
+        onUserInformationFocusChange()
         _state.update { it.copy(pagerNumber = 1, error = null) }
     }
 
@@ -131,9 +126,9 @@ class ProfileViewModel @Inject constructor(
         sendUiEffect(ProfileEffect.NavigateToSearchScreen)
     }
 
-    override fun onClickDarkThemeSwitch(darkTheme: Boolean,context: Context) {
-        _state.update { it.copy(isDarkTheme =!darkTheme) }
-        viewModelScope.launch{
+    override fun onClickDarkThemeSwitch(darkTheme: Boolean, context: Context) {
+        _state.update { it.copy(isDarkTheme = !darkTheme) }
+        viewModelScope.launch {
             customizeProfileSettings.updateDarkTheme(!darkTheme)
             restartActivity(context)
         }
@@ -190,7 +185,6 @@ class ProfileViewModel @Inject constructor(
     }
 
 
-
     private fun onUpdateAppLanguageFail(throwable: Throwable) {
         val messageError = when (throwable) {
             is NullDataException -> stringsResource.nullOrEmptyNewLanguage
@@ -206,7 +200,8 @@ class ProfileViewModel @Inject constructor(
             _state.update { it.copy(lastAppLanguage = language) }
         }
     }
-    private  fun isDarkTheme() {
+
+    private fun isDarkTheme() {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(isDarkTheme = customizeProfileSettings.isDarkThem()) }
         }

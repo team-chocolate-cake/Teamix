@@ -86,7 +86,7 @@
     <string name="error_organization_name_empty">لا يمكن أن يكون اسم المنظمة فارغًا!</string>
     <string name="error_try_again_later">حدث خطأ؛ يرجى المحاولة مرة أخرى في وقت لاحق.</string>
     <string name="warning">تحذير</string>
-    <string name="waring_details">لقد قمت بتغيير معلوماتك الشخصية. هل أنت متأكد من رغبتك في المغادرة دون حفظ التغييرات؟</string>
+    <string name="waring_details">لقد قمت بتغيير معلوماتك الشخصية. هل أنت متأكد من رغبتك في المغادرة مع حفظ التغييرات؟</string>
     <string name="done">تم</string>
     <string name="email_can_t_be_empty">لا يمكن أن يكون البريد الإلكتروني فارغًا</string>
     <string name="full_name_can_t_be_empty">لا يمكن أن يكون الاسم الكامل فارغًا</string>

@@ -31,8 +31,9 @@ fun ActionSnakeBar(
     contentMessage: String,
     modifier: Modifier = Modifier,
     isVisible: Boolean = false,
-    onClick: () -> Unit,
-    actionTitle: String,
+    onClick: () -> Unit={},
+    isToggleButtonVisible:Boolean=true,
+    actionTitle: String="",
 ) {
     val colors = MaterialTheme.customColors()
     val textStyle = MaterialTheme.typography
@@ -63,17 +64,20 @@ fun ActionSnakeBar(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(modifier = Modifier.weight(3f),text = contentMessage, style = textStyle.bodyMedium)
-                    ToggleButton(
-                        modifier = Modifier.height(ButtonSize32).weight(1f),
-                        color = colors.primary,
-                        isFilled = true,
-                        onClick = { onClick() }) {
-                        Text(
-                            text = actionTitle,
-                            style = textStyle.bodyMedium,
-                            color = colors.card
-                        )
+                    AnimatedVisibility(isToggleButtonVisible){
+                        ToggleButton(
+                            modifier = Modifier.height(ButtonSize32).weight(1f),
+                            color = colors.primary,
+                            isFilled = true,
+                            onClick = { onClick() }) {
+                            Text(
+                                text = actionTitle,
+                                style = textStyle.bodyMedium,
+                                color = colors.card
+                            )
+                        }
                     }
+
                 }
             }
         }

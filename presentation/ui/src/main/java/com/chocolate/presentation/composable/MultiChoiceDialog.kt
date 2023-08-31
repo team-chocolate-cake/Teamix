@@ -35,14 +35,14 @@ import com.chocolate.presentation.theme.customColors
 
 @Composable
 fun MultiChoiceDialog(
-    onClickDone: () -> Unit,
-    whenChoice: (choice: String) -> Unit,
+    onClickDone: (choice: String) -> Unit,
     onDismissRequest: () -> Unit = {},
     choices: List<String>,
     oldSelectedChoice: String,
 ) {
     val (selected) = choices.map { remember { mutableStateOf(oldSelectedChoice) } }
     val color = MaterialTheme.customColors()
+
     AlertDialog(
         modifier = Modifier,
         onDismissRequest = { onDismissRequest() },
@@ -75,7 +75,7 @@ fun MultiChoiceDialog(
                                 unselectedColor = color.onBackground60
                             ),
                             onClick = {
-                                whenChoice(text)
+
                                 selected.value = text
                             })
                     }
@@ -91,7 +91,8 @@ fun MultiChoiceDialog(
                         containerColor = color.primary,
                         contentColor = color.onPrimary
                     ),
-                    onClick = { onClickDone() }
+                    onClick = {
+                        onClickDone(selected.value) }
                 ) {
                     Text(
                         text = stringResource(id = R.string.done),
@@ -108,5 +109,5 @@ fun MultiChoiceDialog(
 @Preview(showBackground = true)
 @Composable
 fun MultiChoiceDialogPreview() {
-    MultiChoiceDialog({}, {},{}, emptyList(), "")
+    MultiChoiceDialog({}, {}, emptyList(), "")
 }

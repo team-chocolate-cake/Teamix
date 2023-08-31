@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -72,16 +73,13 @@ fun OnboardingContent(
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
     val colors = MaterialTheme.customColors()
+
     TeamixScaffold(
         isDarkMode = false
     ) {
-        Column(
-            Modifier
-                .fillMaxSize()
-                .background(colors.background)
-                .verticalScroll(rememberScrollState())
-        ) {
+        Box(modifier = Modifier.fillMaxSize()) {
             HorizontalPager(
+                modifier = Modifier.fillMaxSize(),
                 pageCount = onboardingPages.size,
                 state = pagerState,
                 verticalAlignment = Alignment.Top
@@ -91,13 +89,14 @@ fun OnboardingContent(
                     stringResource(R.string.onboarding_image)
                 )
             }
-            Spacer(modifier = Modifier.weight(1f))
+
             Row(
                 modifier = Modifier
-                    .padding(horizontal = SpacingXXLarge, vertical = SpacingExtraHuge)
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .align(Alignment.BottomStart)
+                    .fillMaxWidth()
+                    .padding(horizontal = SpacingXXLarge, vertical = SpacingExtraHuge),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 PageIndicator(
                     numberOfPages = onboardingPages.size,
@@ -127,6 +126,7 @@ fun OnboardingContent(
         }
     }
 }
+
 
 @Preview
 @Composable

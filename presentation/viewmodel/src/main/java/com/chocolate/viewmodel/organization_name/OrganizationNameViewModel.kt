@@ -73,10 +73,12 @@ class OrganizationNameViewModel @Inject constructor(
 
     private fun getOnUserLoggedIn() {
         viewModelScope.launch {
-            _state.update {
-                it.copy(
-                    isLogged = getUserLoginStatus()
-                )
+            getUserLoginStatus().collect { check ->
+                _state.update {
+                    it.copy(
+                        isLogged = check
+                    )
+                }
             }
         }
     }

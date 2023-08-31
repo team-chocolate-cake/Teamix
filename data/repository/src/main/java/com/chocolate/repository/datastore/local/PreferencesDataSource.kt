@@ -10,7 +10,7 @@ interface PreferencesDataSource {
 
     suspend fun setUserLoginState(isComplete: Boolean)
 
-    suspend fun getCurrentUserLoginState(): Boolean
+    suspend fun getCurrentUserLoginState(): Flow<Boolean>
 
     suspend fun setUserUsedAppForFirstTime(isFirstTime: Boolean)
 

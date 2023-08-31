@@ -158,8 +158,6 @@ class UserRepositoryImpl @Inject constructor(
                     apikey = apiKey ?: String.Empty,
                     email = email ?: String.Empty
                 )
-                val currentUser = getRemoteCurrentUser()
-                taskRemoteDataSource.setUsers(currentUser)
                 true
             } ?: false
     }
@@ -168,7 +166,7 @@ class UserRepositoryImpl @Inject constructor(
         preferencesDataSource.setUserLoginState(isComplete)
     }
 
-    override suspend fun getUserLoginState():Boolean {
+    override suspend fun getUserLoginState(): Flow<Boolean> {
         return preferencesDataSource.getCurrentUserLoginState()
     }
 

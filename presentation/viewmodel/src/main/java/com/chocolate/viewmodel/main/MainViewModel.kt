@@ -21,11 +21,14 @@ class MainViewModel @Inject constructor(
             isDarkThem()
             launch(Dispatchers.Default) {
                 delay(500)
-                _state.update {
-                    it.copy(
-                        isLoggedIn = getUserLoginStatus()
-                    )
+                getUserLoginStatus().collect { check ->
+                    _state.update {
+                        it.copy(
+                            isLoggedIn = check
+                        )
+                    }
                 }
+
             }
         }
     }

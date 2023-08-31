@@ -30,10 +30,10 @@ class DataStoreDataSource @Inject constructor(
         dataStore.setValue(LOGIN_STATE, isComplete)
     }
 
-    override suspend fun getCurrentUserLoginState(): Boolean {
+    override suspend fun getCurrentUserLoginState(): Flow<Boolean> {
         return dataStore.data.map {
             it[(LOGIN_STATE)] ?: false
-        }.first()
+        }
     }
 
     override suspend fun setUserUsedAppForFirstTime(isFirstTime: Boolean) {

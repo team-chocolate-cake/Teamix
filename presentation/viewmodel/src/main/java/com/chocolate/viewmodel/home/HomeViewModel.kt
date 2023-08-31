@@ -26,12 +26,13 @@ class HomeViewModel @Inject constructor(
     private val manageOrganizationDetails: ManageOrganizationDetailsUseCase,
     private val getCurrentUserData: GetCurrentUserDataUseCase,
     private val customizeProfileSettings: CustomizeProfileSettingsUseCase,
-    ) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()), HomeInteraction {
+) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()), HomeInteraction {
     init {
         getData()
         isDarkTheme()
 
     }
+
     private fun isDarkTheme() {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(isDarkTheme = customizeProfileSettings.isDarkThem()) }
@@ -133,7 +134,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getChannels() {
         tryToExecute(
-            manageChannels::getSubscribedChannels,
+            manageChannels::getAllChannels,
             ::onGettingChannelsSuccess,
             ::onError
         )
@@ -145,13 +146,14 @@ class HomeViewModel @Inject constructor(
 
     private fun getUserLoginState() {
         viewModelScope.launch {
-            val islogged = getUserLoginStatus()
-            if (islogged) {
-                _state.update {
-                    it.copy(isLogged = islogged)
+            getUserLoginStatus().collect { islogged ->
+                if (islogged) {
+                    _state.update {
+                        it.copy(isLogged = islogged)
+                    }
+                } else {
+                    sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
                 }
-            } else {
-                sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
             }
         }
     }

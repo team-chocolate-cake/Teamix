@@ -132,12 +132,14 @@
     <string name="the_email_shouldn_t_be_empty">The email shouldn\'t be empty</string>
     <string name="the_full_name_shouldn_t_be_empty">The full name shouldn\'t be empty</string>
     <string name="channel_name_validation">Channel name must not be empty and should have fewer than 60 characters.</string>
-    <string name="draft_messages_to_send_when_you_re_ready">Draft messages to send when you’re ready</string>
-    <string name="sub_title_empty_data">Start typing a message anywhere, then find it here. Re-read, revise, and send whenever you’d like.</string>
     <string name="home">Home</string>
     <string name="tasks">Tasks</string>
     <string name="dms">DMs</string>
+    <string name="draft_messages_to_send_when_you_re_ready">Draft messages to send when you’re ready</string>
+    <string name="sub_title_empty_data">Start typing a message anywhere, then find it here. Re-read, revise, and send whenever you’d like.</string>
     <string name="no_internet">No internet</string>
     <string name="search_for_channels">Search for channels</string>
     <string name="create_new_account">Create New Account</string>
+    <string name="no_saved_items">No Saved Items</string>
+    <string name="your_saved_items_will_appear_here_for_easy_access_and_reference">Your saved items will appear here for easy access and reference</string>
 </resources>

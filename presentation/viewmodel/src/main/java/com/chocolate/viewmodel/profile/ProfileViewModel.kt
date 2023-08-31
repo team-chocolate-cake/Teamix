@@ -37,6 +37,10 @@ class ProfileViewModel @Inject constructor(
         isDarkTheme()
     }
 
+    override fun updateEditUsernameDialogState(editUsernameState: Boolean) {
+        _state.update { it.copy(showEditUsernameDialog = editUsernameState) }
+    }
+
     override fun onUpdateLanguage(language: String) {
         _state.update { it.copy(lastAppLanguage = language, error = null, message = null) }
         tryToExecute(
@@ -62,9 +66,6 @@ class ProfileViewModel @Inject constructor(
         _state.update { it.copy(showLogoutDialog = showDialog, error = null, message = null) }
     }
 
-    override fun onUpdateWarningDialog(showDialog: Boolean) {
-        _state.update { it.copy(showWarningDialog = showDialog, error = null, message = null) }
-    }
 
     override fun onUsernameChange(username: String) {
         if (_state.value.originalName.isEmpty()) {
@@ -108,12 +109,6 @@ class ProfileViewModel @Inject constructor(
         return currentState.name == currentState.newUsername
     }
 
-    override fun onConfirmChange() {
-        onUpdateWarningDialog(false)
-        onUserInformationFocusChange()
-        _state.update { it.copy(pagerNumber = 1, error = null) }
-    }
-
     override fun onClickProfileButton() {
         _state.update { it.copy(pagerNumber = 0, error = null, message = null) }
     }
@@ -138,6 +133,10 @@ class ProfileViewModel @Inject constructor(
         val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
         intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         context.startActivities(arrayOf(intent))
+    }
+
+    override fun onDismissEditTextDialog() {
+        _state.update { it.copy(showEditUsernameDialog = false) }
     }
 
 

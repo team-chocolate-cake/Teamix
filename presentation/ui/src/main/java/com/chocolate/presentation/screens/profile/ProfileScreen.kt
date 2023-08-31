@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.profile
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.ScrollState
@@ -20,11 +21,15 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -37,6 +42,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
+import com.chocolate.presentation.composable.EditTextDialog
 import com.chocolate.presentation.composable.MultiChoiceDialog
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
@@ -102,7 +108,7 @@ fun ProfileScreen(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun ProfileContent(
@@ -125,7 +131,7 @@ fun ProfileContent(
 
     AnimatedVisibility(state.showLanguageDialog) {
         MultiChoiceDialog(
-            onClickDone = {language ->
+            onClickDone = { language ->
                 profileInteraction.onUpdateLanguageDialogState(false)
                 val languageCode = state.languageMap[language] ?: "en"
                 profileInteraction.onUpdateLanguage(languageCode)
@@ -153,15 +159,6 @@ fun ProfileContent(
             }
         )
     }
-    AnimatedVisibility(state.showWarningDialog) {
-        ProfileDialog(title = stringResource(R.string.warning),
-            text = stringResource(R.string.waring_details),
-            onDismissButtonClick = {profileInteraction.onUpdateWarningDialog(false)},
-            onConfirmButtonClick = {
-                profileInteraction.onConfirmChange()
-              }
-        )
-    }
     AnimatedVisibility(state.showLogoutDialog) {
         ProfileDialog(
             title = stringResource(R.string.logout_title),
@@ -172,6 +169,18 @@ fun ProfileContent(
                 profileInteraction.onLogoutButtonClicked()
             }
         )
+    }
+    AnimatedVisibility(state.showEditUsernameDialog) {
+        EditTextDialog(
+            title = "Enter Name",
+            value = state.name,
+            dismissButton = profileInteraction::onDismissEditTextDialog
+            ,
+            confirmButton = {
+                profileInteraction.onUsernameChange(it)
+                profileInteraction.onUserInformationFocusChange()
+            }) {
+        }
     }
 
     TeamixScaffold(isDarkMode = state.isDarkTheme) {
@@ -204,7 +213,7 @@ fun ProfileContent(
             Box(
                 Modifier
                     .padding(horizontal = SpacingXLarge)
-                    .padding(bottom = SpacingXLarge, top =SpacingGigantic )
+                    .padding(bottom = SpacingXLarge, top = SpacingGigantic)
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(Radius16))
                     .height(BoxHeight440)
@@ -240,13 +249,7 @@ fun ProfileContent(
                             )
                         }
                         Button(
-                            onClick = {
-                                if (profileInteraction.areUserDataEqual()) {
-                                    profileInteraction.onUpdateWarningDialog(true)
-                                } else {
-                                    profileInteraction.onClickSettingsButton()
-                                }
-                            },
+                            onClick = profileInteraction::onClickSettingsButton,
                             modifier = Modifier
                                 .padding(end = SpacingXMedium)
                                 .width(ButtonSize110),
@@ -267,7 +270,6 @@ fun ProfileContent(
                         pageState = pageState,
                         state = state,
                         profileInteraction = profileInteraction,
-                        context = context,
                     )
 
                 }

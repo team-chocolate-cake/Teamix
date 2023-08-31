@@ -10,6 +10,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,11 +27,12 @@ import com.chocolate.presentation.theme.customColors
 fun TeamixOutLinedTextField(
     text: String,
     onValueChange: (String) -> Unit,
+    error: String = "",
     onDone: (() -> Unit)? = null,
     colorFocused: Color,
     colorUnFocused: Color,
-    colorIcon: Color,
-    readOnly:Boolean=false
+    readOnly: Boolean = false,
+    trailingIcon: @Composable () -> Unit = {}
 ) {
     val colors = MaterialTheme.customColors()
     OutlinedTextField(
@@ -50,20 +52,18 @@ fun TeamixOutLinedTextField(
                 backgroundColor = colors.primary
             )
         ),
-        trailingIcon = {
-            Icon(
-                painter = painterResource(id = R.drawable.pen),
-                contentDescription = null,
-                tint = colorIcon,
-            )
-        },
+        trailingIcon = trailingIcon,
         singleLine = true,
         keyboardActions = KeyboardActions(onDone = {
             if (onDone != null) {
                 onDone()
             }
         }),
-        readOnly=readOnly
+        readOnly = readOnly,
+        isError = error.isNotEmpty(),
+        supportingText = {
+            Text(text = error)
+        }
 
     )
 }

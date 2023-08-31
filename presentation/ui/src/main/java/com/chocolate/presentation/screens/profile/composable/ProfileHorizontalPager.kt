@@ -1,6 +1,5 @@
 package com.chocolate.presentation.screens.profile.composable
 
-import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,11 +7,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
+import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixOutLinedTextField
 import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
 import com.chocolate.presentation.theme.SpacingXLarge
@@ -27,8 +30,7 @@ import com.chocolate.viewmodel.profile.ProfileUiState
 fun ProfileHorizontalPager(
     pageState: PagerState,
     state: ProfileUiState,
-    profileInteraction: ProfileInteraction,
-    context: Context
+    profileInteraction: ProfileInteraction
 ) {
     val color = MaterialTheme.customColors()
     HorizontalPager(
@@ -53,16 +55,26 @@ fun ProfileHorizontalPager(
                                 keyboardController?.hide()
                                 profileInteraction.onUserInformationFocusChange()
                             },
-                            colorFocused = color.primary,
+                            colorFocused = color.background,
                             colorUnFocused = color.background,
-                            colorIcon = color.primary
+                            trailingIcon = {
+                                IconButton(
+                                    onClick = {profileInteraction.updateEditUsernameDialogState(true)}
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.pen),
+                                        contentDescription = null,
+                                        tint = color.primary,
+                                    )
+                                }
+                            },
+                            readOnly = true
                         )
                         TeamixOutLinedTextField(
                             text = state.email,
                             onValueChange = {},
                             colorFocused = color.background,
                             colorUnFocused = color.background,
-                            colorIcon = color.card,
                             readOnly = true
                         )
                     }

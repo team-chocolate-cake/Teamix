@@ -64,6 +64,10 @@ class HomeViewModel @Inject constructor(
         sendUiEffect(HomeUiEffect.NavigateToCreateChannel)
     }
 
+    override fun onClickRetryButton() {
+        getData()
+    }
+
 
     private fun getCurrentUserData() {
         tryToExecute(

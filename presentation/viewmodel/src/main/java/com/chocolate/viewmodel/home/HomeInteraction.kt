@@ -7,4 +7,6 @@ interface HomeInteraction {
     fun onClickChannel(id: Int, name: String)
     fun onClickTopic(name: String)
     fun onClickFloatingActionButton()
+
+    fun onClickRetryButton()
 }

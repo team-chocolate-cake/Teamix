@@ -31,6 +31,7 @@
     <string name="mauve">Mauve</string>
     <string name="green">Green</string>
     <string name="red">Red</string>
+    <string name="create_topic">Create Topic</string>
     <string name="channel_name">Channel Name</string>
     <string name="channel_status">Channel Status</string>
     <string name="owner_powers">Owner Powers</string>
@@ -140,4 +141,9 @@
     <string name="no_internet">No internet</string>
     <string name="search_for_channels">Search for channels</string>
     <string name="create_new_account">Create New Account</string>
+    <string name="create">Create</string>
+    <string name="topic_content">Topic content</string>
+    <string name="topic_name">Topic name</string>
+    <string name="topic_cannot_be_empty">Topic name cannot be empty</string>
+    <string name="topic_content_cannot_be_empty">Topic content cannot be empty</string>
 </resources>

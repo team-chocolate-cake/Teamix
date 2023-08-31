@@ -136,4 +136,10 @@
     <string name="tasks">任务</string>
     <string name="home">频道</string>
     <string name="dms">私信</string>
+    <string name="create_topic">創建主題</string>
+    <string name="create">建造</string>
+    <string name="topic_content">主題內容</string>
+    <string name="topic_name">主題名稱</string>
+    <string name="topic_cannot_be_empty">主題名稱不能為空</string>
+    <string name="topic_content_cannot_be_empty">主題內容不能為空</string>
 </resources>

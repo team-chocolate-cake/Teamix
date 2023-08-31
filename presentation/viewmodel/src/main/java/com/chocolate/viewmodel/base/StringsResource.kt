@@ -17,4 +17,6 @@ interface StringsResource {
     val theSameData: String
     val failedEmailWhenEmpty: String
     val failedFullNameWhenEmpty: String
+    val topicCannotBeEmpty: String
+    val topicContentCannotBeEmpty: String
 }

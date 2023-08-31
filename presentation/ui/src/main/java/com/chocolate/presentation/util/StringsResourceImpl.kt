@@ -42,14 +42,19 @@ class StringsResourceImpl @Inject constructor(
 
     override val failedSaveSelectedLanguage: String =
         getString(R.string.failed_to_save_the_selected_language_settings)
-    
+
     override val theSameData: String = getString(R.string.the_same_data)
-    
+
     override val failedEmailWhenEmpty: String =
         getString(R.string.the_email_shouldn_t_be_empty)
-    
+
     override val failedFullNameWhenEmpty: String =
         getString(R.string.the_full_name_shouldn_t_be_empty)
+
+    override val topicCannotBeEmpty: String = getString(R.string.topic_cannot_be_empty)
+
+    override val topicContentCannotBeEmpty: String =
+        getString(R.string.topic_content_cannot_be_empty)
 
     private fun getString(@androidx.annotation.StringRes stringsRes: Int): String {
         return context.getString(stringsRes)

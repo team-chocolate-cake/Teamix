@@ -136,4 +136,10 @@
     <string name="tasks">المهام</string>
     <string name="home">القنوات</string>
     <string name="dms"> الرسائل</string>
+    <string name="create_topic">إنشاء موضوع</string>
+    <string name="create">إنشاء</string>
+    <string name="topic_content">محتوى الموضوع</string>
+    <string name="topic_name">اسم الموضوع</string>
+    <string name="topic_cannot_be_empty">اسم الموضوع لا يمكن أن يكون فارغًا</string>
+    <string name="topic_content_cannot_be_empty">محتوى الموضوع لا يمكن أن يكون فارغًا</string>
 </resources>

@@ -29,8 +29,8 @@ fun TeamixOutLinedTextField(
     onDone: (() -> Unit)? = null,
     colorFocused: Color,
     colorUnFocused: Color,
-    colorIcon: Color,
-    readOnly:Boolean=false
+    readOnly: Boolean = false,
+    trailingIcon: @Composable () -> Unit = {}
 ) {
     val colors = MaterialTheme.customColors()
     OutlinedTextField(
@@ -50,20 +50,14 @@ fun TeamixOutLinedTextField(
                 backgroundColor = colors.primary
             )
         ),
-        trailingIcon = {
-            Icon(
-                painter = painterResource(id = R.drawable.pen),
-                contentDescription = null,
-                tint = colorIcon,
-            )
-        },
+        trailingIcon = trailingIcon,
         singleLine = true,
         keyboardActions = KeyboardActions(onDone = {
             if (onDone != null) {
                 onDone()
             }
         }),
-        readOnly=readOnly
+        readOnly = readOnly
 
     )
 }

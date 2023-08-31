@@ -18,7 +18,7 @@ data class ProfileUiState(
     var lastAppLanguage: String = "English",
     val showNoInternetLottie: Boolean = false,
     val showLanguageDialog: Boolean = false,
-    val showWarningDialog: Boolean = false,
+    val showEditUsernameDialog: Boolean = false,
     val showLogoutDialog: Boolean = false,
     val newUsername: String = String.Empty,
     val originalName: String = String.Empty,

@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.profile
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.ScrollState
@@ -153,15 +154,6 @@ fun ProfileContent(
             }
         )
     }
-    AnimatedVisibility(state.showWarningDialog) {
-        ProfileDialog(title = stringResource(R.string.warning),
-            text = stringResource(R.string.waring_details),
-            onDismissButtonClick = {profileInteraction.onUpdateWarningDialog(false)},
-            onConfirmButtonClick = {
-                profileInteraction.onConfirmChange()
-              }
-        )
-    }
     AnimatedVisibility(state.showLogoutDialog) {
         ProfileDialog(
             title = stringResource(R.string.logout_title),
@@ -172,6 +164,9 @@ fun ProfileContent(
                 profileInteraction.onLogoutButtonClicked()
             }
         )
+    }
+    AnimatedVisibility(state.showEditUsernameDialog) {
+
     }
 
     TeamixScaffold(isDarkMode = state.isDarkTheme) {
@@ -240,13 +235,7 @@ fun ProfileContent(
                             )
                         }
                         Button(
-                            onClick = {
-                                if (profileInteraction.areUserDataEqual()) {
-                                    profileInteraction.onUpdateWarningDialog(true)
-                                } else {
-                                    profileInteraction.onClickSettingsButton()
-                                }
-                            },
+                            onClick = profileInteraction::onClickSettingsButton,
                             modifier = Modifier
                                 .padding(end = SpacingXMedium)
                                 .width(ButtonSize110),
@@ -267,7 +256,6 @@ fun ProfileContent(
                         pageState = pageState,
                         state = state,
                         profileInteraction = profileInteraction,
-                        context = context,
                     )
 
                 }

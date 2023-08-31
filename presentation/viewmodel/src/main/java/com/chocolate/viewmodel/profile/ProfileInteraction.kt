@@ -3,10 +3,11 @@ package com.chocolate.viewmodel.profile
 import android.content.Context
 
 interface ProfileInteraction {
+    fun updateEditUsernameDialogState(editUsernameState:Boolean)
+
     fun onUpdateLanguage(language: String)
     fun onUpdateLanguageDialogState(showDialog: Boolean)
     fun onUpdateLogoutDialogState(showDialog: Boolean)
-    fun onUpdateWarningDialog(showDialog: Boolean)
     fun onLogoutButtonClicked()
     fun onUsernameChange(username: String)
     fun onUserInformationFocusChange()

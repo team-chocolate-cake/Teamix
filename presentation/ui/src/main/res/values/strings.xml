@@ -144,4 +144,6 @@
     <string name="your_saved_items_will_appear_here_for_easy_access_and_reference">Your saved items will appear here for easy access and reference</string>
     <string name="no_saved_items_body">Your saved items will appear here for easy access and reference</string>
     <string name="message_deleted_successfully">Message deleted successfully</string>
+    <string name="cancle">CANCLE</string>
+    <string name="enter_full_name">Enter name</string>
 </resources>

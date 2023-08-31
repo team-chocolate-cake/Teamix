@@ -72,7 +72,7 @@ fun EditTextDialog(
                         onClick = dismissButton,
                         content = {
                             Text(
-                                "CANCEL",
+                                stringResource(id = R.string.cancle),
                                 color = color.onBackground87
                             )
                         },
@@ -86,7 +86,7 @@ fun EditTextDialog(
                                 error = errorMessage
                             }
                         },
-                        content = { Text("OK", color = color.primary) },
+                        content = { Text(stringResource(R.string.ok), color = color.primary) },
                     )
                 }
             }

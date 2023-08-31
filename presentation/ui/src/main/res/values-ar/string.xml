@@ -112,6 +112,10 @@
     <string name="status">الحالة</string>
     <string name="skip">تخطي</string>
     <string name="ok">موافق</string>
+    <string name="cancle">الغاء</string>
+    <string name="enter_full_name">ادخل الاسم</string>
+
+
     <string name="choose_members">اختر الأعضاء</string>
     <string name="recent_search">البحث الأخير</string>
     <string name="members">الأعضاء</string>

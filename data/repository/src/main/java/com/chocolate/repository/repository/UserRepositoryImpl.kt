@@ -17,6 +17,7 @@ class UserRepositoryImpl @Inject constructor(
     private val preferencesDataSource: PreferencesDataSource,
     private val teamixLocalDataSource: LocalDataSource
 ) : UsersRepository {
+
     override suspend fun setUserUsedAppForFirstTime(isComplete: Boolean) {
         preferencesDataSource.setUserUsedAppForFirstTime(isComplete)
     }

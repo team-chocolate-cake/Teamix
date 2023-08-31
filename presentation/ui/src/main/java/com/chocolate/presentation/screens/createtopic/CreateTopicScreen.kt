@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,8 +15,11 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,10 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.chocolate.presentation.R
+import com.chocolate.presentation.composable.ShowErrorSnackBarLogic
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
-import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.topic_details.navigateToTopic
 import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.TeamixTheme
@@ -45,6 +49,9 @@ fun CreateTopicScreen(
     navController: NavController = LocalNavController.current
 ) {
     val state by createTopicViewModel.state.collectAsState()
+    val showSnackBar= remember {
+        mutableStateOf(false)
+    }
     CollectUiEffect(createTopicViewModel.effect) { createTopicEffect ->
         when (createTopicEffect) {
             is CreateTopicEffect.NavigateToTopicScreen -> {
@@ -53,32 +60,32 @@ fun CreateTopicScreen(
                     createTopicEffect.topicName
                 )
             }
-
             is CreateTopicEffect.ShowSnackBar -> {
-                //ActionSnakeBar(contentMessage = effects.message)
+
             }
         }
     }
-    /*
-        when (val effects = createTopicViewModel.effect.collectAsState(initial = null).value) {
-            is CreateTopicEffect.NavigateToTopicScreen -> {
-                LaunchedEffect(key1 = Unit) {
-                    navController.popBackStack()
-                    navController.navigateToTopic(effects.topicName)
-                }
-            }
 
-            is CreateTopicEffect.ShowSnackBar -> {
-                ActionSnakeBar(contentMessage = effects.message)
-            }
+//        when (val effects = createTopicViewModel.effect.collectAsState(initial = null).value) {
+//            is CreateTopicEffect.NavigateToTopicScreen -> {
+//                LaunchedEffect(key1 = Unit) {
+//                    navController.popBackStack()
+//                    navController.navigateToTopic(effects.topicName)
+//                }
+//            }
+//
+//            is CreateTopicEffect.ShowSnackBar -> {
+//                //ActionSnakeBar(contentMessage = effects.message)
+//            }
+//
+//            else -> {}
+//        }
 
-            else -> {}
-        }
-    */
 
     CreateChannelContent(
         state,
-        createTopicViewModel
+        showSnackBar,
+        createTopicViewModel,
     )
 
 }
@@ -86,9 +93,10 @@ fun CreateTopicScreen(
 @Composable
 fun CreateChannelContent(
     state: CreateTopicUiState,
+    showSnackBar:MutableState<Boolean>,
     createTopicInteraction: CreateTopicInteraction,
 ) {
-
+    showSnackBar.value=true
     val colors = MaterialTheme.customColors()
 
     TeamixScaffold(
@@ -149,13 +157,13 @@ fun CreateChannelContent(
                         color = colors.onPrimary
                     )
                 }
+
+
             }
-        }
+            Spacer(modifier = Modifier.weight(1f))
+            state.stringError?.let { ShowErrorSnackBarLogic(showSnackBar,it) }
 
-        if (state.stringError != null) {
-            //state.stringError?.let { ActionSnakeBar(contentMessage = it) }
         }
-
     }
 }
 

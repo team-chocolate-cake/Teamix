@@ -28,6 +28,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,6 +51,7 @@ import com.chocolate.viewmodel.search.SearchEffect
 import com.chocolate.viewmodel.search.SearchInteraction
 import com.chocolate.viewmodel.search.SearchUiState
 import com.chocolate.viewmodel.search.SearchViewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun SearchScreen(
@@ -73,6 +75,9 @@ fun SearchScreen(
 @Composable
 fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
     val colors = MaterialTheme.customColors()
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setStatusBarColor(color = Color.Black, darkIcons = false)
+
     TeamixScaffold(
         modifier = Modifier.fillMaxSize(),
         isDarkMode = isSystemInDarkTheme(),

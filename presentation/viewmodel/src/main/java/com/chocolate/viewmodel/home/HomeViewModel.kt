@@ -8,11 +8,13 @@ import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.entities.user.User
 import com.chocolate.usecases.channel.ManageChannelsUseCase
 import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
+import com.chocolate.usecases.user.CustomizeProfileSettingsUseCase
 import com.chocolate.usecases.user.GetCurrentUserDataUseCase
 import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.profile.toOwnerUserUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,10 +25,17 @@ class HomeViewModel @Inject constructor(
     private val manageChannels: ManageChannelsUseCase,
     private val manageOrganizationDetails: ManageOrganizationDetailsUseCase,
     private val getCurrentUserData: GetCurrentUserDataUseCase,
-) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()), HomeInteraction {
+    private val customizeProfileSettings: CustomizeProfileSettingsUseCase,
+    ) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()), HomeInteraction {
     init {
         getData()
+        isDarkTheme()
 
+    }
+    private fun isDarkTheme() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _state.update { it.copy(isDarkTheme = customizeProfileSettings.isDarkThem()) }
+        }
     }
 
     private fun getData() {

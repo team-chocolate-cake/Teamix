@@ -37,6 +37,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -123,10 +124,10 @@ fun ProfileContent(
     val typography = MaterialTheme.typography
     val systemUiController = rememberSystemUiController()
 
-    systemUiController.setSystemBarsColor(color = color.background, darkIcons = !state.isDarkTheme)
+    systemUiController.setStatusBarColor(color = Color.Black, darkIcons = false)
 
     LaunchedEffect(state.pagerNumber) {
-        pageState.animateScrollToPage(state.pagerNumber)
+        pageState.scrollToPage(state.pagerNumber)
     }
 
     AnimatedVisibility(state.showLanguageDialog) {
@@ -271,7 +272,6 @@ fun ProfileContent(
                         state = state,
                         profileInteraction = profileInteraction,
                     )
-
                 }
             }
         }

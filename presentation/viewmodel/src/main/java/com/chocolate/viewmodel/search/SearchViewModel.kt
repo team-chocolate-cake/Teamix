@@ -5,9 +5,11 @@ import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.uills.Empty
 import com.chocolate.usecases.channel.ManageChannelsUseCase
+import com.chocolate.usecases.user.CustomizeProfileSettingsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.home.toChannelsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.update
@@ -17,9 +19,19 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val manageChannels: ManageChannelsUseCase,
-): BaseViewModel<SearchUiState,SearchEffect>(SearchUiState()),SearchInteraction {
+    private val customizeProfileSettings: CustomizeProfileSettingsUseCase,
+    ): BaseViewModel<SearchUiState,SearchEffect>(SearchUiState()),SearchInteraction {
     private var searchJob: Job? = null
 
+
+    init {
+        isDarkTheme()
+    }
+    private fun isDarkTheme() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _state.update { it.copy(isDarkTheme = customizeProfileSettings.isDarkThem()) }
+        }
+    }
     override fun onClickChannelItem(id: Int, name: String) {
         sendUiEffect(SearchEffect.NavigateToChannel(id,name))
     }

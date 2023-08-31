@@ -2,6 +2,7 @@ package com.chocolate.repository.mappers.channel_mappers
 
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.channel.Topic
+import com.chocolate.repository.datastore.realtime.model.ChannelDto
 import com.chocolate.repository.model.dto.channels.response.DefaultStreamDto
 import com.chocolate.repository.model.dto.channels.response.StreamDto
 import com.chocolate.repository.model.dto.channels.response.SubscribedStreamDto
@@ -48,3 +49,13 @@ fun DefaultStreamDto.toSuccessOrFail(): Boolean = this.result?.equals(SUCCESS) ?
 fun TopicsItemDto.toEntity(): Topic = Topic(name = name.orEmpty(), id = maxId ?: 0)
 
 fun TopicsInStreamDto.toEntity(): List<Topic> = topics?.map { it.toEntity() } ?: emptyList()
+
+fun ChannelDto.toChannel() = Channel(
+    id = id?.toLong()?.toInt() ?: 0,
+    name = name ?: "",
+    description = description ?: "",
+    isPrivate = isPrivate ?: false,
+    topics = emptyList(),
+    isCurrentUserSubscribed = false,
+    isMuted = false
+)

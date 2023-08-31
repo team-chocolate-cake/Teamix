@@ -3,6 +3,7 @@ package repositories
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.channel.MutingStatus
 import com.chocolate.entities.channel.Topic
+import kotlinx.coroutines.flow.Flow
 
 interface ChannelsRepository {
     suspend fun getSubscribedChannels(): List<Channel>
@@ -59,4 +60,5 @@ interface ChannelsRepository {
     suspend fun addDefaultChannel(channelId: Int): Boolean
 
     suspend fun deleteDefaultChannel(channelId: Int): Boolean
+    suspend fun getStreamChannels(): Flow<List<Channel>>
 }

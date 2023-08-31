@@ -3,10 +3,14 @@ package com.chocolate.repository.repository
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.channel.MutingStatus
 import com.chocolate.entities.channel.Topic
+import com.chocolate.repository.datastore.realtime.RealTimeDataSource
 import com.chocolate.repository.datastore.remote.ChannelRemoteDataSource
+import com.chocolate.repository.mappers.channel_mappers.toChannel
 import com.chocolate.repository.mappers.channel_mappers.toEntity
 import com.chocolate.repository.mappers.channel_mappers.toSuccessOrFail
 import com.chocolate.repository.utils.SUCCESS
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import org.json.JSONArray
 import org.json.JSONObject
 import repositories.ChannelsRepository
@@ -14,10 +18,19 @@ import javax.inject.Inject
 
 class ChannelsRepositoryImpl @Inject constructor(
     private val channelRemoteDataSource: ChannelRemoteDataSource,
+    private val realTimeDataSource: RealTimeDataSource,
 ) : ChannelsRepository {
 
     override suspend fun getChannels(): List<Channel> {
         return channelRemoteDataSource.getChannels().streams.toEntity()
+    }
+
+    override suspend fun getStreamChannels(): Flow<List<Channel>> {
+        return realTimeDataSource.getChannels().map { channels ->
+            channels.map {
+                it.toChannel()
+            }
+        }
     }
 
     override suspend fun getSubscribedChannels(): List<Channel> =
@@ -29,15 +42,21 @@ class ChannelsRepositoryImpl @Inject constructor(
         channelName: String,
         usersId: List<Int>,
         description: String?,
-        isPrivate: Boolean
+        isPrivate: Boolean,
     ): Boolean {
         return channelRemoteDataSource.subscribeToChannels(
             createJsonArrayString(channelName = channelName, channelDescription = description),
             usersId = JSONArray(usersId).toString(),
             description = description,
             isPrivate = isPrivate
-        )
-            .result?.equals(SUCCESS) ?: false
+        ).also {
+            if (usersId.isNotEmpty()) realTimeDataSource.createChannel(
+                channelName,
+                usersId,
+                isPrivate,
+                description
+            )
+        }.result?.equals(SUCCESS) ?: false
     }
 
     override suspend fun unsubscribeFromChannel(
@@ -49,7 +68,7 @@ class ChannelsRepositoryImpl @Inject constructor(
 
     override suspend fun getSubscriptionStatus(
         userId: Int,
-        channelId: Int
+        channelId: Int,
     ): Boolean {
         return channelRemoteDataSource.getSubscriptionStatus(userId, channelId).isSubscribed
             ?: false
@@ -76,7 +95,7 @@ class ChannelsRepositoryImpl @Inject constructor(
         historyPublicToSubscribers: Boolean?,
         streamPostPolicy: Int?,
         messageRetentionDays: String?,
-        canRemoveSubscribersGroupId: Int?
+        canRemoveSubscribersGroupId: Int?,
     ): Boolean {
         return channelRemoteDataSource.updateStream(
             streamId,
@@ -111,7 +130,7 @@ class ChannelsRepositoryImpl @Inject constructor(
     override suspend fun updatePersonalPreferenceTopic(
         channelId: Int,
         topic: String,
-        visibilityPolicy: Int
+        visibilityPolicy: Int,
     ): Boolean {
         return channelRemoteDataSource.updatePersonalPreferenceTopic(
             channelId,
@@ -136,7 +155,7 @@ class ChannelsRepositoryImpl @Inject constructor(
 
     private fun createJsonArrayString(
         channelName: String,
-        channelDescription: String? = ""
+        channelDescription: String? = "",
     ): String {
         val jsonArray = JSONArray()
         val jsonObject = JSONObject()

@@ -23,6 +23,8 @@ class ManageChannelsUseCase @Inject constructor(
         return channelsRepository.getSubscribedChannels()
     }
 
+    suspend fun getStreamChannels()=channelsRepository.getStreamChannels()
+
     private suspend fun getAllChannels(): List<Channel> {
         return channelsRepository.getChannels()
     }

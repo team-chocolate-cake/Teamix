@@ -1,5 +1,6 @@
 package repositories
 
+import com.chocolate.entities.task.Task
 import com.chocolate.entities.user.Attachment
 import com.chocolate.entities.user.User
 import kotlinx.coroutines.flow.Flow
@@ -117,4 +118,7 @@ interface UsersRepository {
     suspend fun getLocalCurrentUser(): User?
 
     suspend fun getCurrentUser(): User
+
+    suspend fun setTeamTask(task:Task)
+    suspend fun getTeamTask():List<Task?>
 }

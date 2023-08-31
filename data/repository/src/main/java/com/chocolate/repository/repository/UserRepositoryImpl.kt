@@ -1,21 +1,28 @@
 package com.chocolate.repository.repository
 
+import com.chocolate.entities.task.Task
 import com.chocolate.entities.uills.Empty
 import com.chocolate.entities.user.Attachment
 import com.chocolate.entities.user.User
 import com.chocolate.repository.datastore.local.LocalDataSource
 import com.chocolate.repository.datastore.local.PreferencesDataSource
+import com.chocolate.repository.datastore.remote.TaskRemoteDataSource
 import com.chocolate.repository.datastore.remote.UserRemoteDataSource
+import com.chocolate.repository.mappers.task.toEntity
+import com.chocolate.repository.mappers.task.toRemoteDto
 import com.chocolate.repository.mappers.users.toEntity
 import com.chocolate.repository.mappers.users.toLocalDto
+import com.chocolate.repository.mappers.users.toRemoteDto
 import com.chocolate.repository.utils.SUCCESS
 import kotlinx.coroutines.flow.Flow
 import repositories.UsersRepository
 import javax.inject.Inject
+
 class UserRepositoryImpl @Inject constructor(
     private val userRemoteDataSource: UserRemoteDataSource,
     private val preferencesDataSource: PreferencesDataSource,
-    private val teamixLocalDataSource: LocalDataSource
+    private val teamixLocalDataSource: LocalDataSource,
+    private val taskRemoteDataSource: TaskRemoteDataSource
 ) : UsersRepository {
     override suspend fun setUserUsedAppForFirstTime(isComplete: Boolean) {
         preferencesDataSource.setUserUsedAppForFirstTime(isComplete)
@@ -69,7 +76,8 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getUserPresence(email: String): String {
-        return userRemoteDataSource.getUserPresence(email).presenceDto?.aggregatedDto?.status ?: String.Empty
+        return userRemoteDataSource.getUserPresence(email).presenceDto?.aggregatedDto?.status
+            ?: String.Empty
     }
 
     override suspend fun getRealmPresence(): String {
@@ -121,7 +129,11 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getUserMembership(
         groupId: Int, userId: Int, directMemberOnly: Boolean
     ): Boolean {
-        return userRemoteDataSource.getUserMembership(groupId, userId, directMemberOnly).isUserGroupMember
+        return userRemoteDataSource.getUserMembership(
+            groupId,
+            userId,
+            directMemberOnly
+        ).isUserGroupMember
             ?: false
     }
 
@@ -156,6 +168,8 @@ class UserRepositoryImpl @Inject constructor(
                     apikey = apiKey ?: String.Empty,
                     email = email ?: String.Empty
                 )
+                val currentUser = getRemoteCurrentUser().toRemoteDto()
+                taskRemoteDataSource.setUsers(currentUser)
                 true
             } ?: false
     }
@@ -202,5 +216,13 @@ class UserRepositoryImpl @Inject constructor(
             .takeIf { it != null }
             ?: getRemoteCurrentUser()
                 .also { upsertCurrentUser(it.email) }
+    }
+
+    override suspend fun setTeamTask(task:Task) {
+        taskRemoteDataSource.setTeamTask(task.toRemoteDto())
+    }
+
+    override suspend fun getTeamTask(): List<Task?> {
+        return taskRemoteDataSource.getTeamTasks().toEntity()
     }
 }

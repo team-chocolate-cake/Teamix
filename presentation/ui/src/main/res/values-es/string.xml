@@ -136,6 +136,7 @@
     <string name="tasks">Tareas</string>
     <string name="home">Canales</string>
     <string name="dms">Mensajes</string>
+    <string name="cancle">Cancelar</string>
     <string name="no_saved_items">No hay elementos guardados</string>
     <string name="no_saved_items_body">Los elementos guardados aparecerán aquí para un acceso y referencia fáciles.</string>
     <string name="draft_messages_to_send_when_you_re_ready">Mensajes en borrador para enviar cuando estés listo</string>
@@ -144,4 +145,6 @@
     <string name="search_for_channels">Buscar canales</string>
     <string name="create_new_account">Crear nueva cuenta</string>
     <string name="your_saved_items_will_appear_here_for_easy_access_and_reference">Tus elementos guardados aparecerán aquí para acceder y referenciar fácilmente</string>
+    <string name="enter_full_name">Ingrese su nombre</string>
+
 </resources>

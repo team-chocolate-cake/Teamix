@@ -112,7 +112,7 @@ fun ProfileScreen(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun ProfileContent(
@@ -176,7 +176,7 @@ fun ProfileContent(
     }
     AnimatedVisibility(state.showEditUsernameDialog) {
         EditTextDialog(
-            title = "Enter Name",
+            title =  stringResource(id = R.string.enter_full_name),
             value = state.name,
             dismissButton = profileInteraction::onDismissEditTextDialog,
             confirmButton = {

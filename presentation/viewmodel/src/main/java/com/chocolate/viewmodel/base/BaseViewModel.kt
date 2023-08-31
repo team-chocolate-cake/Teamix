@@ -9,11 +9,14 @@ import com.chocolate.entities.exceptions.TeamixException
 import com.chocolate.entities.exceptions.UnAuthorizedException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -65,7 +68,20 @@ abstract class BaseViewModel<STATE, UiEffect>(initialState: STATE) : ViewModel()
     }
 
     protected fun sendUiEffect(effect: UiEffect) {
-        viewModelScope.launch(Dispatchers.IO) { _effect.emit(effect) }
+        viewModelScope.launch(Dispatchers.IO) {
+            delay(200)
+            _effect.emit(effect)
+        }
+    }
+
+    fun <T> Flow<T>.throttleFirst(periodMillis: Long): Flow<T> {
+        if (periodMillis < 0) return this
+        return flow {
+            conflate().collect { value ->
+                emit(value)
+                delay(periodMillis)
+            }
+        }
     }
 
 }

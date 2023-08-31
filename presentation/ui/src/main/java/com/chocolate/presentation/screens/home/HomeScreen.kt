@@ -2,6 +2,7 @@ package com.chocolate.presentation.screens.home
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -104,7 +105,15 @@ fun HomeScreen(
     }
     AnimatedVisibility(state.isLogged) {
         HomeContent(state = state, homeViewModel)
+        Log.d("logged-home", "getUserLoginState:${state.isLogged}")
     }
+  /*  if (state.isLogged.not()) {
+        navController.navigateToOrganizationName {
+            popUpTo(Screen.Home.route) {
+                inclusive = true
+            }
+        }
+    }*/
 }
 
 @OptIn(ExperimentalFoundationApi::class)

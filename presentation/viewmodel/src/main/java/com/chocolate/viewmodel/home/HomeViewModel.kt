@@ -26,7 +26,6 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()), HomeInteraction {
     init {
         getData()
-
     }
 
     private fun getData() {
@@ -132,10 +131,10 @@ class HomeViewModel @Inject constructor(
 
     private fun getUserLoginState() {
         viewModelScope.launch {
-            val islogged = getUserLoginStatus()
-            if (islogged) {
+            val isLogged = getUserLoginStatus()
+            if (isLogged) {
                 _state.update {
-                    it.copy(isLogged = islogged)
+                    it.copy(isLogged = isLogged, isLoading = false, error = null)
                 }
             } else {
                 sendUiEffect(HomeUiEffect.NavigateToOrganizationName)

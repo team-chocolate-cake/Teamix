@@ -1,6 +1,5 @@
 package com.chocolate.usecases.user
 
-import kotlinx.coroutines.flow.Flow
 import repositories.UsersRepository
 import javax.inject.Inject
 

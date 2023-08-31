@@ -7,6 +7,6 @@ class SetUserLoginStateUseCase @Inject constructor(
     private val usersRepository: UsersRepository
 ) {
     suspend operator fun invoke(isComplete: Boolean){
-        usersRepository.setUserLoginState(isComplete)
+       // usersRepository.setUserLoginState(isComplete)
     }
 }

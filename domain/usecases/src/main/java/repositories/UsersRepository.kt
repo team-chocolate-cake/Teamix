@@ -16,7 +16,7 @@ interface UsersRepository {
 
     suspend fun getUserById(
         userId: Int,
-        clientGravatar: Boolean ,
+        clientGravatar: Boolean,
         includeCustomProfileFields: Boolean
     ): User
 
@@ -45,10 +45,7 @@ interface UsersRepository {
 
     suspend fun deleteAttachment(attachmentId: Int)
 
-    //need to review
     suspend fun updateSettings(user: User)
-
-    //suspend fun getUserGroups(): UserGroups
 
     suspend fun createUserGroup(
         name: String,
@@ -98,7 +95,7 @@ interface UsersRepository {
 
     suspend fun userLogin(userName: String, password: String): Boolean
 
-    suspend fun setUserLoginState(isComplete: Boolean)
+    // suspend fun setUserLoginState(userName: String, password: String): Boolean
 
     suspend fun getUserLoginState(): Boolean
 
@@ -108,9 +105,9 @@ interface UsersRepository {
 
     suspend fun getLastSelectedAppLanguage(): String
 
-    suspend fun updateDarkTheme(isDarkTheme:Boolean):Boolean
+    suspend fun updateDarkTheme(isDarkTheme: Boolean): Boolean
 
-    suspend fun isDarkThemeEnabled():Boolean
+    suspend fun isDarkThemeEnabled(): Boolean
 
     suspend fun upsertCurrentUser(email: String)
 

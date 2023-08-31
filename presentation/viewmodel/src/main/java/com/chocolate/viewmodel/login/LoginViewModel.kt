@@ -1,5 +1,6 @@
 package com.chocolate.viewmodel.login
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NetworkException
@@ -7,7 +8,6 @@ import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.NullDataException
 import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.usecases.user.AttemptUserLoginUseCase
-import com.chocolate.usecases.user.SetUserLoginStateUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +19,6 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val attemptUserLogin: AttemptUserLoginUseCase,
-    private val setUserLoginState: SetUserLoginStateUseCase,
     private val stringsResource: StringsResource,
 ) : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState()), LoginInteraction {
     private val loginArgs: LoginArgs = LoginArgs(savedStateHandle)
@@ -65,9 +64,9 @@ class LoginViewModel @Inject constructor(
         _state.update { it.copy(isLoading = false) }
         viewModelScope.launch {
             if (isUserLogin) {
-                setUserLoginState(true)
                 sendUiEffect(LoginUiEffect.NavigationToHome)
             }
+            Log.d("logged-login", "getUserLoginState:$isUserLogin")
         }
     }
 

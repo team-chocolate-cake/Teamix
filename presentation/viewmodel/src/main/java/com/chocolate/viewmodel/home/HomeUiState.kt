@@ -13,6 +13,7 @@ data class HomeUiState(
     val role: String = String.Empty,
     val error: String? = null
 )
+
 data class BadgeCountsUiState(
     val mentions: Int = 0,
     val drafts: Int = 0,

@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface PreferencesDataSource {
 
-     fun currentOrganization(): String?
+    fun currentOrganization(): String?
 
     suspend fun setOrganizationName(currentOrganization: String)
 
@@ -21,6 +21,10 @@ interface PreferencesDataSource {
     fun getApiKey(): String
 
     fun getEmail(): String
+
+    fun setPassword(password: String)
+
+    fun getPassword(): String
 
     suspend fun deleteAuthenticationData()
 

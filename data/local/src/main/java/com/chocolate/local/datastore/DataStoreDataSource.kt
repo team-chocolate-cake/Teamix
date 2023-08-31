@@ -8,7 +8,6 @@ import androidx.datastore.preferences.core.edit
 import com.chocolate.repository.datastore.local.PreferencesDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -61,6 +60,14 @@ class DataStoreDataSource @Inject constructor(
         return sharedPreferences.getString(EMAIL, null).orEmpty()
     }
 
+    override fun setPassword(password: String) {
+        sharedPreferences.edit().putString(PASSWORD, password)
+    }
+
+    override fun getPassword(): String {
+        return sharedPreferences.getString(PASSWORD, null).orEmpty()
+    }
+
     override suspend fun deleteAuthenticationData() {
         dataStore.edit { preferences -> preferences.remove(LOGIN_STATE) }
         sharedPreferences.edit().clear().apply()
@@ -99,6 +106,7 @@ class DataStoreDataSource @Inject constructor(
         private val LOGIN_STATE = booleanPreferencesKey("LOGIN_STATE")
         const val API_KEY = "API_KEY"
         const val EMAIL = "EMAIL"
+        const val PASSWORD = "PASSWORD"
         const val NAME_ORGANIZATION = "CURRENT_USERNAME_ID"
         const val LANGUAGE = "APP_LANGUAGE"
         const val ENGLISH = "en"

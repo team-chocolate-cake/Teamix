@@ -33,7 +33,6 @@ class MainViewModel @Inject constructor(
     suspend fun getLastSelectedAppLanguage() =
         customizeProfileSettings.getLastSelectedAppLanguage()
 
-
     private suspend fun isDarkThem() {
         _state.update {
             it.copy(

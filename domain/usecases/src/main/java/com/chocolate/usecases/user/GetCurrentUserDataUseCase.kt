@@ -11,4 +11,3 @@ class GetCurrentUserDataUseCase @Inject constructor(
 
     suspend fun getRemoteCurrentUser() = usersRepository.getRemoteCurrentUser()
 }
-

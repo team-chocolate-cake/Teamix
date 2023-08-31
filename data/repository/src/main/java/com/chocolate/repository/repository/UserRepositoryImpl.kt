@@ -12,6 +12,7 @@ import com.chocolate.repository.utils.SUCCESS
 import kotlinx.coroutines.flow.Flow
 import repositories.UsersRepository
 import javax.inject.Inject
+
 class UserRepositoryImpl @Inject constructor(
     private val userRemoteDataSource: UserRemoteDataSource,
     private val preferencesDataSource: PreferencesDataSource,
@@ -69,7 +70,8 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getUserPresence(email: String): String {
-        return userRemoteDataSource.getUserPresence(email).presenceDto?.aggregatedDto?.status ?: String.Empty
+        return userRemoteDataSource.getUserPresence(email).presenceDto?.aggregatedDto?.status
+            ?: String.Empty
     }
 
     override suspend fun getRealmPresence(): String {
@@ -121,7 +123,11 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getUserMembership(
         groupId: Int, userId: Int, directMemberOnly: Boolean
     ): Boolean {
-        return userRemoteDataSource.getUserMembership(groupId, userId, directMemberOnly).isUserGroupMember
+        return userRemoteDataSource.getUserMembership(
+            groupId,
+            userId,
+            directMemberOnly
+        ).isUserGroupMember
             ?: false
     }
 
@@ -148,6 +154,7 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun userLogin(userName: String, password: String): Boolean {
+        preferencesDataSource.setPassword(password)
         return userRemoteDataSource.fetchApiKey(userName, password)
             .takeIf {
                 it.result == SUCCESS
@@ -160,12 +167,19 @@ class UserRepositoryImpl @Inject constructor(
             } ?: false
     }
 
-    override suspend fun setUserLoginState(isComplete: Boolean) {
-        preferencesDataSource.setUserLoginState(isComplete)
-    }
+    /*
+       override suspend fun setUserLoginState(isComplete: Boolean) {
+           preferencesDataSource.setUserLoginState(isComplete)
+       }*/
 
-    override suspend fun getUserLoginState():Boolean {
-        return preferencesDataSource.getCurrentUserLoginState()
+    override suspend fun getUserLoginState(): Boolean {
+        val email = preferencesDataSource.getEmail()
+        val password = preferencesDataSource.getPassword()
+        return if (email.isEmpty() || password.isEmpty()) {
+            false
+        } else {
+            userRemoteDataSource.fetchApiKey(email, password).result == SUCCESS
+        }
     }
 
     override suspend fun clearLoginInformation() {

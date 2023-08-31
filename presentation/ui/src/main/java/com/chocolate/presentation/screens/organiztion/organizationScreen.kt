@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.organiztion
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -22,7 +23,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.VisualTransformation
@@ -66,12 +66,13 @@ fun OrganizationScreen(
         }
     }
 
-    if (state.onboardingState) {
+    AnimatedVisibility(state.onboardingState) {
         OrganizationContent(
             organizationNameInteraction = viewModel,
             state = state
         )
-    } else {
+    }
+    if (state.onboardingState.not()) {
         navController.navigateToWelcome()
     }
 }
@@ -83,12 +84,10 @@ fun OrganizationContent(
     state: OrganizationNameUiState,
 ) {
     val colors = MaterialTheme.customColors()
-    val context = LocalContext.current
     val scrollState = rememberScrollState()
     val operationFailed = stringResource(R.string.error_organization_name_empty)
     val showOperationFailedSnackBar = remember { mutableStateOf(false) }
     val showErrorSnackBar = remember { mutableStateOf(false) }
-
 
     TeamixScaffold(isDarkMode = isSystemInDarkTheme()) {
         ShowErrorSnackBarLogic(showOperationFailedSnackBar, operationFailed)
@@ -129,7 +128,7 @@ fun OrganizationContent(
             TeamixButton(
                 onClick = {
                     organizationNameInteraction.onClickActionButton(state.organizationName)
-                    if (state.organizationName.isBlank()) {
+                    if (state.organizationName.isBlank() || state.organizationName.isEmpty()) {
                         showOperationFailedSnackBar.value = true
                     }
                     if (!state.error.isNullOrEmpty()) {
@@ -142,9 +141,10 @@ fun OrganizationContent(
                     .padding(horizontal = SpacingXLarge),
                 colors = colors,
             ) {
-                if (state.isLoading) {
+                AnimatedVisibility(state.isLoading) {
                     CircularProgressIndicator(color = colors.card)
-                } else {
+                }
+                AnimatedVisibility(visible = state.isLoading.not()) {
                     Text(
                         text = stringResource(R.string.enter),
                         style = MaterialTheme.typography.bodyLarge,

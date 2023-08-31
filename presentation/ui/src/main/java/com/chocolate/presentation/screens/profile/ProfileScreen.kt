@@ -1,7 +1,6 @@
 package com.chocolate.presentation.screens.profile
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.ScrollState
@@ -21,15 +20,12 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -42,6 +38,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
+import com.chocolate.presentation.Screen
 import com.chocolate.presentation.composable.EditTextDialog
 import com.chocolate.presentation.composable.MultiChoiceDialog
 import com.chocolate.presentation.composable.TeamixScaffold
@@ -85,7 +82,14 @@ fun ProfileScreen(
     CollectUiEffect(viewModel.effect) { effect ->
         when (effect) {
             ProfileEffect.NavigateToOrganizationScreen -> {
-                navController.navigateToOrganizationName()
+                navController.navigateToOrganizationName {
+                    popUpTo(Screen.Profile.route) {
+                        inclusive = true
+                    }
+                    popUpTo(Screen.Home.route) {
+                        inclusive = true
+                    }
+                }
             }
         }
     }
@@ -115,7 +119,7 @@ fun ProfileContent(
     state: ProfileUiState,
     profileInteraction: ProfileInteraction,
     pageState: PagerState,
-    scrollState: ScrollState
+    scrollState: ScrollState,
 ) {
 
     val color = MaterialTheme.customColors()
@@ -174,8 +178,7 @@ fun ProfileContent(
         EditTextDialog(
             title = "Enter Name",
             value = state.name,
-            dismissButton = profileInteraction::onDismissEditTextDialog
-            ,
+            dismissButton = profileInteraction::onDismissEditTextDialog,
             confirmButton = {
                 profileInteraction.onUsernameChange(it)
                 profileInteraction.onUserInformationFocusChange()

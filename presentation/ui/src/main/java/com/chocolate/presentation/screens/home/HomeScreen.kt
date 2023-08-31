@@ -2,7 +2,6 @@ package com.chocolate.presentation.screens.home
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -46,6 +45,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
+import com.chocolate.presentation.Screen
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.channel.navigateToChannel
 import com.chocolate.presentation.screens.create_channel.navigateToCreateChannel
@@ -73,13 +73,12 @@ import com.chocolate.viewmodel.home.HomeInteraction
 import com.chocolate.viewmodel.home.HomeUiEffect
 import com.chocolate.viewmodel.home.HomeUiState
 import com.chocolate.viewmodel.home.HomeViewModel
-import com.chocolate.viewmodel.main.MainViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun HomeScreen(
-    homeViewModel: HomeViewModel = hiltViewModel()
+    homeViewModel: HomeViewModel = hiltViewModel(),
 ) {
     val navController = LocalNavController.current
     val state by homeViewModel.state.collectAsState()
@@ -89,7 +88,13 @@ fun HomeScreen(
                 effect.id,
                 effect.name
             )
-            HomeUiEffect.NavigateToOrganizationName -> navController.navigateToOrganizationName()
+
+            HomeUiEffect.NavigateToOrganizationName -> navController.navigateToOrganizationName {
+                popUpTo(Screen.Home.route) {
+                    inclusive = true
+                }
+            }
+
             HomeUiEffect.NavigationToDrafts -> navController.navigateToDrafts()
             HomeUiEffect.NavigationToSavedLater -> navController.navigateToSaveLater()
             HomeUiEffect.NavigationToStarred -> {}
@@ -97,7 +102,9 @@ fun HomeScreen(
             HomeUiEffect.NavigateToCreateChannel -> navController.navigateToCreateChannel()
         }
     }
-    if (state.isLogged){   HomeContent(state = state, homeViewModel)}
+    if (state.isLogged) {
+        HomeContent(state = state, homeViewModel)
+    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -162,7 +169,10 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                 }
             }
             item {
-                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Text(
                         text = stringResource(R.string.channels),
                         style = MaterialTheme.typography.bodyLarge,
@@ -191,8 +201,8 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                 ChannelItem(
                     state = channelUIState,
                     colors = colors,
-                    onClickItemChannel = {id, name ->
-                        homeInteraction.onClickChannel(id,name)
+                    onClickItemChannel = { id, name ->
+                        homeInteraction.onClickChannel(id, name)
                     }, onClickTopic = {
                         homeInteraction.onClickTopic(it)
                     },
@@ -212,7 +222,7 @@ private fun CardItem(
     painter: Painter,
     title: String,
     colors: CustomColorsPalette,
-    onClickItemCard: () -> Unit
+    onClickItemCard: () -> Unit,
 ) {
     Box(
         modifier = modifier

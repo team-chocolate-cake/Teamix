@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
+import com.chocolate.presentation.Screen
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
@@ -40,14 +41,21 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun OnboardingScreen(
-    onboardingViewModel: OnboardingViewModel = hiltViewModel()
+    onboardingViewModel: OnboardingViewModel = hiltViewModel(),
 ) {
     val navController = LocalNavController.current
 
     CollectUiEffect(onboardingViewModel.effect) { effect ->
         when (effect) {
             OnboardingUiEffect.NavigateToOrganizationName ->
-                navController.navigateToOrganizationName()
+                navController.navigateToOrganizationName {
+                    popUpTo(Screen.OnBoarding.route) {
+                        inclusive = true
+                    }
+                    popUpTo(Screen.Welcome.route) {
+                        inclusive = true
+                    }
+                }
         }
     }
     OnboardingContent(onboardingViewModel)
@@ -59,17 +67,19 @@ val onboardingPages = listOf(OnboardingPage.First, OnboardingPage.Second, Onboar
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnboardingContent(
-    onboardingInteraction: OnboardingInteraction
+    onboardingInteraction: OnboardingInteraction,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
     val colors = MaterialTheme.customColors()
     TeamixScaffold(
-        isDarkMode =false
-     ) {
-        Column(  Modifier.fillMaxSize()
-            .background(colors.background)
-            .verticalScroll(rememberScrollState())
+        isDarkMode = false
+    ) {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .background(colors.background)
+                .verticalScroll(rememberScrollState())
         ) {
             HorizontalPager(
                 pageCount = onboardingPages.size,

@@ -1,9 +1,8 @@
 package com.chocolate.viewmodel.home
 
 import androidx.lifecycle.viewModelScope
-import com.chocolate.entities.exceptions.NetworkException
+import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.entities.exceptions.TeamixException
 import com.chocolate.entities.exceptions.UnAuthorizedException
 import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.entities.user.User
@@ -14,7 +13,6 @@ import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.profile.toOwnerUserUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -121,35 +119,15 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getChannels() {
-        try {
-            viewModelScope.launch(Dispatchers.IO) {
-                manageChannels.getStreamChannels().collect { channels ->
-                    _state.update {
-                        it.copy(
-                            channels = channels.toUiState(),
-                            error = null,
-                            isLoading = false
-                        )
-                    }
-                }
-            }
-        } catch (e: NetworkException) {
-            _state.update {
-                it.copy(
-                    showNoInternetLottie = true,
-                    isLoading = false,
-                    error = e.message
-                )
-            }
-        } catch (e: TeamixException) {
-            _state.update {
-                it.copy(
-                    showNoInternetLottie = true,
-                    isLoading = false,
-                    error = e.message
-                )
-            }
-        }
+        tryToExecute(
+            manageChannels::getSubscribedChannels,
+            ::onGettingChannelsSuccess,
+            ::onError
+        )
+    }
+
+    private fun onGettingChannelsSuccess(channels: List<Channel>) {
+        _state.update { it.copy(channels = channels.toUiState(), error = null, isLoading = false) }
     }
 
     private fun getUserLoginState() {

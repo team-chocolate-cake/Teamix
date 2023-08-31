@@ -20,7 +20,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             isDarkThem()
             launch(Dispatchers.Default) {
-                delay(200)
+                delay(500)
                 _state.update {
                     it.copy(
                         isLoggedIn = getUserLoginStatus()

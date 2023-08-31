@@ -2,8 +2,7 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-    //todo remove this comments when adding google service json
-    //id 'com.google.gms.google-services'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -49,8 +48,7 @@ dependencies {
     implementation(ProjectDependencies.hilt)
     kapt(ProjectDependencies.hiltCompiler)
 
-    //todo remove this comments when adding google service json
-//    implementation(platform(ProjectDependencies.firebase))
-//    implementation(ProjectDependencies.firebase_auth)
-//    implementation(ProjectDependencies.firebase_firestore)
+    implementation(platform(ProjectDependencies.firebase))
+    implementation(ProjectDependencies.firebase_auth)
+    implementation(ProjectDependencies.firebase_firestore)
 }

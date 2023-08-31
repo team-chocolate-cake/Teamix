@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -70,4 +71,6 @@ dependencies {
     implementation (ProjectDependencies.roomRuntime)
     kapt (ProjectDependencies.roomCompiler)
     implementation(ProjectDependencies.dataStore)
+
+    implementation (ProjectDependencies.firebase_firestore)
 }

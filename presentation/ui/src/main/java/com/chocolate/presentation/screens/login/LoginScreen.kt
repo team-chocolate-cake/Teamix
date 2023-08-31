@@ -1,7 +1,9 @@
 package com.chocolate.presentation.screens.login
 
 import android.annotation.SuppressLint
-import android.widget.Toast
+import android.content.Context
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
@@ -24,14 +26,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
+import com.chocolate.presentation.composable.ShowErrorSnackBarLogic
 import com.chocolate.presentation.composable.SeparatorWithText
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.screens.create_account.navigateToCreateAccount
@@ -61,7 +67,8 @@ fun LoginScreen(
     val state by loginViewModel.state.collectAsState()
     val navController = LocalNavController.current
     val scrollState = rememberScrollState()
-    CollectUiEffect(loginViewModel.effect){ effect ->
+
+    CollectUiEffect(loginViewModel.effect) { effect ->
         when (effect) {
             LoginUiEffect.NavigateToForgetPassword -> navController.navigateToForgetPassword()
             LoginUiEffect.NavigationToHome -> navController.navigateToHome()
@@ -79,8 +86,11 @@ fun LoginContent(
     scrollState: ScrollState
 ) {
     val colors = MaterialTheme.customColors()
-    val context = LocalContext.current
     val errorMessage = stringResource(R.string.email_and_password_cannot_be_empty)
+    val showEmailErrorSnackBar = remember { mutableStateOf(false) }
+    val showErrorStateSnackBar = remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val rootView = LocalView.current
 
     Column(
         modifier = Modifier
@@ -106,9 +116,9 @@ fun LoginContent(
             email = state.email,
             password = state.password,
             passwordVisibility = state.passwordVisibility,
-            onClickPasswordVisibility = {loginInteraction.onClickPasswordVisibility(it)},
-            onChangeEmail = {loginInteraction.onChangeEmail(it)},
-            onChangePassword = {loginInteraction.onChangePassword(it)}
+            onClickPasswordVisibility = { loginInteraction.onClickPasswordVisibility(it) },
+            onChangeEmail = { loginInteraction.onChangeEmail(it) },
+            onChangePassword = { loginInteraction.onChangePassword(it) }
         )
 
         Row(
@@ -127,15 +137,12 @@ fun LoginContent(
         }
         TeamixButton(
             onClick = {
+                hideKeyboard(context, rootView)
                 if (state.email.isBlank() || state.password.isBlank()) {
-                    Toast.makeText(
-                        context,
-                        errorMessage,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showEmailErrorSnackBar.value = true
                 }
                 if (state.error != null) {
-                    Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+                    showErrorStateSnackBar.value = true
                 }
                 loginInteraction.onClickSignIn(state.email, state.password)
             },
@@ -181,4 +188,15 @@ fun LoginContent(
             textAlign = TextAlign.Center
         )
     }
+    ShowErrorSnackBarLogic(showEmailErrorSnackBar, errorMessage)
+    ShowErrorSnackBarLogic(showErrorStateSnackBar, state.error.toString())
 }
+
+
+private fun hideKeyboard(context: Context, rootView: View) {
+    val windowToken = rootView.windowToken
+    val inputMethodManager =
+        context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
+}
+

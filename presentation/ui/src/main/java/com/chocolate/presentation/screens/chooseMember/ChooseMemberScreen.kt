@@ -1,6 +1,5 @@
 package com.chocolate.presentation.screens.chooseMember
 
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -34,6 +33,7 @@ import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.SelectedMemberItem
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
+import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
@@ -101,7 +101,7 @@ fun ChooseMemberContent(
             ) { CircularProgressIndicator(color = colors.primary) }
         },
         error = state.error,
-        onRetry = {chooseMemberInteraction.onClickRetry()},
+        onRetry = { chooseMemberInteraction.onClickRetry() },
         onError = {
             NoInternetLottie(
                 text = stringResource(id = R.string.no_internet_connection),
@@ -110,66 +110,74 @@ fun ChooseMemberContent(
             )
         }
     ) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            contentPadding = PaddingValues(vertical = SpacingXLarge),
-            verticalArrangement = Arrangement.spacedBy(SpacingXLarge)
-        ) {
-            item {
-                TeamixTextField(value = state.searchQuery,
-                    modifier = Modifier.padding(horizontal = SpacingXLarge),
-                    hint = stringResource(id = R.string.search),
-                    onValueChange = { chooseMemberInteraction.onChangeSearchQuery(it) },
-                    leadingIcon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.search),
-                            contentDescription = null
-                        )
-                    })
-            }
-            item {
-                AnimatedVisibility(visible = state.selectedMembersUiState.isNotEmpty()) {
-                    LazyRow(
-                        Modifier.fillMaxWidth(),
-                        contentPadding = PaddingValues(horizontal = SpacingXLarge),
-                        horizontalArrangement = Arrangement.spacedBy(SpacingXMedium)
-                    ) {
-                        items(
-                            state.selectedMembersUiState,
-                            key = { it.userId }) { selectedMembersUiState ->
-                            SelectedMemberItem(
-                                modifier = Modifier.animateItemPlacement(),
-                                painter = painterResource(id = R.drawable.ic_cancel),
-                                imageUrl = selectedMembersUiState.imageUrl,
-                                username = selectedMembersUiState.name,
-                                userId = selectedMembersUiState.userId,
-                                onClickIcon = { chooseMemberInteraction.onRemoveSelectedItem(it) }
+        Box {
+
+
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentPadding = PaddingValues(vertical = SpacingXLarge),
+                verticalArrangement = Arrangement.spacedBy(SpacingXLarge)
+            ) {
+                item {
+                    TeamixTextField(value = state.searchQuery,
+                        modifier = Modifier.padding(horizontal = SpacingXLarge),
+                        hint = stringResource(id = R.string.search),
+                        onValueChange = { chooseMemberInteraction.onChangeSearchQuery(it) },
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.search),
+                                contentDescription = null
                             )
+                        })
+                }
+                item {
+                    AnimatedVisibility(visible = state.selectedMembersUiState.isNotEmpty()) {
+                        LazyRow(
+                            Modifier.fillMaxWidth(),
+                            contentPadding = PaddingValues(horizontal = SpacingXLarge),
+                            horizontalArrangement = Arrangement.spacedBy(SpacingXMedium)
+                        ) {
+                            items(
+                                state.selectedMembersUiState,
+                                key = { it.userId }) { selectedMembersUiState ->
+                                SelectedMemberItem(
+                                    modifier = Modifier.animateItemPlacement(),
+                                    painter = painterResource(id = R.drawable.ic_cancel),
+                                    imageUrl = selectedMembersUiState.imageUrl,
+                                    username = selectedMembersUiState.name,
+                                    userId = selectedMembersUiState.userId,
+                                    onClickIcon = { chooseMemberInteraction.onRemoveSelectedItem(it) }
+                                )
+                            }
                         }
                     }
                 }
-            }
-            items(state.membersUiState, key = { it.userId }) { membersUiState ->
-                MemberItem(
-                    modifier = Modifier.animateItemPlacement(),
-                    painter = painterResource(id = R.drawable.ic_check),
-                    chooseMemberUiState = membersUiState
-                ) { chooseMemberInteraction.onClickMemberItem(it) }
-            }
+                items(state.membersUiState, key = { it.userId }) { membersUiState ->
+                    MemberItem(
+                        modifier = Modifier.animateItemPlacement(),
+                        painter = painterResource(id = R.drawable.ic_check),
+                        chooseMemberUiState = membersUiState
+                    ) { chooseMemberInteraction.onClickMemberItem(it) }
+                }
 
+            }
         }
-    }
-    if (state.error != null) {
-        Toast
-            .makeText(context, state.error, Toast.LENGTH_SHORT)
-            .show()
-    }
-    if (state.successMessage != null) {
-        Toast
-            .makeText(context, state.successMessage, Toast.LENGTH_SHORT)
-            .show()
+        if (state.error != null) {
+            ActionSnakeBar(
+                contentMessage = state.error.toString(),
+                isVisible = true,
+                isToggleButtonVisible = false
+            )
+        }
+        if (state.successMessage != null) {
+            ActionSnakeBar(
+                contentMessage = state.successMessage.toString(),
+                isVisible = true,
+                isToggleButtonVisible = false
+            )
+        }
     }
 }
 

@@ -79,7 +79,7 @@ fun DraftsContent(state: DraftsUiState, draftInteraction: DraftInteraction) {
                             onClickMessage = {}
                         )
                     },
-                    onclickDismiss = { draftInteraction.deleteDraft(it) })
+                    onClickDismiss = { draftInteraction.deleteDraft(it) })
             }
         }
         EmptyDataWithBoxLottie(

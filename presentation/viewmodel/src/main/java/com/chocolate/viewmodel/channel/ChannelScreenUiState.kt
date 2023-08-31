@@ -1,9 +1,10 @@
 package com.chocolate.viewmodel.channel
 
 import com.chocolate.entities.channel.Topic
+import com.chocolate.entities.uills.Empty
 
 data class ChannelScreenUiState(
-    val channelName: String = "Marwan",
+    val channelName: String = String.Empty,
     val topics: List<TopicState> = emptyList(),
     val isLoading: Boolean = false,
     val error: String? = null
@@ -11,10 +12,10 @@ data class ChannelScreenUiState(
 
 data class TopicState(
     val id: Int = 0,
-    val creatorName: String = "",
-    val creatorImage: String = "",
-    val topicName: String = "",
-    val topicCreationDate: String = "",
+    val creatorName: String = String.Empty,
+    val creatorImage: String = String.Empty,
+    val topicName: String = String.Empty,
+    val topicCreationDate: String = String.Empty,
     val replayImages: List<Int> = emptyList(),
 )
 
@@ -23,8 +24,8 @@ fun List<Topic>.toUiState(): List<TopicState> =
         TopicState(
             id = it.id,
             topicName = it.name,
-            creatorName = "Marwan",
-            creatorImage = "https://image.tmdb.org/t/p/original/4t0oBFrJyweYPt0hocW6RUa0b6H.jpg",
-            topicCreationDate = "6:08"
+            creatorName = String.Empty,
+            creatorImage = String.Empty,
+            topicCreationDate = String.Empty
         )
     }

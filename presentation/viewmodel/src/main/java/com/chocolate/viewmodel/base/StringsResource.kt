@@ -19,4 +19,5 @@ interface StringsResource {
     val failedFullNameWhenEmpty: String
     val topicCannotBeEmpty: String
     val topicContentCannotBeEmpty: String
+    val messageDeletedSuccessfully: String
 }

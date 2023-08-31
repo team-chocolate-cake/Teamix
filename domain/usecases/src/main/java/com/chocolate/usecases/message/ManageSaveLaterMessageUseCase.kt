@@ -10,15 +10,9 @@ class ManageSaveLaterMessageUseCase @Inject constructor(
     suspend fun saveMassage(message: Message) = messagesRepository.saveMessage(message)
 
     suspend fun getSavedMessages(): List<Message> {
-        val messages = messagesRepository.getSavedMessages().sortedByDescending { it.timestamp }
-//       val groupedMessages = messages.groupBy { message ->
-//            formatDate(message.timestamp)
-//        }
-
-        return messages
+        return messagesRepository.getSavedMessages().sortedByDescending { it.timestamp }
     }
 
     suspend fun deleteSavedMessageById(id: Int) = messagesRepository.deleteMessage(id)
-
 
 }

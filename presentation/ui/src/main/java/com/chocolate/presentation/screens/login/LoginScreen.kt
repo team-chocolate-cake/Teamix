@@ -1,6 +1,9 @@
 package com.chocolate.presentation.screens.login
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
@@ -25,12 +28,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
+import com.chocolate.presentation.composable.ShowErrorSnackBarLogic
 import com.chocolate.presentation.composable.TeamixButton
-import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.forget_password.navigateToForgetPassword
 import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.screens.login.composable.LoginComponents
@@ -55,6 +60,7 @@ fun LoginScreen(
     val state by loginViewModel.state.collectAsState()
     val navController = LocalNavController.current
     val scrollState = rememberScrollState()
+
     CollectUiEffect(loginViewModel.effect) { effect ->
         when (effect) {
             LoginUiEffect.NavigateToForgetPassword -> navController.navigateToForgetPassword()
@@ -75,21 +81,8 @@ fun LoginContent(
     val errorMessage = stringResource(R.string.email_and_password_cannot_be_empty)
     val showEmailErrorSnackBar = remember { mutableStateOf(false) }
     val showErrorStateSnackBar = remember { mutableStateOf(false) }
-
-    AnimatedVisibility(showEmailErrorSnackBar.value) {
-        ActionSnakeBar(
-            contentMessage = errorMessage,
-            isVisible = true,
-            isToggleButtonVisible = false
-        )
-    }
-    AnimatedVisibility(showErrorStateSnackBar.value) {
-        ActionSnakeBar(
-            contentMessage = state.error.toString(),
-            isVisible = true,
-            isToggleButtonVisible = false
-        )
-    }
+    val context = LocalContext.current
+    val rootView = LocalView.current
 
     Column(
         modifier = Modifier
@@ -98,6 +91,7 @@ fun LoginContent(
             .padding(horizontal = SpacingXLarge)
             .verticalScroll(scrollState),
     ) {
+
         Text(
             modifier = Modifier.padding(top = SpacingSuperMassive),
             text = stringResource(R.string.welcome_to),
@@ -136,6 +130,7 @@ fun LoginContent(
         }
         TeamixButton(
             onClick = {
+                hideKeyboard(context, rootView)
                 if (state.email.isBlank() || state.password.isBlank()) {
                     showEmailErrorSnackBar.value = true
                 }
@@ -166,4 +161,15 @@ fun LoginContent(
             }
         }
     }
+    ShowErrorSnackBarLogic(showEmailErrorSnackBar, errorMessage)
+    ShowErrorSnackBarLogic(showErrorStateSnackBar, state.error.toString())
 }
+
+
+private fun hideKeyboard(context: Context, rootView: View) {
+    val windowToken = rootView.windowToken
+    val inputMethodManager =
+        context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
+}
+

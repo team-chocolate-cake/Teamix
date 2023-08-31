@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.organiztion
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -17,8 +18,10 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -32,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.SeparatorWithText
+import com.chocolate.presentation.composable.ShowErrorSnackBarLogic
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
@@ -51,6 +55,7 @@ import com.chocolate.viewmodel.organization_name.OrganizationNameInteraction
 import com.chocolate.viewmodel.organization_name.OrganizationNameUiEffect
 import com.chocolate.viewmodel.organization_name.OrganizationNameUiState
 import com.chocolate.viewmodel.organization_name.OrganizationNameViewModel
+import kotlinx.coroutines.delay
 
 @Composable
 fun OrganizationScreen(
@@ -90,22 +95,10 @@ fun OrganizationContent(
     val showOperationFailedSnackBar = remember { mutableStateOf(false) }
     val showErrorSnackBar = remember { mutableStateOf(false) }
 
-    AnimatedVisibility(showOperationFailedSnackBar.value) {
-        ActionSnakeBar(
-            contentMessage = operationFailed,
-            isVisible = true,
-            isToggleButtonVisible = false
-        )
-    }
-    AnimatedVisibility(showErrorSnackBar.value) {
-        ActionSnakeBar(
-            contentMessage = state.error.toString(),
-            isVisible = true,
-            isToggleButtonVisible = false
-        )
-    }
 
     TeamixScaffold(isDarkMode = isSystemInDarkTheme()) {
+        ShowErrorSnackBarLogic(showOperationFailedSnackBar,operationFailed)
+        ShowErrorSnackBarLogic(showErrorSnackBar, state.error.toString())
         Column(
             modifier = Modifier
                 .verticalScroll(scrollState)
@@ -143,7 +136,7 @@ fun OrganizationContent(
                 onClick = {
                     organizationNameInteraction.onClickActionButton(state.organizationName)
                     if (state.organizationName.isBlank()) {
-                        showOperationFailedSnackBar.value = true
+                       showOperationFailedSnackBar.value = true
                     }
                     if (!state.error.isNullOrEmpty()) {
                         showErrorSnackBar.value = true

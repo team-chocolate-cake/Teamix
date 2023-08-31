@@ -7,4 +7,5 @@ interface LoginInteraction {
     fun onClickRetry()
     fun onClickPasswordVisibility(passwordVisibility:Boolean)
     fun onClickForgetPassword()
+    fun onClickCreateNewAccount()
 }

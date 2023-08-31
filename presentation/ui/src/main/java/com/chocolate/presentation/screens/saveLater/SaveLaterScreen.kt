@@ -1,18 +1,23 @@
 package com.chocolate.presentation.screens.saveLater
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
@@ -37,10 +42,10 @@ fun SaveLaterScreen(
     SaveLaterContent(state, viewModel)
 }
 
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInteraction) {
     val colors = MaterialTheme.customColors()
-    val context = LocalContext.current
     TeamixScaffold(
         isDarkMode = isSystemInDarkTheme(),
         hasAppBar = true,
@@ -48,50 +53,60 @@ fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInter
         containerColorAppBar = colors.card,
         title = stringResource(id = R.string.savedlater),
         isLoading = state.isLoading,
-        error = state.error,
     ) { padding ->
-        Box {
-            LazyColumn(
-                modifier = Modifier.padding(padding),
-                contentPadding = PaddingValues(SpacingXLarge),
-                verticalArrangement = Arrangement.spacedBy(SpacingXMedium)
-            ) {
-                items(state.messages, key = { it.id }) { message ->
-                    SwipeCard(
-                        messageId = message.id,
-                        onclickDismiss = interaction::onDismissMessage
-                    ) {
+        LazyColumn(
+            modifier = Modifier.padding(padding),
+            contentPadding = PaddingValues(SpacingXLarge),
+            verticalArrangement = Arrangement.spacedBy(SpacingXMedium)
+        ) {
+            items(state.messages, key = { it.id }) { message ->
+                SwipeCard(
+                    modifier = Modifier.animateItemPlacement(),
+                    messageId = message.id,
+                    cardItem = {
                         SaveLaterCard(
                             item = message,
                             painter = rememberAsyncImagePainter(model = message.imageUrl)
                         )
-                    }
-                }
-            }
-            EmptyDataWithBoxLottie(
-                modifier = Modifier.padding(padding),
-                isPlaying = true,
-                isShow = state.messages.isEmpty() && !state.isLoading,
-                title = stringResource(R.string.no_saved_items),
-                subTitle = stringResource(R.string.your_saved_items_will_appear_here_for_easy_access_and_reference)
-            )
+                    },
+                    onClickDismiss = { interaction.onDismissMessage(it) }
+                )
 
-            val message = state.message
-            val error = state.error
-            if (message != null && error == null) {
-                ActionSnakeBar(
-                    contentMessage = message,
-                    isVisible = true,
-                    isToggleButtonVisible = false
-                )
             }
-            if (error != null && message == null) {
-                ActionSnakeBar(
-                    contentMessage = error,
-                    isVisible = true,
-                    isToggleButtonVisible = false
-                )
+        }
+        AnimatedVisibility(visible = state.isLoading) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(color = colors.primary)
             }
+        }
+        EmptyDataWithBoxLottie(
+            modifier = Modifier.padding(padding),
+            isShow = state.messages.isEmpty() && !state.isLoading,
+            isPlaying = true,
+            title = stringResource(id = R.string.no_saved_items),
+            subTitle = stringResource(id = R.string.no_saved_items_body)
+        )
+        val deleteMessage = state.deleteStateMessage
+        val error = state.error
+        if (deleteMessage != null && error == null) {
+            ActionSnakeBar(
+                isVisible = true,
+                contentMessage = deleteMessage,
+                onClick = interaction::onDeleteStateDismiss,
+                actionTitle = stringResource(id = R.string.dismiss)
+            )
+        }
+
+        if (error != null && deleteMessage == null) {
+            ActionSnakeBar(
+                isVisible = true,
+                contentMessage = error,
+                onClick = interaction::onErrorDismiss,
+                actionTitle = stringResource(id = R.string.dismiss)
+            )
         }
     }
 }

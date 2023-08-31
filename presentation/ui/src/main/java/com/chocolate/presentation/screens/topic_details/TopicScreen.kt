@@ -19,8 +19,7 @@ import com.chocolate.presentation.composable.MyReplyMessage
 import com.chocolate.presentation.composable.ReplyMessage
 import com.chocolate.presentation.composable.StartNewMessage
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.TeamixTheme
+import com.chocolate.presentation.theme.*
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.topic.TopicEffect

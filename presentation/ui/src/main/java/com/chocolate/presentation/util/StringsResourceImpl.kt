@@ -50,6 +50,8 @@ class StringsResourceImpl @Inject constructor(
     
     override val failedFullNameWhenEmpty: String =
         getString(R.string.the_full_name_shouldn_t_be_empty)
+    override val messageDeletedSuccessfully: String =
+        getString(R.string.message_deleted_successfully)
 
     private fun getString(@androidx.annotation.StringRes stringsRes: Int): String {
         return context.getString(stringsRes)

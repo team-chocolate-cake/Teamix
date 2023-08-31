@@ -121,6 +121,7 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
     TeamixScaffold(
         modifier = Modifier.fillMaxSize(),
         isDarkMode = isSystemInDarkTheme(),
+        containerColorAppBar = MaterialTheme.customColors().primary,
         isLoading = state.isLogged && state.isLoading,
         onLoading = { LoadingColumn() },
         error = if (state.isLogged && state.showNoInternetLottie) stringResource(R.string.no_internet) else null,

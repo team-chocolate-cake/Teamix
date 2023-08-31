@@ -22,6 +22,7 @@ import androidx.navigation.NavController
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.channel.composable.Topic
+import com.chocolate.presentation.screens.createtopic.navigateToCreateTopic
 import com.chocolate.presentation.screens.home.LoadingColumn
 import com.chocolate.presentation.screens.topic_details.navigateToTopic
 import com.chocolate.presentation.theme.OnLightPrimary
@@ -45,6 +46,9 @@ fun ChannelScreen(
         when (channelUiEffect) {
             is ChannelUiEffect.NavigateToTopicDetails -> navController.navigateToTopic(
                 channelUiEffect.topicName
+            )
+            is ChannelUiEffect.NavigateToCreateTopic -> navController.navigateToCreateTopic(
+                channelUiEffect.channelName
             )
         }
     }
@@ -70,7 +74,9 @@ fun ChannelContent(
         floatingActionButton = {
             FloatingActionButton(
                 containerColor = MaterialTheme.customColors().primary,
-                onClick = {}
+                onClick = {
+                    channelInteraction.onAddTopicClick()
+                }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.add),

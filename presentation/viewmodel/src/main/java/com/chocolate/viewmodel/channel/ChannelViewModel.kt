@@ -38,4 +38,8 @@ class ChannelViewModel @Inject constructor(
         sendUiEffect(ChannelUiEffect.NavigateToTopicDetails(topicName))
     }
 
+    override fun onAddTopicClick() {
+        sendUiEffect(ChannelUiEffect.NavigateToCreateTopic(channelArgs.channelName))
+    }
+
 }

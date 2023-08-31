@@ -142,4 +142,6 @@
     <string name="create_new_account">Create New Account</string>
     <string name="no_saved_items">No Saved Items</string>
     <string name="your_saved_items_will_appear_here_for_easy_access_and_reference">Your saved items will appear here for easy access and reference</string>
+    <string name="no_saved_items_body">Your saved items will appear here for easy access and reference</string>
+    <string name="message_deleted_successfully">Message deleted successfully</string>
 </resources>

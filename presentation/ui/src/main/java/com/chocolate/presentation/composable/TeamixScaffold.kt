@@ -27,7 +27,7 @@ fun TeamixScaffold(
     hasAppBar: Boolean = false,
     hasImageUrl: Boolean = false,
     hasBackArrow: Boolean = false,
-    containerColorAppBar: Color = MaterialTheme.customColors().primary,
+    containerColorAppBar: Color = MaterialTheme.customColors().card,
     onLoading: @Composable () -> Unit = {},
     onRetry: () -> Unit = {},
     onError: @Composable () -> Unit = {},

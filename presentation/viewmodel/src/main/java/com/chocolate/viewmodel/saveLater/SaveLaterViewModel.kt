@@ -3,13 +3,15 @@ package com.chocolate.viewmodel.saveLater
 import com.chocolate.entities.messages.Message
 import com.chocolate.usecases.message.ManageSaveLaterMessageUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
+import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
 class SaveLaterViewModel @Inject constructor(
-    private val manageSaveLaterMessageUseCase: ManageSaveLaterMessageUseCase
+    private val manageSaveLaterMessageUseCase: ManageSaveLaterMessageUseCase,
+    private val stringsResource: StringsResource
 ) : BaseViewModel<SaveLaterMessageUiState, SaveLaterEffect>(SaveLaterMessageUiState()),
     SaveLaterInteraction {
     init {
@@ -44,16 +46,27 @@ class SaveLaterViewModel @Inject constructor(
             ::onDeleteMessageSuccess,
             ::onDeleteMessageFail
         )
+        _state.update {state->
+            val newMessages = state.messages.filter { it.id != messageId }
+            state.copy(messages = newMessages)
+        }
     }
+
+    override fun onDeleteStateDismiss() =
+        _state.update { it.copy(deleteStateMessage = null, isLoading = false) }
+
+
+    override fun onErrorDismiss() = _state.update { it.copy(error = null, isLoading = false) }
 
     private fun onDeleteMessageSuccess(unit: Unit) {
         _state.update {
             it.copy(
-                message = "message Deleted successfully",
+                deleteStateMessage = stringsResource.messageDeletedSuccessfully,
                 error = null,
                 isLoading = false
             )
         }
+
     }
 
     private fun onDeleteMessageFail(e: Throwable) {

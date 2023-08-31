@@ -86,7 +86,7 @@
     <string name="error_organization_name_empty">لا يمكن أن يكون اسم المنظمة فارغًا!</string>
     <string name="error_try_again_later">حدث خطأ؛ يرجى المحاولة مرة أخرى في وقت لاحق.</string>
     <string name="warning">تحذير</string>
-    <string name="waring_details">لقد قمت بتغيير معلوماتك الشخصية. هل أنت متأكد من رغبتك في المغادرة دون حفظ التغييرات؟</string>
+    <string name="waring_details">لقد قمت بتغيير معلوماتك الشخصية. هل أنت متأكد من رغبتك في المغادرة مع حفظ التغييرات؟</string>
     <string name="done">تم</string>
     <string name="email_can_t_be_empty">لا يمكن أن يكون البريد الإلكتروني فارغًا</string>
     <string name="full_name_can_t_be_empty">لا يمكن أن يكون الاسم الكامل فارغًا</string>
@@ -138,5 +138,10 @@
     <string name="dms"> الرسائل</string>
     <string name="no_saved_items">لا رسائل محفوظة</string>
     <string name="no_saved_items_body">ستظهر عناصرك المحفوظة هنا لسهولة الوصول والإشارة إليها.</string>
-
+    <string name="draft_messages_to_send_when_you_re_ready">الرسائل المسودة للإرسال عندما تكون جاهزًا</string>
+    <string name="sub_title_empty_data">ابدأ في كتابة رسالة في أي مكان، ثم اعثر عليها هنا. أعد قراءتها ومراجعتها وإرسالها في أي وقت تريد.</string>
+    <string name="no_internet">لا يوجد اتصال بالإنترنت</string>
+    <string name="search_for_channels">البحث عن القنوات</string>
+    <string name="create_new_account">إنشاء حساب جديد</string>
+    <string name="your_saved_items_will_appear_here_for_easy_access_and_reference">ستظهر عناصرك المحفوظة هنا للوصول والرجوع السهل</string>
 </resources>

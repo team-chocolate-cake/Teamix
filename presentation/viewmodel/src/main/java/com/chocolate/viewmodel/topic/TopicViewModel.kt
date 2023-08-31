@@ -13,63 +13,7 @@ class TopicViewModel @Inject constructor(
 
     private val topicArgs = TopicArgs(savedStateHandle)
 
-    init {
-        _state.update { it.copy(topicName = topicArgs.topicName , messages = getFakeMessages()) }
-    }
-
-    private fun getFakeMessages(): List<MessageUiState> {
-        return listOf(
-            MessageUiState(
-                username = "Marwan m7moud",
-                replayDate = "6:08",
-                userImage = "https://image.tmdb.org/t/p/original/4t0oBFrJyweYPt0hocW6RUa0b6H.jpg",
-                reactions = emptyList(),
-                isMyReplay = false,
-                message = "marwan gg",
-            ),
-            MessageUiState(
-                username = "Marwan m7moud",
-                replayDate = "6:08",
-                userImage = "https://image.tmdb.org/t/p/original/4t0oBFrJyweYPt0hocW6RUa0b6H.jpg",
-                reactions = emptyList(),
-                isMyReplay = true,
-                message = "marwan gg",
-            ),
-            MessageUiState(
-                username = "Marwan m7moud",
-                replayDate = "6:08",
-                userImage = "https://image.tmdb.org/t/p/original/4t0oBFrJyweYPt0hocW6RUa0b6H.jpg",
-                reactions = emptyList(),
-                isMyReplay = false,
-                message = "marwan gg",
-            ),
-            MessageUiState(
-                username = "Marwan m7moud",
-                replayDate = "6:08",
-                userImage = "https://image.tmdb.org/t/p/original/4t0oBFrJyweYPt0hocW6RUa0b6H.jpg",
-                reactions = emptyList(),
-                isMyReplay = true,
-                message = "marwan gg",
-            ),
-            MessageUiState(
-                username = "Marwan m7moud",
-                replayDate = "6:08",
-                userImage = "https://image.tmdb.org/t/p/original/4t0oBFrJyweYPt0hocW6RUa0b6H.jpg",
-                reactions = emptyList(),
-                isMyReplay = true,
-                message = "marwan gg",
-            ),
-            MessageUiState(
-                username = "Marwan m7moud",
-                replayDate = "6:08",
-                userImage = "https://image.tmdb.org/t/p/original/4t0oBFrJyweYPt0hocW6RUa0b6H.jpg",
-                reactions = emptyList(),
-                isMyReplay = false,
-                message = "marwan gg",
-            ),
-        )
-    }
-
+    init { _state.update { it.copy(topicName = topicArgs.topicName) } }
 
     override fun onClickBackButton() {
         sendUiEffect(TopicEffect.NavigationBack)

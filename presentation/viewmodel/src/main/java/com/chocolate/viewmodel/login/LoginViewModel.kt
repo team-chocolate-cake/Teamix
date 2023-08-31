@@ -32,6 +32,10 @@ class LoginViewModel @Inject constructor(
         sendUiEffect(LoginUiEffect.NavigateToForgetPassword)
     }
 
+    override fun onClickCreateNewAccount() {
+        sendUiEffect(LoginUiEffect.NavigateToCreateNewAccount)
+    }
+
     override fun onChangeEmail(email: String) {
         _state.update { it.copy(email = email) }
     }

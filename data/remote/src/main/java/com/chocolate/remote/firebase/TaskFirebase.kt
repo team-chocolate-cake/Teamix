@@ -17,34 +17,34 @@ class TaskFirebase @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore
 ): TaskRemoteDataSource {
 
-    override suspend fun setUsers(user: User) {
+    override suspend fun setUsers(user: UserDataDto) {
         firebaseFirestore.collection(USERS).document(user.id.toString()).set(user::class.java)
             .addOnFailureListener { throw NullDataException(it.message) }.await()
     }
 
-    override suspend fun getAllUser(): List<User?> = try {
+    override suspend fun getAllUser(): List<UserDataDto?> = try {
         firebaseFirestore.collection(USERS)
             .get()
             .await()
             .documents
             .map { documentSnapshot ->
-                documentSnapshot.toObject(UserDataDto::class.java)?.toEntity()
+                documentSnapshot.toObject(UserDataDto::class.java)
             }
     } catch (e: Exception) {
         throw NullDataException(String.Empty)
     }
 
-    override suspend fun setTeamTask(task: Task) {
+    override suspend fun setTeamTask(task: TaskDataDto) {
          firebaseFirestore.collection(TEAM_TASK).document(task.id.toString()).set(task::class.java)
              .addOnFailureListener { throw NullDataException(it.message) }.await()
     }
-    override suspend fun getTeamTasks(): List<Task?> = try {
+    override suspend fun getTeamTasks(): List<TaskDataDto?> = try {
         firebaseFirestore.collection(TEAM_TASK)
             .get()
             .await()
             .documents
             .map { documentSnapshot ->
-                documentSnapshot.toObject(TaskDataDto::class.java)?.toEntity()
+                documentSnapshot.toObject(TaskDataDto::class.java)
             }
     } catch (e: Exception) {
         throw NullDataException(String.Empty)

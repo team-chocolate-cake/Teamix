@@ -28,3 +28,28 @@ fun SubTaskDto.toEntity():SubTask{
 fun List<SubTaskDto>.toEntity():List<SubTask>{
     return this.map { it.toEntity() }
 }
+fun Task.toRemoteDto():TaskDataDto{
+    return TaskDataDto(
+        id,
+        startDate.time,
+        endDate.time,
+        subTask.toRemoteDto(),
+        progress,
+        assignUser,
+        title,
+
+    )
+}
+fun SubTask.toRemoteDto():SubTaskDto{
+    return SubTaskDto(
+        id,
+        title
+    )
+}
+fun List<SubTask>.toRemoteDto():List<SubTaskDto> {
+    return this.map { it.toRemoteDto() }
+}
+
+fun List<TaskDataDto?>.toEntity():List<Task?>{
+    return this.map { it?.toEntity() }
+}

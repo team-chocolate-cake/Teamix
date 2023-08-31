@@ -48,12 +48,21 @@ fun MemberDto.toEntity(): User = User(
 
 fun List<MemberDto>?.toEntity(): List<User> = this?.map { it.toEntity() }.orEmpty()
 
-fun UserDataDto.toEntity(): User{
+fun UserDataDto.toEntity(): User {
     return User(
         id ?: 0,
         imageUrl.orEmpty(),
         email.orEmpty(),
         name.orEmpty(),
         UserRole.valueOf(role ?: UserRole.GUEST.stringValue)
+    )
+}
+fun User.toRemoteDto():UserDataDto{
+    return UserDataDto(
+        id ,
+        imageUrl,
+        email,
+        fullName,
+        role.name,
     )
 }

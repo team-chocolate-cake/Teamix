@@ -40,8 +40,6 @@ fun ProfileHorizontalPager(
         userScrollEnabled = false
     ) {
         Box {
-
-
             if (pageState.currentPage == 0) {
                 LazyColumn(contentPadding = PaddingValues(all = SpacingXLarge)) {
                     item {
@@ -59,7 +57,11 @@ fun ProfileHorizontalPager(
                             colorUnFocused = color.background,
                             trailingIcon = {
                                 IconButton(
-                                    onClick = {profileInteraction.updateEditUsernameDialogState(true)}
+                                    onClick = {
+                                        profileInteraction.updateEditUsernameDialogState(
+                                            true
+                                        )
+                                    }
                                 ) {
                                     Icon(
                                         painter = painterResource(id = R.drawable.pen),

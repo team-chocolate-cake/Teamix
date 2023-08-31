@@ -37,6 +37,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -112,12 +113,12 @@ fun HomeScreen(
 @Composable
 fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
     val colors = MaterialTheme.customColors()
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setStatusBarColor(color = Color.Black, darkIcons = false)
     var isShowSheet by remember { mutableStateOf(false) }
     AnimatedVisibility(isShowSheet) {
         ManageChannelBottomSheet(onDismissBottomSheet = { isShowSheet = false }, colors = colors)
     }
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(color = LightPrimary, darkIcons = false)
     TeamixScaffold(
         modifier = Modifier.fillMaxSize(),
         isDarkMode = isSystemInDarkTheme(),

@@ -6,13 +6,15 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.viewmodel.main.MainViewModel
+import kotlinx.coroutines.flow.collectLatest
 import java.util.Locale
 
 @Composable
 fun InstallSavedAppLanguage(context: Context){
     val userSettingsViewModel: MainViewModel = hiltViewModel()
     LaunchedEffect(key1 = Unit){
-        val language = userSettingsViewModel.getLastSelectedAppLanguage()
-        updateResources(context = context, localeLanguage = Locale(language))
+        userSettingsViewModel.getLastSelectedAppLanguage().collectLatest {language ->
+            updateResources(context = context, localeLanguage = Locale(language))
+        }
     }
 }

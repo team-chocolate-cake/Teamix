@@ -71,7 +71,8 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getUserPresence(email: String): String {
-        return userRemoteDataSource.getUserPresence(email).presenceDto?.aggregatedDto?.status ?: String.Empty
+        return userRemoteDataSource.getUserPresence(email).presenceDto?.aggregatedDto?.status
+            ?: String.Empty
     }
 
     override suspend fun getRealmPresence(): String {
@@ -123,7 +124,11 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getUserMembership(
         groupId: Int, userId: Int, directMemberOnly: Boolean
     ): Boolean {
-        return userRemoteDataSource.getUserMembership(groupId, userId, directMemberOnly).isUserGroupMember
+        return userRemoteDataSource.getUserMembership(
+            groupId,
+            userId,
+            directMemberOnly
+        ).isUserGroupMember
             ?: false
     }
 
@@ -182,12 +187,12 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getLastSelectedAppLanguage(): String =
         preferencesDataSource.getLastSelectedAppLanguage()
 
-    override suspend fun updateDarkTheme(isDarkTheme: Boolean): Boolean {
-        return preferencesDataSource.setDarkThemeValue(isDarkTheme)
+    override suspend fun updateDarkTheme(isDarkTheme: Boolean) {
+        preferencesDataSource.setDarkThemeValue(isDarkTheme)
     }
 
-    override suspend fun isDarkThemeEnabled(): Boolean {
-        return preferencesDataSource.isDarkThemeEnabled()
+    override suspend fun isDarkThemeEnabled(): Flow<Boolean> {
+        return preferencesDataSource.isInDarkThemeFlow()
     }
 
     override suspend fun upsertCurrentUser(email: String) {

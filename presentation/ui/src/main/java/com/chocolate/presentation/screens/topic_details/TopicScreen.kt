@@ -64,18 +64,14 @@ fun TopicContent(topicUiState: TopicUiState, topicInteraction: TopicInteraction)
             )
         }
     ) { padding ->
-        ConstraintLayout(
-            modifier = Modifier
-                .padding(padding)
-                .fillMaxSize(),
-        ) {
+        ConstraintLayout(modifier = Modifier
+            .padding(padding)
+            .fillMaxSize()) {
             val (messages) = createRefs()
             LazyColumn(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .constrainAs(messages) {
-                        bottom.linkTo(parent.bottom)
-                    },
+                    .constrainAs(messages) { bottom.linkTo(parent.bottom) },
                 reverseLayout = true,
                 verticalArrangement = Arrangement.spacedBy(SpacingXLarge),
                 contentPadding = PaddingValues(bottom = SpacingXLarge, top = SpacingXLarge)
@@ -89,10 +85,7 @@ fun TopicContent(topicUiState: TopicUiState, topicInteraction: TopicInteraction)
                             onPinMessage = { topicInteraction.onPinMessage() },
                             onSaveMessage = { topicInteraction.onSaveMessage() },
                             onClickReact = { positive, state ->
-                                topicInteraction.onClickReact(
-                                    positive,
-                                    state
-                                )
+                                topicInteraction.onClickReact(positive, state)
                             }
                         )
                     else
@@ -104,10 +97,7 @@ fun TopicContent(topicUiState: TopicUiState, topicInteraction: TopicInteraction)
                             onSaveMessage = { topicInteraction.onSaveMessage() },
                             onOpenReactTile = { topicInteraction.onOpenReactTile() },
                             onClickReact = { positive, state ->
-                                topicInteraction.onClickReact(
-                                    positive,
-                                    state
-                                )
+                                topicInteraction.onClickReact(positive, state)
                             }
                         )
                 }

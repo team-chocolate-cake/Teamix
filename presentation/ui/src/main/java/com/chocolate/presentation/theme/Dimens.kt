@@ -14,6 +14,7 @@ val SpacingLarge = 12.dp
 val SpacingXLarge = 16.dp
 val SpacingXXLarge = 24.dp
 val SpacingHuge = 26.dp
+val SpacingXHuge = 28.dp
 val SpacingExtraHuge = 32.dp
 val SpacingMassive = 40.dp
 val SpacingSuperMassive = 42.dp

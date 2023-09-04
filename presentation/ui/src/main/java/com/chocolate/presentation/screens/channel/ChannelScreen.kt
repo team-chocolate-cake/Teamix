@@ -19,7 +19,6 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.EmptyDataWithBoxLottie
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.channel.composable.Topic
-import com.chocolate.presentation.screens.home.LoadingColumn
 import com.chocolate.presentation.screens.topic_details.navigateToTopic
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.TeamixTheme
@@ -62,9 +61,7 @@ fun ChannelContent(
         isDarkMode = isSystemInDarkTheme(),
         hasAppBar = true,
     ) { padding ->
-        if (state.isLoading)
-            LoadingColumn()
-        else
+
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -76,7 +73,7 @@ fun ChannelContent(
                     EmptyDataWithBoxLottie(
                         modifier = Modifier.padding(padding),
                         isPlaying = true,
-                        isShow = state.topics.isEmpty(),
+                        isShow = state.topics.isEmpty() && !state.isLoading,
                         title = stringResource(R.string.draft_messages_to_send_when_you_re_ready),
                         subTitle = stringResource(R.string.sub_title_empty_data)
                     )

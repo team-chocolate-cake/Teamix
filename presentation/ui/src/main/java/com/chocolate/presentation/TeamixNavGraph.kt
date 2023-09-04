@@ -18,7 +18,7 @@ import com.chocolate.presentation.screens.organiztion.organizationNameRoute
 import com.chocolate.presentation.screens.profile.profileRoute
 import com.chocolate.presentation.screens.saveLater.saveLaterRoute
 import com.chocolate.presentation.screens.search.searchRoute
-import com.chocolate.presentation.screens.task.taskRoute
+import com.chocolate.presentation.screens.taskOrganiztion.taskOrganizationRoute
 import com.chocolate.presentation.screens.topic_details.topicRoute
 import com.chocolate.presentation.screens.welcome.welcomeRoute
 
@@ -36,7 +36,7 @@ fun TeamixNavGraph(navController: NavHostController) {
         profileRoute()
         searchRoute()
         directMessageRoute()
-        taskRoute()
+        taskOrganizationRoute()
         topicRoute()
         chooseMemberRoute()
         createChannelRoute()

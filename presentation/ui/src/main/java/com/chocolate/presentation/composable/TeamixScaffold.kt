@@ -2,12 +2,15 @@ package com.chocolate.presentation.composable
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -83,12 +86,16 @@ fun ErrorHandler(
     isDarkMode: Boolean
 ) {
     if (error?.isNotEmpty() == true) {
-        NoInternetLottie(
-            onClickRetry = { onRetry() },
-            isShow = error.isNotEmpty(),
-            isDarkMode = isDarkMode,
-            text = stringResource(id = R.string.no_internet_connection)
-        )
+        Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+            NoInternetLottie(
+                onClickRetry = { onRetry() },
+                isShow = error.isNotEmpty(),
+                isDarkMode = isDarkMode,
+                text = stringResource(id = R.string.no_internet_connection),
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+
     } else {
         onError()
     }

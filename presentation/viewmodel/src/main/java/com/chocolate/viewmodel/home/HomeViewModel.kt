@@ -30,7 +30,6 @@ class HomeViewModel @Inject constructor(
     init {
         getData()
         isDarkTheme()
-
     }
 
     private fun isDarkTheme() {
@@ -41,7 +40,6 @@ class HomeViewModel @Inject constructor(
 
     private fun getData() {
         viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
             getUserLoginState()
             getOrganizationName()
             getOrganizationImage()
@@ -89,8 +87,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onGetCurrentUserDataSuccess(user: User) {
-        val userUiState = user.toOwnerUserUiState()
-        _state.update { it.copy(role = userUiState.role, isLoading = false) }
+        _state.update { it.copy(role = user.toOwnerUserUiState().role, isLoading = false) }
     }
 
     private fun onGetCurrentUserDataError(throwable: Throwable) {
@@ -151,13 +148,11 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getUserLoginState() {
-        _state.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             getUserLoginStatus().collect { islogged ->
                 if (islogged) {
-                    _state.update { it.copy(isLogged = islogged, isLoading = false) }
+                    _state.update { it.copy(isLogged = islogged) }
                 } else {
-                    _state.update { it.copy(isLoading = false) }
                     sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
                 }
             }
@@ -178,5 +173,6 @@ class HomeViewModel @Inject constructor(
                     )
                 }
         }
+        _state.update { it.copy(isLoading = false) }
     }
 }

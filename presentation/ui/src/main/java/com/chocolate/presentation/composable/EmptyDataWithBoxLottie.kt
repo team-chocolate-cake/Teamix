@@ -4,9 +4,12 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,9 +38,10 @@ fun EmptyDataWithBoxLottie(
 ) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.box_empty))
     animateLottieCompositionAsState(composition = composition, isPlaying = isPlaying)
+    val scroll = rememberScrollState()
     AnimatedVisibility(visible = isShow) {
         Column(
-            modifier = modifier.background(backgroundColor),
+            modifier = modifier.background(backgroundColor).verticalScroll(scroll),
             verticalArrangement = Arrangement.Center
         ) {
             LottieAnimation(
@@ -60,7 +64,7 @@ fun EmptyDataWithBoxLottie(
                 text = subTitle,
                 color = MaterialTheme.customColors().onBackground60,
                 style = MaterialTheme.typography.titleSmall,
-                modifier = Modifier.padding(top = SpacingXMedium),
+                modifier = Modifier.fillMaxSize().padding(vertical = SpacingXMedium),
                 textAlign = TextAlign.Center
             )
         }

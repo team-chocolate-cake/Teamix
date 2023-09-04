@@ -106,7 +106,7 @@ interface UsersRepository {
 
     suspend fun updateAppLanguage(newLanguage: String): Boolean
 
-    suspend fun getLastSelectedAppLanguage(): String
+    suspend fun getLastSelectedAppLanguage(): Flow<String>
 
     suspend fun updateDarkTheme(isDarkTheme: Boolean)
 

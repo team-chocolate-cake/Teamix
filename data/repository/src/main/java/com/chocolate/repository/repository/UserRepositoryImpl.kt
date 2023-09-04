@@ -13,6 +13,7 @@ import com.chocolate.repository.utils.SUCCESS
 import kotlinx.coroutines.flow.Flow
 import repositories.UsersRepository
 import javax.inject.Inject
+
 class UserRepositoryImpl @Inject constructor(
     private val userRemoteDataSource: UserRemoteDataSource,
     private val preferencesDataSource: PreferencesDataSource,
@@ -180,20 +181,20 @@ class UserRepositoryImpl @Inject constructor(
         preferencesDataSource.deleteAuthenticationData()
     }
 
-    override suspend fun updateAppLanguage(newLanguage: String): Boolean {
-        return preferencesDataSource.upsertAppLanguage(newLanguage)
-    }
+    override suspend fun updateAppLanguage(newLanguage: String): Boolean =
+        preferencesDataSource.upsertAppLanguage(newLanguage)
 
-    override suspend fun getLastSelectedAppLanguage(): String =
+
+    override suspend fun getLastSelectedAppLanguage(): Flow<String> =
         preferencesDataSource.getLastSelectedAppLanguage()
 
-    override suspend fun updateDarkTheme(isDarkTheme: Boolean) {
+    override suspend fun updateDarkTheme(isDarkTheme: Boolean) =
         preferencesDataSource.setDarkThemeValue(isDarkTheme)
-    }
 
-    override suspend fun isDarkThemeEnabled(): Flow<Boolean> {
-        return preferencesDataSource.isInDarkThemeFlow()
-    }
+
+    override suspend fun isDarkThemeEnabled(): Flow<Boolean> =
+        preferencesDataSource.isInDarkThemeFlow()
+
 
     override suspend fun upsertCurrentUser(email: String) {
         val user = getUserByEmail(email)

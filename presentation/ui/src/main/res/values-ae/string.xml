@@ -112,6 +112,7 @@
     <string name="status">状态</string>
     <string name="skip">跳过</string>
     <string name="ok">确定</string>
+    <string name="message_deleted_successfully">" 消息已成功删除 "</string>
     <string name="cancle">取消</string>
     <string name="choose_members">选择成员</string>
     <string name="recent_search">最近搜索</string>

@@ -12,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,8 +29,12 @@ class SearchViewModel @Inject constructor(
         isDarkTheme()
     }
     private fun isDarkTheme() {
+
         viewModelScope.launch(Dispatchers.IO) {
-            _state.update { it.copy(isDarkTheme = customizeProfileSettings.isDarkThem()) }
+            customizeProfileSettings.isDarkThem().collectLatest {isDark ->
+                _state.update { it.copy(isDarkTheme = isDark) }
+            }
+
         }
     }
     override fun onClickChannelItem(id: Int, name: String) {

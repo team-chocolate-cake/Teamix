@@ -18,6 +18,7 @@ import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
@@ -106,7 +107,6 @@ class ProfileViewModel @Inject constructor(
         _state.update { it.copy(isDarkTheme = !darkTheme) }
         viewModelScope.launch {
             customizeProfileSettings.updateDarkTheme(!darkTheme)
-            restartActivity(context)
         }
     }
 
@@ -194,14 +194,18 @@ class ProfileViewModel @Inject constructor(
 
     private fun getLastSelectedAppLanguage() {
         viewModelScope.launch(Dispatchers.IO) {
-            val language = customizeProfileSettings.getLastSelectedAppLanguage()
-            _state.update { it.copy(lastAppLanguage = language) }
+           customizeProfileSettings.getLastSelectedAppLanguage().collectLatest {language ->
+               _state.update { it.copy(lastAppLanguage = language) }
+           }
         }
     }
 
     private fun isDarkTheme() {
+
         viewModelScope.launch(Dispatchers.IO) {
-            _state.update { it.copy(isDarkTheme = customizeProfileSettings.isDarkThem()) }
+            customizeProfileSettings.isDarkThem().collectLatest { isDark ->
+                _state.update { it.copy(isDarkTheme = isDark) }
+            }
         }
     }
 

@@ -135,7 +135,7 @@
     <string name="the_email_shouldn_t_be_empty">电子邮件不应为空</string>
     <string name="the_full_name_shouldn_t_be_empty">姓名不应为空</string>
     <string name="channel_name_validation">频道名称不能为空且应少于60个字符。</string>
-    <string name="tasks">任务</string>
+    <string name="tasksOrganization">任务</string>
     <string name="home">频道</string>
     <string name="dms">私信</string>
     <string name="draft_messages_to_send_when_you_re_ready">准备好时要发送的草稿消息</string>

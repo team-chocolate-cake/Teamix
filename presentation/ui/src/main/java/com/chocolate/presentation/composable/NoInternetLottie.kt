@@ -7,8 +7,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,15 +39,18 @@ fun NoInternetLottie(
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(animationResId))
     animateLottieCompositionAsState(composition = composition, isPlaying = false)
     val color = MaterialTheme.customColors()
+    val scroll = rememberScrollState()
     AnimatedVisibility(visible = isShow) {
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .background(color.background),
-            verticalArrangement = Arrangement.Center
+                .background(color.background)
+                .verticalScroll(scroll),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             LottieAnimation(
-                modifier = Modifier.size(350.dp),
+                modifier = Modifier.size(350.dp).padding(top = 16.dp),
                 composition = composition,
                 isPlaying = false
             )

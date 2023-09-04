@@ -4,7 +4,7 @@ import com.chocolate.entities.exceptions.TeamixException
 import com.chocolate.repository.datastore.realtime.model.ChannelDto
 import com.chocolate.remote.firebase.util.Constants
 import com.chocolate.remote.firebase.util.getRandomId
-import com.chocolate.remote.firebase.util.wrapRealTimeCall
+import com.chocolate.remote.firebase.util.tryToExecuteSuspendCall
 import com.chocolate.repository.datastore.realtime.RealTimeDataSource
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObjects
@@ -31,7 +31,7 @@ class FireBaseDataSource @Inject constructor(
             isPrivate = isPrivate,
             description = description,
         )
-        wrapRealTimeCall {
+        tryToExecuteSuspendCall {
             fireStore.collection(Constants.CHANNEL).document(channelId.toString()).set(channel).await()
         }
     }

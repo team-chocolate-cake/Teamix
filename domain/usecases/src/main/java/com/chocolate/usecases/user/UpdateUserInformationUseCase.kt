@@ -20,12 +20,27 @@ class UpdateUserInformationUseCase @Inject constructor(
         }
     }
 
+    suspend fun updateUsername(username: String, id: Int, role: Int): String {
+        if (isValidUsername(username)) {
+            usersRepository.updateUserById(id, username, role)
+            return username
+        } else {
+            throw ValidationException(INVALID_USERNAME_ERROR_CODE)
+        }
+    }
+
+    private fun isValidUsername(username: String): Boolean {
+        val pattern = Regex("^[a-zA-Z][a-zA-Z0-9_ ]{2,}$")
+        return pattern.matches(username)
+    }
+
     private fun validNewUserInformation(
         oldUserInformation: User,
         newUserInformation: User
     ): Boolean {
         if ((oldUserInformation.email == newUserInformation.email) &&
-            (oldUserInformation.fullName == newUserInformation.fullName)) {
+            (oldUserInformation.fullName == newUserInformation.fullName)
+        ) {
             throw ValidationException("100")
         } else if (newUserInformation.email.isBlank()) {
             throw ValidationException("200")
@@ -33,5 +48,9 @@ class UpdateUserInformationUseCase @Inject constructor(
             throw ValidationException("300")
         }
         return true
+    }
+
+    companion object{
+        private const val INVALID_USERNAME_ERROR_CODE = "400"
     }
 }

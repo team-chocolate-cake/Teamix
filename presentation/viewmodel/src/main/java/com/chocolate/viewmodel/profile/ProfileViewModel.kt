@@ -47,11 +47,7 @@ class ProfileViewModel @Inject constructor(
             call = { customizeProfileSettings.saveNewSelectedLanguage(language) },
             onSuccess = {
                 _state.update {
-                    it.copy(
-                        error = null,
-                        isLoading = false,
-                        message = null
-                    )
+                    it.copy(error = null, isLoading = false, message = null)
                 }
             },
             onError = ::onUpdateAppLanguageFail
@@ -64,21 +60,6 @@ class ProfileViewModel @Inject constructor(
 
     override fun onUpdateLogoutDialogState(showDialog: Boolean) {
         _state.update { it.copy(showLogoutDialog = showDialog, error = null, message = null) }
-    }
-
-
-    override fun onUsernameChange(username: String) {
-        if (_state.value.originalName.isEmpty()) {
-            _state.update { it.copy(originalName = _state.value.name) }
-        }
-        _state.update {
-            it.copy(
-                name = username,
-                error = null,
-                newUsername = username,
-                message = null
-            )
-        }
     }
 
     override fun onUserInformationFocusChange() {
@@ -148,6 +129,23 @@ class ProfileViewModel @Inject constructor(
         )
     }
 
+    override fun onUsernameChange(username: String) {
+        tryToExecute(
+            call = {
+                updateUserInformation.updateUsername(
+                    username = username,
+                    id = state.value.id,
+                    role = UserRole.getIntValueByString(state.value.role) ?: UserRole.MEMBER.value
+                )
+            },
+            onSuccess = { newName ->
+                _state.update { it.copy(newUsername = newName) }
+                getCurrentUser()
+            },
+            onError = ::onError
+        )
+    }
+
     private fun onUpdateUserInformationSuccess(unit: Unit) {
         _state.update {
             it.copy(
@@ -161,6 +159,7 @@ class ProfileViewModel @Inject constructor(
 
     private fun onError(throwable: Throwable) {
         val validationMessage = when (throwable.message) {
+            ErrorCode.INVALID_USERNAME.code -> stringsResource.invalidUsername
             ErrorCode.THE_SAME_DATA.code -> stringsResource.theSameData
             ErrorCode.FAILED_EMAIL_WHEN_EMPTY.code -> stringsResource.failedEmailWhenEmpty
             ErrorCode.FAILED_FULL_NAME_WHEN_EMPTY.code -> stringsResource.failedFullNameWhenEmpty
@@ -218,6 +217,7 @@ class ProfileViewModel @Inject constructor(
         val currentUserUi = user.toOwnerUserUiState()
         _state.update {
             it.copy(
+                id = currentUserUi.id,
                 name = currentUserUi.name,
                 imageUrl = currentUserUi.imageUrl,
                 email = currentUserUi.email,

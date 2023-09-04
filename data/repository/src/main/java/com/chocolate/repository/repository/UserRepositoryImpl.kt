@@ -200,9 +200,10 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getCurrentUser(): User {
-        return getLocalCurrentUser()
-            .takeIf { it != null }
-            ?: getRemoteCurrentUser()
-                .also { upsertCurrentUser(it.email) }
+        return getRemoteCurrentUser()
+//        getLocalCurrentUser()
+//            .takeIf { it != null }
+//            ?: getRemoteCurrentUser()
+//                .also { upsertCurrentUser(it.email) }
     }
 }

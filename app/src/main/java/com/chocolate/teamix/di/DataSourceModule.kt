@@ -4,14 +4,12 @@ import com.chocolate.local.dao.RoomDataSource
 import com.chocolate.local.datastore.DataStoreDataSource
 import com.chocolate.remote.data_source.ChannelRetrofitDataSource
 import com.chocolate.remote.data_source.MessagesRetrofitDataSource
-import com.chocolate.remote.data_source.OrganizationRetrofitDataSource
 import com.chocolate.remote.data_source.UserRetrofitDataSource
 import com.chocolate.remote.firebase.TaskFirebase
 import com.chocolate.repository.datastore.local.LocalDataSource
 import com.chocolate.repository.datastore.local.PreferencesDataSource
 import com.chocolate.repository.datastore.remote.ChannelRemoteDataSource
 import com.chocolate.repository.datastore.remote.MessagesRemoteDataSource
-import com.chocolate.repository.datastore.remote.OrganizationRemoteDataSource
 import com.chocolate.repository.datastore.remote.UserRemoteDataSource
 import com.chocolate.repository.datastore.remote.TaskRemoteDataSource
 import dagger.Binds
@@ -46,10 +44,7 @@ abstract class DataSourceModule {
     abstract fun bindMessagesDataSource(messagesDataSource: MessagesRetrofitDataSource):
             MessagesRemoteDataSource
 
-    @Singleton
-    @Binds
-    abstract fun bindOrganizationDataSource(organizationDataSource: OrganizationRetrofitDataSource):
-            OrganizationRemoteDataSource
+
 
     @Singleton
     @Binds

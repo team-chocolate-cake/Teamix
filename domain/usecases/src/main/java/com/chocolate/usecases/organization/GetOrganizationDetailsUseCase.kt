@@ -1,10 +1,10 @@
 package com.chocolate.usecases.organization
 
-import repositories.ServerAndOrganizationsRepository
+import repositories.OrganizationsRepository
 import javax.inject.Inject
 
 class ManageOrganizationDetailsUseCase @Inject constructor(
-    private val organizationsRepository: ServerAndOrganizationsRepository,
+    private val organizationsRepository: OrganizationsRepository,
 
     ) {
     suspend fun saveOrganizationName(nameOrganization: String): Boolean {

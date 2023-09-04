@@ -126,9 +126,7 @@ fun ProfileContent(
     val color = MaterialTheme.customColors()
     val context = LocalContext.current
     val typography = MaterialTheme.typography
-    val systemUiController = rememberSystemUiController()
 
-    systemUiController.setStatusBarColor(color = Color.Black, darkIcons = false)
 
     LaunchedEffect(state.pagerNumber) {
         pageState.scrollToPage(state.pagerNumber)

@@ -26,7 +26,7 @@ interface PreferencesDataSource {
 
     suspend fun upsertAppLanguage(newLanguage: String): Boolean
 
-    suspend fun getLastSelectedAppLanguage(): String
+    suspend fun getLastSelectedAppLanguage(): Flow<String>
 
     suspend fun setDarkThemeValue(isDarkTheme: Boolean)
 

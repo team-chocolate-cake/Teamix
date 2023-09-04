@@ -53,5 +53,6 @@ dependencies {
 
     implementation(platform(ProjectDependencies.firebase))
     implementation(ProjectDependencies.firebase_auth)
+    implementation(ProjectDependencies.coroutinePlayServices)
     implementation(ProjectDependencies.firebase_firestore)
 }

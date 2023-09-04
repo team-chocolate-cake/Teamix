@@ -28,7 +28,8 @@ interface PreferencesDataSource {
 
     suspend fun getLastSelectedAppLanguage(): String
 
-    suspend fun setDarkThemeValue(isDarkTheme: Boolean): Boolean
+    suspend fun setDarkThemeValue(isDarkTheme: Boolean)
 
     suspend fun isDarkThemeEnabled(): Boolean
+    suspend fun isInDarkThemeFlow():Flow<Boolean>
 }

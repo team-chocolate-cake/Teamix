@@ -82,13 +82,15 @@ fun DraftsContent(state: DraftsUiState, draftInteraction: DraftInteraction) {
                     onClickDismiss = { draftInteraction.deleteDraft(it) })
             }
         }
-        EmptyDataWithBoxLottie(
-            modifier = Modifier.padding(padding),
-            isPlaying = true,
-            isShow = state.draftItems.isEmpty() && !state.isLoading,
-            title = stringResource(R.string.draft_messages_to_send_when_you_re_ready),
-            subTitle = stringResource(R.string.sub_title_empty_data)
-        )
+                EmptyDataWithBoxLottie(
+                    modifier = Modifier.padding(padding),
+                    isPlaying = true,
+                    isShow = state.draftItems.isEmpty() && !state.isLoading,
+                    title = stringResource(R.string.draft_messages_to_send_when_you_re_ready),
+                    subTitle = stringResource(R.string.sub_title_empty_data)
+                )
+
+
         AnimatedVisibility(visible = state.isLoading, modifier = Modifier.padding(padding)) {
             Box(
                 modifier = Modifier.fillMaxSize(),

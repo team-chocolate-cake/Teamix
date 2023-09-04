@@ -195,8 +195,9 @@ class ProfileViewModel @Inject constructor(
 
     private fun getLastSelectedAppLanguage() {
         viewModelScope.launch(Dispatchers.IO) {
-            val language = customizeProfileSettings.getLastSelectedAppLanguage()
-            _state.update { it.copy(lastAppLanguage = language) }
+           customizeProfileSettings.getLastSelectedAppLanguage().collectLatest {language ->
+               _state.update { it.copy(lastAppLanguage = language) }
+           }
         }
     }
 

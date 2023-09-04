@@ -18,4 +18,5 @@ interface StringsResource {
     val failedEmailWhenEmpty: String
     val failedFullNameWhenEmpty: String
     val messageDeletedSuccessfully: String
+    val invalidUsername: String
 }

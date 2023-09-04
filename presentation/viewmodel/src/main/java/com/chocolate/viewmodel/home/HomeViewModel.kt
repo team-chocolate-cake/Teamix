@@ -80,6 +80,7 @@ class HomeViewModel @Inject constructor(
 
 
     private fun getCurrentUserData() {
+        _state.update { it.copy(isLoading = true) }
         tryToExecute(
             getCurrentUserData::getRemoteCurrentUser,
             ::onGetCurrentUserDataSuccess,
@@ -89,7 +90,7 @@ class HomeViewModel @Inject constructor(
 
     private fun onGetCurrentUserDataSuccess(user: User) {
         val userUiState = user.toOwnerUserUiState()
-        _state.update { it.copy(role = userUiState.role) }
+        _state.update { it.copy(role = userUiState.role, isLoading = false) }
     }
 
     private fun onGetCurrentUserDataError(throwable: Throwable) {
@@ -97,6 +98,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getOrganizationImage() {
+        _state.update { it.copy(isLoading = true) }
         tryToExecute(
             manageOrganizationDetails::getOrganizationImage,
             ::onGettingOrganizationImageSuccess,
@@ -109,12 +111,14 @@ class HomeViewModel @Inject constructor(
             it.copy(
                 imageUrl = image,
                 showNoInternetLottie = false,
+                isLoading = false,
                 error = null
             )
         }
     }
 
     private fun getOrganizationName() {
+        _state.update { it.copy(isLoading = true) }
         tryToExecute(
             manageOrganizationDetails::getOrganizationName,
             ::onGettingOrganizationNameSuccess,
@@ -127,12 +131,14 @@ class HomeViewModel @Inject constructor(
             it.copy(
                 organizationTitle = organizationName,
                 showNoInternetLottie = false,
+                isLoading = false,
                 error = null
             )
         }
     }
 
     private fun getChannels() {
+        _state.update { it.copy(isLoading = true) }
         tryToExecute(
             manageChannels::getAllChannels,
             ::onGettingChannelsSuccess,
@@ -145,13 +151,13 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getUserLoginState() {
+        _state.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             getUserLoginStatus().collect { islogged ->
                 if (islogged) {
-                    _state.update {
-                        it.copy(isLogged = islogged)
-                    }
+                    _state.update { it.copy(isLogged = islogged, isLoading = false) }
                 } else {
+                    _state.update { it.copy(isLoading = false) }
                     sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
                 }
             }
@@ -163,13 +169,14 @@ class HomeViewModel @Inject constructor(
             is UnAuthorizedException, is ValidationException ->
                 sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
 
-            is NoConnectionException -> _state.update {
-                it.copy(
-                    showNoInternetLottie = true,
-                    isLoading = false,
-                    error = throwable.message
-                )
-            }
+            is NoConnectionException ->
+                _state.update {
+                    it.copy(
+                        showNoInternetLottie = true,
+                        isLoading = false,
+                        error = throwable.message
+                    )
+                }
         }
     }
 }

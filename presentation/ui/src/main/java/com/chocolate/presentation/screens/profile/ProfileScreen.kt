@@ -144,21 +144,10 @@ fun ProfileContent(
             onDismissRequest = { profileInteraction.onUpdateLanguageDialogState(false) },
             choices = state.languageMap.keys.toList(),
             oldSelectedChoice = when (state.lastAppLanguage) {
-                state.languageMap[LocalLanguage.Arabic.name] -> {
-                    LocalLanguage.Arabic.name
-                }
-
-                state.languageMap[LocalLanguage.Chinese.name] -> {
-                    LocalLanguage.Chinese.name
-                }
-
-                state.languageMap[LocalLanguage.Spanish.name] -> {
-                    LocalLanguage.Spanish.name
-                }
-
-                else -> {
-                    LocalLanguage.English.name
-                }
+                state.languageMap[LocalLanguage.Arabic.name] -> LocalLanguage.Arabic.name
+                state.languageMap[LocalLanguage.Chinese.name] -> LocalLanguage.Chinese.name
+                state.languageMap[LocalLanguage.Spanish.name] -> LocalLanguage.Spanish.name
+                else -> LocalLanguage.English.name
             }
         )
     }
@@ -180,7 +169,7 @@ fun ProfileContent(
             dismissButton = profileInteraction::onDismissEditTextDialog,
             confirmButton = {
                 profileInteraction.onUsernameChange(it)
-                profileInteraction.onUserInformationFocusChange()
+                //profileInteraction.onUserInformationFocusChange()
             }) {
         }
     }

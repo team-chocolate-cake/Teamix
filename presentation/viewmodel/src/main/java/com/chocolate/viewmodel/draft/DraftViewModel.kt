@@ -8,6 +8,7 @@ import com.chocolate.usecases.user.CustomizeProfileSettingsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,8 +27,9 @@ class DraftViewModel @Inject constructor(
 
     private fun getDarkModeState() {
         viewModelScope.launch {
-            val isDark = customizeProfileSettings.isDarkThem()
-            _state.update { it.copy(isDarkModel = isDark) }
+            customizeProfileSettings.isDarkThem().collectLatest {isDark->
+                _state.update { it.copy(isDarkModel = isDark) }
+            }
         }
     }
 

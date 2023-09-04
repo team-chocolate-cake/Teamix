@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.chocolate.usecases.user.CustomizeProfileSettingsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,8 +20,9 @@ class TaskOrganizationViewModel @Inject constructor(
 
     private fun getDarkModeState() {
         viewModelScope.launch {
-            val isDark = customizeProfileSettings.isDarkThem()
-            _state.update { it.copy(isDarkMode = isDark) }
+           customizeProfileSettings.isDarkThem().collectLatest {isDark->
+                _state.update { it.copy(isDarkMode = isDark) }
+            }
         }
     }
 

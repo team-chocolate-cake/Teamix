@@ -112,6 +112,7 @@
     <string name="status">الحالة</string>
     <string name="skip">تخطي</string>
     <string name="ok">موافق</string>
+    <string name="message_deleted_successfully">" تم حذف الرسالة بنجاح "</string>
     <string name="cancle">الغاء</string>
     <string name="enter_full_name">ادخل الاسم</string>
 

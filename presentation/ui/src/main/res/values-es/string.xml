@@ -136,6 +136,7 @@
     <string name="tasksOrganization">Tareas</string>
     <string name="home">Canales</string>
     <string name="dms">Mensajes</string>
+    <string name="message_deleted_successfully">El mensaje se eliminó con éxito</string>
     <string name="cancle">Cancelar</string>
     <string name="no_saved_items">No hay elementos guardados</string>
     <string name="no_saved_items_body">Los elementos guardados aparecerán aquí para un acceso y referencia fáciles.</string>

@@ -15,6 +15,7 @@ import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.profile.toOwnerUserUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,7 +35,9 @@ class HomeViewModel @Inject constructor(
 
     private fun isDarkTheme() {
         viewModelScope.launch(Dispatchers.IO) {
-            _state.update { it.copy(isDarkTheme = customizeProfileSettings.isDarkThem()) }
+            customizeProfileSettings.isDarkThem().collectLatest { isDark ->
+                _state.update { it.copy(isDarkTheme = isDark) }
+            }
         }
     }
 

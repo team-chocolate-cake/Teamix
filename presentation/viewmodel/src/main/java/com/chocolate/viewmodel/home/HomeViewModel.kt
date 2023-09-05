@@ -42,13 +42,11 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getData() {
-        viewModelScope.launch {
-            getUserLoginState()
-            getOrganizationName()
-            getOrganizationImage()
-            getChannels()
-            getCurrentUserData()
-        }
+        getUserLoginState()
+        getOrganizationName()
+        getOrganizationImage()
+        getChannels()
+        getCurrentUserData()
     }
 
     override fun onClickDrafts() {
@@ -156,7 +154,9 @@ class HomeViewModel @Inject constructor(
                 if (islogged) {
                     _state.update { it.copy(isLogged = islogged) }
                 } else {
-                    sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
+                    launch(Dispatchers.Main) {
+                        sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
+                    }
                 }
             }
         }

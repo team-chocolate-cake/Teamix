@@ -1,7 +1,11 @@
 package com.chocolate.viewmodel.organization_name
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.chocolate.entities.Organization
+import com.chocolate.entities.exceptions.EmptyOrganizationNameException
 import com.chocolate.entities.exceptions.NoConnectionException
+import com.chocolate.entities.exceptions.OrganizationNotFoundException
 import com.chocolate.usecases.onboarding.ManageUserUsedAppUseCase
 import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.usecases.user.GetUserLoginStatusUseCase
@@ -29,11 +33,19 @@ class OrganizationNameViewModel @Inject constructor(
         sendUiEffect(OrganizationNameUiEffect.NavigateToCreateOrganization)
     }
 
-    override fun onClickActionButton(organizationName: String) {
+    override fun onEnterButtonClick(organizationName: String) {
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
+            { manageOrganizationDetails.organizationSignIn(organizationName) },
+            ::onSignInSuccess,
+            ::onError
+        )
+    }
+
+    private fun onSignInSuccess(organizationName: String) {
+        tryToExecute(
             { manageOrganizationDetails.saveOrganizationName(organizationName) },
-            ::onSuccess,
+            ::onSavingOrganizationNameSuccess,
             ::onError
         )
     }
@@ -43,16 +55,14 @@ class OrganizationNameViewModel @Inject constructor(
             it.copy(
                 organizationName = organizationName.trim(),
                 isLoading = false,
-                error = null
+                error = null,
             )
         }
     }
 
-    private fun onSuccess(isCheck: Boolean) {
+    private fun onSavingOrganizationNameSuccess(z: Unit) {
         _state.update { it.copy(isLoading = false, error = null) }
-        if (isCheck) {
-            sendUiEffect(OrganizationNameUiEffect.NavigateToLoginScreen)
-        }
+        sendUiEffect(OrganizationNameUiEffect.NavigateToLoginScreen)
     }
 
     private fun getOnboardingStatus() {
@@ -66,9 +76,12 @@ class OrganizationNameViewModel @Inject constructor(
     private fun onError(throwable: Throwable) {
         val errorMessage = when (throwable) {
             is NoConnectionException -> stringsResource.noConnectionMessage
+            is OrganizationNotFoundException -> stringsResource.organizationNameNotFound
+            is EmptyOrganizationNameException -> stringsResource.organizationNameCannotBeEmpty
             else -> stringsResource.organizationNameCannotBeEmpty
         }
         _state.update { it.copy(isLoading = false, error = errorMessage) }
+        sendUiEffect(OrganizationNameUiEffect.ShowSnackBar)
     }
 
     private fun getOnUserLoggedIn() {

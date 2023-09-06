@@ -1,12 +1,15 @@
 package com.chocolate.presentation.screens.organiztion
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,12 +18,19 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -35,6 +45,7 @@ import com.chocolate.presentation.composable.ShowErrorSnackBarLogic
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
+import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.create_organization.navigateToCreateOrganization
 import com.chocolate.presentation.screens.login.navigateToLogin
 import com.chocolate.presentation.screens.welcome.navigateToWelcome
@@ -50,6 +61,9 @@ import com.chocolate.viewmodel.organization_name.OrganizationNameInteraction
 import com.chocolate.viewmodel.organization_name.OrganizationNameUiEffect
 import com.chocolate.viewmodel.organization_name.OrganizationNameUiState
 import com.chocolate.viewmodel.organization_name.OrganizationNameViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
 fun OrganizationScreen(
@@ -63,9 +77,9 @@ fun OrganizationScreen(
             OrganizationNameUiEffect.NavigateToLoginScreen -> navController.navigateToLogin(
                 organizationName = state.organizationName
             )
+            OrganizationNameUiEffect.ShowSnackBar -> {  }
         }
     }
-
     AnimatedVisibility(state.onboardingState) {
         OrganizationContent(
             organizationNameInteraction = viewModel,
@@ -85,17 +99,8 @@ fun OrganizationContent(
 ) {
     val colors = MaterialTheme.customColors()
     val scrollState = rememberScrollState()
-    val operationFailed = stringResource(R.string.error_organization_name_empty)
-    val showOperationFailedSnackBar = remember { mutableStateOf(false) }
-    val showErrorSnackBar = remember { mutableStateOf(false) }
-
     TeamixScaffold(isDarkMode = isSystemInDarkTheme()) {
-        ShowErrorSnackBarLogic(showOperationFailedSnackBar, operationFailed)
-        ShowErrorSnackBarLogic(showErrorSnackBar, state.error.toString())
-        Column(
-            modifier = Modifier
-                .verticalScroll(scrollState)
-        ) {
+        Column(modifier = Modifier.verticalScroll(scrollState)) {
             Image(
                 painter = painterResource(id = R.drawable.img_start_organization),
                 contentDescription = null,
@@ -127,13 +132,7 @@ fun OrganizationContent(
             )
             TeamixButton(
                 onClick = {
-                    organizationNameInteraction.onClickActionButton(state.organizationName)
-                    if (state.organizationName.isBlank() || state.organizationName.isEmpty()) {
-                        showOperationFailedSnackBar.value = true
-                    }
-                    if (!state.error.isNullOrEmpty()) {
-                        showErrorSnackBar.value = true
-                    }
+                    organizationNameInteraction.onEnterButtonClick(state.organizationName)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -141,9 +140,7 @@ fun OrganizationContent(
                     .padding(horizontal = SpacingXLarge),
                 colors = colors,
             ) {
-                AnimatedVisibility(state.isLoading) {
-                    CircularProgressIndicator(color = colors.card)
-                }
+                AnimatedVisibility(state.isLoading) { CircularProgressIndicator(color = colors.card) }
                 AnimatedVisibility(visible = state.isLoading.not()) {
                     Text(
                         text = stringResource(R.string.enter),
@@ -153,10 +150,7 @@ fun OrganizationContent(
                 }
             }
             SeparatorWithText(
-                modifier = Modifier.padding(
-                    bottom = SpacingXMedium,
-                    top = SpacingExtraHuge
-                )
+                modifier = Modifier.padding(bottom = SpacingXMedium, top = SpacingExtraHuge)
             )
             Text(
                 text = stringResource(R.string.create_new_organizat),
@@ -171,6 +165,11 @@ fun OrganizationContent(
                     )
                     .padding(bottom = SpacingXXLarge),
                 textAlign = TextAlign.Center
+            )
+            ActionSnakeBar(
+                contentMessage = state.error.toString(),
+                isVisible = true,
+                isToggleButtonVisible = false
             )
         }
     }

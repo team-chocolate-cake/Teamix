@@ -43,8 +43,8 @@ class HomeViewModel @Inject constructor(
 
     private fun getData() {
         getUserLoginState()
-        getOrganizationName()
-        getOrganizationImage()
+        //getOrganizationName()
+        //getOrganizationImage()
         getChannels()
         getCurrentUserData()
     }
@@ -95,14 +95,14 @@ class HomeViewModel @Inject constructor(
         onError(throwable)
     }
 
-    private fun getOrganizationImage() {
+    /*private fun getOrganizationImage() {
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
             manageOrganizationDetails::getOrganizationImage,
             ::onGettingOrganizationImageSuccess,
             ::onError
         )
-    }
+    }*/
 
     private fun onGettingOrganizationImageSuccess(image: String) {
         _state.update {
@@ -115,14 +115,14 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getOrganizationName() {
+    /*private fun getOrganizationName() {
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
             manageOrganizationDetails::getOrganizationName,
             ::onGettingOrganizationNameSuccess,
             ::onError
         )
-    }
+    }*/
 
     private fun onGettingOrganizationNameSuccess(organizationName: String) {
         _state.update {

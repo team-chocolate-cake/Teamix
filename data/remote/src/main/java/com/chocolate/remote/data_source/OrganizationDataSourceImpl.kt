@@ -1,57 +1,59 @@
 package com.chocolate.remote.data_source
 
+import android.util.Log
 import com.chocolate.entities.Organization
-import com.chocolate.entities.channel.Channel
+import com.chocolate.entities.exceptions.EmptyOrganizationNameException
+import com.chocolate.entities.exceptions.OrganizationNotFoundException
 import com.chocolate.remote.firebase.util.Constants
 import com.chocolate.remote.firebase.util.tryToExecuteSuspendCall
-import com.chocolate.repository.datastore.remote.OrganizationRemoteDataSource
+import com.chocolate.repository.datastore.remote.OrganizationDataSource
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 class OrganizationDataSourceImpl @Inject constructor(
-    private val firebase: FirebaseFirestore
-) : OrganizationRemoteDataSource {
-    override suspend fun getOrganizationById(id: String): Organization {
+    private val firebaseFirestore: FirebaseFirestore
+) : OrganizationDataSource {
+
+    override suspend fun getOrganizationByName(organizationName: String): Organization? {
         return tryToExecuteSuspendCall {
-            suspendCoroutine { cont ->
-                firebase.collection(Constants.ORGANIZATION).document(id).get()
-                    .addOnSuccessListener { doc ->
-                        doc?.toObject<Organization>()?.let { cont.resume(it) }
-                    }
-                    .addOnFailureListener {
-                        cont.resumeWithException(it)
-                    }
-            }
+            val organizationsRef = firebaseFirestore
+                .collection(Constants.ORGANIZATION)
+                .whereEqualTo("name", organizationName)
+                .get()
+                .await()
+            organizationsRef.documents.firstOrNull()?.toObject<Organization>()
         }
     }
 
-    override suspend fun getOrganizaionsByMemberId(id: String): List<Organization> {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun addOrganization(organization: Organization) {
-        TODO("Not yet implemented")
+        tryToExecuteSuspendCall {
+            firebaseFirestore
+                .collection(Constants.ORGANIZATION)
+                .document(organization.name)
+                .set(organization)
+                .await()
+        }
     }
 
-    override suspend fun deleteOrganizationbyId(id: String) {
-        TODO("Not yet implemented")
+    override suspend fun deleteOrganizationByOrganizationName(organizationName: String) {
+        tryToExecuteSuspendCall {
+            firebaseFirestore
+                .collection(Constants.ORGANIZATION)
+                .document(organizationName)
+                .delete()
+                .await()
+        }
     }
 
     override suspend fun updateOrganization(organization: Organization) {
-        TODO("Not yet implemented")
+        tryToExecuteSuspendCall {
+            firebaseFirestore
+                .collection(Constants.ORGANIZATION)
+                .document(organization.name)
+                .set(organization)
+                .await()
+        }
     }
-
-    override suspend fun addChannel(organizationId: Long, channel: Channel) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun deleteChannelById(channelId: Long) {
-        TODO("Not yet implemented")
-    }
-
-
 }

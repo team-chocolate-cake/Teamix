@@ -8,14 +8,9 @@ import com.chocolate.repository.model.dto.server_and_organizations.response.Defa
 import com.chocolate.repository.model.dto.server_and_organizations.response.LinkifiersDto
 import com.chocolate.repository.model.dto.server_and_organizations.response.ServerSettingsDto
 
-interface OrganizationRemoteDataSource {
-
-    suspend fun getOrganizationById(id:String): Organization
-    suspend fun getOrganizaionsByMemberId(id:String): List<Organization>
-    suspend fun addOrganization(organization:Organization)
-    suspend fun deleteOrganizationbyId(id:String)
-    suspend fun updateOrganization(organization:Organization)
-    suspend fun addChannel(organizationId: Long, channel: Channel)
-    suspend fun deleteChannelById(channelId: Long)
-
+interface OrganizationDataSource {
+    suspend fun getOrganizationByName(organizationName: String): Organization?
+    suspend fun addOrganization(organization: Organization)
+    suspend fun deleteOrganizationByOrganizationName(organizationName: String)
+    suspend fun updateOrganization(organization: Organization)
 }

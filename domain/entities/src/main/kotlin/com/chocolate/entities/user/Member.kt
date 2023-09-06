@@ -8,4 +8,5 @@ data class Member(
     val email: String,
     val status: String,
     val role: UserRole,
+    val channels: List<String>
 )

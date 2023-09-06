@@ -30,11 +30,17 @@ fun TeamixApp(isDark: Boolean, isLoggedIn: Boolean) {
 
         else -> false
     }
+    val changeStatusBar = when (currentRoute(navController)) {
+        BottomNavigationItem.Home.screenRoute,
+        -> true
+        else -> false
+    }
     TeamixScaffold(isDarkMode = isSystemInDarkTheme(), bottomBar = {
         if (shouldShowBottomNavigation && isLoggedIn)
             BottomNavigation(navController = navController)
     }) { innerPadding ->
         val systemUiController = rememberSystemUiController()
+        if(!changeStatusBar)
         systemUiController.setStatusBarColor(
             MaterialTheme.customColors().background, darkIcons = !isDark
         )

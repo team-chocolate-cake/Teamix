@@ -53,6 +53,8 @@ class StringsResourceImpl @Inject constructor(
     override val messageDeletedSuccessfully: String =
         getString(R.string.message_deleted_successfully)
 
+    override val invalidUsername: String = getString(R.string.invites_username)
+
     private fun getString(@androidx.annotation.StringRes stringsRes: Int): String {
         return context.getString(stringsRes)
     }

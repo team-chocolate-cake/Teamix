@@ -3,6 +3,7 @@ package com.chocolate.viewmodel.profile
 import com.chocolate.entities.uills.Empty
 
 data class ProfileUiState(
+    val id: Int = 0,
     val imageUrl: String = String.Empty,
     val name: String = String.Empty,
     val email: String = String.Empty,

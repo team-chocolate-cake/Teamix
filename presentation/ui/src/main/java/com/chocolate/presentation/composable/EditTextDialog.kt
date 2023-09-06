@@ -14,7 +14,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,10 +32,10 @@ fun EditTextDialog(
     confirmButton: (String) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    var text by remember {
+    var text by rememberSaveable {
         mutableStateOf(value)
     }
-    var error by remember {
+    var error by rememberSaveable {
         mutableStateOf("")
     }
     val errorMessage = stringResource(id = R.string.full_name_can_t_be_empty)
@@ -79,10 +79,10 @@ fun EditTextDialog(
                     )
                     TextButton(
                         onClick = {
-                            if(text.isNotBlank()){
+                            if (text.isNotBlank()) {
                                 confirmButton(text)
                                 dismissButton()
-                            }else{
+                            } else {
                                 error = errorMessage
                             }
                         },

@@ -5,10 +5,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import com.chocolate.repository.datastore.local.PreferencesDataSource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -67,22 +66,27 @@ class DataStoreDataSource @Inject constructor(
     }
 
     override suspend fun upsertAppLanguage(newLanguage: String): Boolean {
-        val editor = sharedPreferences.edit()
-        editor.putString(LANGUAGE, newLanguage)
-        return editor.commit()
+        dataStore.setValue(LOCAL_LANGUAGE, newLanguage)
+        return true
     }
 
-    override suspend fun getLastSelectedAppLanguage(): String =
-        sharedPreferences.getString(LANGUAGE, null) ?: ENGLISH
+    override suspend fun getLastSelectedAppLanguage(): Flow<String> =
+        dataStore.data.map {
+            it[(LOCAL_LANGUAGE)] ?: ENGLISH
+        }
 
-    override suspend fun setDarkThemeValue(isDarkTheme: Boolean): Boolean {
-        val editor = sharedPreferences.edit()
-        editor.putBoolean(DARK_THEME, isDarkTheme)
-        return editor.commit()
+    override suspend fun setDarkThemeValue(isDarkTheme: Boolean) {
+        dataStore.setValue(IS_DARK_THEME, isDarkTheme)
     }
 
     override suspend fun isDarkThemeEnabled(): Boolean {
         return sharedPreferences.getBoolean(DARK_THEME, false)
+    }
+
+    override suspend fun isInDarkThemeFlow(): Flow<Boolean> {
+        return dataStore.data.map {
+            it[(IS_DARK_THEME)] ?: false
+        }
     }
 
     private suspend fun <T> DataStore<Preferences>.setValue(
@@ -100,8 +104,9 @@ class DataStoreDataSource @Inject constructor(
         const val API_KEY = "API_KEY"
         const val EMAIL = "EMAIL"
         const val NAME_ORGANIZATION = "CURRENT_USERNAME_ID"
-        const val LANGUAGE = "APP_LANGUAGE"
         const val ENGLISH = "en"
         const val DARK_THEME = "APP_DARK_THEME"
+        private val IS_DARK_THEME = booleanPreferencesKey("Is_Dark_Theme")
+        private val LOCAL_LANGUAGE = stringPreferencesKey("LOCAL_LANGUAGE")
     }
 }

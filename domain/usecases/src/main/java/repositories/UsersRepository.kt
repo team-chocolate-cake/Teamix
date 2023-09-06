@@ -16,7 +16,7 @@ interface UsersRepository {
 
     suspend fun getUserById(
         userId: Int,
-        clientGravatar: Boolean ,
+        clientGravatar: Boolean,
         includeCustomProfileFields: Boolean
     ): User
 
@@ -106,11 +106,11 @@ interface UsersRepository {
 
     suspend fun updateAppLanguage(newLanguage: String): Boolean
 
-    suspend fun getLastSelectedAppLanguage(): String
+    suspend fun getLastSelectedAppLanguage(): Flow<String>
 
-    suspend fun updateDarkTheme(isDarkTheme:Boolean):Boolean
+    suspend fun updateDarkTheme(isDarkTheme: Boolean)
 
-    suspend fun isDarkThemeEnabled():Boolean
+    suspend fun isDarkThemeEnabled(): Flow<Boolean>
 
     suspend fun upsertCurrentUser(email: String)
 

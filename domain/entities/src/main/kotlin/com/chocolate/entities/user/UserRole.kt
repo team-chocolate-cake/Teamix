@@ -11,5 +11,9 @@ enum class UserRole(val value: Int, val stringValue: String) {
         fun fromValue(value: Int): UserRole {
             return values().find { it.value == value } ?: MEMBER
         }
+
+        fun getIntValueByString(stringValue: String): Int? {
+            return values().find { it.stringValue == stringValue }?.value
+        }
     }
 }

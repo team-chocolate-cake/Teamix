@@ -2,7 +2,6 @@ package com.chocolate.presentation.screens.drafts
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -45,7 +44,7 @@ fun DraftsScreen(
 fun DraftsContent(state: DraftsUiState, draftInteraction: DraftInteraction) {
     val colors = MaterialTheme.customColors()
     TeamixScaffold(
-        isDarkMode = isSystemInDarkTheme(),
+        isDarkMode = state.isDarkModel,
         hasAppBar = true,
         hasBackArrow = true,
         containerColorAppBar = colors.card,
@@ -56,7 +55,7 @@ fun DraftsContent(state: DraftsUiState, draftInteraction: DraftInteraction) {
             NoInternetLottie(
                 text = stringResource(id = R.string.no_internet_connection),
                 isShow = state.error != null,
-                isDarkMode = isSystemInDarkTheme(),
+                isDarkMode = state.isDarkModel,
             )
         }
     ) { padding ->
@@ -82,13 +81,15 @@ fun DraftsContent(state: DraftsUiState, draftInteraction: DraftInteraction) {
                     onClickDismiss = { draftInteraction.deleteDraft(it) })
             }
         }
-        EmptyDataWithBoxLottie(
-            modifier = Modifier.padding(padding),
-            isPlaying = true,
-            isShow = state.draftItems.isEmpty() && !state.isLoading,
-            title = stringResource(R.string.draft_messages_to_send_when_you_re_ready),
-            subTitle = stringResource(R.string.sub_title_empty_data)
-        )
+                EmptyDataWithBoxLottie(
+                    modifier = Modifier.padding(padding),
+                    isPlaying = true,
+                    isShow = state.draftItems.isEmpty() && !state.isLoading,
+                    title = stringResource(R.string.draft_messages_to_send_when_you_re_ready),
+                    subTitle = stringResource(R.string.sub_title_empty_data)
+                )
+
+
         AnimatedVisibility(visible = state.isLoading, modifier = Modifier.padding(padding)) {
             Box(
                 modifier = Modifier.fillMaxSize(),

@@ -12,6 +12,12 @@ class OnboardingViewModel @Inject constructor(
     private val manageUserUsedApp: ManageUserUsedAppUseCase,
 ) : BaseViewModel<OnboardingUiState, OnboardingUiEffect>(OnboardingUiState()),
     OnboardingInteraction {
+    init {
+
+    }
+
+
+
     override fun onClickLetsStart() {
         viewModelScope.launch {
             manageUserUsedApp.setUserUsedAppForFirstTime(true)

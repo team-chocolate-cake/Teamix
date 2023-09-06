@@ -6,6 +6,7 @@ import java.util.Locale
 data class DraftsUiState(
     val draftItems: List<DraftItemUiState> = emptyList(),
     val showNoInternetLottie: Boolean = false,
+    val isDarkModel: Boolean = false,
     val isLoading: Boolean = false,
     val error: String? = null
 

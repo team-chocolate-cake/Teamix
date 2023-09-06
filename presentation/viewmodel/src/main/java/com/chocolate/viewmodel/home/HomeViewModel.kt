@@ -15,6 +15,7 @@ import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.profile.toOwnerUserUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,24 +31,22 @@ class HomeViewModel @Inject constructor(
     init {
         getData()
         isDarkTheme()
-
     }
 
     private fun isDarkTheme() {
         viewModelScope.launch(Dispatchers.IO) {
-            _state.update { it.copy(isDarkTheme = customizeProfileSettings.isDarkThem()) }
+            customizeProfileSettings.isDarkThem().collectLatest { isDark ->
+                _state.update { it.copy(isDarkTheme = isDark) }
+            }
         }
     }
 
     private fun getData() {
-        viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
-            getUserLoginState()
-            getOrganizationName()
-            getOrganizationImage()
-            getChannels()
-            getCurrentUserData()
-        }
+        getUserLoginState()
+        getOrganizationName()
+        getOrganizationImage()
+        getChannels()
+        getCurrentUserData()
     }
 
     override fun onClickDrafts() {
@@ -80,6 +79,7 @@ class HomeViewModel @Inject constructor(
 
 
     private fun getCurrentUserData() {
+        _state.update { it.copy(isLoading = true) }
         tryToExecute(
             getCurrentUserData::getRemoteCurrentUser,
             ::onGetCurrentUserDataSuccess,
@@ -88,8 +88,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onGetCurrentUserDataSuccess(user: User) {
-        val userUiState = user.toOwnerUserUiState()
-        _state.update { it.copy(role = userUiState.role) }
+        _state.update { it.copy(role = user.toOwnerUserUiState().role, isLoading = false) }
     }
 
     private fun onGetCurrentUserDataError(throwable: Throwable) {
@@ -97,6 +96,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getOrganizationImage() {
+        _state.update { it.copy(isLoading = true) }
         tryToExecute(
             manageOrganizationDetails::getOrganizationImage,
             ::onGettingOrganizationImageSuccess,
@@ -109,12 +109,14 @@ class HomeViewModel @Inject constructor(
             it.copy(
                 imageUrl = image,
                 showNoInternetLottie = false,
+                isLoading = false,
                 error = null
             )
         }
     }
 
     private fun getOrganizationName() {
+        _state.update { it.copy(isLoading = true) }
         tryToExecute(
             manageOrganizationDetails::getOrganizationName,
             ::onGettingOrganizationNameSuccess,
@@ -127,12 +129,14 @@ class HomeViewModel @Inject constructor(
             it.copy(
                 organizationTitle = organizationName,
                 showNoInternetLottie = false,
+                isLoading = false,
                 error = null
             )
         }
     }
 
     private fun getChannels() {
+        _state.update { it.copy(isLoading = true) }
         tryToExecute(
             manageChannels::getAllChannels,
             ::onGettingChannelsSuccess,
@@ -148,11 +152,11 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             getUserLoginStatus().collect { islogged ->
                 if (islogged) {
-                    _state.update {
-                        it.copy(isLogged = islogged)
-                    }
+                    _state.update { it.copy(isLogged = islogged) }
                 } else {
-                    sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
+                    launch(Dispatchers.Main) {
+                        sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
+                    }
                 }
             }
         }
@@ -163,13 +167,15 @@ class HomeViewModel @Inject constructor(
             is UnAuthorizedException, is ValidationException ->
                 sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
 
-            is NoConnectionException -> _state.update {
-                it.copy(
-                    showNoInternetLottie = true,
-                    isLoading = false,
-                    error = throwable.message
-                )
-            }
+            is NoConnectionException ->
+                _state.update {
+                    it.copy(
+                        showNoInternetLottie = true,
+                        isLoading = false,
+                        error = throwable.message
+                    )
+                }
         }
+        _state.update { it.copy(isLoading = false) }
     }
 }

@@ -135,18 +135,33 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+//    private fun getChannels() {
+//        _state.update { it.copy(isLoading = true) }
+//        tryToExecute(
+//            manageChannels::getAllChannels,
+//            ::onGettingChannelsSuccess,
+//            ::onError
+//        )
+//    }
+
     private fun getChannels() {
         _state.update { it.copy(isLoading = true) }
-        tryToExecute(
-            manageChannels::getAllChannels,
-            ::onGettingChannelsSuccess,
-            ::onError
-        )
+        viewModelScope.launch {
+            manageChannels.getStreamChannels().collect { channels ->
+                _state.update {
+                    it.copy(
+                        channels = channels.toUiState(),
+                        error = null,
+                        isLoading = false
+                    )
+                }
+            }
+        }
     }
 
-    private fun onGettingChannelsSuccess(channels: List<Channel>) {
-        _state.update { it.copy(channels = channels.toUiState(), error = null, isLoading = false) }
-    }
+//    private fun onGettingChannelsSuccess(channels: List<Channel>) {
+//        _state.update { it.copy(channels = channels.toUiState(), error = null, isLoading = false) }
+//    }
 
     private fun getUserLoginState() {
         viewModelScope.launch {

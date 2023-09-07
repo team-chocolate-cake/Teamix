@@ -8,6 +8,7 @@ object Constants {
     const val JUNCTION_CHANNEL_MEMBER = "JunctionChannelMember"
     const val JUNCTION_ORGANIZATION_MEMBER = "JunctionOrganizationMember"
     const val TOPICS = "Topics"
-    const val ORG = "teamix"
+    const val BASE = "teamix"
     const val MESSAGES = "messages"
+    const val PUBLICCHANNEL = "public channel"
 }

@@ -118,22 +118,24 @@ class MemberDataSourceImpl @Inject constructor(
         members: List<String>,
         channelId: String
     ) {
-        val channelDocRef = firebaseFirestore
-            .collection(Constants.ORGANIZATION)
-            .document(organizationName)
-            .collection(Constants.CHANNEL)
-            .document(channelId)
-        val channelRef = channelDocRef
-            .get()
-            .await()
-        channelRef.toObject<Channel>()?.let { channel ->
-            val oldMembersId = channel.membersId.toMutableList()
-            oldMembersId.addAll(members)
-            val newMembersId = oldMembersId.toList()
-            val newChannel = channel.copy(membersId = newMembersId)
-            channelDocRef
-                .set(newChannel)
+        tryToExecuteSuspendCall {
+            val channelDocRef = firebaseFirestore
+                .collection(Constants.ORGANIZATION)
+                .document(organizationName)
+                .collection(Constants.CHANNEL)
+                .document(channelId)
+            val channelRef = channelDocRef
+                .get()
                 .await()
+            channelRef.toObject<Channel>()?.let { channel ->
+                val oldMembersId = channel.membersId.toMutableList()
+                oldMembersId.addAll(members)
+                val newMembersId = oldMembersId.toList()
+                val newChannel = channel.copy(membersId = newMembersId)
+                channelDocRef
+                    .set(newChannel)
+                    .await()
+            }
         }
     }
 

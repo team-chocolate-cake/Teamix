@@ -1,9 +1,6 @@
 package com.chocolate.remote.data_source
 
-import android.util.Log
 import com.chocolate.entities.Organization
-import com.chocolate.entities.exceptions.EmptyOrganizationNameException
-import com.chocolate.entities.exceptions.OrganizationNotFoundException
 import com.chocolate.remote.firebase.util.Constants
 import com.chocolate.remote.firebase.util.tryToExecuteSuspendCall
 import com.chocolate.repository.datastore.remote.OrganizationDataSource
@@ -27,7 +24,7 @@ class OrganizationDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun addOrganization(organization: Organization) {
+    override suspend fun createOrganization(organization: Organization) {
         tryToExecuteSuspendCall {
             firebaseFirestore
                 .collection(Constants.ORGANIZATION)

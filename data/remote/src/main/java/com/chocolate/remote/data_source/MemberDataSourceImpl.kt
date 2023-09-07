@@ -1,7 +1,7 @@
 package com.chocolate.remote.data_source
 
 import com.chocolate.entities.channel.Channel
-import com.chocolate.entities.organization.Organization
+import com.chocolate.entities.Organization
 import com.chocolate.entities.user.Member
 import com.chocolate.entities.user.UserRole
 import com.chocolate.remote.firebase.util.Constants
@@ -16,121 +16,141 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class MemberDataSourceImpl @Inject constructor(
-    private val firebaseFirestore: FirebaseFirestore
+    private val firebaseFirestore: FirebaseFirestore,
 ) : MemberDataSource {
-    /*override suspend fun getMemberById(id: String): Member? {
+
+    override suspend fun getMemberInOrganizationById(
+        memberId: String,
+        organizationName: String
+    ): Member? {
         return tryToExecuteSuspendCall {
-            val memberSnapshot =
-                firebaseFirestore.collection(Constants.MEMBERS).document(id).get().await()
-            memberSnapshot.toObject<Member>()
+            val memberRef = firebaseFirestore
+                .collection(Constants.ORGANIZATION)
+                .document(organizationName)
+                .collection(Constants.MEMBERS)
+                .document(memberId)
+                .get()
+                .await()
+            memberRef.toObject<Member>()
         }
     }
 
-    override suspend fun getMembersInChannelByChannelId(id: String): Flow<List<Member>> {
+    override suspend fun getMembersInChannelByChannelId(
+        organizationName: String,
+        channelId: String
+    ): Flow<List<Member>> {
         return callbackFlow {
-            tryToExecuteSuspendCall {
-                val channelRef = firebaseFirestore
-                    .collection(Constants.CHANNEL)
-                    .document(id)
-                    .addSnapshotListener { channelSnapshot, exception ->
-                        exception?.let { close(it) }
-
-                        channelSnapshot?.toObject<Channel>()?.members?.let { ids ->
-                            firebaseFirestore
-                                .collection(Constants.MEMBERS)
-                                .whereIn("id", ids)
-                                .addSnapshotListener { membersSnapshot, membersException ->
-                                    membersException?.let { close(it) }
-
-                                    val members = membersSnapshot?.documents?.mapNotNull {
-                                        it.toObject<Member>()
-                                    } ?: emptyList()
-                                    trySend(members)
-                                }
-                        }
+            val organizationRef = firebaseFirestore
+                .collection(Constants.ORGANIZATION)
+                .document(organizationName)
+                .addSnapshotListener { organizationSnapshot, exception ->
+                    exception?.let { close(it) }
+                    organizationSnapshot?.toObject<Organization>()?.members?.let { members ->
+                        trySend(members.filter { it.channels.contains(channelId) })
                     }
-                awaitClose { channelRef.remove() }
-            }
+                }
+            awaitClose { organizationRef.remove() }
         }
     }
 
-    override suspend fun getMembersInOrganizationByOrganizationId(id: String): Flow<List<Member>> {
+    override suspend fun getMembersInOrganizationByOrganizationName(organizationName: String): Flow<List<Member>?> {
         return callbackFlow {
-            tryToExecuteSuspendCall {
-                val organizationRef = firebaseFirestore
-                    .collection(Constants.ORGANIZATION)
-                    .document(id)
-                    .addSnapshotListener { organizationSnapshot, exception ->
-                        exception?.let { close(it) }
-                        organizationSnapshot?.toObject<Organization>()?.members?.let { ids ->
-                            firebaseFirestore
-                                .collection(Constants.MEMBERS)
-                                .whereIn("id", ids)
-                                .addSnapshotListener { membersSnapshot, membersException ->
-                                    membersException?.let { close(it) }
-                                    val members = membersSnapshot?.documents?.mapNotNull {
-                                        it.toObject<Member>()
-                                    } ?: emptyList()
-                                    trySend(members)
-                                }
-                        }
-                    }
-                awaitClose { organizationRef.remove() }
-            }
+            val organizationRef = firebaseFirestore
+                .collection(Constants.ORGANIZATION)
+                .document(organizationName)
+                .addSnapshotListener { organizationSnapshot, exception ->
+                    exception?.let { close(it) }
+                    trySend(organizationSnapshot?.toObject<Organization>()?.members)
+                }
+            awaitClose { organizationRef.remove() }
         }
     }
 
-    override suspend fun deactivateMember(memberId: String) {
-        firebaseFirestore
-            .collection(Constants.MEMBERS)
-            .document(memberId)
-            .update("isActive", false)
-            .await()
+    override suspend fun getChannelsInOrganizationByOrganizationName(organizationName: String): Flow<List<Channel>?> {
+        return callbackFlow {
+            val organizationRef = firebaseFirestore
+                .collection(Constants.ORGANIZATION)
+                .document(organizationName)
+                .addSnapshotListener { organizationSnapshot, exception ->
+                    exception?.let { close(it) }
+                    trySend(organizationSnapshot?.toObject<Organization>()?.channels)
+                }
+            awaitClose { organizationRef.remove() }
+        }
     }
 
-    override suspend fun updateMember(member: Member) {
-        firebaseFirestore
-            .collection(Constants.MEMBERS)
-            .document(member.id)
-            .set(member)
-            .await()
-    }
-
-    override suspend fun changeRole(memberId: String, newRole: UserRole) {
+    override suspend fun deactivateMember(organizationName: String, memberId: String) {
         tryToExecuteSuspendCall {
             firebaseFirestore
+                .collection(Constants.MEMBERS)
+                .document(memberId)
+                .update("isActive", false)
+                .await()
+        }
+    }
+
+    override suspend fun updateMember(organizationName: String, member: Member) {
+        tryToExecuteSuspendCall {
+            firebaseFirestore
+                .collection(Constants.ORGANIZATION)
+                .document(organizationName)
+                .collection(Constants.MEMBERS)
+                .document(member.id)
+                .set(member)
+                .await()
+        }
+    }
+
+    override suspend fun changeRole(organizationName: String, memberId: String, newRole: UserRole) {
+        tryToExecuteSuspendCall {
+            firebaseFirestore
+                .collection(Constants.ORGANIZATION)
+                .document(organizationName)
                 .collection(Constants.MEMBERS)
                 .document(memberId)
                 .update("role", newRole)
                 .await()
         }
-    }*/
-    override suspend fun getMemberById(id: String): Member? {
-        TODO("Not yet implemented")
     }
 
-    override suspend fun getMembersInChannelByChannelId(id: String): Flow<List<Member>> {
-        TODO("Not yet implemented")
+    override suspend fun addMembersInChannel(
+        organizationName: String,
+        members: List<String>,
+        channelId: String
+    ) {
+        val channelDocRef = firebaseFirestore
+            .collection(Constants.ORGANIZATION)
+            .document(organizationName)
+            .collection(Constants.CHANNEL)
+            .document(channelId)
+        val channelRef = channelDocRef
+            .get()
+            .await()
+        channelRef.toObject<Channel>()?.let { channel ->
+            val oldMembersId = channel.membersId.toMutableList()
+            oldMembersId.addAll(members)
+            val newMembersId = oldMembersId.toList()
+            val newChannel = channel.copy(membersId = newMembersId)
+            channelDocRef
+                .set(newChannel)
+                .await()
+        }
     }
 
-    override suspend fun getMembersInOrganizationByOrganizationId(id: String): Flow<List<Member>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun deactivateMember(memberId: String) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun updateMember(member: Member) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun changeRole(memberId: String, newRole: UserRole) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun addMembersInChannel(members: List<String>, channelId: String) {
-        TODO("Not yet implemented")
+    override suspend fun getMemberInOrganizationByEmail(
+        organizationName: String,
+        email: String
+    ): Member? {
+        return tryToExecuteSuspendCall {
+            val memberRef = firebaseFirestore
+                .collection(Constants.ORGANIZATION)
+                .document(organizationName)
+                .collection(Constants.MEMBERS)
+                .whereEqualTo("email", email)
+                .get()
+                .await()
+            memberRef.documents.firstOrNull()?.toObject<Member>()
+        }
     }
 
 }

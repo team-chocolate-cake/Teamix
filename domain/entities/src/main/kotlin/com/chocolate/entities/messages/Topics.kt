@@ -1,9 +1,13 @@
 package com.chocolate.entities.messages
 
-import com.chocolate.entities.user.Member
+
+import java.util.Date
 
 data class Topic(
     val content: String,
-    val messages: List<Message>,
-    val topicSender: Member
+    val messages: List<KareemMessage>,
+    val senderName: String,
+    val senderId: String,
+    val senderImageUrl: String,
+    val sentTime: Date,
 )

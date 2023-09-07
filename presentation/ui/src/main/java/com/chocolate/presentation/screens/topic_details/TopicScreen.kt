@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.topic_details
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -42,6 +43,7 @@ fun TopicScreen(
 }
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun TopicContent(topicUiState: TopicUiState, topicInteraction: TopicInteraction) {
@@ -76,9 +78,12 @@ fun TopicContent(topicUiState: TopicUiState, topicInteraction: TopicInteraction)
                 verticalArrangement = Arrangement.spacedBy(SpacingXLarge),
                 contentPadding = PaddingValues(bottom = SpacingXLarge, top = SpacingXLarge)
             ) {
-                items(topicUiState.messages.size) {
+                items(topicUiState.messages.size, key = {
+                    topicUiState.messages[it].id
+                }) {
                     if (topicUiState.messages[it].isMyReplay)
                         MyReplyMessage(
+                            modifier = Modifier.animateItemPlacement(),
                             messageUiState = topicUiState.messages[it],
                             onAddReactionToMessage = { topicInteraction.onAddReactionToMessage(it) },
                             onGetNotification = { topicInteraction.onGetNotification() },
@@ -90,6 +95,7 @@ fun TopicContent(topicUiState: TopicUiState, topicInteraction: TopicInteraction)
                         )
                     else
                         ReplyMessage(
+                            modifier = Modifier.animateItemPlacement(),
                             messageUiState = topicUiState.messages[it],
                             onAddReactionToMessage = { topicInteraction.onAddReactionToMessage(it) },
                             onGetNotification = { topicInteraction.onGetNotification() },

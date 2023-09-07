@@ -2,12 +2,12 @@ package com.chocolate.repository.repository
 
 import com.chocolate.entities.Organization
 import com.chocolate.repository.datastore.local.PreferencesDataSource
-import com.chocolate.repository.datastore.remote.OrganizationDataSource
+import com.chocolate.repository.datastore.remote.OrganizationRemoteDataSource
 import repositories.OrganizationsRepository
 import javax.inject.Inject
 
 class OrganizationsRepositoryImpl @Inject constructor(
-    private val organizationRemoteDataSource: OrganizationDataSource,
+    private val organizationRemoteDataSource: OrganizationRemoteDataSource,
     private val preferencesDataSource: PreferencesDataSource
 ) : OrganizationsRepository {
 

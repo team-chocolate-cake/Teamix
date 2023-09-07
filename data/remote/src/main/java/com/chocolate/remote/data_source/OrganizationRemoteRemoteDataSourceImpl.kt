@@ -3,15 +3,15 @@ package com.chocolate.remote.data_source
 import com.chocolate.entities.Organization
 import com.chocolate.remote.firebase.util.Constants
 import com.chocolate.remote.firebase.util.tryToExecuteSuspendCall
-import com.chocolate.repository.datastore.remote.OrganizationDataSource
+import com.chocolate.repository.datastore.remote.OrganizationRemoteDataSource
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class OrganizationDataSourceImpl @Inject constructor(
+class OrganizationRemoteRemoteDataSourceImpl @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore
-) : OrganizationDataSource {
+) : OrganizationRemoteDataSource {
 
     override suspend fun getOrganizationByName(organizationName: String): Organization? {
         return tryToExecuteSuspendCall {

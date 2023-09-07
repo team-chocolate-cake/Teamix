@@ -9,4 +9,7 @@ class TopicsUseCase @Inject constructor(private val topicRepository: TopicReposi
         topicRepository.createTopic(channelId,content,senderId)
     }
 
+    suspend fun getTopicMessages(){
+        topicRepository.getTopicMessages(channelId = "", topicId = "")
+    }
 }

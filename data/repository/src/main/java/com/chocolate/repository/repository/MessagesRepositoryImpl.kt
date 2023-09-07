@@ -4,11 +4,15 @@ import com.chocolate.entities.draft.Draft
 import com.chocolate.entities.exceptions.NullDataException
 import com.chocolate.entities.messages.Message
 import com.chocolate.repository.datastore.local.LocalDataSource
+import com.chocolate.repository.datastore.realtime.RealTimeDataSource
 import com.chocolate.repository.datastore.remote.MessagesRemoteDataSource
 import com.chocolate.repository.mappers.draft.toEntity
 import com.chocolate.repository.mappers.messages.toEntity
 import com.chocolate.repository.mappers.messages.toLocalDto
+import com.chocolate.repository.mappers.messages.toMessage
 import com.chocolate.repository.utils.toJson
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -18,7 +22,8 @@ import javax.inject.Inject
 
 class MessagesRepositoryImpl @Inject constructor(
     private val messageDataSource: MessagesRemoteDataSource,
-    private val teamixLocalDataSource: LocalDataSource
+    private val teamixLocalDataSource: LocalDataSource,
+    private val realTimeDataSource: RealTimeDataSource
 ) : MessagesRepository {
 
     override suspend fun getDrafts(): List<Draft> {
@@ -61,23 +66,16 @@ class MessagesRepositoryImpl @Inject constructor(
         messageDataSource.deleteDraft(id)
     }
 
-    override suspend fun sendStreamMessage(
-        type: String,
-        to: Any,
-        topic: String,
-        content: String,
-        queueId: String?,
-        localId: String?
-    ): Int {
-        val sendSteamMessageDto = messageDataSource.sendStreamMessage(
-            type,
-            to,
-            topic,
-            content,
-            queueId,
-            localId
-        )
-        return sendSteamMessageDto.id ?: -1
+    override suspend fun sendStreamMessage(text: String, channelId: String, userId: String,senderName:String,senderImage:String) {
+        realTimeDataSource.sendMessage(text, userId.toInt(), channelId.toInt(),senderName,senderImage)
+    }
+
+    override suspend fun getMessages(channelId: String): Flow<List<Message>?> {
+        return realTimeDataSource.getMessages(channelId.toInt()).map { messages ->
+            messages.map {
+                it.toMessage()
+            }
+        }
     }
 
     override suspend fun sendDirectMessage(
@@ -114,26 +112,6 @@ class MessagesRepositoryImpl @Inject constructor(
         messageDataSource.deleteMessage(messageId)
     }
 
-    override suspend fun getMessages(
-        anchor: String?,
-        includeAnchor: Boolean,
-        numBefore: Int,
-        numAfter: Int,
-        narrow: List<String>?,
-        clientGravatar: Boolean,
-        applyMarkdown: Boolean
-    ): List<Message> {
-        val messagesDto = messageDataSource.getMessages(
-            anchor,
-            includeAnchor,
-            numBefore,
-            numAfter,
-            narrow,
-            clientGravatar,
-            applyMarkdown
-        )
-        return messagesDto.messages.toEntity()
-    }
 
     override suspend fun addEmojiReaction(
         messageId: Int,
@@ -181,10 +159,6 @@ class MessagesRepositoryImpl @Inject constructor(
         return messageDataSource.uploadFile(filePart).uri.orEmpty()
     }
 
-    override suspend fun fetchSingleMethod(messageId: Int): Message {
-        return messageDataSource.fetchSingleMessage(messageId).message?.toEntity()
-            ?: throw NullDataException("")
-    }
 
     override suspend fun checkIfMessagesMatchNarrow(
         messagesIds: String,

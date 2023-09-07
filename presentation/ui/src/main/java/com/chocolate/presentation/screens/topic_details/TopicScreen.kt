@@ -54,7 +54,7 @@ fun TopicContent(topicUiState: TopicUiState, topicInteraction: TopicInteraction)
             StartNewMessage(
                 openEmojisTile = { topicInteraction.openEmojisTile() },
                 onMessageInputChanged = { topicInteraction.onMessageInputChanged(it) },
-                onSendMessage = { topicInteraction.onSendMessage() },
+                onSendMessage = { topicInteraction.onSendMessage(topicUiState.messageInput) },
                 onStartVoiceRecording = { topicInteraction.onStartVoiceRecording() },
                 onClickCamera = { topicInteraction.onClickCamera() },
                 onClickPhotoOrVideo = { topicInteraction.onClickPhotoOrVideo(it) },

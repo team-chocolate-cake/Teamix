@@ -84,8 +84,8 @@ fun HomeScreen(
     val state by homeViewModel.state.collectAsState()
     CollectUiEffect(homeViewModel.effect) { effect ->
         when (effect) {
-            is HomeUiEffect.NavigateToChannel -> navController.navigateToChannel(
-                effect.id,
+            is HomeUiEffect.NavigateToChannel -> navController.navigateToTopic(
+                //effect.id,
                 effect.name
             )
             HomeUiEffect.NavigateToOrganizationName -> navController.navigateToOrganizationName {

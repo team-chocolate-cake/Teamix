@@ -4,7 +4,7 @@ interface TopicInteraction {
     fun onClickBackButton()
     fun openEmojisTile()
     fun onMessageInputChanged(text: String)
-    fun onSendMessage()
+    fun onSendMessage(text: String)
     fun onStartVoiceRecording()
     fun onClickCamera()
     fun onClickPhotoOrVideo(position: Int)

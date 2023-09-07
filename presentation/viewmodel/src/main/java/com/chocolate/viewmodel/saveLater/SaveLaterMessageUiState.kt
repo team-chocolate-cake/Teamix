@@ -24,9 +24,9 @@ fun Message.toMessageUiState(): MessageItemUiState {
     return MessageItemUiState(
         id = id,
         username = senderFullName,
-        imageUrl = senderAvatarUrl,
+       imageUrl = senderAvatarUrl,
         messageContent = messageContent,
-        time = formatDate(timestamp),
+       // time = formatDate(timestamp),
     )
 }
 

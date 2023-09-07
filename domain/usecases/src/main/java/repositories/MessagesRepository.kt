@@ -2,6 +2,7 @@ package repositories
 
 import com.chocolate.entities.draft.Draft
 import com.chocolate.entities.messages.Message
+import kotlinx.coroutines.flow.Flow
 import java.io.File
 
 interface MessagesRepository {
@@ -25,14 +26,20 @@ interface MessagesRepository {
     )
 
     suspend fun deleteDraft(id: Int)
+
+
     suspend fun sendStreamMessage(
-        type: String,
-        to: Any,
-        topic: String,
-        content: String,
-        queueId: String? = null,
-        localId: String? = null,
-    ): Int
+        text: String,
+        channelId: String,
+        userId: String,
+        senderName:String,
+        senderImage:String
+    )
+
+    suspend fun getMessages(
+        channelId: String
+    ): Flow<List<Message>?>
+
 
     suspend fun sendDirectMessage(
         type: String,
@@ -53,15 +60,7 @@ interface MessagesRepository {
 
     suspend fun deleteMessage(messageId: Int)
 
-    suspend fun getMessages(
-        anchor: String?,
-        includeAnchor: Boolean = true,
-        numBefore: Int,
-        numAfter: Int,
-        narrow: List<String>? = null,
-        clientGravatar: Boolean = true,
-        applyMarkdown: Boolean = true
-    ): List<Message>?
+
 
     suspend fun addEmojiReaction(
         messageId: Int,
@@ -85,7 +84,6 @@ interface MessagesRepository {
 
     suspend fun uploadFile(file: File): String?
 
-    suspend fun fetchSingleMethod(messageId: Int): Message
 
     suspend fun checkIfMessagesMatchNarrow(messagesIds: String, narrow: String): String
 
@@ -95,15 +93,5 @@ interface MessagesRepository {
 
     suspend fun deleteSavedMessageById(id: Int)
 
-//    suspend fun getMessagesEditHistory(messageId: Int): List<MessageEditHistory>
 
-//    suspend fun updatePersonalMessageFlagsForNarrow(
-//        anchor: String,
-//        numBefore: Int,
-//        numAfter: Int,
-//        includeAnchor: Boolean = true,
-//        narrow: String,
-//        op: String,
-//        flag: String
-//    ): PersonalMessageForNarrow
 }

@@ -59,3 +59,4 @@ fun ChannelDto.toChannel() = Channel(
     isCurrentUserSubscribed = false,
     isMuted = false
 )
+

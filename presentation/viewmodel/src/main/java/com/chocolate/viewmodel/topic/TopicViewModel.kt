@@ -1,19 +1,33 @@
 package com.chocolate.viewmodel.topic
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
+import com.chocolate.usecases.message.ManageChannelMessages
+import com.chocolate.usecases.user.GetCurrentUserDataUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
+import com.chocolate.viewmodel.channel.ChannelArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class TopicViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    private val manageChannelMessages: ManageChannelMessages,
+    private val getCurrentUserDataUseCase: GetCurrentUserDataUseCase
 ) : BaseViewModel<TopicUiState, TopicEffect>(TopicUiState()), TopicInteraction {
 
     private val topicArgs = TopicArgs(savedStateHandle)
+    //private val channelArgs = ChannelArgs(savedStateHandle)
 
-    init { _state.update { it.copy(topicName = topicArgs.topicName) } }
+    init {
+        _state.update { it.copy(topicName = topicArgs.topicName) }
+        getAllMessages()
+
+    }
 
     override fun onClickBackButton() {
         sendUiEffect(TopicEffect.NavigationBack)
@@ -27,9 +41,35 @@ class TopicViewModel @Inject constructor(
         _state.update { it.copy(messageInput = text) }
     }
 
-    override fun onSendMessage() {
-
+    override fun onSendMessage(text: String) {
+        Log.i("SHowALLL",state.value.messages.toString())
+        viewModelScope.launch {
+            val id=getCurrentUserDataUseCase.invoke().id
+            val name=getCurrentUserDataUseCase.invoke().fullName
+            val imageUrl=getCurrentUserDataUseCase.invoke().imageUrl
+            manageChannelMessages.sendMessage(channelId = "1277103864", text = text,
+                userId= id.toString(), senderName = name,senderImage=imageUrl)
+        }
     }
+
+    private fun getAllMessages() {
+        viewModelScope.launch {
+            manageChannelMessages.getMessages("1277103864").collectLatest { messages ->
+                messages.map {
+                    val id = getCurrentUserDataUseCase.invoke().id
+                    val isMyMessage = it.senderId==id
+                    Log.i("TEstAbood",isMyMessage.toString())
+                   // Log.i("TEstIDD",channelArgs.channelId.toString())
+                    _state.update {
+                        it.copy(
+                            messages = messages.toUiState(false)
+                        )
+                    }
+                }
+            }
+        }
+    }
+
 
     override fun onStartVoiceRecording() {
 

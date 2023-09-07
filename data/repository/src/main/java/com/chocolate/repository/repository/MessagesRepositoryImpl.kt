@@ -4,7 +4,6 @@ import com.chocolate.entities.draft.Draft
 import com.chocolate.entities.exceptions.NullDataException
 import com.chocolate.entities.messages.Message
 import com.chocolate.repository.datastore.local.LocalDataSource
-import com.chocolate.repository.datastore.realtime.RealTimeDataSource
 import com.chocolate.repository.datastore.remote.MessagesRemoteDataSource
 import com.chocolate.repository.mappers.draft.toEntity
 import com.chocolate.repository.mappers.messages.toEntity
@@ -23,7 +22,6 @@ import javax.inject.Inject
 class MessagesRepositoryImpl @Inject constructor(
     private val messageDataSource: MessagesRemoteDataSource,
     private val teamixLocalDataSource: LocalDataSource,
-    private val realTimeDataSource: RealTimeDataSource
 ) : MessagesRepository {
 
     override suspend fun getDrafts(): List<Draft> {
@@ -67,11 +65,11 @@ class MessagesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun sendStreamMessage(text: String, channelId: String, userId: String,senderName:String,senderImage:String) {
-        realTimeDataSource.sendMessage(text, userId.toInt(), channelId.toInt(),senderName,senderImage)
+        messageDataSource.sendMessage(text, userId.toInt(), channelId.toInt(),senderName,senderImage)
     }
 
     override suspend fun getMessages(channelId: String): Flow<List<Message>?> {
-        return realTimeDataSource.getMessages(channelId.toInt()).map { messages ->
+        return messageDataSource.getMessages(channelId.toInt()).map { messages ->
             messages.map {
                 it.toMessage()
             }

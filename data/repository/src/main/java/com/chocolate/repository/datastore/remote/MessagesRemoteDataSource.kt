@@ -1,5 +1,6 @@
 package com.chocolate.repository.datastore.remote
 
+import com.chocolate.repository.datastore.realtime.model.MessageDto
 import com.chocolate.repository.model.dto.draft.response.BaseDraftResponse
 import com.chocolate.repository.model.dto.draft.response.DraftsDto
 import com.chocolate.repository.model.dto.message.response.DefaultMessageRemoteDto
@@ -11,9 +12,20 @@ import com.chocolate.repository.model.dto.message.response.MessagesRemoteDto
 import com.chocolate.repository.model.dto.message.response.RenderMessageDto
 import com.chocolate.repository.model.dto.message.response.SendMessageDto
 import com.chocolate.repository.model.dto.message.response.SingleMessageDto
+import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
 
 interface MessagesRemoteDataSource {
+
+    suspend fun sendMessage(
+        text: String, userId: Int,
+        channel: Int,
+        senderName: String,
+        senderImage: String
+    )
+
+    suspend fun getMessages(channelId: Int): Flow<List<MessageDto>>
+
 
     suspend fun getDrafts(): DraftsDto
 
@@ -64,15 +76,7 @@ interface MessagesRemoteDataSource {
 
     suspend fun deleteMessage(messageId: Int): DefaultMessageRemoteDto
 
-    suspend fun getMessages(
-        anchor: String?,
-        includeAnchor: Boolean = true,
-        numBefore: Int,
-        numAfter: Int,
-        narrow: List<String>? = null,
-        clientGravatar: Boolean = true,
-        applyMarkdown: Boolean = true
-    ): MessagesRemoteDto
+
 
     suspend fun addEmojiReaction(
         messageId: Int,

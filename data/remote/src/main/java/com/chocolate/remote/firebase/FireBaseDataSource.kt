@@ -53,37 +53,37 @@ class FireBaseDataSource @Inject constructor(
         }
     }
 
-    override suspend fun sendMessage(text: String, userId: Int, channel: Int,senderName:String,
-                                     senderImage:String) {
-        val messageId = getRandomId()
-        val message = MessageDto(
-            id=messageId.toString(),
-            text = text,
-            userId = userId,
-            channelId = channel,
-            senderName=senderName,
-            senderImage=senderImage
-        )
-        wrapRealTimeCall {
-            fireStore.collection(Constants.CHANNEL).document(channel.toString())
-                .collection(Constants.MESSAGE)
-                .document(messageId.toString()).set(message).await()
-        }
-    }
-
-
-    override suspend fun getMessages(channelId: Int): Flow<List<MessageDto>> {
-        return callbackFlow {
-            val listener = fireStore.collection(Constants.CHANNEL).document(channelId.toString())
-                .collection(Constants.MESSAGE).addSnapshotListener { value, error ->
-                    if (error != null)
-                        throw TeamixException(error.message)
-                    val messages = value?.toObjects<MessageDto>()
-                    messages?.let {
-                        trySend(it)
-                    }
-                }
-            awaitClose { listener.remove() }
-        }
-    }
+//    override suspend fun sendMessage(text: String, userId: Int, channel: Int,senderName:String,
+//                                     senderImage:String) {
+//        val messageId = getRandomId()
+//        val message = MessageDto(
+//            id=messageId.toString(),
+//            text = text,
+//            userId = userId,
+//            channelId = channel,
+//            senderName=senderName,
+//            senderImage=senderImage
+//        )
+//        wrapRealTimeCall {
+//            fireStore.collection(Constants.CHANNEL).document(channel.toString())
+//                .collection(Constants.MESSAGE)
+//                .document(messageId.toString()).set(message).await()
+//        }
+//    }
+//
+//
+//    override suspend fun getMessages(channelId: Int): Flow<List<MessageDto>> {
+//        return callbackFlow {
+//            val listener = fireStore.collection(Constants.CHANNEL).document(channelId.toString())
+//                .collection(Constants.MESSAGE).addSnapshotListener { value, error ->
+//                    if (error != null)
+//                        throw TeamixException(error.message)
+//                    val messages = value?.toObjects<MessageDto>()
+//                    messages?.let {
+//                        trySend(it)
+//                    }
+//                }
+//            awaitClose { listener.remove() }
+//        }
+//    }
 }

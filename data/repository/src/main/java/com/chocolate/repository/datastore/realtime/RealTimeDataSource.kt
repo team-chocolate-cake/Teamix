@@ -14,13 +14,13 @@ interface RealTimeDataSource {
 
     fun getChannels(): Flow<List<ChannelDto>>
 
-    suspend fun sendMessage(
-        text: String, userId: Int,
-        channel: Int,
-        senderName: String,
-        senderImage: String
-    )
-
-    suspend fun getMessages(channelId: Int): Flow<List<MessageDto>>
+//    suspend fun sendMessage(
+//        text: String, userId: Int,
+//        channel: Int,
+//        senderName: String,
+//        senderImage: String
+//    )
+//
+//    suspend fun getMessages(channelId: Int): Flow<List<MessageDto>>
 
 }

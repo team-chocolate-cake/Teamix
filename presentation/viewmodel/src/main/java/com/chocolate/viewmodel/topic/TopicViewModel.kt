@@ -3,11 +3,12 @@ package com.chocolate.viewmodel.topic
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.chocolate.entities.messages.Message
 import com.chocolate.usecases.message.ManageChannelMessages
 import com.chocolate.usecases.user.GetCurrentUserDataUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
-import com.chocolate.viewmodel.channel.ChannelArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -54,7 +55,8 @@ class TopicViewModel @Inject constructor(
 
     private fun getAllMessages() {
         viewModelScope.launch {
-            manageChannelMessages.getMessages(topicArgs.topicId.toString()).collectLatest { messages ->
+            tryToExecuteFlow({manageChannelMessages.getMessages(topicArgs.topicId.toString())},::onSuccessGetMessage,::onError)
+        /*    manageChannelMessages.getMessages(topicArgs.topicId.toString()).collectLatest { messages ->
                 messages.map {
                     val id = getCurrentUserDataUseCase.invoke().id
                     val isMyMessage = it.senderId==id
@@ -66,7 +68,28 @@ class TopicViewModel @Inject constructor(
                         )
                     }
                 }
+            }*/
+        }
+    }
+
+    private fun onError(throwable: Throwable) {
+        _state.update { it.copy(error = throwable.message) }
+    }
+
+    private suspend fun onSuccessGetMessage(flow: Flow<List<Message>>) {
+        flow.collectLatest {messages ->
+            messages.map {
+                val id = getCurrentUserDataUseCase.invoke().id
+                val isMyMessage = it.senderId==id
+                Log.i("TEstAbood",isMyMessage.toString())
+                // Log.i("TEstIDD",channelArgs.channelId.toString())
+                _state.update {
+                    it.copy(
+                        messages = messages.toUiState(false)
+                    )
+                }
             }
+
         }
     }
 

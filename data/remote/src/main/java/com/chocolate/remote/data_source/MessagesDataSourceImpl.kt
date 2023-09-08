@@ -16,7 +16,6 @@ import com.chocolate.repository.model.dto.message.response.FileRemoteDto
 import com.chocolate.repository.model.dto.message.response.MatchNarrowDto
 import com.chocolate.repository.model.dto.message.response.MessageEditHistoryDto
 import com.chocolate.repository.model.dto.message.response.MessageReadReceiptsDto
-import com.chocolate.repository.model.dto.message.response.MessagesRemoteDto
 import com.chocolate.repository.model.dto.message.response.RenderMessageDto
 import com.chocolate.repository.model.dto.message.response.SendMessageDto
 import com.chocolate.repository.model.dto.message.response.SingleMessageDto
@@ -29,7 +28,7 @@ import kotlinx.coroutines.tasks.await
 import okhttp3.MultipartBody
 import javax.inject.Inject
 
-class MessagesRetrofitDataSource @Inject constructor(
+class MessagesDataSourceImpl @Inject constructor(
     private val messageService: MessageService,
     private val draftService: DraftService,
     private val fireStore: FirebaseFirestore,

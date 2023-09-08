@@ -43,7 +43,7 @@ fun Topic(
     ) {
 
         Text(
-            modifier = Modifier.padding(vertical = SpacingXLarge , horizontal = SpacingSmall),
+            modifier = Modifier.padding(vertical = SpacingXLarge, horizontal = SpacingSmall),
             text = topicName,
             color = MaterialTheme.customColors().onBackground87,
             style = MaterialTheme.typography.bodyMedium

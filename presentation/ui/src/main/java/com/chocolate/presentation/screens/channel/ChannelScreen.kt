@@ -35,13 +35,13 @@ fun ChannelScreen(
     navController: NavController = LocalNavController.current
 ) {
     val state by channelViewModel.state.collectAsState()
-    CollectUiEffect(channelViewModel.effect) { channelUiEffect ->
-        when (channelUiEffect) {
-            is ChannelUiEffect.NavigateToTopicDetails -> navController.navigateToTopic(
-                channelUiEffect.topicName
-            )
-        }
-    }
+//    CollectUiEffect(channelViewModel.effect) { channelUiEffect ->
+//        when (channelUiEffect) {
+//            is ChannelUiEffect.NavigateToTopicDetails -> navController.navigateToTopic(
+//                channelUiEffect.topicName
+//            )
+//        }
+//    }
 
     ChannelContent(
         state = state,

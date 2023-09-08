@@ -7,18 +7,20 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.chocolate.presentation.Screen
-import com.chocolate.viewmodel.channel.ChannelArgs
 import com.chocolate.viewmodel.topic.TopicArgs
 
 fun NavGraphBuilder.topicRoute(){
     composable(
-        route = "${Screen.Topic.route}/{${TopicArgs.TOPIC_NAME}}",
-        arguments = listOf(navArgument(TopicArgs.TOPIC_NAME) { NavType.StringType },)
+        route = "${Screen.Topic.route}/{${TopicArgs.TOPIC_ID}}/{${TopicArgs.TOPIC_NAME}}",
+        arguments = listOf(
+            navArgument(TopicArgs.TOPIC_ID){NavType.IntType},
+            navArgument(TopicArgs.TOPIC_NAME) { NavType.StringType }
+        )
     ){
         TopicScreen()
     }
 }
 
-fun NavController.navigateToTopic(topicName: String){
-    navigate("${Screen.Topic.route}/$topicName")
+fun NavController.navigateToTopic(id:Int,topicName: String){
+    navigate("${Screen.Topic.route}/$id/$topicName")
 }

@@ -85,7 +85,7 @@ fun HomeScreen(
     CollectUiEffect(homeViewModel.effect) { effect ->
         when (effect) {
             is HomeUiEffect.NavigateToChannel -> navController.navigateToTopic(
-                //effect.id,
+                effect.id,
                 effect.name
             )
             HomeUiEffect.NavigateToOrganizationName -> navController.navigateToOrganizationName {
@@ -96,7 +96,7 @@ fun HomeScreen(
             HomeUiEffect.NavigationToDrafts -> navController.navigateToDrafts()
             HomeUiEffect.NavigationToSavedLater -> navController.navigateToSaveLater()
             HomeUiEffect.NavigationToStarred -> {}
-            is HomeUiEffect.NavigateToTopic -> navController.navigateToTopic(effect.topicName)
+           // is HomeUiEffect.NavigateToTopic -> navController.navigateToTopic(effect.topicName)
             HomeUiEffect.NavigateToCreateChannel -> navController.navigateToCreateChannel()
         }
     }

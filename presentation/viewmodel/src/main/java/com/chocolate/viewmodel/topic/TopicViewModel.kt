@@ -47,14 +47,14 @@ class TopicViewModel @Inject constructor(
             val id=getCurrentUserDataUseCase.invoke().id
             val name=getCurrentUserDataUseCase.invoke().fullName
             val imageUrl=getCurrentUserDataUseCase.invoke().imageUrl
-            manageChannelMessages.sendMessage(channelId = "1277103864", text = text,
+            manageChannelMessages.sendMessage(channelId =topicArgs.topicId.toString(), text = text,
                 userId= id.toString(), senderName = name,senderImage=imageUrl)
         }
     }
 
     private fun getAllMessages() {
         viewModelScope.launch {
-            manageChannelMessages.getMessages("1277103864").collectLatest { messages ->
+            manageChannelMessages.getMessages(topicArgs.topicId.toString()).collectLatest { messages ->
                 messages.map {
                     val id = getCurrentUserDataUseCase.invoke().id
                     val isMyMessage = it.senderId==id

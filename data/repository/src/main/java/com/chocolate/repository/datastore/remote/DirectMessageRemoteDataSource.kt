@@ -1,13 +1,14 @@
 package com.chocolate.repository.datastore.remote
 
+import com.chocolate.entities.directMessage.Chat
 import com.chocolate.entities.directMessage.DMMessage
 
 interface DirectMessageRemoteDataSource {
 
-    fun getChatsByUserId(userid: String): List<String>
+    suspend fun getChatsByUserId(userid: String): List<Chat>
 
-    fun fetchMessagesByGroupId(groupId: String) :List<DMMessage>
+    suspend fun fetchMessagesByGroupId(groupId: String) :List<DMMessage>
 
-    fun sendMessage(messageText: String, sentAt: String, currentGroupId: String)
+    suspend fun sendMessage(messageText: String, sentAt: String, currentGroupId: String)
 
 }

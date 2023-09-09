@@ -5,10 +5,14 @@ import com.chocolate.local.datastore.DataStoreDataSource
 import com.chocolate.remote.data_source.ChannelRetrofitDataSource
 import com.chocolate.remote.data_source.MessagesDataSourceImpl
 import com.chocolate.remote.data_source.OrganizationRetrofitDataSource
+import com.chocolate.remote.data_source.MessagesRetrofitDataSource
+import com.chocolate.remote.data_source.OrganizationDataSourceImpl
 import com.chocolate.remote.data_source.UserRetrofitDataSource
 import com.chocolate.remote.firebase.TaskFirebase
+import com.chocolate.remote.firebase.TopicFireBaseDataSource
 import com.chocolate.repository.datastore.local.LocalDataSource
 import com.chocolate.repository.datastore.local.PreferencesDataSource
+import com.chocolate.repository.datastore.realtime.TopicDataSource
 import com.chocolate.repository.datastore.remote.ChannelRemoteDataSource
 import com.chocolate.repository.datastore.remote.MessagesRemoteDataSource
 import com.chocolate.repository.datastore.remote.OrganizationRemoteDataSource
@@ -58,4 +62,12 @@ abstract class DataSourceModule {
     @Singleton
     @Binds
     abstract fun bindUserDatabase(taskFirebase: TaskFirebase): TaskRemoteDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindsTopicDataSource(topicDataSource: TopicFireBaseDataSource): TopicDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindsOrganizationDataSource(organization: OrganizationDataSourceImpl): OrganizationRemoteDataSource
 }

@@ -1,5 +1,7 @@
 package com.chocolate.repository.datastore.remote
 
+import com.chocolate.entities.Organization
+import com.chocolate.entities.channel.Channel
 import com.chocolate.repository.model.dto.server_and_organizations.response.CustomEmojiDto
 import com.chocolate.repository.model.dto.server_and_organizations.response.CustomProfileFieldsDto
 import com.chocolate.repository.model.dto.server_and_organizations.response.DefaultOrganizationDto
@@ -8,46 +10,12 @@ import com.chocolate.repository.model.dto.server_and_organizations.response.Serv
 
 interface OrganizationRemoteDataSource {
 
-    suspend fun getServerSettings(): ServerSettingsDto
+    suspend fun getOrganizationById(id:String): Organization
+    suspend fun getOrganizaionsByMemberId(id:String): List<Organization>
+    suspend fun addOrganization(organization:Organization)
+    suspend fun deleteOrganizationbyId(id:String)
+    suspend fun updateOrganization(organization:Organization)
+    suspend fun addChannel(organizationId: Long, channel: Channel)
+    suspend fun deleteChannelById(channelId: Long)
 
-    suspend fun getLinkifiers(): LinkifiersDto
-
-    suspend fun addLinkifiers(
-        pattern: String,
-        url: String
-    ): DefaultOrganizationDto
-
-    suspend fun updateLinkifiers(
-        filterId: Int,
-        pattern: String,
-        url: String
-    ): DefaultOrganizationDto
-
-    suspend fun deleteLinkifiers(filterId: Int): DefaultOrganizationDto
-
-    suspend fun addCodePlayGround(
-        name: String,
-        language: String,
-        url: String,
-    ): DefaultOrganizationDto
-
-    suspend fun deleteCodePlayground(playGroundId: Int): DefaultOrganizationDto
-
-    suspend fun getAllCustomEmojis(): CustomEmojiDto
-
-    suspend fun addCustomEmoji(emojiName: String): DefaultOrganizationDto
-
-    suspend fun deactivateCustomEmoji(emojiName: String): DefaultOrganizationDto
-
-    suspend fun getAllCustomProfileFields(): CustomProfileFieldsDto
-
-    suspend fun reorderCustomProfileFields(
-        order: String
-    ): DefaultOrganizationDto
-
-    suspend fun createCustomProfileField(
-        name: String = "",
-        hint: String = "",
-        fieldType: Int,
-    ): DefaultOrganizationDto
 }

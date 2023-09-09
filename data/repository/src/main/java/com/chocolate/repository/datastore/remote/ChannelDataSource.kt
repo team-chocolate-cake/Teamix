@@ -1,9 +1,9 @@
-package com.chocolate.repository.datastore.realtime
+package com.chocolate.repository.datastore.remote
 
-import com.chocolate.repository.datastore.realtime.model.ChannelDto
+import com.chocolate.repository.model.dto.channels.ChannelDto
 import kotlinx.coroutines.flow.Flow
 
-interface RealTimeDataSource {
+interface ChannelDataSource {
     suspend fun createChannel(
         channelName: String,
         usersId: List<Int>,

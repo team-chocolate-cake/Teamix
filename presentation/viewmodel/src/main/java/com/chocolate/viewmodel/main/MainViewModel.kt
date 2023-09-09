@@ -1,12 +1,13 @@
 package com.chocolate.viewmodel.main
 
 import androidx.lifecycle.viewModelScope
-import com.chocolate.usecases.user.CustomizeProfileSettingsUseCase
-import com.chocolate.usecases.user.GetUserLoginStatusUseCase
+import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
+import com.chocolate.usecases.member.IsMemberLoggedInUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -14,33 +15,21 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val customizeProfileSettings: CustomizeProfileSettingsUseCase,
-    private val getUserLoginStatus: GetUserLoginStatusUseCase,
+    private val getUserLoginStatus: IsMemberLoggedInUseCase,
 ) : BaseViewModel<MainUiState, Unit>(MainUiState()) {
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-            isDarkThem()
-            launch(Dispatchers.Default) {
-                delay(500)
-                getUserLoginStatus().collect { check ->
-                    _state.update {
-                        it.copy(
-                            isLoggedIn = check
-                        )
-                    }
-                }
-
-            }
+        _state.update { it.copy(isLoggedIn = getUserLoginStatus())
         }
     }
 
     suspend fun getLastSelectedAppLanguage() =
-        customizeProfileSettings.getLastSelectedAppLanguage()
+        customizeProfileSettings.getLatestSelectedAppLanguage()
 
 
     private suspend fun isDarkThem() {
         _state.update {
             it.copy(
-                isDark = customizeProfileSettings.isDarkThem()
+                isDark = flowOf(true)
             )
         }
     }

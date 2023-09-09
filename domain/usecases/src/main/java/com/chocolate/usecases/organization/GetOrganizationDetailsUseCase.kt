@@ -9,17 +9,18 @@ class ManageOrganizationDetailsUseCase @Inject constructor(
     private val organizationsRepository: OrganizationsRepository,
 
     ) {
-    suspend fun saveOrganizationName(organizationName: String) {
+    suspend fun saveOrganizationName(organizationName: String): Boolean {
         organizationsRepository.saveOrganizationName(organizationName)
+        return true
     }
 
-/*    suspend fun getOrganizationName(): String {
+    suspend fun getOrganizationName(): String {
         return organizationsRepository.getOrganizationName()
     }
 
     suspend fun getOrganizationImage(): String {
         return organizationsRepository.getOrganizationImage()
-    }*/
+    }
 
     suspend fun organizationSignIn(organizationName: String): String {
         if (organizationName.isBlank()) throw EmptyOrganizationNameException

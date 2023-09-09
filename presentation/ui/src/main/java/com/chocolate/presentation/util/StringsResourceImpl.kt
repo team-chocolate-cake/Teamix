@@ -54,6 +54,9 @@ class StringsResourceImpl @Inject constructor(
         getString(R.string.message_deleted_successfully)
 
     override val invalidUsername: String = getString(R.string.invites_username)
+    override val invalidEmail: String = getString(R.string.invalid_email)
+    override val passwordMismatch: String = getString(R.string.password_mismatch)
+    override val allFieldsAreRequired: String = getString(R.string.all_field_required)
 
     private fun getString(@androidx.annotation.StringRes stringsRes: Int): String {
         return context.getString(stringsRes)

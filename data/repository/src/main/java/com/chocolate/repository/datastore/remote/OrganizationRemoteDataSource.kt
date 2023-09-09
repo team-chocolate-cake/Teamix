@@ -1,10 +1,10 @@
 package com.chocolate.repository.datastore.remote
 
-import com.chocolate.entities.Organization
+import com.chocolate.repository.model.dto.organization.OrganizationDto
 
 interface OrganizationRemoteDataSource {
-    suspend fun getOrganizationByName(organizationName: String): Organization?
-    suspend fun createOrganization(organization: Organization)
+    suspend fun getOrganizationByName(organizationName: String): OrganizationDto?
+    suspend fun createOrganization(organization: OrganizationDto)
     suspend fun deleteOrganizationByOrganizationName(organizationName: String)
-    suspend fun updateOrganization(organization: Organization)
+    suspend fun updateOrganization(organization: OrganizationDto)
 }

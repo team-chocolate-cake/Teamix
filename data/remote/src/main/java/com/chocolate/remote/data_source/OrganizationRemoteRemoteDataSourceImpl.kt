@@ -1,9 +1,10 @@
 package com.chocolate.remote.data_source
 
-import com.chocolate.entities.Organization
-import com.chocolate.remote.firebase.util.Constants
-import com.chocolate.remote.firebase.util.tryToExecuteSuspendCall
+import android.util.Log
+import com.chocolate.remote.util.Constants
+import com.chocolate.remote.util.tryToExecuteSuspendCall
 import com.chocolate.repository.datastore.remote.OrganizationRemoteDataSource
+import com.chocolate.repository.model.dto.organization.OrganizationDto
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.tasks.await
@@ -13,22 +14,24 @@ class OrganizationRemoteRemoteDataSourceImpl @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore
 ) : OrganizationRemoteDataSource {
 
-    override suspend fun getOrganizationByName(organizationName: String): Organization? {
+    override suspend fun getOrganizationByName(organizationName: String): OrganizationDto? {
         return tryToExecuteSuspendCall {
             val organizationsRef = firebaseFirestore
                 .collection(Constants.ORGANIZATION)
-                .whereEqualTo("name", organizationName)
+                .document(organizationName)
                 .get()
                 .await()
-            organizationsRef.documents.firstOrNull()?.toObject<Organization>()
+
+            organizationsRef.toObject<OrganizationDto>()?.toString()?.let { Log.e("onError: ", it) }
+            organizationsRef.toObject<OrganizationDto>()
         }
     }
 
-    override suspend fun createOrganization(organization: Organization) {
+    override suspend fun createOrganization(organization: OrganizationDto) {
         tryToExecuteSuspendCall {
             firebaseFirestore
                 .collection(Constants.ORGANIZATION)
-                .document(organization.name)
+                .document(organization.name!!)
                 .set(organization)
                 .await()
         }
@@ -44,11 +47,11 @@ class OrganizationRemoteRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateOrganization(organization: Organization) {
+    override suspend fun updateOrganization(organization: OrganizationDto) {
         tryToExecuteSuspendCall {
             firebaseFirestore
                 .collection(Constants.ORGANIZATION)
-                .document(organization.name)
+                .document(organization.name!!)
                 .set(organization)
                 .await()
         }

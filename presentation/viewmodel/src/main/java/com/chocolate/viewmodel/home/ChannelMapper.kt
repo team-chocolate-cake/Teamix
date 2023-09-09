@@ -7,17 +7,15 @@ import com.chocolate.viewmodel.search.ChannelsUiState
 @JvmName("channelToChannelUiState")
 fun Channel.toUiState(): ChannelUiState =
     ChannelUiState(
-        id,
+        0,
         name,
         topics.toUiState(),
-        isPrivate
     )
 
 fun Channel.toChannelsUiState(): ChannelsUiState =
     ChannelsUiState(
-        id,
+        0,
         name,
-        isPrivate = isPrivate
     )
 
 @JvmName("channelsToChannelsUiState")

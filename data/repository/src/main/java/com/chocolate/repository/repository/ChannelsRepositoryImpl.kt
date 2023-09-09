@@ -1,10 +1,10 @@
 package com.chocolate.repository.repository
 
-import android.util.Log
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.channel.MutingStatus
 import com.chocolate.entities.channel.Topic
 import com.chocolate.repository.datastore.realtime.RealTimeDataSource
+import com.chocolate.repository.datastore.realtime.model.ChannelDto
 import com.chocolate.repository.datastore.remote.ChannelRemoteDataSource
 import com.chocolate.repository.mappers.channel_mappers.toChannel
 import com.chocolate.repository.mappers.channel_mappers.toEntity
@@ -27,11 +27,9 @@ class ChannelsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getStreamChannels(): Flow<List<Channel>> {
-        return realTimeDataSource.getChannels().map { channels ->
-            channels.map {
-                it.toChannel()
-            }
-        }
+        return channelRemoteDataSource
+            .getChannelsInOrganizationByOrganizationName("teamixOrganization")
+            .map { channels -> channels!!.map { it.toChannel() } }
     }
 
     override suspend fun getSubscribedChannels(): List<Channel> =
@@ -52,10 +50,11 @@ class ChannelsRepositoryImpl @Inject constructor(
             isPrivate = isPrivate
         ).also {
             if (usersId.isNotEmpty()) realTimeDataSource.createChannel(
-                channelName,
-                usersId,
-                isPrivate,
-                description
+              ChannelDto(
+                 name=channelName,
+             usersId=usersId,
+             description=description,
+             isPrivate=isPrivate),"teamixOrganization"
             )
         }.result?.equals(SUCCESS) ?: false
     }

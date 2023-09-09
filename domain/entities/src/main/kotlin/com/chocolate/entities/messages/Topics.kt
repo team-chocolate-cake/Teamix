@@ -5,7 +5,7 @@ import java.util.Date
 
 data class Topic(
     val content: String,
-    val messages: List<KareemMessage>,
+    val messages: List<Message>,
     val senderName: String,
     val senderId: String,
     val senderImageUrl: String,

@@ -17,14 +17,6 @@ import okhttp3.MultipartBody
 
 interface MessagesRemoteDataSource {
 
-    suspend fun sendMessage(
-        text: String, userId: Int,
-        channel: Int,
-        senderName: String,
-        senderImage: String
-    )
-
-    suspend fun getMessages(channelId: Int): Flow<List<MessageDto>>
 
 
     suspend fun getDrafts(): DraftsDto

@@ -29,11 +29,7 @@ interface MessagesRepository {
 
 
     suspend fun sendStreamMessage(
-        text: String,
-        channelId: String,
-        userId: String,
-        senderName:String,
-        senderImage:String
+        message:Message
     )
 
     suspend fun getMessages(

@@ -2,14 +2,12 @@ package com.chocolate.teamix.di
 
 import com.chocolate.local.dao.RoomDataSource
 import com.chocolate.local.datastore.DataStoreDataSource
-import com.chocolate.remote.data_source.ChannelRetrofitDataSource
+import com.chocolate.remote.data_source.ChannelFireBaseDataSource
 import com.chocolate.remote.data_source.MessagesDataSourceImpl
-import com.chocolate.remote.data_source.OrganizationRetrofitDataSource
-import com.chocolate.remote.data_source.MessagesRetrofitDataSource
 import com.chocolate.remote.data_source.OrganizationDataSourceImpl
 import com.chocolate.remote.data_source.UserRetrofitDataSource
 import com.chocolate.remote.firebase.TaskFirebase
-import com.chocolate.remote.firebase.TopicFireBaseDataSource
+import com.chocolate.remote.data_source.TopicFireBaseDataSource
 import com.chocolate.repository.datastore.local.LocalDataSource
 import com.chocolate.repository.datastore.local.PreferencesDataSource
 import com.chocolate.repository.datastore.realtime.TopicDataSource
@@ -42,7 +40,7 @@ abstract class DataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun bindChannelDataSource(channelDataSource: ChannelRetrofitDataSource):
+    abstract fun bindChannelDataSource(channelDataSource: ChannelFireBaseDataSource):
             ChannelRemoteDataSource
 
     @Singleton
@@ -50,10 +48,10 @@ abstract class DataSourceModule {
     abstract fun bindMessagesDataSource(messagesDataSource: MessagesDataSourceImpl):
             MessagesRemoteDataSource
 
-    @Singleton
-    @Binds
-    abstract fun bindOrganizationDataSource(organizationDataSource: OrganizationRetrofitDataSource):
-            OrganizationRemoteDataSource
+//    @Singleton
+//    @Binds
+//    abstract fun bindOrganizationDataSource(organizationDataSource: OrganizationRetrofitDataSource):
+//            OrganizationRemoteDataSource
 
     @Singleton
     @Binds

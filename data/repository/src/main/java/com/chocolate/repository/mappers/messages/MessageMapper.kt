@@ -8,8 +8,6 @@ import com.chocolate.repository.model.localDto.message.SavedMessageLocalDto
 import java.sql.Timestamp
 
 
-//@JvmName("MessageDto")
-//fun List<MessageDto>?.toEntity(): List<Message> = this?.map { it.toEntity() }.orEmpty()
 
 @JvmName("ReactionDto")
 fun List<ReactionDto>?.toEntity(): List<Reaction> =
@@ -24,7 +22,7 @@ fun SavedMessageLocalDto.toEntity(): Message{
         senderFullName = this.senderName,
      //   reactions = emptyList(),
         messageContent = this.messageContent,
-        streamId = 0,
+        topicId = 0,
       //  senderFullName = this.senderName,
      //   topic = "",
      //   timestamp = this.date
@@ -48,8 +46,22 @@ fun Message.toLocalDto(): SavedMessageLocalDto{
 fun MessageDto.toMessage()=Message(
     id = id?.toInt()?:0,
     senderId=userId?:0,
-    streamId=channelId?:0,
+    topicId=topicId?:0,
     messageContent = text?: "",
     senderFullName = senderName?:"",
     senderAvatarUrl = senderImage?:""
 )
+@JvmName("MessageDto")
+fun List<MessageDto>?.toMessage(): List<Message> = this?.map { it.toMessage() }.orEmpty()
+
+fun Message.toMessageDto()=MessageDto(
+    id = id.toString(),
+    userId=senderId,
+    topicId=topicId,
+    text   = messageContent,
+    senderName=  senderFullName,
+    senderImage=  senderAvatarUrl
+)
+@JvmName("MessageDto")
+fun List<Message>?.toMessageDto(): List<MessageDto> = this?.map { it.toMessageDto() }.orEmpty()
+

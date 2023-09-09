@@ -1,14 +1,15 @@
 package com.chocolate.repository.repository
 
 import com.chocolate.entities.draft.Draft
-import com.chocolate.entities.exceptions.NullDataException
 import com.chocolate.entities.messages.Message
 import com.chocolate.repository.datastore.local.LocalDataSource
+import com.chocolate.repository.datastore.realtime.TopicDataSource
 import com.chocolate.repository.datastore.remote.MessagesRemoteDataSource
 import com.chocolate.repository.mappers.draft.toEntity
 import com.chocolate.repository.mappers.messages.toEntity
 import com.chocolate.repository.mappers.messages.toLocalDto
 import com.chocolate.repository.mappers.messages.toMessage
+import com.chocolate.repository.mappers.messages.toMessageDto
 import com.chocolate.repository.utils.toJson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -21,6 +22,7 @@ import javax.inject.Inject
 
 class MessagesRepositoryImpl @Inject constructor(
     private val messageDataSource: MessagesRemoteDataSource,
+    private val topicDataSource: TopicDataSource,
     private val teamixLocalDataSource: LocalDataSource,
 ) : MessagesRepository {
 
@@ -64,12 +66,12 @@ class MessagesRepositoryImpl @Inject constructor(
         messageDataSource.deleteDraft(id)
     }
 
-    override suspend fun sendStreamMessage(text: String, channelId: String, userId: String,senderName:String,senderImage:String) {
-        messageDataSource.sendMessage(text, userId.toInt(), channelId.toInt(),senderName,senderImage)
+    override suspend fun sendStreamMessage(message: Message) {
+        topicDataSource.sendMessage(message.toMessageDto(), 1234, "test")
     }
 
     override suspend fun getMessages(channelId: String): Flow<List<Message>?> {
-        return messageDataSource.getMessages(channelId.toInt()).map { messages ->
+        return topicDataSource.getMessages(channelId.toInt()).map { messages ->
             messages.map {
                 it.toMessage()
             }

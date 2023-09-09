@@ -1,17 +1,19 @@
-package com.chocolate.remote.firebase
+package com.chocolate.remote.data_source
 
 import com.chocolate.entities.exceptions.FireBaseException
-import com.chocolate.entities.messages.KareemMessage
+import com.chocolate.entities.exceptions.TeamixException
 import com.chocolate.entities.messages.Topic
+import com.chocolate.remote.firebase.util.Constants
 import com.chocolate.remote.firebase.util.Constants.CHANNEL
 import com.chocolate.remote.firebase.util.Constants.MESSAGES
 import com.chocolate.remote.firebase.util.Constants.BASE
 import com.chocolate.remote.firebase.util.Constants.TOPICS
+import com.chocolate.remote.firebase.util.getRandomId
 import com.chocolate.remote.firebase.util.tryToExecuteSuspendCall
 import com.chocolate.repository.datastore.realtime.TopicDataSource
+import com.chocolate.repository.datastore.realtime.model.MessageDto
 import com.chocolate.repository.datastore.realtime.model.TopicDto
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -34,7 +36,7 @@ class TopicFireBaseDataSource @Inject constructor(
 
             fireStore.collection(BASE).document(organizationName).collection(CHANNEL)
                 .document(channelName).collection(TOPICS).document("4T6DWHFRyuNx0gqI3p9S")
-                .collection(MESSAGES).add(KareemMessage()).await()
+                .collection(MESSAGES).add("KareemMessage()").await()
 
 
         }
@@ -60,33 +62,35 @@ class TopicFireBaseDataSource @Inject constructor(
         }
     }
 
-    override suspend fun getMessagesInATopic(channelId: String, topicId: String): Flow<TopicDto> {
+    override suspend fun sendMessage(
+        message:MessageDto,
+        channelId:Int,
+        organizationName: String
+    ) {
+        val messageId = getRandomId()
+        tryToExecuteSuspendCall {
+            fireStore.collection(BASE)
+                .document(organizationName)
+                .collection(CHANNEL)
+                .document(channelId.toString())
+                .collection(Constants.MESSAGE)
+                .document(messageId.toString())
+                .set(message)
+                .await()
+        }
+    }
+
+    override suspend fun getMessages(channelId: Int): Flow<List<MessageDto>> {
         return callbackFlow {
-
-            val topicDocumentRef =
-                fireStore.collection(BASE).document("teamixOrganization").collection(CHANNEL)
-                    .document(channelId).collection(TOPICS).document(topicId)
-
-            val topicMessagesCollectionRef = topicDocumentRef.collection(MESSAGES)
-
-            val listener = topicDocumentRef.addSnapshotListener { value, error ->
-                if (error != null)
-                    throw FireBaseException(error.message)
-                else {
-                    val topic = value?.toObject<TopicDto>()
-
-
-                    topicMessagesCollectionRef.get().addOnSuccessListener { messageQuerySnapShot ->
-                        if (!messageQuerySnapShot.isEmpty) {
-                            val messages = messageQuerySnapShot.toObjects<KareemMessage>()
-                            val finalTopic = topic?.copy(messages = messages)
-                            finalTopic?.let {
-                                trySend(it)
-                            }
-                        }
+            val listener = fireStore.collection(CHANNEL).document(channelId.toString())
+                .collection(Constants.MESSAGE).addSnapshotListener { value, error ->
+                    if (error != null)
+                        throw TeamixException(error.message)
+                    val messages = value?.toObjects<MessageDto>()
+                    messages?.let {
+                        trySend(it)
                     }
                 }
-            }
             awaitClose { listener.remove() }
         }
     }

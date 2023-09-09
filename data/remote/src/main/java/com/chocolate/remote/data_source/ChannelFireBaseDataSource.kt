@@ -1,7 +1,12 @@
 package com.chocolate.remote.data_source
 
+import com.chocolate.entities.exceptions.TeamixException
 import com.chocolate.remote.api.ChannelsService
+import com.chocolate.remote.firebase.util.Constants
+import com.chocolate.remote.firebase.util.getRandomId
+import com.chocolate.remote.firebase.util.tryToExecuteSuspendCall
 import com.chocolate.remote.wrapApiCall
+import com.chocolate.repository.datastore.realtime.model.ChannelDto
 import com.chocolate.repository.datastore.remote.ChannelRemoteDataSource
 import com.chocolate.repository.model.dto.channels.response.AllStreamsDto
 import com.chocolate.repository.model.dto.channels.response.AllSubscribersDto
@@ -13,11 +18,52 @@ import com.chocolate.repository.model.dto.channels.response.SubscribedStreamDto
 import com.chocolate.repository.model.dto.channels.response.SubscriptionStatusDto
 import com.chocolate.repository.model.dto.channels.response.TopicsInStreamDto
 import com.chocolate.repository.model.dto.channels.response.UnsubscribeFromStreamDto
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObjects
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class ChannelRetrofitDataSource @Inject constructor(
-    private val channelsService: ChannelsService
+class ChannelFireBaseDataSource @Inject constructor(
+    private val channelsService: ChannelsService,
+    private val firebaseFirestore: FirebaseFirestore,
 ) : ChannelRemoteDataSource {
+    override suspend fun createChannel(
+        channel:ChannelDto,
+        organizationName:String
+    ) {
+        val channelId = getRandomId()
+        tryToExecuteSuspendCall {
+            firebaseFirestore
+                .collection(Constants.ORGANIZATION)
+                .document(organizationName)
+                .collection(Constants.CHANNEL)
+                .document(channelId.toString())
+                .set(channel)
+                .await()
+        }
+    }
+
+    override suspend fun getChannelsInOrganizationByOrganizationName(organizationName: String): Flow<List<ChannelDto>?> {
+        return callbackFlow {
+            val organizationRef = firebaseFirestore
+                .collection(Constants.ORGANIZATION)
+                .document(organizationName)
+                .collection(Constants.CHANNEL)
+                .addSnapshotListener { channelsSnapshot, exception ->
+                    if (exception != null)
+                        throw TeamixException(exception.message)
+                    val channels = channelsSnapshot?.toObjects<ChannelDto>()
+                    channels?.let {
+                        trySend(it)
+                    }
+                }
+            awaitClose { organizationRef.remove() }
+        }
+    }
+
 
     override suspend fun getSubscribedChannels(): SubscribedStreamDto {
         return wrapApiCall { channelsService.getSubscribedChannels() }

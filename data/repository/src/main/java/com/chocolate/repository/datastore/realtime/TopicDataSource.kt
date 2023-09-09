@@ -11,5 +11,5 @@ interface TopicDataSource {
     suspend fun getTopicsInAChannel(channelName: String,organizationName:String):Flow<List<Topic>>
     suspend fun sendMessage(message:MessageDto,channelId:Int,organizationName: String)
 
-    suspend fun getMessages(channelId: Int): Flow<List<MessageDto>>
+    suspend fun getMessages(topicId: Int,channelId:Int,organizationName: String): Flow<List<MessageDto>>
 }

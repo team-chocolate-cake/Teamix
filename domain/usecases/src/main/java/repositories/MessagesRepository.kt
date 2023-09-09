@@ -33,7 +33,9 @@ interface MessagesRepository {
     )
 
     suspend fun getMessages(
-        channelId: String
+        topicId: Int,
+        channelId:Int,
+        organizationName: String
     ): Flow<List<Message>?>
 
 

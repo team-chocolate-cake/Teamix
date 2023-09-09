@@ -70,8 +70,8 @@ class MessagesRepositoryImpl @Inject constructor(
         topicDataSource.sendMessage(message.toMessageDto(), 1234, "test")
     }
 
-    override suspend fun getMessages(channelId: String): Flow<List<Message>?> {
-        return topicDataSource.getMessages(channelId.toInt()).map { messages ->
+    override suspend fun getMessages(topicId: Int,channelId:Int,organizationName: String): Flow<List<Message>?> {
+        return topicDataSource.getMessages(topicId,channelId,organizationName).map { messages ->
             messages.map {
                 it.toMessage()
             }

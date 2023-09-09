@@ -80,10 +80,17 @@ class TopicFireBaseDataSource @Inject constructor(
         }
     }
 
-    override suspend fun getMessages(channelId: Int): Flow<List<MessageDto>> {
+    override suspend fun getMessages(
+        topicId: Int,
+        channelId:Int,
+        organizationName: String
+    ): Flow<List<MessageDto>> {
         return callbackFlow {
-            val listener = fireStore.collection(CHANNEL).document(channelId.toString())
-                .collection(Constants.MESSAGE).addSnapshotListener { value, error ->
+            val listener = fireStore.collection(BASE)
+            .document(organizationName)
+            .collection(CHANNEL)
+            .document(channelId.toString())
+            .collection(Constants.MESSAGE).addSnapshotListener { value, error ->
                     if (error != null)
                         throw TeamixException(error.message)
                     val messages = value?.toObjects<MessageDto>()

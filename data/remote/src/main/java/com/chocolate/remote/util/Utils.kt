@@ -1,4 +1,4 @@
-package com.chocolate.remote.firebase.util
+package com.chocolate.remote.util
 
 import com.chocolate.entities.exceptions.NetworkException
 import com.chocolate.entities.exceptions.TeamixException

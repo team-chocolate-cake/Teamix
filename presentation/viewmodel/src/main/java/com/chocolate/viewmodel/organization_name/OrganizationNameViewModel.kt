@@ -2,13 +2,11 @@ package com.chocolate.viewmodel.organization_name
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.chocolate.entities.Organization
 import com.chocolate.entities.exceptions.EmptyOrganizationNameException
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.OrganizationNotFoundException
 import com.chocolate.usecases.onboarding.ManageUserUsedAppUseCase
 import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
-import com.chocolate.usecases.user.GetUserLoginStatusUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,13 +17,12 @@ import javax.inject.Inject
 @HiltViewModel
 class OrganizationNameViewModel @Inject constructor(
     private val manageOrganizationDetails: ManageOrganizationDetailsUseCase,
-    private val getUserLoginStatus: GetUserLoginStatusUseCase,
     private val stringsResource: StringsResource,
     private val manageUserUsedApp: ManageUserUsedAppUseCase,
 ) : BaseViewModel<OrganizationNameUiState, OrganizationNameUiEffect>(OrganizationNameUiState()),
     OrganizationNameInteraction {
+
     init {
-        getOnUserLoggedIn()
         getOnboardingStatus()
     }
 
@@ -37,12 +34,12 @@ class OrganizationNameViewModel @Inject constructor(
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
             { manageOrganizationDetails.organizationSignIn(organizationName) },
-            ::onSignInSuccess,
+            ::onOrganizationSignInSuccess,
             ::onError
         )
     }
 
-    private fun onSignInSuccess(organizationName: String) {
+    private fun onOrganizationSignInSuccess(organizationName: String) {
         tryToExecute(
             { manageOrganizationDetails.saveOrganizationName(organizationName) },
             ::onSavingOrganizationNameSuccess,
@@ -60,9 +57,11 @@ class OrganizationNameViewModel @Inject constructor(
         }
     }
 
-    private fun onSavingOrganizationNameSuccess(z: Unit) {
-        _state.update { it.copy(isLoading = false, error = null) }
-        sendUiEffect(OrganizationNameUiEffect.NavigateToLoginScreen)
+    private fun onSavingOrganizationNameSuccess(isSaved: Boolean) {
+        if (isSaved) {
+            _state.update { it.copy(isLoading = false, error = null) }
+            sendUiEffect(OrganizationNameUiEffect.NavigateToLoginScreen)
+        }
     }
 
     private fun getOnboardingStatus() {
@@ -80,19 +79,8 @@ class OrganizationNameViewModel @Inject constructor(
             is EmptyOrganizationNameException -> stringsResource.organizationNameCannotBeEmpty
             else -> stringsResource.organizationNameCannotBeEmpty
         }
+        Log.e("onError: ", throwable.toString())
         _state.update { it.copy(isLoading = false, error = errorMessage) }
         sendUiEffect(OrganizationNameUiEffect.ShowSnackBar)
-    }
-
-    private fun getOnUserLoggedIn() {
-        viewModelScope.launch {
-            getUserLoginStatus().collect { check ->
-                _state.update {
-                    it.copy(
-                        isLogged = check
-                    )
-                }
-            }
-        }
     }
 }

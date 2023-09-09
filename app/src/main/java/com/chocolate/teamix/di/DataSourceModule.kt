@@ -64,7 +64,8 @@ abstract class DataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun bindUserDatabase(taskFirebase: TaskFirebase): TaskRemoteDataSource
+    abstract fun bindAppSettingsDataSource(appSettingsDataSourceImpl: AppSettingsDataSourceImpl): AppSettingsDataSource
+
 
     @Singleton
     @Binds

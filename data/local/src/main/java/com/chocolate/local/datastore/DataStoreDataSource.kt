@@ -15,24 +15,14 @@ class DataStoreDataSource @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val sharedPreferences: SharedPreferences,
 ) : PreferencesDataSource {
-    override fun currentOrganization(): String? {
-        return sharedPreferences.getString(NAME_ORGANIZATION, null)
+    override fun getCurrentOrganizationName(): String? {
+        return sharedPreferences.getString(ORGANIZATION_NAME, null)
     }
 
-    override suspend fun setOrganizationName(currentOrganization: String) {
+    override suspend fun setCurrentOrganizationName(organizationName: String) {
         val editor = sharedPreferences.edit()
-        editor.putString(NAME_ORGANIZATION, currentOrganization)
+        editor.putString(ORGANIZATION_NAME, organizationName)
         editor.apply()
-    }
-
-    override suspend fun setUserLoginState(isComplete: Boolean) {
-        dataStore.setValue(LOGIN_STATE, isComplete)
-    }
-
-    override suspend fun getCurrentUserLoginState(): Flow<Boolean> {
-        return dataStore.data.map {
-            it[(LOGIN_STATE)] ?: false
-        }
     }
 
     override suspend fun setUserUsedAppForFirstTime(isFirstTime: Boolean) {
@@ -43,26 +33,6 @@ class DataStoreDataSource @Inject constructor(
         return dataStore.data.map {
             it[(IS_FIRST_TIME)] ?: false
         }
-    }
-
-    override suspend fun setAuthenticationData(apikey: String, email: String) {
-        val editor = sharedPreferences.edit()
-        editor.putString(API_KEY, apikey)
-        editor.putString(EMAIL, email)
-        editor.apply()
-    }
-
-    override fun getApiKey(): String {
-        return sharedPreferences.getString(API_KEY, null).orEmpty()
-    }
-
-    override fun getEmail(): String {
-        return sharedPreferences.getString(EMAIL, null).orEmpty()
-    }
-
-    override suspend fun deleteAuthenticationData() {
-        dataStore.edit { preferences -> preferences.remove(LOGIN_STATE) }
-        sharedPreferences.edit().clear().apply()
     }
 
     override suspend fun upsertAppLanguage(newLanguage: String): Boolean {
@@ -100,10 +70,9 @@ class DataStoreDataSource @Inject constructor(
 
     companion object {
         private val IS_FIRST_TIME = booleanPreferencesKey("IS_FIRST_TIME")
-        private val LOGIN_STATE = booleanPreferencesKey("LOGIN_STATE")
         const val API_KEY = "API_KEY"
         const val EMAIL = "EMAIL"
-        const val NAME_ORGANIZATION = "CURRENT_USERNAME_ID"
+        const val ORGANIZATION_NAME = "CURRENT_USERNAME_ID"
         const val ENGLISH = "en"
         const val DARK_THEME = "APP_DARK_THEME"
         private val IS_DARK_THEME = booleanPreferencesKey("Is_Dark_Theme")

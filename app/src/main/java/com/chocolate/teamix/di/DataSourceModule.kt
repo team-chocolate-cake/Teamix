@@ -69,5 +69,6 @@ abstract class DataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun bindOrganizationDataSource(organizationRemoteDataSourceImpl: OrganizationRemoteRemoteDataSourceImpl): OrganizationRemoteDataSource
+    abstract fun bindChannelDataSourceImpl(channelDataSourceImpl: ChannelDataSourceImpl): ChannelDataSource
+
 }

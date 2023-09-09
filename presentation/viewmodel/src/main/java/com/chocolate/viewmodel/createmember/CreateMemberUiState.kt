@@ -1,4 +1,4 @@
-package com.chocolate.viewmodel.createMember
+package com.chocolate.viewmodel.createmember
 
 import android.net.Uri
 import com.chocolate.entities.member.MemberInformation

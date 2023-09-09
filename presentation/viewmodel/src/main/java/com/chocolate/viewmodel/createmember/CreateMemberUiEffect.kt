@@ -1,4 +1,4 @@
-package com.chocolate.viewmodel.createMember
+package com.chocolate.viewmodel.createmember
 
 import com.chocolate.viewmodel.base.BaseViewModel
 

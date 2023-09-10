@@ -1,12 +1,10 @@
 package com.chocolate.remote.data_source
 
-import com.chocolate.entities.Organization
 import com.chocolate.entities.directMessage.Chat
 import com.chocolate.entities.directMessage.DMMessage
 import com.chocolate.repository.datastore.remote.DirectMessageRemoteDataSource
 import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -15,7 +13,7 @@ import kotlin.coroutines.suspendCoroutine
 
 const val GROUPS = "groups"
 const val MEMBERS = "members"
-const val MESSAGES = "MESSAGES"
+const val MESSAGES = "messages"
 const val SENT_AT = "sentAt"
 
 class DirectMessageRemoteDataSourceImpl @Inject constructor(

@@ -13,13 +13,18 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
+const val GROUPS = "groups"
+const val MEMBERS = "members"
+const val MESSAGES = "MESSAGES"
+const val SENT_AT = "sentAt"
+
 class DirectMessageRemoteDataSourceImpl @Inject constructor(
     private val firebase: FirebaseFirestore
 ) : DirectMessageRemoteDataSource {
     override suspend fun getChatsByUserId(userid: String): List<Chat> {
         return suspendCoroutine { cont ->
-            firebase.collection("group")
-                .where(Filter.arrayContains("members", userid))
+            firebase.collection(GROUPS)
+                .where(Filter.arrayContains(MEMBERS, userid))
                 .get()
                 .addOnSuccessListener { doc ->
                     val chats = doc?.toObjects<Chat>() ?: emptyList()
@@ -31,10 +36,27 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun fetchMessagesByGroupId(groupId: String): List<DMMessage> {
-        TODO("Not yet implemented")
+        return suspendCoroutine { cont ->
+            firebase
+                .collection(GROUPS)
+                .document(groupId)
+                .collection(MESSAGES)
+                .orderBy(SENT_AT)
+                .get()
+                .addOnSuccessListener { doc ->
+                    val messages = doc?.toObjects<DMMessage>() ?: emptyList()
+                    cont.resume(messages)
+                }.addOnFailureListener {
+                    cont.resumeWithException(it)
+                }
+        }
     }
 
-    override suspend fun sendMessage(messageText: String, sentAt: String, currentGroupId: String) {
-        TODO("Not yet implemented")
+    override suspend fun sendMessage(message: DMMessage, currentGroupId: String) {
+        firebase
+            .collection(GROUPS)
+            .document(currentGroupId)
+            .collection(MESSAGES)
+            .add(message)
     }
 }

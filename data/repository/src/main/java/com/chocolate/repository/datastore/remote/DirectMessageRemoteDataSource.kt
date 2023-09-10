@@ -9,6 +9,6 @@ interface DirectMessageRemoteDataSource {
 
     suspend fun fetchMessagesByGroupId(groupId: String) :List<DMMessage>
 
-    suspend fun sendMessage(messageText: String, sentAt: String, currentGroupId: String)
+    suspend fun sendMessage(message:DMMessage, currentGroupId: String)
 
 }

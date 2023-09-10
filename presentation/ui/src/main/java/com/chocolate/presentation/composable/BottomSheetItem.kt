@@ -24,13 +24,14 @@ fun BottomSheetItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable{onClickItem()}
+            .clickable { onClickItem() }
             .padding(SpacingXLarge),
     ) {
         Icon(
             painter = icon,
             contentDescription = contentDescription,
-            modifier = Modifier.padding(end = SpacingXMedium)
+            modifier = Modifier.padding(end = SpacingXMedium),
+            tint = MaterialTheme.customColors().onBackground87
         )
         Text(
             text = text,

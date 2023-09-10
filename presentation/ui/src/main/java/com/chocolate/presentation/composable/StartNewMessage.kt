@@ -10,12 +10,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,12 +25,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
-import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.topic.PhotoOrVideoUiState
@@ -44,8 +44,8 @@ fun StartNewMessage(
     onStartVoiceRecording: () -> Unit,
     onClickCamera: () -> Unit,
     onClickPhotoOrVideo: (Int) -> Unit,
-    photoOrVideoList: List<PhotoOrVideoUiState> = emptyList(),
     modifier: Modifier = Modifier,
+    photoOrVideoList: List<PhotoOrVideoUiState> = emptyList(),
     messageInput: String = "",
     contentDescription: String? = null
 ) {
@@ -62,7 +62,7 @@ fun StartNewMessage(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(MaterialTheme.customColors().background)
+            .background(MaterialTheme.customColors().card)
             .padding(SpacingXLarge)
     ) {
         Row(
@@ -73,90 +73,74 @@ fun StartNewMessage(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    painter = painterResource(id = R.drawable.add_attachment),
-                    contentDescription = contentDescription,
-                    tint = MaterialTheme.customColors().onBackground60,
+                IconButton(
+                    onClick = { showSheet = true },
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.add_attachment),
+                        contentDescription = contentDescription,
+                        tint = MaterialTheme.customColors().onBackground60,
+                        modifier = Modifier
+                            .size(SpacingExtraHuge),
+                    )
+                }
+                IconButton(
+                    onClick = { openEmojisTile() },
                     modifier = Modifier
-                        .padding(end = SpacingXMedium + SpacingMedium)
-                        .size(SpacingExtraHuge)
-                        .clickable {
-                            showSheet = true
-                        }
-                )
-
-                Icon(
-                    painter = painterResource(id = R.drawable.smile_circle),
-                    contentDescription = contentDescription,
-                    tint = MaterialTheme.customColors().onBackground60,
-                    modifier = Modifier
+                        .background(MaterialTheme.customColors().card)
                         .padding(end = SpacingXMedium)
                         .size(SpacingXXLarge)
-                        .clickable {
-                            openEmojisTile()
-                        }
-                )
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.smile_circle),
+                        contentDescription = contentDescription,
+                        tint = MaterialTheme.customColors().onBackground60,
+                    )
+                }
             }
-            Surface(
-                shape = RoundedCornerShape(SpacingXMedium),
+            TeamixTextField(
+                singleLine = false,
                 modifier = Modifier
+                    .height(SpacingExtraHuge)
                     .fillMaxWidth(0.9f)
-                    .padding(end = SpacingXLarge),
-                color = MaterialTheme.customColors().lightGray
-            ) {
-                BasicTextField(
-                    singleLine = true,
-                    modifier = Modifier
-                        .height(SpacingExtraHuge),
-                    value = messageInput,
-                    onValueChange = { onMessageInputChanged(it) },
-                    decorationBox = { innerTextField ->
-                        Box(
-                            contentAlignment = Alignment.CenterStart,
-                            modifier = Modifier.padding(SpacingXMedium)
-                        ) {
-                            if (messageInput.isEmpty()) {
-                                Text(
-                                    text = stringResource(R.string.start_new_message),
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.customColors().onBackground60
-                                )
-                            }
-                            innerTextField()
-                        }
-                    }
-                )
-            }
+                    .padding(end = 8.dp),
+                value = messageInput,
+                onValueChange = { onMessageInputChanged(it) },
+            )
             Surface(
                 modifier = Modifier
                     .padding(end = SpacingMedium)
                     .size(SpacingXXLarge)
             ) {
                 AnimatedVisibility(visible = !messageInput.isEmpty()) {
-                    Icon(
+                    IconButton(
+                        onClick = { onSendMessage() },
                         modifier = Modifier
-                            .size(SpacingXXLarge)
-                            .clickable {
-                                onSendMessage()
-                            },
-                        painter = painterResource(
-                            id = R.drawable.arrow_right
-                        ),
-                        tint = MaterialTheme.customColors().primary,
-                        contentDescription = ""
-                    )
+                            .background(MaterialTheme.customColors().card)
+                            .size(SpacingXXLarge),
+                    ) {
+                        Icon(
+                            painter = painterResource(
+                                id = R.drawable.arrow_right
+                            ),
+                            tint = MaterialTheme.customColors().primary,
+                            contentDescription = ""
+                        )
+                    }
                 }
                 AnimatedVisibility(visible = messageInput.isEmpty()) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.microphone),
-                        contentDescription = contentDescription,
-                        tint = MaterialTheme.customColors().onBackground60,
+                    IconButton(
+                        onClick = { onStartVoiceRecording() },
                         modifier = Modifier
-                            .size(SpacingXXLarge)
-                            .clickable {
-                                onStartVoiceRecording()
-                            }
-                    )
+                            .background(MaterialTheme.customColors().card)
+                            .size(SpacingXXLarge),
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.microphoneteamix),
+                            contentDescription = contentDescription,
+                            tint = MaterialTheme.customColors().onBackground60,
+                        )
+                    }
                 }
             }
 

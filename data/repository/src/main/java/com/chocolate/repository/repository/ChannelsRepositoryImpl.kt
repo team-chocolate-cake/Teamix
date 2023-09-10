@@ -1,14 +1,10 @@
 package com.chocolate.repository.repository
 
-import android.util.Log
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.channel.MutingStatus
 import com.chocolate.entities.channel.Topic
-import com.chocolate.repository.datastore.realtime.RealTimeDataSource
-import com.chocolate.repository.datastore.remote.ChannelRemoteDataSource
-import com.chocolate.repository.mappers.channel_mappers.toChannel
+import com.chocolate.repository.datastore.remote.ChannelDataSource
 import com.chocolate.repository.mappers.channel_mappers.toEntity
-import com.chocolate.repository.mappers.channel_mappers.toSuccessOrFail
 import com.chocolate.repository.utils.SUCCESS
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -18,10 +14,9 @@ import repositories.ChannelsRepository
 import javax.inject.Inject
 
 class ChannelsRepositoryImpl @Inject constructor(
-    private val channelRemoteDataSource: ChannelRemoteDataSource,
-    private val realTimeDataSource: RealTimeDataSource,
-) : ChannelsRepository {
-
+    private val realTimeDataSource: ChannelDataSource,
+): ChannelsRepository {
+    /*
     override suspend fun getChannels(): List<Channel> {
         return channelRemoteDataSource.getChannels().streams.toEntity()
     }
@@ -80,7 +75,7 @@ class ChannelsRepositoryImpl @Inject constructor(
             ?: emptyList()
 
     override suspend fun getChannelById(channelId: Int): Channel? {
-        return channelRemoteDataSource.getChannelById(channelId).streamDto?.toEntity()
+        return null
     }
 
     override suspend fun getChannelIdByName(channel: String): Int {
@@ -164,6 +159,96 @@ class ChannelsRepositoryImpl @Inject constructor(
         jsonObject.put("description", channelDescription)
         jsonArray.put(jsonObject)
         return jsonArray.toString()
+    }*/
+    override suspend fun getSubscribedChannels(): List<Channel> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun subscribeToChannel(
+        channelName: String,
+        usersId: List<Int>,
+        description: String?,
+        isPrivate: Boolean
+    ): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun unsubscribeFromChannel(channelName: String): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getSubscriptionStatus(userId: Int, channelId: Int): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getSubscribersByChannelId(channelId: Int): List<Int> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getChannels(): List<Channel> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getChannelById(channelId: Int): Channel? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getChannelIdByName(channel: String): Int {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updateChannel(
+        streamId: Int,
+        description: String?,
+        newName: String?,
+        isPrivate: Boolean?,
+        isWebPublic: Boolean?,
+        historyPublicToSubscribers: Boolean?,
+        streamPostPolicy: Int?,
+        messageRetentionDays: String?,
+        canRemoveSubscribersGroupId: Int?
+    ): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun archiveChannel(channelId: Int): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getTopicsInChannel(channelId: Int): List<Topic> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun setTopicMuting(
+        topic: String,
+        status: MutingStatus,
+        streamId: Int?
+    ): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updatePersonalPreferenceTopic(
+        channelId: Int,
+        topic: String,
+        visibilityPolicy: Int
+    ): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteTopic(channelId: Int, topicName: String): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun addDefaultChannel(channelId: Int): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteDefaultChannel(channelId: Int): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getStreamChannels(): Flow<List<Channel>> {
+        TODO("Not yet implemented")
     }
 
 }

@@ -1,22 +1,36 @@
 package com.chocolate.viewmodel.draft
 
+import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.draft.Draft
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.usecases.draft.ManageDraftsUseCases
+import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class DraftViewModel @Inject constructor(
     private val manageDraftsUseCases: ManageDraftsUseCases,
-    private val stringsResource: StringsResource
+    private val stringsResource: StringsResource,
+    private val customizeProfileSettings: CustomizeProfileSettingsUseCase,
 ) : BaseViewModel<DraftsUiState, Unit>(DraftsUiState()), DraftInteraction {
 
     init {
+        getDarkModeState()
         getData()
+    }
+
+    private fun getDarkModeState() {
+        /*viewModelScope.launch {
+            customizeProfileSettings.isDarkThemeEnabled().collectLatest { isDark->
+                _state.update { it.copy(isDarkModel = isDark) }
+            }
+        }*/
     }
 
     private fun getData() {

@@ -1,0 +1,84 @@
+package com.chocolate.viewmodel.createMember
+
+import android.net.Uri
+import android.util.Log
+import com.chocolate.entities.exceptions.InvalidEmailException
+import com.chocolate.entities.exceptions.InvalidUsernameException
+import com.chocolate.entities.exceptions.MissingRequiredFieldsException
+import com.chocolate.entities.exceptions.PasswordMismatchException
+import com.chocolate.usecases.member.CreateMemberUseCase
+import com.chocolate.viewmodel.base.BaseViewModel
+import com.chocolate.viewmodel.base.StringsResource
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.update
+import javax.inject.Inject
+
+@HiltViewModel
+class CreateMemberViewModel @Inject constructor(
+    private val createMember: CreateMemberUseCase,
+    private val stringsResource: StringsResource
+
+) : BaseViewModel<CreateMemberUiState, CreateMemberUiEffect>(CreateMemberUiState()),
+    CreateMemberInteraction {
+    override fun onFullNameChange(name: String) {
+        _state.update { it.copy(fullName = name) }
+    }
+
+    override fun onEmailChange(email: String) {
+        _state.update { it.copy(email = email) }
+    }
+
+    override fun onPasswordChange(password: String) {
+        _state.update { it.copy(password = password) }
+    }
+
+    override fun onConfirmPasswordChange(password: String) {
+        _state.update { it.copy(confirmPassword = password) }
+    }
+
+    override fun onPasswordVisibilityChange(newPasswordVisibility: Boolean) {
+        _state.update { it.copy(passwordVisibility = newPasswordVisibility) }
+    }
+
+    override fun onConfirmPasswordVisibilityChange(newPasswordVisibility: Boolean) {
+        _state.update { it.copy(confirmPasswordVisibility = newPasswordVisibility) }
+    }
+
+    override fun onCreateAccountClick() {
+        _state.update { it.copy(isLoading = true, error = null) }
+        tryToExecute(
+            call = { createMember(state.value.toEntity()) },
+            onSuccess = ::onCreateAccountSuccess,
+            onError = ::onError
+        )
+    }
+
+    private fun onCreateAccountSuccess(unit: Unit) {
+        _state.update { it.copy(error = null, isLoading = false) }
+        //todo: go to home screen
+        Log.e("err", "onCreateAccountSuccess", )
+
+    }
+
+    private fun onError(throwable: Throwable) {
+        val errorMessage = when (throwable) {
+            is MissingRequiredFieldsException -> stringsResource.allFieldsAreRequired
+            is PasswordMismatchException -> stringsResource.passwordMismatch
+            is InvalidUsernameException ->  stringsResource.invalidUsername
+            is InvalidEmailException ->  stringsResource.invalidEmail
+            else -> stringsResource.globalMessageError
+        }
+
+        _state.update { it.copy(error = errorMessage, isLoading = false) }
+        Log.e("err", "onError: ${_state.value.error}", )
+    }
+
+    override fun onSignInClick() {
+        sendUiEffect(CreateMemberUiEffect.NavigateToLogin)
+    }
+
+    override fun onPersonalImageChange(newUri: Uri) {
+        _state.update { it.copy(personalImageUri = newUri) }
+    }
+
+}

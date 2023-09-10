@@ -20,13 +20,13 @@ class AuthInterceptor @Inject constructor(
             .url(
                 setDomainName(
                     requestUrl.toString(),
-                    preferencesDataSource.currentOrganization() ?: throw IOException()
+                    preferencesDataSource.getCurrentOrganizationName() ?: throw IOException()
                 )
             )
             .header(
                 AUTHORIZATION, Credentials.basic(
-                    username = preferencesDataSource.getEmail(),
-                    password = preferencesDataSource.getApiKey()
+                    username = "preferencesDataSource.getEmail()",
+                    password = "preferencesDataSource.getApiKey()"
                 )
             )
             .build()

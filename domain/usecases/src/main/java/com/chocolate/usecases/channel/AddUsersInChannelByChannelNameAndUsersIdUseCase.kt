@@ -8,7 +8,7 @@ import javax.inject.Inject
 class AddUsersInChannelByChannelNameAndUsersIdUseCase @Inject constructor(
     private val repository: ChannelsRepository
 ) {
-
+/*
     suspend operator fun invoke(
         channelName: String,
         usersId: List<Int> = listOf(),
@@ -44,5 +44,5 @@ class AddUsersInChannelByChannelNameAndUsersIdUseCase @Inject constructor(
             description = description,
             isPrivate = isPrivate
         )
-    }
+    }*/
 }

@@ -15,12 +15,12 @@ class ForgetPasswordViewModel @Inject constructor(
     }
 
     private fun getOrganizationName() {
-        _state.update { it.copy(isLoading = true) }
+        /*_state.update { it.copy(isLoading = true) }
         tryToExecute(
             manageOrganizationDetails::getOrganizationName,
             ::onGetOrganizationNameSuccess,
             ::onGetOrganizationNameError
-        )
+        )*/
     }
 
     private fun onGetOrganizationNameSuccess(organizationName: String) {

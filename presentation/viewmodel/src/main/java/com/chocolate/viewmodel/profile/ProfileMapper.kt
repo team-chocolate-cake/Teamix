@@ -1,14 +1,15 @@
 package com.chocolate.viewmodel.profile
 
-import com.chocolate.entities.user.User
+import com.chocolate.entities.member.Member
 
-fun User.toOwnerUserUiState(): ProfileUiState{
+fun Member.toOwnerUserUiState(): ProfileUiState{
     val roleEnum = this.role
-    val roleString = roleEnum.stringValue
+    //val roleString = roleEnum.stringValue
     return ProfileUiState(
+        id = 0,
         imageUrl = this.imageUrl,
-        name = this.fullName,
+        name = this.name,
         email = this.email,
-        role = roleString
+        role = role.value
     )
 }

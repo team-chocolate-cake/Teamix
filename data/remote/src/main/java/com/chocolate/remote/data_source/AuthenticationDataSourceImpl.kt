@@ -1,9 +1,10 @@
 package com.chocolate.remote.data_source
 
-import com.chocolate.remote.firebase.util.tryToExecuteCall
-import com.chocolate.remote.firebase.util.tryToExecuteSuspendCall
+import com.chocolate.remote.util.tryToExecuteCall
+import com.chocolate.remote.util.tryToExecuteSuspendCall
 import com.chocolate.repository.datastore.remote.AuthenticationDataSource
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class AuthenticationDataSourceImpl @Inject constructor(
@@ -14,7 +15,7 @@ class AuthenticationDataSourceImpl @Inject constructor(
         tryToExecuteSuspendCall { firebaseAuth.createUserWithEmailAndPassword(email, password) }
 
     override suspend fun loginUser(email: String, password: String): Unit =
-        tryToExecuteSuspendCall { firebaseAuth.signInWithEmailAndPassword(email, password) }
+        tryToExecuteSuspendCall { firebaseAuth.signInWithEmailAndPassword(email, password).await() }
 
     override fun getCurrentUserId(): String? =
         tryToExecuteCall { firebaseAuth.currentUser?.uid }

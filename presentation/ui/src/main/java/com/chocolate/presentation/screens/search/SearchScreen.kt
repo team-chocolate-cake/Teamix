@@ -105,6 +105,7 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
                 TeamixTextField(
                     modifier = Modifier.padding(SpacingXLarge),
                     value = state.query,
+                    singleLine = true,
                     onValueChange = { searchInteraction.onChangeSearchQuery(it) },
                     containerColor = colors.background,
                     hint = stringResource(R.string.search_for_channels),

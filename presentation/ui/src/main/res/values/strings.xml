@@ -24,6 +24,7 @@
     <string name="welcome_to">Welcome To</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
     <string name="forget_password">Forget Password</string>
     <string name="sign_in">Sign in</string>
     <string name="blue">Blue</string>
@@ -133,7 +134,7 @@
     <string name="the_full_name_shouldn_t_be_empty">The full name shouldn\'t be empty</string>
     <string name="channel_name_validation">Channel name must not be empty and should have fewer than 60 characters.</string>
     <string name="home">Home</string>
-    <string name="tasks">Tasks</string>
+    <string name="tasksOrganization">Tasks</string>
     <string name="dms">DMs</string>
     <string name="draft_messages_to_send_when_you_re_ready">Draft messages to send when you’re ready</string>
     <string name="sub_title_empty_data">Start typing a message anywhere, then find it here. Re-read, revise, and send whenever you’d like.</string>
@@ -146,4 +147,11 @@
     <string name="message_deleted_successfully">Message deleted successfully</string>
     <string name="cancle">CANCLE</string>
     <string name="enter_full_name">Enter name</string>
+    <string name="full_name">Full Name</string>
+    <string name="invites_username">Invalid username: special characters, leading numbers, or less than 3 characters not allowed.</string>
+    <string name="create_account">Create Account</string>
+    <string name="do_you_have_account">Do You Have Account?</string>
+    <string name="invalid_email">Please enter a valid email address.</string>
+    <string name="password_mismatch">Please ensure both passwords match.</string>
+    <string name="all_field_required">Please fill in all the required fields.</string>
 </resources>

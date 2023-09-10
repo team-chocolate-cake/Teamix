@@ -1,11 +1,10 @@
 package com.chocolate.entities.channel
 
 data class Channel(
-    val id: Int,
+    val id: String,
     val name: String,
     val description: String,
-    val isPrivate: Boolean,
+    val channelType: ChannelType,
     val topics: List<Topic>,
-    val isCurrentUserSubscribed: Boolean,
-    val isMuted: Boolean,
+    val membersId:List<String>
 )

@@ -18,17 +18,17 @@ class ChannelViewModel @Inject constructor(
 
     init {
         _state.update { it.copy(channelName = channelArgs.channelName) }
-        getTopics()
+        //getTopics()
     }
 
-    private fun getTopics() {
+    /*private fun getTopics() {
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
             call = { manageChannels.getTopicsInChannel(channelArgs.channelId) },
             onSuccess = ::onGetTopicsSuccess,
             onError = {}
         )
-    }
+    }*/
 
     private fun onGetTopicsSuccess(topics: List<Topic>) {
         _state.update { it.copy(isLoading = false, topics = topics.toUiState()) }

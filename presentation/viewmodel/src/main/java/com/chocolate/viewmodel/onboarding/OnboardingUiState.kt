@@ -8,5 +8,6 @@ data class OnboardingUiState(
     val description: String = String.Empty,
     val buttonText: String = String.Empty,
     val onboardingState: Boolean = false,
-    val isLastPage: Boolean = false
+    val isLastPage: Boolean = false,
+    val isDarkTheme: Boolean = false,
 )

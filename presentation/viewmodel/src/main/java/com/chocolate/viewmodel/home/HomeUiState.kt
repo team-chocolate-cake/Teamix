@@ -9,7 +9,7 @@ data class HomeUiState(
     val channels: List<ChannelUiState> = emptyList(),
     val showNoInternetLottie: Boolean = false,
     val isLogged: Boolean = false,
-    val isLoading: Boolean = true,
+    val isLoading: Boolean = false,
     val isDarkTheme: Boolean = false,
     val role: String = String.Empty,
     val error: String? = null

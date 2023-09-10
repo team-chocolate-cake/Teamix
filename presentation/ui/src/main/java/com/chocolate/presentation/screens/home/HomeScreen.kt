@@ -2,11 +2,11 @@ package com.chocolate.presentation.screens.home
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,7 +37,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -59,11 +58,9 @@ import com.chocolate.presentation.screens.saveLater.navigateToSaveLater
 import com.chocolate.presentation.screens.topic_details.navigateToTopic
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Float1
-import com.chocolate.presentation.theme.LightPrimary
 import com.chocolate.presentation.theme.OnLightPrimary
 import com.chocolate.presentation.theme.SpacingLarge
 import com.chocolate.presentation.theme.SpacingMedium
-import com.chocolate.presentation.theme.SpacingMegaGigantic
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.TeamixTheme
@@ -89,13 +86,11 @@ fun HomeScreen(
                 effect.id,
                 effect.name
             )
-
             HomeUiEffect.NavigateToOrganizationName -> navController.navigateToOrganizationName {
                 popUpTo(Screen.Home.route) {
                     inclusive = true
                 }
             }
-
             HomeUiEffect.NavigationToDrafts -> navController.navigateToDrafts()
             HomeUiEffect.NavigationToSavedLater -> navController.navigateToSaveLater()
             HomeUiEffect.NavigationToStarred -> {}
@@ -114,29 +109,30 @@ fun HomeScreen(
 fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
     val colors = MaterialTheme.customColors()
     val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(color = Color.Black, darkIcons = false)
+    systemUiController.setStatusBarColor(
+        color = MaterialTheme.customColors().primary,
+        darkIcons = state.isDarkTheme
+    )
     var isShowSheet by remember { mutableStateOf(false) }
     AnimatedVisibility(isShowSheet) {
         ManageChannelBottomSheet(onDismissBottomSheet = { isShowSheet = false }, colors = colors)
     }
     TeamixScaffold(
         modifier = Modifier.fillMaxSize(),
-        isDarkMode = isSystemInDarkTheme(),
+        isDarkMode = state.isDarkTheme,
         containerColorAppBar = MaterialTheme.customColors().primary,
-        onRetry=homeInteraction::onClickRetryButton,
-        isLoading = state.isLogged && state.isLoading,
-        onLoading = { LoadingColumn() },
+        onRetry = homeInteraction::onClickRetryButton,
         error = if (state.isLogged && state.showNoInternetLottie) stringResource(R.string.no_internet) else null,
         title = state.organizationTitle,
         imageUrl = state.imageUrl,
         hasImageUrl = true,
         titleColor = OnLightPrimary,
         hasAppBar = true,
-    ) {
+    ) { paddingValue ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = SpacingMegaGigantic),
+                .padding(paddingValue),
             contentPadding = PaddingValues(vertical = SpacingXLarge),
             verticalArrangement = Arrangement.spacedBy(SpacingXMedium),
         ) {
@@ -215,6 +211,14 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                 )
             }
         }
+
+        Log.d("123123123", "HomeContent: ${state.isLoading}")
+        AnimatedVisibility(visible = state.isLoading) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) { CircularProgressIndicator(color = colors.primary) }
+        }
     }
 }
 
@@ -266,15 +270,6 @@ private fun CardItem(
             )
         }
     }
-}
-
-@Composable
-fun LoadingColumn() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) { CircularProgressIndicator(color = LightPrimary) }
 }
 
 @Composable

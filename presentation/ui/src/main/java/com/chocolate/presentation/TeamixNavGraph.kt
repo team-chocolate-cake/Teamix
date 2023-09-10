@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.chocolate.presentation.screens.channel.channelRoute
 import com.chocolate.presentation.screens.chooseMember.chooseMemberRoute
+import com.chocolate.presentation.screens.createMember.createMemberRoute
 import com.chocolate.presentation.screens.create_account.createAccountWebViewRoute
 import com.chocolate.presentation.screens.create_channel.createChannelRoute
 import com.chocolate.presentation.screens.create_organization.createOrganizationWebViewRoute
@@ -18,13 +19,13 @@ import com.chocolate.presentation.screens.organiztion.organizationNameRoute
 import com.chocolate.presentation.screens.profile.profileRoute
 import com.chocolate.presentation.screens.saveLater.saveLaterRoute
 import com.chocolate.presentation.screens.search.searchRoute
-import com.chocolate.presentation.screens.task.taskRoute
+import com.chocolate.presentation.screens.taskOrganiztion.taskOrganizationRoute
 import com.chocolate.presentation.screens.topic_details.topicRoute
 import com.chocolate.presentation.screens.welcome.welcomeRoute
 
 @Composable
 fun TeamixNavGraph(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = Screen.Home.route) {
+    NavHost(navController = navController, startDestination = Screen.CreateMember.route) {
         welcomeRoute()
         onboardingRoute()
         homeRoute()
@@ -36,7 +37,7 @@ fun TeamixNavGraph(navController: NavHostController) {
         profileRoute()
         searchRoute()
         directMessageRoute()
-        taskRoute()
+        taskOrganizationRoute()
         topicRoute()
         chooseMemberRoute()
         createChannelRoute()
@@ -44,5 +45,6 @@ fun TeamixNavGraph(navController: NavHostController) {
         draftsRoute()
         channelRoute()
         createAccountWebViewRoute()
+        createMemberRoute()
     }
 }

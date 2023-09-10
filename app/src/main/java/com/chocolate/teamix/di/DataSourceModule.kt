@@ -1,17 +1,23 @@
 package com.chocolate.teamix.di
 
 import com.chocolate.local.dao.RoomDataSource
+import com.chocolate.local.datasource.AppSettingsDataSourceImpl
 import com.chocolate.local.datastore.DataStoreDataSource
+import com.chocolate.remote.data_source.AuthenticationDataSourceImpl
+import com.chocolate.remote.data_source.ChannelDataSourceImpl
 import com.chocolate.remote.data_source.ChannelRetrofitDataSource
+import com.chocolate.remote.data_source.MemberRemoteDataSourceImpl
 import com.chocolate.remote.data_source.MessagesRetrofitDataSource
-import com.chocolate.remote.data_source.UserRetrofitDataSource
-import com.chocolate.remote.firebase.TaskFirebase
+import com.chocolate.remote.data_source.OrganizationRemoteRemoteDataSourceImpl
+import com.chocolate.repository.datastore.local.AppSettingsDataSource
 import com.chocolate.repository.datastore.local.LocalDataSource
 import com.chocolate.repository.datastore.local.PreferencesDataSource
+import com.chocolate.repository.datastore.remote.AuthenticationDataSource
+import com.chocolate.repository.datastore.remote.ChannelDataSource
 import com.chocolate.repository.datastore.remote.ChannelRemoteDataSource
+import com.chocolate.repository.datastore.remote.MemberRemoteDataSource
 import com.chocolate.repository.datastore.remote.MessagesRemoteDataSource
-import com.chocolate.repository.datastore.remote.UserRemoteDataSource
-import com.chocolate.repository.datastore.remote.TaskRemoteDataSource
+import com.chocolate.repository.datastore.remote.OrganizationRemoteDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -44,13 +50,25 @@ abstract class DataSourceModule {
     abstract fun bindMessagesDataSource(messagesDataSource: MessagesRetrofitDataSource):
             MessagesRemoteDataSource
 
+    @Singleton
+    @Binds
+    abstract fun bindOrganizationDataSource(organizationRemoteDataSourceImpl: OrganizationRemoteRemoteDataSourceImpl): OrganizationRemoteDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindAuthenticationDataSource(authenticationDataSourceImpl: AuthenticationDataSourceImpl): AuthenticationDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindMemberRemoteDataSource(memberRemoteDataSourceImpl: MemberRemoteDataSourceImpl): MemberRemoteDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindAppSettingsDataSource(appSettingsDataSourceImpl: AppSettingsDataSourceImpl): AppSettingsDataSource
 
 
     @Singleton
     @Binds
-    abstract fun bindUserDataSource(userDataSource: UserRetrofitDataSource): UserRemoteDataSource
+    abstract fun bindChannelDataSourceImpl(channelDataSourceImpl: ChannelDataSourceImpl): ChannelDataSource
 
-    @Singleton
-    @Binds
-    abstract fun bindUserDatabase(taskFirebase: TaskFirebase): TaskRemoteDataSource
 }

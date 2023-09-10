@@ -23,6 +23,5 @@ fun CreateMemberUiState.toEntity() = MemberInformation(
     email = email,
     personalImageUri = URI(personalImageUri.toString()),
     password = password,
-    confirmPassword = confirmPassword
-
+    confirmPassword = confirmPassword,
 )

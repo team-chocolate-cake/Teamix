@@ -4,12 +4,15 @@ import com.chocolate.entities.exceptions.InvalidEmailException
 import com.chocolate.entities.exceptions.InvalidUsernameException
 import com.chocolate.entities.exceptions.MissingRequiredFieldsException
 import com.chocolate.entities.exceptions.PasswordMismatchException
+import com.chocolate.entities.member.Member
 import com.chocolate.entities.member.MemberInformation
+import com.chocolate.entities.member.UserRole
 import com.chocolate.entities.uills.Empty
+import repositories.MemberRepository
 import javax.inject.Inject
 
 class CreateMemberUseCase @Inject constructor(
-
+    private val memberRepository: MemberRepository,
 ) {
 
     suspend operator fun invoke(memberInfo: MemberInformation) {
@@ -17,7 +20,21 @@ class CreateMemberUseCase @Inject constructor(
         isValidUsername(memberInfo.fullName)
         validateEmail(memberInfo.email)
         validatePassword(memberInfo.password, memberInfo.confirmPassword)
-        // todo: create member
+
+        val member = Member(
+            id ="0",
+            name = memberInfo.fullName,
+            email = memberInfo.email,
+            password = memberInfo.password,
+            imageUrl = memberInfo.personalImageUri.toString(),
+            isActive = true,
+            UserRole.MEMBER,
+            "your dream is so far far far far far",
+            listOf("0")
+        )
+
+        memberRepository.createMember(member, memberInfo.password)
+
     }
 
     private fun validateMemberInformation(memberInfo: MemberInformation) {

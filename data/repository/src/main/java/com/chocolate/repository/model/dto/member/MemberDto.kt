@@ -5,6 +5,7 @@ data class MemberDto(
     val name: String? = null,
     val email: String? = null,
     val imageUrl: String? = null,
+    val password: String? = null,
     @field:JvmField val isActive: Boolean = true,
     val role: String? = null,
     val status: String? = null,

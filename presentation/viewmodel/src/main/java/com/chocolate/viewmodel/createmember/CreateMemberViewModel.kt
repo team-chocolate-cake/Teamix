@@ -20,6 +20,7 @@ class CreateMemberViewModel @Inject constructor(
 
 ) : BaseViewModel<CreateMemberUiState, CreateMemberUiEffect>(CreateMemberUiState()),
     CreateMemberInteraction {
+
     override fun onFullNameChange(name: String) {
         _state.update { it.copy(fullName = name) }
     }

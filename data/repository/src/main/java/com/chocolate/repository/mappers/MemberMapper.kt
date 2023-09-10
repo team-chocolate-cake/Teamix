@@ -10,6 +10,7 @@ fun MemberDto.toEntity(): Member =
         id!!,
         name!!,
         email!!,
+        password!!,
         imageUrl!!,
         isActive!!,
         UserRole.fromValue(role!!),
@@ -24,7 +25,7 @@ fun List<MemberDto>.toEntity(): List<Member> =
 @JvmName("memberToMemberDto")
 fun Member.toRemote(): MemberDto =
     MemberDto(
-        id, name, email, imageUrl, isActive, status, role.value, channelsId
+        id, name, email, password, imageUrl, isActive, status, role.value, channelsId
     )
 
 @JvmName("membersToMembersDto")

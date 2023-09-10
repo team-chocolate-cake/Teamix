@@ -20,4 +20,6 @@ interface MemberRepository {
     suspend fun logoutMember()
 
     suspend fun getCurrentMember(): Member
+
+    suspend fun createMember(member: Member, password: String): Member
 }

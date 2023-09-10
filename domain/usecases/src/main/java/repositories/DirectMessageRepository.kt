@@ -1,0 +1,4 @@
+package repositories
+
+interface DirectMessageRepository {
+}

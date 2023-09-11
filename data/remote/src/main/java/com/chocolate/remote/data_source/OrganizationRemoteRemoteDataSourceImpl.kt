@@ -4,6 +4,7 @@ import android.util.Log
 import com.chocolate.remote.util.Constants
 import com.chocolate.remote.util.tryToExecuteSuspendCall
 import com.chocolate.repository.datastore.remote.OrganizationRemoteDataSource
+import com.chocolate.repository.model.dto.member.MemberDto
 import com.chocolate.repository.model.dto.organization.OrganizationDto
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
@@ -53,6 +54,18 @@ class OrganizationRemoteRemoteDataSourceImpl @Inject constructor(
                 .collection(Constants.ORGANIZATION)
                 .document(organization.name!!)
                 .set(organization)
+                .await()
+        }
+    }
+
+    override suspend fun addMemberInOrganization(member: MemberDto, organizationName: String) {
+        tryToExecuteSuspendCall {
+            firebaseFirestore
+                .collection(Constants.ORGANIZATION)
+                .document(organizationName)
+                .collection(Constants.MEMBERS)
+                .document(member.id!!)
+                .set(member)
                 .await()
         }
     }

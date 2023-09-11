@@ -60,10 +60,10 @@ import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
-import com.chocolate.viewmodel.createMember.CreateMemberInteraction
-import com.chocolate.viewmodel.createMember.CreateMemberUiEffect
-import com.chocolate.viewmodel.createMember.CreateMemberUiState
-import com.chocolate.viewmodel.createMember.CreateMemberViewModel
+import com.chocolate.viewmodel.createmember.CreateMemberInteraction
+import com.chocolate.viewmodel.createmember.CreateMemberUiEffect
+import com.chocolate.viewmodel.createmember.CreateMemberUiState
+import com.chocolate.viewmodel.createmember.CreateMemberViewModel
 
 @Composable
 fun CreateMemberScreen(

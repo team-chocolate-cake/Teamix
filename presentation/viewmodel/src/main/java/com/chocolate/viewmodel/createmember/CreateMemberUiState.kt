@@ -1,4 +1,4 @@
-package com.chocolate.viewmodel.createMember
+package com.chocolate.viewmodel.createmember
 
 import android.net.Uri
 import com.chocolate.entities.member.MemberInformation
@@ -23,6 +23,5 @@ fun CreateMemberUiState.toEntity() = MemberInformation(
     email = email,
     personalImageUri = URI(personalImageUri.toString()),
     password = password,
-    confirmPassword = confirmPassword
-
+    confirmPassword = confirmPassword,
 )

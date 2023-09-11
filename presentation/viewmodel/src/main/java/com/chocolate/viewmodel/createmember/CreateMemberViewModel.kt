@@ -1,4 +1,4 @@
-package com.chocolate.viewmodel.createMember
+package com.chocolate.viewmodel.createmember
 
 import android.net.Uri
 import android.util.Log
@@ -20,6 +20,7 @@ class CreateMemberViewModel @Inject constructor(
 
 ) : BaseViewModel<CreateMemberUiState, CreateMemberUiEffect>(CreateMemberUiState()),
     CreateMemberInteraction {
+
     override fun onFullNameChange(name: String) {
         _state.update { it.copy(fullName = name) }
     }

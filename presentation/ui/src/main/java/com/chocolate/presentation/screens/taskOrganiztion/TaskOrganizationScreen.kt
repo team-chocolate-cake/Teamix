@@ -8,7 +8,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
+import com.chocolate.presentation.screens.add_task.navigateToAddTask
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.taskOrganization.TaskOrganizationUiState
@@ -19,21 +19,25 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 fun TaskOrganizationScreen(viewModel: TaskOrganizationViewModel = hiltViewModel()) {
     val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
-    TaskOrganizationContent(state)
+    TaskOrganizationContent(state, navController::navigateToAddTask)
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun TaskOrganizationContent(state: TaskOrganizationUiState) {
+fun TaskOrganizationContent(
+    state: TaskOrganizationUiState,
+    navigateToAddTask: () -> Unit,
+) {
     TeamixScaffold(isDarkMode = isSystemInDarkTheme()) {
         val colors = MaterialTheme.customColors()
         val systemUiController = rememberSystemUiController()
-        systemUiController.setStatusBarColor(color = colors.background, darkIcons = !state.isDarkMode)
+        systemUiController.setStatusBarColor(
+            color = colors.background,
+            darkIcons = !state.isDarkMode
+        )
 
-        ActionSnakeBar(
-            contentMessage = "Task Screen",
-            isVisible = true,
-            isToggleButtonVisible = false
+        EmptyTasks(
+            onClickCreateTask = navigateToAddTask
         )
 
     }

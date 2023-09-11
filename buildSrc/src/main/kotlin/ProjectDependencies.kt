@@ -21,7 +21,7 @@ object ProjectDependencies {
     private const val COMPOSE_BOM = "2022.10.00"
     private const val NAVIGATION_COMPOSE = "2.5.3"
     private const val HILT_NAVIGATION_VERSION = "1.0.0"
-    private const val MATERIAL3_VERSION = "1.1.0-beta01"
+    private const val MATERIAL3_VERSION = "1.1.1"
     private const val COMPOSE_FOUNDATION_VERSION = "1.4.3"
     private const val ACCOMPANIST = "0.31.0-alpha"
     private const val APP_COMPAT = "1.6.1"

@@ -147,4 +147,13 @@
     <string name="cancle">CANCLE</string>
     <string name="enter_full_name">Enter name</string>
     <string name="invites_username">Invalid username: special characters, leading numbers, or less than 3 characters not allowed.</string>
+    <string name="no_task_found">No Tasks Found.</string>
+    <string name="task_description">You currently have no tasks assigned. Stay productive by adding tasks and organizing your workflow.</string>
+    <string name="add_new_tasks">Add New Tasks</string>
+    <string name="add_task">Add Task</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
+    <string name="add_sub_task">Add Sub Task</string>
+    <string name="add">Add</string>
+    <string name="assign_for">Assign for </string>
 </resources>

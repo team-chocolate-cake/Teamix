@@ -149,4 +149,5 @@
     <string name="search_for_channels">البحث عن القنوات</string>
     <string name="create_new_account">إنشاء حساب جديد</string>
     <string name="your_saved_items_will_appear_here_for_easy_access_and_reference">ستظهر عناصرك المحفوظة هنا للوصول والرجوع السهل</string>
+    <string name="no_task_found">لايوجد تاسكات.</string>
 </resources>

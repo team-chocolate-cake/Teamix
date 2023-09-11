@@ -22,7 +22,7 @@ class CreateMemberUseCase @Inject constructor(
         validatePassword(memberInfo.password, memberInfo.confirmPassword)
 
         val member = Member(
-            id ="0",
+            id = "fake Id",
             name = memberInfo.fullName,
             email = memberInfo.email,
             password = memberInfo.password,
@@ -33,7 +33,7 @@ class CreateMemberUseCase @Inject constructor(
             listOf("0")
         )
 
-        memberRepository.createMember(member, memberInfo.password)
+        memberRepository.createMember(member)
 
     }
 

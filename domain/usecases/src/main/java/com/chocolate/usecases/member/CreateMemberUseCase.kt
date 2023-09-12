@@ -1,12 +1,11 @@
 package com.chocolate.usecases.member
 
+import com.chocolate.entities.exceptions.EmptyImageUriException
 import com.chocolate.entities.exceptions.InvalidEmailException
 import com.chocolate.entities.exceptions.InvalidUsernameException
 import com.chocolate.entities.exceptions.MissingRequiredFieldsException
 import com.chocolate.entities.exceptions.PasswordMismatchException
 import com.chocolate.entities.member.Member
-import com.chocolate.entities.member.MemberInformation
-import com.chocolate.entities.member.UserRole
 import com.chocolate.entities.uills.Empty
 import repositories.MemberRepository
 import javax.inject.Inject
@@ -15,33 +14,27 @@ class CreateMemberUseCase @Inject constructor(
     private val memberRepository: MemberRepository,
 ) {
 
-    suspend operator fun invoke(memberInfo: MemberInformation) {
-        validateMemberInformation(memberInfo)
-        isValidUsername(memberInfo.fullName)
-        validateEmail(memberInfo.email)
-        validatePassword(memberInfo.password, memberInfo.confirmPassword)
-
-        val member = Member(
-            id = "fake Id",
-            name = memberInfo.fullName,
-            email = memberInfo.email,
-            password = memberInfo.password,
-            imageUrl = memberInfo.personalImageUri.toString(),
-            isActive = true,
-            UserRole.MEMBER,
-            "your dream is so far far far far far",
-            listOf("0")
-        )
+    suspend operator fun invoke(member: Member, confirmPassword: String) {
+        validateMemberInformation(member, confirmPassword)
+        isValidUsername(member.name)
+        validateEmail(member.email)
+        validateImageUri(member.imageUrl)
+        validatePassword(member.password, confirmPassword)
 
         memberRepository.createMember(member)
-
     }
 
-    private fun validateMemberInformation(memberInfo: MemberInformation) {
-        if (memberInfo.fullName.isBlank() ||
+    private fun validateImageUri(imageUri: String) {
+        if (imageUri == "null" || imageUri.isBlank()) {
+            throw EmptyImageUriException
+        }
+    }
+
+    private fun validateMemberInformation(memberInfo: Member, confirmPassword: String) {
+        if (memberInfo.name.isBlank() ||
             memberInfo.email.isBlank() ||
             memberInfo.password.isBlank() ||
-            memberInfo.confirmPassword.isBlank()
+            confirmPassword.isBlank()
         ) throw MissingRequiredFieldsException(String.Empty)
 
     }

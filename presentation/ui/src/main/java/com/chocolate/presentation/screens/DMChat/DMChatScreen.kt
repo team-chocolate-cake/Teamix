@@ -10,16 +10,18 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.composable.MyReplyMessage
 import com.chocolate.presentation.composable.ReplyMessage
 import com.chocolate.presentation.composable.StartNewMessage
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.viewmodel.DMChat.DMChatViewModel
 import com.chocolate.viewmodel.topic.TopicInteraction
 import com.chocolate.viewmodel.topic.TopicUiState
 
 @Composable
-fun DMChatScreen() {
+fun DMChatScreen(viewmodel: DMChatViewModel = hiltViewModel()) {
     DMChatContent()
 }
 

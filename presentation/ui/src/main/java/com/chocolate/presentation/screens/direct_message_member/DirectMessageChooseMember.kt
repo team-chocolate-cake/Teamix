@@ -33,6 +33,7 @@ import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.SelectedMemberItem
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
+import com.chocolate.presentation.screens.DMChat.navigateToDmChat
 import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.screens.topic_details.navigateToTopic
@@ -81,8 +82,10 @@ fun DirectMessageChooseMemberContent(
                     .padding(end = SpacingXMedium)
                     .clickable {
                         if (state.selectedMembersUiState!=null) {
-                            navController.navigateToTopic("Marwan")
-                            //nav to chat screen
+                            navController.navigateToDmChat(
+                                memberId = state.selectedMembersUiState!!.userId,
+                                memberName = state.selectedMembersUiState!!.name,
+                            )
                         } else {
                             navController.navigateToHome()
                         }

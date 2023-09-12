@@ -60,7 +60,7 @@ fun DirectMessageChooseMemberScreen(
 @Composable
 fun DirectMessageChooseMemberContent(
     state: DMChooseMemberUiState,
-    chooseMemberInteraction: DMChooseMemberInteraction
+    interaction: DMChooseMemberInteraction
 ) {
     val colors = MaterialTheme.customColors()
     val context = LocalContext.current
@@ -104,9 +104,7 @@ fun DirectMessageChooseMemberContent(
             ) { CircularProgressIndicator(color = colors.primary) }
         },
         error = state.error,
-        onRetry = {
-//            chooseMemberInteraction.onClickRetry()
-                  },
+        onRetry = interaction::onClickRetry,
         onError = {
             NoInternetLottie(
                 text = stringResource(id = R.string.no_internet_connection),
@@ -129,9 +127,7 @@ fun DirectMessageChooseMemberContent(
                     TeamixTextField(value = state.searchQuery,
                         modifier = Modifier.padding(horizontal = SpacingXLarge),
                         hint = stringResource(id = R.string.search),
-                        onValueChange = {
-//                            chooseMemberInteraction.onChangeSearchQuery(it)
-                                        },
+                        onValueChange = interaction::onChangeSearchQuery ,
                         leadingIcon = {
                             Icon(
                                 painter = painterResource(id = R.drawable.search),
@@ -155,21 +151,19 @@ fun DirectMessageChooseMemberContent(
                                     imageUrl = selectedMembersUiState.imageUrl,
                                     username = selectedMembersUiState.name,
                                     userId = selectedMembersUiState.userId,
-                                    onClickIcon = {
-//                                        chooseMemberInteraction.onRemoveSelectedItem(it)
-                                    }
+                                    onClickIcon = interaction::onRemoveSelectedItem
                                 )
                             }
                         }
                     }
                 }
-                items(state.membersUiState, key = { it.userId }) { membersUiState ->
+                items(state.membersUiState) { membersUiState ->
                     MemberItem(
                         modifier = Modifier.animateItemPlacement(),
                         painter = painterResource(id = R.drawable.ic_check),
                         chooseMemberUiState = membersUiState
                     ) {
-//                        chooseMemberInteraction.onClickMemberItem(it)
+                        interaction.onClickMemberItem(it)
                     }
                 }
 

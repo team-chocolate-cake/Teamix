@@ -20,7 +20,7 @@ class AuthInterceptor @Inject constructor(
             .url(
                 setDomainName(
                     requestUrl.toString(),
-                    preferencesDataSource.getCurrentOrganizationName() ?: throw IOException()
+                    "preferencesDataSource.getCurrentOrganizationName()" ?: throw IOException()
                 )
             )
             .header(

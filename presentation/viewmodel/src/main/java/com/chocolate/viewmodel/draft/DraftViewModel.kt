@@ -22,15 +22,15 @@ class DraftViewModel @Inject constructor(
 
     init {
         getDarkModeState()
-        getData()
+        //getData()
     }
 
     private fun getDarkModeState() {
-        /*viewModelScope.launch {
+        viewModelScope.launch {
             customizeProfileSettings.isDarkThemeEnabled().collectLatest { isDark->
                 _state.update { it.copy(isDarkModel = isDark) }
             }
-        }*/
+        }
     }
 
     private fun getData() {
@@ -48,7 +48,7 @@ class DraftViewModel @Inject constructor(
     }
 
     override fun onClickRetry() {
-        getData()
+        //getData()
     }
 
     private fun deleteDraftFromUi(id: Int) {

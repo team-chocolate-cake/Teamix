@@ -30,7 +30,7 @@ class LoginViewModel @Inject constructor(
     }
 
     override fun onClickCreateNewAccount() {
-        sendUiEffect(LoginUiEffect.NavigateToCreateNewAccount)
+        sendUiEffect(LoginUiEffect.NavigateToCreateNewAccount("Member"))
     }
 
     override fun onChangeEmail(email: String) {

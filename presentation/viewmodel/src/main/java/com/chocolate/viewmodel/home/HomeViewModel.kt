@@ -1,7 +1,10 @@
 package com.chocolate.viewmodel.home
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.channel.Channel
+import com.chocolate.entities.exceptions.EmptyMemberIdException
+import com.chocolate.entities.exceptions.EmptyOrganizationNameException
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.UnAuthorizedException
 import com.chocolate.entities.exceptions.ValidationException
@@ -20,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getUserLoginStatus: IsMemberLoggedInUseCase,
+    private val isMemberLoggedInUseCase: IsMemberLoggedInUseCase,
     private val manageChannels: ManageChannelsUseCase,
     private val manageOrganizationDetails: ManageOrganizationDetailsUseCase,
     private val getCurrentMemberUseCase: GetCurrentMemberUseCase,
@@ -32,11 +35,9 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun isDarkTheme() {
-        /*viewModelScope.launch(Dispatchers.IO) {
-            customizeProfileSettings.isDarkThemeEnabled().collectLatest { isDark ->
-                _state.update { it.copy(isDarkTheme = isDark) }
-            }
-        }*/
+        collectFlow(customizeProfileSettings.isDarkThemeEnabled()) {
+            this.copy(isDarkTheme = it)
+        }
     }
 
     private fun getData() {
@@ -49,10 +50,6 @@ class HomeViewModel @Inject constructor(
 
     override fun onClickDrafts() {
         sendUiEffect(HomeUiEffect.NavigationToDrafts)
-    }
-
-    override fun onClickStarred() {
-        sendUiEffect(HomeUiEffect.NavigationToStarred)
     }
 
     override fun onClickSavedLater() {
@@ -147,21 +144,24 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getUserLoginState() {
-        viewModelScope.launch {
-            getUserLoginStatus().let { isLoggedIn ->
-                if (isLoggedIn) {
-                    _state.update { it.copy(isLogged = true) }
-                } else {
-                    sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
-                }
-            }
+        tryToExecute({ isMemberLoggedInUseCase() }, ::onGettingMemberLoginState, ::onError)
+    }
+
+    private fun onGettingMemberLoginState(isLoggedIn: Boolean) {
+        if (isLoggedIn) {
+            _state.update { it.copy(isLogged = true, error = null, isLoading = false) }
+        } else {
+            sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
         }
     }
 
     private fun onError(throwable: Throwable) {
         when (throwable) {
-            is UnAuthorizedException, is ValidationException ->
-                sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
+            is EmptyOrganizationNameException, is EmptyMemberIdException -> {
+                sendUiEffect(
+                    HomeUiEffect.NavigateToOrganizationName
+                )
+            }
 
             is NoConnectionException ->
                 _state.update {

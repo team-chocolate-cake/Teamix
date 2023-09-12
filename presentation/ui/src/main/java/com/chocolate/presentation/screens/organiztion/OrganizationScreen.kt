@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.organiztion
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -56,6 +57,7 @@ fun OrganizationScreen(
 ) {
     val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
+    Log.e("OrganizationScreen: ", "called")
     CollectUiEffect(viewModel.effect) { effect ->
         when (effect) {
             OrganizationNameUiEffect.NavigateToCreateOrganization -> navController.navigateToCreateOrganization()

@@ -71,7 +71,7 @@ fun LoginScreen(
         when (effect) {
             LoginUiEffect.NavigateToForgetPassword -> navController.navigateToForgetPassword()
             LoginUiEffect.NavigationToHome -> navController.navigateToHome()
-            LoginUiEffect.NavigateToCreateNewAccount -> navController.navigateToCreateMember()
+            is LoginUiEffect.NavigateToCreateNewAccount -> navController.navigateToCreateMember(effect.role)
         }
     }
     LoginContent(loginViewModel, state, scrollState)

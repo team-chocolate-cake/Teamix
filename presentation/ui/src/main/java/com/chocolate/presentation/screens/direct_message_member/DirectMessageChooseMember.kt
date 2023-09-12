@@ -43,10 +43,13 @@ import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.chooseMember.ChooseMemberInteraction
 import com.chocolate.viewmodel.chooseMember.ChooseMemberUiState
 import com.chocolate.viewmodel.chooseMember.ChooseMemberViewModel
+import com.chocolate.viewmodel.dm_choose_member.DMChooseMemberInteraction
+import com.chocolate.viewmodel.dm_choose_member.DMChooseMemberUiState
+import com.chocolate.viewmodel.dm_choose_member.DMDMChooseMemberViewModel
 
 @Composable
 fun DirectMessageChooseMemberScreen(
-    viewModel: ChooseMemberViewModel = hiltViewModel()
+    viewModel: DMDMChooseMemberViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
     DirectMessageChooseMemberContent(state = state, viewModel)
@@ -56,8 +59,8 @@ fun DirectMessageChooseMemberScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DirectMessageChooseMemberContent(
-    state: ChooseMemberUiState,
-    chooseMemberInteraction: ChooseMemberInteraction
+    state: DMChooseMemberUiState,
+    chooseMemberInteraction: DMChooseMemberInteraction
 ) {
     val colors = MaterialTheme.customColors()
     val context = LocalContext.current
@@ -83,10 +86,10 @@ fun DirectMessageChooseMemberContent(
                             navController.navigateToHome()
                         } else {
                             val selectedMemberIds = state.selectedMembersUiState.map { it.userId }
-                            chooseMemberInteraction.addMembersInChannel(
-                                channelName = state.channelName,
-                                usersId = selectedMemberIds
-                            )
+//                            chooseMemberInteraction.addMembersInChannel(
+//                                channelName = state.channelName,
+//                                usersId = selectedMemberIds
+//                            )
                             navController.navigateToHome()
                         }
                     }
@@ -101,7 +104,9 @@ fun DirectMessageChooseMemberContent(
             ) { CircularProgressIndicator(color = colors.primary) }
         },
         error = state.error,
-        onRetry = { chooseMemberInteraction.onClickRetry() },
+        onRetry = {
+//            chooseMemberInteraction.onClickRetry()
+                  },
         onError = {
             NoInternetLottie(
                 text = stringResource(id = R.string.no_internet_connection),
@@ -124,7 +129,9 @@ fun DirectMessageChooseMemberContent(
                     TeamixTextField(value = state.searchQuery,
                         modifier = Modifier.padding(horizontal = SpacingXLarge),
                         hint = stringResource(id = R.string.search),
-                        onValueChange = { chooseMemberInteraction.onChangeSearchQuery(it) },
+                        onValueChange = {
+//                            chooseMemberInteraction.onChangeSearchQuery(it)
+                                        },
                         leadingIcon = {
                             Icon(
                                 painter = painterResource(id = R.drawable.search),
@@ -148,7 +155,9 @@ fun DirectMessageChooseMemberContent(
                                     imageUrl = selectedMembersUiState.imageUrl,
                                     username = selectedMembersUiState.name,
                                     userId = selectedMembersUiState.userId,
-                                    onClickIcon = { chooseMemberInteraction.onRemoveSelectedItem(it) }
+                                    onClickIcon = {
+//                                        chooseMemberInteraction.onRemoveSelectedItem(it)
+                                    }
                                 )
                             }
                         }
@@ -159,7 +168,9 @@ fun DirectMessageChooseMemberContent(
                         modifier = Modifier.animateItemPlacement(),
                         painter = painterResource(id = R.drawable.ic_check),
                         chooseMemberUiState = membersUiState
-                    ) { chooseMemberInteraction.onClickMemberItem(it) }
+                    ) {
+//                        chooseMemberInteraction.onClickMemberItem(it)
+                    }
                 }
 
             }
@@ -183,11 +194,11 @@ fun DirectMessageChooseMemberContent(
 
 @Preview
 @Composable
-fun ChooseMemberPreview() {
-    val viewModel: ChooseMemberViewModel = hiltViewModel()
+fun DMChooseMemberPreview() {
+    val viewModel: DMChooseMemberInteraction = hiltViewModel()
     TeamixTheme {
-        ChooseMemberContent(
-            state = ChooseMemberUiState(),
+        DirectMessageChooseMemberContent(
+            state = DMChooseMemberUiState(),
             viewModel
         )
     }

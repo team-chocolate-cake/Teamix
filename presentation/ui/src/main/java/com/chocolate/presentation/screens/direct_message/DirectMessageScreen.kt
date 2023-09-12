@@ -26,6 +26,7 @@ import com.chocolate.presentation.composable.DirectMessageChat
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.chooseMember.navigateToChooseMember
+import com.chocolate.presentation.screens.direct_message_member.navigateToDMChooseMember
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
@@ -45,7 +46,7 @@ fun DirectMessageScreen(dmViewModel: DirectMessageViewModel = hiltViewModel()) {
     LaunchedEffect(key1 = dmViewModel.effect ){
         dmViewModel.effect.collectLatest {
             when(it){
-                DirectMessageUiEffect.NavigateToChooseMember-> navController.navigateToChooseMember("gg")
+                DirectMessageUiEffect.NavigateToChooseMember-> navController.navigateToDMChooseMember()
 
             }
         }

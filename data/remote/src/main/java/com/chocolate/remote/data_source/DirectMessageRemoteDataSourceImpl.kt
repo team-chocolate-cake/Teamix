@@ -1,8 +1,8 @@
 package com.chocolate.remote.data_source
 
-import com.chocolate.entities.directMessage.Chat
 import com.chocolate.entities.directMessage.DMMessage
 import com.chocolate.repository.datastore.remote.DirectMessageRemoteDataSource
+import com.chocolate.repository.model.dto.direct_message.Chat
 import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObjects
@@ -11,7 +11,8 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-const val GROUPS = "groups"
+const val CHATS = "chats"
+const val TEAMIX = "teamix"
 const val MEMBERS = "members"
 const val MESSAGES = "messages"
 const val SENT_AT = "sentAt"
@@ -19,13 +20,22 @@ const val SENT_AT = "sentAt"
 class DirectMessageRemoteDataSourceImpl @Inject constructor(
     private val firebase: FirebaseFirestore
 ) : DirectMessageRemoteDataSource {
-    override suspend fun getChatsByUserId(userid: String): List<Chat> {
+    override suspend fun getChatsByUserId(userid: String, currentOrgName: String): List<Chat> {
         return suspendCoroutine { cont ->
-            firebase.collection(GROUPS)
+            firebase.collection(TEAMIX).document(currentOrgName).collection(CHATS)
                 .where(Filter.arrayContains(MEMBERS, userid))
                 .get()
                 .addOnSuccessListener { doc ->
-                    val chats = doc?.toObjects<Chat>() ?: emptyList()
+                    val chats = doc?.map {
+                        val members = it.data["members"] as List<String>
+                        val secondMember = members.find { it != userid } ?: ""
+                        Chat(
+                            id = it.data["id"] as String,
+                            secondMember = secondMember,
+                            lastMessage = it.data["lastMessage"] as String,
+                            lastMessageDate = it.data["lastMessageDate"] as String
+                        )
+                    } ?: emptyList()
                     cont.resume(chats)
                 }.addOnFailureListener {
                     cont.resumeWithException(it)
@@ -33,10 +43,15 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun fetchMessagesByGroupId(groupId: String): List<DMMessage> {
+    override suspend fun fetchMessagesByGroupId(
+        groupId: String,
+        currentOrgName: String
+    ): List<DMMessage> {
         return suspendCoroutine { cont ->
             firebase
-                .collection(GROUPS)
+                .collection(TEAMIX)
+                .document(currentOrgName)
+                .collection(CHATS)
                 .document(groupId)
                 .collection(MESSAGES)
                 .orderBy(SENT_AT)
@@ -52,7 +67,7 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun sendMessage(message: DMMessage, currentGroupId: String) {
         firebase
-            .collection(GROUPS)
+            .collection(CHATS)
             .document(currentGroupId)
             .collection(MESSAGES)
             .add(message)

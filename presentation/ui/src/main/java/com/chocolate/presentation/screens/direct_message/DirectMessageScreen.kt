@@ -107,7 +107,7 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
                 modifier = Modifier.padding(horizontal = SpacingXMedium),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(state.chats.size , ) {
+                items(state.chats.size) {
                     DirectMessageChat(state = state.chats[it])
                 }
             }

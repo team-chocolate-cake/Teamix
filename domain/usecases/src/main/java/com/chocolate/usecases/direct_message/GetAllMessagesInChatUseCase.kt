@@ -1,6 +1,5 @@
 package com.chocolate.usecases.direct_message
 
-import com.chocolate.entities.directMessage.Chat
 import com.chocolate.entities.directMessage.DMMessage
 import repositories.DirectMessageRepository
 import javax.inject.Inject
@@ -10,8 +9,9 @@ class GetAllMessagesInChatUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(
-        groupId: String
+        groupId: String,
+        currentOrgName:String
     ) : List<DMMessage> {
-        return directMessageRepository.fetchMessagesByGroupId(groupId)
+        return directMessageRepository.fetchMessagesByGroupId(groupId , currentOrgName)
     }
 }

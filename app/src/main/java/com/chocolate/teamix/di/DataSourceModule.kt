@@ -6,6 +6,7 @@ import com.chocolate.local.datastore.DataStoreDataSource
 import com.chocolate.remote.data_source.AuthenticationDataSourceImpl
 import com.chocolate.remote.data_source.ChannelDataSourceImpl
 import com.chocolate.remote.data_source.ChannelRetrofitDataSource
+import com.chocolate.remote.data_source.DirectMessageRemoteDataSourceImpl
 import com.chocolate.remote.data_source.MemberRemoteDataSourceImpl
 import com.chocolate.remote.data_source.MessagesRetrofitDataSource
 import com.chocolate.remote.data_source.OrganizationRemoteRemoteDataSourceImpl
@@ -15,6 +16,7 @@ import com.chocolate.repository.datastore.local.PreferencesDataSource
 import com.chocolate.repository.datastore.remote.AuthenticationDataSource
 import com.chocolate.repository.datastore.remote.ChannelDataSource
 import com.chocolate.repository.datastore.remote.ChannelRemoteDataSource
+import com.chocolate.repository.datastore.remote.DirectMessageRemoteDataSource
 import com.chocolate.repository.datastore.remote.MemberRemoteDataSource
 import com.chocolate.repository.datastore.remote.MessagesRemoteDataSource
 import com.chocolate.repository.datastore.remote.OrganizationRemoteDataSource
@@ -70,5 +72,8 @@ abstract class DataSourceModule {
     @Singleton
     @Binds
     abstract fun bindChannelDataSourceImpl(channelDataSourceImpl: ChannelDataSourceImpl): ChannelDataSource
+    @Singleton
+    @Binds
+    abstract fun bindDMDataSourceImpl(directMessageRemoteDataSource: DirectMessageRemoteDataSourceImpl): DirectMessageRemoteDataSource
 
 }

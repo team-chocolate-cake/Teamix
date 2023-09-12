@@ -11,8 +11,9 @@ import com.chocolate.viewmodel.topic.TopicArgs
 
 fun NavGraphBuilder.topicRoute(){
     composable(
-        route = "${Screen.Topic.route}/{${TopicArgs.TOPIC_ID}}/{${TopicArgs.TOPIC_NAME}}",
+        route = "${Screen.Topic.route}/{${TopicArgs.CHANNEL_ID}}/{${TopicArgs.TOPIC_ID}}/{${TopicArgs.TOPIC_NAME}}",
         arguments = listOf(
+            navArgument(TopicArgs.CHANNEL_ID) { NavType.StringType },
             navArgument(TopicArgs.TOPIC_ID){NavType.IntType},
             navArgument(TopicArgs.TOPIC_NAME) { NavType.StringType }
         )
@@ -21,6 +22,6 @@ fun NavGraphBuilder.topicRoute(){
     }
 }
 
-fun NavController.navigateToTopic(id:Int,topicName: String){
-    navigate("${Screen.Topic.route}/$id/$topicName")
+fun NavController.navigateToTopic(channelId:Int,topicId:Int,topicName: String){
+    navigate("${Screen.Topic.route}/$channelId/$topicId/$topicName")
 }

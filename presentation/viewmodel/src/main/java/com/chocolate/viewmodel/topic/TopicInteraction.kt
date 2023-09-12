@@ -1,5 +1,7 @@
 package com.chocolate.viewmodel.topic
 
+
+
 interface TopicInteraction {
     fun onClickBackButton()
     fun openEmojisTile()
@@ -14,4 +16,5 @@ interface TopicInteraction {
     fun onPinMessage()
     fun onOpenReactTile()
     fun onClickReact(positive: Boolean, reactionUiState: ReactionUiState)
+
 }

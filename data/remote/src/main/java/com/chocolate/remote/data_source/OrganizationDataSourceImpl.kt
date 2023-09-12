@@ -18,7 +18,7 @@ class OrganizationDataSourceImpl @Inject constructor(
     override suspend fun getOrganizationById(id: String): Organization {
         return tryToExecuteSuspendCall {
             suspendCoroutine { cont ->
-                firebase.collection(Constants.ORGANIZATION).document(id).get()
+                firebase.collection(Constants.BASE).document(id).get()
                     .addOnSuccessListener { doc ->
                         doc?.toObject<Organization>()?.let { cont.resume(it) }
                     }

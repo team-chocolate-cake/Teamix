@@ -1,10 +1,16 @@
 package com.chocolate.viewmodel.topic
 
+import android.content.Context
+import android.os.Build
 import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.messages.Message
-import com.chocolate.usecases.message.ManageChannelMessages
+import com.chocolate.entities.uills.Empty
+import com.chocolate.usecases.message.ManageTopicMessagesUseCase
 import com.chocolate.usecases.user.GetCurrentUserDataUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,17 +18,19 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.ZoneId
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
 class TopicViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val manageChannelMessages: ManageChannelMessages,
+    private val manageTopicMessagesUseCase: ManageTopicMessagesUseCase,
     private val getCurrentUserDataUseCase: GetCurrentUserDataUseCase
 ) : BaseViewModel<TopicUiState, TopicEffect>(TopicUiState()), TopicInteraction {
 
     private val topicArgs = TopicArgs(savedStateHandle)
-    //private val channelArgs = ChannelArgs(savedStateHandle)
 
     init {
         _state.update { it.copy(topicName = topicArgs.topicName) }
@@ -42,33 +50,39 @@ class TopicViewModel @Inject constructor(
         _state.update { it.copy(messageInput = text) }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onSendMessage(text: String) {
-        Log.i("SHowALLL",state.value.messages.toString())
         viewModelScope.launch {
-            val id=getCurrentUserDataUseCase.invoke().id
-            val name=getCurrentUserDataUseCase.invoke().fullName
-            val imageUrl=getCurrentUserDataUseCase.invoke().imageUrl
-            manageChannelMessages.sendMessage(channelId =topicArgs.topicId.toString(), text = text,
-                userId= id.toString(), senderName = name,senderImage=imageUrl)
+            val id = getCurrentUserDataUseCase.invoke().id
+            val name = getCurrentUserDataUseCase.invoke().fullName
+            val imageUrl = getCurrentUserDataUseCase.invoke().imageUrl
+            val message = Message(
+                id = "",
+                senderId = id.toString(),
+                senderFullName = name,
+                senderAvatarUrl = imageUrl,
+                messageContent = text,
+                timestamp = Date.from(
+                    LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()
+                )
+            )
+            manageTopicMessagesUseCase.sendMessage(
+                message = message,
+                channelId = topicArgs.channelId.toString(),
+                topicId = topicArgs.topicId.toString()
+            )
         }
+        _state.update { it.copy(messageInput = String.Empty) }
     }
 
     private fun getAllMessages() {
         viewModelScope.launch {
-            tryToExecuteFlow({manageChannelMessages.getMessages(topicArgs.topicId.toString())},::onSuccessGetMessage,::onError)
-        /*    manageChannelMessages.getMessages(topicArgs.topicId.toString()).collectLatest { messages ->
-                messages.map {
-                    val id = getCurrentUserDataUseCase.invoke().id
-                    val isMyMessage = it.senderId==id
-                    Log.i("TEstAbood",isMyMessage.toString())
-                   // Log.i("TEstIDD",channelArgs.channelId.toString())
-                    _state.update {
-                        it.copy(
-                            messages = messages.toUiState(false)
-                        )
-                    }
-                }
-            }*/
+            tryToExecuteFlow({
+                manageTopicMessagesUseCase.getMessages(
+                    topicArgs.topicId.toString(),
+                    topicArgs.channelId.toString()
+                )
+            }, ::onSuccessGetMessage, ::onError)
         }
     }
 
@@ -77,19 +91,14 @@ class TopicViewModel @Inject constructor(
     }
 
     private suspend fun onSuccessGetMessage(flow: Flow<List<Message>>) {
-        flow.collectLatest {messages ->
+        flow.collectLatest { messages ->
             messages.map {
-                val id = getCurrentUserDataUseCase.invoke().id
-                val isMyMessage = it.senderId==id
-                Log.i("TEstAbood",isMyMessage.toString())
-                // Log.i("TEstIDD",channelArgs.channelId.toString())
                 _state.update {
                     it.copy(
                         messages = messages.toUiState(false)
                     )
                 }
             }
-
         }
     }
 

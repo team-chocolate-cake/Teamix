@@ -1,22 +1,25 @@
 package com.chocolate.repository.repository
 
+import com.chocolate.repository.datastore.local.PreferencesDataSource
+import kotlinx.coroutines.flow.Flow
 import repositories.AppSettingsRepository
 import javax.inject.Inject
 
-class AppSettingsRepositoryImpl @Inject constructor(): AppSettingsRepository {
-    override suspend fun isDarkThemeEnabled(): Boolean {
-        TODO("Not yet implemented")
+class AppSettingsRepositoryImpl @Inject constructor(
+    private val preferencesDataSource: PreferencesDataSource
+): AppSettingsRepository {
+    override fun isDarkThemeEnabled(): Flow<Boolean> =
+        preferencesDataSource.isDarkThemeEnabled()
+
+
+    override suspend fun setDarkTheme(isDarkTheme: Boolean) {
+        preferencesDataSource.setDarkTheme(isDarkTheme)
     }
 
-    override suspend fun updateDarkTheme(isDarkTheme: Boolean) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getLatestSelectedAppLanguage() {
-        TODO("Not yet implemented")
-    }
+    override fun getLatestSelectedAppLanguage(): Flow<String> =
+        preferencesDataSource.getLatestSelectedAppLanguage()
 
     override suspend fun updateAppLanguage(newLanguage: String): Boolean {
-        TODO("Not yet implemented")
+        return preferencesDataSource.updateAppLanguage(newLanguage)
     }
 }

@@ -15,11 +15,11 @@ interface MemberRepository {
 
     suspend fun loginMember(email: String, password: String)
 
-    fun isMemberLoggedIn(): Boolean
+    suspend fun isMemberLoggedIn(): Boolean
 
     suspend fun logoutMember()
 
     suspend fun getCurrentMember(): Member
 
-    suspend fun createMember(member: Member, password: String): Member
+    suspend fun createMember(member: Member): Member
 }

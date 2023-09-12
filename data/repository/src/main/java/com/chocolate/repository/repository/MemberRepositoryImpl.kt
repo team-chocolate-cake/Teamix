@@ -3,8 +3,7 @@ package com.chocolate.repository.repository
 import com.chocolate.entities.member.Member
 import com.chocolate.entities.exceptions.EmptyMemberIdException
 import com.chocolate.entities.exceptions.EmptyOrganizationNameException
-import com.chocolate.entities.exceptions.RegistrationFailedException
-import com.chocolate.entities.exceptions.UserNotFoundException
+import com.chocolate.entities.exceptions.MemberNotFoundException
 import com.chocolate.entities.exceptions.WrongEmailException
 import com.chocolate.entities.exceptions.WrongEmailOrPasswordException
 import com.chocolate.repository.datastore.local.LocalDataSource
@@ -57,13 +56,16 @@ class MemberRepositoryImpl @Inject constructor(
         memberRemoteDataSource.getMemberInOrganizationByEmail(getCurrentOrganizationName(), email)
             ?.let { memberDto ->
                 memberDto.toEntity().also { member ->
-                    if (password != member.password) throw WrongEmailOrPasswordException
+                    if (password == member.password) {
+                        preferencesDataSource.setMemberLoggedIn()
+                        preferencesDataSource.saveIdOfCurrentMember(member.id)
+                    } else throw WrongEmailOrPasswordException
                 }
             } ?: throw WrongEmailException
     }
 
-    override fun isMemberLoggedIn(): Boolean {
-        return authenticationDataSource.isUserLoggedIn()
+    override suspend fun isMemberLoggedIn(): Boolean {
+        return preferencesDataSource.isMemberLoggedIn()
     }
 
     override suspend fun logoutMember() {
@@ -73,30 +75,27 @@ class MemberRepositoryImpl @Inject constructor(
 
     override suspend fun getCurrentMember(): Member {
         val currentUserId =
-            authenticationDataSource.getCurrentUserId() ?: throw EmptyMemberIdException
+            preferencesDataSource.getIdOfCurrentMember() ?: throw EmptyMemberIdException
         val currentMember =
             memberRemoteDataSource.getMemberInOrganizationById(
                 currentUserId,
                 getCurrentOrganizationName()
             )?.toEntity()
-        return currentMember ?: throw UserNotFoundException
+        return currentMember ?: throw MemberNotFoundException
     }
 
-    override suspend fun createMember(member: Member, password: String): Member {
-        val userId = authenticationDataSource.registerUser(member.email, password)
-            ?: throw RegistrationFailedException
-        val newMember = member.copy(id = userId)
+    override suspend fun createMember(member: Member): Member {
         organizationRemoteDataSource.addMemberInOrganization(
-            newMember.toRemote(),
+            member.toRemote(),
             getCurrentOrganizationName()
         ).also {
             memberRemoteDataSource.addMembersInChannel(
                 getCurrentOrganizationName(),
-                listOf(userId),
+                listOf(member.id),
                 "0"
             )
         }
-        return newMember
+        return member
     }
 
 }

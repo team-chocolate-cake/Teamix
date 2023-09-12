@@ -25,7 +25,7 @@ import com.chocolate.presentation.screens.welcome.welcomeRoute
 
 @Composable
 fun TeamixNavGraph(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = Screen.CreateMember.route) {
+    NavHost(navController = navController, startDestination = Screen.OrganizationName.route) {
         welcomeRoute()
         onboardingRoute()
         homeRoute()

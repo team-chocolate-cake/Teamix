@@ -8,7 +8,9 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.chocolate.repository.datastore.local.PreferencesDataSource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import javax.inject.Inject
 
 class DataStoreDataSource @Inject constructor(
@@ -33,6 +35,26 @@ class DataStoreDataSource @Inject constructor(
         return dataStore.data.map {
             it[(IS_FIRST_TIME)] ?: false
         }
+    }
+
+    override suspend fun isMemberLoggedIn(): Boolean {
+        return dataStore.data.mapLatest {
+            it[LOGIN_STATE] ?: false
+        }.first()
+    }
+
+    override suspend fun setMemberLoggedIn() {
+        dataStore.setValue(LOGIN_STATE, true)
+    }
+
+    override suspend fun getIdOfCurrentMember(): String? {
+        return dataStore.data.mapLatest {
+            it[MEMBER_ID]
+        }.first()
+    }
+
+    override suspend fun saveIdOfCurrentMember(memberId: String) {
+        dataStore.setValue(MEMBER_ID, memberId)
     }
 
     override suspend fun upsertAppLanguage(newLanguage: String): Boolean {
@@ -71,7 +93,8 @@ class DataStoreDataSource @Inject constructor(
     companion object {
         private val IS_FIRST_TIME = booleanPreferencesKey("IS_FIRST_TIME")
         const val API_KEY = "API_KEY"
-        const val EMAIL = "EMAIL"
+        val LOGIN_STATE = booleanPreferencesKey("LOGIN_STATE")
+        val MEMBER_ID = stringPreferencesKey("MEMBER_ID")
         const val ORGANIZATION_NAME = "CURRENT_USERNAME_ID"
         const val ENGLISH = "en"
         const val DARK_THEME = "APP_DARK_THEME"

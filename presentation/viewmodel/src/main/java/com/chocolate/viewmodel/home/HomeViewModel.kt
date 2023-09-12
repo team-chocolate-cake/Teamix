@@ -1,5 +1,6 @@
 package com.chocolate.viewmodel.home
 
+import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.UnAuthorizedException
@@ -14,6 +15,7 @@ import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.profile.toOwnerUserUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -145,11 +147,13 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getUserLoginState() {
-        getUserLoginStatus().let { isLoggedIn ->
-            if (isLoggedIn) {
-                _state.update { it.copy(isLogged = true) }
-            } else {
-                sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
+        viewModelScope.launch {
+            getUserLoginStatus().let { isLoggedIn ->
+                if (isLoggedIn) {
+                    _state.update { it.copy(isLogged = true) }
+                } else {
+                    sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
+                }
             }
         }
     }

@@ -12,6 +12,14 @@ interface PreferencesDataSource {
 
     suspend fun checkIfUserUsedAppOrNot(): Flow<Boolean>
 
+    suspend fun isMemberLoggedIn(): Boolean
+
+    suspend fun setMemberLoggedIn()
+
+    suspend fun getIdOfCurrentMember(): String?
+
+    suspend fun saveIdOfCurrentMember(memberId: String)
+
     suspend fun upsertAppLanguage(newLanguage: String): Boolean
 
     suspend fun getLastSelectedAppLanguage(): Flow<String>

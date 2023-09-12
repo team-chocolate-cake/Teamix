@@ -5,5 +5,5 @@ import com.chocolate.viewmodel.base.BaseViewModel
 sealed interface LoginUiEffect : BaseViewModel.BaseUiEffect{
     object NavigationToHome: LoginUiEffect
     object NavigateToForgetPassword: LoginUiEffect
-    object NavigateToCreateNewAccount: LoginUiEffect
+    data class NavigateToCreateNewAccount(val role: String): LoginUiEffect
 }

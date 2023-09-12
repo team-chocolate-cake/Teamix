@@ -1,17 +1,21 @@
 package com.chocolate.teamix.di
 
+import com.chocolate.repository.repository.AppSettingsRepositoryImpl
 import com.chocolate.repository.repository.ChannelsRepositoryImpl
 import com.chocolate.repository.repository.MessagesRepositoryImpl
 import com.chocolate.repository.repository.OrganizationsRepositoryImpl
+import com.chocolate.repository.repository.MemberRepositoryImpl
 import com.chocolate.repository.repository.TopicRepositoryImpl
 import com.chocolate.repository.repository.UserRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import repositories.AppSettingsRepository
 import repositories.ChannelsRepository
 import repositories.MessagesRepository
 import repositories.OrganizationsRepository
+import repositories.MemberRepository
 import repositories.TopicRepository
 import repositories.UsersRepository
 import javax.inject.Singleton
@@ -30,7 +34,7 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindUserRepository(userRepositories: UserRepositoryImpl): UsersRepository
+    abstract fun bindUserRepository(userRepositories: MemberRepositoryImpl): MemberRepository
 
     @Binds
     @Singleton
@@ -39,4 +43,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindsTopicRepository(topicRepositoryImpl: TopicRepositoryImpl):TopicRepository
+    @Binds
+    @Singleton
+    abstract fun bindAppSettingsRepository(appSettingsRepository: AppSettingsRepositoryImpl): AppSettingsRepository
+
 }

@@ -39,7 +39,7 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.SeparatorWithText
 import com.chocolate.presentation.composable.ShowErrorSnackBarLogic
 import com.chocolate.presentation.composable.TeamixButton
-import com.chocolate.presentation.screens.create_account.navigateToCreateAccount
+import com.chocolate.presentation.screens.createMember.navigateToCreateMember
 import com.chocolate.presentation.screens.forget_password.navigateToForgetPassword
 import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.screens.login.composable.LoginComponents
@@ -71,7 +71,7 @@ fun LoginScreen(
         when (effect) {
             LoginUiEffect.NavigateToForgetPassword -> navController.navigateToForgetPassword()
             LoginUiEffect.NavigationToHome -> navController.navigateToHome()
-            LoginUiEffect.NavigateToCreateNewAccount -> navController.navigateToCreateAccount()
+            is LoginUiEffect.NavigateToCreateNewAccount -> navController.navigateToCreateMember(effect.role)
         }
     }
     LoginContent(loginViewModel, state, scrollState)

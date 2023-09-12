@@ -4,7 +4,7 @@ object ProjectDependencies {
     private const val COROUTINE_PLAY_SERVICES_VERSION = "1.4.1"
     private const val FIREBASE_FIRESTORE_VERSION = "24.7.1"
     private const val FIREBASE_VERSION = "32.2.2"
-    private const val CORE_VERSION = "1.8.0"
+    private const val CORE_VERSION = "1.7.1"
     private const val CONSTRAINT_LAYOUT_VERSION = "1.0.1"
     private const val COIL_VERSION = "2.4.0"
     private const val JUNIT_VERSION = "4.13.2"

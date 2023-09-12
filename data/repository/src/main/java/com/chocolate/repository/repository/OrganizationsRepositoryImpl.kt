@@ -1,54 +1,34 @@
 package com.chocolate.repository.repository
 
-import com.chocolate.entities.Organization
-import com.chocolate.entities.channel.Channel
+import com.chocolate.entities.organization.Organization
+import com.chocolate.entities.exceptions.EmptyOrganizationNameException
+import com.chocolate.entities.exceptions.InvalidOrganizationImageUrl
 import com.chocolate.repository.datastore.local.PreferencesDataSource
 import com.chocolate.repository.datastore.remote.OrganizationRemoteDataSource
+import com.chocolate.repository.mappers.toEntity
 import repositories.OrganizationsRepository
 import javax.inject.Inject
 
 class OrganizationsRepositoryImpl @Inject constructor(
     private val organizationRemoteDataSource: OrganizationRemoteDataSource,
     private val preferencesDataSource: PreferencesDataSource
-) : OrganizationsRepository{
-    override suspend fun getOrganizationById(id: String): Organization {
-        return organizationRemoteDataSource.getOrganizationById(id)
-    }
+) : OrganizationsRepository {
 
-    override suspend fun getOrganizaionsByMemberId(id: String): List<Organization> {
-        return organizationRemoteDataSource.getOrganizaionsByMemberId(id)
-    }
-
-    override suspend fun addOrganization(organization: Organization) {
-        organizationRemoteDataSource.addOrganization(organization)
-    }
-
-    override suspend fun deleteOrganizationbyId(id: String) {
-        organizationRemoteDataSource.deleteOrganizationbyId(id)
-    }
-
-    override suspend fun updateOrganization(organization: Organization) {
-        organizationRemoteDataSource.updateOrganization(organization)
-    }
-
-    override suspend fun addChannel(organizationId: Long, channel: Channel) {
-        organizationRemoteDataSource.addChannel(organizationId , channel)
-    }
-
-    override suspend fun deleteChannelById(channelId: Long) {
-        organizationRemoteDataSource.deleteChannelById(channelId)
+    override suspend fun getOrganizationByName(organizationName: String): Organization? {
+        return organizationRemoteDataSource.getOrganizationByName(organizationName)?.toEntity()
     }
 
     override suspend fun saveOrganizationName(nameOrganizations: String) {
-        preferencesDataSource.setOrganizationName(nameOrganizations)
+        preferencesDataSource.setCurrentOrganizationName(nameOrganizations)
     }
 
     override suspend fun getOrganizationName(): String {
-        return preferencesDataSource.currentOrganization().toString()
+        return preferencesDataSource.getCurrentOrganizationName() ?: throw EmptyOrganizationNameException
     }
 
     override suspend fun getOrganizationImage(): String {
-        return ""
+        return organizationRemoteDataSource.getOrganizationByName(getOrganizationName())?.imageUrl
+            ?: throw InvalidOrganizationImageUrl
     }
 
 }

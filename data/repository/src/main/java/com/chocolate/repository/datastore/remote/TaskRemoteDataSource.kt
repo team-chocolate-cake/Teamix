@@ -1,8 +1,8 @@
 package com.chocolate.repository.datastore.remote
 
-import com.chocolate.entities.user.User
+import com.chocolate.entities.member.Member
 
 interface TaskRemoteDataSource {
-    suspend fun setUsers(user: User)
-    suspend fun getAllUser(): List<User?>
+    suspend fun setUsers(member: Member)
+    suspend fun getAllUser(): List<Member?>
 }

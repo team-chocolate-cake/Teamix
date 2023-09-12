@@ -3,20 +3,20 @@ package com.chocolate.usecases.channel
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.channel.MutingStatus
 import repositories.ChannelsRepository
-import repositories.UsersRepository
+import repositories.MemberRepository
 import javax.inject.Inject
 
 class ManageChannelsUseCase @Inject constructor(
     private val channelsRepository: ChannelsRepository,
-    private val usersRepositories: UsersRepository
+    private val usersRepositories: MemberRepository
 ) {
-
-    private suspend fun getChannelSubscribers(channelId: Int): Boolean {
+/*
+    *//*private suspend fun getChannelSubscribers(channelId: Int): Boolean {
         return channelsRepository.getSubscriptionStatus(
-            userId = usersRepositories.getRemoteCurrentUser().id,
+            userId = usersRepositories.getCurrentMember().id,
             channelId = channelId
         )
-    }
+    }*//*
 
 //    suspend fun getSubscribedChannels(): List<Channel> {
 //        return channelsRepository.getSubscribedChannels()
@@ -39,5 +39,5 @@ class ManageChannelsUseCase @Inject constructor(
 
 
     private suspend fun setTopicMuting(topic: String, status: MutingStatus, streamId: Int) =
-        channelsRepository.setTopicMuting(topic, status, streamId)
+        channelsRepository.setTopicMuting(topic, status, streamId)*/
 }

@@ -19,4 +19,8 @@ interface StringsResource {
     val failedFullNameWhenEmpty: String
     val messageDeletedSuccessfully: String
     val invalidUsername: String
+    val invalidEmail: String
+    val passwordMismatch: String
+    val memberAlreadyExist: String
+    val allFieldsAreRequired: String
 }

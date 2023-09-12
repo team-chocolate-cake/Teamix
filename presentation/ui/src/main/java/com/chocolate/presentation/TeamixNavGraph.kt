@@ -3,6 +3,7 @@ package com.chocolate.presentation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.chocolate.presentation.screens.DMChat.dmChatRoute
 import com.chocolate.presentation.screens.channel.channelRoute
 import com.chocolate.presentation.screens.chooseMember.chooseMemberRoute
 import com.chocolate.presentation.screens.createMember.createMemberRoute
@@ -48,5 +49,6 @@ fun TeamixNavGraph(navController: NavHostController) {
         createAccountWebViewRoute()
         createMemberRoute()
         directMessageChooseMemberRoute()
+        dmChatRoute()
     }
 }

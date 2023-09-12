@@ -18,4 +18,5 @@ sealed class Screen(val route: String) {
     object Channel: Screen("channel")
     object CreateMember: Screen("Create_member")
     object DirectMessageChooseMember: Screen("DirectMessageChooseMember")
+    object DMChat: Screen("DMChat")
 }

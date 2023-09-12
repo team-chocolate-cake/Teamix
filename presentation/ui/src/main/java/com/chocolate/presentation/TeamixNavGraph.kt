@@ -10,6 +10,7 @@ import com.chocolate.presentation.screens.create_account.createAccountWebViewRou
 import com.chocolate.presentation.screens.create_channel.createChannelRoute
 import com.chocolate.presentation.screens.create_organization.createOrganizationWebViewRoute
 import com.chocolate.presentation.screens.direct_message.directMessageRoute
+import com.chocolate.presentation.screens.direct_message_member.directMessageChooseMemberRoute
 import com.chocolate.presentation.screens.drafts.draftsRoute
 import com.chocolate.presentation.screens.forget_password.forgetPasswordWebViewRoute
 import com.chocolate.presentation.screens.home.homeRoute
@@ -46,5 +47,6 @@ fun TeamixNavGraph(navController: NavHostController) {
         channelRoute()
         createAccountWebViewRoute()
         createMemberRoute()
+        directMessageChooseMemberRoute()
     }
 }

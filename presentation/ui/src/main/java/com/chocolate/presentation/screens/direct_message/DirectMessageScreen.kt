@@ -1,58 +1,56 @@
 package com.chocolate.presentation.screens.direct_message
 
 import android.annotation.SuppressLint
-import androidx.annotation.DimenRes
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.DirectMessageChat
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
-import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
+import com.chocolate.presentation.screens.chooseMember.navigateToChooseMember
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
-import com.chocolate.viewmodel.directMessage.ChatUiState
 import com.chocolate.viewmodel.directMessage.DirectMessageInteractions
+import com.chocolate.viewmodel.directMessage.DirectMessageUiEffect
 import com.chocolate.viewmodel.directMessage.DirectMessageUiState
 import com.chocolate.viewmodel.directMessage.DirectMessageViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun DirectMessageScreen(viewModel: DirectMessageViewModel = hiltViewModel()) {
+fun DirectMessageScreen(dmViewModel: DirectMessageViewModel = hiltViewModel()) {
     val navController = LocalNavController.current
-    val state by viewModel.state.collectAsState()
-    DirectMessageContent(state, viewModel)
+    val state by dmViewModel.state.collectAsState()
+    LaunchedEffect(key1 = dmViewModel.effect ){
+        dmViewModel.effect.collectLatest {
+            when(it){
+                DirectMessageUiEffect.NavigateToChooseMember-> navController.navigateToChooseMember("gg")
+
+            }
+        }
+    }
+    DirectMessageContent(state, dmViewModel)
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -70,7 +68,7 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
         floatingActionButton = {
             FloatingActionButton(
                 containerColor = colors.primary,
-                onClick = { /*TODO*/ }
+                onClick = interactions::onClickNewChat
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.chat),

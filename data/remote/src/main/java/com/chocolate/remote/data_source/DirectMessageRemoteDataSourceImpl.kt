@@ -1,5 +1,6 @@
 package com.chocolate.remote.data_source
 
+import android.util.Log
 import com.chocolate.entities.directMessage.DMMessage
 import com.chocolate.repository.datastore.remote.DirectMessageRemoteDataSource
 import com.chocolate.repository.model.dto.direct_message.Chat
@@ -11,7 +12,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-const val CHATS = "chats"
+const val CHATS = "Chats"
 const val TEAMIX = "teamix"
 const val MEMBERS = "members"
 const val MESSAGES = "messages"
@@ -23,17 +24,17 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
     override suspend fun getChatsByUserId(userid: String, currentOrgName: String): List<Chat> {
         return suspendCoroutine { cont ->
             firebase.collection(TEAMIX).document(currentOrgName).collection(CHATS)
-                .where(Filter.arrayContains(MEMBERS, userid))
+                .whereArrayContains("members" , userid)
                 .get()
                 .addOnSuccessListener { doc ->
                     val chats = doc?.map {
-                        val members = it.data["members"] as List<String>
+                        val members = it.data["members"] as List<String>? ?: emptyList()
                         val secondMember = members.find { it != userid } ?: ""
                         Chat(
-                            id = it.data["id"] as String,
+                            id = it.data["id"] as String? ?:"",
                             secondMember = secondMember,
-                            lastMessage = it.data["lastMessage"] as String,
-                            lastMessageDate = it.data["lastMessageDate"] as String
+                            lastMessage = it.data["lastMessage"] as String? ?:"",
+                            lastMessageDate = it.data["lastMessageDate"] as String? ?:""
                         )
                     } ?: emptyList()
                     cont.resume(chats)

@@ -14,7 +14,7 @@ class DirectMessageRepositoryImpl @Inject constructor(
 ) : DirectMessageRepository {
     override suspend fun getChatsByUserId(userid: String, currentOrgName: String): List<DMChat> {
         val chats = directMessageRemoteDataSource.getChatsByUserId(userid, currentOrgName)
-       return chats.map {
+        return chats.map {
             val member =
                 memberRemoteDataSource.getMemberInOrganizationById(it.secondMember, currentOrgName)
             DMChat(

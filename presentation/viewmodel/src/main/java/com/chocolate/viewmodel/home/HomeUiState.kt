@@ -29,6 +29,7 @@ data class ChannelUiState(
 )
 
 data class TopicUiState(
+    val id:Int=0,
     val name: String = String.Empty,
     val topicBadge: Int = 0
 )

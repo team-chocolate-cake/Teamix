@@ -5,7 +5,7 @@ interface HomeInteraction {
     fun onClickStarred()
     fun onClickSavedLater()
     fun onClickChannel(id: Int, name: String)
-    fun onClickTopic(name: String)
+    fun onClickTopic(channelId:Int,topicId:Int,name: String)
     fun onClickFloatingActionButton()
 
     fun onClickRetryButton()

@@ -2,8 +2,6 @@ package com.chocolate.repository.repository
 
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.channel.MutingStatus
-import com.chocolate.entities.channel.Topic
-import com.chocolate.repository.datastore.realtime.RealTimeDataSource
 import com.chocolate.repository.datastore.realtime.model.ChannelDto
 import com.chocolate.repository.datastore.remote.ChannelRemoteDataSource
 import com.chocolate.repository.mappers.channel_mappers.toChannel
@@ -19,7 +17,6 @@ import javax.inject.Inject
 
 class ChannelsRepositoryImpl @Inject constructor(
     private val channelRemoteDataSource: ChannelRemoteDataSource,
-    private val realTimeDataSource: RealTimeDataSource,
 ) : ChannelsRepository {
 
     override suspend fun getChannels(): List<Channel> {
@@ -27,15 +24,15 @@ class ChannelsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getStreamChannels(): Flow<List<Channel>> {
-        return channelRemoteDataSource
-            .getChannelsInOrganizationByOrganizationName("teamixOrganization")
-            .map { channels -> channels!!.map { it.toChannel() } }
+        return channelRemoteDataSource.getChannelsInOrganizationByOrganizationName(
+            "teamixOrganization"
+        ).map { channels -> channels!!.map { it.toChannel() } }
     }
 
-    override suspend fun getSubscribedChannels(): List<Channel> =
-        channelRemoteDataSource.getSubscribedChannels().toEntity { channelId ->
-            getTopicsInChannel(channelId)
-        }
+//    override suspend fun getSubscribedChannels(): List<Channel> =
+//        channelRemoteDataSource.getSubscribedChannels().toEntity { channelId ->
+//            getTopicsInChannel(channelId)
+//        }
 
     override suspend fun subscribeToChannel(
         channelName: String,
@@ -49,16 +46,16 @@ class ChannelsRepositoryImpl @Inject constructor(
             description = description,
             isPrivate = isPrivate
         ).also {
-            if (usersId.isNotEmpty()) realTimeDataSource.createChannel(
-              ChannelDto(
-                 name=channelName,
-             usersId=usersId,
-             description=description,
-             isPrivate=isPrivate),"teamixOrganization"
+            if (usersId.isNotEmpty()) channelRemoteDataSource.createChannel(
+                ChannelDto(
+                    name = channelName,
+                    usersId = usersId,
+                    description = description,
+                    isPrivate = isPrivate
+                ), "teamixOrganization"
             )
         }.result?.equals(SUCCESS) ?: false
     }
-
     override suspend fun unsubscribeFromChannel(
         channelName: String,
     ): Boolean {
@@ -112,10 +109,6 @@ class ChannelsRepositoryImpl @Inject constructor(
 
     override suspend fun archiveChannel(channelId: Int): Boolean {
         return channelRemoteDataSource.archiveChannel(channelId).toSuccessOrFail()
-    }
-
-    override suspend fun getTopicsInChannel(channelId: Int): List<Topic> {
-        return channelRemoteDataSource.getTopicsInChannel(channelId).toEntity()
     }
 
     override suspend fun setTopicMuting(

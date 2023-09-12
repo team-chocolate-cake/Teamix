@@ -2,7 +2,6 @@ package com.chocolate.usecases.channel
 
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.channel.MutingStatus
-import com.chocolate.entities.channel.Topic
 import repositories.ChannelsRepository
 import repositories.UsersRepository
 import javax.inject.Inject
@@ -19,9 +18,9 @@ class ManageChannelsUseCase @Inject constructor(
         )
     }
 
-    suspend fun getSubscribedChannels(): List<Channel> {
-        return channelsRepository.getSubscribedChannels()
-    }
+//    suspend fun getSubscribedChannels(): List<Channel> {
+//        return channelsRepository.getSubscribedChannels()
+//    }
 
     suspend fun getStreamChannels()=channelsRepository.getStreamChannels()
 
@@ -38,8 +37,6 @@ class ManageChannelsUseCase @Inject constructor(
     private suspend fun unsubscribeFromChannel(channelName: String) =
         channelsRepository.unsubscribeFromChannel(channelName)
 
-    suspend fun getTopicsInChannel(channelId: Int): List<Topic> =
-        channelsRepository.getTopicsInChannel(channelId)
 
     private suspend fun setTopicMuting(topic: String, status: MutingStatus, streamId: Int) =
         channelsRepository.setTopicMuting(topic, status, streamId)

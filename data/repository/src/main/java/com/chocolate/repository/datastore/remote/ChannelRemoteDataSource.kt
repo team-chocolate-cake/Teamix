@@ -14,19 +14,12 @@ import com.chocolate.repository.model.dto.channels.response.UnsubscribeFromStrea
 import kotlinx.coroutines.flow.Flow
 
 interface ChannelRemoteDataSource {
-
-
     suspend fun createChannel(
         channel: ChannelDto,
-        organizationName:String
+        organizationName: String
     )
 
-
-
-    suspend fun  getChannelsInOrganizationByOrganizationName(organizationName: String): Flow<List<ChannelDto>?>
-
-
-
+    suspend fun getChannelsInOrganizationByOrganizationName(organizationName: String): Flow<List<ChannelDto>?>
 
     suspend fun getSubscribedChannels(): SubscribedStreamDto
 

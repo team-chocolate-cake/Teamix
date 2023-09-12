@@ -2,11 +2,10 @@ package repositories
 
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.channel.MutingStatus
-import com.chocolate.entities.channel.Topic
 import kotlinx.coroutines.flow.Flow
 
 interface ChannelsRepository {
-    suspend fun getSubscribedChannels(): List<Channel>
+   // suspend fun getSubscribedChannels(): List<Channel>
 
     suspend fun subscribeToChannel(
         channelName: String,
@@ -41,7 +40,6 @@ interface ChannelsRepository {
 
     suspend fun archiveChannel(channelId: Int): Boolean
 
-    suspend fun getTopicsInChannel(channelId: Int): List<Topic>
 
     suspend fun setTopicMuting(
         topic: String,

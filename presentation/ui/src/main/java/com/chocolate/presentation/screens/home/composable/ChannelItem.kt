@@ -45,7 +45,7 @@ fun ChannelItem(
     state: ChannelUiState,
     colors: CustomColorsPalette,
     contentDescription: String = "",
-    onClickTopic: (String) -> Unit,
+    onClickTopic: (Int,Int,String) -> Unit,
     onClickItemChannel: (Int , String) -> Unit
 ) {
     var isExpanded by remember { mutableStateOf(false) }
@@ -108,7 +108,7 @@ fun ChannelItem(
                             .wrapContentHeight()
                             .pointerInput(Unit) {
                                 detectTapGestures(onPress = {
-                                    onClickTopic(topicUIState.name)
+                                    onClickTopic(state.channelId,topicUIState.id,topicUIState.name)
                                 })
                             }
                             .padding(vertical = 8.dp),

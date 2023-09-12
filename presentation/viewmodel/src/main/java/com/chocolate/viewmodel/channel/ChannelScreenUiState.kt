@@ -1,10 +1,11 @@
 package com.chocolate.viewmodel.channel
 
-import com.chocolate.entities.channel.Topic
+import com.chocolate.entities.topic.Topic
 import com.chocolate.entities.uills.Empty
 
 data class ChannelScreenUiState(
     val channelName: String = String.Empty,
+    val channelId: String = String.Empty,
     val topics: List<TopicState> = emptyList(),
     val isLoading: Boolean = false,
     val error: String? = null
@@ -22,8 +23,8 @@ data class TopicState(
 fun List<Topic>.toUiState(): List<TopicState> =
     map {
         TopicState(
-            id = it.id,
-            topicName = it.name,
+            id = it.topicId.toInt(),
+            topicName = it.content,
             creatorName = String.Empty,
             creatorImage = String.Empty,
             topicCreationDate = String.Empty

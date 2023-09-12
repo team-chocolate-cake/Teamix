@@ -1,5 +1,7 @@
 package com.chocolate.entities.channel
 
+import com.chocolate.entities.topic.Topic
+
 data class Channel(
     val id: Int,
     val name: String,

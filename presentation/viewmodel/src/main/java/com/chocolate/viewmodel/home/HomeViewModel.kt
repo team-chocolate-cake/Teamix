@@ -15,6 +15,7 @@ import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.profile.toOwnerUserUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -30,6 +31,7 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()), HomeInteraction {
     init {
         getData()
+
         isDarkTheme()
     }
 
@@ -65,8 +67,8 @@ class HomeViewModel @Inject constructor(
         sendUiEffect(HomeUiEffect.NavigateToChannel(id, name))
     }
 
-    override fun onClickTopic(name: String) {
-        sendUiEffect(HomeUiEffect.NavigateToTopic(name))
+    override fun onClickTopic(channelId: Int, topicId: Int, name: String) {
+        sendUiEffect(HomeUiEffect.NavigateToTopic(channelId, name, topicId))
     }
 
     override fun onClickFloatingActionButton() {
@@ -135,33 +137,26 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-//    private fun getChannels() {
-//        _state.update { it.copy(isLoading = true) }
-//        tryToExecute(
-//            manageChannels::getAllChannels,
-//            ::onGettingChannelsSuccess,
-//            ::onError
-//        )
-//    }
-
     private fun getChannels() {
         _state.update { it.copy(isLoading = true) }
-        viewModelScope.launch {
-            manageChannels.getStreamChannels().collect { channels ->
-                _state.update {
-                    it.copy(
-                        channels = channels.toUiState(),
-                        error = null,
-                        isLoading = false
-                    )
-                }
+        tryToExecuteFlow(
+            manageChannels::getStreamChannels,
+            ::onGettingChannelsSuccess,
+            ::onError
+        )
+    }
+
+    private suspend fun onGettingChannelsSuccess(channels: Flow<List<Channel>>) {
+        channels.collect { channel ->
+            _state.update {
+                it.copy(
+                    channels = channel.toUiState(),
+                    error = null,
+                    isLoading = false
+                )
             }
         }
     }
-
-//    private fun onGettingChannelsSuccess(channels: List<Channel>) {
-//        _state.update { it.copy(channels = channels.toUiState(), error = null, isLoading = false) }
-//    }
 
     private fun getUserLoginState() {
         viewModelScope.launch {

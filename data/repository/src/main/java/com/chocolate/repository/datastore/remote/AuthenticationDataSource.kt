@@ -11,5 +11,4 @@ interface AuthenticationDataSource {
 
     fun logoutUser()
 
-
 }

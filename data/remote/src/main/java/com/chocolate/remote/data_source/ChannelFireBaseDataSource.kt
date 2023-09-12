@@ -31,17 +31,24 @@ class ChannelFireBaseDataSource @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore,
 ) : ChannelRemoteDataSource {
     override suspend fun createChannel(
-        channel:ChannelDto,
-        organizationName:String
+        channel: ChannelDto,
+        organizationName: String
     ) {
         val channelId = getRandomId()
+        val channelDto = ChannelDto(
+            id = channelId.toString(),
+            name = channel.name,
+            usersId = channel.usersId,
+            description = channel.description,
+            isPrivate = channel.isPrivate,
+        )
         tryToExecuteSuspendCall {
             firebaseFirestore
-                .collection(Constants.ORGANIZATION)
+                .collection(Constants.BASE)
                 .document(organizationName)
                 .collection(Constants.CHANNEL)
                 .document(channelId.toString())
-                .set(channel)
+                .set(channelDto)
                 .await()
         }
     }
@@ -49,16 +56,14 @@ class ChannelFireBaseDataSource @Inject constructor(
     override suspend fun getChannelsInOrganizationByOrganizationName(organizationName: String): Flow<List<ChannelDto>?> {
         return callbackFlow {
             val organizationRef = firebaseFirestore
-                .collection(Constants.ORGANIZATION)
+                .collection(Constants.BASE)
                 .document(organizationName)
                 .collection(Constants.CHANNEL)
                 .addSnapshotListener { channelsSnapshot, exception ->
                     if (exception != null)
                         throw TeamixException(exception.message)
                     val channels = channelsSnapshot?.toObjects<ChannelDto>()
-                    channels?.let {
-                        trySend(it)
-                    }
+                    channels?.let { trySend(it) }
                 }
             awaitClose { organizationRef.remove() }
         }

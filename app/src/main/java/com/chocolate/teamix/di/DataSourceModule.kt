@@ -3,7 +3,7 @@ package com.chocolate.teamix.di
 import com.chocolate.local.dao.RoomDataSource
 import com.chocolate.local.datastore.DataStoreDataSource
 import com.chocolate.remote.data_source.ChannelFireBaseDataSource
-import com.chocolate.remote.data_source.MessagesDataSourceImpl
+import com.chocolate.remote.data_source.MessagesFireBaseDataSource
 import com.chocolate.remote.data_source.OrganizationDataSourceImpl
 import com.chocolate.remote.data_source.UserRetrofitDataSource
 import com.chocolate.remote.firebase.TaskFirebase
@@ -45,7 +45,7 @@ abstract class DataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun bindMessagesDataSource(messagesDataSource: MessagesDataSourceImpl):
+    abstract fun bindMessagesDataSource(messagesDataSource: MessagesFireBaseDataSource):
             MessagesRemoteDataSource
 
 //    @Singleton

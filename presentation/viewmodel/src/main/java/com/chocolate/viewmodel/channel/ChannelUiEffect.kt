@@ -5,7 +5,7 @@ import com.chocolate.viewmodel.base.BaseViewModel
 sealed interface ChannelUiEffect: BaseViewModel.BaseUiEffect{
     data class NavigateToTopicDetails(
         val channelId:Int,
-        val topicId:Int,
+        val topicId:String,
         val topicName:String
     ) : ChannelUiEffect
 }

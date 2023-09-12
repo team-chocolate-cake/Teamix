@@ -1,6 +1,5 @@
 package com.chocolate.viewmodel.channel
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import com.chocolate.entities.topic.Topic
 import com.chocolate.usecases.channel.ManageTopicsUseCase
@@ -44,7 +43,7 @@ class ChannelViewModel @Inject constructor(
         }
     }
 
-    override fun onClickSeeAll(channelId:Int,topicId: Int, topicName: String) {
+    override fun onClickSeeAll(channelId:Int,topicId: String, topicName: String) {
         sendUiEffect(ChannelUiEffect.NavigateToTopicDetails(channelId,topicId, topicName))
     }
 

@@ -12,7 +12,7 @@ data class ChannelScreenUiState(
 )
 
 data class TopicState(
-    val id: Int = 0,
+    val id: String = String.Empty,
     val creatorName: String = String.Empty,
     val creatorImage: String = String.Empty,
     val topicName: String = String.Empty,
@@ -23,10 +23,10 @@ data class TopicState(
 fun List<Topic>.toUiState(): List<TopicState> =
     map {
         TopicState(
-            id = it.topicId.toInt(),
+            id = it.topicId,
             topicName = it.content,
-            creatorName = String.Empty,
-            creatorImage = String.Empty,
-            topicCreationDate = String.Empty
+            creatorName = it.senderName,
+            creatorImage = it.senderImage,
+            topicCreationDate = it.sentTIme.toString().take(10)
         )
     }

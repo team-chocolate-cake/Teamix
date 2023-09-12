@@ -45,7 +45,7 @@ fun ChannelItem(
     state: ChannelUiState,
     colors: CustomColorsPalette,
     contentDescription: String = "",
-    onClickTopic: (Int,Int,String) -> Unit,
+    onClickTopic: (Int,String,String) -> Unit,
     onClickItemChannel: (Int , String) -> Unit
 ) {
     var isExpanded by remember { mutableStateOf(false) }

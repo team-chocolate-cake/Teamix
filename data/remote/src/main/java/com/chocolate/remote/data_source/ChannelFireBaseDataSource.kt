@@ -53,6 +53,27 @@ class ChannelFireBaseDataSource @Inject constructor(
         }
     }
 
+    override suspend fun getChannelsForCurrentMember(
+        organizationName: String,
+        memberId: String
+    ): Flow<List<ChannelDto>> {
+        return callbackFlow {
+            val organizationRef = firebaseFirestore
+                .collection(Constants.BASE)
+                .document(organizationName)
+                .collection(Constants.MEMBERS)
+                .document(memberId)
+                .addSnapshotListener { memberSnapshot, exception ->
+                    if (exception != null)
+                        throw TeamixException(exception.message)
+                  //  val channels = memberSnapshot?.toObjects<Memember>()
+                    //channels?.let { trySend(it) }
+                }
+            awaitClose { organizationRef.remove() }
+        }
+    }
+
+
     override suspend fun getChannelsInOrganizationByOrganizationName(organizationName: String): Flow<List<ChannelDto>?> {
         return callbackFlow {
             val organizationRef = firebaseFirestore

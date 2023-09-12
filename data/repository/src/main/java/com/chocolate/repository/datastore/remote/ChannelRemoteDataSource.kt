@@ -19,6 +19,8 @@ interface ChannelRemoteDataSource {
         organizationName: String
     )
 
+    suspend fun getChannelsForCurrentMember(organizationName: String,memberId:String):Flow<List<ChannelDto>>
+
     suspend fun getChannelsInOrganizationByOrganizationName(organizationName: String): Flow<List<ChannelDto>?>
 
     suspend fun getSubscribedChannels(): SubscribedStreamDto

@@ -29,6 +29,14 @@ class ChannelsRepositoryImpl @Inject constructor(
         ).map { channels -> channels!!.map { it.toChannel() } }
     }
 
+    override suspend fun getChannelsForCurrentMember(
+        organizationName: String,
+        memberId: String
+    ): Flow<List<Channel>> {
+        return channelRemoteDataSource.getChannelsForCurrentMember(memberId, "teamixOrganization")
+            .map { channels -> channels.map { it.toChannel() } }
+    }
+
 //    override suspend fun getSubscribedChannels(): List<Channel> =
 //        channelRemoteDataSource.getSubscribedChannels().toEntity { channelId ->
 //            getTopicsInChannel(channelId)

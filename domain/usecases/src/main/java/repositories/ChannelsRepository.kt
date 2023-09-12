@@ -59,4 +59,6 @@ interface ChannelsRepository {
 
     suspend fun deleteDefaultChannel(channelId: Int): Boolean
     suspend fun getStreamChannels(): Flow<List<Channel>>
+    suspend fun getChannelsForCurrentMember(organizationName: String,memberId:String):Flow<List<Channel>>
+
 }

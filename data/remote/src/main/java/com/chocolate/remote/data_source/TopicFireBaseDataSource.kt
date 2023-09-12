@@ -30,14 +30,15 @@ class TopicFireBaseDataSource @Inject constructor(
             content = topic.content
         )
         tryToExecuteSuspendCall {
-            firebaseFirestore
+            val topicRef = firebaseFirestore
                 .collection(BASE)
                 .document(organizationName)
                 .collection(CHANNEL)
                 .document(channelId)
                 .collection(TOPICS)
-                .document(topicId.toString())
-                .set(topicDto)
+                .document()
+
+            topicRef.set(topicDto.copy(topicId = topicRef.id))
                 .await()
         }
     }

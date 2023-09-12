@@ -27,9 +27,9 @@ import com.chocolate.presentation.theme.customColors
 @Composable
 fun Topic(
     topicName: String,
-    topicId: Int,
+    topicId: String,
     channelId:Int,
-    onSeeAll: (Int,Int, String) -> Unit,
+    onSeeAll: (Int,String, String) -> Unit,
 ) {
     Row(
         modifier = Modifier

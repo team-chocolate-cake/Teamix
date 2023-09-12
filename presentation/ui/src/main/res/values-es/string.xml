@@ -147,5 +147,6 @@
     <string name="create_new_account">Crear nueva cuenta</string>
     <string name="your_saved_items_will_appear_here_for_easy_access_and_reference">Tus elementos guardados aparecerán aquí para acceder y referenciar fácilmente</string>
     <string name="enter_full_name">Ingrese su nombre</string>
+    <string name="member_already_exist">El miembro con este correo electrónico ya existe.</string>
 
 </resources>

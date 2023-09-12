@@ -19,7 +19,7 @@ fun List<Message>.toUiState(isMyMessage: Boolean): List<MessageUiState> =
 
 
 @JvmName("topicToTopicUiState")
-fun Topic.toUiState(): TopicUiState = TopicUiState(topicId.toInt(), content, 5)
+fun Topic.toUiState(): TopicUiState = TopicUiState(topicId, content, 5)
 
 @JvmName("topicsToTopicsUiState")
 fun List<Topic>.toUiState(): List<TopicUiState> = this.map { it.toUiState() }

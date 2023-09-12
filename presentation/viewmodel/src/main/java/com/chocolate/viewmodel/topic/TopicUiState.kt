@@ -7,7 +7,7 @@ data class TopicUiState(
     val messages: List<MessageUiState> = emptyList(),
     val topicName: String = String.Empty,
     val messageInput: String = String.Empty,
-    val error: String? = null
+    val error: String? = null,
 )
 
 data class PhotoOrVideoUiState(

@@ -21,6 +21,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.chocolate.presentation.theme.CardHeight56
 import com.chocolate.presentation.theme.Radius12
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.TextFieldHeight48
@@ -47,7 +48,7 @@ fun TeamixTextField(
     TextField(
         modifier = modifier
             .fillMaxWidth()
-            .height(TextFieldHeight48),
+            .height(CardHeight56),
         value = value,
         onValueChange = {onValueChange(it)},
         textStyle = remember {

@@ -22,7 +22,7 @@ data class MessageItemUiState(
 
 fun Message.toMessageUiState(): MessageItemUiState {
     return MessageItemUiState(
-        id = id,
+        id = id.toInt(),
         username = senderFullName,
        imageUrl = senderAvatarUrl,
         messageContent = messageContent,

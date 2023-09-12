@@ -7,7 +7,6 @@ import com.chocolate.entities.uills.Empty
 import com.chocolate.usecases.channel.ManageChannelsUseCase
 import com.chocolate.usecases.user.CustomizeProfileSettingsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
-import com.chocolate.viewmodel.home.toChannelsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -78,7 +77,7 @@ class SearchViewModel @Inject constructor(
     private fun onChangeSearchChannelsQuerySuccess(channels: List<Channel>) {
         _state.update {
             it.copy(
-                channelsUiState = channels.toChannelsUiState(),
+                channelsUiState = channels.toUiState(),
                 isLoading = false,
                 showNoInternetLottie = false,
                 error = null,

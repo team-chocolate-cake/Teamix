@@ -28,11 +28,64 @@ import kotlinx.coroutines.tasks.await
 import okhttp3.MultipartBody
 import javax.inject.Inject
 
-class MessagesDataSourceImpl @Inject constructor(
+class MessagesFireBaseDataSource @Inject constructor(
     private val messageService: MessageService,
     private val draftService: DraftService,
-    private val fireStore: FirebaseFirestore,
-    ) : MessagesRemoteDataSource {
+    private val firebaseFirestore: FirebaseFirestore,
+) : MessagesRemoteDataSource {
+    override suspend fun sendMessageInTopic(
+        message: MessageDto,
+        topicId: String,
+        channelId: String,
+        organizationName: String,
+    ) {
+        val messageId = getRandomId()
+        val messageDto = MessageDto(
+            id = messageId.toString(),
+            content = message.content,
+            userId = message.userId,
+            senderName = message.senderName,
+            senderImage = message.senderImage,
+            timestamp = message.timestamp,
+        )
+        tryToExecuteSuspendCall {
+            firebaseFirestore.collection(Constants.BASE)
+                .document(organizationName)
+                .collection(Constants.CHANNEL)
+                .document(channelId)
+                .collection(Constants.TOPICS)
+                .document(topicId)
+                .collection(Constants.MESSAGE)
+                .document(messageId.toString())
+                .set(messageDto)
+                .await()
+        }
+    }
+
+    override suspend fun getMessagesFromTopic(
+        topicId: String,
+        channelId: String,
+        organizationName: String
+    ): Flow<List<MessageDto>> {
+        return callbackFlow {
+            val listener = firebaseFirestore
+                .collection(Constants.BASE)
+                .document(organizationName)
+                .collection(Constants.CHANNEL)
+                .document(channelId)
+                .collection(Constants.TOPICS)
+                .document(topicId)
+                .collection(Constants.MESSAGE).addSnapshotListener { value, error ->
+                    if (error != null)
+                        throw TeamixException(error.message)
+                    val messages = value?.toObjects<MessageDto>()
+                    messages?.let { trySend(it) }
+                }
+            awaitClose { listener.remove() }
+        }
+    }
+
+
     override suspend fun getDrafts(): DraftsDto {
         return wrapApiCall { draftService.getDrafts() }
     }
@@ -114,7 +167,6 @@ class MessagesDataSourceImpl @Inject constructor(
             messageService.deleteMessage(messageId)
         }
     }
-
 
 
     override suspend fun addEmojiReaction(

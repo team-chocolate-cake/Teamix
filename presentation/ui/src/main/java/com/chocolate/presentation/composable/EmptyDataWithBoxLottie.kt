@@ -41,7 +41,7 @@ fun EmptyDataWithBoxLottie(
     val scroll = rememberScrollState()
     AnimatedVisibility(visible = isShow) {
         Column(
-            modifier = modifier.background(backgroundColor).verticalScroll(scroll),
+            modifier = modifier.background(backgroundColor),
             verticalArrangement = Arrangement.Center
         ) {
             LottieAnimation(

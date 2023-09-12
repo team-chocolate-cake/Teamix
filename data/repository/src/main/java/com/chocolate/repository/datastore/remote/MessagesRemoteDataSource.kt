@@ -8,7 +8,6 @@ import com.chocolate.repository.model.dto.message.response.FileRemoteDto
 import com.chocolate.repository.model.dto.message.response.MatchNarrowDto
 import com.chocolate.repository.model.dto.message.response.MessageEditHistoryDto
 import com.chocolate.repository.model.dto.message.response.MessageReadReceiptsDto
-import com.chocolate.repository.model.dto.message.response.MessagesRemoteDto
 import com.chocolate.repository.model.dto.message.response.RenderMessageDto
 import com.chocolate.repository.model.dto.message.response.SendMessageDto
 import com.chocolate.repository.model.dto.message.response.SingleMessageDto
@@ -17,7 +16,18 @@ import okhttp3.MultipartBody
 
 interface MessagesRemoteDataSource {
 
+    suspend fun sendMessageInTopic(
+        message:MessageDto,
+        topicId:String,
+        channelId:String,
+        organizationName: String,
+    )
 
+    suspend fun getMessagesFromTopic(
+        topicId: String,
+        channelId:String,
+        organizationName: String
+    ): Flow<List<MessageDto>>
 
     suspend fun getDrafts(): DraftsDto
 

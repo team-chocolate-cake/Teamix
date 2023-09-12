@@ -27,16 +27,18 @@ interface MessagesRepository {
 
     suspend fun deleteDraft(id: Int)
 
-
-    suspend fun sendStreamMessage(
-        message:Message
+    suspend fun sendMessageInTopic(
+        message: Message,
+        topicId: String,
+        channelId: String,
+        organizationName: String,
     )
 
-    suspend fun getMessages(
-        topicId: Int,
-        channelId:Int,
+    suspend fun getMessagesFromTopic(
+        topicId: String,
+        channelId: String,
         organizationName: String
-    ): Flow<List<Message>?>
+    ): Flow<List<Message>>
 
 
     suspend fun sendDirectMessage(
@@ -57,7 +59,6 @@ interface MessagesRepository {
     )
 
     suspend fun deleteMessage(messageId: Int)
-
 
 
     suspend fun addEmojiReaction(
@@ -85,9 +86,9 @@ interface MessagesRepository {
 
     suspend fun checkIfMessagesMatchNarrow(messagesIds: String, narrow: String): String
 
-    suspend fun getSavedMessages(): List<Message>
+    //   suspend fun getSavedMessages(): List<Message>
 
-    suspend fun saveMessage(message: Message)
+    //   suspend fun saveMessage(message: Message)
 
     suspend fun deleteSavedMessageById(id: Int)
 

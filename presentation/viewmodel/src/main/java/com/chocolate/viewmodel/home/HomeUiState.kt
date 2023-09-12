@@ -14,6 +14,7 @@ data class HomeUiState(
     val role: String = String.Empty,
     val error: String? = null
 )
+
 data class BadgeCountsUiState(
     val mentions: Int = 0,
     val drafts: Int = 0,
@@ -29,7 +30,7 @@ data class ChannelUiState(
 )
 
 data class TopicUiState(
-    val id:Int=0,
+    val id: String = String.Empty,
     val name: String = String.Empty,
     val topicBadge: Int = 0
 )

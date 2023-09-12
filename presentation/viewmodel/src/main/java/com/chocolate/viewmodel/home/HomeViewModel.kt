@@ -67,7 +67,7 @@ class HomeViewModel @Inject constructor(
         sendUiEffect(HomeUiEffect.NavigateToChannel(id, name))
     }
 
-    override fun onClickTopic(channelId: Int, topicId: Int, name: String) {
+    override fun onClickTopic(channelId: Int, topicId: String, name: String) {
         sendUiEffect(HomeUiEffect.NavigateToTopic(channelId, name, topicId))
     }
 

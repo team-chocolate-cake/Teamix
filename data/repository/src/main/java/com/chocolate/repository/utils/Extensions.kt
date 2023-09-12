@@ -11,7 +11,7 @@ fun Any.toJson() = Gson().toJson(this)
 
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun getCurrentTime(): Date? {
+fun getCurrentTime(): Date {
     val instant = Instant.now()
     return Timestamp.from(instant)
 

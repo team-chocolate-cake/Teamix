@@ -7,15 +7,15 @@ import com.chocolate.repository.model.dto.member.MemberDto
 @JvmName("memberDtoToMember")
 fun MemberDto.toEntity(): Member =
     Member(
-        id!!,
-        name!!,
-        email!!,
-        password!!,
-        imageUrl!!,
-        isActive!!,
-        UserRole.fromValue(role!!),
-        status!!,
-        channelsId
+        id = id!!,
+        name = name!!,
+        email = email!!,
+        password = password!!,
+        imageUrl = imageUrl!!,
+        isActive = isActive!!,
+        role = UserRole.fromValue(role!!),
+        status = status!!,
+        channelsId = channelsId
     )
 
 @JvmName("membersDtoToMembers")
@@ -25,7 +25,15 @@ fun List<MemberDto>.toEntity(): List<Member> =
 @JvmName("memberToMemberDto")
 fun Member.toRemote(): MemberDto =
     MemberDto(
-        id, name, email, password, imageUrl, isActive, status, role.value, channelsId
+        id = id,
+        name = name,
+        email = email,
+        password = password,
+        imageUrl = imageUrl,
+        isActive = isActive,
+        role = role.value,
+        status = status,
+        channelsId = channelsId
     )
 
 @JvmName("membersToMembersDto")

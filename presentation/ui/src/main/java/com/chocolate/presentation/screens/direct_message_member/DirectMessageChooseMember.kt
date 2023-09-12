@@ -28,7 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.MemberItem
+import com.chocolate.presentation.composable.DMMemberItem
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.SelectedMemberItem
 import com.chocolate.presentation.composable.TeamixScaffold
@@ -40,9 +40,6 @@ import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.LocalNavController
-import com.chocolate.viewmodel.chooseMember.ChooseMemberInteraction
-import com.chocolate.viewmodel.chooseMember.ChooseMemberUiState
-import com.chocolate.viewmodel.chooseMember.ChooseMemberViewModel
 import com.chocolate.viewmodel.dm_choose_member.DMChooseMemberInteraction
 import com.chocolate.viewmodel.dm_choose_member.DMChooseMemberUiState
 import com.chocolate.viewmodel.dm_choose_member.DMDMChooseMemberViewModel
@@ -65,7 +62,7 @@ fun DirectMessageChooseMemberContent(
     val colors = MaterialTheme.customColors()
     val context = LocalContext.current
     val text =
-        if (state.selectedMembersUiState.isEmpty()) stringResource(R.string.skip) else stringResource(
+        if (state.selectedMembersUiState ==null) stringResource(R.string.skip) else stringResource(
             R.string.ok
         )
     val navController = LocalNavController.current
@@ -82,14 +79,9 @@ fun DirectMessageChooseMemberContent(
                 modifier = Modifier
                     .padding(end = SpacingXMedium)
                     .clickable {
-                        if (state.selectedMembersUiState.isEmpty()) {
-                            navController.navigateToHome()
+                        if (state.selectedMembersUiState!=null) {
+                            //nav to chat screen
                         } else {
-                            val selectedMemberIds = state.selectedMembersUiState.map { it.userId }
-//                            chooseMemberInteraction.addMembersInChannel(
-//                                channelName = state.channelName,
-//                                usersId = selectedMemberIds
-//                            )
                             navController.navigateToHome()
                         }
                     }
@@ -124,33 +116,19 @@ fun DirectMessageChooseMemberContent(
                 verticalArrangement = Arrangement.spacedBy(SpacingXLarge)
             ) {
                 item {
-                    TeamixTextField(value = state.searchQuery,
-                        modifier = Modifier.padding(horizontal = SpacingXLarge),
-                        hint = stringResource(id = R.string.search),
-                        onValueChange = interaction::onChangeSearchQuery ,
-                        leadingIcon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.search),
-                                contentDescription = null
-                            )
-                        })
-                }
-                item {
-                    AnimatedVisibility(visible = state.selectedMembersUiState.isNotEmpty()) {
+                    AnimatedVisibility(visible = state.selectedMembersUiState != null) {
                         LazyRow(
                             Modifier.fillMaxWidth(),
                             contentPadding = PaddingValues(horizontal = SpacingXLarge),
                             horizontalArrangement = Arrangement.spacedBy(SpacingXMedium)
                         ) {
-                            items(
-                                state.selectedMembersUiState,
-                                key = { it.userId }) { selectedMembersUiState ->
+                            item {
                                 SelectedMemberItem(
                                     modifier = Modifier.animateItemPlacement(),
                                     painter = painterResource(id = R.drawable.ic_cancel),
-                                    imageUrl = selectedMembersUiState.imageUrl,
-                                    username = selectedMembersUiState.name,
-                                    userId = selectedMembersUiState.userId,
+                                    imageUrl = state.selectedMembersUiState!!.imageUrl,
+                                    username = state.selectedMembersUiState!!.name,
+                                    userId = state.selectedMembersUiState!!.userId,
                                     onClickIcon = interaction::onRemoveSelectedItem
                                 )
                             }
@@ -158,7 +136,7 @@ fun DirectMessageChooseMemberContent(
                     }
                 }
                 items(state.membersUiState) { membersUiState ->
-                    MemberItem(
+                    DMMemberItem(
                         modifier = Modifier.animateItemPlacement(),
                         painter = painterResource(id = R.drawable.ic_check),
                         chooseMemberUiState = membersUiState

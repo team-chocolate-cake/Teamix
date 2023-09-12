@@ -1,5 +1,6 @@
 package com.chocolate.viewmodel.dm_choose_member
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.member.Member
@@ -34,18 +35,19 @@ class DMDMChooseMemberViewModel @Inject constructor(
 
     private fun onGetUsersSuccess(members: Flow<List<Member>>) {
         viewModelScope.launch {
-            members.collectLatest {members->
+            members.collectLatest { members ->
                 _state.update {
                     it.copy(
                         isLoading = false,
                         error = null,
-                        membersUiState = members.toUsersUiState()
+                        membersUiState = members.toDMMemberUiState()
                     )
                 }
             }
 
         }
     }
+
     private fun onGetUsersError(throwable: Throwable) {
         _state.update {
             it.copy(
@@ -55,6 +57,7 @@ class DMDMChooseMemberViewModel @Inject constructor(
             )
         }
     }
+
     private fun getMessageError(throwable: Throwable): String {
         return when (throwable) {
             is NoConnectionException -> stringsResource.noConnectionMessage
@@ -66,92 +69,20 @@ class DMDMChooseMemberViewModel @Inject constructor(
         getUsers()
     }
 
-    override fun onChangeSearchQuery(input: String) {
-        _state.update { it.copy(searchQuery = input) }
+    override fun onRemoveSelectedItem(item: String) {
+        _state.update { it.copy(selectedMembersUiState = null) }
     }
 
-    override fun onRemoveSelectedItem(item: Int) {
-        _state.update { currentState ->
-            val updatedSelectedMembersUiState =
-                removeSelectedItem(item, currentState.selectedMembersUiState)
-            val updatedMembersUiState = updateMembersSelectedState(
-                currentState.membersUiState,
-                updatedSelectedMembersUiState
-            )
-            currentState.copy(
-                membersUiState = updatedMembersUiState,
-                selectedMembersUiState = updatedSelectedMembersUiState
-            )
-        }
-    }
-    private fun removeSelectedItem(
-        memberId: Int,
-        selectedMembers: List<SelectedMembersUiState>
-    ): List<SelectedMembersUiState> {
-        return selectedMembers.filterNot { it.userId == memberId }
-    }
-    private fun updateMembersSelectedState(
-        membersUiState: List<ChooseMembersUiState>,
-        selectedMembers: List<SelectedMembersUiState>
-    ): List<ChooseMembersUiState> {
-        return membersUiState.map { memberUiState ->
-            val isSelected = selectedMembers.any { it.userId == memberUiState.userId }
-            memberUiState.copy(isSelected = isSelected)
-        }
-    }
-    override fun onClickMemberItem(memberId: Int) {
-        _state.update { currentState ->
-            val updatedMembersUiState = toggleMemberSelection(currentState.membersUiState, memberId)
-            val updatedSelectedMembersUiState =
-                updateSelectedMembers(currentState, memberId).distinct()
-            currentState.copy(
-                membersUiState = updatedMembersUiState,
-                selectedMembersUiState = updatedSelectedMembersUiState
-            )
-        }
-    }
-    private fun updateSelectedMembers(
-        currentState: DMChooseMemberUiState,
-        memberId: Int
-    ): List<SelectedMembersUiState> {
-        val selectedMemberUiState = currentState.membersUiState.find { it.userId == memberId }
-        val isMemberSelected = selectedMemberUiState?.isSelected ?: false
-
-        return if (isMemberSelected) {
-            removeSelectedMember(currentState.selectedMembersUiState, memberId)
-        } else {
-            addSelectedMember(currentState.selectedMembersUiState, selectedMemberUiState)
-        }
-    }
-    private fun removeSelectedMember(
-        selectedMembers: List<SelectedMembersUiState>,
-        memberId: Int
-    ): List<SelectedMembersUiState> {
-        return selectedMembers.filterNot { it.userId == memberId }
-    }
-
-    private fun addSelectedMember(
-        selectedMembers: List<SelectedMembersUiState>,
-        selectedMemberUiState: ChooseMembersUiState?
-    ): List<SelectedMembersUiState> {
-        return selectedMemberUiState?.let { selectedMember ->
-            selectedMembers + SelectedMembersUiState(
-                userId = selectedMember.userId,
-                imageUrl = selectedMember.imageUrl,
-                name = selectedMember.name
-            )
-        } ?: selectedMembers
-    }
-    private fun toggleMemberSelection(
-        membersUiState: List<ChooseMembersUiState>,
-        memberId: Int
-    ): List<ChooseMembersUiState> {
-        return membersUiState.map { memberUiState ->
-            if (memberUiState.userId == memberId) {
-                memberUiState.copy(isSelected = !memberUiState.isSelected)
-            } else {
-                memberUiState
+    override fun onClickMemberItem(memberId: String) {
+        _state.update {
+            val updatedMember = it.membersUiState.map {
+                if (it.userId == memberId) it.copy(isSelected = !it.isSelected)
+                else it.copy(isSelected = false)
             }
+            it.copy(
+                selectedMembersUiState = it.membersUiState.find { it.userId == memberId },
+                membersUiState = updatedMember
+            )
         }
     }
 }

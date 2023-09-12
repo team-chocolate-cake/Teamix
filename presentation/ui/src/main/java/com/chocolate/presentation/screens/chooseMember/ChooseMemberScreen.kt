@@ -147,8 +147,8 @@ fun ChooseMemberContent(
                                     painter = painterResource(id = R.drawable.ic_cancel),
                                     imageUrl = selectedMembersUiState.imageUrl,
                                     username = selectedMembersUiState.name,
-                                    userId = selectedMembersUiState.userId,
-                                    onClickIcon = { chooseMemberInteraction.onRemoveSelectedItem(it) }
+                                    userId = selectedMembersUiState.userId.toString(),
+                                    onClickIcon = { chooseMemberInteraction.onRemoveSelectedItem(it.toInt()) }
                                 )
                             }
                         }

@@ -67,12 +67,14 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
     ): String {
         return suspendCoroutine { cont ->
             firebase.collection(TEAMIX).document(currentOrgName).collection(CHATS)
-                .whereArrayContains("members", userids)
+                .whereEqualTo("members", userids)
                 .get()
                 .addOnSuccessListener { doc ->
-                    doc.map {
-                        cont.resume((it.data["id"] as String?).orEmpty())
+                    val chat = doc.map {
+                        it.data["id"] as String? ?: ""
                     }
+                    val groupId = if (chat.isEmpty()) "" else chat.first()
+                    cont.resume(groupId)
                 }.addOnFailureListener {
                     cont.resumeWithException(it)
                 }

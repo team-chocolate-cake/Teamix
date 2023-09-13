@@ -5,7 +5,7 @@ import com.chocolate.remote.util.Constants
 import com.chocolate.remote.util.getRandomId
 import com.chocolate.remote.util.tryToExecuteSuspendCall
 import com.chocolate.repository.datastore.realtime.TopicDataSource
-import com.chocolate.repository.datastore.realtime.model.TopicDto
+import com.chocolate.repository.datastore.remote.model.TopicDto
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.channels.awaitClose

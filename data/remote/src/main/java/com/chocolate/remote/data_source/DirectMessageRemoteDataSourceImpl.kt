@@ -6,6 +6,7 @@ import com.chocolate.entities.exceptions.TeamixException
 import com.chocolate.repository.datastore.remote.DirectMessageRemoteDataSource
 import com.chocolate.repository.model.dto.direct_message.Chat
 import com.chocolate.repository.model.dto.direct_message.NewChat
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.channels.awaitClose
@@ -104,13 +105,15 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
                 .collection(CHATS)
                 .document(groupId)
                 .collection(MESSAGES)
+                .orderBy(SENTAT)
                 .addSnapshotListener { doc, error ->
                     if (error != null)
                         throw TeamixException(error.message)
                     else {
                         val messages = doc?.map {
+                            val g = it.getTimestamp("sentAt") as Timestamp
                             DMMessage(
-                                sentAt = it.getTimestamp("sendAt") as Date? ?:Date(),
+                                sentAt = (it.getTimestamp("sentAt") as Timestamp?)?.toDate() ?: Date(),
                                 sentBy = it.data["sendBy"] as String? ?:"",
                                 messageText = it.data["messageText"]as String? ?:"",
                                 senderAvatarUrl = it.data["senderAvatarUrl"]as String? ?:"",

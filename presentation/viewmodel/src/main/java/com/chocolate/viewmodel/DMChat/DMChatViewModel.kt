@@ -50,18 +50,13 @@ class DMChatViewModel @Inject constructor(
 
     private fun getAllMessages() {
         viewModelScope.launch {
-            val currentUser = getCurrentMemberUseCase()
             collectFlow(
                 getAllMessagesInChatUseCase(
                     groupId = dmChatArgs.groupId,
                     currentOrgName = manageOrganizationDetailsUseCase.getOrganizationName()
                 )
             ) { messages ->
-                _state.value.copy(
-                    messages = messages.map { it.toUiState(
-                        it.sentBy == currentUser.id
-                    ) }.reversed()
-                )
+                _state.value.copy(messages = messages.map { it.toUiState() }.reversed())
             }
         }
     }
@@ -133,11 +128,3 @@ class DMChatViewModel @Inject constructor(
     }
 
 }
-
-fun DMMessage.toUiState(isMyReplay: Boolean): MessageUiState = MessageUiState(
-    username = this.senderFullName,
-    userImage = this.senderAvatarUrl,
-    message = messageText,
-    replayDate = "${sentAt.hours}:${sentAt.minutes}",
-    isMyReplay = isMyReplay
-)

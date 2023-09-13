@@ -7,11 +7,11 @@ import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.NullDataException
 import com.chocolate.entities.exceptions.TeamixException
 import com.chocolate.entities.exceptions.ValidationException
-import com.chocolate.entities.uills.Empty
 import com.chocolate.entities.member.Member
 import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
 import com.chocolate.usecases.member.AttemptMemberLogoutUseCase
+import com.chocolate.usecases.member.UpdateMemberInformationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val getCurrentUserData: GetCurrentMemberUseCase,
-    //private val updateUserInformation: UpdateMemberInformationUseCase,
+    private val updateMemberInformation: UpdateMemberInformationUseCase,
     private val logout: AttemptMemberLogoutUseCase,
     private val customizeProfileSettings: CustomizeProfileSettingsUseCase,
     private val stringsResource: StringsResource
@@ -60,17 +60,17 @@ class ProfileViewModel @Inject constructor(
     }
 
     override fun onUserInformationFocusChange() {
-       /* val memberInformationSettingsState = Member(
-            name = _state.value.name,
-            email = _state.value.email,
-            role = UserRole.fromValue(0),
-            imageUrl = String.Empty,
-        )
-        tryToExecute(
-            { updateUserInformation(memberInformationSettingsState) },
-            ::onUpdateUserInformationSuccess,
-            ::onError
-        )*/
+        /* val memberInformationSettingsState = Member(
+             name = _state.value.name,
+             email = _state.value.email,
+             role = UserRole.fromValue(0),
+             imageUrl = String.Empty,
+         )
+         tryToExecute(
+             { updateUserInformation(memberInformationSettingsState) },
+             ::onUpdateUserInformationSuccess,
+             ::onError
+         )*/
     }
 
     override fun onClickRetryToUpdatePersonalInformation() {
@@ -125,31 +125,21 @@ class ProfileViewModel @Inject constructor(
     }
 
     override fun onUsernameChange(username: String) {
-        /*tryToExecute(
-            call = {
-                updateUserInformation.updateName(
-                    username = username,
-                    id = state.value.id,
-                    role = UserRole.getIntValueByString(state.value.role) ?: UserRole.MEMBER.value
-                )
-            },
-            onSuccess = { newName ->
-                _state.update { it.copy(newUsername = newName) }
-                getCurrentUser()
-            },
-            onError = ::onError
-        )*/
+        tryToExecute(
+            { updateMemberInformation(username) }, ::onUpdateUserInformationSuccess, ::onError
+        )
     }
 
-    private fun onUpdateUserInformationSuccess(unit: Unit) {
+    private fun onUpdateUserInformationSuccess(username: String) {
         _state.update {
             it.copy(
                 isLoading = false,
-                newUsername = String.Empty,
+                newUsername = username,
                 error = null,
                 message = stringsResource.successMessage
             )
         }
+        getCurrentUser()
     }
 
     private fun onError(throwable: Throwable) {

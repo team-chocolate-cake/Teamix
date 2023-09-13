@@ -76,8 +76,8 @@ fun SearchScreen(
 fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
     val colors = MaterialTheme.customColors()
     val systemUiController = rememberSystemUiController()
+    val query = state.query.collectAsState()
     systemUiController.setStatusBarColor(color = Color.Black, darkIcons = false)
-
     TeamixScaffold(
         modifier = Modifier.fillMaxSize(),
         isDarkMode = isSystemInDarkTheme(),
@@ -104,7 +104,7 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
             ) {
                 TeamixTextField(
                     modifier = Modifier.padding(SpacingXLarge),
-                    value = state.query,
+                    value = query.value,
                     singleLine = true,
                     onValueChange = { searchInteraction.onChangeSearchQuery(it) },
                     containerColor = colors.background,
@@ -162,12 +162,12 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.CenterHorizontally),
-                isShow = state.query.isEmpty() && !state.showNoInternetLottie,
+                isShow = query.value.isEmpty() && !state.showNoInternetLottie,
                 isDarkMode = isSystemInDarkTheme(),
             )
             ShowNotFoundResultLottie(
-                isShow = state.channelsUiState.isEmpty() &&
-                        state.query.isNotEmpty() && !state.isLoading
+                isShow = state.isChannelsEmpty &&
+                        query.value.isNotEmpty() && !state.isLoading
             )
         }
     }

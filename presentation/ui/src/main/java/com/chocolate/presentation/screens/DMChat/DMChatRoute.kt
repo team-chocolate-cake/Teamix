@@ -23,6 +23,8 @@ fun NavGraphBuilder.dmChatRoute(){
 fun NavController.navigateToDmChat(
     groupId: String,
     memberName: String,
+    popBackStack:Boolean = false
 ){
+    if (popBackStack){popBackStack()}
     navigate("${Screen.DMChat.route}/$groupId/$memberName")
 }

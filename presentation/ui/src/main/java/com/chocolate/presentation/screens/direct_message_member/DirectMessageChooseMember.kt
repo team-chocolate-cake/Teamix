@@ -60,6 +60,7 @@ fun DirectMessageChooseMemberScreen(
             when(it){
                 is DMChooseMemberUiEffect.NavigateToDmChat -> {
                     navController.navigateToDmChat(
+                        popBackStack = true,
                         groupId = it.groupId,
                         memberName = state.selectedMembersUiState!!.name,
                     )

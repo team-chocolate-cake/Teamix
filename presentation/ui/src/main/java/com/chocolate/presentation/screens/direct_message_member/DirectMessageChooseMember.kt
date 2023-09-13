@@ -82,10 +82,11 @@ fun DirectMessageChooseMemberContent(
                     .padding(end = SpacingXMedium)
                     .clickable {
                         if (state.selectedMembersUiState!=null) {
-                            navController.navigateToDmChat(
-                                memberId = state.selectedMembersUiState!!.userId,
-                                memberName = state.selectedMembersUiState!!.name,
-                            )
+                            interaction.onClickOk()
+//                            navController.navigateToDmChat(
+//                                memberId = state.selectedMembersUiState!!.userId,
+//                                memberName = state.selectedMembersUiState!!.name,
+//                            )
                         } else {
                             navController.navigateToHome()
                         }

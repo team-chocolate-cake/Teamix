@@ -4,7 +4,10 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.member.Member
+import com.chocolate.usecases.direct_message.CreateNewChatUseCase
+import com.chocolate.usecases.member.GetCurrentMemberUseCase
 import com.chocolate.usecases.member.GetMembersInOrganizationUseCase
+import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import com.chocolate.viewmodel.chooseMember.ChooseMemberUiState
@@ -21,8 +24,11 @@ import javax.inject.Inject
 @HiltViewModel
 class DMDMChooseMemberViewModel @Inject constructor(
     private val getAllUsers: GetMembersInOrganizationUseCase,
-    private val stringsResource: StringsResource
-) : BaseViewModel<DMChooseMemberUiState, Unit>(DMChooseMemberUiState()), DMChooseMemberInteraction {
+    private val stringsResource: StringsResource,
+    private val createNewChatUseCase: CreateNewChatUseCase,
+    private val getCurrentMemberUseCase: GetCurrentMemberUseCase,
+    private val manageOrganizationDetails: ManageOrganizationDetailsUseCase,
+    ) : BaseViewModel<DMChooseMemberUiState, Unit>(DMChooseMemberUiState()), DMChooseMemberInteraction {
 
     init {
         getUsers()
@@ -83,6 +89,16 @@ class DMDMChooseMemberViewModel @Inject constructor(
                 selectedMembersUiState = it.membersUiState.find { it.userId == memberId },
                 membersUiState = updatedMember
             )
+        }
+    }
+
+    override fun onClickOk() {
+
+        viewModelScope.launch {
+            val users:ArrayList<String> = ArrayList()
+            users.add(getCurrentMemberUseCase().id)
+            users.add(state.value.selectedMembersUiState!!.userId)
+            createNewChatUseCase(users.toList() ,manageOrganizationDetails.getOrganizationName() )
         }
     }
 }

@@ -99,4 +99,8 @@ class MemberRepositoryImpl @Inject constructor(
         return member
     }
 
+    override suspend fun updateMember(member: Member) {
+        memberRemoteDataSource.updateMember(getCurrentOrganizationName(), member.toRemote())
+    }
+
 }

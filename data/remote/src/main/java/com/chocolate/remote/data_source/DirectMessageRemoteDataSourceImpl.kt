@@ -1,13 +1,16 @@
 package com.chocolate.remote.data_source
 
-import android.util.Log
 import com.chocolate.entities.directMessage.DMMessage
+import com.chocolate.entities.exceptions.TeamixException
 import com.chocolate.repository.datastore.remote.DirectMessageRemoteDataSource
 import com.chocolate.repository.model.dto.direct_message.Chat
 import com.chocolate.repository.model.dto.direct_message.NewChat
-import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObjects
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import java.util.Date
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -17,31 +20,36 @@ const val CHATS = "Chats"
 const val TEAMIX = "teamix"
 const val MEMBERS = "members"
 const val MESSAGES = "messages"
-const val SENT_AT = "sentAt"
+const val LASTMESSAGEDATE = "lastMessageDate"
+const val SENTAT = "sentAt"
 
 class DirectMessageRemoteDataSourceImpl @Inject constructor(
     private val firebase: FirebaseFirestore
 ) : DirectMessageRemoteDataSource {
-    override suspend fun getChatsByUserId(userid: String, currentOrgName: String): List<Chat> {
-        return suspendCoroutine { cont ->
-            firebase.collection(TEAMIX).document(currentOrgName).collection(CHATS)
+    override suspend fun getChatsByUserId(userid: String, currentOrgName: String): Flow<List<Chat>> {
+        return callbackFlow {
+            val listener = firebase.collection(TEAMIX).document(currentOrgName).collection(CHATS)
                 .whereArrayContains("members", userid)
-                .get()
-                .addOnSuccessListener { doc ->
-                    val chats = doc?.map {
-                        val members = it.data["members"] as List<String>? ?: emptyList()
-                        val secondMember = members.find { it != userid } ?: ""
-                        Chat(
-                            id = it.data["id"] as String? ?: "",
-                            secondMember = secondMember,
-                            lastMessage = it.data["lastMessage"] as String? ?: "",
-                            lastMessageDate = it.data["lastMessageDate"] as String? ?: ""
-                        )
-                    } ?: emptyList()
-                    cont.resume(chats)
-                }.addOnFailureListener {
-                    cont.resumeWithException(it)
+                .orderBy(LASTMESSAGEDATE)
+                .addSnapshotListener { doc, error ->
+                    if (error != null)
+                        throw TeamixException(error.message)
+                    else {
+                        val chats = doc?.map {
+                            val members = it.data["members"] as List<String>? ?: emptyList()
+                            val secondMember = members.find { it != userid } ?: ""
+                            Chat(
+                                id = it.data["id"] as String? ?: "",
+                                secondMember = secondMember,
+                                lastMessage = it.data["lastMessage"] as String? ?: "",
+                                lastMessageDate = it.getTimestamp("lastMessageDate")?.toDate()
+                                    ?: Date()
+                            )
+                        } ?: emptyList()
+                        trySend(chats)
+                    }
                 }
+            awaitClose { listener.remove() }
         }
     }
 
@@ -92,7 +100,7 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
                 .collection(CHATS)
                 .document(groupId)
                 .collection(MESSAGES)
-                .orderBy(SENT_AT)
+                .orderBy(SENTAT)
                 .get()
                 .addOnSuccessListener { doc ->
                     val messages = doc?.toObjects<DMMessage>() ?: emptyList()

@@ -22,19 +22,11 @@ class DirectMessageViewModel @Inject constructor(
         viewModelScope.launch {
             val currentMemberId = getCurrentMemberUseCase().id
             val currentOrganization = manageOrganizationDetails.getOrganizationName()
-            tryToExecute(
-                call = { getAllChatsByIdUseCase(currentMemberId, currentOrganization) },
-                onSuccess = {chats->
-                    _state.update {
-                        it.copy(
-                            chats =chats.map { it.toUiState() }
-                        )
-                    }
-                },
-                onError = {
-
-                }
-            )
+            collectFlow(getAllChatsByIdUseCase(currentMemberId, currentOrganization)){chats->
+                _state.value.copy(
+                    chats =chats.map { it.toUiState() }.reversed()
+                )
+            }
         }
     }
 

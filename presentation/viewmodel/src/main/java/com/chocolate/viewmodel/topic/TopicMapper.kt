@@ -25,7 +25,6 @@ fun List<Message>.toUiState(isMyMessage: Boolean): List<MessageUiState> =
 @SuppressLint("SimpleDateFormat")
 @JvmName("MessageUiStateToMessage")
 fun MessageUiState.toMessage(): Message {
-   // val date = SimpleDateFormat("yyyy-MM-dd hh:mm:ss a").parse(replayDate)
     return Message(
         id = id.toString(),
         senderId=userId,

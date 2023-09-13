@@ -99,7 +99,7 @@ fun ReplyMessage(
         )
 
         Card(colors = CardDefaults.cardColors(
-            containerColor = Color.White
+            containerColor = MaterialTheme.customColors().card
         ),
             modifier = Modifier
                 .fillMaxWidth()

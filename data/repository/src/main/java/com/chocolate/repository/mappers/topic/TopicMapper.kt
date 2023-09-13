@@ -1,7 +1,7 @@
 package com.chocolate.repository.mappers.topic
 
 import com.chocolate.entities.topic.Topic
-import com.chocolate.repository.datastore.realtime.model.TopicDto
+import com.chocolate.repository.datastore.remote.model.TopicDto
 import java.util.Date
 
 

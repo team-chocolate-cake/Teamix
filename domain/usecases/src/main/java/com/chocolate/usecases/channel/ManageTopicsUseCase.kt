@@ -7,12 +7,11 @@ import javax.inject.Inject
 
 class ManageTopicsUseCase @Inject constructor(private val topicRepository: TopicRepository) {
 
-    suspend fun createTopic( channelId:String, topic: Topic) {
-        topicRepository.createTopic( channelId, topic,"")
-
+    suspend fun createTopic(channelId: String, topic: Topic) {
+        topicRepository.createTopic(channelId, topic, "")
     }
 
-    suspend fun getTopicsInChannel(channelId:String): Flow<List<Topic>>  {
-     return   topicRepository.getTopicsInChannel(channelId,"")
+    suspend fun getTopicsInChannel(channelId: String): Flow<List<Topic>> {
+        return topicRepository.getTopicsInChannel(channelId, "")
     }
 }

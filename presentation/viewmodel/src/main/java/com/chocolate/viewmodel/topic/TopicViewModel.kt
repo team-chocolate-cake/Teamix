@@ -1,10 +1,6 @@
 package com.chocolate.viewmodel.topic
 
-import android.content.Context
 import android.os.Build
-import android.util.Log
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -53,14 +49,12 @@ class TopicViewModel @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onSendMessage(text: String) {
         viewModelScope.launch {
-            val id = getCurrentUserDataUseCase.invoke().id
-            val name = getCurrentUserDataUseCase.invoke().fullName
-            val imageUrl = getCurrentUserDataUseCase.invoke().imageUrl
+            val user = getCurrentUserDataUseCase.invoke()
             val message = Message(
                 id = "",
-                senderId = id.toString(),
-                senderFullName = name,
-                senderAvatarUrl = imageUrl,
+                senderId = user.id.toString(),
+                senderFullName = user.fullName,
+                senderAvatarUrl = user.imageUrl,
                 messageContent = text,
                 timestamp = Date.from(
                     LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()

@@ -18,6 +18,7 @@ data class TopicState(
     val topicName: String = String.Empty,
     val topicCreationDate: String = String.Empty,
     val replayImages: List<Int> = emptyList(),
+    val topicContent: String = String.Empty
 )
 
 fun List<Topic>.toUiState(): List<TopicState> =
@@ -27,6 +28,7 @@ fun List<Topic>.toUiState(): List<TopicState> =
             topicName = it.content,
             creatorName = it.senderName,
             creatorImage = it.senderImage,
-            topicCreationDate = it.sentTIme.toString().take(10)
+            topicCreationDate = it.sentTIme.toString().take(10),
+            topicContent = it.content
         )
     }

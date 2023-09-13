@@ -60,7 +60,7 @@ class DMChatViewModel @Inject constructor(
                 _state.value.copy(
                     messages = messages.map { it.toUiState(
                         it.sentBy == currentUser.id
-                    ) }
+                    ) }.reversed()
                 )
             }
         }

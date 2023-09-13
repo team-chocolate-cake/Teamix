@@ -1,5 +1,6 @@
 package com.chocolate.viewmodel.directMessage
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.chocolate.usecases.direct_message.GetAllChatsByIdUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
@@ -9,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.log
 
 @HiltViewModel
 class DirectMessageViewModel @Inject constructor(

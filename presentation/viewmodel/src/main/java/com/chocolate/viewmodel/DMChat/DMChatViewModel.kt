@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.chocolate.entities.directMessage.DMMessage
 import com.chocolate.entities.messages.Message
 import com.chocolate.entities.uills.Empty
 import com.chocolate.usecases.direct_message.GetAllMessagesInChatUseCase
@@ -11,6 +12,7 @@ import com.chocolate.usecases.direct_message.SendMessageUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
 import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
+import com.chocolate.viewmodel.topic.MessageUiState
 import com.chocolate.viewmodel.topic.ReactionUiState
 import com.chocolate.viewmodel.topic.TopicInteraction
 import com.chocolate.viewmodel.topic.TopicUiState
@@ -18,17 +20,21 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
 
+@RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class DMChatViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getCurrentMemberUseCase: GetCurrentMemberUseCase,
     private val sendMessageUseCase: SendMessageUseCase,
-    private val manageOrganizationDetailsUseCase: ManageOrganizationDetailsUseCase
+    private val manageOrganizationDetailsUseCase: ManageOrganizationDetailsUseCase,
+    private val getAllMessagesInChatUseCase: GetAllMessagesInChatUseCase
 ) : BaseViewModel<TopicUiState, Unit>(TopicUiState()), TopicInteraction {
 
     private val dmChatArgs = DMChatArgs(savedStateHandle)
@@ -38,6 +44,25 @@ class DMChatViewModel @Inject constructor(
             it.copy(
                 topicName = dmChatArgs.memberName
             )
+        }
+        getAllMessages()
+    }
+
+    private fun getAllMessages() {
+        viewModelScope.launch {
+            val currentUser = getCurrentMemberUseCase()
+            collectFlow(
+                getAllMessagesInChatUseCase(
+                    groupId = dmChatArgs.groupId,
+                    currentOrgName = manageOrganizationDetailsUseCase.getOrganizationName()
+                )
+            ) { messages ->
+                _state.value.copy(
+                    messages = messages.map { it.toUiState(
+                        it.sentBy == currentUser.id
+                    ) }
+                )
+            }
         }
     }
 
@@ -108,3 +133,11 @@ class DMChatViewModel @Inject constructor(
     }
 
 }
+
+fun DMMessage.toUiState(isMyReplay: Boolean): MessageUiState = MessageUiState(
+    username = this.senderFullName,
+    userImage = this.senderAvatarUrl,
+    message = messageText,
+    replayDate = "${sentAt.hours}:${sentAt.minutes}",
+    isMyReplay = isMyReplay
+)

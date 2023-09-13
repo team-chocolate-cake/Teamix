@@ -1,5 +1,6 @@
 package com.chocolate.remote.data_source
 
+import android.util.Log
 import com.chocolate.entities.directMessage.DMMessage
 import com.chocolate.entities.exceptions.TeamixException
 import com.chocolate.repository.datastore.remote.DirectMessageRemoteDataSource
@@ -26,7 +27,10 @@ const val SENTAT = "sentAt"
 class DirectMessageRemoteDataSourceImpl @Inject constructor(
     private val firebase: FirebaseFirestore
 ) : DirectMessageRemoteDataSource {
-    override suspend fun getChatsByUserId(userid: String, currentOrgName: String): Flow<List<Chat>> {
+    override suspend fun getChatsByUserId(
+        userid: String,
+        currentOrgName: String
+    ): Flow<List<Chat>> {
         return callbackFlow {
             val listener = firebase.collection(TEAMIX).document(currentOrgName).collection(CHATS)
                 .whereArrayContains("members", userid)
@@ -92,22 +96,33 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
     override suspend fun fetchMessagesByGroupId(
         groupId: String,
         currentOrgName: String
-    ): List<DMMessage> {
-        return suspendCoroutine { cont ->
-            firebase
+    ): Flow<List<DMMessage>> {
+        return callbackFlow {
+            val listner = firebase
                 .collection(TEAMIX)
                 .document(currentOrgName)
                 .collection(CHATS)
                 .document(groupId)
                 .collection(MESSAGES)
-                .orderBy(SENTAT)
-                .get()
-                .addOnSuccessListener { doc ->
-                    val messages = doc?.toObjects<DMMessage>() ?: emptyList()
-                    cont.resume(messages)
-                }.addOnFailureListener {
-                    cont.resumeWithException(it)
+                .addSnapshotListener { doc, error ->
+                    if (error != null)
+                        throw TeamixException(error.message)
+                    else {
+                        val messages = doc?.map {
+                            DMMessage(
+                                sentAt = it.getTimestamp("sendAt") as Date? ?:Date(),
+                                sentBy = it.data["sendBy"] as String? ?:"",
+                                messageText = it.data["messageText"]as String? ?:"",
+                                senderAvatarUrl = it.data["senderAvatarUrl"]as String? ?:"",
+                                senderFullName = it.data["senderFullName"]as String? ?:""
+                            )
+                        }
+                        if (messages != null) {
+                            trySend(messages)
+                        }
+                    }
                 }
+            awaitClose{listner.remove()}
         }
     }
 
@@ -128,11 +143,6 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
             .document(currentOrgName)
             .collection(CHATS)
             .document(currentGroupId)
-            .update("lastMessage" , message.messageText)
-        firebase.collection(TEAMIX)
-            .document(currentOrgName)
-            .collection(CHATS)
-            .document(currentGroupId)
-            .update("lastMessageDate" , message.sentAt)
+            .update("lastMessage", message.messageText , "lastMessageDate" , message.sentAt)
     }
 }

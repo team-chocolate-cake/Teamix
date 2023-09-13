@@ -11,5 +11,5 @@ interface DirectMessageRemoteDataSource {
 
     suspend fun sendMessage(message: DMMessage, currentOrgName: String, currentGroupId: String)
 
-    suspend fun fetchMessagesByGroupId(groupId: String, currentOrgName: String): List<DMMessage>
+    suspend fun fetchMessagesByGroupId(groupId: String, currentOrgName: String): Flow<List<DMMessage>>
 }

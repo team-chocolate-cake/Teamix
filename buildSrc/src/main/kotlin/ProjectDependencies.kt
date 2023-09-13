@@ -1,6 +1,7 @@
 object ProjectDependencies {
 
     private const val FIREBASE_AUTH_VERSION = "22.1.1"
+    private const val FIREBASE_STORAGE_VERSION = "20.2.1"
     private const val COROUTINE_PLAY_SERVICES_VERSION = "1.4.1"
     private const val FIREBASE_FIRESTORE_VERSION = "24.7.1"
     private const val FIREBASE_VERSION = "32.2.2"
@@ -96,7 +97,7 @@ object ProjectDependencies {
 
     const val splashScreen = "androidx.core:core-splashscreen:$SPLASH_SCREEN_VERSION"
 
-
+    const val firebaseStorage = "com.google.firebase:firebase-storage-ktx:$FIREBASE_STORAGE_VERSION"
 
     const val encryptedSharedPreference =
         "androidx.security:security-crypto:$ENCRYPTED_SHARED_PREF_VERSION"

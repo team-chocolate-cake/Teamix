@@ -68,6 +68,7 @@ dependencies {
     kapt (ProjectDependencies.hiltCompiler)
 
     implementation(ProjectDependencies.encryptedSharedPreference)
+    implementation(ProjectDependencies.firebaseStorage)
 
     implementation (ProjectDependencies.roomRuntime)
     kapt (ProjectDependencies.roomCompiler)

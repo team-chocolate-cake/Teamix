@@ -77,9 +77,7 @@ fun DMChatContent(state: TopicUiState, interaction: TopicInteraction) {
                 verticalArrangement = Arrangement.spacedBy(SpacingXLarge),
                 contentPadding = PaddingValues(bottom = SpacingXLarge, top = SpacingXLarge)
             ) {
-                items(state.messages.size, key = {
-                    state.messages[it].id
-                }) {
+                items(state.messages.size) {
                     if (state.messages[it].isMyReplay)
                         MyReplyMessage(
                             modifier = Modifier.animateItemPlacement(),

@@ -8,7 +8,7 @@ import java.util.Date
 data class SavedMessageLocalDto(
     @PrimaryKey
     val id: Int,
-    val senderId: Int,
+    val senderId: String,
     val senderName: String,
     val senderImageUrl: String,
     val messageContent: String,

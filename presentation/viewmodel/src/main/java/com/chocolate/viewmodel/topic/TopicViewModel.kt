@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.messages.Message
 import com.chocolate.entities.uills.Empty
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
+import com.chocolate.usecases.message.ManageSaveLaterMessageUseCase
 import com.chocolate.usecases.message.ManageTopicMessagesUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +24,8 @@ import javax.inject.Inject
 class TopicViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val manageTopicMessagesUseCase: ManageTopicMessagesUseCase,
-    private val getCurrentMemberUseCase: GetCurrentMemberUseCase
+    private val getCurrentMemberUseCase: GetCurrentMemberUseCase,
+    private val manageSaveLaterMessageUseCase: ManageSaveLaterMessageUseCase,
 ) : BaseViewModel<TopicUiState, TopicEffect>(TopicUiState()), TopicInteraction {
 
     private val topicArgs = TopicArgs(savedStateHandle)
@@ -113,8 +115,10 @@ class TopicViewModel @Inject constructor(
 
     }
 
-    override fun onSaveMessage() {
-
+    override fun onSaveMessage(message: MessageUiState) {
+        viewModelScope.launch {
+            manageSaveLaterMessageUseCase.saveMassage(message.toMessage())
+        }
     }
 
     override fun onGetNotification() {

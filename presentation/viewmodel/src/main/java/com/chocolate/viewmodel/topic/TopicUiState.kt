@@ -20,6 +20,7 @@ data class PhotoOrVideoUiState(
 data class MessageUiState(
     val id:Int=0,
     val username: String = String.Empty,
+    val userId: String = String.Empty,
     val replayDate: String = String.Empty,
     val userImage: String = String.Empty,
     val messageImageUrl: String = String.Empty,

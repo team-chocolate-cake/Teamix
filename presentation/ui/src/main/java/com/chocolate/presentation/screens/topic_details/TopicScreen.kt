@@ -110,7 +110,7 @@ fun TopicContent(
                             onAddReactionToMessage = { topicInteraction.onAddReactionToMessage(it) },
                             onGetNotification = { topicInteraction.onGetNotification() },
                             onPinMessage = { topicInteraction.onPinMessage() },
-                            onSaveMessage = { topicInteraction.onSaveMessage() },
+                            onSaveMessage = { topicInteraction.onSaveMessage(topicUiState.messages[it]) },
                             onClickReact = { positive, state ->
                                 topicInteraction.onClickReact(positive, state)
                             }
@@ -122,7 +122,7 @@ fun TopicContent(
                             onAddReactionToMessage = { topicInteraction.onAddReactionToMessage(it) },
                             onGetNotification = { topicInteraction.onGetNotification() },
                             onPinMessage = { topicInteraction.onPinMessage() },
-                            onSaveMessage = { topicInteraction.onSaveMessage() },
+                            onSaveMessage = { topicInteraction.onSaveMessage(topicUiState.messages[it]) },
                             onOpenReactTile = { topicInteraction.onOpenReactTile() },
                             onClickReact = { positive, state ->
                                 topicInteraction.onClickReact(positive, state)

@@ -29,8 +29,8 @@ import com.chocolate.presentation.theme.customColors
 @Composable
 fun ChannelSearchItem(
     modifier: Modifier = Modifier,
-    onClickChannelItem: (Int , String) -> Unit,
-    id: Int,
+    onClickChannelItem: (String , String) -> Unit,
+    id: String,
     isPrivate: Boolean,
     name: String,
     numberOfMembers: Int,

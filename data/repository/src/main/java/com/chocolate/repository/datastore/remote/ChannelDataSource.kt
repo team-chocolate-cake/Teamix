@@ -1,7 +1,5 @@
 package com.chocolate.repository.datastore.remote
 
-import com.chocolate.repository.datastore.realtime.model.ChannelDto
-import com.chocolate.repository.datastore.realtime.model.MessageDto
 import com.chocolate.repository.model.dto.channels.ChannelDto
 import kotlinx.coroutines.flow.Flow
 

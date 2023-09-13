@@ -1,13 +1,9 @@
 package com.chocolate.viewmodel.home
 
-import android.util.Log
-import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.exceptions.EmptyMemberIdException
 import com.chocolate.entities.exceptions.EmptyOrganizationNameException
 import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.entities.exceptions.UnAuthorizedException
-import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.entities.member.Member
 import com.chocolate.usecases.channel.ManageChannelsUseCase
 import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
@@ -17,11 +13,8 @@ import com.chocolate.usecases.member.IsMemberLoggedInUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.profile.toOwnerUserUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -59,12 +52,12 @@ class HomeViewModel @Inject constructor(
         sendUiEffect(HomeUiEffect.NavigationToSavedLater)
     }
 
-    override fun onClickChannel(id: Int, name: String) {
-        sendUiEffect(HomeUiEffect.NavigateToChannel(id, name))
+    override fun onClickChannel(id: String, name: String) {
+        sendUiEffect(HomeUiEffect.NavigateToChannel(id.toInt(), name))
     }
 
-    override fun onClickTopic(channelId: Int, topicId: String, name: String) {
-        sendUiEffect(HomeUiEffect.NavigateToTopic(channelId, name, topicId))
+    override fun onClickTopic(channelId: String, topicId: String, name: String) {
+        sendUiEffect(HomeUiEffect.NavigateToTopic(channelId.toInt(), name, topicId))
     }
 
     override fun onClickFloatingActionButton() {
@@ -136,7 +129,7 @@ class HomeViewModel @Inject constructor(
     private fun getChannels() {
         _state.update { it.copy(isLoading = true) }
         tryToExecuteFlow(
-            manageChannels::getStreamChannels,
+             manageChannels::getChannelsForCurrentMember ,
             ::onGettingChannelsSuccess,
             ::onError
         )

@@ -23,7 +23,7 @@ data class BadgeCountsUiState(
 )
 
 data class ChannelUiState(
-    val channelId: Int = 0,
+    val channelId: String = String.Empty ,
     val name: String = String.Empty,
     val topics: List<TopicUiState> = emptyList(),
     val isPrivateChannel: Boolean = false,

@@ -53,12 +53,12 @@ class CreateChannelViewModel @Inject constructor(
 
     private suspend fun createChannel(): Boolean {
         _state.update { it.copy(isLoading = true) }
-        return /*createChannel(
+        return createChannel(
             channelName = _state.value.nameInput,
             usersId = listOf(),
             description = _state.value.description,
             isPrivate = _state.value.isPrivate
-        )*/ false
+        )
     }
 
     private fun onCreateChannelSuccess(isCreatedSuccessfully: Boolean) {

@@ -6,7 +6,6 @@ import com.chocolate.repository.repository.MessagesRepositoryImpl
 import com.chocolate.repository.repository.OrganizationsRepositoryImpl
 import com.chocolate.repository.repository.MemberRepositoryImpl
 import com.chocolate.repository.repository.TopicRepositoryImpl
-import com.chocolate.repository.repository.UserRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,7 +16,6 @@ import repositories.MessagesRepository
 import repositories.OrganizationsRepository
 import repositories.MemberRepository
 import repositories.TopicRepository
-import repositories.UsersRepository
 import javax.inject.Singleton
 
 @Module

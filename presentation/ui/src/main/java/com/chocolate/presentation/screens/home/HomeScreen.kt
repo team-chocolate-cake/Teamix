@@ -95,7 +95,9 @@ fun HomeScreen(
             }
             HomeUiEffect.NavigationToDrafts -> navController.navigateToDrafts()
             HomeUiEffect.NavigationToSavedLater -> navController.navigateToSaveLater()
-            is HomeUiEffect.NavigateToTopic -> navController.navigateToTopic(effect.topicName)
+            is HomeUiEffect.NavigateToTopic -> navController.navigateToTopic(
+                effect.channelId,effect.topicId,effect.topicName
+            )
             HomeUiEffect.NavigateToCreateChannel -> navController.navigateToCreateChannel()
         }
     }

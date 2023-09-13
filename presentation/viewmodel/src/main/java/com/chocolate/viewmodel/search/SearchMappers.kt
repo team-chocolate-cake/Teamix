@@ -3,11 +3,10 @@ package com.chocolate.viewmodel.search
 import com.chocolate.entities.channel.Channel
 
 @JvmName("channelToSearchChannelUiState")
-
 fun Channel.toUiState(): SearchChannelUiState =
     SearchChannelUiState(
-        id,
-        name,
+        id = id,
+        name = name,
         isPrivate=isPrivate
     )
 @JvmName("channelsToSearchChannelsUiState")

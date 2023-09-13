@@ -36,8 +36,8 @@ class SearchViewModel @Inject constructor(
 
         }*/
     }
-    override fun onClickChannelItem(id: Int, name: String) {
-        sendUiEffect(SearchEffect.NavigateToChannel(id,name))
+    override fun onClickChannelItem(id: String, name: String) {
+        sendUiEffect(SearchEffect.NavigateToChannel(id.toInt(),name))
     }
 
     override fun onChangeSearchQuery(query: String) {

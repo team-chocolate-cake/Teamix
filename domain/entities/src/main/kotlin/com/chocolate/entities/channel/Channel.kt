@@ -6,7 +6,8 @@ data class Channel(
     val id: String,
     val name: String,
     val description: String,
-    val channelType: ChannelType,
-    val topics: List<Topic>,
+    val isPrivate: Boolean,
     val membersId:List<String>
 )
+
+

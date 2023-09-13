@@ -18,7 +18,7 @@ class OrganizationRemoteRemoteDataSourceImpl @Inject constructor(
     override suspend fun getOrganizationByName(organizationName: String): OrganizationDto? {
         return tryToExecuteSuspendCall {
             val organizationsRef = firebaseFirestore
-                .collection(Constants.ORGANIZATION)
+                .collection(Constants.BASE)
                 .document(organizationName)
                 .get()
                 .await()
@@ -31,7 +31,7 @@ class OrganizationRemoteRemoteDataSourceImpl @Inject constructor(
     override suspend fun createOrganization(organization: OrganizationDto) {
         tryToExecuteSuspendCall {
             firebaseFirestore
-                .collection(Constants.ORGANIZATION)
+                .collection(Constants.BASE)
                 .document(organization.name!!)
                 .set(organization)
                 .await()
@@ -41,7 +41,7 @@ class OrganizationRemoteRemoteDataSourceImpl @Inject constructor(
     override suspend fun deleteOrganizationByOrganizationName(organizationName: String) {
         tryToExecuteSuspendCall {
             firebaseFirestore
-                .collection(Constants.ORGANIZATION)
+                .collection(Constants.BASE)
                 .document(organizationName)
                 .delete()
                 .await()
@@ -51,7 +51,7 @@ class OrganizationRemoteRemoteDataSourceImpl @Inject constructor(
     override suspend fun updateOrganization(organization: OrganizationDto) {
         tryToExecuteSuspendCall {
             firebaseFirestore
-                .collection(Constants.ORGANIZATION)
+                .collection(Constants.BASE)
                 .document(organization.name!!)
                 .set(organization)
                 .await()
@@ -61,7 +61,7 @@ class OrganizationRemoteRemoteDataSourceImpl @Inject constructor(
     override suspend fun addMemberInOrganization(member: MemberDto, organizationName: String) {
         tryToExecuteSuspendCall {
             firebaseFirestore
-                .collection(Constants.ORGANIZATION)
+                .collection(Constants.BASE)
                 .document(organizationName)
                 .collection(Constants.MEMBERS)
                 .document(member.id!!)

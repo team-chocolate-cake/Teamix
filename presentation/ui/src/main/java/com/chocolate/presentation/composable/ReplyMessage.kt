@@ -59,6 +59,7 @@ fun ReplyMessage(
     onPinMessage: () -> Unit,
     onOpenReactTile: () -> Unit,
     onClickReact: (Boolean, ReactionUiState) -> Unit,
+
 ) {
     var showSheet by remember { mutableStateOf(false) }
     AnimatedVisibility(showSheet) {
@@ -98,7 +99,7 @@ fun ReplyMessage(
         )
 
         Card(colors = CardDefaults.cardColors(
-            containerColor = Color.White
+            containerColor = MaterialTheme.customColors().card
         ),
             modifier = Modifier
                 .fillMaxWidth()

@@ -42,7 +42,7 @@ fun SaveLaterScreen(
     SaveLaterContent(state, viewModel)
 }
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInteraction) {
     val colors = MaterialTheme.customColors()

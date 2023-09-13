@@ -33,9 +33,9 @@ interface MessagesRepository {
 
     suspend fun deleteMessage(messageId: Int)
 
-    //   suspend fun getSavedMessages(): List<Message>
+       suspend fun getSavedMessages(): List<Message>
 
-    //   suspend fun saveMessage(message: Message)
+       suspend fun saveMessage(message: Message)
 
     suspend fun deleteSavedMessageById(id: Int)
 

@@ -7,11 +7,10 @@ import javax.inject.Inject
 class ManageSaveLaterMessageUseCase @Inject constructor(
     private val messagesRepository: MessagesRepository
 ) {
- //   suspend fun saveMassage(message: Message) = messagesRepository.saveMessage(message)
+    suspend fun saveMassage(message: Message) = messagesRepository.saveMessage(message)
 
-//    suspend fun getSavedMessages(): List<Message> {
-//        return messagesRepository.getSavedMessages()
-//    }
+    suspend fun getSavedMessages()=messagesRepository.getSavedMessages()
+
 
     suspend fun deleteSavedMessageById(id: Int) = messagesRepository.deleteMessage(id)
 

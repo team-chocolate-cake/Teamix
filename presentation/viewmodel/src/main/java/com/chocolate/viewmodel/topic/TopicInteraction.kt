@@ -1,5 +1,6 @@
 package com.chocolate.viewmodel.topic
 
+import com.chocolate.entities.messages.Message
 
 
 interface TopicInteraction {
@@ -11,7 +12,7 @@ interface TopicInteraction {
     fun onClickCamera()
     fun onClickPhotoOrVideo(position: Int)
     fun onAddReactionToMessage(messageId: Int)
-    fun onSaveMessage()
+    fun onSaveMessage(message: MessageUiState)
     fun onGetNotification()
     fun onPinMessage()
     fun onOpenReactTile()

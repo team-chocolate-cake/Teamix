@@ -4,6 +4,7 @@ import com.chocolate.entities.draft.Draft
 import com.chocolate.entities.messages.Message
 import com.chocolate.repository.datastore.local.LocalDataSource
 import com.chocolate.repository.datastore.remote.MessagesRemoteDataSource
+import com.chocolate.repository.mappers.messages.toLocalDto
 import com.chocolate.repository.mappers.messages.toMessage
 import com.chocolate.repository.mappers.messages.toMessageDto
 import kotlinx.coroutines.flow.Flow
@@ -43,7 +44,7 @@ class MessagesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteMessage(messageId: Int) {
-        TODO("Not yet implemented")
+        teamixLocalDataSource.deleteSavedMessageById(messageId)
     }
 
     override suspend fun getDrafts(): List<Draft> {
@@ -62,13 +63,13 @@ class MessagesRepositoryImpl @Inject constructor(
     override suspend fun deleteDraft(id: Int) {
         TODO("Not yet implemented")
     }
-//    override suspend fun getSavedMessages(): List<Message> {
-//        return teamixLocalDataSource.getSavedMessages().map { it.toEntity() }
-//    }
-//
-//    override suspend fun saveMessage(message: Message) {
-//        teamixLocalDataSource.saveMessage(message.toLocalDto())
-//    }
+    override suspend fun getSavedMessages(): List<Message> {
+        return teamixLocalDataSource.getSavedMessages().map { it.toMessage() }
+    }
+
+    override suspend fun saveMessage(message: Message) {
+        teamixLocalDataSource.saveMessage(message.toLocalDto())
+    }
 
     override suspend fun deleteSavedMessageById(id: Int) {
         teamixLocalDataSource.deleteSavedMessageById(id)

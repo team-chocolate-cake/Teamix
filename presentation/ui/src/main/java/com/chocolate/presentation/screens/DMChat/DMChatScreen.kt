@@ -1,5 +1,6 @@
 package com.chocolate.presentation.screens.DMChat
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -7,7 +8,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -28,8 +31,18 @@ fun DMChatScreen(viewModel: DMChatViewModel = hiltViewModel()) {
     DMChatContent(state , viewModel)
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DMChatContent(state: TopicUiState, interaction: TopicInteraction) {
+    val scrollState = rememberLazyListState()
+    LaunchedEffect(key1 = state.messages.size) {
+        state.messages.takeIf { messages ->
+            messages.isNotEmpty()
+        }?.let {
+            scrollState.animateScrollToItem(0)
+        }
+
+    }
     TeamixScaffold(
         title = state.topicName,
         isDarkMode = isSystemInDarkTheme(),
@@ -39,7 +52,7 @@ fun DMChatContent(state: TopicUiState, interaction: TopicInteraction) {
             StartNewMessage(
                 openEmojisTile = { interaction.openEmojisTile() },
                 onMessageInputChanged = { interaction.onMessageInputChanged(it) },
-                onSendMessage = { interaction.onSendMessage() },
+                onSendMessage = { interaction.onSendMessage(state.messageInput) },
                 onStartVoiceRecording = { interaction.onStartVoiceRecording() },
                 onClickCamera = { interaction.onClickCamera() },
                 onClickPhotoOrVideo = { interaction.onClickPhotoOrVideo(it) },
@@ -49,11 +62,14 @@ fun DMChatContent(state: TopicUiState, interaction: TopicInteraction) {
             )
         }
     ) { padding ->
-        ConstraintLayout(modifier = Modifier
-            .padding(padding)
-            .fillMaxSize()) {
+        ConstraintLayout(
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxSize()
+        ) {
             val (messages) = createRefs()
             LazyColumn(
+                state = scrollState,
                 modifier = Modifier
                     .fillMaxHeight()
                     .constrainAs(messages) { bottom.linkTo(parent.bottom) },
@@ -61,9 +77,12 @@ fun DMChatContent(state: TopicUiState, interaction: TopicInteraction) {
                 verticalArrangement = Arrangement.spacedBy(SpacingXLarge),
                 contentPadding = PaddingValues(bottom = SpacingXLarge, top = SpacingXLarge)
             ) {
-                items(state.messages.size) {
+                items(state.messages.size, key = {
+                    state.messages[it].id
+                }) {
                     if (state.messages[it].isMyReplay)
                         MyReplyMessage(
+                            modifier = Modifier.animateItemPlacement(),
                             messageUiState = state.messages[it],
                             onAddReactionToMessage = { interaction.onAddReactionToMessage(it) },
                             onGetNotification = { interaction.onGetNotification() },
@@ -75,6 +94,7 @@ fun DMChatContent(state: TopicUiState, interaction: TopicInteraction) {
                         )
                     else
                         ReplyMessage(
+                            modifier = Modifier.animateItemPlacement(),
                             messageUiState = state.messages[it],
                             onAddReactionToMessage = { interaction.onAddReactionToMessage(it) },
                             onGetNotification = { interaction.onGetNotification() },

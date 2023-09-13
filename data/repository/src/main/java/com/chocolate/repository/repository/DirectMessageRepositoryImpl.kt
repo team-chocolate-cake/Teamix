@@ -34,8 +34,8 @@ class DirectMessageRepositoryImpl @Inject constructor(
         return directMessageRemoteDataSource.fetchMessagesByGroupId(groupId, currentOrgName)
     }
 
-    override suspend fun sendMessage(message: DMMessage, currentGroupId: String) {
-        directMessageRemoteDataSource.sendMessage(message, currentGroupId)
+    override suspend fun sendMessage(message: DMMessage, currentOrgName: String, currentGroupId: String) {
+        directMessageRemoteDataSource.sendMessage(message,  currentOrgName,currentGroupId)
     }
 
     override suspend fun createGroup(userids: List<String>, currentOrgName: String): String {

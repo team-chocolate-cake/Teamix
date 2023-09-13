@@ -2,9 +2,6 @@ package com.chocolate.teamix.di
 
 import com.chocolate.local.dao.RoomDataSource
 import com.chocolate.local.datastore.DataStoreDataSource
-import com.chocolate.remote.data_source.AuthenticationDataSourceImpl
-import com.chocolate.remote.data_source.ChannelDataSourceImpl
-import com.chocolate.remote.data_source.ChannelRetrofitDataSource
 import com.chocolate.remote.data_source.DirectMessageRemoteDataSourceImpl
 import com.chocolate.remote.data_source.ChannelFireBaseDataSource
 import com.chocolate.remote.data_source.MemberRemoteDataSourceImpl
@@ -63,7 +60,6 @@ abstract class DataSourceModule {
     @Singleton
     @Binds
     abstract fun bindsTopicDataSource(topicDataSource: TopicFireBaseDataSource): TopicDataSource
-    abstract fun bindChannelDataSourceImpl(channelDataSourceImpl: ChannelDataSourceImpl): ChannelDataSource
     @Singleton
     @Binds
     abstract fun bindDMDataSourceImpl(directMessageRemoteDataSource: DirectMessageRemoteDataSourceImpl): DirectMessageRemoteDataSource

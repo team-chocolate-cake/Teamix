@@ -1,21 +1,38 @@
 package com.chocolate.viewmodel.DMChat
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
+import com.chocolate.entities.messages.Message
+import com.chocolate.entities.uills.Empty
 import com.chocolate.usecases.direct_message.GetAllMessagesInChatUseCase
+import com.chocolate.usecases.direct_message.SendMessageUseCase
+import com.chocolate.usecases.member.GetCurrentMemberUseCase
+import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.topic.ReactionUiState
 import com.chocolate.viewmodel.topic.TopicInteraction
 import com.chocolate.viewmodel.topic.TopicUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.ZoneId
+import java.util.Calendar
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
 class DMChatViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-) : BaseViewModel<TopicUiState, Unit>(TopicUiState()) , TopicInteraction {
+    private val getCurrentMemberUseCase: GetCurrentMemberUseCase,
+    private val sendMessageUseCase: SendMessageUseCase,
+    private val manageOrganizationDetailsUseCase: ManageOrganizationDetailsUseCase
+) : BaseViewModel<TopicUiState, Unit>(TopicUiState()), TopicInteraction {
 
     private val dmChatArgs = DMChatArgs(savedStateHandle)
+
     init {
         _state.update {
             it.copy(
@@ -23,6 +40,7 @@ class DMChatViewModel @Inject constructor(
             )
         }
     }
+
     override fun onClickBackButton() {
         TODO("Not yet implemented")
     }
@@ -35,8 +53,22 @@ class DMChatViewModel @Inject constructor(
         _state.update { it.copy(messageInput = text) }
     }
 
-    override fun onSendMessage() {
-        TODO("Not yet implemented")
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onSendMessage(text: String) {
+        viewModelScope.launch {
+            val user = getCurrentMemberUseCase.invoke()
+            val orgName = manageOrganizationDetailsUseCase.getOrganizationName()
+            sendMessageUseCase.invoke(
+                message = text,
+                senderId = user.id,
+                senderFullName = user.name,
+                senderAvatarUrl = user.imageUrl,
+                sentAt = Calendar.getInstance().getTime(),
+                currentChatId = dmChatArgs.groupId,
+                currentOrgName = orgName
+            )
+        }
+        _state.update { it.copy(messageInput = String.Empty) }
     }
 
     override fun onStartVoiceRecording() {

@@ -103,11 +103,28 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun sendMessage(message: DMMessage, currentGroupId: String) {
+    override suspend fun sendMessage(
+        message: DMMessage,
+        currentOrgName: String,
+        currentGroupId: String
+    ) {
         firebase
+            .collection(TEAMIX)
+            .document(currentOrgName)
             .collection(CHATS)
             .document(currentGroupId)
             .collection(MESSAGES)
             .add(message)
+
+        firebase.collection(TEAMIX)
+            .document(currentOrgName)
+            .collection(CHATS)
+            .document(currentGroupId)
+            .update("lastMessage" , message.messageText)
+        firebase.collection(TEAMIX)
+            .document(currentOrgName)
+            .collection(CHATS)
+            .document(currentGroupId)
+            .update("lastMessageDate" , message.sentAt)
     }
 }

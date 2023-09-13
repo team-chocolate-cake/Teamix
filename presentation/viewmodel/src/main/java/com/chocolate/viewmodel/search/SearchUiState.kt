@@ -6,7 +6,6 @@ data class SearchUiState(
     val query: String = String.Empty,
     val channelsUiState: List<SearchChannelUiState> = emptyList(),
     val isLoading: Boolean = false,
-    val isDarkTheme: Boolean = false,
     val showNoInternetLottie: Boolean = false,
     val error: String? = null
 )

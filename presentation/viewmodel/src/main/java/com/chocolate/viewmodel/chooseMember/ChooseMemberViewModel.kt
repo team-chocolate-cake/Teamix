@@ -2,9 +2,9 @@ package com.chocolate.viewmodel.chooseMember
 
 import androidx.lifecycle.SavedStateHandle
 import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.entities.user.User
+import com.chocolate.entities.member.Member
 import com.chocolate.usecases.channel.AddUsersInChannelByChannelNameAndUsersIdUseCase
-import com.chocolate.usecases.user.GetAllUsersUseCase
+import com.chocolate.usecases.member.GetMembersInOrganizationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import com.chocolate.viewmodel.createChannel.CreateChannelArgs
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ChooseMemberViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getAllUsers: GetAllUsersUseCase,
+    private val getAllUsers: GetMembersInOrganizationUseCase,
     private val addUsersInChannel:
     AddUsersInChannelByChannelNameAndUsersIdUseCase,
     private val stringsResource: StringsResource
@@ -29,11 +29,11 @@ class ChooseMemberViewModel @Inject constructor(
 
     override fun onChangeSearchQuery(query: String) {
         _state.update { it.copy(isLoading = true, searchQuery = query) }
-        tryToExecute(
+        /*tryToExecute(
             { getAllUsers.searchUser(query) },
             ::onChangeSearchSuccess,
             ::onChangeSearchError
-        )
+        )*/
     }
 
     override fun onRemoveSelectedItem(memberId: Int) {
@@ -53,11 +53,11 @@ class ChooseMemberViewModel @Inject constructor(
 
     override fun addMembersInChannel(channelName: String, usersId: List<Int>) {
         _state.update { it.copy(isLoading = true) }
-        tryToExecute(
+        /*tryToExecute(
             { addUsersInChannel(channelName, usersId) },
             ::onAddMembersInChannelSuccess,
             ::onAddMembersInChannelError
-        )
+        )*/
     }
 
     override fun onClickMemberItem(memberId: Int) {
@@ -82,15 +82,15 @@ class ChooseMemberViewModel @Inject constructor(
 
     private fun getUsers() {
         _state.update { it.copy(isLoading = true) }
-        tryToExecute(getAllUsers::invoke, ::onGetUsersSuccess, ::onGetUsersError)
+        //tryToExecute(getAllUsers::invoke, ::onGetUsersSuccess, ::onGetUsersError)
     }
 
-    private fun onGetUsersSuccess(users: List<User>) {
+    private fun onGetUsersSuccess(members: List<Member>) {
         _state.update {
             it.copy(
                 isLoading = false,
                 error = null,
-                membersUiState = users.toUsersUiState()
+                membersUiState = members.toUsersUiState()
             )
         }
     }
@@ -191,8 +191,8 @@ class ChooseMemberViewModel @Inject constructor(
         }
     }
 
-    private fun onChangeSearchSuccess(users: List<User>) {
-        val membersUi = users.toUsersUiState()
+    private fun onChangeSearchSuccess(members: List<Member>) {
+        val membersUi = members.toUsersUiState()
         val updatedMembersUiState = membersUi.map { memberUi ->
             val isSelected =
                 _state.value.selectedMembersUiState.any { it.userId == memberUi.userId }

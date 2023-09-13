@@ -3,19 +3,17 @@ package com.chocolate.teamix.di
 import com.chocolate.local.dao.RoomDataSource
 import com.chocolate.local.datastore.DataStoreDataSource
 import com.chocolate.remote.data_source.ChannelFireBaseDataSource
+import com.chocolate.remote.data_source.MemberRemoteDataSourceImpl
 import com.chocolate.remote.data_source.MessagesFireBaseDataSource
-import com.chocolate.remote.data_source.OrganizationDataSourceImpl
-import com.chocolate.remote.data_source.UserRetrofitDataSource
-import com.chocolate.remote.firebase.TaskFirebase
+import com.chocolate.remote.data_source.OrganizationRemoteRemoteDataSourceImpl
 import com.chocolate.remote.data_source.TopicFireBaseDataSource
 import com.chocolate.repository.datastore.local.LocalDataSource
 import com.chocolate.repository.datastore.local.PreferencesDataSource
 import com.chocolate.repository.datastore.realtime.TopicDataSource
 import com.chocolate.repository.datastore.remote.ChannelRemoteDataSource
+import com.chocolate.repository.datastore.remote.MemberRemoteDataSource
 import com.chocolate.repository.datastore.remote.MessagesRemoteDataSource
 import com.chocolate.repository.datastore.remote.OrganizationRemoteDataSource
-import com.chocolate.repository.datastore.remote.UserRemoteDataSource
-import com.chocolate.repository.datastore.remote.TaskRemoteDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -48,24 +46,17 @@ abstract class DataSourceModule {
     abstract fun bindMessagesDataSource(messagesDataSource: MessagesFireBaseDataSource):
             MessagesRemoteDataSource
 
-//    @Singleton
-//    @Binds
-//    abstract fun bindOrganizationDataSource(organizationDataSource: OrganizationRetrofitDataSource):
-//            OrganizationRemoteDataSource
+    @Singleton
+    @Binds
+    abstract fun bindOrganizationDataSource(organizationRemoteDataSourceImpl: OrganizationRemoteRemoteDataSourceImpl): OrganizationRemoteDataSource
 
     @Singleton
     @Binds
-    abstract fun bindUserDataSource(userDataSource: UserRetrofitDataSource): UserRemoteDataSource
+    abstract fun bindMemberRemoteDataSource(memberRemoteDataSourceImpl: MemberRemoteDataSourceImpl): MemberRemoteDataSource
 
-    @Singleton
-    @Binds
-    abstract fun bindUserDatabase(taskFirebase: TaskFirebase): TaskRemoteDataSource
 
     @Singleton
     @Binds
     abstract fun bindsTopicDataSource(topicDataSource: TopicFireBaseDataSource): TopicDataSource
 
-    @Singleton
-    @Binds
-    abstract fun bindsOrganizationDataSource(organization: OrganizationDataSourceImpl): OrganizationRemoteDataSource
 }

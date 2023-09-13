@@ -12,7 +12,7 @@ data class SearchUiState(
 )
 
 data class SearchChannelUiState(
-    val id: Int = 0,
+    val id: String = String.Empty,
     val name: String = String.Empty,
     val numberOfMembers : Int = 0,
     val isPrivate: Boolean = false,

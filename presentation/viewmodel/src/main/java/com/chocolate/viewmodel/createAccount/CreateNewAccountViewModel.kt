@@ -11,17 +11,17 @@ class CreateNewAccountViewModel @Inject constructor(
     private val manageOrganizationDetails: ManageOrganizationDetailsUseCase
 ) : BaseViewModel<CreateNewAccountUiState, Unit>(CreateNewAccountUiState()) {
     init {
-        getOrganizationName()
+        //getOrganizationName()
     }
 
-    private fun getOrganizationName() {
+   /* private fun getOrganizationName() {
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
             manageOrganizationDetails::getOrganizationName,
             ::onGetOrganizationNameSuccess,
             ::onGetOrganizationNameError
         )
-    }
+    }*/
 
     private fun onGetOrganizationNameSuccess(organizationName: String) {
         _state.update {

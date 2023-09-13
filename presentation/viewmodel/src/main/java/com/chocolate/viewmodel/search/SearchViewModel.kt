@@ -5,7 +5,7 @@ import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.uills.Empty
 import com.chocolate.usecases.channel.ManageChannelsUseCase
-import com.chocolate.usecases.user.CustomizeProfileSettingsUseCase
+import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -29,15 +29,15 @@ class SearchViewModel @Inject constructor(
     }
     private fun isDarkTheme() {
 
-        viewModelScope.launch(Dispatchers.IO) {
-            customizeProfileSettings.isDarkThem().collectLatest {isDark ->
+        /*viewModelScope.launch(Dispatchers.IO) {
+            customizeProfileSettings.isDarkThemeEnabled().collectLatest { isDark ->
                 _state.update { it.copy(isDarkTheme = isDark) }
             }
 
-        }
+        }*/
     }
-    override fun onClickChannelItem(id: Int, name: String) {
-        sendUiEffect(SearchEffect.NavigateToChannel(id,name))
+    override fun onClickChannelItem(id: String, name: String) {
+        sendUiEffect(SearchEffect.NavigateToChannel(id.toInt(),name))
     }
 
     override fun onChangeSearchQuery(query: String) {
@@ -67,11 +67,11 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun onSearchChannels() {
-        tryToExecute(
+        /*tryToExecute(
             { manageChannels.searchChannels(_state.value.query) },
             ::onChangeSearchChannelsQuerySuccess,
             ::onChangeSearchQueryError
-        )
+        )*/
     }
 
     private fun onChangeSearchChannelsQuerySuccess(channels: List<Channel>) {

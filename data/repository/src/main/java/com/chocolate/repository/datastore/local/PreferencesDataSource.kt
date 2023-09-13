@@ -4,32 +4,29 @@ import kotlinx.coroutines.flow.Flow
 
 interface PreferencesDataSource {
 
-     fun currentOrganization(): String?
+    suspend fun getCurrentOrganizationName(): String?
 
-    suspend fun setOrganizationName(currentOrganization: String)
-
-    suspend fun setUserLoginState(isComplete: Boolean)
-
-    suspend fun getCurrentUserLoginState(): Flow<Boolean>
+    suspend fun setCurrentOrganizationName(organizationName: String)
 
     suspend fun setUserUsedAppForFirstTime(isFirstTime: Boolean)
 
     suspend fun checkIfUserUsedAppOrNot(): Flow<Boolean>
 
-    suspend fun setAuthenticationData(apikey: String, email: String)
+    suspend fun isMemberLoggedIn(): Boolean
 
-    fun getApiKey(): String
+    suspend fun setMemberLoggedIn()
 
-    fun getEmail(): String
+    suspend fun getIdOfCurrentMember(): String?
 
-    suspend fun deleteAuthenticationData()
+    suspend fun saveIdOfCurrentMember(memberId: String)
 
-    suspend fun upsertAppLanguage(newLanguage: String): Boolean
+    suspend fun updateAppLanguage(newLanguage: String): Boolean
 
-    suspend fun getLastSelectedAppLanguage(): Flow<String>
+    fun getLatestSelectedAppLanguage(): Flow<String>
 
-    suspend fun setDarkThemeValue(isDarkTheme: Boolean)
+    suspend fun setDarkTheme(isDarkTheme: Boolean)
 
-    suspend fun isDarkThemeEnabled(): Boolean
-    suspend fun isInDarkThemeFlow():Flow<Boolean>
+    fun isDarkThemeEnabled(): Flow<Boolean>
+
+    suspend fun clearMemberData()
 }

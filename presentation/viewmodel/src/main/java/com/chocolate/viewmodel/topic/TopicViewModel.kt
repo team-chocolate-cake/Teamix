@@ -1,13 +1,16 @@
 package com.chocolate.viewmodel.topic
 
 import android.os.Build
+import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.messages.Message
 import com.chocolate.entities.uills.Empty
+import com.chocolate.usecases.member.GetCurrentMemberUseCase
 import com.chocolate.usecases.message.ManageTopicMessagesUseCase
-import com.chocolate.usecases.user.GetCurrentUserDataUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -23,7 +26,7 @@ import javax.inject.Inject
 class TopicViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val manageTopicMessagesUseCase: ManageTopicMessagesUseCase,
-    private val getCurrentUserDataUseCase: GetCurrentUserDataUseCase
+    private val getCurrentMemberUseCase: GetCurrentMemberUseCase
 ) : BaseViewModel<TopicUiState, TopicEffect>(TopicUiState()), TopicInteraction {
 
     private val topicArgs = TopicArgs(savedStateHandle)
@@ -49,12 +52,12 @@ class TopicViewModel @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onSendMessage(text: String) {
         viewModelScope.launch {
-            val user = getCurrentUserDataUseCase.invoke()
+            val user = getCurrentMemberUseCase.invoke()
             val message = Message(
                 id = "",
-                senderId = user.id.toString(),
-                senderFullName = user.fullName,
-                senderAvatarUrl = user.imageUrl,
+                senderId = user.id,
+                senderFullName = user.name,
+                senderAvatarUrl =user.imageUrl,
                 messageContent = text,
                 timestamp = Date.from(
                     LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()

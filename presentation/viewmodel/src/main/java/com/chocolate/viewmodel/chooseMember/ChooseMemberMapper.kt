@@ -1,15 +1,15 @@
 package com.chocolate.viewmodel.chooseMember
 
-import com.chocolate.entities.user.User
+import com.chocolate.entities.member.Member
 
-fun List<User>.toUsersUiState(): List<ChooseMembersUiState>{
+fun List<Member>.toUsersUiState(): List<ChooseMembersUiState>{
     return this.map { it.toUserUiState()}
 }
 
-fun User.toUserUiState(): ChooseMembersUiState{
+fun Member.toUserUiState(): ChooseMembersUiState{
     return ChooseMembersUiState(
-        userId = this.id,
+        userId = 0,
         imageUrl = this.imageUrl,
-        name = this.fullName,
+        name = this.name,
     )
 }

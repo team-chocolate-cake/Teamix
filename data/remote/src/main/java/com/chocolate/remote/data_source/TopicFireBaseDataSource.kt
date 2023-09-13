@@ -1,11 +1,9 @@
 package com.chocolate.remote.data_source
 
 import com.chocolate.entities.exceptions.FireBaseException
-import com.chocolate.remote.firebase.util.Constants.BASE
-import com.chocolate.remote.firebase.util.Constants.CHANNEL
-import com.chocolate.remote.firebase.util.Constants.TOPICS
-import com.chocolate.remote.firebase.util.getRandomId
-import com.chocolate.remote.firebase.util.tryToExecuteSuspendCall
+import com.chocolate.remote.util.Constants
+import com.chocolate.remote.util.getRandomId
+import com.chocolate.remote.util.tryToExecuteSuspendCall
 import com.chocolate.repository.datastore.realtime.TopicDataSource
 import com.chocolate.repository.datastore.realtime.model.TopicDto
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,11 +29,11 @@ class TopicFireBaseDataSource @Inject constructor(
         )
         tryToExecuteSuspendCall {
             val topicRef = firebaseFirestore
-                .collection(BASE)
+                .collection(Constants.BASE)
                 .document(organizationName)
-                .collection(CHANNEL)
+                .collection(Constants.CHANNEL)
                 .document(channelId)
-                .collection(TOPICS)
+                .collection(Constants.TOPICS)
                 .document()
 
             topicRef.set(topicDto.copy(topicId = topicRef.id))
@@ -49,11 +47,11 @@ class TopicFireBaseDataSource @Inject constructor(
     ): Flow<List<TopicDto>> {
         return callbackFlow {
             val topics = firebaseFirestore
-                .collection(BASE)
+                .collection(Constants.BASE)
                 .document(organizationName)
-                .collection(CHANNEL)
+                .collection(Constants.CHANNEL)
                 .document(channelId)
-                .collection(TOPICS)
+                .collection(Constants.TOPICS)
                 .addSnapshotListener { value, error ->
                     if (error != null)
                         throw FireBaseException(error.message)

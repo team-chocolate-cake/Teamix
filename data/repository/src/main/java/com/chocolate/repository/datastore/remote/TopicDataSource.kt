@@ -1,6 +1,6 @@
 package com.chocolate.repository.datastore.realtime
 
-import com.chocolate.repository.datastore.realtime.model.TopicDto
+import com.chocolate.repository.datastore.remote.model.TopicDto
 import kotlinx.coroutines.flow.Flow
 
 interface TopicDataSource {

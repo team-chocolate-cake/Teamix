@@ -1,4 +1,4 @@
-package com.chocolate.repository.datastore.realtime.model
+package com.chocolate.repository.datastore.remote.model
 
 import java.util.Date
 

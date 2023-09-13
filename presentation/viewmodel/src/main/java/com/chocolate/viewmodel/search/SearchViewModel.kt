@@ -1,36 +1,30 @@
 package com.chocolate.viewmodel.search
 
-import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.uills.Empty
 import com.chocolate.usecases.channel.ManageChannelsUseCase
+import com.chocolate.usecases.channel.SearchForChannelUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val manageChannels: ManageChannelsUseCase,
+    private val searchForChannelUseCase: SearchForChannelUseCase
     ): BaseViewModel<SearchUiState,SearchEffect>(SearchUiState()),SearchInteraction {
-    private var searchJob: Job? = null
+
 
     override fun onClickChannelItem(id: String, name: String) {
         sendUiEffect(SearchEffect.NavigateToChannel(id.toInt(),name))
     }
 
     override fun onChangeSearchQuery(query: String) {
-
-        if(query.isEmpty()){
-            _state.update { it.copy(isLoading = false, channelsUiState = emptyList(), query = query) }
-            return
-        }
         _state.update { it.copy(isLoading = true, query = query) }
-        onSearch()
+        onSearchChannels()
     }
 
     override fun onClickRetry() {
@@ -42,26 +36,19 @@ class SearchViewModel @Inject constructor(
         _state.update { it.copy(query = String.Empty, channelsUiState = emptyList()) }
     }
 
-    private fun onSearch() {
-        searchJob?.cancel()
-        searchJob = viewModelScope.launch {
-            delay(1000)
-            onSearchChannels()
-        }
-    }
-
     private fun onSearchChannels() {
-        /*tryToExecute(
-            { manageChannels.searchChannels(_state.value.query) },
+
+        tryToExecute(
+            { searchForChannelUseCase(_state.value.query) },
             ::onChangeSearchChannelsQuerySuccess,
-            ::onChangeSearchQueryError
-        )*/
+            ::onError
+        )
     }
 
-    private fun onChangeSearchChannelsQuerySuccess(channels: List<Channel>) {
-        _state.update {
-            it.copy(
-                channelsUiState = channels.toUiState(),
+    private fun onChangeSearchChannelsQuerySuccess(channels: Flow<List<Channel>>) {
+        collectFlow(channels) {
+            this.copy(
+                channelsUiState = it.toUiState(),
                 isLoading = false,
                 showNoInternetLottie = false,
                 error = null,
@@ -69,7 +56,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun onChangeSearchQueryError(throwable: Throwable) {
+    private fun onError(throwable: Throwable) {
         val showNoInternetLottie = throwable is NoConnectionException
         _state.update {
             it.copy(

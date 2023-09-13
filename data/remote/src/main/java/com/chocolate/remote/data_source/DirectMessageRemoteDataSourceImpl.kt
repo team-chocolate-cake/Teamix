@@ -4,6 +4,7 @@ import android.util.Log
 import com.chocolate.entities.directMessage.DMMessage
 import com.chocolate.repository.datastore.remote.DirectMessageRemoteDataSource
 import com.chocolate.repository.model.dto.direct_message.Chat
+import com.chocolate.repository.model.dto.direct_message.NewChat
 import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObjects
@@ -24,20 +25,54 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
     override suspend fun getChatsByUserId(userid: String, currentOrgName: String): List<Chat> {
         return suspendCoroutine { cont ->
             firebase.collection(TEAMIX).document(currentOrgName).collection(CHATS)
-                .whereArrayContains("members" , userid)
+                .whereArrayContains("members", userid)
                 .get()
                 .addOnSuccessListener { doc ->
                     val chats = doc?.map {
                         val members = it.data["members"] as List<String>? ?: emptyList()
                         val secondMember = members.find { it != userid } ?: ""
                         Chat(
-                            id = it.data["id"] as String? ?:"",
+                            id = it.data["id"] as String? ?: "",
                             secondMember = secondMember,
-                            lastMessage = it.data["lastMessage"] as String? ?:"",
-                            lastMessageDate = it.data["lastMessageDate"] as String? ?:""
+                            lastMessage = it.data["lastMessage"] as String? ?: "",
+                            lastMessageDate = it.data["lastMessageDate"] as String? ?: ""
                         )
                     } ?: emptyList()
                     cont.resume(chats)
+                }.addOnFailureListener {
+                    cont.resumeWithException(it)
+                }
+        }
+    }
+
+    override suspend fun createGroup(userids: List<String>, currentOrgName: String): String {
+        val groupCreatedBefore = checkIfGroupCreatedBefore(userids, currentOrgName)
+        return if (groupCreatedBefore.isNotEmpty()) groupCreatedBefore else
+            suspendCoroutine { cont ->
+                val newdoc = firebase.collection(TEAMIX).document(currentOrgName)
+                    .collection(CHATS)
+                    .document()
+                newdoc.set(
+                    NewChat(
+                        id = newdoc.id,
+                        members = userids
+                    )
+                )
+            }
+    }
+
+    private suspend fun checkIfGroupCreatedBefore(
+        userids: List<String>,
+        currentOrgName: String
+    ): String {
+        return suspendCoroutine { cont ->
+            firebase.collection(TEAMIX).document(currentOrgName).collection(CHATS)
+                .whereArrayContains("members", userids)
+                .get()
+                .addOnSuccessListener { doc ->
+                    doc.map {
+                        cont.resume((it.data["id"] as String?).orEmpty())
+                    }
                 }.addOnFailureListener {
                     cont.resumeWithException(it)
                 }

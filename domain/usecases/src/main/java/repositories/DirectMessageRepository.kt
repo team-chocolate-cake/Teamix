@@ -9,4 +9,6 @@ interface DirectMessageRepository {
     suspend fun fetchMessagesByGroupId(groupId: String, currentOrgName: String) :List<DMMessage>
 
     suspend fun sendMessage(message: DMMessage, currentGroupId: String)
+    suspend fun createGroup(userids: List<String>, currentOrgName: String): String
+
 }

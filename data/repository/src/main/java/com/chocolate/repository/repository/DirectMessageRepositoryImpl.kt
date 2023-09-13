@@ -37,4 +37,8 @@ class DirectMessageRepositoryImpl @Inject constructor(
     override suspend fun sendMessage(message: DMMessage, currentGroupId: String) {
         directMessageRemoteDataSource.sendMessage(message, currentGroupId)
     }
+
+    override suspend fun createGroup(userids: List<String>, currentOrgName: String): String {
+        return directMessageRemoteDataSource.createGroup(userids , currentOrgName)
+    }
 }

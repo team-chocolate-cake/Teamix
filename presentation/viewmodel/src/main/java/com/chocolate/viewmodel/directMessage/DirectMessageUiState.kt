@@ -10,6 +10,7 @@ data class DirectMessageUiState(
 )
 
 data class ChatUiState(
+    val id : String,
     val image: String = "",
     val name: String = "",
     val lastMessage: String = "",
@@ -17,6 +18,7 @@ data class ChatUiState(
 )
 
 fun DMChat.toUiState() = ChatUiState(
+    id = id,
     name = name,
     image = image,
     lastMessageDate = lastMessageDate.time.toString(),

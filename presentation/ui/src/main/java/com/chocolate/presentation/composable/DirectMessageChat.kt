@@ -24,11 +24,11 @@ import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.directMessage.ChatUiState
 
 @Composable
-fun DirectMessageChat(state: ChatUiState){
+fun DirectMessageChat(state: ChatUiState , modifier: Modifier){
     val colors = MaterialTheme.customColors()
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
             .background(colors.card)

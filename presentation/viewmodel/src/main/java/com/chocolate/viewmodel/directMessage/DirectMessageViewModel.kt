@@ -1,6 +1,5 @@
 package com.chocolate.viewmodel.directMessage
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.chocolate.usecases.direct_message.GetAllChatsByIdUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
@@ -49,6 +48,10 @@ class DirectMessageViewModel @Inject constructor(
 
     override fun onClickNewChat() {
         sendUiEffect(DirectMessageUiEffect.NavigateToChooseMember)
+    }
+
+    override fun onClickChat(id: String, name: String) {
+        sendUiEffect(DirectMessageUiEffect.NavigateToChat(id , name))
     }
 
 

@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.direct_message
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -25,12 +26,11 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.DirectMessageChat
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
-import com.chocolate.presentation.screens.chooseMember.navigateToChooseMember
+import com.chocolate.presentation.screens.DMChat.navigateToDmChat
 import com.chocolate.presentation.screens.direct_message_member.navigateToDMChooseMember
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.directMessage.DirectMessageInteractions
 import com.chocolate.viewmodel.directMessage.DirectMessageUiEffect
@@ -43,10 +43,16 @@ import kotlinx.coroutines.flow.collectLatest
 fun DirectMessageScreen(dmViewModel: DirectMessageViewModel = hiltViewModel()) {
     val navController = LocalNavController.current
     val state by dmViewModel.state.collectAsState()
-    LaunchedEffect(key1 = dmViewModel.effect ){
+    LaunchedEffect(key1 = dmViewModel.effect) {
         dmViewModel.effect.collectLatest {
-            when(it){
-                DirectMessageUiEffect.NavigateToChooseMember-> navController.navigateToDMChooseMember()
+            when (it) {
+                DirectMessageUiEffect.NavigateToChooseMember -> navController.navigateToDMChooseMember()
+                is DirectMessageUiEffect.NavigateToChat -> {
+                    navController.navigateToDmChat(
+                        groupId = it.groupId,
+                        memberName = it.name,
+                    )
+                }
 
             }
         }
@@ -108,7 +114,11 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(state.chats.size) {
-                    DirectMessageChat(state = state.chats[it])
+                    DirectMessageChat(
+                        state = state.chats[it],
+                        modifier = Modifier.clickable {
+                            interactions.onClickChat(id = state.chats[it].id , name =state.chats[it].name )
+                    })
                 }
             }
         }

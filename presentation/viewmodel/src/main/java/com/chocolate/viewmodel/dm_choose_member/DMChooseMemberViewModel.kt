@@ -1,6 +1,5 @@
 package com.chocolate.viewmodel.dm_choose_member
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.member.Member
@@ -10,10 +9,6 @@ import com.chocolate.usecases.member.GetMembersInOrganizationUseCase
 import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
-import com.chocolate.viewmodel.chooseMember.ChooseMemberUiState
-import com.chocolate.viewmodel.chooseMember.ChooseMembersUiState
-import com.chocolate.viewmodel.chooseMember.SelectedMembersUiState
-import com.chocolate.viewmodel.chooseMember.toUsersUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -22,13 +17,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DMDMChooseMemberViewModel @Inject constructor(
+class DMChooseMemberViewModel @Inject constructor(
     private val getAllUsers: GetMembersInOrganizationUseCase,
     private val stringsResource: StringsResource,
     private val createNewChatUseCase: CreateNewChatUseCase,
     private val getCurrentMemberUseCase: GetCurrentMemberUseCase,
     private val manageOrganizationDetails: ManageOrganizationDetailsUseCase,
-    ) : BaseViewModel<DMChooseMemberUiState, Unit>(DMChooseMemberUiState()), DMChooseMemberInteraction {
+) : BaseViewModel<DMChooseMemberUiState, DMChooseMemberUiEffect>(DMChooseMemberUiState()), DMChooseMemberInteraction {
 
     init {
         getUsers()
@@ -95,10 +90,14 @@ class DMDMChooseMemberViewModel @Inject constructor(
     override fun onClickOk() {
 
         viewModelScope.launch {
-            val users:ArrayList<String> = ArrayList()
+            val users: ArrayList<String> = ArrayList()
             users.add(getCurrentMemberUseCase().id)
             users.add(state.value.selectedMembersUiState!!.userId)
-            createNewChatUseCase(users.toList() ,manageOrganizationDetails.getOrganizationName() )
+            val groupId = createNewChatUseCase(
+                users.toList(),
+                manageOrganizationDetails.getOrganizationName()
+            )
+            sendUiEffect(DMChooseMemberUiEffect.NavigateToDmChat(groupId))
         }
     }
 }

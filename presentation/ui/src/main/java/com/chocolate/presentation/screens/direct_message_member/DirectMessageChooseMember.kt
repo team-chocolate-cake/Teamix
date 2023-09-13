@@ -1,5 +1,6 @@
 package com.chocolate.presentation.screens.direct_message_member
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -14,10 +15,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -27,31 +28,45 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.DMMemberItem
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.SelectedMemberItem
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.DMChat.navigateToDmChat
 import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.home.navigateToHome
-import com.chocolate.presentation.screens.topic_details.navigateToTopic
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.dm_choose_member.DMChooseMemberInteraction
+import com.chocolate.viewmodel.dm_choose_member.DMChooseMemberUiEffect
 import com.chocolate.viewmodel.dm_choose_member.DMChooseMemberUiState
-import com.chocolate.viewmodel.dm_choose_member.DMDMChooseMemberViewModel
+import com.chocolate.viewmodel.dm_choose_member.DMChooseMemberViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun DirectMessageChooseMemberScreen(
-    viewModel: DMDMChooseMemberViewModel = hiltViewModel()
+    viewModel: DMChooseMemberViewModel = hiltViewModel()
 ) {
+    val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
-    DirectMessageChooseMemberContent(state = state, viewModel)
+    DirectMessageChooseMemberContent(state = state, viewModel , navController)
+    LaunchedEffect(key1 = viewModel.effect ){
+        viewModel.effect.collectLatest {
+            when(it){
+                is DMChooseMemberUiEffect.NavigateToDmChat -> {
+                    navController.navigateToDmChat(
+                        groupId = it.groupId,
+                        memberName = state.selectedMembersUiState!!.name,
+                    )
+                }
+            }
+        }
+    }
 
 }
 
@@ -59,7 +74,8 @@ fun DirectMessageChooseMemberScreen(
 @Composable
 fun DirectMessageChooseMemberContent(
     state: DMChooseMemberUiState,
-    interaction: DMChooseMemberInteraction
+    interaction: DMChooseMemberInteraction,
+    navController: NavController
 ) {
     val colors = MaterialTheme.customColors()
     val context = LocalContext.current
@@ -67,7 +83,6 @@ fun DirectMessageChooseMemberContent(
         if (state.selectedMembersUiState ==null) stringResource(R.string.skip) else stringResource(
             R.string.ok
         )
-    val navController = LocalNavController.current
     TeamixScaffold(
         isDarkMode = isSystemInDarkTheme(),
         containerColorAppBar = colors.card,
@@ -83,10 +98,6 @@ fun DirectMessageChooseMemberContent(
                     .clickable {
                         if (state.selectedMembersUiState!=null) {
                             interaction.onClickOk()
-//                            navController.navigateToDmChat(
-//                                memberId = state.selectedMembersUiState!!.userId,
-//                                memberName = state.selectedMembersUiState!!.name,
-//                            )
                         } else {
                             navController.navigateToHome()
                         }
@@ -174,10 +185,12 @@ fun DirectMessageChooseMemberContent(
 @Composable
 fun DMChooseMemberPreview() {
     val viewModel: DMChooseMemberInteraction = hiltViewModel()
+    val navController = LocalNavController.current
     TeamixTheme {
         DirectMessageChooseMemberContent(
             state = DMChooseMemberUiState(),
-            viewModel
+            viewModel,
+            navController
         )
     }
 }

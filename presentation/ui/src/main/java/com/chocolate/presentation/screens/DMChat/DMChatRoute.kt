@@ -10,9 +10,9 @@ import com.chocolate.viewmodel.DMChat.DMChatArgs
 
 fun NavGraphBuilder.dmChatRoute(){
     composable(
-        route = "${Screen.DMChat.route}/{${DMChatArgs.MEMBER_ID}}/{${DMChatArgs.MEMBER_NAME}}",
+        route = "${Screen.DMChat.route}/{${DMChatArgs.GROUP_ID}}/{${DMChatArgs.MEMBER_NAME}}",
         arguments = listOf(
-            navArgument(DMChatArgs.MEMBER_ID) { NavType.StringType },
+            navArgument(DMChatArgs.GROUP_ID) { NavType.StringType },
             navArgument(DMChatArgs.MEMBER_NAME) { NavType.StringType },
         )
     ){
@@ -21,8 +21,8 @@ fun NavGraphBuilder.dmChatRoute(){
 }
 
 fun NavController.navigateToDmChat(
-    memberId: String,
+    groupId: String,
     memberName: String,
 ){
-    navigate("${Screen.DMChat.route}/$memberId/$memberName")
+    navigate("${Screen.DMChat.route}/$groupId/$memberName")
 }

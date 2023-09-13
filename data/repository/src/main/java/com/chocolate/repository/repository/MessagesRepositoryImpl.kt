@@ -1,5 +1,7 @@
 package com.chocolate.repository.repository
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.chocolate.entities.draft.Draft
 import com.chocolate.entities.messages.Message
 import com.chocolate.repository.datastore.local.LocalDataSource
@@ -16,6 +18,7 @@ class MessagesRepositoryImpl @Inject constructor(
     private val teamixLocalDataSource: LocalDataSource,
 ) : MessagesRepository {
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun sendMessageInTopic(
         message: Message,
         topicId: String,

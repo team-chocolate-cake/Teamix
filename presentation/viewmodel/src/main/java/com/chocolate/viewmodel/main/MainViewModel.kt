@@ -15,21 +15,14 @@ class MainViewModel @Inject constructor(
     private val customizeProfileSettings: CustomizeProfileSettingsUseCase,
     private val getUserLoginStatus: IsMemberLoggedInUseCase,
 ) : BaseViewModel<MainUiState, Unit>(MainUiState()) {
+
     init {
         viewModelScope.launch {
-            _state.update { it.copy(isLoggedIn = getUserLoginStatus()) }
+            _state.update { it.copy(isDark = customizeProfileSettings.isDarkThemeEnabled()) }
         }
     }
 
-    suspend fun getLastSelectedAppLanguage() =
+    fun getLastSelectedAppLanguage() =
         customizeProfileSettings.getLatestSelectedAppLanguage()
 
-
-    private suspend fun isDarkThem() {
-        _state.update {
-            it.copy(
-                isDark = flowOf(true)
-            )
-        }
-    }
 }

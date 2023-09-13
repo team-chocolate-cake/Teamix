@@ -48,6 +48,7 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
+import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.theme.Border2
 import com.chocolate.presentation.theme.IconSize24
 import com.chocolate.presentation.theme.IconSize30
@@ -76,6 +77,7 @@ fun CreateMemberScreen(
         when (effect) {
             CreateMemberUiEffect.ShowImagePicker -> {}
             CreateMemberUiEffect.NavigateToLogin -> { navController.popBackStack() }
+            CreateMemberUiEffect.NavigateToHome -> navController.navigateToHome()
         }
     }
 

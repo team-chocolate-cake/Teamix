@@ -1,10 +1,13 @@
 package repositories
 
+import kotlinx.coroutines.flow.Flow
+
+
 interface AppSettingsRepository {
 
-    suspend fun isDarkThemeEnabled(): Boolean
-    suspend fun updateDarkTheme(isDarkTheme: Boolean)
-    suspend fun getLatestSelectedAppLanguage()
+    fun isDarkThemeEnabled(): Flow<Boolean>
+    suspend fun setDarkTheme(isDarkTheme: Boolean)
+    fun getLatestSelectedAppLanguage(): Flow<String>
     suspend fun updateAppLanguage(newLanguage: String): Boolean
 
 }

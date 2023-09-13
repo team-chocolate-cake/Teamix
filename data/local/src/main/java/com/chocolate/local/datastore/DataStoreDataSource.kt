@@ -15,16 +15,15 @@ import javax.inject.Inject
 
 class DataStoreDataSource @Inject constructor(
     private val dataStore: DataStore<Preferences>,
-    private val sharedPreferences: SharedPreferences,
 ) : PreferencesDataSource {
-    override fun getCurrentOrganizationName(): String? {
-        return sharedPreferences.getString(ORGANIZATION_NAME, null)
+    override suspend fun getCurrentOrganizationName(): String? {
+        return dataStore.data.mapLatest {
+            it[ORGANIZATION_NAME]
+        }.first()
     }
 
     override suspend fun setCurrentOrganizationName(organizationName: String) {
-        val editor = sharedPreferences.edit()
-        editor.putString(ORGANIZATION_NAME, organizationName)
-        editor.apply()
+        dataStore.setValue(ORGANIZATION_NAME, organizationName)
     }
 
     override suspend fun setUserUsedAppForFirstTime(isFirstTime: Boolean) {
@@ -57,27 +56,31 @@ class DataStoreDataSource @Inject constructor(
         dataStore.setValue(MEMBER_ID, memberId)
     }
 
-    override suspend fun upsertAppLanguage(newLanguage: String): Boolean {
+    override suspend fun updateAppLanguage(newLanguage: String): Boolean {
         dataStore.setValue(LOCAL_LANGUAGE, newLanguage)
         return true
     }
 
-    override suspend fun getLastSelectedAppLanguage(): Flow<String> =
+    override fun getLatestSelectedAppLanguage(): Flow<String> =
         dataStore.data.map {
-            it[(LOCAL_LANGUAGE)] ?: ENGLISH
+            it[LOCAL_LANGUAGE] ?: ENGLISH
         }
 
-    override suspend fun setDarkThemeValue(isDarkTheme: Boolean) {
+    override suspend fun setDarkTheme(isDarkTheme: Boolean) {
         dataStore.setValue(IS_DARK_THEME, isDarkTheme)
     }
 
-    override suspend fun isDarkThemeEnabled(): Boolean {
-        return sharedPreferences.getBoolean(DARK_THEME, false)
+    override fun isDarkThemeEnabled(): Flow<Boolean> {
+        return dataStore.data.map {
+            it[IS_DARK_THEME] ?: false
+        }
     }
 
-    override suspend fun isInDarkThemeFlow(): Flow<Boolean> {
-        return dataStore.data.map {
-            it[(IS_DARK_THEME)] ?: false
+    override suspend fun clearMemberData() {
+        dataStore.edit {
+            it.remove(LOGIN_STATE)
+            it.remove(MEMBER_ID)
+            it.remove(ORGANIZATION_NAME)
         }
     }
 
@@ -95,7 +98,7 @@ class DataStoreDataSource @Inject constructor(
         const val API_KEY = "API_KEY"
         val LOGIN_STATE = booleanPreferencesKey("LOGIN_STATE")
         val MEMBER_ID = stringPreferencesKey("MEMBER_ID")
-        const val ORGANIZATION_NAME = "CURRENT_USERNAME_ID"
+        val ORGANIZATION_NAME = stringPreferencesKey("ORGANIZATION_NAME")
         const val ENGLISH = "en"
         const val DARK_THEME = "APP_DARK_THEME"
         private val IS_DARK_THEME = booleanPreferencesKey("Is_Dark_Theme")

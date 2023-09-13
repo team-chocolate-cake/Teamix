@@ -12,9 +12,9 @@ import java.util.Locale
 @Composable
 fun InstallSavedAppLanguage(context: Context){
     val userSettingsViewModel: MainViewModel = hiltViewModel()
-    /*LaunchedEffect(key1 = Unit){
+    LaunchedEffect(key1 = Unit){
         userSettingsViewModel.getLastSelectedAppLanguage().collectLatest {language ->
             updateResources(context = context, localeLanguage = Locale(language))
         }
-    }*/
+    }
 }

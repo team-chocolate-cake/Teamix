@@ -3,6 +3,7 @@ package com.chocolate.usecases.member
 import com.chocolate.entities.exceptions.NullDataException
 import com.chocolate.entities.exceptions.TeamixException
 import com.chocolate.entities.uills.Empty
+import kotlinx.coroutines.flow.Flow
 import repositories.AppSettingsRepository
 import javax.inject.Inject
 
@@ -19,13 +20,13 @@ class CustomizeProfileSettingsUseCase @Inject constructor(
         }
     }
 
-    suspend fun getLatestSelectedAppLanguage() =
+    fun getLatestSelectedAppLanguage() =
         appSettingsRepository.getLatestSelectedAppLanguage()
 
-    suspend fun updateDarkTheme(isDarkTheme: Boolean) {
-        appSettingsRepository.updateDarkTheme(isDarkTheme)
+    suspend fun setAppThemeToDark(isDarkTheme: Boolean) {
+        appSettingsRepository.setDarkTheme(isDarkTheme)
     }
 
-    suspend fun isDarkThemeEnabled(): Boolean = appSettingsRepository.isDarkThemeEnabled()
+    fun isDarkThemeEnabled(): Flow<Boolean> = appSettingsRepository.isDarkThemeEnabled()
 
 }

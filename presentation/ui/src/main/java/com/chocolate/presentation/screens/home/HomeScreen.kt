@@ -37,6 +37,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -58,6 +59,7 @@ import com.chocolate.presentation.screens.saveLater.navigateToSaveLater
 import com.chocolate.presentation.screens.topic_details.navigateToTopic
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Float1
+import com.chocolate.presentation.theme.LightPrimary
 import com.chocolate.presentation.theme.OnLightPrimary
 import com.chocolate.presentation.theme.SpacingLarge
 import com.chocolate.presentation.theme.SpacingMedium
@@ -93,8 +95,9 @@ fun HomeScreen(
             }
             HomeUiEffect.NavigationToDrafts -> navController.navigateToDrafts()
             HomeUiEffect.NavigationToSavedLater -> navController.navigateToSaveLater()
-            HomeUiEffect.NavigationToStarred -> {}
-            is HomeUiEffect.NavigateToTopic -> navController.navigateToTopic(effect.topicName)
+            is HomeUiEffect.NavigateToTopic -> navController.navigateToTopic(
+                effect.channelId,effect.topicId,effect.topicName
+            )
             HomeUiEffect.NavigateToCreateChannel -> navController.navigateToCreateChannel()
         }
     }
@@ -109,10 +112,7 @@ fun HomeScreen(
 fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
     val colors = MaterialTheme.customColors()
     val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(
-        color = MaterialTheme.customColors().primary,
-        darkIcons = state.isDarkTheme
-    )
+
     var isShowSheet by remember { mutableStateOf(false) }
     AnimatedVisibility(isShowSheet) {
         ManageChannelBottomSheet(onDismissBottomSheet = { isShowSheet = false }, colors = colors)
@@ -129,6 +129,11 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
         titleColor = OnLightPrimary,
         hasAppBar = true,
     ) { paddingValue ->
+        systemUiController.setStatusBarColor(
+            color = LightPrimary,
+            darkIcons = false
+        )
+        systemUiController.setNavigationBarColor(Color.Black)
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -202,8 +207,8 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                     colors = colors,
                     onClickItemChannel = { id, name ->
                         homeInteraction.onClickChannel(id, name)
-                    }, onClickTopic = {
-                        homeInteraction.onClickTopic(it)
+                    }, onClickTopic = {channelId,topicId, name ->
+                        homeInteraction.onClickTopic(channelId,topicId,name)
                     },
                     modifier = Modifier
                         .padding(horizontal = SpacingXLarge)

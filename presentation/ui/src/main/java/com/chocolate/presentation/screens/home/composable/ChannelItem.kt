@@ -45,8 +45,8 @@ fun ChannelItem(
     state: ChannelUiState,
     colors: CustomColorsPalette,
     contentDescription: String = "",
-    onClickTopic: (String) -> Unit,
-    onClickItemChannel: (Int , String) -> Unit
+    onClickTopic: (String,String,String) -> Unit,
+    onClickItemChannel: (String , String) -> Unit
 ) {
     var isExpanded by remember { mutableStateOf(false) }
     val animateIcon by animateFloatAsState(targetValue = if (isExpanded) 180f else 0f, label = "")
@@ -108,7 +108,7 @@ fun ChannelItem(
                             .wrapContentHeight()
                             .pointerInput(Unit) {
                                 detectTapGestures(onPress = {
-                                    onClickTopic(topicUIState.name)
+                                    onClickTopic(state.channelId,topicUIState.id,topicUIState.name)
                                 })
                             }
                             .padding(vertical = 8.dp),

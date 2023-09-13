@@ -2,13 +2,17 @@ package com.chocolate.viewmodel.createmember
 
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import com.chocolate.entities.exceptions.InvalidEmailException
 import com.chocolate.entities.exceptions.InvalidUsernameException
+import com.chocolate.entities.exceptions.MemberAlreadyExistException
 import com.chocolate.entities.exceptions.MissingRequiredFieldsException
 import com.chocolate.entities.exceptions.PasswordMismatchException
+import com.chocolate.usecases.member.AttemptMemberLoginUseCase
 import com.chocolate.usecases.member.CreateMemberUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
+import com.chocolate.viewmodel.chooseMember.CreateMemberArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -16,8 +20,9 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateMemberViewModel @Inject constructor(
     private val createMember: CreateMemberUseCase,
-    private val stringsResource: StringsResource
-
+    private val stringsResource: StringsResource,
+    private val savedStateHandle: SavedStateHandle,
+    private val attemptMemberLoginUseCase: AttemptMemberLoginUseCase
 ) : BaseViewModel<CreateMemberUiState, CreateMemberUiEffect>(CreateMemberUiState()),
     CreateMemberInteraction {
 
@@ -48,7 +53,12 @@ class CreateMemberViewModel @Inject constructor(
     override fun onCreateAccountClick() {
         _state.update { it.copy(isLoading = true, error = null) }
         tryToExecute(
-            call = { createMember(state.value.toEntity()) },
+            call = {
+                createMember(
+                    state.value.toEntity(CreateMemberArgs(savedStateHandle).role),
+                    state.value.confirmPassword
+                )
+            },
             onSuccess = ::onCreateAccountSuccess,
             onError = ::onError
         )
@@ -56,22 +66,29 @@ class CreateMemberViewModel @Inject constructor(
 
     private fun onCreateAccountSuccess(unit: Unit) {
         _state.update { it.copy(error = null, isLoading = false) }
-        //todo: go to home screen
-        Log.e("err", "onCreateAccountSuccess", )
+        tryToExecute(
+            { attemptMemberLoginUseCase(state.value.email, state.value.password) },
+            ::onSavingLoginStateSuccess,
+            ::onError
+        )
+    }
 
+    private fun onSavingLoginStateSuccess(unit: Unit) {
+        sendUiEffect(CreateMemberUiEffect.NavigateToHome)
     }
 
     private fun onError(throwable: Throwable) {
         val errorMessage = when (throwable) {
             is MissingRequiredFieldsException -> stringsResource.allFieldsAreRequired
             is PasswordMismatchException -> stringsResource.passwordMismatch
-            is InvalidUsernameException ->  stringsResource.invalidUsername
-            is InvalidEmailException ->  stringsResource.invalidEmail
+            is MemberAlreadyExistException -> stringsResource.memberAlreadyExist
+            is InvalidUsernameException -> stringsResource.invalidUsername
+            is InvalidEmailException -> stringsResource.invalidEmail
             else -> stringsResource.globalMessageError
         }
 
         _state.update { it.copy(error = errorMessage, isLoading = false) }
-        Log.e("err", "onError: ${_state.value.error}", )
+        Log.e("err", "onError: ${_state.value.error}")
     }
 
     override fun onSignInClick() {

@@ -27,7 +27,9 @@ import com.chocolate.presentation.theme.customColors
 @Composable
 fun Topic(
     topicName: String,
-    onSeeAll: (String) -> Unit,
+    topicId: String,
+    channelId:Int,
+    onSeeAll: (Int,String, String) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -36,14 +38,14 @@ fun Topic(
                 color = MaterialTheme.customColors().card,
                 shape = MaterialTheme.shapes.medium
             )
-            .clickable { onSeeAll(topicName) }
+            .clickable { onSeeAll(channelId,topicId, topicName) }
             .padding(SpacingXMedium),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
 
         Text(
-            modifier = Modifier.padding(vertical = SpacingXLarge , horizontal = SpacingSmall),
+            modifier = Modifier.padding(vertical = SpacingXLarge, horizontal = SpacingSmall),
             text = topicName,
             color = MaterialTheme.customColors().onBackground87,
             style = MaterialTheme.typography.bodyMedium
@@ -64,9 +66,11 @@ fun Topic(
 @Preview(showSystemUi = true, backgroundColor = 0x80000000, showBackground = true)
 fun TopicReview() {
     TeamixTheme {
-        Topic(
-            topicName = "Test Topic Name",
-            onSeeAll = {}
-        )
+//        Topic(
+//            topicName = "Test Topic Name",
+//            topicId = 343,
+//            onSeeAll = { channelId,topicId, name ->
+//            }
+//        )
     }
 }

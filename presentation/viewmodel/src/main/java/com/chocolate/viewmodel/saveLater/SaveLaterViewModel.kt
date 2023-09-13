@@ -15,16 +15,16 @@ class SaveLaterViewModel @Inject constructor(
 ) : BaseViewModel<SaveLaterMessageUiState, SaveLaterEffect>(SaveLaterMessageUiState()),
     SaveLaterInteraction {
     init {
-        getAllSavedMessages()
+      //  getAllSavedMessages()
     }
 
-    private fun getAllSavedMessages() {
-        tryToExecute(
-            call = { manageSaveLaterMessageUseCase.getSavedMessages() },
-            ::onGetDataSuccess,
-            ::onGetMessagesError
-        )
-    }
+//    private fun getAllSavedMessages() {
+//        tryToExecute(
+//            call = { manageSaveLaterMessageUseCase.getSavedMessages() },
+//            ::onGetDataSuccess,
+//            ::onGetMessagesError
+//        )
+//    }
 
     private fun onGetDataSuccess(data: List<Message>) {
         _state.update { state ->

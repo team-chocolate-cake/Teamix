@@ -5,11 +5,23 @@ import kotlinx.coroutines.flow.Flow
 
 interface ChannelDataSource {
     suspend fun createChannel(
-        channelName: String,
-        usersId: List<Int>,
-        isPrivate: Boolean,
-        description: String?,
+        channel:ChannelDto,
+        organizationName:String
     )
 
-    fun getChannels(): Flow<List<ChannelDto>>
+
+
+   suspend fun  getChannelsInOrganizationByOrganizationName(organizationName: String):Flow<List<ChannelDto>?>
+
+
+    // fun getChannels(): Flow<List<ChannelDto>>
+//    suspend fun sendMessage(
+//        text: String, userId: Int,
+//        channel: Int,
+//        senderName: String,
+//        senderImage: String
+//    )
+//
+//    suspend fun getMessages(channelId: Int): Flow<List<MessageDto>>
+
 }

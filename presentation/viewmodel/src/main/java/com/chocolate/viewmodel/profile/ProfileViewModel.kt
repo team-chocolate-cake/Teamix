@@ -101,7 +101,7 @@ class ProfileViewModel @Inject constructor(
     override fun onClickDarkThemeSwitch(darkTheme: Boolean, context: Context) {
         _state.update { it.copy(isDarkTheme = !darkTheme) }
         viewModelScope.launch {
-            customizeProfileSettings.updateDarkTheme(!darkTheme)
+            customizeProfileSettings.setAppThemeToDark(!darkTheme)
         }
     }
 
@@ -188,20 +188,15 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun getLastSelectedAppLanguage() {
-        /*viewModelScope.launch(Dispatchers.IO) {
-           customizeProfileSettings.getLatestSelectedAppLanguage().collectLatest { language ->
-               _state.update { it.copy(lastAppLanguage = language) }
-           }
-        }*/
+        collectFlow(customizeProfileSettings.getLatestSelectedAppLanguage()) {
+            this.copy(lastAppLanguage = it)
+        }
     }
 
     private fun isDarkTheme() {
-/*
-        viewModelScope.launch(Dispatchers.IO) {
-            customizeProfileSettings.isDarkThemeEnabled().collectLatest { isDark ->
-                _state.update { it.copy(isDarkTheme = isDark) }
-            }
-        }*/
+        collectFlow(customizeProfileSettings.isDarkThemeEnabled()) {
+            this.copy(isDarkTheme = it)
+        }
     }
 
     private fun getCurrentUser() {

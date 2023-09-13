@@ -51,6 +51,7 @@ import com.chocolate.viewmodel.topic.ReactionUiState
 @OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun ReplyMessage(
+    modifier: Modifier = Modifier,
     messageUiState: MessageUiState,
     onAddReactionToMessage: (Int) -> Unit,
     onSaveMessage: () -> Unit,
@@ -71,7 +72,7 @@ fun ReplyMessage(
         }
     }
     ConstraintLayout(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(
                 end = SpacingXXLarge,

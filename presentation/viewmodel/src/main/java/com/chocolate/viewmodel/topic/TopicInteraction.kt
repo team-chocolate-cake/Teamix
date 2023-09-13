@@ -1,10 +1,12 @@
 package com.chocolate.viewmodel.topic
 
+
+
 interface TopicInteraction {
     fun onClickBackButton()
     fun openEmojisTile()
     fun onMessageInputChanged(text: String)
-    fun onSendMessage()
+    fun onSendMessage(text: String)
     fun onStartVoiceRecording()
     fun onClickCamera()
     fun onClickPhotoOrVideo(position: Int)
@@ -14,4 +16,5 @@ interface TopicInteraction {
     fun onPinMessage()
     fun onOpenReactTile()
     fun onClickReact(positive: Boolean, reactionUiState: ReactionUiState)
+
 }

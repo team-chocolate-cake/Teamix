@@ -1,20 +1,19 @@
 package com.chocolate.teamix.di
 
 import com.chocolate.local.dao.RoomDataSource
-import com.chocolate.local.datasource.AppSettingsDataSourceImpl
 import com.chocolate.local.datastore.DataStoreDataSource
 import com.chocolate.remote.data_source.AuthenticationDataSourceImpl
 import com.chocolate.remote.data_source.ChannelDataSourceImpl
 import com.chocolate.remote.data_source.ChannelRetrofitDataSource
 import com.chocolate.remote.data_source.DirectMessageRemoteDataSourceImpl
+import com.chocolate.remote.data_source.ChannelFireBaseDataSource
 import com.chocolate.remote.data_source.MemberRemoteDataSourceImpl
-import com.chocolate.remote.data_source.MessagesRetrofitDataSource
+import com.chocolate.remote.data_source.MessagesFireBaseDataSource
 import com.chocolate.remote.data_source.OrganizationRemoteRemoteDataSourceImpl
-import com.chocolate.repository.datastore.local.AppSettingsDataSource
+import com.chocolate.remote.data_source.TopicFireBaseDataSource
 import com.chocolate.repository.datastore.local.LocalDataSource
 import com.chocolate.repository.datastore.local.PreferencesDataSource
-import com.chocolate.repository.datastore.remote.AuthenticationDataSource
-import com.chocolate.repository.datastore.remote.ChannelDataSource
+import com.chocolate.repository.datastore.realtime.TopicDataSource
 import com.chocolate.repository.datastore.remote.ChannelRemoteDataSource
 import com.chocolate.repository.datastore.remote.DirectMessageRemoteDataSource
 import com.chocolate.repository.datastore.remote.MemberRemoteDataSource
@@ -44,12 +43,12 @@ abstract class DataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun bindChannelDataSource(channelDataSource: ChannelRetrofitDataSource):
+    abstract fun bindChannelDataSource(channelDataSource: ChannelFireBaseDataSource):
             ChannelRemoteDataSource
 
     @Singleton
     @Binds
-    abstract fun bindMessagesDataSource(messagesDataSource: MessagesRetrofitDataSource):
+    abstract fun bindMessagesDataSource(messagesDataSource: MessagesFireBaseDataSource):
             MessagesRemoteDataSource
 
     @Singleton
@@ -58,19 +57,12 @@ abstract class DataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun bindAuthenticationDataSource(authenticationDataSourceImpl: AuthenticationDataSourceImpl): AuthenticationDataSource
-
-    @Singleton
-    @Binds
     abstract fun bindMemberRemoteDataSource(memberRemoteDataSourceImpl: MemberRemoteDataSourceImpl): MemberRemoteDataSource
 
-    @Singleton
-    @Binds
-    abstract fun bindAppSettingsDataSource(appSettingsDataSourceImpl: AppSettingsDataSourceImpl): AppSettingsDataSource
-
 
     @Singleton
     @Binds
+    abstract fun bindsTopicDataSource(topicDataSource: TopicFireBaseDataSource): TopicDataSource
     abstract fun bindChannelDataSourceImpl(channelDataSourceImpl: ChannelDataSourceImpl): ChannelDataSource
     @Singleton
     @Binds

@@ -6,6 +6,7 @@ import com.chocolate.repository.repository.DirectMessageRepositoryImpl
 import com.chocolate.repository.repository.MessagesRepositoryImpl
 import com.chocolate.repository.repository.OrganizationsRepositoryImpl
 import com.chocolate.repository.repository.MemberRepositoryImpl
+import com.chocolate.repository.repository.TopicRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,6 +17,7 @@ import repositories.DirectMessageRepository
 import repositories.MessagesRepository
 import repositories.OrganizationsRepository
 import repositories.MemberRepository
+import repositories.TopicRepository
 import javax.inject.Singleton
 
 @Module
@@ -38,6 +40,9 @@ abstract class RepositoryModule {
     @Singleton
     abstract fun bindServerAndOrganizationsRepository(serverAndOrganizationsRepository: OrganizationsRepositoryImpl): OrganizationsRepository
 
+    @Binds
+    @Singleton
+    abstract fun bindsTopicRepository(topicRepositoryImpl: TopicRepositoryImpl):TopicRepository
     @Binds
     @Singleton
     abstract fun bindAppSettingsRepository(appSettingsRepository: AppSettingsRepositoryImpl): AppSettingsRepository

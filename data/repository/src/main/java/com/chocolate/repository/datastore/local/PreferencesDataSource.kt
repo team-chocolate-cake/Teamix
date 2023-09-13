@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface PreferencesDataSource {
 
-    fun getCurrentOrganizationName(): String?
+    suspend fun getCurrentOrganizationName(): String?
 
     suspend fun setCurrentOrganizationName(organizationName: String)
 
@@ -20,13 +20,13 @@ interface PreferencesDataSource {
 
     suspend fun saveIdOfCurrentMember(memberId: String)
 
-    suspend fun upsertAppLanguage(newLanguage: String): Boolean
+    suspend fun updateAppLanguage(newLanguage: String): Boolean
 
-    suspend fun getLastSelectedAppLanguage(): Flow<String>
+    fun getLatestSelectedAppLanguage(): Flow<String>
 
-    suspend fun setDarkThemeValue(isDarkTheme: Boolean)
+    suspend fun setDarkTheme(isDarkTheme: Boolean)
 
-    suspend fun isDarkThemeEnabled(): Boolean
+    fun isDarkThemeEnabled(): Flow<Boolean>
 
-    suspend fun isInDarkThemeFlow(): Flow<Boolean>
+    suspend fun clearMemberData()
 }

@@ -23,7 +23,7 @@ class MemberRemoteDataSourceImpl @Inject constructor(
     ): MemberDto? {
         return tryToExecuteSuspendCall {
             val memberRef = firebaseFirestore
-                .collection(Constants.ORGANIZATION)
+                .collection(Constants.BASE)
                 .document(organizationName)
                 .collection(Constants.MEMBERS)
                 .document(memberId)
@@ -39,7 +39,7 @@ class MemberRemoteDataSourceImpl @Inject constructor(
     ): Flow<List<MemberDto>> {
         return callbackFlow {
             val organizationRef = firebaseFirestore
-                .collection(Constants.ORGANIZATION)
+                .collection(Constants.BASE)
                 .document(organizationName)
                 .collection(Constants.MEMBERS)
                 .whereArrayContains("channelsId", channelId)
@@ -56,7 +56,7 @@ class MemberRemoteDataSourceImpl @Inject constructor(
     override suspend fun getMembersInOrganizationByOrganizationName(organizationName: String): Flow<List<MemberDto>?> {
         return callbackFlow {
             val organizationRef = firebaseFirestore
-                .collection(Constants.ORGANIZATION)
+                .collection(Constants.BASE)
                 .document(organizationName)
                 .collection(Constants.MEMBERS)
                 .addSnapshotListener { membersSnapshot, exception ->
@@ -80,7 +80,7 @@ class MemberRemoteDataSourceImpl @Inject constructor(
     override suspend fun updateMember(organizationName: String, member: MemberDto) {
         tryToExecuteSuspendCall {
             firebaseFirestore
-                .collection(Constants.ORGANIZATION)
+                .collection(Constants.BASE)
                 .document(organizationName)
                 .collection(Constants.MEMBERS)
                 .document(member.id!!)
@@ -92,7 +92,7 @@ class MemberRemoteDataSourceImpl @Inject constructor(
     override suspend fun changeRole(organizationName: String, memberId: String, newRole: String) {
         tryToExecuteSuspendCall {
             firebaseFirestore
-                .collection(Constants.ORGANIZATION)
+                .collection(Constants.BASE)
                 .document(organizationName)
                 .collection(Constants.MEMBERS)
                 .document(memberId)
@@ -108,7 +108,7 @@ class MemberRemoteDataSourceImpl @Inject constructor(
     ) {
         tryToExecuteSuspendCall {
             val channelDocRef = firebaseFirestore
-                .collection(Constants.ORGANIZATION)
+                .collection(Constants.BASE)
                 .document(organizationName)
                 .collection(Constants.CHANNEL)
                 .document(channelId)
@@ -133,7 +133,7 @@ class MemberRemoteDataSourceImpl @Inject constructor(
     ): MemberDto? {
         return tryToExecuteSuspendCall {
             val memberRef = firebaseFirestore
-                .collection(Constants.ORGANIZATION)
+                .collection(Constants.BASE)
                 .document(organizationName)
                 .collection(Constants.MEMBERS)
                 .whereEqualTo("email", email)

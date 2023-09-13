@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.topic_details
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,7 +9,10 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -33,7 +37,8 @@ fun TopicScreen(
 ) {
     val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
-    TopicContent(topicUiState = state, viewModel)
+    val scrollState = rememberLazyListState()
+    TopicContent(topicUiState = state, viewModel, scrollState)
     CollectUiEffect(viewModel.effect) { effect ->
         when (effect) {
             TopicEffect.NavigationBack -> navController.popBackStack()
@@ -42,9 +47,25 @@ fun TopicScreen(
 }
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun TopicContent(topicUiState: TopicUiState, topicInteraction: TopicInteraction) {
+fun TopicContent(
+    topicUiState: TopicUiState,
+    topicInteraction: TopicInteraction,
+    scrollState: LazyListState
+) {
+    LaunchedEffect(key1 = topicUiState.messages.size) {
+        topicUiState.messages.takeIf { messages ->
+            messages.isNotEmpty()
+        }?.let {
+            val lastIndex = it.size - 1
+            val scrollToIndex = lastIndex.coerceAtLeast(0)
+            scrollState.animateScrollToItem(0)
+        }
+
+    }
+
     TeamixScaffold(
         title = topicUiState.topicName,
         isDarkMode = isSystemInDarkTheme(),
@@ -54,7 +75,7 @@ fun TopicContent(topicUiState: TopicUiState, topicInteraction: TopicInteraction)
             StartNewMessage(
                 openEmojisTile = { topicInteraction.openEmojisTile() },
                 onMessageInputChanged = { topicInteraction.onMessageInputChanged(it) },
-                onSendMessage = { topicInteraction.onSendMessage() },
+                onSendMessage = { topicInteraction.onSendMessage(topicUiState.messageInput) },
                 onStartVoiceRecording = { topicInteraction.onStartVoiceRecording() },
                 onClickCamera = { topicInteraction.onClickCamera() },
                 onClickPhotoOrVideo = { topicInteraction.onClickPhotoOrVideo(it) },
@@ -64,11 +85,14 @@ fun TopicContent(topicUiState: TopicUiState, topicInteraction: TopicInteraction)
             )
         }
     ) { padding ->
-        ConstraintLayout(modifier = Modifier
-            .padding(padding)
-            .fillMaxSize()) {
+        ConstraintLayout(
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxSize()
+        ) {
             val (messages) = createRefs()
             LazyColumn(
+                state = scrollState,
                 modifier = Modifier
                     .fillMaxHeight()
                     .constrainAs(messages) { bottom.linkTo(parent.bottom) },
@@ -76,9 +100,12 @@ fun TopicContent(topicUiState: TopicUiState, topicInteraction: TopicInteraction)
                 verticalArrangement = Arrangement.spacedBy(SpacingXLarge),
                 contentPadding = PaddingValues(bottom = SpacingXLarge, top = SpacingXLarge)
             ) {
-                items(topicUiState.messages.size) {
+                items(topicUiState.messages.size, key = {
+                    topicUiState.messages[it].id
+                }) {
                     if (topicUiState.messages[it].isMyReplay)
                         MyReplyMessage(
+                            modifier = Modifier.animateItemPlacement(),
                             messageUiState = topicUiState.messages[it],
                             onAddReactionToMessage = { topicInteraction.onAddReactionToMessage(it) },
                             onGetNotification = { topicInteraction.onGetNotification() },
@@ -90,6 +117,7 @@ fun TopicContent(topicUiState: TopicUiState, topicInteraction: TopicInteraction)
                         )
                     else
                         ReplyMessage(
+                            modifier = Modifier.animateItemPlacement(),
                             messageUiState = topicUiState.messages[it],
                             onAddReactionToMessage = { topicInteraction.onAddReactionToMessage(it) },
                             onGetNotification = { topicInteraction.onGetNotification() },

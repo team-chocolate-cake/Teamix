@@ -1,14 +1,18 @@
 package com.chocolate.viewmodel.createChannel
 
+import androidx.lifecycle.viewModelScope
+import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.entities.uills.Empty
 import com.chocolate.usecases.channel.AddUsersInChannelByChannelNameAndUsersIdUseCase
+import com.chocolate.usecases.channel.ManageChannelsUseCase
 import com.chocolate.viewmodel.base.BaseErrorUiState
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -49,12 +53,12 @@ class CreateChannelViewModel @Inject constructor(
 
     private suspend fun createChannel(): Boolean {
         _state.update { it.copy(isLoading = true) }
-        return /*createChannel(
+        return createChannel(
             channelName = _state.value.nameInput,
             usersId = listOf(),
             description = _state.value.description,
             isPrivate = _state.value.isPrivate
-        )*/ false
+        )
     }
 
     private fun onCreateChannelSuccess(isCreatedSuccessfully: Boolean) {

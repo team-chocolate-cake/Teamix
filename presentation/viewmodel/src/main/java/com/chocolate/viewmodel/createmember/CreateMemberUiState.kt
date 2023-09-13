@@ -1,9 +1,10 @@
 package com.chocolate.viewmodel.createmember
 
 import android.net.Uri
-import com.chocolate.entities.member.MemberInformation
+import com.chocolate.entities.member.Member
+import com.chocolate.entities.member.UserRole
 import com.chocolate.entities.uills.Empty
-import java.net.URI
+import com.chocolate.entities.uills.getRandomId
 
 data class CreateMemberUiState(
     val personalImageUri: Uri? = null,
@@ -18,10 +19,14 @@ data class CreateMemberUiState(
     val error: String? = null
 )
 
-fun CreateMemberUiState.toEntity() = MemberInformation(
-    fullName = fullName,
+fun CreateMemberUiState.toEntity(role:String) = Member(
+    id = getRandomId().toString(),
+    name = fullName,
     email = email,
-    personalImageUri = URI(personalImageUri.toString()),
+    imageUrl = personalImageUri.toString(),
     password = password,
-    confirmPassword = confirmPassword,
+    role = UserRole.fromValue(role),
+    isActive = true,
+    status = "",
+    channelsId = listOf("0")
 )

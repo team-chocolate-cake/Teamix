@@ -38,7 +38,7 @@ fun ChannelScreen(
     CollectUiEffect(channelViewModel.effect) { channelUiEffect ->
         when (channelUiEffect) {
             is ChannelUiEffect.NavigateToTopicDetails -> navController.navigateToTopic(
-                channelUiEffect.topicName
+               channelUiEffect.channelId,channelUiEffect.topicId, channelUiEffect.topicName
             )
         }
     }
@@ -74,14 +74,16 @@ fun ChannelContent(
                         modifier = Modifier.padding(padding),
                         isPlaying = true,
                         isShow = state.topics.isEmpty() && !state.isLoading,
-                        title = stringResource(R.string.draft_messages_to_send_when_you_re_ready),
-                        subTitle = stringResource(R.string.sub_title_empty_data)
+                        title ="there is nothing to show" ,
+                        subTitle = "Start Create topic and  find it here"
                     )
                 }
 
                 items(state.topics.size) {
                     Topic(
                         topicName = state.topics[it].topicName,
+                        topicId=state.topics[it].id,
+                        channelId=state.channelId.toInt(),
                         onSeeAll = channelInteraction::onClickSeeAll,
                     )
                 }

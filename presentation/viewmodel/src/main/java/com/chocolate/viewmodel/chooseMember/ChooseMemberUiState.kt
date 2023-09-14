@@ -13,14 +13,14 @@ data class ChooseMemberUiState(
 )
 
 data class SelectedMembersUiState(
-    val userId: Int = 0,
+    val userId: String = String.Empty,
     val imageUrl: String =String.Empty,
     val name: String = String.Empty,
     val isClickedForRemoval: Boolean = false
 )
 
 data class ChooseMembersUiState(
-    val userId: Int = 0,
+    val userId: String = String.Empty,
     val imageUrl: String =String.Empty,
     val name: String = String.Empty,
     val isSelected: Boolean = false

@@ -30,7 +30,9 @@ class AddUsersInChannelByChannelNameAndUsersIdUseCase @Inject constructor(
     }
 
     private suspend fun isValidChannelName(channelName: String): Boolean {
-        return channelName.isNotBlank() && channelName.length < 60 && !checkIfTheChannelAlreadyExists(channelName)
+        return channelName.isNotBlank() && channelName.length < 60 && !isChannelAlreadyExists(
+            channelName
+        )
     }
 
     private suspend fun createChannel(
@@ -48,14 +50,9 @@ class AddUsersInChannelByChannelNameAndUsersIdUseCase @Inject constructor(
         )
     }
 
-    suspend fun checkIfTheChannelAlreadyExists(channelName: String):Boolean{
-       return repository.getStreamChannels().firstOrNull()?.any { it.name==channelName } == true
+    private suspend fun isChannelAlreadyExists(channelName: String): Boolean {
+        return repository.getStreamChannels().firstOrNull()?.any { it.name == channelName } == true
     }
-//    suspend fun checkIfTheChannelAlreadyExists(channelName: String): Boolean {
-//        val channels = repository.getStreamChannels().firstOrNull() // Get the list of channels
-//
-//        return channels?.any { it.name == channelName } == true
-//    }
 
 
 }

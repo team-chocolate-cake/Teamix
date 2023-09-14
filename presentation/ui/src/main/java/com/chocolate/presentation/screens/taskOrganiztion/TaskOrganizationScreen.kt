@@ -8,7 +8,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
+import com.chocolate.presentation.screens.createChannel.composable.ActionSnakeBar
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.taskOrganization.TaskOrganizationUiState

@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.create_channel.composable
+package com.chocolate.presentation.screens.createChannel.composable
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box

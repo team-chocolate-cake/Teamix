@@ -35,7 +35,7 @@ import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.SelectedMemberItem
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.DirectMessageChat.navigateToDmChat
-import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
+import com.chocolate.presentation.screens.createChannel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium

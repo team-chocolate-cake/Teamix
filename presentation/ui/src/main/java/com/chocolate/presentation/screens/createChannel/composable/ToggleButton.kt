@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.create_channel.composable
+package com.chocolate.presentation.screens.createChannel.composable
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues

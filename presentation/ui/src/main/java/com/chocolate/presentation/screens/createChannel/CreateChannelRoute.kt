@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.create_channel
+package com.chocolate.presentation.screens.createChannel
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder

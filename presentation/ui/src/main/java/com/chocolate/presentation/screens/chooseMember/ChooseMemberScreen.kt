@@ -33,7 +33,7 @@ import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.SelectedMemberItem
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
-import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
+import com.chocolate.presentation.screens.createChannel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
@@ -147,8 +147,8 @@ fun ChooseMemberContent(
                                     painter = painterResource(id = R.drawable.ic_cancel),
                                     imageUrl = selectedMembersUiState.imageUrl,
                                     username = selectedMembersUiState.name,
-                                    userId = selectedMembersUiState.userId.toString(),
-                                    onClickIcon = { chooseMemberInteraction.onRemoveSelectedItem(it.toInt()) }
+                                    userId = selectedMembersUiState.userId,
+                                    onClickIcon = { chooseMemberInteraction.onRemoveSelectedItem(it) }
                                 )
                             }
                         }

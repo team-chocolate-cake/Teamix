@@ -8,7 +8,7 @@ import com.chocolate.presentation.screens.channel.channelRoute
 import com.chocolate.presentation.screens.chooseMember.chooseMemberRoute
 import com.chocolate.presentation.screens.createMember.createMemberRoute
 import com.chocolate.presentation.screens.create_account.createAccountWebViewRoute
-import com.chocolate.presentation.screens.create_channel.createChannelRoute
+import com.chocolate.presentation.screens.createChannel.createChannelRoute
 import com.chocolate.presentation.screens.create_organization.createOrganizationRoute
 import com.chocolate.presentation.screens.direct_message.directMessageRoute
 import com.chocolate.presentation.screens.direct_message_member.directMessageChooseMemberRoute

@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.create_channel
+package com.chocolate.presentation.screens.createChannel
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.ScrollState
@@ -29,8 +29,8 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.chooseMember.navigateToChooseMember
-import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
-import com.chocolate.presentation.screens.create_channel.composable.ToggleButton
+import com.chocolate.presentation.screens.createChannel.composable.ActionSnakeBar
+import com.chocolate.presentation.screens.createChannel.composable.ToggleButton
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.SpacingXXLarge

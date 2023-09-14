@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.directMessage
 
-import com.chocolate.entities.directMessage.DMChat
+import com.chocolate.entities.directMessage.ChatEntity
 import com.chocolate.viewmodel.DMChat.formatDate
 
 data class DirectMessageUiState(
@@ -18,7 +18,7 @@ data class ChatUiState(
     val lastMessageDate: String = "",
 )
 
-fun DMChat.toUiState() = ChatUiState(
+fun ChatEntity.toUiState() = ChatUiState(
     id = id,
     name = name,
     image = image,

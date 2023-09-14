@@ -4,27 +4,20 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.chocolate.entities.directMessage.DMMessage
-import com.chocolate.entities.messages.Message
+import com.chocolate.entities.directMessage.MessageEntity
 import com.chocolate.entities.uills.Empty
 import com.chocolate.usecases.direct_message.GetAllMessagesInChatUseCase
 import com.chocolate.usecases.direct_message.SendMessageUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
 import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
-import com.chocolate.viewmodel.topic.MessageUiState
 import com.chocolate.viewmodel.topic.ReactionUiState
 import com.chocolate.viewmodel.topic.TopicInteraction
 import com.chocolate.viewmodel.topic.TopicUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import java.util.Calendar
-import java.util.Date
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -79,11 +72,13 @@ class DMChatViewModel @Inject constructor(
             val user = getCurrentMemberUseCase.invoke()
             val orgName = manageOrganizationDetailsUseCase.getOrganizationName()
             sendMessageUseCase.invoke(
-                message = text,
-                senderId = user.id,
-                senderFullName = user.name,
-                senderAvatarUrl = user.imageUrl,
-                sentAt = Calendar.getInstance().getTime(),
+                message = MessageEntity(
+                    sentBy = user.id,
+                    messageContent = text,
+                    sentAt = Calendar.getInstance().getTime(),
+                    senderFullName = user.name,
+                    senderImageUrl = user.imageUrl,
+                ),
                 currentChatId = dmChatArgs.groupId,
                 currentOrgName = orgName
             )

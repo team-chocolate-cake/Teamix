@@ -1,6 +1,5 @@
 package com.chocolate.usecases.direct_message
 
-import com.chocolate.entities.directMessage.DMChat
 import repositories.DirectMessageRepository
 import javax.inject.Inject
 

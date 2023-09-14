@@ -2,10 +2,10 @@ package com.chocolate.entities.directMessage
 
 import java.util.Date
 
-data class DMMessage(
+data class MessageEntity(
     val sentBy:String,
     val sentAt:Date,
-    val messageText:String,
+    val messageContent:String,
     val senderFullName: String,
-    val senderAvatarUrl: String,
+    val senderImageUrl: String,
 )

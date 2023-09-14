@@ -1,7 +1,7 @@
 package com.chocolate.repository.repository
 
-import com.chocolate.entities.directMessage.DMChat
-import com.chocolate.entities.directMessage.DMMessage
+import com.chocolate.entities.directMessage.ChatEntity
+import com.chocolate.entities.directMessage.MessageEntity
 import com.chocolate.repository.datastore.remote.DirectMessageRemoteDataSource
 import com.chocolate.repository.datastore.remote.MemberRemoteDataSource
 import kotlinx.coroutines.flow.Flow
@@ -17,16 +17,16 @@ class DirectMessageRepositoryImpl @Inject constructor(
     override suspend fun getChatsByUserId(
         memberId: String,
         currentOrganizationName: String
-    ): Flow<List<DMChat>> {
+    ): Flow<List<ChatEntity>> {
         val chats = directMessageRemoteDataSource.getChatsByUserId(memberId, currentOrganizationName)
         return chats.map {
             it.map {
                 val member =
                     memberRemoteDataSource.getMemberInOrganizationById(
-                        it.secondMember,
+                        it.secondMemberId,
                         currentOrganizationName
                     )
-                DMChat(
+                ChatEntity(
                     id = it.id,
                     lastMessage = it.lastMessage,
                     lastMessageDate = Date(),
@@ -40,12 +40,12 @@ class DirectMessageRepositoryImpl @Inject constructor(
     override suspend fun fetchMessagesByGroupId(
         chatId: String,
         currentOrganizationName: String
-    ): Flow<List<DMMessage>> {
+    ): Flow<List<MessageEntity>> {
         return directMessageRemoteDataSource.fetchMessagesByGroupId(chatId, currentOrganizationName)
     }
 
     override suspend fun sendMessage(
-        message: DMMessage,
+        message: MessageEntity,
         currentOrganizationName: String,
         currentChatId: String
     ) {

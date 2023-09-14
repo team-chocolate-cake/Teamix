@@ -1,16 +1,16 @@
 package com.chocolate.viewmodel.DMChat
 
-import com.chocolate.entities.directMessage.DMMessage
+import com.chocolate.entities.directMessage.MessageEntity
 import com.chocolate.viewmodel.topic.MessageUiState
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-fun DMMessage.toUiState(): MessageUiState = MessageUiState(
+fun MessageEntity.toUiState(): MessageUiState = MessageUiState(
     username = senderFullName,
-    userImage = senderAvatarUrl,
-    message = messageText,
+    userImage = senderImageUrl,
+    message = messageContent,
     replayDate = sentAt.formatDate(),
 )
 

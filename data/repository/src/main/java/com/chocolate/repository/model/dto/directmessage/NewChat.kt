@@ -1,4 +1,4 @@
-package com.chocolate.repository.model.dto.direct_message
+package com.chocolate.repository.model.dto.directmessage
 
 data class NewChat(
     val id:String,

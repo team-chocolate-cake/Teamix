@@ -1,6 +1,6 @@
 package com.chocolate.usecases.direct_message
 
-import com.chocolate.entities.directMessage.DMMessage
+import com.chocolate.entities.directMessage.MessageEntity
 import repositories.DirectMessageRepository
 import java.util.Date
 import javax.inject.Inject
@@ -10,21 +10,10 @@ class SendMessageUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(
-        message: String,
-        senderId: String,
-        sentAt: Date,
+        message: MessageEntity,
         currentChatId: String,
         currentOrgName: String,
-        senderFullName: String,
-        senderAvatarUrl: String,
     ) {
-        val dmMessage = DMMessage(
-            sentBy = senderId,
-            messageText = message,
-            sentAt = sentAt,
-            senderFullName = senderFullName,
-            senderAvatarUrl = senderAvatarUrl,
-        )
-        directMessageRepository.sendMessage(dmMessage, currentOrgName, currentChatId)
+        directMessageRepository.sendMessage(message, currentOrgName, currentChatId)
     }
 }

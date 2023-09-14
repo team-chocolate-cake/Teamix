@@ -1,10 +1,10 @@
-package com.chocolate.repository.model.dto.direct_message
+package com.chocolate.repository.model.dto.directmessage
 
 import java.util.Date
 
-data class Chat(
+data class ChatDto(
     val id :String = "",
-    val secondMember:String = "",
+    val secondMemberId:String = "",
     val lastMessage:String = "",
     val lastMessageDate: Date = Date(),
 )

@@ -1,11 +1,11 @@
 package com.chocolate.remote.data_source
 
-import com.chocolate.entities.directMessage.DMMessage
+import com.chocolate.entities.directMessage.MessageEntity
 import com.chocolate.entities.exceptions.TeamixException
 import com.chocolate.remote.util.Constants
 import com.chocolate.repository.datastore.remote.DirectMessageRemoteDataSource
-import com.chocolate.repository.model.dto.direct_message.Chat
-import com.chocolate.repository.model.dto.direct_message.NewChat
+import com.chocolate.repository.model.dto.directmessage.ChatDto
+import com.chocolate.repository.model.dto.directmessage.NewChat
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.channels.awaitClose
@@ -25,7 +25,7 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
     override suspend fun getChatsByUserId(
         memberId: String,
         currentOrganizationName: String
-    ): Flow<List<Chat>> {
+    ): Flow<List<ChatDto>> {
         return callbackFlow {
             val listener = firebase.collection(Constants.TEAMIX).document(currentOrganizationName).collection(Constants.CHATS)
                 .whereArrayContains("members", memberId)
@@ -34,18 +34,18 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
                     if (error != null)
                         throw TeamixException(error.message)
                     else {
-                        val chats = doc?.map {
+                        val chatDtos = doc?.map {
                             val members = it.data["members"] as List<String>? ?: emptyList()
                             val secondMember = members.find { it != memberId } ?: ""
-                            Chat(
+                            ChatDto(
                                 id = it.data["id"] as String? ?: "",
-                                secondMember = secondMember,
+                                secondMemberId = secondMember,
                                 lastMessage = it.data["lastMessage"] as String? ?: "",
                                 lastMessageDate = it.getTimestamp("lastMessageDate")?.toDate()
                                     ?: Date()
                             )
                         } ?: emptyList()
-                        trySend(chats)
+                        trySend(chatDtos)
                     }
                 }
             awaitClose { listener.remove() }
@@ -91,7 +91,7 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
     override suspend fun fetchMessagesByGroupId(
         chatId: String,
         currentOrganizationName: String
-    ): Flow<List<DMMessage>> {
+    ): Flow<List<MessageEntity>> {
         return callbackFlow {
             val listner = firebase
                 .collection(Constants.TEAMIX)
@@ -106,11 +106,11 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
                     else {
                         val messages = doc?.map {
                             val g = it.getTimestamp("sentAt") as Timestamp
-                            DMMessage(
+                            MessageEntity(
                                 sentAt = (it.getTimestamp("sentAt") as Timestamp?)?.toDate() ?: Date(),
                                 sentBy = it.data["sendBy"] as String? ?:"",
-                                messageText = it.data["messageText"]as String? ?:"",
-                                senderAvatarUrl = it.data["senderAvatarUrl"]as String? ?:"",
+                                messageContent = it.data["messageText"]as String? ?:"",
+                                senderImageUrl = it.data["senderAvatarUrl"]as String? ?:"",
                                 senderFullName = it.data["senderFullName"]as String? ?:""
                             )
                         }
@@ -124,7 +124,7 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun sendMessage(
-        message: DMMessage,
+        message: MessageEntity,
         currentOrganizationName: String,
         currentChatId: String
     ) {
@@ -141,7 +141,7 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
             .document(currentOrganizationName)
             .collection(Constants.CHATS)
             .document(currentChatId)
-            .update("lastMessage", message.messageText , "lastMessageDate" , message.sentAt)
+            .update("lastMessage", message.messageContent , "lastMessageDate" , message.sentAt)
             .await()
     }
 }

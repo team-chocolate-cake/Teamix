@@ -142,6 +142,7 @@
     <string name="sub_title_empty_data">在任何地方开始输入一条消息，然后在这里找到它。在需要时重新阅读、修改并发送。</string>
     <string name="no_internet">无网络连接</string>
     <string name="search_for_channels">搜索频道</string>
+    <string name="search_for_chats">搜索频道</string>
     <string name="create_new_account">创建新帐户</string>
     <string name="no_saved_items">没有已保存的项目</string>
     <string name="your_saved_items_will_appear_here_for_easy_access_and_reference">您的已保存项目将显示在此处，以便轻松访问和参考</string>

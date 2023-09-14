@@ -140,6 +140,7 @@
     <string name="sub_title_empty_data">Start typing a message anywhere, then find it here. Re-read, revise, and send whenever you’d like.</string>
     <string name="no_internet">No internet</string>
     <string name="search_for_channels">Search for channels</string>
+    <string name="search_for_chats">Search for Chats</string>
     <string name="create_new_account">Create New Account</string>
     <string name="no_saved_items">No Saved Items</string>
     <string name="your_saved_items_will_appear_here_for_easy_access_and_reference">Your saved items will appear here for easy access and reference</string>

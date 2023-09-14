@@ -43,8 +43,8 @@ fun SelectedMemberItem(
     painter: Painter,
     imageUrl: String,
     username: String,
-    userId: Int,
-    onClickIcon: (Int) -> Unit
+    userId: String,
+    onClickIcon: (String) -> Unit
 ) {
     val colors = MaterialTheme.customColors()
     Box(modifier = modifier

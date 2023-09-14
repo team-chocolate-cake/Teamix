@@ -13,6 +13,13 @@ class GetMembersInOrganizationUseCase @Inject constructor(
         return repository.getMembersInCurrentOrganization()
     }
 
+    suspend fun getMembersExceptCurrentMember():Flow<List<Member>>{
+        val currentMemberId = repository.getCurrentMember().id
+        return repository.getMembersInCurrentOrganization().map {
+            it.filter { member-> member.id != currentMemberId }
+        }
+    }
+
     suspend fun searchUser(username: String): Flow<List<Member>> {
         return invoke().let { flow ->
             flow.map { members -> members.filter { it.name.contains(username, true) } }

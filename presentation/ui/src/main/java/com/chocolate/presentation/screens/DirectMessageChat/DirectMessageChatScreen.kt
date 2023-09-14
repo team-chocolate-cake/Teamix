@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.DMChat
+package com.chocolate.presentation.screens.DirectMessageChat
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -26,14 +26,14 @@ import com.chocolate.viewmodel.topic.TopicInteraction
 import com.chocolate.viewmodel.topic.TopicUiState
 
 @Composable
-fun DMChatScreen(viewModel: DMChatViewModel = hiltViewModel()) {
+fun DirectMessageChatScreen(viewModel: DMChatViewModel = hiltViewModel()) {
     val state by viewModel.state.collectAsState()
-    DMChatContent(state , viewModel)
+    DirectMessageChatContent(state , viewModel)
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun DMChatContent(state: TopicUiState, interaction: TopicInteraction) {
+fun DirectMessageChatContent(state: TopicUiState, interaction: TopicInteraction) {
     val scrollState = rememberLazyListState()
     LaunchedEffect(key1 = state.messages.size) {
         state.messages.takeIf { messages ->

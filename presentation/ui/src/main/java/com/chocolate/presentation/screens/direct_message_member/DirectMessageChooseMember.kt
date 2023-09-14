@@ -1,6 +1,5 @@
 package com.chocolate.presentation.screens.direct_message_member
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -35,7 +34,7 @@ import com.chocolate.presentation.composable.LoadingDialog
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.SelectedMemberItem
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.screens.DMChat.navigateToDmChat
+import com.chocolate.presentation.screens.DirectMessageChat.navigateToDmChat
 import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.theme.SpacingXLarge
@@ -45,13 +44,13 @@ import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.dm_choose_member.DMChooseMemberInteraction
 import com.chocolate.viewmodel.dm_choose_member.DMChooseMemberUiEffect
-import com.chocolate.viewmodel.dm_choose_member.DMChooseMemberUiState
-import com.chocolate.viewmodel.dm_choose_member.DMChooseMemberViewModel
+import com.chocolate.viewmodel.dm_choose_member.DirectMessageChooseMemberUiState
+import com.chocolate.viewmodel.dm_choose_member.DirectMessageChooseMemberViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun DirectMessageChooseMemberScreen(
-    viewModel: DMChooseMemberViewModel = hiltViewModel()
+    viewModel: DirectMessageChooseMemberViewModel = hiltViewModel()
 ) {
     val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
@@ -75,7 +74,7 @@ fun DirectMessageChooseMemberScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DirectMessageChooseMemberContent(
-    state: DMChooseMemberUiState,
+    state: DirectMessageChooseMemberUiState,
     interaction: DMChooseMemberInteraction,
     navController: NavController
 ) {
@@ -193,7 +192,7 @@ fun DMChooseMemberPreview() {
     val navController = LocalNavController.current
     TeamixTheme {
         DirectMessageChooseMemberContent(
-            state = DMChooseMemberUiState(),
+            state = DirectMessageChooseMemberUiState(),
             viewModel,
             navController
         )

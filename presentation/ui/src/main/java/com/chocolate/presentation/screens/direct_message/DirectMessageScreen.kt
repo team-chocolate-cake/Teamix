@@ -1,7 +1,6 @@
 package com.chocolate.presentation.screens.direct_message
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -26,7 +25,7 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.DirectMessageChat
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
-import com.chocolate.presentation.screens.DMChat.navigateToDmChat
+import com.chocolate.presentation.screens.DirectMessageChat.navigateToDmChat
 import com.chocolate.presentation.screens.direct_message_member.navigateToDMChooseMember
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium

@@ -17,13 +17,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DMChooseMemberViewModel @Inject constructor(
-    private val getAllUsers: GetMembersInOrganizationUseCase,
+class DirectMessageChooseMemberViewModel @Inject constructor(
+    private val getMembers: GetMembersInOrganizationUseCase,
     private val stringsResource: StringsResource,
     private val createNewChatUseCase: CreateNewChatUseCase,
     private val getCurrentMemberUseCase: GetCurrentMemberUseCase,
     private val manageOrganizationDetails: ManageOrganizationDetailsUseCase,
-) : BaseViewModel<DMChooseMemberUiState, DMChooseMemberUiEffect>(DMChooseMemberUiState()), DMChooseMemberInteraction {
+) : BaseViewModel<DirectMessageChooseMemberUiState, DMChooseMemberUiEffect>(DirectMessageChooseMemberUiState()), DMChooseMemberInteraction {
 
     init {
         getUsers()
@@ -31,7 +31,7 @@ class DMChooseMemberViewModel @Inject constructor(
 
     private fun getUsers() {
         _state.update { it.copy(isLoading = true) }
-        tryToExecute(getAllUsers::invoke, ::onGetUsersSuccess, ::onGetUsersError)
+        tryToExecute(getMembers::getMembersExceptCurrentMember, ::onGetUsersSuccess, ::onGetUsersError)
     }
 
     private fun onGetUsersSuccess(members: Flow<List<Member>>) {

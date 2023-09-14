@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.DMChat
+package com.chocolate.presentation.screens.DirectMessageChat
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -16,7 +16,7 @@ fun NavGraphBuilder.dmChatRoute(){
             navArgument(DMChatArgs.MEMBER_NAME) { NavType.StringType },
         )
     ){
-        DMChatScreen()
+        DirectMessageChatScreen()
     }
 }
 

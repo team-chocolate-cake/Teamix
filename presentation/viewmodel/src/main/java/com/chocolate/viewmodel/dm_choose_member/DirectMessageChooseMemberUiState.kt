@@ -2,10 +2,8 @@ package com.chocolate.viewmodel.dm_choose_member
 
 import com.chocolate.entities.member.Member
 import com.chocolate.entities.uills.Empty
-import com.chocolate.viewmodel.chooseMember.ChooseMembersUiState
-import com.chocolate.viewmodel.chooseMember.SelectedMembersUiState
 
-data class DMChooseMemberUiState(
+data class DirectMessageChooseMemberUiState(
     val selectedMembersUiState: DMChooseMembersUiState? = null,
     val membersUiState: List<DMChooseMembersUiState> = emptyList(),
     val isLoading: Boolean = false,

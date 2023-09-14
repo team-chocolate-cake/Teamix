@@ -1,5 +1,6 @@
 package com.chocolate.viewmodel.createOrganization
 
+import android.net.Uri
 import android.util.Log
 import com.chocolate.entities.exceptions.EmptyOrganizationNameException
 import com.chocolate.entities.exceptions.NoConnectionException
@@ -31,6 +32,10 @@ class CreateOrganizationViewModel @Inject constructor(
 
     override fun onClickNextButton(organizationName: String) {
         TODO("Not yet implemented")
+    }
+
+    override fun onOrganizationImageChange(imageUri: Uri) {
+        _state.update { it.copy(personalImageUri = imageUri) }
     }
 
 

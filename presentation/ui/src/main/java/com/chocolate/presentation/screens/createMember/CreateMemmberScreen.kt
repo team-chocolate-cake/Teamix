@@ -46,6 +46,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixButton
+import com.chocolate.presentation.composable.TeamixImagePicker
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.home.navigateToHome
@@ -76,7 +77,9 @@ fun CreateMemberScreen(
     CollectUiEffect(viewModel.effect) { effect ->
         when (effect) {
             CreateMemberUiEffect.ShowImagePicker -> {}
-            CreateMemberUiEffect.NavigateToLogin -> { navController.popBackStack() }
+            CreateMemberUiEffect.NavigateToLogin -> {
+                navController.popBackStack()
+            }
             CreateMemberUiEffect.NavigateToHome -> navController.navigateToHome()
         }
     }
@@ -101,7 +104,7 @@ private fun CreateMemberContent(
         contentPadding = PaddingValues(SpacingXLarge),
         verticalArrangement = Arrangement.spacedBy(SpacingXXLarge),
     ) {
-        item { UserImageSection(interaction = interaction) }
+        item { TeamixImagePicker(interaction::onPersonalImageChange) }
         item { UserInformationInputsSection(interaction = interaction, state = state) }
         item {
             TeamixButton(
@@ -136,72 +139,13 @@ private fun CreateMemberContent(
             )
         }
     }
-    ActionSnakeBar(contentMessage = state.error.toString(), isVisible = state.error != null , isToggleButtonVisible = false)
-
-
-
-}
-
-@Composable
-private fun UserImageSection(interaction: CreateMemberInteraction, modifier: Modifier = Modifier) {
-    val colors = MaterialTheme.customColors()
-    val imageUri = rememberSaveable { mutableStateOf("") }
-    val painter = rememberAsyncImagePainter(
-        imageUri.value.ifEmpty { R.drawable.default_user_image }
+    ActionSnakeBar(
+        contentMessage = state.error.toString(),
+        isVisible = state.error != null,
+        isToggleButtonVisible = false
     )
 
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ){ uri: Uri? ->
-        uri?.let {
-            interaction.onPersonalImageChange(it)
-            imageUri.value = it.toString()
-        }
-    }
-    Row(
-        modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box {
-            Box(
-                modifier = Modifier
-                    .padding(top = SpacingExtraHuge)
-                    .size(130.dp)
-                    .clip(CircleShape)
-                    .border(Border2, colors.primary, CircleShape),
-                contentAlignment = Alignment.Center
-            ) {
 
-                Image(
-                    modifier = Modifier
-                        .size(110.dp)
-                        .clip(CircleShape),
-                    painter = painter,
-                    contentScale = ContentScale.Crop,
-                    contentDescription = null
-                )
-            }
-
-            IconButton(
-                onClick = { launcher.launch("image/*") },
-                modifier = Modifier
-                    .size(IconSize30)
-                    .clip(CircleShape)
-                    .align(Alignment.BottomEnd),
-                colors = IconButtonDefaults.iconButtonColors(colors.primary)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.camera),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(IconSize24)
-                        .padding(bottom = SpacingSmall),
-                    tint = colors.onPrimary
-                )
-            }
-        }
-    }
 }
 
 @Composable

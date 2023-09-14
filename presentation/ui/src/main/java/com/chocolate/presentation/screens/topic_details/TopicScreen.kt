@@ -38,12 +38,12 @@ fun TopicScreen(
     val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
     val scrollState = rememberLazyListState()
-    TopicContent(topicUiState = state, viewModel, scrollState)
     CollectUiEffect(viewModel.effect) { effect ->
         when (effect) {
             TopicEffect.NavigationBack -> navController.popBackStack()
         }
     }
+    TopicContent(topicUiState = state, viewModel, scrollState)
 }
 
 

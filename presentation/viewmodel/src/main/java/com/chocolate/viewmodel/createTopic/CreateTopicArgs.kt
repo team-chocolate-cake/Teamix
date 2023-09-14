@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class CreateTopicArgs @Inject constructor(savedStateHandle: SavedStateHandle) {
 
-    val channelName: String = checkNotNull(savedStateHandle[CHANNEL_Id])
+    val channelId: String = checkNotNull(savedStateHandle[CHANNEL_Id])
 
     companion object {
         const val CHANNEL_Id = "channel_Id"

@@ -22,5 +22,6 @@ interface MemberRepository {
     suspend fun getCurrentMember(): Member
 
     suspend fun createMember(member: Member): Member
+
     suspend fun updateMember(member: Member)
 }

@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.chooseMember
+package com.chocolate.presentation.screens.direct_message_member
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -14,10 +14,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -27,12 +27,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.MemberItem
+import com.chocolate.presentation.composable.DMMemberItem
+import com.chocolate.presentation.composable.LoadingDialog
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.SelectedMemberItem
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.composable.TeamixTextField
+import com.chocolate.presentation.screens.DirectMessageChat.navigateToDmChat
 import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.theme.SpacingXLarge
@@ -40,32 +42,51 @@ import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.LocalNavController
-import com.chocolate.viewmodel.chooseMember.ChooseMemberInteraction
-import com.chocolate.viewmodel.chooseMember.ChooseMemberUiState
-import com.chocolate.viewmodel.chooseMember.ChooseMemberViewModel
+import com.chocolate.viewmodel.dm_choose_member.DMChooseMemberInteraction
+import com.chocolate.viewmodel.dm_choose_member.DMChooseMemberUiEffect
+import com.chocolate.viewmodel.dm_choose_member.DirectMessageChooseMemberUiState
+import com.chocolate.viewmodel.dm_choose_member.DirectMessageChooseMemberViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun ChooseMemberScreen(
-    viewModel: ChooseMemberViewModel = hiltViewModel()
+fun DirectMessageChooseMemberScreen(
+    viewModel: DirectMessageChooseMemberViewModel = hiltViewModel()
 ) {
+    val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
-    ChooseMemberContent(state = state, viewModel)
+    DirectMessageChooseMemberContent(state = state, viewModel , navController)
+    LaunchedEffect(key1 = viewModel.effect ){
+        viewModel.effect.collectLatest {
+            when(it){
+                is DMChooseMemberUiEffect.NavigateToDmChat -> {
+                    navController.navigateToDmChat(
+                        popBackStack = true,
+                        groupId = it.groupId,
+                        memberName = state.selectedMembersUiState!!.name,
+                    )
+                }
+            }
+        }
+    }
 
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ChooseMemberContent(
-    state: ChooseMemberUiState,
-    chooseMemberInteraction: ChooseMemberInteraction
+fun DirectMessageChooseMemberContent(
+    state: DirectMessageChooseMemberUiState,
+    interaction: DMChooseMemberInteraction,
+    navController: NavController
 ) {
     val colors = MaterialTheme.customColors()
     val context = LocalContext.current
     val text =
-        if (state.selectedMembersUiState.isEmpty()) stringResource(R.string.skip) else stringResource(
+        if (state.selectedMembersUiState ==null) stringResource(R.string.skip) else stringResource(
             R.string.ok
         )
-    val navController = LocalNavController.current
+    AnimatedVisibility(state.isLoading) {
+        LoadingDialog()
+    }
     TeamixScaffold(
         isDarkMode = isSystemInDarkTheme(),
         containerColorAppBar = colors.card,
@@ -79,14 +100,9 @@ fun ChooseMemberContent(
                 modifier = Modifier
                     .padding(end = SpacingXMedium)
                     .clickable {
-                        if (state.selectedMembersUiState.isEmpty()) {
-                            navController.navigateToHome()
+                        if (state.selectedMembersUiState != null) {
+                            interaction.onClickOk()
                         } else {
-                            val selectedMemberIds = state.selectedMembersUiState.map { it.userId }
-                            chooseMemberInteraction.addMembersInChannel(
-                                channelName = state.channelName,
-                                usersId = selectedMemberIds
-                            )
                             navController.navigateToHome()
                         }
                     }
@@ -101,7 +117,7 @@ fun ChooseMemberContent(
             ) { CircularProgressIndicator(color = colors.primary) }
         },
         error = state.error,
-        onRetry = { chooseMemberInteraction.onClickRetry() },
+        onRetry = interaction::onClickRetry,
         onError = {
             NoInternetLottie(
                 text = stringResource(id = R.string.no_internet_connection),
@@ -121,45 +137,33 @@ fun ChooseMemberContent(
                 verticalArrangement = Arrangement.spacedBy(SpacingXLarge)
             ) {
                 item {
-                    TeamixTextField(value = state.searchQuery,
-                        modifier = Modifier.padding(horizontal = SpacingXLarge),
-                        hint = stringResource(id = R.string.search),
-                        onValueChange = { chooseMemberInteraction.onChangeSearchQuery(it) },
-                        leadingIcon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.search),
-                                contentDescription = null
-                            )
-                        })
-                }
-                item {
-                    AnimatedVisibility(visible = state.selectedMembersUiState.isNotEmpty()) {
+                    AnimatedVisibility(visible = state.selectedMembersUiState != null) {
                         LazyRow(
                             Modifier.fillMaxWidth(),
                             contentPadding = PaddingValues(horizontal = SpacingXLarge),
                             horizontalArrangement = Arrangement.spacedBy(SpacingXMedium)
                         ) {
-                            items(
-                                state.selectedMembersUiState,
-                                key = { it.userId }) { selectedMembersUiState ->
+                            item {
                                 SelectedMemberItem(
                                     modifier = Modifier.animateItemPlacement(),
                                     painter = painterResource(id = R.drawable.ic_cancel),
-                                    imageUrl = selectedMembersUiState.imageUrl,
-                                    username = selectedMembersUiState.name,
-                                    userId = selectedMembersUiState.userId.toString(),
-                                    onClickIcon = { chooseMemberInteraction.onRemoveSelectedItem(it.toInt()) }
+                                    imageUrl = state.selectedMembersUiState!!.imageUrl,
+                                    username = state.selectedMembersUiState!!.name,
+                                    userId = state.selectedMembersUiState!!.userId,
+                                    onClickIcon = interaction::onRemoveSelectedItem
                                 )
                             }
                         }
                     }
                 }
-                items(state.membersUiState, key = { it.userId }) { membersUiState ->
-                    MemberItem(
+                items(state.membersUiState) { membersUiState ->
+                    DMMemberItem(
                         modifier = Modifier.animateItemPlacement(),
                         painter = painterResource(id = R.drawable.ic_check),
                         chooseMemberUiState = membersUiState
-                    ) { chooseMemberInteraction.onClickMemberItem(it) }
+                    ) {
+                        interaction.onClickMemberItem(it)
+                    }
                 }
 
             }
@@ -183,12 +187,14 @@ fun ChooseMemberContent(
 
 @Preview
 @Composable
-fun ChooseMemberPreview() {
-    val viewModel: ChooseMemberViewModel = hiltViewModel()
+fun DMChooseMemberPreview() {
+    val viewModel: DMChooseMemberInteraction = hiltViewModel()
+    val navController = LocalNavController.current
     TeamixTheme {
-        ChooseMemberContent(
-            state = ChooseMemberUiState(),
-            viewModel
+        DirectMessageChooseMemberContent(
+            state = DirectMessageChooseMemberUiState(),
+            viewModel,
+            navController
         )
     }
 }

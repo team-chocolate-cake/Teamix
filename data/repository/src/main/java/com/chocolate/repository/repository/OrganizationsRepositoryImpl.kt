@@ -6,6 +6,7 @@ import com.chocolate.entities.exceptions.InvalidOrganizationImageUrl
 import com.chocolate.repository.datastore.local.PreferencesDataSource
 import com.chocolate.repository.datastore.remote.OrganizationRemoteDataSource
 import com.chocolate.repository.mappers.toEntity
+import com.chocolate.repository.mappers.toRemote
 import repositories.OrganizationsRepository
 import javax.inject.Inject
 
@@ -29,6 +30,10 @@ class OrganizationsRepositoryImpl @Inject constructor(
     override suspend fun getOrganizationImage(): String {
         return organizationRemoteDataSource.getOrganizationByName(getOrganizationName())?.imageUrl
             ?: throw InvalidOrganizationImageUrl
+    }
+
+    override suspend fun createOrganization(organization: Organization) {
+        organizationRemoteDataSource.createOrganization(organization.toRemote())
     }
 
 }

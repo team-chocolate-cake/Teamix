@@ -8,5 +8,6 @@ interface OrganizationsRepository {
     suspend fun saveOrganizationName(nameOrganizations: String)
     suspend fun getOrganizationName(): String
     suspend fun getOrganizationImage(): String
+    suspend fun createOrganization(organization: Organization)
 
 }

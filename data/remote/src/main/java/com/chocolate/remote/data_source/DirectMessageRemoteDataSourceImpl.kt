@@ -109,8 +109,8 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
                             MessageEntity(
                                 sentAt = (it.getTimestamp("sentAt") as Timestamp?)?.toDate() ?: Date(),
                                 sentBy = it.data["sendBy"] as String? ?:"",
-                                messageContent = it.data["messageText"]as String? ?:"",
-                                senderImageUrl = it.data["senderAvatarUrl"]as String? ?:"",
+                                messageContent = it.data["messageContent"]as String? ?:"",
+                                senderImageUrl = it.data["senderImageUrl"]as String? ?:"",
                                 senderFullName = it.data["senderFullName"]as String? ?:""
                             )
                         }

@@ -24,6 +24,6 @@ class CreateTopicViewModel @Inject constructor(savedStateHandle: SavedStateHandl
     }
 
     override fun onErrorDismiss() {
-        
+
     }
 }

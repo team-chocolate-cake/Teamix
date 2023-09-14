@@ -11,7 +11,7 @@ fun OrganizationDto.toEntity(): Organization = Organization(
 )
 
 @JvmName("organizationToOrganizationDto")
-fun Organization.toEntity(): OrganizationDto = OrganizationDto(
+fun Organization.toRemote(): OrganizationDto = OrganizationDto(
     name = name,
     imageUrl = imageUrl,
     invitationCode = invitationCode,

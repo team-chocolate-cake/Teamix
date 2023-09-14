@@ -7,19 +7,26 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.EmptyDataWithBoxLottie
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.channel.composable.Topic
 import com.chocolate.presentation.screens.topic_details.navigateToTopic
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.TeamixTheme
+import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.channel.ChannelInteraction
@@ -36,8 +43,12 @@ fun ChannelScreen(
     CollectUiEffect(channelViewModel.effect) { channelUiEffect ->
         when (channelUiEffect) {
             is ChannelUiEffect.NavigateToTopicDetails -> navController.navigateToTopic(
-                channelUiEffect.channelId, channelUiEffect.topicId, channelUiEffect.topicName
+                channelUiEffect.channelId,
+                channelUiEffect.topicId,
+                channelUiEffect.topicName
             )
+
+            is ChannelUiEffect.NavigateToCreateTopic -> TODO()
         }
     }
 
@@ -58,6 +69,20 @@ fun ChannelContent(
         title = state.channelName,
         isDarkMode = isSystemInDarkTheme(),
         hasAppBar = true,
+        floatingActionButton = {
+            FloatingActionButton(
+                containerColor = MaterialTheme.customColors().primary,
+                onClick = {
+                    channelInteraction.onAddTopicClick()
+                }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.add),
+                    tint = Color.White,
+                    contentDescription = ""
+                )
+            }
+        }
     ) { padding ->
 
         LazyColumn(

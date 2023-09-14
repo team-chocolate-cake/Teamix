@@ -3,6 +3,7 @@ package com.chocolate.remote.data_source
 import android.util.Log
 import com.chocolate.entities.directMessage.DMMessage
 import com.chocolate.entities.exceptions.TeamixException
+import com.chocolate.remote.util.Constants
 import com.chocolate.repository.datastore.remote.DirectMessageRemoteDataSource
 import com.chocolate.repository.model.dto.direct_message.Chat
 import com.chocolate.repository.model.dto.direct_message.NewChat
@@ -12,18 +13,13 @@ import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.tasks.await
 import java.util.Date
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-const val CHATS = "Chats"
-const val TEAMIX = "teamix"
-const val MEMBERS = "members"
-const val MESSAGES = "messages"
-const val LASTMESSAGEDATE = "lastMessageDate"
-const val SENTAT = "sentAt"
 
 class DirectMessageRemoteDataSourceImpl @Inject constructor(
     private val firebase: FirebaseFirestore
@@ -33,9 +29,9 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
         currentOrgName: String
     ): Flow<List<Chat>> {
         return callbackFlow {
-            val listener = firebase.collection(TEAMIX).document(currentOrgName).collection(CHATS)
+            val listener = firebase.collection(Constants.TEAMIX).document(currentOrgName).collection(Constants.CHATS)
                 .whereArrayContains("members", userid)
-                .orderBy(LASTMESSAGEDATE)
+                .orderBy(Constants.LASTMESSAGEDATE)
                 .addSnapshotListener { doc, error ->
                     if (error != null)
                         throw TeamixException(error.message)
@@ -62,8 +58,8 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
         val groupCreatedBefore = checkIfGroupCreatedBefore(userids, currentOrgName)
         return if (groupCreatedBefore.isNotEmpty()) groupCreatedBefore else
             suspendCoroutine { cont ->
-                val newdoc = firebase.collection(TEAMIX).document(currentOrgName)
-                    .collection(CHATS)
+                val newdoc = firebase.collection(Constants.TEAMIX).document(currentOrgName)
+                    .collection(Constants.CHATS)
                     .document()
                 newdoc.set(
                     NewChat(
@@ -79,7 +75,7 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
         currentOrgName: String
     ): String {
         return suspendCoroutine { cont ->
-            firebase.collection(TEAMIX).document(currentOrgName).collection(CHATS)
+            firebase.collection(Constants.TEAMIX).document(currentOrgName).collection(Constants.CHATS)
                 .whereEqualTo("members", userids)
                 .get()
                 .addOnSuccessListener { doc ->
@@ -100,12 +96,12 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
     ): Flow<List<DMMessage>> {
         return callbackFlow {
             val listner = firebase
-                .collection(TEAMIX)
+                .collection(Constants.TEAMIX)
                 .document(currentOrgName)
-                .collection(CHATS)
+                .collection(Constants.CHATS)
                 .document(groupId)
-                .collection(MESSAGES)
-                .orderBy(SENTAT)
+                .collection(Constants.MESSAGES)
+                .orderBy(Constants.SENTAT)
                 .addSnapshotListener { doc, error ->
                     if (error != null)
                         throw TeamixException(error.message)
@@ -135,17 +131,19 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
         currentGroupId: String
     ) {
         firebase
-            .collection(TEAMIX)
+            .collection(Constants.TEAMIX)
             .document(currentOrgName)
-            .collection(CHATS)
+            .collection(Constants.CHATS)
             .document(currentGroupId)
-            .collection(MESSAGES)
+            .collection(Constants.MESSAGES)
             .add(message)
+            .await()
 
-        firebase.collection(TEAMIX)
+        firebase.collection(Constants.TEAMIX)
             .document(currentOrgName)
-            .collection(CHATS)
+            .collection(Constants.CHATS)
             .document(currentGroupId)
             .update("lastMessage", message.messageText , "lastMessageDate" , message.sentAt)
+            .await()
     }
 }

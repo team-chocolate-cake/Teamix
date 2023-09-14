@@ -21,12 +21,12 @@ import com.chocolate.presentation.composable.ReplyMessage
 import com.chocolate.presentation.composable.StartNewMessage
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.viewmodel.DMChat.DMChatViewModel
+import com.chocolate.viewmodel.DMChat.DirectMessagesChatViewModel
 import com.chocolate.viewmodel.topic.TopicInteraction
 import com.chocolate.viewmodel.topic.TopicUiState
 
 @Composable
-fun DirectMessageChatScreen(viewModel: DMChatViewModel = hiltViewModel()) {
+fun DirectMessageChatScreen(viewModel: DirectMessagesChatViewModel = hiltViewModel()) {
     val state by viewModel.state.collectAsState()
     DirectMessageChatContent(state , viewModel)
 }

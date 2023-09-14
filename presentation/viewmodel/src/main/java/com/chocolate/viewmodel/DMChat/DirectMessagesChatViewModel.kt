@@ -22,7 +22,7 @@ import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
-class DMChatViewModel @Inject constructor(
+class DirectMessagesChatViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getCurrentMemberUseCase: GetCurrentMemberUseCase,
     private val sendMessageUseCase: SendMessageUseCase,

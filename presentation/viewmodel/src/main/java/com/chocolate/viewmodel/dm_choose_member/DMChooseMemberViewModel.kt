@@ -88,7 +88,7 @@ class DMChooseMemberViewModel @Inject constructor(
     }
 
     override fun onClickOk() {
-
+        _state.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             val users: ArrayList<String> = ArrayList()
             users.add(getCurrentMemberUseCase().id)

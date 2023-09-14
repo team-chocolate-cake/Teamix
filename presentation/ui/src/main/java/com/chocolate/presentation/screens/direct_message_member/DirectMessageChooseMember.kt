@@ -31,6 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.DMMemberItem
+import com.chocolate.presentation.composable.LoadingDialog
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.SelectedMemberItem
 import com.chocolate.presentation.composable.TeamixScaffold
@@ -84,6 +85,9 @@ fun DirectMessageChooseMemberContent(
         if (state.selectedMembersUiState ==null) stringResource(R.string.skip) else stringResource(
             R.string.ok
         )
+    AnimatedVisibility(state.isLoading) {
+        LoadingDialog()
+    }
     TeamixScaffold(
         isDarkMode = isSystemInDarkTheme(),
         containerColorAppBar = colors.card,
@@ -97,7 +101,7 @@ fun DirectMessageChooseMemberContent(
                 modifier = Modifier
                     .padding(end = SpacingXMedium)
                     .clickable {
-                        if (state.selectedMembersUiState!=null) {
+                        if (state.selectedMembersUiState != null) {
                             interaction.onClickOk()
                         } else {
                             navController.navigateToHome()

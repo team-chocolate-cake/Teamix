@@ -27,7 +27,8 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
         currentOrganizationName: String
     ): Flow<List<ChatDto>> {
         return callbackFlow {
-            val listener = firebase.collection(Constants.TEAMIX).document(currentOrganizationName).collection(Constants.CHATS)
+            val listener = firebase.collection(Constants.TEAMIX).document(currentOrganizationName)
+                .collection(Constants.CHATS)
                 .whereArrayContains("members", memberId)
                 .orderBy(Constants.LASTMESSAGEDATE)
                 .addSnapshotListener { doc, error ->
@@ -52,20 +53,23 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun createGroup(memberIds: List<String>, currentOrganizationName: String): String {
+    override suspend fun createGroup(
+        memberIds: List<String>,
+        currentOrganizationName: String
+    ): String {
         val groupCreatedBefore = checkIfGroupCreatedBefore(memberIds, currentOrganizationName)
-        return if (groupCreatedBefore.isNotEmpty()) groupCreatedBefore else
-            suspendCoroutine { cont ->
-                val newdoc = firebase.collection(Constants.TEAMIX).document(currentOrganizationName)
-                    .collection(Constants.CHATS)
-                    .document()
-                newdoc.set(
-                    NewChat(
-                        id = newdoc.id,
-                        members = memberIds
-                    )
+        return if (groupCreatedBefore.isNotEmpty()) groupCreatedBefore else {
+            val newdoc = firebase.collection(Constants.TEAMIX).document(currentOrganizationName)
+                .collection(Constants.CHATS)
+                .document()
+            newdoc.set(
+                NewChat(
+                    id = newdoc.id,
+                    members = memberIds
                 )
-            }
+            ).await()
+            return newdoc.id
+        }
     }
 
     private suspend fun checkIfGroupCreatedBefore(
@@ -73,7 +77,8 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
         currentOrgName: String
     ): String {
         return suspendCoroutine { cont ->
-            firebase.collection(Constants.TEAMIX).document(currentOrgName).collection(Constants.CHATS)
+            firebase.collection(Constants.TEAMIX).document(currentOrgName)
+                .collection(Constants.CHATS)
                 .whereEqualTo("members", userids)
                 .get()
                 .addOnSuccessListener { doc ->
@@ -107,11 +112,12 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
                         val messages = doc?.map {
                             val g = it.getTimestamp("sentAt") as Timestamp
                             MessageEntity(
-                                sentAt = (it.getTimestamp("sentAt") as Timestamp?)?.toDate() ?: Date(),
-                                sentBy = it.data["sendBy"] as String? ?:"",
-                                messageContent = it.data["messageContent"]as String? ?:"",
-                                senderImageUrl = it.data["senderImageUrl"]as String? ?:"",
-                                senderFullName = it.data["senderFullName"]as String? ?:""
+                                sentAt = (it.getTimestamp("sentAt") as Timestamp?)?.toDate()
+                                    ?: Date(),
+                                sentBy = it.data["sendBy"] as String? ?: "",
+                                messageContent = it.data["messageContent"] as String? ?: "",
+                                senderImageUrl = it.data["senderImageUrl"] as String? ?: "",
+                                senderFullName = it.data["senderFullName"] as String? ?: ""
                             )
                         }
                         if (messages != null) {
@@ -119,7 +125,7 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
                         }
                     }
                 }
-            awaitClose{listner.remove()}
+            awaitClose { listner.remove() }
         }
     }
 
@@ -141,7 +147,7 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
             .document(currentOrganizationName)
             .collection(Constants.CHATS)
             .document(currentChatId)
-            .update("lastMessage", message.messageContent , "lastMessageDate" , message.sentAt)
+            .update("lastMessage", message.messageContent, "lastMessageDate", message.sentAt)
             .await()
     }
 }

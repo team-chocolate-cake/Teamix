@@ -1,8 +1,8 @@
 package com.chocolate.remote.data_source
 
+import android.util.Log
 import com.chocolate.entities.exceptions.TeamixException
 import com.chocolate.remote.util.Constants
-import com.chocolate.remote.util.getRandomId
 import com.chocolate.remote.util.tryToExecuteSuspendCall
 import com.chocolate.repository.datastore.remote.ChannelRemoteDataSource
 import com.chocolate.repository.model.dto.channels.ChannelDto
@@ -22,20 +22,19 @@ class ChannelFireBaseDataSource @Inject constructor(
         channel: ChannelDto,
         organizationName: String
     ) {
-        val channelId = getRandomId()
         val channelDto = ChannelDto(
-            id = channelId.toString(),
+            id = channel.id!!,
             name = channel.name,
             membersId = channel.membersId,
             description = channel.description,
-            channelType = channel.channelType,
+            isPrivate = channel.isPrivate,
         )
         tryToExecuteSuspendCall {
             firebaseFirestore
                 .collection(Constants.BASE)
                 .document(organizationName)
                 .collection(Constants.CHANNEL)
-                .document(channelId.toString())
+                .document(channel.id!!)
                 .set(channelDto)
                 .await()
         }
@@ -50,19 +49,20 @@ class ChannelFireBaseDataSource @Inject constructor(
                 .collection(Constants.BASE)
                 .document(organizationName)
                 .collection(Constants.CHANNEL)
-                .whereArrayContains(Constants.USERS_ID,memberId)
+                .whereArrayContains(Constants.USERS_ID, memberId)
                 .addSnapshotListener { channelsSnapshot, exception ->
                     if (exception != null)
                         throw TeamixException(exception.message)
-                    val channels = channelsSnapshot?.documents?.let{ channelsDto->
+                    val channels = channelsSnapshot?.documents?.let { channelsDto ->
                         channelsDto.mapNotNull { it.toObject<ChannelDto>() }
                     }
-                    trySend(channels?: emptyList())
+                    Log.e("getChannelsForCurrentMember: ", channels.toString())
+                    Log.e("CurrentMember: ", memberId)
+                    trySend(channels ?: emptyList())
                 }
             awaitClose { organizationRef.remove() }
         }
     }
-
 
     override suspend fun getChannelsInOrganizationByOrganizationName(organizationName: String): Flow<List<ChannelDto>?> {
         return callbackFlow {
@@ -77,6 +77,22 @@ class ChannelFireBaseDataSource @Inject constructor(
                     channels?.let { trySend(it) }
                 }
             awaitClose { organizationRef.remove() }
+        }
+    }
+
+    override suspend fun getChannelInOrganizationByChannelName(
+        organizationName: String,
+        channelName: String
+    ): ChannelDto? {
+        return tryToExecuteSuspendCall {
+            val channelRef = firebaseFirestore
+                .collection(Constants.BASE)
+                .document(organizationName)
+                .collection(Constants.CHANNEL)
+                .whereEqualTo("name", channelName)
+                .get()
+                .await()
+            channelRef.documents.firstOrNull()?.toObject<ChannelDto>()
         }
     }
 

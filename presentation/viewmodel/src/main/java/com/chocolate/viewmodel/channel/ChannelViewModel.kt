@@ -38,12 +38,12 @@ class ChannelViewModel @Inject constructor(
 
 
     private suspend fun onGetTopicsSuccess(topics: Flow<List<Topic>>) {
-        topics.collect { topics ->
+        topics.collect { topicsList ->
             _state.update {
                 it.copy(
                     channelId = channelArgs.channelId.toString(),
                     isLoading = false,
-                    topics = topics.toUiState()
+                    topics = topicsList.toUiState()
                 )
             }
         }

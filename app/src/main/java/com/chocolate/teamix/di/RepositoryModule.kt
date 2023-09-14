@@ -2,6 +2,7 @@ package com.chocolate.teamix.di
 
 import com.chocolate.repository.repository.AppSettingsRepositoryImpl
 import com.chocolate.repository.repository.ChannelsRepositoryImpl
+import com.chocolate.repository.repository.DirectMessageRepositoryImpl
 import com.chocolate.repository.repository.MessagesRepositoryImpl
 import com.chocolate.repository.repository.OrganizationsRepositoryImpl
 import com.chocolate.repository.repository.MemberRepositoryImpl
@@ -12,6 +13,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import repositories.AppSettingsRepository
 import repositories.ChannelsRepository
+import repositories.DirectMessageRepository
 import repositories.MessagesRepository
 import repositories.OrganizationsRepository
 import repositories.MemberRepository
@@ -44,5 +46,9 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindAppSettingsRepository(appSettingsRepository: AppSettingsRepositoryImpl): AppSettingsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindDirectMessageRepository(directMessageRepositoryImpl: DirectMessageRepositoryImpl): DirectMessageRepository
 
 }

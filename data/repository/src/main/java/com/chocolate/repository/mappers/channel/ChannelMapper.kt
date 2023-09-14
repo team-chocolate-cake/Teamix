@@ -13,7 +13,7 @@ fun ChannelDto.toChannel() = Channel(
     id = id ?: "",
     name = name ?: "",
     description = description ?: "",
-    isPrivate = channelType ?: false,
+    isPrivate = isPrivate ?: false,
     membersId = membersId?: emptyList(),
 )
 fun List<ChannelDto>?.toChannel(): List<Channel> = this?.map { it.toChannel() } ?: emptyList()
@@ -23,7 +23,7 @@ fun Channel.toChannelDto() = ChannelDto(
     id = id,
     name = name,
     description = description ,
-    channelType = isPrivate ,
+    isPrivate = isPrivate ,
     membersId = membersId,
 )
 

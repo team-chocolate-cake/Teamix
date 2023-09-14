@@ -4,7 +4,7 @@ sealed class Screen(val route: String) {
     object Welcome: Screen("welcome_screen")
     object OnBoarding: Screen("on_boarding_screen")
     object OrganizationName: Screen("organization_name")
-    object OrganizationWebView: Screen("organization_web_view_screen")
+    object CreateOrganization: Screen("create_organization_screen")
     object Login: Screen("login_screen")
     object ForgetPasswordWebView: Screen("forget_password_screen")
     object CreateNewAccount: Screen("create_new_account")

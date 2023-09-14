@@ -1,7 +1,5 @@
-package com.chocolate.presentation.screens.organiztion
+package com.chocolate.presentation.screens.create_organization
 
-import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -27,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
@@ -35,75 +34,69 @@ import com.chocolate.presentation.composable.SeparatorWithText
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
+import com.chocolate.presentation.screens.createMember.navigateToCreateMember
 import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
-import com.chocolate.presentation.screens.create_organization.navigateToCreateOrganization
-import com.chocolate.presentation.screens.login.navigateToLogin
-import com.chocolate.presentation.screens.welcome.navigateToWelcome
+import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.SpacingGigantic
+import com.chocolate.presentation.theme.SpacingMegaGigantic
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
-import com.chocolate.viewmodel.organization_name.OrganizationNameInteraction
-import com.chocolate.viewmodel.organization_name.OrganizationNameUiEffect
-import com.chocolate.viewmodel.organization_name.OrganizationNameUiState
-import com.chocolate.viewmodel.organization_name.OrganizationNameViewModel
+import com.chocolate.viewmodel.createOrganization.CreateOrganizationInteraction
+import com.chocolate.viewmodel.createOrganization.CreateOrganizationUiEffect
+import com.chocolate.viewmodel.createOrganization.CreateOrganizationUiState
+import com.chocolate.viewmodel.createOrganization.CreateOrganizationViewModel
+
 
 @Composable
-fun OrganizationScreen(
-    viewModel: OrganizationNameViewModel = hiltViewModel(),
+fun CreateOrganizationScreen(
+    viewModel: CreateOrganizationViewModel = hiltViewModel()
 ) {
     val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
-    Log.e("OrganizationScreen: ", "called")
     CollectUiEffect(viewModel.effect) { effect ->
         when (effect) {
-            OrganizationNameUiEffect.NavigateToCreateOrganization -> navController.navigateToCreateOrganization{
-                popUpTo(Screen.OrganizationName.route) {
-                    inclusive = true
+            is CreateOrganizationUiEffect.NavigateToCreateMemberScreen ->
+                navController.navigateToCreateMember(effect.role)
+
+            CreateOrganizationUiEffect.NavigateToHaveOrganization ->
+                navController.navigateToOrganizationName {
+                    popUpTo(Screen.CreateOrganization.route) {
+                        inclusive = true
+                    }
                 }
-            }
-            OrganizationNameUiEffect.NavigateToLoginScreen -> navController.navigateToLogin(
-                organizationName = state.organizationName
-            )
-            OrganizationNameUiEffect.ShowSnackBar -> {  }
         }
     }
-    AnimatedVisibility(state.onboardingState) {
-        OrganizationContent(
-            organizationNameInteraction = viewModel,
-            state = state
-        )
-    }
-    if (state.onboardingState.not()) {
-        navController.navigateToWelcome()
-    }
+    CreateOrganizationContent(
+        createOrganizationInteraction = viewModel,
+        state = state
+    )
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun OrganizationContent(
-    organizationNameInteraction: OrganizationNameInteraction,
-    state: OrganizationNameUiState,
+fun CreateOrganizationContent(
+    createOrganizationInteraction: CreateOrganizationInteraction,
+    state: CreateOrganizationUiState,
 ) {
     val colors = MaterialTheme.customColors()
     val scrollState = rememberScrollState()
     TeamixScaffold(isDarkMode = isSystemInDarkTheme()) {
         Column(modifier = Modifier.verticalScroll(scrollState)) {
             Image(
-                painter = painterResource(id = R.drawable.img_start_organization),
+                painter = painterResource(id = R.drawable.createorganizationimage),
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(top = 28.dp)
+                    .padding(top = SpacingGigantic)
                     .align(Alignment.CenterHorizontally)
             )
             Text(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
-                    .padding(top = SpacingExtraHuge),
+                    .padding(top = SpacingMegaGigantic),
                 text = stringResource(R.string.enter_your_name_organization),
                 style = MaterialTheme.typography.labelMedium,
                 color = colors.onBackground87
@@ -116,7 +109,7 @@ fun OrganizationContent(
                     .padding(top = SpacingXMedium),
                 value = state.organizationName,
                 onValueChange = { nameOrganization ->
-                    organizationNameInteraction.onOrganizationNameChange(nameOrganization)
+                    createOrganizationInteraction.onOrganizationNameChange(nameOrganization)
                 },
                 containerColor = colors.card,
                 visualTransformation = VisualTransformation.None,
@@ -124,7 +117,6 @@ fun OrganizationContent(
             )
             TeamixButton(
                 onClick = {
-                    organizationNameInteraction.onEnterButtonClick(state.organizationName)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -133,9 +125,9 @@ fun OrganizationContent(
                 colors = colors,
             ) {
                 AnimatedVisibility(state.isLoading) { CircularProgressIndicator(color = colors.card) }
-                AnimatedVisibility(visible = state.isLoading.not()) {
+                AnimatedVisibility(visible = true) {
                     Text(
-                        text = stringResource(R.string.enter),
+                        text = stringResource(R.string.next),
                         style = MaterialTheme.typography.bodyLarge,
                         color = colors.onPrimary
                     )
@@ -145,7 +137,7 @@ fun OrganizationContent(
                 modifier = Modifier.padding(bottom = SpacingXMedium, top = SpacingExtraHuge)
             )
             Text(
-                text = stringResource(R.string.create_new_organizat),
+                text = stringResource(R.string.have_organization),
                 color = colors.primary,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
@@ -153,7 +145,9 @@ fun OrganizationContent(
                     .clickable(
                         indication = null,
                         interactionSource = remember { MutableInteractionSource() },
-                        onClick = { organizationNameInteraction.onClickCreateOrganization() }
+                        onClick = {
+                            createOrganizationInteraction.onClickHaveOrganization()
+                        }
                     )
                     .padding(bottom = SpacingXXLarge),
                 textAlign = TextAlign.Center
@@ -165,4 +159,10 @@ fun OrganizationContent(
             )
         }
     }
+}
+
+@Composable
+@Preview
+fun CreateOrganizationPreview() {
+    CreateOrganizationScreen()
 }

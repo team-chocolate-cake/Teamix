@@ -9,10 +9,12 @@ import com.chocolate.entities.exceptions.WrongEmailException
 import com.chocolate.entities.exceptions.WrongEmailOrPasswordException
 import com.chocolate.repository.datastore.local.LocalDataSource
 import com.chocolate.repository.datastore.local.PreferencesDataSource
+import com.chocolate.repository.datastore.remote.ChannelRemoteDataSource
 import com.chocolate.repository.datastore.remote.MemberRemoteDataSource
 import com.chocolate.repository.datastore.remote.OrganizationRemoteDataSource
 import com.chocolate.repository.mappers.toEntity
 import com.chocolate.repository.mappers.toRemote
+import com.chocolate.repository.model.dto.channels.ChannelDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import repositories.MemberRepository
@@ -23,6 +25,7 @@ class MemberRepositoryImpl @Inject constructor(
     private val organizationRemoteDataSource: OrganizationRemoteDataSource,
     private val preferencesDataSource: PreferencesDataSource,
     private val teamixLocalDataSource: LocalDataSource,
+    private val channelDataSource: ChannelRemoteDataSource
 ) : MemberRepository {
 
     private suspend fun getCurrentOrganizationName(): String {
@@ -90,13 +93,36 @@ class MemberRepositoryImpl @Inject constructor(
                 member.toRemote(),
                 getCurrentOrganizationName()
             ).also {
-                memberRemoteDataSource.addMembersInChannel(
-                    getCurrentOrganizationName(),
-                    listOf(member.id),
-                    "0"
-                )
+                subscribeInGeneralChannel(member)
             }
         return member
+    }
+
+    private suspend fun subscribeInGeneralChannel(member: Member) {
+        val generalChannel = channelDataSource.getChannelInOrganizationByChannelName(
+            getCurrentOrganizationName(),
+            "General"
+        )
+        generalChannel?.let { addMemberInGeneralChannel(member) } ?: createGeneralChannel(member)
+    }
+
+    private suspend fun addMemberInGeneralChannel(member: Member){
+        memberRemoteDataSource.addMembersInChannel(
+            getCurrentOrganizationName(),
+            listOf(member.id),
+            "0"
+        )
+    }
+
+    private suspend fun createGeneralChannel(member: Member) {
+        val generalChannelDto = ChannelDto(
+            id = "0",
+            name = "General",
+            description = "Default channel",
+            isPrivate = false,
+            membersId = listOf(member.id),
+        )
+        channelDataSource.createChannel(generalChannelDto, getCurrentOrganizationName())
     }
 
     override suspend fun updateMember(member: Member) {

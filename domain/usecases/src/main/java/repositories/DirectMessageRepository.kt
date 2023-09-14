@@ -5,11 +5,11 @@ import com.chocolate.entities.directMessage.DMMessage
 import kotlinx.coroutines.flow.Flow
 
 interface DirectMessageRepository {
-    suspend fun getChatsByUserId(userid: String, currentOrgName: String): Flow<List<DMChat>>
+    suspend fun getChatsByUserId(memberId: String, currentOrganizationName: String): Flow<List<DMChat>>
 
-    suspend fun fetchMessagesByGroupId(groupId: String, currentOrgName: String) : Flow<List<DMMessage>>
+    suspend fun fetchMessagesByGroupId(chatId: String, currentOrganizationName: String) : Flow<List<DMMessage>>
 
-    suspend fun sendMessage(message: DMMessage, currentOrgName: String, currentGroupId: String)
-    suspend fun createGroup(userids: List<String>, currentOrgName: String): String
+    suspend fun sendMessage(message: DMMessage, currentOrganizationName: String, currentChatId: String)
+    suspend fun createGroup(memberIds: List<String>, currentOrganizationName: String): String
 
 }

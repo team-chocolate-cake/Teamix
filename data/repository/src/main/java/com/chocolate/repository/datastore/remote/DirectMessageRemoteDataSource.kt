@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface DirectMessageRemoteDataSource {
 
-    suspend fun getChatsByUserId(userid: String, currentOrgName: String): Flow<List<Chat>>
-    suspend fun createGroup(userids: List<String>, currentOrgName: String): String
+    suspend fun getChatsByUserId(memberId: String, currentOrganizationName: String): Flow<List<Chat>>
+    suspend fun createGroup(memberIds: List<String>, currentOrganizationName: String): String
 
-    suspend fun sendMessage(message: DMMessage, currentOrgName: String, currentGroupId: String)
+    suspend fun sendMessage(message: DMMessage, currentOrganizationName: String, currentChatId: String)
 
-    suspend fun fetchMessagesByGroupId(groupId: String, currentOrgName: String): Flow<List<DMMessage>>
+    suspend fun fetchMessagesByGroupId(chatId: String, currentOrganizationName: String): Flow<List<DMMessage>>
 }

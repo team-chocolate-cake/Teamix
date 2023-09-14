@@ -10,9 +10,9 @@ class GetAllChatsByIdUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(
-        userId: String,
-        currentOrgName:String
+        memberId: String,
+        currentOrganizationName:String
     ) :Flow<List<DMChat>> {
-        return directMessageRepository.getChatsByUserId(userId , currentOrgName)
+        return directMessageRepository.getChatsByUserId(memberId , currentOrganizationName)
     }
 }

@@ -1,6 +1,5 @@
 package com.chocolate.repository.repository
 
-import android.util.Log
 import com.chocolate.entities.directMessage.DMChat
 import com.chocolate.entities.directMessage.DMMessage
 import com.chocolate.repository.datastore.remote.DirectMessageRemoteDataSource
@@ -16,16 +15,16 @@ class DirectMessageRepositoryImpl @Inject constructor(
     private val memberRemoteDataSource: MemberRemoteDataSource
 ) : DirectMessageRepository {
     override suspend fun getChatsByUserId(
-        userid: String,
-        currentOrgName: String
+        memberId: String,
+        currentOrganizationName: String
     ): Flow<List<DMChat>> {
-        val chats = directMessageRemoteDataSource.getChatsByUserId(userid, currentOrgName)
+        val chats = directMessageRemoteDataSource.getChatsByUserId(memberId, currentOrganizationName)
         return chats.map {
             it.map {
                 val member =
                     memberRemoteDataSource.getMemberInOrganizationById(
                         it.secondMember,
-                        currentOrgName
+                        currentOrganizationName
                     )
                 DMChat(
                     id = it.id,
@@ -39,21 +38,21 @@ class DirectMessageRepositoryImpl @Inject constructor(
     }
 
     override suspend fun fetchMessagesByGroupId(
-        groupId: String,
-        currentOrgName: String
+        chatId: String,
+        currentOrganizationName: String
     ): Flow<List<DMMessage>> {
-        return directMessageRemoteDataSource.fetchMessagesByGroupId(groupId, currentOrgName)
+        return directMessageRemoteDataSource.fetchMessagesByGroupId(chatId, currentOrganizationName)
     }
 
     override suspend fun sendMessage(
         message: DMMessage,
-        currentOrgName: String,
-        currentGroupId: String
+        currentOrganizationName: String,
+        currentChatId: String
     ) {
-        directMessageRemoteDataSource.sendMessage(message, currentOrgName, currentGroupId)
+        directMessageRemoteDataSource.sendMessage(message, currentOrganizationName, currentChatId)
     }
 
-    override suspend fun createGroup(userids: List<String>, currentOrgName: String): String {
-        return directMessageRemoteDataSource.createGroup(userids, currentOrgName)
+    override suspend fun createGroup(memberIds: List<String>, currentOrganizationName: String): String {
+        return directMessageRemoteDataSource.createGroup(memberIds, currentOrganizationName)
     }
 }

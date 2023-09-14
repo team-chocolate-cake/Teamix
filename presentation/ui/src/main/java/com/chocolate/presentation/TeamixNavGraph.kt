@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import com.chocolate.presentation.screens.channel.channelRoute
 import com.chocolate.presentation.screens.chooseMember.chooseMemberRoute
 import com.chocolate.presentation.screens.createMember.createMemberRoute
+import com.chocolate.presentation.screens.createTopic.createTopicRoute
 import com.chocolate.presentation.screens.create_account.createAccountWebViewRoute
 import com.chocolate.presentation.screens.create_channel.createChannelRoute
 import com.chocolate.presentation.screens.create_organization.createOrganizationWebViewRoute
@@ -46,5 +47,6 @@ fun TeamixNavGraph(navController: NavHostController) {
         channelRoute()
         createAccountWebViewRoute()
         createMemberRoute()
+        createTopicRoute()
     }
 }

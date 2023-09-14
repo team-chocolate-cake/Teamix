@@ -1,7 +1,6 @@
 package com.chocolate.remote.data_source
 
 import android.net.Uri
-import android.util.Log
 import com.chocolate.entities.uills.getRandomId
 import com.chocolate.remote.util.Constants
 import com.chocolate.remote.util.tryToExecuteSuspendCall
@@ -27,17 +26,18 @@ class OrganizationRemoteRemoteDataSourceImpl @Inject constructor(
                 .get()
                 .await()
 
-            organizationsRef.toObject<OrganizationDto>()?.toString()?.let { Log.e("onError: ", it) }
             organizationsRef.toObject<OrganizationDto>()
         }
     }
 
     override suspend fun createOrganization(organization: OrganizationDto) {
         tryToExecuteSuspendCall {
+            val imageUri = uploadImage("organization images", organization.imageUrl!!)
+            val newOrganization = organization.copy(imageUrl = imageUri)
             firebaseFirestore
                 .collection(Constants.BASE)
-                .document(organization.name!!)
-                .set(organization)
+                .document(newOrganization.name!!)
+                .set(newOrganization)
                 .await()
         }
     }
@@ -64,13 +64,8 @@ class OrganizationRemoteRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun addMemberInOrganization(member: MemberDto, organizationName: String) {
         tryToExecuteSuspendCall {
-            val storageRef = firebaseStorage.reference.child("profile images/${getRandomId()}")
-            storageRef.putFile(Uri.parse(member.imageUrl)).await()
-
-            val imageUri = storageRef.downloadUrl.await()
-
-            val newMember = member.copy(imageUrl = imageUri.toString())
-
+            val imageUri = uploadImage("profile images", member.imageUrl!!)
+            val newMember = member.copy(imageUrl = imageUri)
             firebaseFirestore
                 .collection(Constants.BASE)
                 .document(organizationName)
@@ -80,4 +75,12 @@ class OrganizationRemoteRemoteDataSourceImpl @Inject constructor(
                 .await()
         }
     }
+
+    private suspend fun uploadImage(path: String, imageUri: String):String {
+        val storageRef = firebaseStorage.reference.child("${path}/${getRandomId()}")
+        storageRef.putFile(Uri.parse(imageUri)).await()
+        val downloadUrl = storageRef.downloadUrl.await()
+        return downloadUrl.toString()
+    }
+
 }

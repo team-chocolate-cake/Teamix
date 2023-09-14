@@ -7,14 +7,11 @@ import com.chocolate.usecases.member.GetCurrentMemberUseCase
 import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@OptIn(FlowPreview::class)
 @HiltViewModel
 class DirectMessageViewModel @Inject constructor(
     private val getAllChatsByIdUseCase: GetAllChatsByIdUseCase,
@@ -28,15 +25,14 @@ class DirectMessageViewModel @Inject constructor(
         viewModelScope.launch {
             val currentMemberId = getCurrentMemberUseCase().id
             val currentOrganization = manageOrganizationDetails.getOrganizationName()
-            collectFlow(getAllChatsByIdUseCase(currentMemberId, currentOrganization)) { chats ->
-                searchInDirectMessageChatsUseCase.setChat(chats)
-                this.copy(
-                    chats = chats.toUiState()
-                )
-            }
-            collectFlow(state.value.searchInput.debounce(1000).distinctUntilChanged()) {
-                this.copy(chats = searchInDirectMessageChatsUseCase(it).toUiState())
-            }
+            getAllChatsByIdUseCase(currentMemberId, currentOrganization)
+                .combine(state.value.searchInput) { chats, searchQuery ->
+                    searchInDirectMessageChatsUseCase(chats, searchQuery)
+                }.collect {
+                    _state.update { uiState ->
+                        uiState.copy(chats = it.toUiState())
+                    }
+                }
         }
     }
 

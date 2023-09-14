@@ -3,6 +3,7 @@ package com.chocolate.repository.repository
 import com.chocolate.entities.channel.Channel
 import com.chocolate.entities.exceptions.EmptyMemberIdException
 import com.chocolate.entities.exceptions.EmptyOrganizationNameException
+import com.chocolate.entities.uills.getRandomId
 import com.chocolate.repository.datastore.local.PreferencesDataSource
 import com.chocolate.repository.datastore.remote.ChannelRemoteDataSource
 import com.chocolate.repository.mappers.channel_mappers.toChannel
@@ -17,7 +18,6 @@ class ChannelsRepositoryImpl @Inject constructor(
     private val preferencesDataSource: PreferencesDataSource,
 ) : ChannelsRepository {
 
-
     private suspend fun getCurrentOrganizationName(): String {
         return preferencesDataSource.getCurrentOrganizationName()
             ?: throw EmptyOrganizationNameException
@@ -31,12 +31,12 @@ class ChannelsRepositoryImpl @Inject constructor(
 
     override suspend fun getChannelsForCurrentMember(
     ): Flow<List<Channel>> {
-        val currentMemberId = preferencesDataSource.getIdOfCurrentMember()?:throw EmptyMemberIdException
+        val currentMemberId =
+            preferencesDataSource.getIdOfCurrentMember() ?: throw EmptyMemberIdException
         return channelRemoteDataSource.getChannelsForCurrentMember(
             getCurrentOrganizationName(),
             currentMemberId
-        )
-            .map { channels -> channels.map { it.toChannel() } }
+        ).map { channels -> channels.map { it.toChannel() } }
     }
 
 
@@ -46,17 +46,16 @@ class ChannelsRepositoryImpl @Inject constructor(
         description: String?,
         isPrivate: Boolean,
     ): Boolean {
+        if (usersId.isNotEmpty()) channelRemoteDataSource.createChannel(
+            ChannelDto(
+                id = getRandomId().toString(),
+                name = channelName,
+                membersId = usersId,
+                description = description,
+                isPrivate = isPrivate
+            ), getCurrentOrganizationName()
+        )
         return true
-            .also {
-                if (usersId.isNotEmpty()) channelRemoteDataSource.createChannel(
-                    ChannelDto(
-                        name = channelName,
-                        membersId = usersId,
-                        description = description,
-                        channelType = isPrivate
-                    ), "teamixOrganization"
-                )
-            }
     }
 
     override suspend fun getChannelsInCurrentOrganization(): Flow<List<Channel>> {
@@ -68,7 +67,5 @@ class ChannelsRepositoryImpl @Inject constructor(
             } ?: emptyList()
         }
     }
-
-
 
 }

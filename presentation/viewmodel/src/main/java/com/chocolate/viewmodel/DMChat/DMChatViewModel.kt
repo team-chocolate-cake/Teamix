@@ -11,6 +11,7 @@ import com.chocolate.usecases.directmessage.SendMessageUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
 import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
+import com.chocolate.viewmodel.topic.MessageUiState
 import com.chocolate.viewmodel.topic.ReactionUiState
 import com.chocolate.viewmodel.topic.TopicInteraction
 import com.chocolate.viewmodel.topic.TopicUiState
@@ -20,7 +21,6 @@ import kotlinx.coroutines.launch
 import java.util.Calendar
 import javax.inject.Inject
 
-@RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class DMChatViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
@@ -102,7 +102,7 @@ class DMChatViewModel @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun onSaveMessage() {
+    override fun onSaveMessage(message: MessageUiState) {
         TODO("Not yet implemented")
     }
 

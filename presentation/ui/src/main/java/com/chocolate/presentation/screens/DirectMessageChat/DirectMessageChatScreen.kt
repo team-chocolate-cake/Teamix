@@ -85,7 +85,7 @@ fun DirectMessageChatContent(state: TopicUiState, interaction: TopicInteraction)
                             onAddReactionToMessage = { interaction.onAddReactionToMessage(it) },
                             onGetNotification = { interaction.onGetNotification() },
                             onPinMessage = { interaction.onPinMessage() },
-                            onSaveMessage = { interaction.onSaveMessage() },
+                            onSaveMessage = {  },
                             onClickReact = { positive, state ->
                                 interaction.onClickReact(positive, state)
                             }
@@ -97,7 +97,7 @@ fun DirectMessageChatContent(state: TopicUiState, interaction: TopicInteraction)
                             onAddReactionToMessage = { interaction.onAddReactionToMessage(it) },
                             onGetNotification = { interaction.onGetNotification() },
                             onPinMessage = { interaction.onPinMessage() },
-                            onSaveMessage = { interaction.onSaveMessage() },
+                            onSaveMessage = {  },
                             onOpenReactTile = { interaction.onOpenReactTile() },
                             onClickReact = { positive, state ->
                                 interaction.onClickReact(positive, state)

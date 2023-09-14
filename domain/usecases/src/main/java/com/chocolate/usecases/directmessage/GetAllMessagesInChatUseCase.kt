@@ -1,6 +1,6 @@
-package com.chocolate.usecases.direct_message
+package com.chocolate.usecases.directmessage
 
-import com.chocolate.entities.directMessage.MessageEntity
+import com.chocolate.entities.directMessage.DirectMessage
 import kotlinx.coroutines.flow.Flow
 import repositories.DirectMessageRepository
 import javax.inject.Inject
@@ -12,7 +12,7 @@ class GetAllMessagesInChatUseCase @Inject constructor(
     suspend operator fun invoke(
         groupId: String,
         currentOrgName:String
-    ) : Flow<List<MessageEntity>> {
+    ) : Flow<List<DirectMessage>> {
         return directMessageRepository.fetchMessagesByGroupId(groupId , currentOrgName)
     }
 }

@@ -2,7 +2,7 @@ package com.chocolate.entities.directMessage
 
 import java.util.Date
 
-data class ChatEntity(
+data class Chat(
     val id: String,
     val name: String,
     val image:String,

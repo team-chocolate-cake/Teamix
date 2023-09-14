@@ -3,7 +3,7 @@ package com.chocolate.viewmodel.dm_choose_member
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.member.Member
-import com.chocolate.usecases.direct_message.CreateNewChatUseCase
+import com.chocolate.usecases.directmessage.CreateNewChatUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
 import com.chocolate.usecases.member.GetMembersInOrganizationUseCase
 import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase

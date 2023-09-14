@@ -1,6 +1,6 @@
 package com.chocolate.remote.data_source
 
-import com.chocolate.entities.directMessage.MessageEntity
+import com.chocolate.entities.directMessage.DirectMessage
 import com.chocolate.entities.exceptions.TeamixException
 import com.chocolate.remote.util.Constants
 import com.chocolate.repository.datastore.remote.DirectMessageRemoteDataSource
@@ -96,7 +96,7 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
     override suspend fun fetchMessagesByGroupId(
         chatId: String,
         currentOrganizationName: String
-    ): Flow<List<MessageEntity>> {
+    ): Flow<List<DirectMessage>> {
         return callbackFlow {
             val listner = firebase
                 .collection(Constants.TEAMIX)
@@ -109,9 +109,9 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
                     if (error != null)
                         throw TeamixException(error.message)
                     else {
-                        val messages = doc?.map {
+                        val directMessages = doc?.map {
                             val g = it.getTimestamp("sentAt") as Timestamp
-                            MessageEntity(
+                            DirectMessage(
                                 sentAt = (it.getTimestamp("sentAt") as Timestamp?)?.toDate()
                                     ?: Date(),
                                 sentBy = it.data["sendBy"] as String? ?: "",
@@ -120,8 +120,8 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
                                 senderFullName = it.data["senderFullName"] as String? ?: ""
                             )
                         }
-                        if (messages != null) {
-                            trySend(messages)
+                        if (directMessages != null) {
+                            trySend(directMessages)
                         }
                     }
                 }
@@ -130,7 +130,7 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun sendMessage(
-        message: MessageEntity,
+        directMessage: DirectMessage,
         currentOrganizationName: String,
         currentChatId: String
     ) {
@@ -140,14 +140,14 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
             .collection(Constants.CHATS)
             .document(currentChatId)
             .collection(Constants.MESSAGES)
-            .add(message)
+            .add(directMessage)
             .await()
 
         firebase.collection(Constants.TEAMIX)
             .document(currentOrganizationName)
             .collection(Constants.CHATS)
             .document(currentChatId)
-            .update("lastMessage", message.messageContent, "lastMessageDate", message.sentAt)
+            .update("lastMessage", directMessage.messageContent, "lastMessageDate", directMessage.sentAt)
             .await()
     }
 }

@@ -1,10 +1,11 @@
 package com.chocolate.viewmodel.directMessage
 
-import com.chocolate.entities.directMessage.ChatEntity
+import com.chocolate.entities.directMessage.Chat
 import com.chocolate.viewmodel.DMChat.formatDate
+import kotlinx.coroutines.flow.MutableStateFlow
 
 data class DirectMessageUiState(
-    val searchInput: String = "",
+    val searchInput: MutableStateFlow<String> = MutableStateFlow(""),
     val chats: List<ChatUiState> = emptyList(),
     val error: String = "",
     val isLoading: Boolean = false
@@ -18,10 +19,12 @@ data class ChatUiState(
     val lastMessageDate: String = "",
 )
 
-fun ChatEntity.toUiState() = ChatUiState(
+fun Chat.toUiState() = ChatUiState(
     id = id,
     name = name,
     image = image,
     lastMessageDate = lastMessageDate.formatDate(),
     lastMessage = lastMessage
 )
+
+fun List<Chat>.toUiState() : List<ChatUiState> = this.map { it.toUiState() }

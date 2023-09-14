@@ -65,6 +65,7 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
     val context = LocalContext.current
     val colors = MaterialTheme.customColors()
     val systemUiController = rememberSystemUiController()
+    val searchQuery by state.searchInput.collectAsState()
     systemUiController.setStatusBarColor(
         color = MaterialTheme.customColors().primary,
         darkIcons = false
@@ -87,7 +88,7 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
         Column() {
             TeamixTextField(
                 modifier = Modifier.padding(SpacingXLarge),
-                value = state.searchInput,
+                value = searchQuery,
                 singleLine = true,
                 onValueChange = { interactions.onChangeSearchQuery(it) },
                 containerColor = Color.White,
@@ -99,7 +100,7 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
                     )
                 },
                 trailingIcon = {
-                    if (state.searchInput.isNotEmpty())
+                    if (searchQuery.isNotEmpty())
                         Icon(
                             painter = painterResource(id = R.drawable.ic_delete),
                             contentDescription = null,

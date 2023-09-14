@@ -1,4 +1,4 @@
-package com.chocolate.usecases.direct_message
+package com.chocolate.usecases.directmessage
 
 import repositories.DirectMessageRepository
 import javax.inject.Inject

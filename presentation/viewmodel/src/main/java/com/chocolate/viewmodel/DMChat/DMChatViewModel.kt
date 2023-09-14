@@ -4,10 +4,10 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.chocolate.entities.directMessage.MessageEntity
+import com.chocolate.entities.directMessage.DirectMessage
 import com.chocolate.entities.uills.Empty
-import com.chocolate.usecases.direct_message.GetAllMessagesInChatUseCase
-import com.chocolate.usecases.direct_message.SendMessageUseCase
+import com.chocolate.usecases.directmessage.GetAllMessagesInChatUseCase
+import com.chocolate.usecases.directmessage.SendMessageUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
 import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
@@ -72,7 +72,7 @@ class DMChatViewModel @Inject constructor(
             val user = getCurrentMemberUseCase.invoke()
             val orgName = manageOrganizationDetailsUseCase.getOrganizationName()
             sendMessageUseCase.invoke(
-                message = MessageEntity(
+                directMessage = DirectMessage(
                     sentBy = user.id,
                     messageContent = text,
                     sentAt = Calendar.getInstance().getTime(),

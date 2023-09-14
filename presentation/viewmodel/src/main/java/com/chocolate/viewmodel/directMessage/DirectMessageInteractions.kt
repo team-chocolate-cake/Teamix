@@ -1,7 +1,7 @@
 package com.chocolate.viewmodel.directMessage
 
 interface DirectMessageInteractions {
-    fun onChangeSearchQuery(search: String)
+    fun onChangeSearchQuery(searchQuery: String)
     fun onClickDeleteQuery()
     fun onClickNewChat()
     fun onClickChat(id: String, name: String)

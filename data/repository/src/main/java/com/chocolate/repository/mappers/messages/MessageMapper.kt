@@ -1,8 +1,11 @@
 package com.chocolate.repository.mappers.messages
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.chocolate.entities.messages.Message
 import com.chocolate.repository.datastore.realtime.model.MessageDto
 import com.chocolate.repository.model.localDto.message.SavedMessageLocalDto
+import com.chocolate.repository.utils.getCurrentTime
 import java.util.Date
 
 @JvmName("messageDtoToMessage")
@@ -18,18 +21,18 @@ fun MessageDto.toMessage() = Message(
 @JvmName("messageDtoToMessage")
 fun List<MessageDto>?.toMessage(): List<Message> = this?.map { it.toMessage() }.orEmpty()
 
-
-@JvmName("messageToMessageDto")
+@RequiresApi(Build.VERSION_CODES.O)
 fun Message.toMessageDto() = MessageDto(
     id = id,
     userId = senderId,
     content = messageContent,
     senderName = senderFullName,
     senderImage = senderAvatarUrl,
-    timestamp = timestamp
+    timestamp = getCurrentTime()
 )
 
-@JvmName("messageToMessageDto")
+@RequiresApi(Build.VERSION_CODES.O)
+@JvmName("MessageDto")
 fun List<Message>?.toMessageDto(): List<MessageDto> = this?.map { it.toMessageDto() }.orEmpty()
 
 

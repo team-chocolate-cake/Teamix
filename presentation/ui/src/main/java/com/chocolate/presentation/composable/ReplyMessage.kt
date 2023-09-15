@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -131,12 +132,24 @@ fun ReplyMessage(
             Column(
                 modifier = Modifier.padding(SpacingXMedium)
             ) {
+                Row {
+                    Text(
+                        text = messageUiState.username,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.customColors().primary
+                    )
 
-                Text(
-                    text = messageUiState.username,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.customColors().primary
-                )
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = SpacingXMedium),
+                        textAlign = TextAlign.Start,
+                        text = messageUiState.replayDate,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.customColors().onBackground87
+                    )
+
+                }
 
                 AnimatedVisibility(messageUiState.messageImageUrl.isNotEmpty()) {
                     AsyncImage(
@@ -156,15 +169,6 @@ fun ReplyMessage(
                 Text(
                     textAlign = TextAlign.Start,
                     text = messageUiState.message,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.customColors().onBackground87
-                )
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = SpacingMedium),
-                    textAlign = TextAlign.Start,
-                    text = messageUiState.replayDate,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.customColors().onBackground87
                 )

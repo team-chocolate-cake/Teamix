@@ -2,10 +2,9 @@ package com.chocolate.remote.data_source
 
 import com.chocolate.entities.exceptions.FireBaseException
 import com.chocolate.remote.util.Constants
-import com.chocolate.remote.util.getRandomId
 import com.chocolate.remote.util.tryToExecuteSuspendCall
 import com.chocolate.repository.datastore.realtime.TopicDataSource
-import com.chocolate.repository.datastore.realtime.model.TopicDto
+import com.chocolate.repository.datastore.remote.model.TopicDto
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.channels.awaitClose
@@ -21,13 +20,8 @@ class TopicFireBaseDataSource @Inject constructor(
         channelId: String,
         topic: TopicDto,
         organizationName: String
-    ) {
-        val topicId = getRandomId()
-        val topicDto = TopicDto(
-            topicId = topicId.toString(),
-            content = topic.content
-        )
-        tryToExecuteSuspendCall {
+    ): String {
+        return tryToExecuteSuspendCall {
             val topicRef = firebaseFirestore
                 .collection(Constants.BASE)
                 .document(organizationName)
@@ -36,8 +30,10 @@ class TopicFireBaseDataSource @Inject constructor(
                 .collection(Constants.TOPICS)
                 .document()
 
-            topicRef.set(topicDto.copy(topicId = topicRef.id))
+            topicRef.set(topic.copy(topicId = topicRef.id))
                 .await()
+
+            return@tryToExecuteSuspendCall topicRef.id
         }
     }
 

@@ -1,5 +1,7 @@
 package com.chocolate.repository.repository
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.chocolate.entities.topic.Topic
 import com.chocolate.repository.datastore.local.PreferencesDataSource
 import com.chocolate.repository.datastore.realtime.TopicDataSource
@@ -14,21 +16,21 @@ class TopicRepositoryImpl @Inject constructor(
     private val topicDataSource: TopicDataSource,
     private val dataStore: PreferencesDataSource
 ) : TopicRepository {
-    override suspend fun createTopic(channelId: String, topic: Topic, organizationName: String) {
-        topicDataSource.createTopic(
+    @RequiresApi(Build.VERSION_CODES.O)
+    override suspend fun createTopic(channelId: String, topic: Topic): String {
+        return topicDataSource.createTopic(
             channelId,
             topic.toTopicDto(),
-            "teamixOrganization"
+            dataStore.getCurrentOrganizationName() ?: "teamixOrganization"
         )
     }
 
     override suspend fun getTopicsInChannel(
         channelId: String,
-        organizationName: String
     ): Flow<List<Topic>> {
         return topicDataSource.getTopicsInAChannel(
             channelId = channelId,
-            organizationName = "teamixOrganization"
+            organizationName = dataStore.getCurrentOrganizationName() ?: "teamixOrganization"
         ).map { it.toTopic() }
 
 

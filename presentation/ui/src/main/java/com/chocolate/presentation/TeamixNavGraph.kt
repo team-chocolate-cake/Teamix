@@ -7,6 +7,7 @@ import com.chocolate.presentation.screens.DirectMessageChat.dmChatRoute
 import com.chocolate.presentation.screens.channel.channelRoute
 import com.chocolate.presentation.screens.chooseMember.chooseMemberRoute
 import com.chocolate.presentation.screens.createMember.createMemberRoute
+import com.chocolate.presentation.screens.createTopic.createTopicRoute
 import com.chocolate.presentation.screens.create_account.createAccountWebViewRoute
 import com.chocolate.presentation.screens.createChannel.createChannelRoute
 import com.chocolate.presentation.screens.create_organization.createOrganizationRoute
@@ -50,5 +51,6 @@ fun TeamixNavGraph(navController: NavHostController) {
         createMemberRoute()
         directMessageChooseMemberRoute()
         dmChatRoute()
+        createTopicRoute()
     }
 }

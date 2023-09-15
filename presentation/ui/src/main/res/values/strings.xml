@@ -156,5 +156,9 @@
     <string name="password_mismatch">Please ensure both passwords match.</string>
     <string name="member_already_exist">Member with this email is already Exist.</string>
     <string name="all_field_required">Please fill in all the required fields.</string>
+    <string name="topic_content">topic content</string>
+    <string name="topic_name">topic name</string>
+    <string name="create">create</string>
+    <string name="create_topic">create topic</string>
     <string name="have_organization">Have Organization</string>
 </resources>

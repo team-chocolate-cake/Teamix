@@ -38,13 +38,23 @@ class ChannelViewModel @Inject constructor(
 
 
     private suspend fun onGetTopicsSuccess(topics: Flow<List<Topic>>) {
-        topics.collect { topics ->
-            _state.update { it.copy(channelId = channelArgs.channelId.toString(),isLoading = false, topics = topics.toUiState()) }
+        topics.collect { topicsList ->
+            _state.update {
+                it.copy(
+                    channelId = channelArgs.channelId.toString(),
+                    isLoading = false,
+                    topics = topicsList.toUiState()
+                )
+            }
         }
     }
 
-    override fun onClickSeeAll(channelId:Int,topicId: String, topicName: String) {
-        sendUiEffect(ChannelUiEffect.NavigateToTopicDetails(channelId,topicId, topicName))
+    override fun onClickSeeAll(channelId: Int, topicId: String, topicName: String) {
+        sendUiEffect(ChannelUiEffect.NavigateToTopicDetails(channelId, topicId, topicName))
+    }
+
+    override fun onAddTopicClick() {
+        sendUiEffect(ChannelUiEffect.NavigateToCreateTopic(channelArgs.channelId.toString()))
     }
 
 }

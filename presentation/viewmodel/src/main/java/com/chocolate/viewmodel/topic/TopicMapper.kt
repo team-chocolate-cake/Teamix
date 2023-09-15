@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import com.chocolate.entities.messages.Message
 import com.chocolate.entities.topic.Topic
 import com.chocolate.entities.uills.Empty
+import com.chocolate.entities.uills.toStringDate
 import com.chocolate.viewmodel.home.TopicUiState
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -11,6 +12,7 @@ import java.util.Date
 @JvmName("MessageToMessageUiState")
 fun Message.toUiState(isMyMessage: Boolean): MessageUiState =
     MessageUiState(
+        replayDate = timestamp.toStringDate(),
         id = id.toInt(),
         userId=senderId,
         message = messageContent,
@@ -18,6 +20,7 @@ fun Message.toUiState(isMyMessage: Boolean): MessageUiState =
         isMyReplay = isMyMessage,
         userImage = senderAvatarUrl
     )
+
 @JvmName("MessagesToMessagesUiState")
 fun List<Message>.toUiState(isMyMessage: Boolean): List<MessageUiState> =
     this.map { it.toUiState(isMyMessage) }

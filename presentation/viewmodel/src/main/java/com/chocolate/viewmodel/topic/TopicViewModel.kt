@@ -1,6 +1,9 @@
 package com.chocolate.viewmodel.topic
 
 import android.os.Build
+import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope

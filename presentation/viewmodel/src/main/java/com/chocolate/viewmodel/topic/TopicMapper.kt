@@ -3,10 +3,8 @@ package com.chocolate.viewmodel.topic
 import android.annotation.SuppressLint
 import com.chocolate.entities.messages.Message
 import com.chocolate.entities.topic.Topic
-import com.chocolate.entities.uills.Empty
 import com.chocolate.entities.uills.toStringDate
 import com.chocolate.viewmodel.home.TopicUiState
-import java.text.SimpleDateFormat
 import java.util.Date
 
 @JvmName("MessageToMessageUiState")

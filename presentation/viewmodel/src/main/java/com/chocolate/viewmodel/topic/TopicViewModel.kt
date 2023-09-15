@@ -1,14 +1,10 @@
 package com.chocolate.viewmodel.topic
 
 import android.os.Build
-import android.util.Log
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.messages.Message
-import com.chocolate.entities.uills.Empty
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
 import com.chocolate.usecases.message.ManageSaveLaterMessageUseCase
 import com.chocolate.usecases.message.ManageTopicMessagesUseCase
@@ -71,7 +67,7 @@ class TopicViewModel @Inject constructor(
                 topicId = topicArgs.topicId.toString()
             )
         }
-        _state.update { it.copy(messageInput = String.Empty) }
+        _state.update { it.copy(messageInput = "") }
     }
 
     private fun getAllMessages() {

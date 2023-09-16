@@ -5,6 +5,6 @@ import android.net.Uri
 interface CreateOrganizationInteraction {
     fun onOrganizationNameChange(organizationName: String)
     fun onClickHaveOrganization()
-    fun onClickNextButton(organizationName: String)
+    fun onClickNextButton()
     fun onOrganizationImageChange(imageUri: Uri)
 }

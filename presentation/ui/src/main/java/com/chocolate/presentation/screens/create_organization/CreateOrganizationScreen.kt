@@ -111,6 +111,7 @@ fun CreateOrganizationContent(
             )
             TeamixButton(
                 onClick = {
+                    createOrganizationInteraction.onClickNextButton()
                 },
                 modifier = Modifier
                     .fillMaxWidth()

@@ -58,7 +58,6 @@ fun OrganizationScreen(
 ) {
     val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
-    Log.e("OrganizationScreen: ", "called")
     CollectUiEffect(viewModel.effect) { effect ->
         when (effect) {
             OrganizationNameUiEffect.NavigateToCreateOrganization -> navController.navigateToCreateOrganization{

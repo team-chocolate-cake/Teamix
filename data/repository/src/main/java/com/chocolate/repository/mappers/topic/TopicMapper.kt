@@ -1,7 +1,10 @@
 package com.chocolate.repository.mappers.topic
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.chocolate.entities.topic.Topic
 import com.chocolate.repository.datastore.remote.model.TopicDto
+import com.chocolate.repository.utils.getCurrentTime
 import java.util.Date
 
 
@@ -18,13 +21,15 @@ fun TopicDto.toTopic(): Topic {
 @JvmName("Message")
 fun List<TopicDto>?.toTopic(): List<Topic> = this?.map { it.toTopic() }.orEmpty()
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun Topic.toTopicDto() = TopicDto(
     topicId = topicId,
     content = content,
     senderName = senderName,
     senderImage = senderImage,
-    sentTIme = sentTIme,
+    sentTIme = getCurrentTime(),
 )
 
+@RequiresApi(Build.VERSION_CODES.O)
 @JvmName("MessageDto")
 fun List<Topic>?.toTopicDto(): List<TopicDto> = this?.map { it.toTopicDto() }.orEmpty()

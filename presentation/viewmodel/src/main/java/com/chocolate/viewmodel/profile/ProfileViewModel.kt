@@ -2,6 +2,7 @@ package com.chocolate.viewmodel.profile
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.NullDataException
@@ -11,6 +12,7 @@ import com.chocolate.entities.member.Member
 import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
 import com.chocolate.usecases.member.AttemptMemberLogoutUseCase
+import com.chocolate.usecases.member.UpdateMemberImageUseCase
 import com.chocolate.usecases.member.UpdateMemberInformationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
@@ -26,7 +28,8 @@ class ProfileViewModel @Inject constructor(
     private val updateMemberInformation: UpdateMemberInformationUseCase,
     private val logout: AttemptMemberLogoutUseCase,
     private val customizeProfileSettings: CustomizeProfileSettingsUseCase,
-    private val stringsResource: StringsResource
+    private val stringsResource: StringsResource,
+    private val updateMemberImageUseCase: UpdateMemberImageUseCase,
 ) : BaseViewModel<ProfileUiState, ProfileEffect>(ProfileUiState()), ProfileInteraction {
     init {
         getLastSelectedAppLanguage()
@@ -113,6 +116,14 @@ class ProfileViewModel @Inject constructor(
 
     override fun onDismissEditTextDialog() {
         _state.update { it.copy(showEditUsernameDialog = false) }
+    }
+
+    override fun onUpdateProfileImage(imageUri: Uri) {
+        viewModelScope.launch {
+            updateMemberImageUseCase(imageUri.toString())
+            getCurrentUser()
+        }
+
     }
 
 

@@ -1,5 +1,6 @@
 package com.chocolate.repository.datastore.remote
 
+import com.chocolate.entities.member.Member
 import com.chocolate.repository.model.dto.member.MemberDto
 import kotlinx.coroutines.flow.Flow
 
@@ -21,4 +22,5 @@ interface MemberRemoteDataSource {
     )
 
     suspend fun getMemberInOrganizationByEmail(organizationName: String, email: String): MemberDto?
+    suspend fun updateMemberImage(organizationName: String, member: MemberDto)
 }

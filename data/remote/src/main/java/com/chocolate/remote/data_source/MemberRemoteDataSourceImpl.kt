@@ -1,20 +1,27 @@
 package com.chocolate.remote.data_source
 
+import android.net.Uri
+import android.util.Log
 import com.chocolate.entities.channel.Channel
+import com.chocolate.entities.uills.getRandomId
 import com.chocolate.remote.util.Constants
+import com.chocolate.remote.util.Constants.PROFILE_IMAGES_PATH
 import com.chocolate.remote.util.tryToExecuteSuspendCall
 import com.chocolate.repository.datastore.remote.MemberRemoteDataSource
 import com.chocolate.repository.model.dto.member.MemberDto
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
+import java.util.UUID
 import javax.inject.Inject
 
 class MemberRemoteDataSourceImpl @Inject constructor(
     private val firebaseFirestore: FirebaseFirestore,
+    private val firebaseStorage: FirebaseStorage
 ) : MemberRemoteDataSource {
 
     override suspend fun getMemberInOrganizationById(
@@ -142,6 +149,25 @@ class MemberRemoteDataSourceImpl @Inject constructor(
 
             memberRef.documents.firstOrNull()?.toObject<MemberDto>()
         }
+    }
+
+    override suspend fun updateMemberImage(organizationName: String, member: MemberDto) {
+        tryToExecuteSuspendCall {
+            val newImage = uploadImage(PROFILE_IMAGES_PATH, member.imageUrl!!)
+            Log.i("IMAaaGE", newImage)
+
+            updateMember(
+                organizationName = organizationName,
+                member = member.copy(imageUrl = newImage)
+            )
+        }
+    }
+
+    private suspend fun uploadImage(path: String, imageUri: String): String {
+        val storageRef = firebaseStorage.reference.child("${path}/${UUID.randomUUID()}")
+        storageRef.putFile(Uri.parse(imageUri)).await()
+        val downloadUrl = storageRef.downloadUrl.await()
+        return downloadUrl.toString()
     }
 
 }

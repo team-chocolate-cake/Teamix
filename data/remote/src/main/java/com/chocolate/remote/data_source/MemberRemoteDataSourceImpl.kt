@@ -2,12 +2,11 @@ package com.chocolate.remote.data_source
 
 import android.net.Uri
 import android.util.Log
-import com.chocolate.entities.channel.Channel
-import com.chocolate.entities.uills.getRandomId
 import com.chocolate.remote.util.Constants
 import com.chocolate.remote.util.Constants.PROFILE_IMAGES_PATH
 import com.chocolate.remote.util.tryToExecuteSuspendCall
 import com.chocolate.repository.datastore.remote.MemberRemoteDataSource
+import com.chocolate.repository.model.dto.channels.ChannelDto
 import com.chocolate.repository.model.dto.member.MemberDto
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
@@ -122,10 +121,10 @@ class MemberRemoteDataSourceImpl @Inject constructor(
             val channelRef = channelDocRef
                 .get()
                 .await()
-            channelRef.toObject<Channel>()?.let { channel ->
-                val oldMembersId = channel.membersId.toMutableList()
-                oldMembersId.addAll(members)
-                val newMembersId = oldMembersId.toList()
+            channelRef.toObject<ChannelDto>()?.let { channel ->
+                val oldMembersId = channel.membersId?.toMutableList()
+                oldMembersId?.addAll(members)
+                val newMembersId = oldMembersId?.toList()
                 val newChannel = channel.copy(membersId = newMembersId)
                 channelDocRef
                     .set(newChannel)

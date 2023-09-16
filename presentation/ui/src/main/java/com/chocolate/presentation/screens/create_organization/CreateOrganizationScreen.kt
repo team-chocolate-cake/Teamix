@@ -120,7 +120,7 @@ fun CreateOrganizationContent(
                 colors = colors,
             ) {
                 AnimatedVisibility(state.isLoading) { CircularProgressIndicator(color = colors.card) }
-                AnimatedVisibility(visible = true) {
+                AnimatedVisibility(state.isLoading.not()) {
                     Text(
                         text = stringResource(R.string.next),
                         style = MaterialTheme.typography.bodyLarge,
@@ -147,11 +147,14 @@ fun CreateOrganizationContent(
                     .padding(bottom = SpacingXXLarge),
                 textAlign = TextAlign.Center
             )
-            ActionSnakeBar(
-                contentMessage = state.error.toString(),
-                isVisible = true,
-                isToggleButtonVisible = false
-            )
+            state.error?.let {
+                ActionSnakeBar(
+                    contentMessage = state.error.toString(),
+                    isVisible = true,
+                    isToggleButtonVisible = false
+                )
+            }
+
         }
     }
 }

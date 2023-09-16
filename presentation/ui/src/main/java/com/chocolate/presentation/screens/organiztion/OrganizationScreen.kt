@@ -1,7 +1,6 @@
 package com.chocolate.presentation.screens.organiztion
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -30,7 +29,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
-import com.chocolate.presentation.Screen
 import com.chocolate.presentation.composable.SeparatorWithText
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
@@ -60,15 +58,12 @@ fun OrganizationScreen(
     val state by viewModel.state.collectAsState()
     CollectUiEffect(viewModel.effect) { effect ->
         when (effect) {
-            OrganizationNameUiEffect.NavigateToCreateOrganization -> navController.navigateToCreateOrganization{
-                popUpTo(Screen.OrganizationName.route) {
-                    inclusive = true
-                }
-            }
+            OrganizationNameUiEffect.NavigateToCreateOrganization -> navController.navigateToCreateOrganization()
             OrganizationNameUiEffect.NavigateToLoginScreen -> navController.navigateToLogin(
                 organizationName = state.organizationName
             )
-            OrganizationNameUiEffect.ShowSnackBar -> {  }
+
+            OrganizationNameUiEffect.ShowSnackBar -> {}
         }
     }
     AnimatedVisibility(state.onboardingState) {
@@ -157,11 +152,14 @@ fun OrganizationContent(
                     .padding(bottom = SpacingXXLarge),
                 textAlign = TextAlign.Center
             )
-            ActionSnakeBar(
-                contentMessage = state.error.toString(),
-                isVisible = true,
-                isToggleButtonVisible = false
-            )
+            state.error?.let {
+                ActionSnakeBar(
+                    contentMessage = it,
+                    isVisible = true,
+                    isToggleButtonVisible = false
+                )
+            }
+
         }
     }
 }

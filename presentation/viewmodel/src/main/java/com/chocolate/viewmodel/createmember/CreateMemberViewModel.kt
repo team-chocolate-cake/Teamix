@@ -21,11 +21,11 @@ import javax.inject.Inject
 class CreateMemberViewModel @Inject constructor(
     private val createMember: CreateMemberUseCase,
     private val stringsResource: StringsResource,
-    private val savedStateHandle: SavedStateHandle,
-    private val attemptMemberLoginUseCase: AttemptMemberLoginUseCase
-) : BaseViewModel<CreateMemberUiState, CreateMemberUiEffect>(CreateMemberUiState()),
+    private val attemptMemberLoginUseCase: AttemptMemberLoginUseCase,
+    savedStateHandle: SavedStateHandle,
+    ) : BaseViewModel<CreateMemberUiState, CreateMemberUiEffect>(CreateMemberUiState()),
     CreateMemberInteraction {
-
+private val createMemberArgs=CreateMemberArgs(savedStateHandle)
     override fun onFullNameChange(name: String) {
         _state.update { it.copy(fullName = name) }
     }
@@ -55,7 +55,7 @@ class CreateMemberViewModel @Inject constructor(
         tryToExecute(
             call = {
                 createMember(
-                    state.value.toEntity(CreateMemberArgs(savedStateHandle).role),
+                    state.value.toEntity(createMemberArgs.role),
                     state.value.confirmPassword
                 )
             },

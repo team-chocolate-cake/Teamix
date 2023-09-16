@@ -1,12 +1,12 @@
 package com.chocolate.repository.repository
 
-import com.chocolate.entities.member.Member
 import com.chocolate.entities.exceptions.EmptyMemberIdException
 import com.chocolate.entities.exceptions.EmptyOrganizationNameException
 import com.chocolate.entities.exceptions.MemberAlreadyExistException
 import com.chocolate.entities.exceptions.MemberNotFoundException
 import com.chocolate.entities.exceptions.WrongEmailException
 import com.chocolate.entities.exceptions.WrongEmailOrPasswordException
+import com.chocolate.entities.member.Member
 import com.chocolate.repository.datastore.local.LocalDataSource
 import com.chocolate.repository.datastore.local.PreferencesDataSource
 import com.chocolate.repository.datastore.remote.ChannelRemoteDataSource
@@ -106,7 +106,7 @@ class MemberRepositoryImpl @Inject constructor(
         generalChannel?.let { addMemberInGeneralChannel(member) } ?: createGeneralChannel(member)
     }
 
-    private suspend fun addMemberInGeneralChannel(member: Member){
+    private suspend fun addMemberInGeneralChannel(member: Member) {
         memberRemoteDataSource.addMembersInChannel(
             getCurrentOrganizationName(),
             listOf(member.id),
@@ -127,6 +127,14 @@ class MemberRepositoryImpl @Inject constructor(
 
     override suspend fun updateMember(member: Member) {
         memberRemoteDataSource.updateMember(getCurrentOrganizationName(), member.toRemote())
+    }
+
+    override suspend fun updateMemberPicture(imageUri: String) {
+
+        memberRemoteDataSource.updateMemberImage(
+            getCurrentOrganizationName(),
+            getCurrentMember().copy(imageUrl = imageUri).toRemote()
+        )
     }
 
 }

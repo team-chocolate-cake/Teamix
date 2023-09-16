@@ -24,4 +24,5 @@ interface MemberRepository {
     suspend fun createMember(member: Member): Member
 
     suspend fun updateMember(member: Member)
+    suspend fun updateMemberPicture(imageUri: String)
 }

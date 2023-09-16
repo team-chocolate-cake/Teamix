@@ -1,6 +1,5 @@
 package com.chocolate.remote.data_source
 
-import android.util.Log
 import com.chocolate.entities.exceptions.TeamixException
 import com.chocolate.remote.util.Constants
 import com.chocolate.remote.util.tryToExecuteSuspendCall
@@ -56,8 +55,6 @@ class ChannelFireBaseDataSource @Inject constructor(
                     val channels = channelsSnapshot?.documents?.let { channelsDto ->
                         channelsDto.mapNotNull { it.toObject<ChannelDto>() }
                     }
-                    Log.e("getChannelsForCurrentMember: ", channels.toString())
-                    Log.e("CurrentMember: ", memberId)
                     trySend(channels ?: emptyList())
                 }
             awaitClose { organizationRef.remove() }

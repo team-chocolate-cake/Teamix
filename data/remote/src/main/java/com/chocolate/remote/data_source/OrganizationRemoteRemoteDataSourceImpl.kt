@@ -3,6 +3,8 @@ package com.chocolate.remote.data_source
 import android.net.Uri
 import com.chocolate.entities.uills.getRandomId
 import com.chocolate.remote.util.Constants
+import com.chocolate.remote.util.Constants.ORGANIZATION_IMAGES_PATH
+import com.chocolate.remote.util.Constants.PROFILE_IMAGES_PATH
 import com.chocolate.remote.util.tryToExecuteSuspendCall
 import com.chocolate.repository.datastore.remote.OrganizationRemoteDataSource
 import com.chocolate.repository.model.dto.member.MemberDto
@@ -32,7 +34,7 @@ class OrganizationRemoteRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun createOrganization(organization: OrganizationDto) {
         tryToExecuteSuspendCall {
-            val imageUri = uploadImage("organization images", organization.imageUrl!!)
+            val imageUri = uploadImage(ORGANIZATION_IMAGES_PATH, organization.imageUrl!!)
             val newOrganization = organization.copy(imageUrl = imageUri)
             firebaseFirestore
                 .collection(Constants.BASE)
@@ -64,7 +66,7 @@ class OrganizationRemoteRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun addMemberInOrganization(member: MemberDto, organizationName: String) {
         tryToExecuteSuspendCall {
-            val imageUri = uploadImage("profile images", member.imageUrl!!)
+            val imageUri = uploadImage(PROFILE_IMAGES_PATH, member.imageUrl!!)
             val newMember = member.copy(imageUrl = imageUri)
             firebaseFirestore
                 .collection(Constants.BASE)
@@ -76,7 +78,7 @@ class OrganizationRemoteRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    private suspend fun uploadImage(path: String, imageUri: String):String {
+    private suspend fun uploadImage(path: String, imageUri: String): String {
         val storageRef = firebaseStorage.reference.child("${path}/${getRandomId()}")
         storageRef.putFile(Uri.parse(imageUri)).await()
         val downloadUrl = storageRef.downloadUrl.await()

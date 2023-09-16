@@ -13,5 +13,7 @@ object Constants {
     const val MESSAGES = "messages"
     const val LASTMESSAGEDATE = "lastMessageDate"
     const val SENTAT = "sentAt"
+    const val PROFILE_IMAGES_PATH = "profile images"
+    const val ORGANIZATION_IMAGES_PATH = "organization images"
 }
 

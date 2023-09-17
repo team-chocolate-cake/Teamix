@@ -67,7 +67,7 @@ fun DraftsContent(state: DraftsUiState, draftInteraction: DraftInteraction) {
             items(state.draftItems, key = { it.id }) {
                 SwipeCard(
                     modifier = Modifier.animateItemPlacement(),
-                    messageId = it.id,
+                    messageId = it.id.toString(),
                     cardItem = {
                         DraftCard(
                             id = it.id,
@@ -78,7 +78,7 @@ fun DraftsContent(state: DraftsUiState, draftInteraction: DraftInteraction) {
                             onClickMessage = {}
                         )
                     },
-                    onClickDismiss = { draftInteraction.deleteDraft(it) })
+                    onClickDismiss = { draftInteraction.deleteDraft(it.toInt()) })
             }
         }
                 EmptyDataWithBoxLottie(

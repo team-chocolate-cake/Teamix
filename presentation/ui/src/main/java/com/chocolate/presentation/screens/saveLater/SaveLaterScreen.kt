@@ -94,7 +94,7 @@ fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInter
             ActionSnakeBar(
                 isVisible = true,
                 contentMessage = deleteMessage,
-                onClick = interaction::onDeleteStateDismiss,
+                isToggleButtonVisible = false,
                 actionTitle = stringResource(id = R.string.dismiss)
             )
         }
@@ -103,7 +103,7 @@ fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInter
             ActionSnakeBar(
                 isVisible = true,
                 contentMessage = error,
-                onClick = interaction::onErrorDismiss,
+                isToggleButtonVisible = false,
                 actionTitle = stringResource(id = R.string.dismiss)
             )
         }

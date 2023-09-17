@@ -2,8 +2,6 @@ package com.chocolate.teamix.di
 
 import com.chocolate.remote.AuthInterceptor
 import com.chocolate.remote.api.DraftService
-import com.chocolate.remote.api.MessageService
-import com.chocolate.remote.api.OrganizationService
 import com.chocolate.repository.datastore.local.PreferencesDataSource
 import dagger.Module
 import dagger.Provides
@@ -61,18 +59,6 @@ object NetworkModule {
     @Provides
     fun provideDraftService(retrofit: Retrofit): DraftService =
         retrofit.create(DraftService::class.java)
-
-
-
-    @Singleton
-    @Provides
-    fun provideMessageService(retrofit: Retrofit): MessageService =
-        retrofit.create(MessageService::class.java)
-
-    @Singleton
-    @Provides
-    fun provideOrganizationService(retrofit: Retrofit): OrganizationService =
-        retrofit.create(OrganizationService::class.java)
 
     @Singleton
     @Provides

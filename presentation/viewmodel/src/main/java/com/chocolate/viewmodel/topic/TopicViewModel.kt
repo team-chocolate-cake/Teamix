@@ -116,7 +116,7 @@ class TopicViewModel @Inject constructor(
 
     override fun onSaveMessage(message: MessageUiState) {
         viewModelScope.launch {
-            manageSaveLaterMessageUseCase.saveMassage(message.toMessage())
+            manageSaveLaterMessageUseCase.addSavedLaterMessage(message.toEntity())
         }
     }
 

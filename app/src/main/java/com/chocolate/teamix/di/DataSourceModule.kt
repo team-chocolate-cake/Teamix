@@ -7,6 +7,7 @@ import com.chocolate.remote.data_source.ChannelFireBaseDataSource
 import com.chocolate.remote.data_source.MemberRemoteDataSourceImpl
 import com.chocolate.remote.data_source.MessagesFireBaseDataSource
 import com.chocolate.remote.data_source.OrganizationRemoteRemoteDataSourceImpl
+import com.chocolate.remote.data_source.SavedLaterDataSourceImpl
 import com.chocolate.remote.data_source.TopicFireBaseDataSource
 import com.chocolate.repository.datastore.local.LocalDataSource
 import com.chocolate.repository.datastore.local.PreferencesDataSource
@@ -16,6 +17,7 @@ import com.chocolate.repository.datastore.remote.DirectMessageRemoteDataSource
 import com.chocolate.repository.datastore.remote.MemberRemoteDataSource
 import com.chocolate.repository.datastore.remote.MessagesRemoteDataSource
 import com.chocolate.repository.datastore.remote.OrganizationRemoteDataSource
+import com.chocolate.repository.datastore.remote.SavedLaterDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -56,6 +58,9 @@ abstract class DataSourceModule {
     @Binds
     abstract fun bindMemberRemoteDataSource(memberRemoteDataSourceImpl: MemberRemoteDataSourceImpl): MemberRemoteDataSource
 
+    @Singleton
+    @Binds
+    abstract fun bindsSavedLaterDataSource(savedLaterDataSourceImpl: SavedLaterDataSourceImpl): SavedLaterDataSource
 
     @Singleton
     @Binds

@@ -13,8 +13,8 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun SwipeCard(
     modifier: Modifier = Modifier,
-    messageId: Int,
-    onClickDismiss: (messageId: Int) -> Unit,
+    messageId: String,
+    onClickDismiss: (messageId: String) -> Unit,
     cardItem: @Composable () -> Unit,
 ) {
     val state = rememberDismissState(
@@ -43,5 +43,5 @@ fun SwipeCard(
 @Preview
 @Composable
 private fun Preview() {
-    SwipeCard(cardItem = {  }, onClickDismiss = {}, messageId = 0)
+    SwipeCard(cardItem = {  }, onClickDismiss = {}, messageId = "")
 }

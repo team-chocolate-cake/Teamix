@@ -3,12 +3,20 @@ package com.chocolate.repository.repository
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.chocolate.entities.draft.Draft
+import com.chocolate.entities.exceptions.EmptyMemberIdException
+import com.chocolate.entities.exceptions.EmptyOrganizationNameException
+import com.chocolate.entities.member.Member
 import com.chocolate.entities.messages.Message
-import com.chocolate.repository.datastore.local.LocalDataSource
+import com.chocolate.entities.messages.SavedLaterMessage
+import com.chocolate.repository.datastore.local.PreferencesDataSource
+import com.chocolate.repository.datastore.remote.MemberRemoteDataSource
 import com.chocolate.repository.datastore.remote.MessagesRemoteDataSource
-import com.chocolate.repository.mappers.messages.toLocalDto
+import com.chocolate.repository.datastore.remote.SavedLaterDataSource
+import com.chocolate.repository.mappers.messages.toEntity
 import com.chocolate.repository.mappers.messages.toMessage
 import com.chocolate.repository.mappers.messages.toMessageDto
+import com.chocolate.repository.mappers.messages.toRemote
+import com.chocolate.repository.mappers.toEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import repositories.MessagesRepository
@@ -16,8 +24,23 @@ import javax.inject.Inject
 
 class MessagesRepositoryImpl @Inject constructor(
     private val messagesRemoteDataSource: MessagesRemoteDataSource,
-    private val teamixLocalDataSource: LocalDataSource,
+    private val preferencesDataSource: PreferencesDataSource,
+    private val savedLaterDataSource: SavedLaterDataSource,
+    private val memberDataSource: MemberRemoteDataSource
 ) : MessagesRepository {
+
+    private suspend fun getCurrentOrganizationName(): String =
+        preferencesDataSource.getCurrentOrganizationName()
+            ?: throw EmptyOrganizationNameException
+
+    private suspend fun getCurrentMember(): Member {
+        val currentMemberId =
+            preferencesDataSource.getIdOfCurrentMember() ?: throw EmptyMemberIdException
+        return memberDataSource.getMemberInOrganizationById(
+            currentMemberId,
+            getCurrentOrganizationName()
+        )?.toEntity() ?: throw EmptyMemberIdException
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun sendMessageInTopic(
@@ -46,10 +69,6 @@ class MessagesRepositoryImpl @Inject constructor(
         ).map { it.toMessage() }
     }
 
-    override suspend fun deleteMessage(messageId: Int) {
-        teamixLocalDataSource.deleteSavedMessageById(messageId)
-    }
-
     override suspend fun getDrafts(): List<Draft> {
         TODO("Not yet implemented")
     }
@@ -66,15 +85,27 @@ class MessagesRepositoryImpl @Inject constructor(
     override suspend fun deleteDraft(id: Int) {
         TODO("Not yet implemented")
     }
-    override suspend fun getSavedMessages(): List<Message> {
-        return teamixLocalDataSource.getSavedMessages().map { it.toMessage() }
+
+    override suspend fun getSavedLaterMessages(): Flow<List<SavedLaterMessage>> {
+        return savedLaterDataSource.getSavedLaterMessages(
+            getCurrentOrganizationName(),
+            getCurrentMember().id
+        ).toEntity(getCurrentMember())
     }
 
-    override suspend fun saveMessage(message: Message) {
-        teamixLocalDataSource.saveMessage(message.toLocalDto())
+    override suspend fun saveMessage(message: SavedLaterMessage) {
+        val member = memberDataSource.getMemberInOrganizationById(message.sender.id, getCurrentOrganizationName())
+        val newMessage = message.copy(
+            sender = member?.toEntity() ?: throw EmptyMemberIdException
+        )
+        savedLaterDataSource.addSavedLaterMessage(getCurrentOrganizationName(), newMessage.toRemote())
     }
 
-    override suspend fun deleteSavedMessageById(id: Int) {
-        teamixLocalDataSource.deleteSavedMessageById(id)
+    override suspend fun deleteSavedLaterMessageById(savedLaterMessageId: String) {
+        savedLaterDataSource.deleteSavedLaterMessageById(
+            getCurrentOrganizationName(),
+            getCurrentMember().id,
+            savedLaterMessageId
+        )
     }
 }

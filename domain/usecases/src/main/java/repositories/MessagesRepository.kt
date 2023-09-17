@@ -2,6 +2,7 @@ package repositories
 
 import com.chocolate.entities.draft.Draft
 import com.chocolate.entities.messages.Message
+import com.chocolate.entities.messages.SavedLaterMessage
 import kotlinx.coroutines.flow.Flow
 
 interface MessagesRepository {
@@ -31,12 +32,10 @@ interface MessagesRepository {
         organizationName: String
     ): Flow<List<Message>>
 
-    suspend fun deleteMessage(messageId: Int)
+       suspend fun getSavedLaterMessages():  Flow<List<SavedLaterMessage>>
 
-       suspend fun getSavedMessages(): List<Message>
+       suspend fun saveMessage(message: SavedLaterMessage)
 
-       suspend fun saveMessage(message: Message)
-
-    suspend fun deleteSavedMessageById(id: Int)
+    suspend fun deleteSavedLaterMessageById(savedLaterMessageId: String)
 
 }

@@ -1,11 +1,12 @@
 package com.chocolate.viewmodel.saveLater
 
-import com.chocolate.entities.messages.Message
+import androidx.lifecycle.viewModelScope
 import com.chocolate.usecases.message.ManageSaveLaterMessageUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -14,49 +15,26 @@ class SaveLaterViewModel @Inject constructor(
     private val stringsResource: StringsResource
 ) : BaseViewModel<SaveLaterMessageUiState, SaveLaterEffect>(SaveLaterMessageUiState()),
     SaveLaterInteraction {
+
     init {
-        getAllSavedMessages()
+        getSavedLaterMessages()
     }
 
-    private fun getAllSavedMessages() {
-        tryToExecute(
-            call = { manageSaveLaterMessageUseCase.getSavedMessages() },
-            ::onGetDataSuccess,
-            ::onGetMessagesError
-        )
-    }
-
-    private fun onGetDataSuccess(data: List<Message>) {
-        _state.update { state ->
-            state.copy(
-                messages = data.map { it.toMessageUiState() },
-                error = null,
-                isLoading = false,
-            )
+    private fun getSavedLaterMessages() {
+        viewModelScope.launch {
+            collectFlow(manageSaveLaterMessageUseCase.getSavedMessages()) {
+                this.copy(messages = it.toMessagesUiState(), error = null, isLoading = false,)
+            }
         }
     }
 
-    private fun onGetMessagesError(e: Throwable) {
-        _state.update { it.copy(error = e.message, isLoading = false) }
-    }
-
-    override fun onDismissMessage(messageId: Int) {
+    override fun onDismissMessage(savedLaterMessageId: String) {
         tryToExecute(
-            call = { manageSaveLaterMessageUseCase.deleteSavedMessageById(messageId) },
+            { manageSaveLaterMessageUseCase.deleteSavedMessageById(savedLaterMessageId) },
             ::onDeleteMessageSuccess,
-            ::onDeleteMessageFail
+            ::onError
         )
-        _state.update {state->
-            val newMessages = state.messages.filter { it.id != messageId }
-            state.copy(messages = newMessages)
-        }
     }
-
-    override fun onDeleteStateDismiss() =
-        _state.update { it.copy(deleteStateMessage = null, isLoading = false) }
-
-
-    override fun onErrorDismiss() = _state.update { it.copy(error = null, isLoading = false) }
 
     private fun onDeleteMessageSuccess(unit: Unit) {
         _state.update {
@@ -66,10 +44,9 @@ class SaveLaterViewModel @Inject constructor(
                 isLoading = false
             )
         }
-
     }
 
-    private fun onDeleteMessageFail(e: Throwable) {
+    private fun onError(e: Throwable) {
         _state.update { it.copy(error = e.message, isLoading = false) }
     }
 }

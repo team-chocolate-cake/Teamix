@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -93,7 +92,7 @@ fun SaveLaterCard(item: MessageItemUiState, painter: Painter) {
 private fun Preview() {
     SaveLaterCard(
         item = MessageItemUiState(
-            id = 50,
+            id = "50",
             imageUrl = "https://i.pinimg.com/originals/bf/31/9c/bf319cbf55fa59d5e7516506900a3144.jpg",
             messageContent = "hmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
             time = "13:40",

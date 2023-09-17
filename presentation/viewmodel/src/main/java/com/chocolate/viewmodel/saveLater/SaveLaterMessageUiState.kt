@@ -13,7 +13,7 @@ data class SaveLaterMessageUiState(
 )
 
 data class MessageItemUiState(
-    val id: Int = 0,
+    val id: String = "",
     val username: String = "",
     val imageUrl: String = "",
     val messageContent: String = "",

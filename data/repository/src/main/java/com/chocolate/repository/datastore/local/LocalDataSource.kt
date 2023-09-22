@@ -1,6 +1,5 @@
 package com.chocolate.repository.datastore.local
 
-import com.chocolate.repository.model.localDto.message.SavedMessageLocalDto
 import com.chocolate.repository.model.localDto.stream.StreamLocalDto
 import com.chocolate.repository.model.localDto.users.UserLocalDto
 
@@ -18,9 +17,4 @@ interface LocalDataSource {
 
     suspend fun deleteDataBase()
 
-    suspend fun saveMessage(message: SavedMessageLocalDto)
-
-    suspend fun getSavedMessages(): List<SavedMessageLocalDto>
-
-    suspend fun deleteSavedMessageById(id: Int)
 }

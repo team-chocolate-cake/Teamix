@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.saveLater
 
-import com.chocolate.entities.messages.Message
+import com.chocolate.entities.messages.SavedLaterMessage
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -13,21 +13,25 @@ data class SaveLaterMessageUiState(
 )
 
 data class MessageItemUiState(
-    val id: Int = 0,
+    val id: String = "",
     val username: String = "",
     val imageUrl: String = "",
     val messageContent: String = "",
     val time: String = ""
 )
 
-fun Message.toMessageUiState(): MessageItemUiState {
+fun SavedLaterMessage.toMessageUiState(): MessageItemUiState {
     return MessageItemUiState(
         id = id,
-        username = senderFullName,
-        imageUrl = senderAvatarUrl,
+        username = sender.name,
+        imageUrl = sender.imageUrl,
         messageContent = messageContent,
-        time = formatDate(timestamp),
+        time = formatDate(date),
     )
+}
+
+fun List<SavedLaterMessage>.toMessagesUiState(): List<MessageItemUiState> {
+    return this.map { it.toMessageUiState() }
 }
 
 private fun formatDate(date: Date): String {

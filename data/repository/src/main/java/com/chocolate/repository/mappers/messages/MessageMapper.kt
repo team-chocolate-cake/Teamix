@@ -1,59 +1,35 @@
 package com.chocolate.repository.mappers.messages
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.chocolate.entities.messages.Message
-import com.chocolate.entities.messages.Reaction
-import com.chocolate.repository.mappers.toDate
-import com.chocolate.repository.model.dto.message.response.MessageDto
-import com.chocolate.repository.model.dto.message.response.ReactionDto
-import com.chocolate.repository.model.localDto.message.SavedMessageLocalDto
+import com.chocolate.repository.datastore.realtime.model.MessageDto
+import com.chocolate.repository.utils.getCurrentTime
 import java.util.Date
 
-fun MessageDto.toEntity(): Message {
-    return Message(
-        senderAvatarUrl = this.avatarUrl.orEmpty(),
-        messageContent = this.content.orEmpty(),
-        id = this.id ?: 0,
-        reactions = this.reactions.toEntity(),
-        senderEmail = this.senderEmail.orEmpty(),
-        senderFullName = this.senderFullName.orEmpty(),
-        senderId = this.senderId ?: 0,
-        streamId = this.streamId ?: 0,
-        topic = this.subject.orEmpty(),
-        timestamp = this.timestamp?.toDate() ?: Date(),
-    )
-}
+@JvmName("messageDtoToMessage")
+fun MessageDto.toMessage() = Message(
+    id = id ?: "",
+    senderId = userId ?: "",
+    messageContent = content ?: "",
+    senderFullName = senderName ?: "",
+    senderAvatarUrl = senderImage ?: "",
+    timestamp = timestamp ?: Date()
+)
 
+@JvmName("messageDtoToMessage")
+fun List<MessageDto>?.toMessage(): List<Message> = this?.map { it.toMessage() }.orEmpty()
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun Message.toMessageDto() = MessageDto(
+    id = id,
+    userId = senderId,
+    content = messageContent,
+    senderName = senderFullName,
+    senderImage = senderAvatarUrl,
+    timestamp = getCurrentTime()
+)
+
+@RequiresApi(Build.VERSION_CODES.O)
 @JvmName("MessageDto")
-fun List<MessageDto>?.toEntity(): List<Message> = this?.map { it.toEntity() }.orEmpty()
-
-@JvmName("ReactionDto")
-fun List<ReactionDto>?.toEntity(): List<Reaction> =
-    this?.map { Reaction(emojiCode = it.emoji_code, emojiName = it.emoji_name) }.orEmpty()
-
-fun SavedMessageLocalDto.toEntity(): Message{
-    return Message(
-        id = this.id,
-        senderAvatarUrl = this.senderImageUrl,
-        senderId = this.senderId,
-        senderEmail = "",
-        senderFullName = this.senderName,
-        reactions = emptyList(),
-        messageContent = this.messageContent,
-        streamId = 0,
-        topic = "",
-        timestamp = this.date
-
-    )
-}
-
-fun Message.toLocalDto(): SavedMessageLocalDto{
-    return SavedMessageLocalDto(
-        id = this.id,
-        senderId = this.senderId,
-        senderName = this.senderFullName,
-        senderImageUrl = this.senderAvatarUrl,
-        messageContent = this.messageContent,
-        date = this.timestamp
-
-    )
-}
+fun List<Message>?.toMessageDto(): List<MessageDto> = this?.map { it.toMessageDto() }.orEmpty()

@@ -1,7 +1,11 @@
 object ProjectDependencies {
 
+    private const val FIREBASE_AUTH_VERSION = "22.1.1"
+    private const val FIREBASE_STORAGE_VERSION = "20.2.1"
+    private const val COROUTINE_PLAY_SERVICES_VERSION = "1.4.1"
+    private const val FIREBASE_FIRESTORE_VERSION = "24.7.1"
     private const val FIREBASE_VERSION = "32.2.2"
-    private const val CORE_VERSION = "1.8.0"
+    private const val CORE_VERSION = "1.7.1"
     private const val CONSTRAINT_LAYOUT_VERSION = "1.0.1"
     private const val COIL_VERSION = "2.4.0"
     private const val JUNIT_VERSION = "4.13.2"
@@ -93,7 +97,7 @@ object ProjectDependencies {
 
     const val splashScreen = "androidx.core:core-splashscreen:$SPLASH_SCREEN_VERSION"
 
-
+    const val firebaseStorage = "com.google.firebase:firebase-storage-ktx:$FIREBASE_STORAGE_VERSION"
 
     const val encryptedSharedPreference =
         "androidx.security:security-crypto:$ENCRYPTED_SHARED_PREF_VERSION"
@@ -103,6 +107,7 @@ object ProjectDependencies {
     const val webView = "com.google.accompanist:accompanist-webview:$ACCOMPANIST"
 
     const val firebase = "com.google.firebase:firebase-bom:$FIREBASE_VERSION"
-    const val firebase_auth = "com.google.firebase:firebase-auth-ktx"
-    const val firebase_firestore = "com.google.firebase:firebase-firestore-ktx"
+    const val firebase_auth = "com.google.firebase:firebase-auth-ktx:$FIREBASE_AUTH_VERSION"
+    const val coroutinePlayServices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$COROUTINE_PLAY_SERVICES_VERSION"
+    const val firebase_firestore = "com.google.firebase:firebase-firestore-ktx:$FIREBASE_FIRESTORE_VERSION"
 }

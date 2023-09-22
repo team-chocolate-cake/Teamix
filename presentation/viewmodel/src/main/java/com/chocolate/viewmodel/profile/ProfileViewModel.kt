@@ -2,23 +2,21 @@ package com.chocolate.viewmodel.profile
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.NullDataException
 import com.chocolate.entities.exceptions.TeamixException
 import com.chocolate.entities.exceptions.ValidationException
-import com.chocolate.entities.uills.Empty
-import com.chocolate.entities.user.User
-import com.chocolate.entities.user.UserRole
-import com.chocolate.usecases.user.CustomizeProfileSettingsUseCase
-import com.chocolate.usecases.user.GetCurrentUserDataUseCase
-import com.chocolate.usecases.user.LogoutUseCase
-import com.chocolate.usecases.user.UpdateUserInformationUseCase
+import com.chocolate.entities.member.Member
+import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
+import com.chocolate.usecases.member.GetCurrentMemberUseCase
+import com.chocolate.usecases.member.AttemptMemberLogoutUseCase
+import com.chocolate.usecases.member.UpdateMemberImageUseCase
+import com.chocolate.usecases.member.UpdateMemberInformationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
@@ -26,11 +24,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val getCurrentUserData: GetCurrentUserDataUseCase,
-    private val updateUserInformation: UpdateUserInformationUseCase,
-    private val logout: LogoutUseCase,
+    private val getCurrentUserData: GetCurrentMemberUseCase,
+    private val updateMemberInformation: UpdateMemberInformationUseCase,
+    private val logout: AttemptMemberLogoutUseCase,
     private val customizeProfileSettings: CustomizeProfileSettingsUseCase,
-    private val stringsResource: StringsResource
+    private val stringsResource: StringsResource,
+    private val updateMemberImageUseCase: UpdateMemberImageUseCase,
 ) : BaseViewModel<ProfileUiState, ProfileEffect>(ProfileUiState()), ProfileInteraction {
     init {
         getLastSelectedAppLanguage()
@@ -45,7 +44,7 @@ class ProfileViewModel @Inject constructor(
     override fun onUpdateLanguage(language: String) {
         _state.update { it.copy(lastAppLanguage = language, error = null, message = null) }
         tryToExecute(
-            call = { customizeProfileSettings.saveNewSelectedLanguage(language) },
+            call = { customizeProfileSettings.updateAppLanguage(language) },
             onSuccess = {
                 _state.update {
                     it.copy(error = null, isLoading = false, message = null)
@@ -64,18 +63,17 @@ class ProfileViewModel @Inject constructor(
     }
 
     override fun onUserInformationFocusChange() {
-        val userInformationSettingsState = User(
-            fullName = _state.value.name,
-            email = _state.value.email,
-            role = UserRole.fromValue(0),
-            imageUrl = String.Empty,
-            id = 0,
-        )
-        tryToExecute(
-            { updateUserInformation(userInformationSettingsState) },
-            ::onUpdateUserInformationSuccess,
-            ::onError
-        )
+        /* val memberInformationSettingsState = Member(
+             name = _state.value.name,
+             email = _state.value.email,
+             role = UserRole.fromValue(0),
+             imageUrl = String.Empty,
+         )
+         tryToExecute(
+             { updateUserInformation(memberInformationSettingsState) },
+             ::onUpdateUserInformationSuccess,
+             ::onError
+         )*/
     }
 
     override fun onClickRetryToUpdatePersonalInformation() {
@@ -106,7 +104,7 @@ class ProfileViewModel @Inject constructor(
     override fun onClickDarkThemeSwitch(darkTheme: Boolean, context: Context) {
         _state.update { it.copy(isDarkTheme = !darkTheme) }
         viewModelScope.launch {
-            customizeProfileSettings.updateDarkTheme(!darkTheme)
+            customizeProfileSettings.setAppThemeToDark(!darkTheme)
         }
     }
 
@@ -120,6 +118,14 @@ class ProfileViewModel @Inject constructor(
         _state.update { it.copy(showEditUsernameDialog = false) }
     }
 
+    override fun onUpdateProfileImage(imageUri: Uri) {
+        viewModelScope.launch {
+            updateMemberImageUseCase(imageUri.toString())
+            getCurrentUser()
+        }
+
+    }
+
 
     override fun onLogoutButtonClicked() {
         tryToExecute(
@@ -131,30 +137,20 @@ class ProfileViewModel @Inject constructor(
 
     override fun onUsernameChange(username: String) {
         tryToExecute(
-            call = {
-                updateUserInformation.updateUsername(
-                    username = username,
-                    id = state.value.id,
-                    role = UserRole.getIntValueByString(state.value.role) ?: UserRole.MEMBER.value
-                )
-            },
-            onSuccess = { newName ->
-                _state.update { it.copy(newUsername = newName) }
-                getCurrentUser()
-            },
-            onError = ::onError
+            { updateMemberInformation(username) }, ::onUpdateUserInformationSuccess, ::onError
         )
     }
 
-    private fun onUpdateUserInformationSuccess(unit: Unit) {
+    private fun onUpdateUserInformationSuccess(username: String) {
         _state.update {
             it.copy(
                 isLoading = false,
-                newUsername = String.Empty,
+                newUsername = username,
                 error = null,
                 message = stringsResource.successMessage
             )
         }
+        getCurrentUser()
     }
 
     private fun onError(throwable: Throwable) {
@@ -193,19 +189,14 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun getLastSelectedAppLanguage() {
-        viewModelScope.launch(Dispatchers.IO) {
-           customizeProfileSettings.getLastSelectedAppLanguage().collectLatest {language ->
-               _state.update { it.copy(lastAppLanguage = language) }
-           }
+        collectFlow(customizeProfileSettings.getLatestSelectedAppLanguage()) {
+            this.copy(lastAppLanguage = it)
         }
     }
 
     private fun isDarkTheme() {
-
-        viewModelScope.launch(Dispatchers.IO) {
-            customizeProfileSettings.isDarkThem().collectLatest { isDark ->
-                _state.update { it.copy(isDarkTheme = isDark) }
-            }
+        collectFlow(customizeProfileSettings.isDarkThemeEnabled()) {
+            this.copy(isDarkTheme = it)
         }
     }
 
@@ -217,8 +208,8 @@ class ProfileViewModel @Inject constructor(
         )
     }
 
-    private fun onGetCurrentUserSuccess(user: User) {
-        val currentUserUi = user.toOwnerUserUiState()
+    private fun onGetCurrentUserSuccess(member: Member) {
+        val currentUserUi = member.toOwnerUserUiState()
         _state.update {
             it.copy(
                 id = currentUserUi.id,

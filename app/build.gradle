@@ -64,15 +64,17 @@ dependencies {
     implementation (ProjectDependencies.logging)
 
     implementation (ProjectDependencies.hilt)
-    implementation (ProjectDependencies.firebase_firestore)
 
     kapt (ProjectDependencies.hiltCompiler)
 
     implementation(ProjectDependencies.encryptedSharedPreference)
+    implementation(ProjectDependencies.firebaseStorage)
 
     implementation (ProjectDependencies.roomRuntime)
     kapt (ProjectDependencies.roomCompiler)
     implementation(ProjectDependencies.dataStore)
+    implementation(ProjectDependencies.firebase_auth)
 
+    implementation(ProjectDependencies.coroutinePlayServices)
     implementation (ProjectDependencies.firebase_firestore)
 }

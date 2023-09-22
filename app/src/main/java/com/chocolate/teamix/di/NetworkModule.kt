@@ -1,11 +1,7 @@
 package com.chocolate.teamix.di
 
 import com.chocolate.remote.AuthInterceptor
-import com.chocolate.remote.api.ChannelsService
 import com.chocolate.remote.api.DraftService
-import com.chocolate.remote.api.MessageService
-import com.chocolate.remote.api.OrganizationService
-import com.chocolate.remote.api.UsersService
 import com.chocolate.repository.datastore.local.PreferencesDataSource
 import dagger.Module
 import dagger.Provides
@@ -66,27 +62,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideChannelService(retrofit: Retrofit): ChannelsService =
-        retrofit.create(ChannelsService::class.java)
-
-    @Singleton
-    @Provides
-    fun provideMessageService(retrofit: Retrofit): MessageService =
-        retrofit.create(MessageService::class.java)
-
-    @Singleton
-    @Provides
-    fun provideUserService(retrofit: Retrofit): UsersService =
-        retrofit.create(UsersService::class.java)
-
-    @Singleton
-    @Provides
-    fun provideOrganizationService(retrofit: Retrofit): OrganizationService =
-        retrofit.create(OrganizationService::class.java)
-
-    @Singleton
-    @Provides
     @Named(BASE_URL)
     fun provideBaseUrl(preferencesDataSource: PreferencesDataSource): String =
-        "https://${preferencesDataSource.currentOrganization()}.zulipchat.com/api/v1/"
+        "https://.zulipchat.com/api/v1/"
 }

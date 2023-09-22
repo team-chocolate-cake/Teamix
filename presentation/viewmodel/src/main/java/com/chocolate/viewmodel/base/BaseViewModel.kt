@@ -51,6 +51,33 @@ abstract class BaseViewModel<STATE, UiEffect>(initialState: STATE) : ViewModel()
         }
     }
 
+    fun <T> tryToExecuteFlow(
+        flowBlock: suspend () -> Flow<T>,
+        onSuccess: suspend (Flow<T>) -> Unit,
+        onError: (Throwable) -> Unit,
+        dispatcher: CoroutineDispatcher = Dispatchers.IO
+    ) {
+        viewModelScope.launch(dispatcher) {
+            try {
+                val flowResult = flowBlock()
+                onSuccess(flowResult)
+            } catch (e: ServerException) {
+                onError(e)
+            } catch (e: NetworkException) {
+                onError(e)
+            } catch (e: UnAuthorizedException) {
+                onError(e)
+            } catch (e: NullDataException) {
+                onError(e)
+            } catch (e: TeamixException) {
+                onError(e)
+            } catch (throwable: Throwable) {
+                onError(throwable)
+            }
+        }
+    }
+
+
     protected fun <T> collectFlow(
         flow: Flow<T>,
         updateState: STATE.(T) -> STATE
@@ -65,7 +92,7 @@ abstract class BaseViewModel<STATE, UiEffect>(initialState: STATE) : ViewModel()
     }
 
     protected fun sendUiEffect(effect: UiEffect) {
-        viewModelScope.launch(Dispatchers.IO) { _effect.emit(effect) }
+        viewModelScope.launch { _effect.emit(effect) }
     }
 
 }

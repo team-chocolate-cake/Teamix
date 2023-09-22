@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -26,7 +25,7 @@ import com.chocolate.presentation.composable.EmptyDataWithBoxLottie
 import com.chocolate.presentation.composable.SaveLaterCard
 import com.chocolate.presentation.composable.SwipeCard
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
+import com.chocolate.presentation.screens.createChannel.composable.ActionSnakeBar
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
@@ -42,7 +41,7 @@ fun SaveLaterScreen(
     SaveLaterContent(state, viewModel)
 }
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInteraction) {
     val colors = MaterialTheme.customColors()
@@ -95,7 +94,7 @@ fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInter
             ActionSnakeBar(
                 isVisible = true,
                 contentMessage = deleteMessage,
-                onClick = interaction::onDeleteStateDismiss,
+                isToggleButtonVisible = false,
                 actionTitle = stringResource(id = R.string.dismiss)
             )
         }
@@ -104,7 +103,7 @@ fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInter
             ActionSnakeBar(
                 isVisible = true,
                 contentMessage = error,
-                onClick = interaction::onErrorDismiss,
+                isToggleButtonVisible = false,
                 actionTitle = stringResource(id = R.string.dismiss)
             )
         }

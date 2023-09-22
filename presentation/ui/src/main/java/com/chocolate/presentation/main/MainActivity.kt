@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
             InstallSavedAppLanguage(this)
             val state by mainViewModel.state.collectAsState()
             TeamixTheme(state.isDark) {
-                TeamixApp(state.isDark.collectAsState(initial = false).value, state.isLoggedIn)
+                TeamixApp(state.isDark.collectAsState(initial = false).value)
             }
         }
     }

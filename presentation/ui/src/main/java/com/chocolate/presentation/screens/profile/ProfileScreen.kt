@@ -163,7 +163,7 @@ fun ProfileContent(
     }
     AnimatedVisibility(state.showEditUsernameDialog) {
         EditTextDialog(
-            title =  stringResource(id = R.string.enter_full_name),
+            title = stringResource(id = R.string.enter_full_name),
             value = state.name,
             dismissButton = profileInteraction::onDismissEditTextDialog,
             confirmButton = {
@@ -174,7 +174,10 @@ fun ProfileContent(
     }
 
     TeamixScaffold(isDarkMode = state.isDarkTheme) {
-        systemUiController.setSystemBarsColor(color = MaterialTheme.customColors().background, darkIcons = !state.isDarkTheme)
+        systemUiController.setSystemBarsColor(
+            color = MaterialTheme.customColors().background,
+            darkIcons = !state.isDarkTheme
+        )
         systemUiController.setNavigationBarColor(Color.Black)
         Column(
             modifier = Modifier
@@ -184,7 +187,7 @@ fun ProfileContent(
                 .verticalScroll(scrollState), horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            ProfileImage(state)
+            ProfileImage(state, profileInteraction::onUpdateProfileImage)
             Text(
                 state.name, modifier = Modifier.padding(top = SpacingXLarge),
                 style = typography.titleMedium,

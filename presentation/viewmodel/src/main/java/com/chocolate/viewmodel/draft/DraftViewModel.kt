@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.draft.Draft
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.usecases.draft.ManageDraftsUseCases
-import com.chocolate.usecases.user.CustomizeProfileSettingsUseCase
+import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,12 +22,12 @@ class DraftViewModel @Inject constructor(
 
     init {
         getDarkModeState()
-        getData()
+        //getData()
     }
 
     private fun getDarkModeState() {
         viewModelScope.launch {
-            customizeProfileSettings.isDarkThem().collectLatest {isDark->
+            customizeProfileSettings.isDarkThemeEnabled().collectLatest { isDark->
                 _state.update { it.copy(isDarkModel = isDark) }
             }
         }
@@ -48,7 +48,7 @@ class DraftViewModel @Inject constructor(
     }
 
     override fun onClickRetry() {
-        getData()
+        //getData()
     }
 
     private fun deleteDraftFromUi(id: Int) {

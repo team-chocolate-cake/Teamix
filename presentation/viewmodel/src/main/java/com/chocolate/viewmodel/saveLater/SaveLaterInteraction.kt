@@ -1,8 +1,5 @@
 package com.chocolate.viewmodel.saveLater
 
 interface SaveLaterInteraction {
-    fun onDismissMessage(messageId:Int)
-    fun onDeleteStateDismiss()
-    fun onErrorDismiss()
-
+    fun onDismissMessage(savedLaterMessageId: String)
 }

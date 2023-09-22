@@ -6,7 +6,8 @@ data class TopicUiState(
     val photoAndVideo: List<PhotoOrVideoUiState> = emptyList(),
     val messages: List<MessageUiState> = emptyList(),
     val topicName: String = String.Empty,
-    val messageInput: String = String.Empty
+    val messageInput: String = String.Empty,
+    val error: String? = null,
 )
 
 data class PhotoOrVideoUiState(
@@ -17,7 +18,9 @@ data class PhotoOrVideoUiState(
 )
 
 data class MessageUiState(
+    val id:Int=0,
     val username: String = String.Empty,
+    val userId: String = String.Empty,
     val replayDate: String = String.Empty,
     val userImage: String = String.Empty,
     val messageImageUrl: String = String.Empty,

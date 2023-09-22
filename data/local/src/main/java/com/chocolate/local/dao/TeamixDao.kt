@@ -1,11 +1,8 @@
 package com.chocolate.local.dao
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
-import com.chocolate.repository.model.localDto.message.SavedMessageLocalDto
 import com.chocolate.repository.model.localDto.stream.StreamLocalDto
 import com.chocolate.repository.model.localDto.users.UserLocalDto
 
@@ -25,14 +22,5 @@ interface TeamixDao {
 
     @Query("SELECT * FROM table_current_user")
     suspend fun getCurrentUserData(): UserLocalDto
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveMessage(savedMessage: SavedMessageLocalDto)
-
-    @Query("SELECT * FROM saved_message_table")
-    suspend fun getSavedMessages(): List<SavedMessageLocalDto>
-
-    @Query("DELETE FROM saved_message_table WHERE id = :id")
-    suspend fun deleteSavedMessageById(id: Int)
 
 }

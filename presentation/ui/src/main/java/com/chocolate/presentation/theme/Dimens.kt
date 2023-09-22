@@ -46,6 +46,7 @@ val TextHeight14 = 14.sp
 
 //region Border Size Dimensions
 val Border1 = 1.dp
+val Border2 = 2.dp
 //endregion
 
 //region thickness Size Dimensions

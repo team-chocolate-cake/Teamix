@@ -21,9 +21,9 @@ import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.chocolate.presentation.R
-import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXLarge
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -34,7 +34,7 @@ fun MessageOptionsBottomSheet(
     onPinMessage: () -> Unit,
     onDismiss: () -> Unit,
 
-) {
+    ) {
     val modalBottomSheetState = rememberModalBottomSheetState()
     val reacts = listOf(
         R.drawable.red_heart,
@@ -78,10 +78,11 @@ fun MessageOptionsBottomSheet(
             }
 
             BottomSheetItem(
-                icon = painterResource(id =R.drawable.bookmark ),
-                text = stringResource(R.string.add_to_saved_items) ,
+                icon = painterResource(id = R.drawable.bookmark),
+                text = stringResource(R.string.add_to_saved_items),
                 onClickItem = {
                     onSaveMessage()
+                    onDismiss()
                 }
             )
             BottomSheetItem(

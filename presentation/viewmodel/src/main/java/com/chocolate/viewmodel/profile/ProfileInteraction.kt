@@ -1,9 +1,10 @@
 package com.chocolate.viewmodel.profile
 
 import android.content.Context
+import android.net.Uri
 
 interface ProfileInteraction {
-    fun updateEditUsernameDialogState(editUsernameState:Boolean)
+    fun updateEditUsernameDialogState(editUsernameState: Boolean)
 
     fun onUpdateLanguage(language: String)
     fun onUpdateLanguageDialogState(showDialog: Boolean)
@@ -17,8 +18,8 @@ interface ProfileInteraction {
     fun onClickProfileButton()
     fun onClickSettingsButton()
     fun onClickChangeMemberRole()
-    fun onClickDarkThemeSwitch(darkTheme: Boolean,context:Context)
-    fun restartActivity(context:Context)
+    fun onClickDarkThemeSwitch(darkTheme: Boolean, context: Context)
+    fun restartActivity(context: Context)
     fun onDismissEditTextDialog()
-
+    fun onUpdateProfileImage(imageUri:Uri)
 }

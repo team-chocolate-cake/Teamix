@@ -17,7 +17,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixOutLinedTextField
-import com.chocolate.presentation.screens.create_channel.composable.ActionSnakeBar
+import com.chocolate.presentation.screens.createChannel.composable.ActionSnakeBar
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors

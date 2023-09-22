@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -51,6 +52,7 @@ import com.chocolate.viewmodel.topic.ReactionUiState
 @OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun ReplyMessage(
+    modifier: Modifier = Modifier,
     messageUiState: MessageUiState,
     onAddReactionToMessage: (Int) -> Unit,
     onSaveMessage: () -> Unit,
@@ -58,6 +60,7 @@ fun ReplyMessage(
     onPinMessage: () -> Unit,
     onOpenReactTile: () -> Unit,
     onClickReact: (Boolean, ReactionUiState) -> Unit,
+
 ) {
     var showSheet by remember { mutableStateOf(false) }
     AnimatedVisibility(showSheet) {
@@ -71,7 +74,7 @@ fun ReplyMessage(
         }
     }
     ConstraintLayout(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(
                 end = SpacingXXLarge,
@@ -97,7 +100,7 @@ fun ReplyMessage(
         )
 
         Card(colors = CardDefaults.cardColors(
-            containerColor = Color.White
+            containerColor = MaterialTheme.customColors().card
         ),
             modifier = Modifier
                 .fillMaxWidth()
@@ -129,12 +132,24 @@ fun ReplyMessage(
             Column(
                 modifier = Modifier.padding(SpacingXMedium)
             ) {
+                Row {
+                    Text(
+                        text = messageUiState.username,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.customColors().primary
+                    )
 
-                Text(
-                    text = messageUiState.username,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.customColors().primary
-                )
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = SpacingXMedium),
+                        textAlign = TextAlign.Start,
+                        text = messageUiState.replayDate,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.customColors().onBackground87
+                    )
+
+                }
 
                 AnimatedVisibility(messageUiState.messageImageUrl.isNotEmpty()) {
                     AsyncImage(
@@ -154,15 +169,6 @@ fun ReplyMessage(
                 Text(
                     textAlign = TextAlign.Start,
                     text = messageUiState.message,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.customColors().onBackground87
-                )
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = SpacingMedium),
-                    textAlign = TextAlign.Start,
-                    text = messageUiState.replayDate,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.customColors().onBackground87
                 )

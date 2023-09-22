@@ -13,11 +13,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.chocolate.presentation.theme.CardHeight56
 import com.chocolate.presentation.theme.Radius12
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.TextFieldHeight48
@@ -31,6 +35,7 @@ fun TeamixTextField(
     hint: String = "",
     singleLine: Boolean = false,
     minLines: Int = 1,
+    textColor: Color = MaterialTheme.customColors().onBackground87,
     containerColor: Color = MaterialTheme.customColors().card,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -43,10 +48,15 @@ fun TeamixTextField(
     TextField(
         modifier = modifier
             .fillMaxWidth()
-            .height(TextFieldHeight48),
+            .height(CardHeight56),
         value = value,
         onValueChange = {onValueChange(it)},
-        textStyle = MaterialTheme.typography.bodySmall,
+        textStyle = remember {
+            TextStyle(
+                fontSize = 16.sp, // Adjust the font size as needed
+                color = textColor // Set the text color here
+            )
+        },
         singleLine = singleLine,
         minLines = minLines,
         keyboardOptions = keyboardOptions,

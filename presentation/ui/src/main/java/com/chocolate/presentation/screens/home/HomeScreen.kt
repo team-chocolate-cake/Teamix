@@ -49,7 +49,7 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.Screen
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.channel.navigateToChannel
-import com.chocolate.presentation.screens.create_channel.navigateToCreateChannel
+import com.chocolate.presentation.screens.createChannel.navigateToCreateChannel
 import com.chocolate.presentation.screens.drafts.navigateToDrafts
 import com.chocolate.presentation.screens.home.composable.BadgeHome
 import com.chocolate.presentation.screens.home.composable.ChannelItem
@@ -95,8 +95,9 @@ fun HomeScreen(
             }
             HomeUiEffect.NavigationToDrafts -> navController.navigateToDrafts()
             HomeUiEffect.NavigationToSavedLater -> navController.navigateToSaveLater()
-            HomeUiEffect.NavigationToStarred -> {}
-            is HomeUiEffect.NavigateToTopic -> navController.navigateToTopic(effect.topicName)
+            is HomeUiEffect.NavigateToTopic -> navController.navigateToTopic(
+                effect.channelId,effect.topicId,effect.topicName
+            )
             HomeUiEffect.NavigateToCreateChannel -> navController.navigateToCreateChannel()
         }
     }
@@ -206,8 +207,8 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                     colors = colors,
                     onClickItemChannel = { id, name ->
                         homeInteraction.onClickChannel(id, name)
-                    }, onClickTopic = {
-                        homeInteraction.onClickTopic(it)
+                    }, onClickTopic = {channelId,topicId, name ->
+                        homeInteraction.onClickTopic(channelId,topicId,name)
                     },
                     modifier = Modifier
                         .padding(horizontal = SpacingXLarge)

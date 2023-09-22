@@ -52,7 +52,7 @@ fun MemberItem(
     chooseMemberUiState: ChooseMembersUiState,
     painter: Painter,
     contentDescription: String = "",
-    onClickMemberItem: (Int) -> Unit
+    onClickMemberItem: (String) -> Unit
 ) {
 
     val colors = MaterialTheme.customColors()

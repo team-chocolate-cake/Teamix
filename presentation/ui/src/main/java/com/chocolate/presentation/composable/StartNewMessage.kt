@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingUltraGigantic
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.SpacingXXLarge
@@ -98,14 +99,16 @@ fun StartNewMessage(
                     )
                 }
             }
+
             TeamixTextField(
-                singleLine = false,
+                singleLine = true,
                 modifier = Modifier
-                    .height(SpacingExtraHuge)
+                    .height(SpacingUltraGigantic)
                     .fillMaxWidth(0.9f)
                     .padding(end = 8.dp),
                 value = messageInput,
                 onValueChange = { onMessageInputChanged(it) },
+                containerColor =MaterialTheme.customColors().background
             )
             Surface(
                 modifier = Modifier

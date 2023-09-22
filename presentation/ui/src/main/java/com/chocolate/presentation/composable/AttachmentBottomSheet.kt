@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.viewmodel.topic.PhotoOrVideoUiState
+import com.chocolate.viewmodel.topicMessages.PhotoOrVideoUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

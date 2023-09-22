@@ -45,10 +45,10 @@ import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
-import com.chocolate.viewmodel.organization_name.OrganizationNameInteraction
-import com.chocolate.viewmodel.organization_name.OrganizationNameUiEffect
-import com.chocolate.viewmodel.organization_name.OrganizationNameUiState
-import com.chocolate.viewmodel.organization_name.OrganizationNameViewModel
+import com.chocolate.viewmodel.organizationName.OrganizationNameInteraction
+import com.chocolate.viewmodel.organizationName.OrganizationNameUiEffect
+import com.chocolate.viewmodel.organizationName.OrganizationNameUiState
+import com.chocolate.viewmodel.organizationName.OrganizationNameViewModel
 
 @Composable
 fun OrganizationScreen(

@@ -56,7 +56,7 @@ import com.chocolate.presentation.screens.home.composable.ChannelItem
 import com.chocolate.presentation.screens.home.composable.ManageChannelBottomSheet
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.screens.saveLater.navigateToSaveLater
-import com.chocolate.presentation.screens.topic_details.navigateToTopic
+import com.chocolate.presentation.screens.topicMessages.navigateToTopic
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Float1
 import com.chocolate.presentation.theme.LightPrimary

@@ -24,7 +24,7 @@ import com.chocolate.presentation.composable.EmptyDataWithBoxLottie
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.channel.composable.Topic
 import com.chocolate.presentation.screens.createTopic.navigateToCreateTopic
-import com.chocolate.presentation.screens.topic_details.navigateToTopic
+import com.chocolate.presentation.screens.topicMessages.navigateToTopic
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors

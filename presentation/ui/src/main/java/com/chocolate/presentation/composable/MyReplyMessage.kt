@@ -37,8 +37,8 @@ import com.chocolate.presentation.theme.SpacingTiny
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.viewmodel.topic.MessageUiState
-import com.chocolate.viewmodel.topic.ReactionUiState
+import com.chocolate.viewmodel.topicMessages.MessageUiState
+import com.chocolate.viewmodel.topicMessages.ReactionUiState
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
 @Composable

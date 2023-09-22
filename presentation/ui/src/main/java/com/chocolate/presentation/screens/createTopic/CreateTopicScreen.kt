@@ -29,7 +29,7 @@ import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.createChannel.composable.ActionSnakeBar
-import com.chocolate.presentation.screens.topic_details.navigateToTopic
+import com.chocolate.presentation.screens.topicMessages.navigateToTopic
 import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors

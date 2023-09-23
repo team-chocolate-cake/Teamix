@@ -1,17 +1,17 @@
 package com.chocolate.usecases.channel
 
-import repositories.ChannelsRepository
+import repositories.ChannelRepository
 import repositories.MemberRepository
 import javax.inject.Inject
 
 class ManageChannelsUseCase @Inject constructor(
-    private val channelsRepository: ChannelsRepository,
+    private val channelRepository: ChannelRepository,
     private val usersRepositories: MemberRepository
 ) {
 
     suspend fun getChannelsInCurrentOrganization() =
-        channelsRepository.getChannelsInCurrentOrganization()
+        channelRepository.getChannelsInCurrentOrganization()
 
-    suspend fun getChannelsForCurrentMember() = channelsRepository.getChannelsForCurrentMember()
+    suspend fun getChannelsForCurrentMember() = channelRepository.getChannelsForCurrentMember()
 
 }

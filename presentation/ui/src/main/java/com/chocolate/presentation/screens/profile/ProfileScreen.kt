@@ -42,7 +42,7 @@ import com.chocolate.presentation.Screen
 import com.chocolate.presentation.composable.EditTextDialog
 import com.chocolate.presentation.composable.MultiChoiceDialog
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
+import com.chocolate.presentation.screens.organization.navigateToOrganizationName
 import com.chocolate.presentation.screens.profile.composable.ProfileDialog
 import com.chocolate.presentation.screens.profile.composable.ProfileHorizontalPager
 import com.chocolate.presentation.screens.profile.composable.ProfileImage

@@ -19,8 +19,7 @@ fun MemberDto.toEntity(): Member =
     )
 
 @JvmName("membersDtoToMembers")
-fun List<MemberDto>.toEntity(): List<Member> =
-    this.map { it.toEntity() }
+fun List<MemberDto>.toEntity(): List<Member> = this.map { it.toEntity() }
 
 @JvmName("memberToMemberDto")
 fun Member.toRemote(): MemberDto =
@@ -37,5 +36,4 @@ fun Member.toRemote(): MemberDto =
     )
 
 @JvmName("membersToMembersDto")
-fun List<Member>.toRemote(): List<MemberDto> =
-    this.map { it.toRemote() }
+fun List<Member>.toRemote(): List<MemberDto> = this.map { it.toRemote() }

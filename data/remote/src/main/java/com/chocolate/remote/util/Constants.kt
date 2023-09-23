@@ -10,10 +10,8 @@ object Constants {
     const val CHATS = "Chats"
     const val TEAMIX = "teamix"
     const val SAVED_LATER = "savedLater"
-    const val MEMBERS_DOC = "members"
     const val MESSAGES = "messages"
-    const val LASTMESSAGEDATE = "lastMessageDate"
-    const val SENTAT = "sentAt"
+    const val LAST_MESSAGE_DATE = "lastMessageDate"
     const val PROFILE_IMAGES_PATH = "profile images"
     const val ORGANIZATION_IMAGES_PATH = "organization images"
 }

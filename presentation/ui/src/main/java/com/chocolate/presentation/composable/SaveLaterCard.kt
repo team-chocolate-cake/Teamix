@@ -30,7 +30,7 @@ import com.chocolate.presentation.theme.SpacingMassive
 import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.viewmodel.saveLater.MessageItemUiState
+import com.chocolate.viewmodel.savedlater.MessageItemUiState
 
 @Composable
 fun SaveLaterCard(item: MessageItemUiState, painter: Painter) {

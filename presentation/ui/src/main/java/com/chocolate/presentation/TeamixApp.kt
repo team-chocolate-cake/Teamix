@@ -10,9 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.screens.bottomNavigation.BottomNavigation
-import com.chocolate.presentation.screens.bottomNavigation.BottomNavigationItem
-import com.chocolate.presentation.screens.bottomNavigation.currentRoute
+import com.chocolate.presentation.screens.bottomnavigation.BottomNavigation
+import com.chocolate.presentation.screens.bottomnavigation.BottomNavigationItem
+import com.chocolate.presentation.screens.bottomnavigation.currentRoute
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.LocalNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController

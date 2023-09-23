@@ -2,29 +2,29 @@ package com.chocolate.usecases.organization
 
 import com.chocolate.entities.exceptions.EmptyOrganizationNameException
 import com.chocolate.entities.exceptions.OrganizationNotFoundException
-import repositories.OrganizationsRepository
+import repositories.OrganizationRepository
 import javax.inject.Inject
 
 class ManageOrganizationDetailsUseCase @Inject constructor(
-    private val organizationsRepository: OrganizationsRepository,
+    private val organizationRepository: OrganizationRepository,
 
     ) {
     suspend fun saveOrganizationName(organizationName: String): Boolean {
-        organizationsRepository.saveOrganizationName(organizationName)
+        organizationRepository.saveOrganizationName(organizationName)
         return true
     }
 
     suspend fun getOrganizationName(): String {
-        return organizationsRepository.getOrganizationName()
+        return organizationRepository.getOrganizationName()
     }
 
     suspend fun getOrganizationImage(): String {
-        return organizationsRepository.getOrganizationImage()
+        return organizationRepository.getOrganizationImage()
     }
 
     suspend fun organizationSignIn(organizationName: String): String {
         if (organizationName.isBlank()) throw EmptyOrganizationNameException
-        val organization = organizationsRepository.getOrganizationByName(organizationName)
+        val organization = organizationRepository.getOrganizationByName(organizationName)
             ?: throw OrganizationNotFoundException
         return organization.name
     }

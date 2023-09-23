@@ -1,7 +1,5 @@
 package com.chocolate.entities.channel
 
-import com.chocolate.entities.topic.Topic
-
 data class Channel(
     val id: String,
     val name: String,
@@ -9,5 +7,3 @@ data class Channel(
     val isPrivate: Boolean,
     val membersId:List<String>
 )
-
-

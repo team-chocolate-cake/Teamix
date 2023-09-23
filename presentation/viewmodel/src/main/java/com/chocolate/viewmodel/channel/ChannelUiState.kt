@@ -1,7 +1,7 @@
 package com.chocolate.viewmodel.channel
 
 import com.chocolate.entities.uills.Empty
-import com.chocolate.viewmodel.topicMessages.ReactionUiState
+import com.chocolate.viewmodel.topicmessages.ReactionUiState
 
 data class ChannelUiState(
     val channelName: String = String.Empty,

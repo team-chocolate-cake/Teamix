@@ -12,7 +12,7 @@ import com.chocolate.usecases.member.AttemptMemberLoginUseCase
 import com.chocolate.usecases.member.CreateMemberUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
-import com.chocolate.viewmodel.chooseMember.CreateMemberArgs
+import com.chocolate.viewmodel.choosemember.CreateMemberArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject

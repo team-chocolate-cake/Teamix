@@ -27,7 +27,7 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.FitImage
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.screens.on_boarding.navigateToOnboarding
+import com.chocolate.presentation.screens.onboarding.navigateToOnboarding
 import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.SpacingMegaGigantic
 import com.chocolate.presentation.theme.SpacingXLarge

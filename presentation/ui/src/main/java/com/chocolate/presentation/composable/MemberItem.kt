@@ -42,7 +42,7 @@ import com.chocolate.presentation.theme.SpacingUltraGigantic
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.viewmodel.chooseMember.ChooseMembersUiState
+import com.chocolate.viewmodel.choosemember.ChooseMembersUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

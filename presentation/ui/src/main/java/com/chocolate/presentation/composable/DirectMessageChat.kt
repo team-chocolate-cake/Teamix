@@ -21,7 +21,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.viewmodel.directMessage.ChatUiState
+import com.chocolate.viewmodel.directmessage.ChatUiState
 
 @Composable
 fun DirectMessageChat(state: ChatUiState , modifier: Modifier){

@@ -3,7 +3,7 @@ package com.chocolate.repository.mappers.messages
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.chocolate.entities.messages.Message
-import com.chocolate.repository.datastore.realtime.model.MessageDto
+import com.chocolate.repository.model.dto.message.MessageDto
 import com.chocolate.repository.utils.getCurrentTime
 import java.util.Date
 

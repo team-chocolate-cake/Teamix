@@ -3,7 +3,7 @@ package com.chocolate.presentation.composable
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import com.chocolate.presentation.screens.createChannel.composable.ActionSnakeBar
+import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
 import kotlinx.coroutines.delay
 
 @Composable

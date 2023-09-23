@@ -4,7 +4,6 @@ import com.chocolate.entities.member.Member
 import kotlinx.coroutines.flow.Flow
 
 interface MemberRepository {
-
     suspend fun checkIfUserUsedAppOrNot(): Flow<Boolean>
 
     suspend fun setUserUsedAppForFirstTime(isComplete: Boolean)

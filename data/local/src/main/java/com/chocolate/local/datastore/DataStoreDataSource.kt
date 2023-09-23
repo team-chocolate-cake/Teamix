@@ -1,12 +1,11 @@
 package com.chocolate.local.datastore
 
-import android.content.SharedPreferences
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.chocolate.repository.datastore.local.PreferencesDataSource
+import com.chocolate.repository.datasource.local.PreferencesDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -95,12 +94,10 @@ class DataStoreDataSource @Inject constructor(
 
     companion object {
         private val IS_FIRST_TIME = booleanPreferencesKey("IS_FIRST_TIME")
-        const val API_KEY = "API_KEY"
         val LOGIN_STATE = booleanPreferencesKey("LOGIN_STATE")
         val MEMBER_ID = stringPreferencesKey("MEMBER_ID")
         val ORGANIZATION_NAME = stringPreferencesKey("ORGANIZATION_NAME")
         const val ENGLISH = "en"
-        const val DARK_THEME = "APP_DARK_THEME"
         private val IS_DARK_THEME = booleanPreferencesKey("Is_Dark_Theme")
         private val LOCAL_LANGUAGE = stringPreferencesKey("LOCAL_LANGUAGE")
     }

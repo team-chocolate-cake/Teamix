@@ -1,6 +1,6 @@
 package com.chocolate.usecases.directmessage
 
-import com.chocolate.entities.directMessage.Chat
+import com.chocolate.entities.directmessage.Chat
 import javax.inject.Inject
 
 class SearchInDirectMessageChatsUseCase @Inject constructor() {

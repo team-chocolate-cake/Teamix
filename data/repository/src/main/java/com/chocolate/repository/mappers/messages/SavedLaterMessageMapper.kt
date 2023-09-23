@@ -11,7 +11,12 @@ fun Flow<List<SavedLaterMessageDto>>.toEntity(member: Member): Flow<List<SavedLa
 }
 
 fun SavedLaterMessageDto.toEntity(member: Member): SavedLaterMessage {
-    return SavedLaterMessage(id = id!!, sender = member, messageContent = messageContent!!, date = date!!)
+    return SavedLaterMessage(
+        id = id!!,
+        sender = member,
+        messageContent = messageContent!!,
+        date = date!!
+    )
 }
 
 fun SavedLaterMessage.toRemote(): SavedLaterMessageDto = SavedLaterMessageDto(

@@ -2,12 +2,12 @@ package com.chocolate.repository.repository
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.chocolate.entities.directMessage.Chat
+import com.chocolate.entities.directmessage.Chat
 import com.chocolate.entities.exceptions.EmptyOrganizationNameException
 import com.chocolate.entities.messages.Message
-import com.chocolate.repository.datastore.local.PreferencesDataSource
-import com.chocolate.repository.datastore.remote.DirectMessageRemoteDataSource
-import com.chocolate.repository.datastore.remote.MemberRemoteDataSource
+import com.chocolate.repository.datasource.local.PreferencesDataSource
+import com.chocolate.repository.datasource.remote.DirectMessageDataSource
+import com.chocolate.repository.datasource.remote.MemberDataSource
 import com.chocolate.repository.mappers.messages.toMessage
 import com.chocolate.repository.mappers.messages.toMessageDto
 import kotlinx.coroutines.flow.Flow
@@ -17,20 +17,19 @@ import java.util.Date
 import javax.inject.Inject
 
 class DirectMessageRepositoryImpl @Inject constructor(
-    private val directMessageRemoteDataSource: DirectMessageRemoteDataSource,
-    private val memberRemoteDataSource: MemberRemoteDataSource,
+    private val directMessageDataSource: DirectMessageDataSource,
+    private val memberDataSource: MemberDataSource,
     private val preferencesDataSource: PreferencesDataSource
 ) : DirectMessageRepository {
-
     override suspend fun getChatsByUserId(
         memberId: String,
     ): Flow<List<Chat>> {
         val chats =
-            directMessageRemoteDataSource.getChatsByUserId(memberId, getCurrentOrganizationName())
+            directMessageDataSource.getChatsByMemberId(memberId, getCurrentOrganizationName())
         return chats.map {
             it.map {
                 val member =
-                    memberRemoteDataSource.getMemberInOrganizationById(
+                    memberDataSource.getMemberInOrganizationById(
                         it.secondMemberId,
                         getCurrentOrganizationName()
                     )
@@ -48,7 +47,7 @@ class DirectMessageRepositoryImpl @Inject constructor(
     override suspend fun fetchMessagesByGroupId(
         chatId: String,
     ): Flow<List<Message>> {
-        return directMessageRemoteDataSource.fetchMessagesByGroupId(
+        return directMessageDataSource.fetchMessagesByGroupId(
             chatId,
             getCurrentOrganizationName()
         )
@@ -60,7 +59,7 @@ class DirectMessageRepositoryImpl @Inject constructor(
         message: Message,
         currentChatId: String
     ) {
-        directMessageRemoteDataSource.sendMessage(
+        directMessageDataSource.sendMessage(
             message.toMessageDto(),
             getCurrentOrganizationName(),
             currentChatId
@@ -70,11 +69,10 @@ class DirectMessageRepositoryImpl @Inject constructor(
     override suspend fun createGroup(
         memberIds: List<String>,
     ): String {
-        return directMessageRemoteDataSource.createGroup(memberIds, getCurrentOrganizationName())
+        return directMessageDataSource.createGroup(memberIds, getCurrentOrganizationName())
     }
 
     private suspend fun getCurrentOrganizationName(): String =
         preferencesDataSource.getCurrentOrganizationName()
             ?: throw EmptyOrganizationNameException
-
 }

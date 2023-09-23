@@ -32,7 +32,7 @@ import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.viewmodel.topicMessages.PhotoOrVideoUiState
+import com.chocolate.viewmodel.topicmessages.PhotoOrVideoUiState
 
 @Composable
 fun StartNewMessage(

@@ -1,11 +1,11 @@
 package com.chocolate.usecases.draft
 
 import com.chocolate.entities.draft.Draft
-import repositories.MessagesRepository
+import repositories.TopicsMessageRepository
 import javax.inject.Inject
 
 class ManageDraftsUseCases @Inject constructor(
-    private val draftsRepository: MessagesRepository
+    private val draftsRepository: TopicsMessageRepository
 ) {
     suspend fun getDrafts(): List<Draft> {
         return draftsRepository.getDrafts()

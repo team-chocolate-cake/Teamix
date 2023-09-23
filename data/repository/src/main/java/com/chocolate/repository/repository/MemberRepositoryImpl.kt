@@ -7,27 +7,24 @@ import com.chocolate.entities.exceptions.MemberNotFoundException
 import com.chocolate.entities.exceptions.WrongEmailException
 import com.chocolate.entities.exceptions.WrongEmailOrPasswordException
 import com.chocolate.entities.member.Member
-import com.chocolate.repository.datastore.local.LocalDataSource
-import com.chocolate.repository.datastore.local.PreferencesDataSource
-import com.chocolate.repository.datastore.remote.ChannelRemoteDataSource
-import com.chocolate.repository.datastore.remote.MemberRemoteDataSource
-import com.chocolate.repository.datastore.remote.OrganizationRemoteDataSource
+import com.chocolate.repository.datasource.local.PreferencesDataSource
+import com.chocolate.repository.datasource.remote.ChannelDataSource
+import com.chocolate.repository.datasource.remote.MemberDataSource
+import com.chocolate.repository.datasource.remote.OrganizationDataSource
 import com.chocolate.repository.mappers.toEntity
 import com.chocolate.repository.mappers.toRemote
-import com.chocolate.repository.model.dto.channels.ChannelDto
+import com.chocolate.repository.model.dto.channel.ChannelDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import repositories.MemberRepository
 import javax.inject.Inject
 
 class MemberRepositoryImpl @Inject constructor(
-    private val memberRemoteDataSource: MemberRemoteDataSource,
-    private val organizationRemoteDataSource: OrganizationRemoteDataSource,
+    private val memberDataSource: MemberDataSource,
+    private val organizationDataSource: OrganizationDataSource,
     private val preferencesDataSource: PreferencesDataSource,
-    private val teamixLocalDataSource: LocalDataSource,
-    private val channelDataSource: ChannelRemoteDataSource
+    private val channelDataSource: ChannelDataSource
 ) : MemberRepository {
-
     private suspend fun getCurrentOrganizationName(): String {
         return preferencesDataSource.getCurrentOrganizationName()
             ?: throw EmptyOrganizationNameException
@@ -42,20 +39,20 @@ class MemberRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getMembersInCurrentOrganization(): Flow<List<Member>> {
-        return memberRemoteDataSource.getMembersInOrganizationByOrganizationName(
+        return memberDataSource.getMembersInOrganizationByOrganizationName(
             getCurrentOrganizationName()
         ).map { it?.toEntity() ?: emptyList() }
     }
 
     override suspend fun getMemberInOrganizationByEmail(email: String): Member {
-        return memberRemoteDataSource.getMemberInOrganizationByEmail(
+        return memberDataSource.getMemberInOrganizationByEmail(
             getCurrentOrganizationName(),
             email
         )?.toEntity() ?: throw WrongEmailException
     }
 
     override suspend fun loginMember(email: String, password: String) {
-        memberRemoteDataSource.getMemberInOrganizationByEmail(getCurrentOrganizationName(), email)
+        memberDataSource.getMemberInOrganizationByEmail(getCurrentOrganizationName(), email)
             ?.let { memberDto ->
                 memberDto.toEntity().also { member ->
                     if (password == member.password) {
@@ -71,13 +68,12 @@ class MemberRepositoryImpl @Inject constructor(
     }
 
     override suspend fun logoutMember() {
-        teamixLocalDataSource.deleteDataBase()
         preferencesDataSource.clearMemberData()
     }
 
     override suspend fun getCurrentMember(): Member {
         return preferencesDataSource.getIdOfCurrentMember()?.let { currentUserId ->
-            memberRemoteDataSource.getMemberInOrganizationById(
+            memberDataSource.getMemberInOrganizationById(
                 currentUserId,
                 getCurrentOrganizationName()
             )?.toEntity() ?: throw MemberNotFoundException
@@ -85,11 +81,11 @@ class MemberRepositoryImpl @Inject constructor(
     }
 
     override suspend fun createMember(member: Member): Member {
-        memberRemoteDataSource.getMemberInOrganizationByEmail(
+        memberDataSource.getMemberInOrganizationByEmail(
             getCurrentOrganizationName(),
             member.email
         )?.let { throw MemberAlreadyExistException }
-            ?: organizationRemoteDataSource.addMemberInOrganization(
+            ?: organizationDataSource.addMemberInOrganization(
                 member.toRemote(),
                 getCurrentOrganizationName()
             ).also {
@@ -107,7 +103,7 @@ class MemberRepositoryImpl @Inject constructor(
     }
 
     private suspend fun addMemberInGeneralChannel(member: Member) {
-        memberRemoteDataSource.addMembersInChannel(
+        memberDataSource.addMembersInChannel(
             getCurrentOrganizationName(),
             listOf(member.id),
             "0"
@@ -126,15 +122,14 @@ class MemberRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateMember(member: Member) {
-        memberRemoteDataSource.updateMember(getCurrentOrganizationName(), member.toRemote())
+        memberDataSource.updateMember(getCurrentOrganizationName(), member.toRemote())
     }
 
     override suspend fun updateMemberPicture(imageUri: String) {
 
-        memberRemoteDataSource.updateMemberImage(
+        memberDataSource.updateMemberImage(
             getCurrentOrganizationName(),
             getCurrentMember().copy(imageUrl = imageUri).toRemote()
         )
     }
-
 }

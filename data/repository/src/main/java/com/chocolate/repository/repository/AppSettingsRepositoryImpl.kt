@@ -1,6 +1,6 @@
 package com.chocolate.repository.repository
 
-import com.chocolate.repository.datastore.local.PreferencesDataSource
+import com.chocolate.repository.datasource.local.PreferencesDataSource
 import kotlinx.coroutines.flow.Flow
 import repositories.AppSettingsRepository
 import javax.inject.Inject

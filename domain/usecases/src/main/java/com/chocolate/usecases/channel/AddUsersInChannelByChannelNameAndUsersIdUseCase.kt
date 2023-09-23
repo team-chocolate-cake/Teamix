@@ -3,11 +3,11 @@ package com.chocolate.usecases.channel
 import com.chocolate.entities.exceptions.ValidationException
 import com.chocolate.entities.uills.Empty
 import kotlinx.coroutines.flow.firstOrNull
-import repositories.ChannelsRepository
+import repositories.ChannelRepository
 import javax.inject.Inject
 
 class AddUsersInChannelByChannelNameAndUsersIdUseCase @Inject constructor(
-    private val repository: ChannelsRepository
+    private val repository: ChannelRepository
 ) {
 
     suspend operator fun invoke(

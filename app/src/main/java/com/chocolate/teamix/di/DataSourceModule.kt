@@ -1,23 +1,21 @@
 package com.chocolate.teamix.di
 
-import com.chocolate.local.dao.RoomDataSource
 import com.chocolate.local.datastore.DataStoreDataSource
-import com.chocolate.remote.data_source.DirectMessageRemoteDataSourceImpl
-import com.chocolate.remote.data_source.ChannelFireBaseDataSource
-import com.chocolate.remote.data_source.MemberRemoteDataSourceImpl
-import com.chocolate.remote.data_source.MessagesFireBaseDataSource
-import com.chocolate.remote.data_source.OrganizationRemoteRemoteDataSourceImpl
-import com.chocolate.remote.data_source.SavedLaterDataSourceImpl
-import com.chocolate.remote.data_source.TopicFireBaseDataSource
-import com.chocolate.repository.datastore.local.LocalDataSource
-import com.chocolate.repository.datastore.local.PreferencesDataSource
-import com.chocolate.repository.datastore.realtime.TopicDataSource
-import com.chocolate.repository.datastore.remote.ChannelRemoteDataSource
-import com.chocolate.repository.datastore.remote.DirectMessageRemoteDataSource
-import com.chocolate.repository.datastore.remote.MemberRemoteDataSource
-import com.chocolate.repository.datastore.remote.MessagesRemoteDataSource
-import com.chocolate.repository.datastore.remote.OrganizationRemoteDataSource
-import com.chocolate.repository.datastore.remote.SavedLaterDataSource
+import com.chocolate.remote.datasource.DirectMessageFirebaseDataSource
+import com.chocolate.remote.datasource.ChannelFirebaseDataSource
+import com.chocolate.remote.datasource.MemberFirebaseDataSource
+import com.chocolate.remote.datasource.TopicsMessageFireBaseDataSourceTopic
+import com.chocolate.remote.datasource.OrganizationFirebaseDataSource
+import com.chocolate.remote.datasource.SavedLaterFirebaseDataSource
+import com.chocolate.remote.datasource.TopicFirebaseDataSource
+import com.chocolate.repository.datasource.local.PreferencesDataSource
+import com.chocolate.repository.datasource.remote.TopicDataSource
+import com.chocolate.repository.datasource.remote.ChannelDataSource
+import com.chocolate.repository.datasource.remote.DirectMessageDataSource
+import com.chocolate.repository.datasource.remote.MemberDataSource
+import com.chocolate.repository.datasource.remote.TopicMessagesDataSource
+import com.chocolate.repository.datasource.remote.OrganizationDataSource
+import com.chocolate.repository.datasource.remote.SavedLaterDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -27,13 +25,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class DataSourceModule {
-
-    @Singleton
-    @Binds
-    abstract fun bindLocalDataSource(
-        roomDataSource: RoomDataSource
-    ): LocalDataSource
-
     @Singleton
     @Binds
     abstract fun bindPreferencesDataSource(
@@ -42,31 +33,29 @@ abstract class DataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun bindChannelDataSource(channelDataSource: ChannelFireBaseDataSource):
-            ChannelRemoteDataSource
+    abstract fun bindChannelDataSource(channelDataSource: ChannelFirebaseDataSource): ChannelDataSource
 
     @Singleton
     @Binds
-    abstract fun bindMessagesDataSource(messagesDataSource: MessagesFireBaseDataSource):
-            MessagesRemoteDataSource
+    abstract fun bindMessagesDataSource(messagesDataSource: TopicsMessageFireBaseDataSourceTopic): TopicMessagesDataSource
 
     @Singleton
     @Binds
-    abstract fun bindOrganizationDataSource(organizationRemoteDataSourceImpl: OrganizationRemoteRemoteDataSourceImpl): OrganizationRemoteDataSource
+    abstract fun bindOrganizationDataSource(organizationFirebaseDataSource: OrganizationFirebaseDataSource): OrganizationDataSource
 
     @Singleton
     @Binds
-    abstract fun bindMemberRemoteDataSource(memberRemoteDataSourceImpl: MemberRemoteDataSourceImpl): MemberRemoteDataSource
+    abstract fun bindMemberDataSource(memberFirebaseDataSource: MemberFirebaseDataSource): MemberDataSource
 
     @Singleton
     @Binds
-    abstract fun bindsSavedLaterDataSource(savedLaterDataSourceImpl: SavedLaterDataSourceImpl): SavedLaterDataSource
+    abstract fun bindsSavedLaterDataSource(savedLaterFirebaseDataSource: SavedLaterFirebaseDataSource): SavedLaterDataSource
 
     @Singleton
     @Binds
-    abstract fun bindsTopicDataSource(topicDataSource: TopicFireBaseDataSource): TopicDataSource
+    abstract fun bindsTopicDataSource(topicFirebaseDataSource: TopicFirebaseDataSource): TopicDataSource
+
     @Singleton
     @Binds
-    abstract fun bindDMDataSourceImpl(directMessageRemoteDataSource: DirectMessageRemoteDataSourceImpl): DirectMessageRemoteDataSource
-
+    abstract fun bindDirectMessageDataSource(directMessageRemoteDataSourceImpl: DirectMessageFirebaseDataSource): DirectMessageDataSource
 }

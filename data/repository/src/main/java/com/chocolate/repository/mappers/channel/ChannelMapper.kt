@@ -1,29 +1,23 @@
-package com.chocolate.repository.mappers.channel_mappers
+package com.chocolate.repository.mappers.channel
 
 import com.chocolate.entities.channel.Channel
-import com.chocolate.repository.model.dto.channels.ChannelDto
-import com.chocolate.repository.model.dto.channels.response.DefaultStreamDto
-import com.chocolate.repository.utils.SUCCESS
-
-
-fun DefaultStreamDto.toSuccessOrFail(): Boolean = this.result?.equals(SUCCESS) ?: false
-
+import com.chocolate.repository.model.dto.channel.ChannelDto
 
 fun ChannelDto.toChannel() = Channel(
     id = id ?: "",
     name = name ?: "",
     description = description ?: "",
     isPrivate = isPrivate ?: false,
-    membersId = membersId?: emptyList(),
+    membersId = membersId ?: emptyList(),
 )
-fun List<ChannelDto>?.toChannel(): List<Channel> = this?.map { it.toChannel() } ?: emptyList()
 
+fun List<ChannelDto>?.toChannel(): List<Channel> = this?.map { it.toChannel() } ?: emptyList()
 
 fun Channel.toChannelDto() = ChannelDto(
     id = id,
     name = name,
-    description = description ,
-    isPrivate = isPrivate ,
+    description = description,
+    isPrivate = isPrivate,
     membersId = membersId,
 )
 

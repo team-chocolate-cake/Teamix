@@ -1,9 +1,6 @@
 package com.chocolate.presentation.screens.login
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
@@ -54,6 +51,7 @@ import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
+import com.chocolate.presentation.util.hideKeyboard
 import com.chocolate.viewmodel.login.LoginInteraction
 import com.chocolate.viewmodel.login.LoginUiEffect
 import com.chocolate.viewmodel.login.LoginUiState
@@ -188,10 +186,4 @@ fun LoginContent(
 }
 
 
-private fun hideKeyboard(context: Context, rootView: View) {
-    val windowToken = rootView.windowToken
-    val inputMethodManager =
-        context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
-}
 

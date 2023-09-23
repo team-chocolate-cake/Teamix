@@ -98,6 +98,7 @@
     <string name="invalid_email_or_password">Correo electrónico o contraseña no válidos</string>
     <string name="organization_name_not_found">Nombre de la organización no encontrado</string>
     <string name="organization_name_cannot_be_empty">El nombre de la organización no puede estar vacío</string>
+    <string name="organization_name_or_image_cannot_be_empty">El nombre o la imagen de la organización no pueden estar vacíos.</string>
     <string name="get_stated">Comenzar</string>
     <string name="welcome_image">Imagen de bienvenida</string>
     <string name="animatesize">Tamaño animado</string>

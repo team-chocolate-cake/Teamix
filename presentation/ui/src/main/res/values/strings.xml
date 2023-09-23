@@ -98,6 +98,7 @@
     <string name="invalid_email_or_password">Invalid email or password.</string>
     <string name="organization_name_not_found">Organization name not found</string>
     <string name="organization_name_cannot_be_empty">Organization name cannot be empty</string>
+    <string name="organization_name_or_image_cannot_be_empty">Organization name or image cannot be empty</string>
     <string name="get_stated">Get Stated</string>
     <string name="welcome_image">Welcome image</string>
     <string name="animatesize">animateSize</string>

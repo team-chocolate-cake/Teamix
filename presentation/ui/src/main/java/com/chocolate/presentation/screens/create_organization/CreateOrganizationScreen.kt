@@ -4,10 +4,14 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -17,9 +21,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -33,19 +40,19 @@ import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixImagePicker
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
-import com.chocolate.presentation.screens.createMember.navigateToCreateMember
 import com.chocolate.presentation.screens.createChannel.composable.ActionSnakeBar
+import com.chocolate.presentation.screens.createMember.navigateToCreateMember
 import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.SpacingGigantic
-import com.chocolate.presentation.theme.SpacingMegaGigantic
-import com.chocolate.presentation.theme.SpacingSuperMassive
+import com.chocolate.presentation.theme.SpacingUltimateGigantic
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
+import com.chocolate.presentation.util.hideKeyboard
 import com.chocolate.viewmodel.createOrganization.CreateOrganizationInteraction
 import com.chocolate.viewmodel.createOrganization.CreateOrganizationUiEffect
 import com.chocolate.viewmodel.createOrganization.CreateOrganizationUiState
@@ -58,6 +65,7 @@ fun CreateOrganizationScreen(
 ) {
     val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
+
     CollectUiEffect(viewModel.effect) { effect ->
         when (effect) {
             is CreateOrganizationUiEffect.NavigateToCreateMemberScreen ->
@@ -84,13 +92,24 @@ fun CreateOrganizationContent(
 ) {
     val colors = MaterialTheme.customColors()
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
+    val rootView = LocalView.current
     TeamixScaffold(isDarkMode = isSystemInDarkTheme()) {
-        Column(modifier = Modifier.verticalScroll(scrollState)) {
-            TeamixImagePicker(createOrganizationInteraction::onOrganizationImageChange, modifier = Modifier.padding(top=SpacingSuperMassive))
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState),
+            verticalArrangement = Arrangement.Center
+        ) {
+            TeamixImagePicker(
+                createOrganizationInteraction::onOrganizationImageChange,
+                modifier = Modifier.padding(top = SpacingGigantic),
+                placeHolderImage = R.drawable.placehoderimage
+            )
             Text(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
-                    .padding(top = SpacingMegaGigantic),
+                    .padding(top = SpacingUltimateGigantic),
                 text = stringResource(R.string.enter_your_name_organization),
                 style = MaterialTheme.typography.labelMedium,
                 color = colors.onBackground87
@@ -111,7 +130,8 @@ fun CreateOrganizationContent(
             )
             TeamixButton(
                 onClick = {
-                    createOrganizationInteraction.onClickNextButton()
+                    hideKeyboard(context, rootView)
+                    createOrganizationInteraction.onClickNextButton(state.showSnakeBar)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -119,7 +139,14 @@ fun CreateOrganizationContent(
                     .padding(horizontal = SpacingXLarge),
                 colors = colors,
             ) {
-                AnimatedVisibility(state.isLoading) { CircularProgressIndicator(color = colors.card) }
+                AnimatedVisibility(state.isLoading) {
+                    CircularProgressIndicator(
+                        color = colors.card,
+                        modifier = Modifier
+                            .size(SpacingXXLarge)
+                            .align(Alignment.CenterVertically)
+                    )
+                }
                 AnimatedVisibility(state.isLoading.not()) {
                     Text(
                         text = stringResource(R.string.next),
@@ -147,12 +174,16 @@ fun CreateOrganizationContent(
                     .padding(bottom = SpacingXXLarge),
                 textAlign = TextAlign.Center
             )
+            Spacer(modifier = Modifier.weight(1f))
             state.error?.let {
-                ActionSnakeBar(
-                    contentMessage = state.error.toString(),
-                    isVisible = true,
-                    isToggleButtonVisible = false
-                )
+                key(state.showSnakeBar) {
+                    ActionSnakeBar(
+                        contentMessage = state.error.toString(),
+                        isVisible = true,
+                        isToggleButtonVisible = false
+                    )
+                }
+
             }
 
         }

@@ -30,8 +30,8 @@ class OrganizationNameViewModel @Inject constructor(
         sendUiEffect(OrganizationNameUiEffect.NavigateToCreateOrganization)
     }
 
-    override fun onEnterButtonClick(organizationName: String) {
-        _state.update { it.copy(isLoading = true) }
+    override fun onEnterButtonClick(organizationName: String,snakeBarr:Boolean) {
+        _state.update { it.copy(isLoading = true, showSnakeBar = !snakeBarr) }
         tryToExecute(
             { manageOrganizationDetails.organizationSignIn(organizationName) },
             ::onOrganizationSignInSuccess,

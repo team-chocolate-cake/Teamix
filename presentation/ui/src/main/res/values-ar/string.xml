@@ -98,6 +98,7 @@
     <string name="invalid_email_or_password">بريد إلكتروني أو كلمة مرور غير صالحة</string>
     <string name="organization_name_not_found">اسم المنظمة غير موجود</string>
     <string name="organization_name_cannot_be_empty">لا يمكن أن يكون اسم المنظمة فارغًا</string>
+    <string name="organization_name_or_image_cannot_be_empty">لا يمكن أن يكون اسم المنظمة أو صورتها فارغًا</string>
     <string name="get_stated">بدء</string>
     <string name="welcome_image">صورة الترحيب</string>
     <string name="animatesize">حجم متحرك</string>

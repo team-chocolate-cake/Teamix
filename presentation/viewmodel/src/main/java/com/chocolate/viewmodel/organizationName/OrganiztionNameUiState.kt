@@ -7,4 +7,5 @@ data class OrganizationNameUiState(
     val isLoading: Boolean = false,
     val onboardingState: Boolean = false,
     val error: String? = null,
+    val showSnakeBar:Boolean=false
 )

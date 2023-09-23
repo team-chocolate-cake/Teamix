@@ -20,7 +20,7 @@ fun ShowErrorSnackBarLogic(
     }
     LaunchedEffect(showSnackBar.value) {
         if (showSnackBar.value) {
-            delay(2000)
+            delay(1000)
             showSnackBar.value = false
         }
     }

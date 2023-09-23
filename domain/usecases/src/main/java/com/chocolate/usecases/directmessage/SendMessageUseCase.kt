@@ -1,6 +1,6 @@
 package com.chocolate.usecases.directmessage
 
-import com.chocolate.entities.directMessage.DirectMessage
+import com.chocolate.entities.messages.Message
 import repositories.DirectMessageRepository
 import javax.inject.Inject
 
@@ -9,10 +9,9 @@ class SendMessageUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(
-        directMessage: DirectMessage,
+        message: Message,
         currentChatId: String,
-        currentOrgName: String,
     ) {
-        directMessageRepository.sendMessage(directMessage, currentOrgName, currentChatId)
+        directMessageRepository.sendMessage(message, currentChatId)
     }
 }

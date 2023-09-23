@@ -50,8 +50,7 @@ fun DirectMessageChatContent(state: TopicUiState, interaction: TopicMessagesInte
         hasBackArrow = true,
         bottomBar = {
             StartNewMessage(
-                openEmojisTile = {
-                                 },
+                openEmojisTile = {},
                 onMessageInputChanged = { interaction.onMessageInputChanged(it) },
                 onSendMessage = { interaction.onSendMessage(state.messageInput) },
                 onStartVoiceRecording = { },
@@ -86,7 +85,7 @@ fun DirectMessageChatContent(state: TopicUiState, interaction: TopicMessagesInte
                             onAddReactionToMessage = {  },
                             onGetNotification = { },
                             onPinMessage = {  },
-                            onSaveMessage = {  },
+                            onSaveMessage = { interaction.onSaveMessage(state.messages[it]) },
                             onClickReact = { positive, state ->
 
                             }
@@ -98,7 +97,7 @@ fun DirectMessageChatContent(state: TopicUiState, interaction: TopicMessagesInte
                             onAddReactionToMessage = { },
                             onGetNotification = { },
                             onPinMessage = {  },
-                            onSaveMessage = {  },
+                            onSaveMessage = { interaction.onSaveMessage(state.messages[it]) },
                             onOpenReactTile = {  },
                             onClickReact = { positive, state ->
 

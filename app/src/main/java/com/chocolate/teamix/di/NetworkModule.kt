@@ -1,7 +1,6 @@
 package com.chocolate.teamix.di
 
 import com.chocolate.remote.AuthInterceptor
-import com.chocolate.remote.api.DraftService
 import com.chocolate.repository.datastore.local.PreferencesDataSource
 import dagger.Module
 import dagger.Provides
@@ -55,10 +54,6 @@ object NetworkModule {
     @Provides
     fun provideGsonConverterFactory(): GsonConverterFactory = GsonConverterFactory.create()
 
-    @Singleton
-    @Provides
-    fun provideDraftService(retrofit: Retrofit): DraftService =
-        retrofit.create(DraftService::class.java)
 
     @Singleton
     @Provides

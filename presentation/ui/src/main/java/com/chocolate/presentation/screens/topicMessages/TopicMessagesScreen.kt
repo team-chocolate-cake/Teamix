@@ -112,7 +112,6 @@ fun TopicContent(
                             onPinMessage = { },
                             onSaveMessage = { topicInteraction.onSaveMessage(topicUiState.messages[it]) },
                             onClickReact = { positive, state ->
-
                             }
                         )
                     else

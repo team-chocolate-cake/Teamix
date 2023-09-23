@@ -1,18 +1,9 @@
 package com.chocolate.viewmodel.directMessageChat
 
-import com.chocolate.entities.directMessage.DirectMessage
-import com.chocolate.viewmodel.topicMessages.MessageUiState
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-
-fun DirectMessage.toUiState(): MessageUiState = MessageUiState(
-    username = senderFullName,
-    userImage = senderImageUrl,
-    message = messageContent,
-    replayDate = sentAt.formatDate(),
-)
 
 fun Date.formatDate(): String {
     val currentTime = Calendar.getInstance().time

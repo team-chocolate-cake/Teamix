@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import com.chocolate.usecases.directmessage.GetAllChatsByIdUseCase
 import com.chocolate.usecases.directmessage.SearchInDirectMessageChatsUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
-import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
@@ -16,7 +15,6 @@ import javax.inject.Inject
 class DirectMessageViewModel @Inject constructor(
     private val getAllChatsByIdUseCase: GetAllChatsByIdUseCase,
     private val getCurrentMemberUseCase: GetCurrentMemberUseCase,
-    private val manageOrganizationDetails: ManageOrganizationDetailsUseCase,
     private val searchInDirectMessageChatsUseCase: SearchInDirectMessageChatsUseCase
 ) : BaseViewModel<DirectMessageUiState, DirectMessageUiEffect>(DirectMessageUiState()),
     DirectMessageInteractions {
@@ -24,8 +22,7 @@ class DirectMessageViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             val currentMemberId = getCurrentMemberUseCase().id
-            val currentOrganization = manageOrganizationDetails.getOrganizationName()
-            getAllChatsByIdUseCase(currentMemberId, currentOrganization)
+            getAllChatsByIdUseCase(currentMemberId)
                 .combine(state.value.searchInput) { chats, searchQuery ->
                     searchInDirectMessageChatsUseCase(chats, searchQuery)
                 }.collect {

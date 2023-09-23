@@ -6,7 +6,6 @@ import com.chocolate.entities.member.Member
 import com.chocolate.usecases.directmessage.CreateNewChatUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
 import com.chocolate.usecases.member.GetMembersInOrganizationUseCase
-import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,8 +21,9 @@ class DirectMessageChooseMemberViewModel @Inject constructor(
     private val stringsResource: StringsResource,
     private val createNewChatUseCase: CreateNewChatUseCase,
     private val getCurrentMemberUseCase: GetCurrentMemberUseCase,
-    private val manageOrganizationDetails: ManageOrganizationDetailsUseCase,
-) : BaseViewModel<DirectMessageChooseMemberUiState, DirectMessageChooseMemberUiEffect>(DirectMessageChooseMemberUiState()), DirectMessageChooseMemberInteraction {
+) : BaseViewModel<DirectMessageChooseMemberUiState, DirectMessageChooseMemberUiEffect>(
+    DirectMessageChooseMemberUiState()
+), DirectMessageChooseMemberInteraction {
 
     init {
         getUsers()
@@ -31,7 +31,11 @@ class DirectMessageChooseMemberViewModel @Inject constructor(
 
     private fun getUsers() {
         _state.update { it.copy(isLoading = true) }
-        tryToExecute(getMembers::getMembersExceptCurrentMember, ::onGetUsersSuccess, ::onGetUsersError)
+        tryToExecute(
+            getMembers::getMembersExceptCurrentMember,
+            ::onGetUsersSuccess,
+            ::onGetUsersError
+        )
     }
 
     private fun onGetUsersSuccess(members: Flow<List<Member>>) {
@@ -95,7 +99,6 @@ class DirectMessageChooseMemberViewModel @Inject constructor(
             users.add(state.value.selectedMembersUiState!!.userId)
             val groupId = createNewChatUseCase(
                 users.toList(),
-                manageOrganizationDetails.getOrganizationName()
             )
             sendUiEffect(DirectMessageChooseMemberUiEffect.NavigateToDmChat(groupId))
         }

@@ -9,8 +9,7 @@ class CreateNewChatUseCase @Inject constructor(
 
     suspend operator fun invoke(
         userId: List<String>,
-        currentOrgName:String
     ) : String {
-        return directMessageRepository.createGroup(userId , currentOrgName)
+        return directMessageRepository.createGroup(userId)
     }
 }

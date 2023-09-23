@@ -1,13 +1,14 @@
 package com.chocolate.remote.data_source
 
-import com.chocolate.entities.directMessage.DirectMessage
 import com.chocolate.entities.exceptions.TeamixException
 import com.chocolate.remote.util.Constants
+import com.chocolate.remote.util.getRandomId
+import com.chocolate.repository.datastore.realtime.model.MessageDto
 import com.chocolate.repository.datastore.remote.DirectMessageRemoteDataSource
 import com.chocolate.repository.model.dto.directmessage.ChatDto
 import com.chocolate.repository.model.dto.directmessage.NewChat
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -96,7 +97,7 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
     override suspend fun fetchMessagesByGroupId(
         chatId: String,
         currentOrganizationName: String
-    ): Flow<List<DirectMessage>> {
+    ): Flow<List<MessageDto>> {
         return callbackFlow {
             val listner = firebase
                 .collection(Constants.TEAMIX)
@@ -104,50 +105,45 @@ class DirectMessageRemoteDataSourceImpl @Inject constructor(
                 .collection(Constants.CHATS)
                 .document(chatId)
                 .collection(Constants.MESSAGES)
-                .orderBy(Constants.SENTAT)
                 .addSnapshotListener { doc, error ->
                     if (error != null)
                         throw TeamixException(error.message)
-                    else {
-                        val directMessages = doc?.map {
-                            val g = it.getTimestamp("sentAt") as Timestamp
-                            DirectMessage(
-                                sentAt = (it.getTimestamp("sentAt") as Timestamp?)?.toDate()
-                                    ?: Date(),
-                                sentBy = it.data["sendBy"] as String? ?: "",
-                                messageContent = it.data["messageContent"] as String? ?: "",
-                                senderImageUrl = it.data["senderImageUrl"] as String? ?: "",
-                                senderFullName = it.data["senderFullName"] as String? ?: ""
-                            )
-                        }
-                        if (directMessages != null) {
-                            trySend(directMessages)
-                        }
-                    }
+                    val messages = doc?.toObjects<MessageDto>()
+                    messages?.let { trySend(it) }
                 }
             awaitClose { listner.remove() }
         }
     }
 
     override suspend fun sendMessage(
-        directMessage: DirectMessage,
+        messageDto: MessageDto,
         currentOrganizationName: String,
         currentChatId: String
     ) {
+        val messageId = getRandomId()
+        val message = MessageDto(
+            id = messageId.toString(),
+            content = messageDto.content,
+            userId = messageDto.userId,
+            senderName = messageDto.senderName,
+            senderImage = messageDto.senderImage,
+            timestamp = messageDto.timestamp,
+        )
         firebase
             .collection(Constants.TEAMIX)
             .document(currentOrganizationName)
             .collection(Constants.CHATS)
             .document(currentChatId)
             .collection(Constants.MESSAGES)
-            .add(directMessage)
+            .document(messageId.toString())
+            .set(message)
             .await()
 
         firebase.collection(Constants.TEAMIX)
             .document(currentOrganizationName)
             .collection(Constants.CHATS)
             .document(currentChatId)
-            .update("lastMessage", directMessage.messageContent, "lastMessageDate", directMessage.sentAt)
+            .update("lastMessage", message.content, "lastMessageDate", message.timestamp)
             .await()
     }
 }

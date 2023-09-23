@@ -12,9 +12,8 @@ class GetAllChatsByIdUseCase @Inject constructor(
 
     suspend operator fun invoke(
         memberId: String,
-        currentOrganizationName: String
     ): Flow<List<Chat>> {
-        return directMessageRepository.getChatsByUserId(memberId, currentOrganizationName)
+        return directMessageRepository.getChatsByUserId(memberId)
             .map { it.reversed() }
     }
 }

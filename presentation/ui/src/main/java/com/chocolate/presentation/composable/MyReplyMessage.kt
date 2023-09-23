@@ -59,7 +59,7 @@ fun MyReplyMessage(
             onGetNotification =onGetNotification ,
             onPinMessage = onPinMessage,
             onSaveMessage =onSaveMessage
-        ) {
+        ){
             showSheet = false
         }
     }

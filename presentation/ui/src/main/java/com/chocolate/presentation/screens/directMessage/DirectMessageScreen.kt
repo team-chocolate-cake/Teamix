@@ -15,8 +15,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -28,7 +26,6 @@ import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.directMessageChat.navigateToDmChat
 import com.chocolate.presentation.screens.directMessageChooseMember.navigateToDMChooseMember
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.directMessage.DirectMessageInteractions
@@ -52,7 +49,6 @@ fun DirectMessageScreen(dmViewModel: DirectMessageViewModel = hiltViewModel()) {
                         memberName = it.name,
                     )
                 }
-
             }
         }
     }
@@ -62,7 +58,6 @@ fun DirectMessageScreen(dmViewModel: DirectMessageViewModel = hiltViewModel()) {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessageInteractions) {
-    val context = LocalContext.current
     val colors = MaterialTheme.customColors()
     val systemUiController = rememberSystemUiController()
     val searchQuery by state.searchInput.collectAsState()
@@ -80,7 +75,7 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
                 Icon(
                     painter = painterResource(id = R.drawable.chat),
                     contentDescription = "",
-                    tint = Color.White
+                    tint = colors.onPrimary
                 )
             }
         }
@@ -91,7 +86,7 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
                 value = searchQuery,
                 singleLine = true,
                 onValueChange = { interactions.onChangeSearchQuery(it) },
-                containerColor = Color.White,
+                containerColor = colors.card,
                 hint = stringResource(R.string.search_for_chats),
                 leadingIcon = {
                     Icon(
@@ -110,7 +105,7 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
                 }
             )
             LazyColumn(
-                modifier = Modifier.padding(horizontal = SpacingXMedium),
+                modifier = Modifier.padding(horizontal = SpacingXLarge),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(state.chats.size) {

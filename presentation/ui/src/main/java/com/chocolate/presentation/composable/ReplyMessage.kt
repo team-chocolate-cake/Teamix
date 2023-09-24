@@ -91,6 +91,7 @@ fun ReplyMessage(
                 .clip(CircleShape)
                 .constrainAs(image) {
                     start.linkTo(parent.start)
+                    top.linkTo(parent.top)
                     if (messageUiState.reactions.isNotEmpty()) bottom.linkTo(emojis.top)
                     else bottom.linkTo(parent.bottom)
                 },

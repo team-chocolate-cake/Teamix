@@ -60,22 +60,6 @@ fun CreateTopicScreen(
         }
     }
 
-//        when (val effects = createTopicViewModel.effect.collectAsState(initial = null).value) {
-//            is CreateTopicEffect.NavigateToTopicScreen -> {
-//                LaunchedEffect(key1 = Unit) {
-//                    navController.popBackStack()
-//                    navController.navigateToTopic(effects.topicName)
-//                }
-//            }
-//
-//            is CreateTopicEffect.ShowSnackBar -> {
-//                //ActionSnakeBar(contentMessage = effects.message)
-//            }
-//
-//            else -> {}
-//        }
-
-
     CreateChannelContent(
         state,
         createTopicViewModel,

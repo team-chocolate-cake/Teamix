@@ -87,15 +87,16 @@ fun ReplyMessage(
             model = ImageRequest.Builder(LocalContext.current).data(messageUiState.userImage)
                 .build(),
             modifier = Modifier
-                .padding(end = SpacingXMedium)
-                .clip(CircleShape)
                 .size(SpacingMassive)
+                .clip(CircleShape)
                 .constrainAs(image) {
                     start.linkTo(parent.start)
+                    top.linkTo(parent.top)
                     if (messageUiState.reactions.isNotEmpty()) bottom.linkTo(emojis.top)
                     else bottom.linkTo(parent.bottom)
                 },
-            contentDescription = ""
+            contentDescription = "",
+            contentScale = ContentScale.Crop
         )
 
         Card(colors = CardDefaults.cardColors(
@@ -105,7 +106,8 @@ fun ReplyMessage(
                 .fillMaxWidth()
                 .wrapContentSize(align = Alignment.CenterStart)
                 .padding(
-                    end = SpacingXXLarge
+                    end = SpacingXXLarge,
+                    start = SpacingXMedium
                 )
                 .constrainAs(messageCard) {
                     start.linkTo(image.end)

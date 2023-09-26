@@ -4,10 +4,8 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,7 +35,6 @@ import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
-import com.chocolate.viewmodel.createchannel.ChannelStatus
 import com.chocolate.viewmodel.createchannel.CreateChannelInteraction
 import com.chocolate.viewmodel.createchannel.CreateChannelUiEffect
 import com.chocolate.viewmodel.createchannel.CreateChannelUiState
@@ -53,7 +50,11 @@ fun CreateChannelScreen(
     CollectUiEffect(createChannelViewModel.effect) { effect ->
         when (effect) {
             is CreateChannelUiEffect.NavigationToChooseMembers ->
-                navController.navigateToChooseMember(state.nameInput)
+                navController.navigateToChooseMember(
+                    effect.channelName,
+                    effect.description,
+                    effect.isPrivate
+                )
         }
     }
 
@@ -77,7 +78,6 @@ private fun CreateChannelContent(
     TeamixScaffold(
         isDarkMode = isSystemInDarkTheme(),
         isLoading = state.isLoading,
-        //error = state.error.message,
         title = stringResource(id = R.string.create_channel),
         hasAppBar = true,
         containerColorAppBar = colors.card,
@@ -106,7 +106,7 @@ private fun CreateChannelContent(
             )
 
             TeamixTextField(
-                value = state.nameInput,
+                value = state.channelName,
                 onValueChange = { createChannelInteraction.onChannelNameTextChange(it) }
             )
 
@@ -125,59 +125,6 @@ private fun CreateChannelContent(
                 onValueChange = { createChannelInteraction.onChannelDescriptionChange(it) }
             )
 
-            Text(
-                modifier = Modifier.padding(bottom = SpacingXMedium, top = SpacingXLarge),
-                text = stringResource(id = R.string.status),
-                style = textStyle.labelMedium,
-                color = colors.onBackground87,
-                textAlign = TextAlign.Start
-            )
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(SpacingXMedium)
-            ) {
-                ToggleButton(
-                    modifier = Modifier.weight(1f),
-                    color = colors.primary,
-                    isFilled = state.status == ChannelStatus.Private,
-                    onClick = {
-                        createChannelInteraction.onChannelStatusChange(
-                            newChannelStatus = ChannelStatus.Private,
-                            isPrivate = true
-                        )
-                    }
-                ) {
-                    Text(
-                        modifier = Modifier.padding(bottom = SpacingXMedium, top = SpacingXLarge),
-                        text = stringResource(id = R.string.private_text),
-                        style = textStyle.labelSmall,
-                        color = if (state.status == ChannelStatus.Private) colors.white else colors.primary,
-                        textAlign = TextAlign.Center
-                    )
-                }
-
-                ToggleButton(
-                    modifier = Modifier.weight(1f),
-                    color = colors.primary,
-                    isFilled = state.status == ChannelStatus.Public,
-                    onClick = {
-                        createChannelInteraction.onChannelStatusChange(
-                            newChannelStatus = ChannelStatus.Public,
-                            isPrivate = false
-                        )
-                    }
-                ) {
-                    Text(
-                        modifier = Modifier.padding(bottom = SpacingXMedium, top = SpacingXLarge),
-                        text = stringResource(id = R.string.public_text),
-                        style = textStyle.labelSmall,
-                        color = if (state.status == ChannelStatus.Public) colors.white else colors.primary,
-                        textAlign = TextAlign.Center
-                    )
-                }
-            }
-
             Spacer(modifier = Modifier.weight(1f))
 
             ToggleButton(
@@ -187,11 +134,11 @@ private fun CreateChannelContent(
                     .align(alignment = Alignment.End),
                 color = colors.primary,
                 isFilled = true,
-                onClick = { createChannelInteraction.onCreateChannelClicked() }
+                onClick = { createChannelInteraction.onNextClicked() }
             ) {
                 Text(
                     modifier = Modifier.padding(bottom = SpacingXMedium, top = SpacingXLarge),
-                    text = stringResource(id = R.string.create_channel),
+                    text = stringResource(id = R.string.next),
                     style = textStyle.bodyLarge,
                     color = colors.white,
                     textAlign = TextAlign.Center
@@ -201,10 +148,9 @@ private fun CreateChannelContent(
         }
 
         ActionSnakeBar(
-            contentMessage = state.error.message.toString(),
-            isVisible = state.error.isError,
-            onClick = { createChannelInteraction.onClickRetry() },
-            actionTitle = stringResource(id = R.string.retry)
+            contentMessage = state.message.toString(),
+            isVisible = state.isError,
+            isToggleButtonVisible = false,
         )
 
     }

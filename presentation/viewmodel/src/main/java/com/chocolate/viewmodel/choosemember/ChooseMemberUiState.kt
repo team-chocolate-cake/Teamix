@@ -1,26 +1,22 @@
 package com.chocolate.viewmodel.choosemember
 
 import com.chocolate.entities.uills.Empty
+import kotlinx.coroutines.flow.MutableStateFlow
 
 data class ChooseMemberUiState(
-    val searchQuery: String = String.Empty,
-    val selectedMembersUiState: List<SelectedMembersUiState> = emptyList(),
-    val membersUiState: List<ChooseMembersUiState> = emptyList(),
+    val searchQuery: MutableStateFlow<String> = MutableStateFlow(String.Empty),
+    val selectedMembers: List<SelectedMemberItemUiState> = emptyList(),
+    val membersItemUiState: List<SelectedMemberItemUiState> = emptyList(),
+    val hasNoSelectedMember: Boolean = true,
     val channelName: String = String.Empty,
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
+    val actionBarActionText: String = "",
     val successMessage: String? = null,
     val error: String? = null
 )
 
-data class SelectedMembersUiState(
-    val userId: String = String.Empty,
-    val imageUrl: String =String.Empty,
-    val name: String = String.Empty,
-    val isClickedForRemoval: Boolean = false
-)
-
-data class ChooseMembersUiState(
-    val userId: String = String.Empty,
+data class SelectedMemberItemUiState(
+    val memberId: String = String.Empty,
     val imageUrl: String =String.Empty,
     val name: String = String.Empty,
     val isSelected: Boolean = false

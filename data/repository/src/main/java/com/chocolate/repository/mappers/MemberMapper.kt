@@ -3,6 +3,8 @@ package com.chocolate.repository.mappers
 import com.chocolate.entities.member.Member
 import com.chocolate.entities.member.UserRole
 import com.chocolate.repository.model.dto.member.MemberDto
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 @JvmName("memberDtoToMember")
 fun MemberDto.toEntity(): Member =
@@ -15,11 +17,13 @@ fun MemberDto.toEntity(): Member =
         isActive = isActive!!,
         role = UserRole.fromValue(role!!),
         status = status!!,
-        channelsId = channelsId
     )
 
 @JvmName("membersDtoToMembers")
 fun List<MemberDto>.toEntity(): List<Member> = this.map { it.toEntity() }
+
+@JvmName("flowOfMembersDtoToFlowOfMembers")
+fun Flow<List<MemberDto>>.toEntity(): Flow<List<Member>> = this.map { it.toEntity() }
 
 @JvmName("memberToMemberDto")
 fun Member.toRemote(): MemberDto =
@@ -32,7 +36,6 @@ fun Member.toRemote(): MemberDto =
         isActive = isActive,
         role = role.value,
         status = status,
-        channelsId = channelsId
     )
 
 @JvmName("membersToMembersDto")

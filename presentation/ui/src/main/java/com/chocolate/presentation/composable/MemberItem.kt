@@ -42,17 +42,17 @@ import com.chocolate.presentation.theme.SpacingUltraGigantic
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.viewmodel.choosemember.ChooseMembersUiState
+import com.chocolate.viewmodel.choosemember.SelectedMemberItemUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MemberItem(
     modifier: Modifier = Modifier,
     animateLabel: String = "",
-    chooseMemberUiState: ChooseMembersUiState,
+    chooseMemberUiState: SelectedMemberItemUiState,
     painter: Painter,
     contentDescription: String = "",
-    onClickMemberItem: (String) -> Unit
+    onClickMemberItem: (SelectedMemberItemUiState) -> Unit
 ) {
 
     val colors = MaterialTheme.customColors()
@@ -72,7 +72,7 @@ fun MemberItem(
             .padding(horizontal = SpacingXLarge),
         colors = CardDefaults.cardColors(colors.card),
         shape = RoundedCornerShape(Radius12),
-        onClick = { onClickMemberItem(chooseMemberUiState.userId) },
+        onClick = { onClickMemberItem(chooseMemberUiState) },
         border = BorderStroke(width = cardBorderWidth, color = cardBorderColor)
     ) {
         Row(

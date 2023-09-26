@@ -1,9 +1,9 @@
 package com.chocolate.viewmodel.choosemember
 
 interface ChooseMemberInteraction {
-    fun onClickMemberItem(memberId: String)
+    fun onClickMemberItem(memberItemUiState: SelectedMemberItemUiState)
     fun onChangeSearchQuery(query: String)
     fun onRemoveSelectedItem(memberId: String)
-    fun addMembersInChannel(channelName: String, usersId: List<String>)
+    fun onActionBarTextClick()
     fun onClickRetry()
 }

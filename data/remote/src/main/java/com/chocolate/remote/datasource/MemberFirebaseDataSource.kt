@@ -57,7 +57,7 @@ class MemberFirebaseDataSource @Inject constructor(
         }
     }
 
-    override suspend fun getMembersInOrganizationByOrganizationName(organizationName: String): Flow<List<MemberDto>?> {
+    override suspend fun getMembersInOrganizationByOrganizationName(organizationName: String): Flow<List<MemberDto>> {
         return callbackFlow {
             val organizationRef = firebaseFirestore
                 .collection(Constants.BASE)
@@ -65,7 +65,8 @@ class MemberFirebaseDataSource @Inject constructor(
                 .collection(Constants.MEMBERS)
                 .addSnapshotListener { membersSnapshot, exception ->
                     exception?.let { close(it) }
-                    trySend(membersSnapshot?.documents?.mapNotNull { it.toObject<MemberDto>() })
+                    membersSnapshot?.documents?.mapNotNull { it.toObject<MemberDto>() }
+                        ?.let { trySend(it) }
                 }
             awaitClose { organizationRef.remove() }
         }

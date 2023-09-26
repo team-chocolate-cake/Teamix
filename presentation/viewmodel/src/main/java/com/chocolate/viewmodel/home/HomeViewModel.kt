@@ -5,7 +5,7 @@ import com.chocolate.entities.exceptions.EmptyMemberIdException
 import com.chocolate.entities.exceptions.EmptyOrganizationNameException
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.member.Member
-import com.chocolate.usecases.channel.ManageChannelsUseCase
+import com.chocolate.usecases.channel.GetChannelsForCurrentMemberUseCase
 import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val isMemberLoggedInUseCase: IsMemberLoggedInUseCase,
-    private val manageChannels: ManageChannelsUseCase,
+    private val getChannelsForCurrentMemberUseCase: GetChannelsForCurrentMemberUseCase,
     private val manageOrganizationDetails: ManageOrganizationDetailsUseCase,
     private val getCurrentMemberUseCase: GetCurrentMemberUseCase,
     private val customizeProfileSettings: CustomizeProfileSettingsUseCase,
@@ -129,7 +129,7 @@ class HomeViewModel @Inject constructor(
     private fun getChannels() {
         _state.update { it.copy(isLoading = true) }
         tryToExecuteFlow(
-             manageChannels::getChannelsForCurrentMember ,
+            { getChannelsForCurrentMemberUseCase() },
             ::onGettingChannelsSuccess,
             ::onError
         )

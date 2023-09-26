@@ -13,7 +13,7 @@ interface MemberDataSource {
 
     suspend fun getMembersInOrganizationByOrganizationName(
         organizationName: String
-    ): Flow<List<MemberDto>?>
+    ): Flow<List<MemberDto>>
 
     suspend fun deactivateMember(organizationName: String, memberId: String)
 

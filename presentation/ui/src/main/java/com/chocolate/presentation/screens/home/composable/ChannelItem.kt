@@ -65,10 +65,8 @@ fun ChannelItem(
             verticalAlignment = Alignment.CenterVertically
 
         ) {
-            val iconsChannel =
-                if (state.isPrivateChannel) R.drawable.ic_lock else R.drawable.ic_hashtag
             Icon(
-                painter = painterResource(id = iconsChannel),
+                painter = painterResource(id = R.drawable.ic_hashtag),
                 contentDescription = contentDescription,
                 tint = colors.primary,
                 modifier = Modifier.padding(end = SpacingXMedium)

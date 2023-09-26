@@ -8,9 +8,9 @@ interface MemberRepository {
 
     suspend fun setUserUsedAppForFirstTime(isComplete: Boolean)
 
-    suspend fun getMembersInCurrentOrganization(): Flow<List<Member>>
+    suspend fun getMembersInOrganizationByOrganizationName(organizationName: String): Flow<List<Member>>
 
-    suspend fun getMemberInOrganizationByEmail(email: String, ): Member
+    suspend fun getMemberInOrganizationByEmail(email: String): Member
 
     suspend fun loginMember(email: String, password: String)
 
@@ -23,5 +23,8 @@ interface MemberRepository {
     suspend fun createMember(member: Member): Member
 
     suspend fun updateMember(member: Member)
+
     suspend fun updateMemberPicture(imageUri: String)
+
+    suspend fun getIdOfCurrentMember(): String
 }

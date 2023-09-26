@@ -15,7 +15,6 @@ import com.chocolate.repository.mappers.toEntity
 import com.chocolate.repository.mappers.toRemote
 import com.chocolate.repository.model.dto.channel.ChannelDto
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import repositories.MemberRepository
 import javax.inject.Inject
 
@@ -25,6 +24,7 @@ class MemberRepositoryImpl @Inject constructor(
     private val preferencesDataSource: PreferencesDataSource,
     private val channelDataSource: ChannelDataSource
 ) : MemberRepository {
+
     private suspend fun getCurrentOrganizationName(): String {
         return preferencesDataSource.getCurrentOrganizationName()
             ?: throw EmptyOrganizationNameException
@@ -38,10 +38,10 @@ class MemberRepositoryImpl @Inject constructor(
         return preferencesDataSource.checkIfUserUsedAppOrNot()
     }
 
-    override suspend fun getMembersInCurrentOrganization(): Flow<List<Member>> {
+    override suspend fun getMembersInOrganizationByOrganizationName(organizationName: String): Flow<List<Member>> {
         return memberDataSource.getMembersInOrganizationByOrganizationName(
-            getCurrentOrganizationName()
-        ).map { it?.toEntity() ?: emptyList() }
+            organizationName
+        ).toEntity()
     }
 
     override suspend fun getMemberInOrganizationByEmail(email: String): Member {
@@ -115,7 +115,6 @@ class MemberRepositoryImpl @Inject constructor(
             id = "0",
             name = "General",
             description = "Default channel",
-            isPrivate = false,
             membersId = listOf(member.id),
         )
         channelDataSource.createChannel(generalChannelDto, getCurrentOrganizationName())
@@ -126,10 +125,13 @@ class MemberRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateMemberPicture(imageUri: String) {
-
         memberDataSource.updateMemberImage(
             getCurrentOrganizationName(),
             getCurrentMember().copy(imageUrl = imageUri).toRemote()
         )
+    }
+
+    override suspend fun getIdOfCurrentMember(): String {
+        return preferencesDataSource.getIdOfCurrentMember() ?: throw EmptyMemberIdException
     }
 }

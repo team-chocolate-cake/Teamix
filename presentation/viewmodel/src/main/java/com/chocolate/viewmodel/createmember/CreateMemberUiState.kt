@@ -28,5 +28,4 @@ fun CreateMemberUiState.toEntity(role:String) = Member(
     role = UserRole.fromValue(role),
     isActive = true,
     status = "",
-    channelsId = listOf("0")
 )

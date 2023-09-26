@@ -59,7 +59,6 @@ private fun getFakeMember(id: String) = Member(
     isActive = true,
     role = UserRole.MEMBER,
     status = String.Empty,
-    channelsId = emptyList()
 )
 
 @JvmName("topicToTopicUiState")

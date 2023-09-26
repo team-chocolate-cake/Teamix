@@ -147,7 +147,9 @@
     <string name="no_saved_items">没有已保存的项目</string>
     <string name="your_saved_items_will_appear_here_for_easy_access_and_reference">您的已保存项目将显示在此处，以便轻松访问和参考</string>
     <string name="no_saved_items_body">您的已保存项目将显示在此处，以便轻松访问和参考。</string>
+    <string name="cancel">取消</string>
     <string name="enter_full_name">输入你的名字</string>
     <string name="member_already_exist">使用此電子郵件的會員已經存在。</string>
+    <string name="invalid_channel_name">頻道名稱無效</string>
 
 </resources>

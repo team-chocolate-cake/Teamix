@@ -26,7 +26,6 @@ data class ChannelUiState(
     val channelId: String = String.Empty ,
     val name: String = String.Empty,
     val topics: List<TopicUiState> = emptyList(),
-    val isPrivateChannel: Boolean = false,
 )
 
 data class TopicUiState(

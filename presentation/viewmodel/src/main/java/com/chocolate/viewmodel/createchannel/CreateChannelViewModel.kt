@@ -1,10 +1,8 @@
 package com.chocolate.viewmodel.createchannel
 
+import com.chocolate.entities.exceptions.InvalidChannelNameException
 import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.entities.exceptions.ValidationException
-import com.chocolate.entities.uills.Empty
-import com.chocolate.usecases.channel.AddUsersInChannelByChannelNameAndUsersIdUseCase
-import com.chocolate.viewmodel.base.BaseErrorUiState
+import com.chocolate.usecases.channel.ValidateChannelNameUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,20 +11,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreateChannelViewModel @Inject constructor(
-    private val createChannel: AddUsersInChannelByChannelNameAndUsersIdUseCase,
+    private val validateChannelNameUseCase: ValidateChannelNameUseCase,
     private val stringsResource: StringsResource
 ) : BaseViewModel<CreateChannelUiState, CreateChannelUiEffect>(CreateChannelUiState()),
     CreateChannelInteraction {
-    override fun onCreateChannelClicked() {
+    override fun onNextClicked() {
         tryToExecute(
-            call = ::createChannel,
-            onError = ::onCreateChannelError,
-            onSuccess = ::onCreateChannelSuccess
+            { validateChannelNameUseCase(state.value.channelName) },
+            ::onValidateNameSuccess,
+            ::onError
         )
     }
 
     override fun onChannelNameTextChange(channelName: String) {
-        _state.update { it.copy(nameInput = channelName) }
+        _state.update { it.copy(channelName = channelName) }
     }
 
     override fun onChannelDescriptionChange(channelDescription: String?) {
@@ -37,48 +35,24 @@ class CreateChannelViewModel @Inject constructor(
         _state.update { it.copy(status = newChannelStatus, isPrivate = isPrivate) }
     }
 
-    override fun onClickRetry() {
-        _state.update {
-            it.copy(
-                error = BaseErrorUiState(message = null, isError = false),
-                isLoading = false,
-                nameInput = String.Empty,
+    private fun onValidateNameSuccess(channelName: String) {
+        _state.update { it.copy(isLoading = false) }
+        sendUiEffect(
+            effect = CreateChannelUiEffect.NavigationToChooseMembers(
+                channelName = _state.value.channelName,
+                description = _state.value.description ?: "",
+                isPrivate = _state.value.isPrivate
             )
-        }
-    }
-
-    private suspend fun createChannel(): Boolean {
-        _state.update { it.copy(isLoading = true) }
-        return createChannel(
-            channelName = _state.value.nameInput,
-            usersId = listOf(),
-            description = _state.value.description,
-            isPrivate = _state.value.isPrivate
         )
     }
 
-    private fun onCreateChannelSuccess(isCreatedSuccessfully: Boolean) {
-        _state.update {
-            it.copy(isLoading = false, error = BaseErrorUiState(message = null, isError = false))
-        }
-        if (isCreatedSuccessfully) {
-            sendUiEffect(effect = CreateChannelUiEffect.NavigationToChooseMembers(channelName = _state.value.nameInput))
-        }
-    }
-
-    private fun onCreateChannelError(throwable: Throwable) {
-        val errorMessage = when(throwable){
-            is ValidationException -> stringsResource.channelNameValidation
+    private fun onError(throwable: Throwable) {
+        val errorMessage = when (throwable) {
+            is InvalidChannelNameException -> stringsResource.invalidChannelName
             is NoConnectionException -> stringsResource.noConnectionMessage
             else -> stringsResource.globalMessageError
         }
-        _state.update {
-            it.copy(
-                error = BaseErrorUiState(
-                    message = errorMessage,
-                    isError = true
-                ), isLoading = false
-            )
-        }
+        _state.update { it.copy(message = errorMessage, isError = true, isLoading = false) }
     }
+
 }

@@ -22,7 +22,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,8 +38,10 @@ import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.choosemember.ChooseMemberInteraction
+import com.chocolate.viewmodel.choosemember.ChooseMemberUiEffect
 import com.chocolate.viewmodel.choosemember.ChooseMemberUiState
 import com.chocolate.viewmodel.choosemember.ChooseMemberViewModel
 
@@ -49,6 +50,14 @@ fun ChooseMemberScreen(
     viewModel: ChooseMemberViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+    val navController = LocalNavController.current
+
+    CollectUiEffect(viewModel.effect) { effect ->
+        when (effect) {
+            is ChooseMemberUiEffect.NavigateToHome -> navController.navigateToHome()
+        }
+    }
+
     ChooseMemberContent(state = state, viewModel)
 
 }
@@ -60,12 +69,8 @@ fun ChooseMemberContent(
     chooseMemberInteraction: ChooseMemberInteraction
 ) {
     val colors = MaterialTheme.customColors()
-    val context = LocalContext.current
-    val text =
-        if (state.selectedMembersUiState.isEmpty()) stringResource(R.string.skip) else stringResource(
-            R.string.ok
-        )
     val navController = LocalNavController.current
+    val searchQuery by state.searchQuery.collectAsState()
     TeamixScaffold(
         isDarkMode = isSystemInDarkTheme(),
         containerColorAppBar = colors.card,
@@ -73,22 +78,13 @@ fun ChooseMemberContent(
         hasBackArrow = true,
         actionsAppbar = {
             Text(
-                text = text,
+                text = state.actionBarActionText,
                 style = MaterialTheme.typography.bodyMedium,
                 color = colors.primary,
                 modifier = Modifier
                     .padding(end = SpacingXMedium)
                     .clickable {
-                        if (state.selectedMembersUiState.isEmpty()) {
-                            navController.navigateToHome()
-                        } else {
-                            val selectedMemberIds = state.selectedMembersUiState.map { it.userId }
-                            chooseMemberInteraction.addMembersInChannel(
-                                channelName = state.channelName,
-                                usersId = selectedMemberIds
-                            )
-                            navController.navigateToHome()
-                        }
+                        chooseMemberInteraction.onActionBarTextClick()
                     }
             )
         },
@@ -111,8 +107,6 @@ fun ChooseMemberContent(
         }
     ) { paddingValues ->
         Box {
-
-
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -121,7 +115,8 @@ fun ChooseMemberContent(
                 verticalArrangement = Arrangement.spacedBy(SpacingXLarge)
             ) {
                 item {
-                    TeamixTextField(value = state.searchQuery,
+                    TeamixTextField(
+                        value = searchQuery,
                         modifier = Modifier.padding(horizontal = SpacingXLarge),
                         hint = stringResource(id = R.string.search),
                         onValueChange = { chooseMemberInteraction.onChangeSearchQuery(it) },
@@ -133,35 +128,34 @@ fun ChooseMemberContent(
                         })
                 }
                 item {
-                    AnimatedVisibility(visible = state.selectedMembersUiState.isNotEmpty()) {
+                    AnimatedVisibility(visible = !state.hasNoSelectedMember) {
                         LazyRow(
                             Modifier.fillMaxWidth(),
                             contentPadding = PaddingValues(horizontal = SpacingXLarge),
                             horizontalArrangement = Arrangement.spacedBy(SpacingXMedium)
                         ) {
                             items(
-                                state.selectedMembersUiState,
-                                key = { it.userId }) { selectedMembersUiState ->
+                                state.selectedMembers,
+                                key = { it.memberId }
+                            ) { selectedMembersUiState ->
                                 SelectedMemberItem(
                                     modifier = Modifier.animateItemPlacement(),
                                     painter = painterResource(id = R.drawable.ic_cancel),
                                     imageUrl = selectedMembersUiState.imageUrl,
                                     username = selectedMembersUiState.name,
-                                    userId = selectedMembersUiState.userId,
-                                    onClickIcon = { chooseMemberInteraction.onRemoveSelectedItem(it) }
-                                )
+                                    userId = selectedMembersUiState.memberId
+                                ) { chooseMemberInteraction.onRemoveSelectedItem(it) }
                             }
                         }
                     }
                 }
-                items(state.membersUiState, key = { it.userId }) { membersUiState ->
+                items(state.membersItemUiState, key = { it.memberId }) { membersUiState ->
                     MemberItem(
                         modifier = Modifier.animateItemPlacement(),
                         painter = painterResource(id = R.drawable.ic_check),
                         chooseMemberUiState = membersUiState
-                    ) { chooseMemberInteraction.onClickMemberItem(it) }
+                    ) { chooseMemberInteraction.onClickMemberItem(membersUiState) }
                 }
-
             }
         }
         if (state.error != null) {

@@ -21,17 +21,25 @@ class ChannelFirebaseDataSource @Inject constructor(
         organizationName: String
     ) {
         tryToExecuteSuspendCall {
-            firebaseFirestore
+            val organizationRef = firebaseFirestore
                 .collection(Constants.BASE)
                 .document(organizationName)
+
+            organizationRef
                 .collection(Constants.CHANNEL)
                 .document(channel.id!!)
                 .set(channel)
                 .await()
+            channel.membersId?.forEach {
+
+            }
+
+
+
         }
     }
 
-    override suspend fun getChannelsForCurrentMember(
+    override suspend fun getChannelsForMemberByMemberIdAndOrganizationName(
         organizationName: String,
         memberId: String
     ): Flow<List<ChannelDto>> {
@@ -53,7 +61,7 @@ class ChannelFirebaseDataSource @Inject constructor(
         }
     }
 
-    override suspend fun getChannelsInOrganizationByOrganizationName(organizationName: String): Flow<List<ChannelDto>?> {
+    override suspend fun getChannelsInOrganizationByOrganizationName(organizationName: String): Flow<List<ChannelDto>> {
         return callbackFlow {
             val organizationRef = firebaseFirestore
                 .collection(Constants.BASE)

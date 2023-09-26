@@ -1,23 +1,19 @@
 package com.chocolate.usecases.member
 
 import com.chocolate.entities.member.Member
+import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import repositories.MemberRepository
 import javax.inject.Inject
 
 class GetMembersInOrganizationUseCase @Inject constructor(
-    private val repository: MemberRepository
+    private val repository: MemberRepository,
+    private val manageOrganizationDetailsUseCase: ManageOrganizationDetailsUseCase
 ) {
     suspend operator fun invoke(): Flow<List<Member>> {
-        return repository.getMembersInCurrentOrganization()
-    }
-
-    suspend fun getMembersExceptCurrentMember():Flow<List<Member>>{
-        val currentMemberId = repository.getCurrentMember().id
-        return repository.getMembersInCurrentOrganization().map {
-            it.filter { member-> member.id != currentMemberId }
-        }
+        val currentOrganizationName = manageOrganizationDetailsUseCase.getOrganizationName()
+        return repository.getMembersInOrganizationByOrganizationName(currentOrganizationName)
     }
 
     suspend fun searchUser(username: String): Flow<List<Member>> {

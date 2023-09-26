@@ -7,7 +7,6 @@ fun Channel.toUiState(): ChannelUiState =
     ChannelUiState(
         id,
         name,
-        isPrivateChannel=isPrivate
     )
 @JvmName("channelsToChannelsUiState")
 fun List<Channel>.toUiState(): List<ChannelUiState> = this.map { it.toUiState() }

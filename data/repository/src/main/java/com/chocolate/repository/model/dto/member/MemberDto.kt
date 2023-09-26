@@ -9,5 +9,4 @@ data class MemberDto(
     @field:JvmField val isActive: Boolean = true,
     val role: String? = null,
     val status: String? = null,
-    val channelsId: List<String> = emptyList()
 )

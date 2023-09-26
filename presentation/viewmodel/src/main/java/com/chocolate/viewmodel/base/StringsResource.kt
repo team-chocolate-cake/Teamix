@@ -9,6 +9,9 @@ interface StringsResource {
     val successMessage: String
     val enterValidEmailAddress: String
     val invalidEmailOrPassword: String
+    val invalidChannelName: String
+    val cancel: String
+    val createChannel: String
     val organizationNameNotFound: String
     val organizationNameCannotBeEmpty: String
     val channelNameValidation: String

@@ -5,7 +5,7 @@ import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.member.Member
 import com.chocolate.usecases.directmessage.CreateNewChatUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
-import com.chocolate.usecases.member.GetMembersInOrganizationUseCase
+import com.chocolate.usecases.member.GetMembersExceptCurrentMemberUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DirectMessageChooseMemberViewModel @Inject constructor(
-    private val getMembers: GetMembersInOrganizationUseCase,
+    private val getMembersExceptCurrentMemberUseCase: GetMembersExceptCurrentMemberUseCase,
     private val stringsResource: StringsResource,
     private val createNewChatUseCase: CreateNewChatUseCase,
     private val getCurrentMemberUseCase: GetCurrentMemberUseCase,
@@ -26,13 +26,13 @@ class DirectMessageChooseMemberViewModel @Inject constructor(
 ), DirectMessageChooseMemberInteraction {
 
     init {
-        getUsers()
+        getMembers()
     }
 
-    private fun getUsers() {
+    private fun getMembers() {
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
-            getMembers::getMembersExceptCurrentMember,
+            { getMembersExceptCurrentMemberUseCase() },
             ::onGetUsersSuccess,
             ::onGetUsersError
         )
@@ -71,7 +71,7 @@ class DirectMessageChooseMemberViewModel @Inject constructor(
     }
 
     override fun onClickRetry() {
-        getUsers()
+        getMembers()
     }
 
     override fun onRemoveSelectedItem(item: String) {

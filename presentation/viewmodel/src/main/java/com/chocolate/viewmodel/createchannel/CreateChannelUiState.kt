@@ -1,13 +1,13 @@
 package com.chocolate.viewmodel.createchannel
 
 import com.chocolate.entities.uills.Empty
-import com.chocolate.viewmodel.base.BaseErrorUiState
 
 data class CreateChannelUiState(
-    val nameInput: String = String.Empty,
+    val channelName: String = String.Empty,
     val description: String? = null,
     val isPrivate: Boolean = true,
     val status: ChannelStatus = ChannelStatus.Private,
     val isLoading: Boolean = false,
-    val error: BaseErrorUiState = BaseErrorUiState()
+    val message: String? = null,
+    val isError: Boolean = false
 )

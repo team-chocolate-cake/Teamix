@@ -28,6 +28,12 @@ class StringsResourceImpl @Inject constructor(
         getString(R.string.enter_a_valid_email_address)
 
     override val invalidEmailOrPassword: String = getString(R.string.invalid_email_or_password)
+    override val invalidChannelName: String
+        get() = getString(R.string.invalid_channel_name)
+
+    override val cancel: String = getString(R.string.cancel)
+
+    override val createChannel: String = getString(R.string.create_channel)
 
     override val organizationNameNotFound: String = getString(R.string.organization_name_not_found)
 
@@ -42,12 +48,12 @@ class StringsResourceImpl @Inject constructor(
 
     override val failedSaveSelectedLanguage: String =
         getString(R.string.failed_to_save_the_selected_language_settings)
-    
+
     override val theSameData: String = getString(R.string.the_same_data)
-    
+
     override val failedEmailWhenEmpty: String =
         getString(R.string.the_email_shouldn_t_be_empty)
-    
+
     override val failedFullNameWhenEmpty: String =
         getString(R.string.the_full_name_shouldn_t_be_empty)
     override val messageDeletedSuccessfully: String =

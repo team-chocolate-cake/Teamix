@@ -9,5 +9,4 @@ data class Member (
     val isActive: Boolean,
     val role: UserRole,
     val status: String,
-    val channelsId: List<String>
 )

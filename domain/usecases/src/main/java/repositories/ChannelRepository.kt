@@ -4,16 +4,17 @@ import com.chocolate.entities.channel.Channel
 import kotlinx.coroutines.flow.Flow
 
 interface ChannelRepository {
-    suspend fun subscribeToChannel(
-        channelName: String,
-        usersId: List<String>,
-        description: String?,
-        isPrivate: Boolean
-    ): Boolean
+    suspend fun createChannelInOrganization(
+        channel: Channel,
+        organizationName: String,
+    )
 
-    suspend fun getChannelsInCurrentOrganization(): Flow<List<Channel>>
+    suspend fun getChannelsInOrganizationByOrganizationName(
+        organizationName: String
+    ): Flow<List<Channel>>
 
-    suspend fun getStreamChannels(): Flow<List<Channel>>
-
-    suspend fun getChannelsForCurrentMember(): Flow<List<Channel>>
+    suspend fun getChannelsForMemberByMemberIdInOrganization(
+        currentMemberId: String,
+        organizationName: String
+    ): Flow<List<Channel>>
 }

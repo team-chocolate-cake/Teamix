@@ -1,7 +1,5 @@
 package com.chocolate.viewmodel.organizationname
 
-import android.util.Log
-import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.exceptions.EmptyOrganizationNameException
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.OrganizationNotFoundException
@@ -11,7 +9,6 @@ import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,13 +27,17 @@ class OrganizationNameViewModel @Inject constructor(
         sendUiEffect(OrganizationNameUiEffect.NavigateToCreateOrganization)
     }
 
-    override fun onEnterButtonClick(organizationName: String,snakeBarr:Boolean) {
-        _state.update { it.copy(isLoading = true, showSnakeBar = !snakeBarr) }
+    override fun onEnterButtonClick(organizationName: String) {
+        _state.update { it.copy(isLoading = true) }
         tryToExecute(
             { manageOrganizationDetails.organizationSignIn(organizationName) },
             ::onOrganizationSignInSuccess,
             ::onError
         )
+    }
+
+    override fun clearError() {
+        _state.update { it.copy(error = null) }
     }
 
     private fun onOrganizationSignInSuccess(organizationName: String) {
@@ -52,7 +53,7 @@ class OrganizationNameViewModel @Inject constructor(
             it.copy(
                 organizationName = organizationName.trim(),
                 isLoading = false,
-                error = null,
+                error = null
             )
         }
     }
@@ -65,10 +66,8 @@ class OrganizationNameViewModel @Inject constructor(
     }
 
     private fun getOnboardingStatus() {
-        viewModelScope.launch {
-            collectFlow(manageUserUsedApp.checkIfUserUsedAppOrNot()) {
-                this.copy(onboardingState = it)
-            }
+        collectFlow(manageUserUsedApp.checkIfUserUsedAppOrNot()) {
+            this.copy(onboardingState = it)
         }
     }
 
@@ -79,8 +78,6 @@ class OrganizationNameViewModel @Inject constructor(
             is EmptyOrganizationNameException -> stringsResource.organizationNameCannotBeEmpty
             else -> stringsResource.organizationNameCannotBeEmpty
         }
-        Log.e("onError: ", throwable.toString())
         _state.update { it.copy(isLoading = false, error = errorMessage) }
-        sendUiEffect(OrganizationNameUiEffect.ShowSnackBar)
     }
 }

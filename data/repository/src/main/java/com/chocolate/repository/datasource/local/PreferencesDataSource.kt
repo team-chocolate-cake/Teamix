@@ -10,7 +10,7 @@ interface PreferencesDataSource {
 
     suspend fun setUserUsedAppForFirstTime(isFirstTime: Boolean)
 
-    suspend fun checkIfUserUsedAppOrNot(): Flow<Boolean>
+    fun isUserUsedAppOrNot(): Flow<Boolean>
 
     suspend fun isMemberLoggedIn(): Boolean
 

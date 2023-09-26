@@ -11,7 +11,7 @@ class ManageUserUsedAppUseCase @Inject constructor(
         userRepository.setUserUsedAppForFirstTime(isComplete)
     }
 
-    suspend fun checkIfUserUsedAppOrNot(): Flow<Boolean> {
+    fun checkIfUserUsedAppOrNot(): Flow<Boolean> {
         return userRepository.checkIfUserUsedAppOrNot()
     }
 }

@@ -34,8 +34,8 @@ class MemberRepositoryImpl @Inject constructor(
         preferencesDataSource.setUserUsedAppForFirstTime(isComplete)
     }
 
-    override suspend fun checkIfUserUsedAppOrNot(): Flow<Boolean> {
-        return preferencesDataSource.checkIfUserUsedAppOrNot()
+    override fun checkIfUserUsedAppOrNot(): Flow<Boolean> {
+        return preferencesDataSource.isUserUsedAppOrNot()
     }
 
     override suspend fun getMembersInOrganizationByOrganizationName(organizationName: String): Flow<List<Member>> {

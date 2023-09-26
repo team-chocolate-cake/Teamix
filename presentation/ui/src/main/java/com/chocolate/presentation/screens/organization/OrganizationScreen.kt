@@ -22,7 +22,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -95,9 +94,11 @@ fun OrganizationContent(
     val context = LocalContext.current
     val rootView = LocalView.current
     TeamixScaffold(isDarkMode = isSystemInDarkTheme()) {
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+        ) {
             Image(
                 painter = painterResource(id = R.drawable.img_start_organization),
                 contentDescription = null,
@@ -130,10 +131,7 @@ fun OrganizationContent(
             TeamixButton(
                 onClick = {
                     hideKeyboard(context, rootView)
-                    organizationNameInteraction.onEnterButtonClick(
-                        state.organizationName,
-                        state.showSnakeBar
-                    )
+                    organizationNameInteraction.onEnterButtonClick(state.organizationName)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -176,13 +174,14 @@ fun OrganizationContent(
             )
             Spacer(modifier = Modifier.weight(1f))
             state.error?.let {
-                key(state.showSnakeBar) {
-                    ActionSnakeBar(
-                        contentMessage = it,
-                        isVisible = true,
-                        isToggleButtonVisible = false
-                    )
-                }
+                ActionSnakeBar(
+                    contentMessage = it,
+                    isVisible = true,
+                    isToggleButtonVisible = false,
+                    onDismiss = {
+                        organizationNameInteraction.clearError()
+                    }
+                )
             }
         }
     }

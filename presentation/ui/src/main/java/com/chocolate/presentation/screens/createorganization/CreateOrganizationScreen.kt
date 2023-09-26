@@ -34,18 +34,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
-import com.chocolate.presentation.Screen
 import com.chocolate.presentation.composable.SeparatorWithText
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixImagePicker
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
-import com.chocolate.presentation.screens.createChannel.composable.ActionSnakeBar
-import com.chocolate.presentation.screens.createMember.navigateToCreateMember
-import com.chocolate.presentation.screens.organiztion.navigateToOrganizationName
 import com.chocolate.presentation.screens.createmember.navigateToCreateMember
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
-import com.chocolate.presentation.screens.organization.navigateToOrganizationName
 import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.SpacingGigantic
 import com.chocolate.presentation.theme.SpacingUltimateGigantic
@@ -56,10 +51,6 @@ import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.presentation.util.hideKeyboard
-import com.chocolate.viewmodel.createOrganization.CreateOrganizationInteraction
-import com.chocolate.viewmodel.createOrganization.CreateOrganizationUiEffect
-import com.chocolate.viewmodel.createOrganization.CreateOrganizationUiState
-import com.chocolate.viewmodel.createOrganization.CreateOrganizationViewModel
 import com.chocolate.viewmodel.createorganization.CreateOrganizationInteraction
 import com.chocolate.viewmodel.createorganization.CreateOrganizationUiEffect
 import com.chocolate.viewmodel.createorganization.CreateOrganizationUiState
@@ -78,11 +69,7 @@ fun CreateOrganizationScreen(
                 navController.navigateToCreateMember(effect.role)
 
             CreateOrganizationUiEffect.NavigateToHaveOrganization ->
-                navController.navigateToOrganizationName {
-                    popUpTo(Screen.CreateOrganization.route) {
-                        inclusive = true
-                    }
-                }
+                navController.popBackStack()
         }
     }
     CreateOrganizationContent(

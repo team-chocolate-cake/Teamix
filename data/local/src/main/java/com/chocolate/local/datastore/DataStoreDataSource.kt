@@ -29,8 +29,8 @@ class DataStoreDataSource @Inject constructor(
         dataStore.setValue(IS_FIRST_TIME, isFirstTime)
     }
 
-    override suspend fun checkIfUserUsedAppOrNot(): Flow<Boolean> {
-        return dataStore.data.map {
+    override fun isUserUsedAppOrNot(): Flow<Boolean> {
+        return dataStore.data.mapLatest {
             it[(IS_FIRST_TIME)] ?: false
         }
     }

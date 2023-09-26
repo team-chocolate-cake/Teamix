@@ -31,6 +31,7 @@ fun ActionSnakeBar(
     contentMessage: String,
     modifier: Modifier = Modifier,
     isVisible: Boolean = false,
+    onDismiss: () -> Unit={},
     onClick: () -> Unit={},
     isToggleButtonVisible:Boolean=true,
     actionTitle: String="",
@@ -45,6 +46,7 @@ fun ActionSnakeBar(
             timeVisible = true
             delay(2000)
             onClick()
+            onDismiss()
             timeVisible = false
         }else {
             timeVisible = false

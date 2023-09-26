@@ -10,6 +10,7 @@ data class CreateOrganizationUiState(
      val organizationImageUri: Uri? = null,
      val isLoading: Boolean = false,
      val error: String? = null,
+     val showSnakeBar:Boolean=false
 )
 
 fun CreateOrganizationUiState.toEntity(): Organization {

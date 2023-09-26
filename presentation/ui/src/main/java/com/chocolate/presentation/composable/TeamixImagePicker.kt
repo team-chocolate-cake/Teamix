@@ -35,18 +35,22 @@ import com.chocolate.presentation.theme.SpacingSmall
 import com.chocolate.presentation.theme.customColors
 
 @Composable
-fun TeamixImagePicker(onImageSelected:(Uri)->Unit, modifier: Modifier = Modifier) {
+fun TeamixImagePicker(
+    onImageSelected: (Uri) -> Unit,
+    modifier: Modifier = Modifier,
+    placeHolderImage: Int = R.drawable.default_user_image
+) {
     // Created by Bilal
     val colors = MaterialTheme.customColors()
     val imageUri = rememberSaveable { mutableStateOf("") }
     val painter = rememberAsyncImagePainter(
-        imageUri.value.ifEmpty { R.drawable.default_user_image }
+        imageUri.value.ifEmpty { placeHolderImage }
     )
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
-    ){ uri: Uri? ->
+    ) { uri: Uri? ->
         uri?.let {
-          onImageSelected(it)
+            onImageSelected(it)
             imageUri.value = it.toString()
         }
     }

@@ -7,6 +7,7 @@ import com.chocolate.entities.exceptions.BlankSearchQueryException
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.uills.Empty
 import com.chocolate.usecases.channel.SearchForChannelUseCase
+import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -18,8 +19,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val searchForChannelUseCase: SearchForChannelUseCase
-) : BaseViewModel<SearchUiState, SearchEffect>(SearchUiState()), SearchInteraction {
+    private val searchForChannelUseCase: SearchForChannelUseCase,
+    private val customizeProfileSettings: CustomizeProfileSettingsUseCase,
+    ) : BaseViewModel<SearchUiState, SearchEffect>(SearchUiState()), SearchInteraction {
 
     init {
         collectFlow(state.value.query.debounce(1000).distinctUntilChanged()) {
@@ -69,6 +71,12 @@ class SearchViewModel @Inject constructor(
         when (throwable) {
             is NoConnectionException -> _state.update { it.copy(showNoInternetLottie = true) }
             is BlankSearchQueryException -> onClickDeleteQuery()
+        }
+    }
+
+    private fun isDarkTheme() {
+        collectFlow(customizeProfileSettings.isDarkThemeEnabled()) {
+            this.copy(isDarkTheme = it)
         }
     }
 }

@@ -7,9 +7,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -19,9 +22,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.VisualTransformation
@@ -45,6 +51,7 @@ import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
+import com.chocolate.presentation.util.hideKeyboard
 import com.chocolate.viewmodel.organizationname.OrganizationNameInteraction
 import com.chocolate.viewmodel.organizationname.OrganizationNameUiEffect
 import com.chocolate.viewmodel.organizationname.OrganizationNameUiState
@@ -85,8 +92,12 @@ fun OrganizationContent(
 ) {
     val colors = MaterialTheme.customColors()
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
+    val rootView = LocalView.current
     TeamixScaffold(isDarkMode = isSystemInDarkTheme()) {
-        Column(modifier = Modifier.verticalScroll(scrollState)) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState)) {
             Image(
                 painter = painterResource(id = R.drawable.img_start_organization),
                 contentDescription = null,
@@ -118,7 +129,11 @@ fun OrganizationContent(
             )
             TeamixButton(
                 onClick = {
-                    organizationNameInteraction.onEnterButtonClick(state.organizationName)
+                    hideKeyboard(context, rootView)
+                    organizationNameInteraction.onEnterButtonClick(
+                        state.organizationName,
+                        state.showSnakeBar
+                    )
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -126,7 +141,14 @@ fun OrganizationContent(
                     .padding(horizontal = SpacingXLarge),
                 colors = colors,
             ) {
-                AnimatedVisibility(state.isLoading) { CircularProgressIndicator(color = colors.card) }
+                AnimatedVisibility(state.isLoading) {
+                    CircularProgressIndicator(
+                        color = colors.card,
+                        modifier = Modifier
+                            .size(SpacingXXLarge)
+                            .align(Alignment.CenterVertically)
+                    )
+                }
                 AnimatedVisibility(visible = state.isLoading.not()) {
                     Text(
                         text = stringResource(R.string.enter),
@@ -152,14 +174,16 @@ fun OrganizationContent(
                     .padding(bottom = SpacingXXLarge),
                 textAlign = TextAlign.Center
             )
+            Spacer(modifier = Modifier.weight(1f))
             state.error?.let {
-                ActionSnakeBar(
-                    contentMessage = it,
-                    isVisible = true,
-                    isToggleButtonVisible = false
-                )
+                key(state.showSnakeBar) {
+                    ActionSnakeBar(
+                        contentMessage = it,
+                        isVisible = true,
+                        isToggleButtonVisible = false
+                    )
+                }
             }
-
         }
     }
 }

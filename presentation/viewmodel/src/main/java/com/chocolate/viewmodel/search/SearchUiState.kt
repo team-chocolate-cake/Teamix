@@ -8,6 +8,7 @@ data class SearchUiState(
     val channelsUiState: List<SearchChannelUiState> = emptyList(),
     val isChannelsEmpty: Boolean = true,
     val isLoading: Boolean = false,
+    val isDarkTheme: Boolean = false,
     val showNoInternetLottie: Boolean = false,
     val error: String? = null
 )

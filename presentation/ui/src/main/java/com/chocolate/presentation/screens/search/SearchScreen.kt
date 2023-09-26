@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -28,6 +29,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -71,13 +73,13 @@ fun SearchScreen(
 }
 
 @OptIn(ExperimentalFoundationApi::class)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @Composable
 fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
     val colors = MaterialTheme.customColors()
     val systemUiController = rememberSystemUiController()
     val query = state.query.collectAsState()
-    systemUiController.setStatusBarColor(color = Color.Black, darkIcons = false)
+
     TeamixScaffold(
         modifier = Modifier.fillMaxSize(),
         isDarkMode = isSystemInDarkTheme(),
@@ -96,6 +98,7 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
+            systemUiController.setStatusBarColor(color = Color.White, darkIcons = !state.isDarkTheme)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -116,12 +119,14 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
                         )
                     },
                     trailingIcon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_delete),
-                            contentDescription = null,
-                            tint = MaterialTheme.customColors().onBackground87,
-                            modifier = Modifier.clickable { searchInteraction.onClickDeleteQuery() }
-                        )
+                        AnimatedVisibility(visible = state.query.value.isNotBlank()) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_delete),
+                                contentDescription = null,
+                                tint = MaterialTheme.customColors().onBackground87,
+                                modifier = Modifier.clip(CircleShape).clickable { searchInteraction.onClickDeleteQuery() }
+                            )
+                        }
                     }
                 )
             }

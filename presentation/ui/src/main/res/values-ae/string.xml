@@ -98,6 +98,7 @@
     <string name="invalid_email_or_password">无效的电子邮件或密码</string>
     <string name="organization_name_not_found">组织名称未找到</string>
     <string name="organization_name_cannot_be_empty">组织名称不能为空</string>
+    <string name="organization_name_or_image_cannot_be_empty">组织名称或图片不能为空</string>
     <string name="get_stated">开始</string>
     <string name="welcome_image">欢迎图片</string>
     <string name="animatesize">动画尺寸</string>

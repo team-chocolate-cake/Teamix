@@ -40,6 +40,9 @@ class StringsResourceImpl @Inject constructor(
     override val organizationNameCannotBeEmpty: String =
         getString(R.string.organization_name_cannot_be_empty)
 
+    override val organizationNameOrImageCannotBeEmpty: String=
+        getString(R.string.organization_name_or_image_cannot_be_empty)
+
     override val channelNameValidation: String =
         getString(R.string.channel_name_validation)
 

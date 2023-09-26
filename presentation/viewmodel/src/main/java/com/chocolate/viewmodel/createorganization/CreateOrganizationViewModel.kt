@@ -34,8 +34,8 @@ class CreateOrganizationViewModel @Inject constructor(
         sendUiEffect(CreateOrganizationUiEffect.NavigateToHaveOrganization)
     }
 
-    override fun onClickNextButton() {
-        _state.update { it.copy(isLoading = true) }
+    override fun onClickNextButton(snakeBar:Boolean) {
+        _state.update { it.copy(isLoading = true, showSnakeBar = !snakeBar) }
         tryToExecute(
             { createOrganizationUseCase.invoke(state.value.toEntity()) },
             ::onCreateOrganizationSignInSuccess,
@@ -66,10 +66,9 @@ class CreateOrganizationViewModel @Inject constructor(
     private fun onError(throwable: Throwable) {
         val errorMessage = when (throwable) {
             is NoConnectionException -> stringsResource.noConnectionMessage
-            is EmptyOrganizationNameException -> stringsResource.organizationNameCannotBeEmpty
-            else -> stringsResource.organizationNameCannotBeEmpty
+            is EmptyOrganizationNameException -> stringsResource.organizationNameOrImageCannotBeEmpty
+            else -> stringsResource.organizationNameOrImageCannotBeEmpty
         }
-        Log.e("onError: ", throwable.toString())
         _state.update { it.copy(isLoading = false, error = errorMessage) }
     }
 }

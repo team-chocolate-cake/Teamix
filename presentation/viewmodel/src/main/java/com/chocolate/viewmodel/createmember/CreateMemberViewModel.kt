@@ -18,7 +18,7 @@ import com.chocolate.viewmodel.choosemember.CreateMemberArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import android.util.Base64
-import com.chocolate.entities.Organization
+import com.chocolate.entities.entity.Organization
 import javax.inject.Inject
 
 @HiltViewModel

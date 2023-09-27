@@ -10,9 +10,9 @@ import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import android.util.Base64
-import com.chocolate.entities.utils.InvalidOrganizationImageUrl
-import com.chocolate.entities.utils.OrganizationAlreadyExistException
-import com.chocolate.entities.utils.OrganizationNameIsSoLongException
+import com.chocolate.entities.util.InvalidOrganizationImageUrl
+import com.chocolate.entities.util.OrganizationAlreadyExistException
+import com.chocolate.entities.util.OrganizationNameIsSoLongException
 import javax.inject.Inject
 
 @HiltViewModel

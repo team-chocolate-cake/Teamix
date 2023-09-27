@@ -1,31 +1,30 @@
 package com.chocolate.viewmodel.topicmessages
 
 import android.annotation.SuppressLint
-import com.chocolate.entities.Member
-import com.chocolate.entities.UserRole
-import com.chocolate.entities.Message
-import com.chocolate.entities.SavedLaterMessage
-import com.chocolate.entities.Topic
-import com.chocolate.entities.utils.Empty
-import com.chocolate.entities.utils.toStringDate
+import com.chocolate.entities.entity.Member
+import com.chocolate.entities.entity.UserRole
+import com.chocolate.entities.entity.Message
+import com.chocolate.entities.entity.SavedLaterMessage
+import com.chocolate.entities.entity.Topic
+import com.chocolate.entities.util.Empty
+import com.chocolate.entities.util.toStringDate
 import com.chocolate.viewmodel.home.TopicUiState
 import java.util.Date
 
 @JvmName("MessageToMessageUiState")
-fun Message.toUiState(isMyMessage: Boolean): MessageUiState =
+fun Message.toUiState(): MessageUiState =
     MessageUiState(
         replayDate = timestamp.toStringDate(),
         id = id.toInt(),
         userId=senderId,
         message = messageContent,
         username = senderFullName,
-        isMyReplay = isMyMessage,
         userImage = senderAvatarUrl
     )
 
 @JvmName("MessagesToMessagesUiState")
-fun List<Message>.toUiState(isMyMessage: Boolean): List<MessageUiState> =
-    this.map { it.toUiState(isMyMessage) }
+fun List<Message>.toUiState(): List<MessageUiState> =
+    this.map { it.toUiState() }
 
 @SuppressLint("SimpleDateFormat")
 @JvmName("MessageUiStateToMessage")

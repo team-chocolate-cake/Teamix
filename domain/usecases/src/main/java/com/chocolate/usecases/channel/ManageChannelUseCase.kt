@@ -1,8 +1,8 @@
 package com.chocolate.usecases.channel
 
-import com.chocolate.entities.Channel
-import com.chocolate.entities.utils.InvalidChannelNameException
-import com.chocolate.entities.utils.getRandomId
+import com.chocolate.entities.entity.Channel
+import com.chocolate.entities.util.InvalidChannelNameException
+import com.chocolate.entities.util.getRandomId
 import com.chocolate.usecases.member.GetIdOfCurrentMemberUseCase
 import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import kotlinx.coroutines.flow.Flow

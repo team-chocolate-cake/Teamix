@@ -2,7 +2,6 @@ package com.chocolate.presentation.screens.savedlater
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -46,7 +45,7 @@ fun SaveLaterScreen(
 fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInteraction) {
     val colors = MaterialTheme.customColors()
     TeamixScaffold(
-        isDarkMode = isSystemInDarkTheme(),
+        statusBarColor = colors.card,
         hasAppBar = true,
         hasBackArrow = true,
         containerColorAppBar = colors.card,

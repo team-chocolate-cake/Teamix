@@ -1,4 +1,4 @@
-package com.chocolate.entities
+package com.chocolate.entities.entity
 
 import java.util.Date
 

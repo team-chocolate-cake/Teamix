@@ -1,6 +1,5 @@
-package com.chocolate.entities
+package com.chocolate.entities.entity
 
-import com.chocolate.entities.Member
 import java.util.Date
 
 data class SavedLaterMessage(

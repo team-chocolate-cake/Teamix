@@ -1,7 +1,7 @@
 package com.chocolate.usecases.organization
 
 import com.chocolate.entities.Member
-import com.chocolate.entities.Organization
+import com.chocolate.entities.entity.Organization
 import com.chocolate.entities.utils.EmptyOrganizationNameException
 import com.chocolate.entities.utils.InvalidOrganizationImageUrl
 import com.chocolate.entities.utils.OrganizationAlreadyExistException

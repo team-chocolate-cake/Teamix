@@ -2,7 +2,6 @@ package com.chocolate.presentation.screens.createtopic
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -60,22 +59,6 @@ fun CreateTopicScreen(
         }
     }
 
-//        when (val effects = createTopicViewModel.effect.collectAsState(initial = null).value) {
-//            is CreateTopicEffect.NavigateToTopicScreen -> {
-//                LaunchedEffect(key1 = Unit) {
-//                    navController.popBackStack()
-//                    navController.navigateToTopic(effects.topicName)
-//                }
-//            }
-//
-//            is CreateTopicEffect.ShowSnackBar -> {
-//                //ActionSnakeBar(contentMessage = effects.message)
-//            }
-//
-//            else -> {}
-//        }
-
-
     CreateChannelContent(
         state,
         createTopicViewModel,
@@ -93,7 +76,7 @@ fun CreateChannelContent(
     TeamixScaffold(
         hasBackArrow = true,
         title = stringResource(id = R.string.create_topic),
-        isDarkMode = isSystemInDarkTheme(),
+        statusBarColor = colors.card,
         hasAppBar = true,
         containerColorAppBar = colors.card,
         titleColor = colors.onBackground87,
@@ -184,7 +167,8 @@ private fun TextInputField(
         Text(
             text = textInputLabel,
             style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier.padding(bottom = 8.dp),
+            color = MaterialTheme.customColors().onBackground87
         )
         TeamixTextField(
             value = value,

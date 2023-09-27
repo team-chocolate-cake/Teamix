@@ -2,10 +2,10 @@ package com.chocolate.viewmodel.search
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.chocolate.entities.Channel
-import com.chocolate.entities.utils.BlankSearchQueryException
-import com.chocolate.entities.utils.NoConnectionException
-import com.chocolate.entities.utils.Empty
+import com.chocolate.entities.entity.Channel
+import com.chocolate.entities.util.BlankSearchQueryException
+import com.chocolate.entities.util.NoConnectionException
+import com.chocolate.entities.util.Empty
 import com.chocolate.usecases.search.SearchForChannelUseCase
 import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
@@ -32,6 +32,7 @@ class SearchViewModel @Inject constructor(
             )
             this
         }
+        isDarkTheme()
     }
 
     override fun onClickChannelItem(id: String, name: String) {

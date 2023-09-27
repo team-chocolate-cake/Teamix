@@ -1,6 +1,6 @@
 package com.chocolate.usecases.topic
 
-import com.chocolate.entities.Topic
+import com.chocolate.entities.entity.Topic
 import repositories.TopicRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

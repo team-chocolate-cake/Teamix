@@ -1,8 +1,8 @@
 package com.chocolate.viewmodel.draft
 
 import androidx.lifecycle.viewModelScope
-import com.chocolate.entities.Draft
-import com.chocolate.entities.utils.NoConnectionException
+import com.chocolate.entities.entity.Draft
+import com.chocolate.entities.util.NoConnectionException
 import com.chocolate.usecases.draft.ManageDraftsUseCases
 import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel

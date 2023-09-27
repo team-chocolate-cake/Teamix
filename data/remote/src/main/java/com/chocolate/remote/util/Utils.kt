@@ -1,7 +1,7 @@
 package com.chocolate.remote.util
 
-import com.chocolate.entities.utils.NetworkException
-import com.chocolate.entities.utils.TeamixException
+import com.chocolate.entities.util.NetworkException
+import com.chocolate.entities.util.TeamixException
 import java.io.IOException
 import java.net.UnknownHostException
 import java.util.concurrent.CancellationException

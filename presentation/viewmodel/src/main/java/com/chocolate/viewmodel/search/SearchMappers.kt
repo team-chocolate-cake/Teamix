@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.search
 
-import com.chocolate.entities.Channel
+import com.chocolate.entities.entity.Channel
 
 @JvmName("channelToSearchChannelUiState")
 fun Channel.toUiState(): SearchChannelUiState =

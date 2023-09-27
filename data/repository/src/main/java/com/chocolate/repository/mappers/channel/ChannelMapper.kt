@@ -1,6 +1,6 @@
 package com.chocolate.repository.mappers.channel
 
-import com.chocolate.entities.Channel
+import com.chocolate.entities.entity.Channel
 import com.chocolate.repository.model.dto.channel.ChannelDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

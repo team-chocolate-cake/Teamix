@@ -2,11 +2,11 @@ package com.chocolate.viewmodel.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.chocolate.entities.utils.NetworkException
-import com.chocolate.entities.utils.NullDataException
-import com.chocolate.entities.utils.ServerException
-import com.chocolate.entities.utils.TeamixException
-import com.chocolate.entities.utils.UnAuthorizedException
+import com.chocolate.entities.util.NetworkException
+import com.chocolate.entities.util.NullDataException
+import com.chocolate.entities.util.ServerException
+import com.chocolate.entities.util.TeamixException
+import com.chocolate.entities.util.UnAuthorizedException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

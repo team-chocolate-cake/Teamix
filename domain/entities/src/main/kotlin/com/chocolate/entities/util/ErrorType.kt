@@ -1,4 +1,4 @@
-package com.chocolate.entities.utils
+package com.chocolate.entities.util
 
 open class TeamixException(message: String?) : Exception(message)
 open class NullDataException(message: String?) : TeamixException(message)

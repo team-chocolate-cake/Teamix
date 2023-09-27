@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.directmessage
 
-import com.chocolate.entities.Chat
+import com.chocolate.entities.entity.Chat
 import com.chocolate.viewmodel.directmessagechat.formatDate
 import kotlinx.coroutines.flow.MutableStateFlow
 

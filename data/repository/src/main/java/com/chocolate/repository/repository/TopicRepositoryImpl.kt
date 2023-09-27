@@ -2,7 +2,7 @@ package com.chocolate.repository.repository
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.chocolate.entities.Topic
+import com.chocolate.entities.entity.Topic
 import com.chocolate.repository.datasource.local.PreferencesDataSource
 import com.chocolate.repository.datasource.remote.TopicDataSource
 import com.chocolate.repository.mappers.topic.toTopic

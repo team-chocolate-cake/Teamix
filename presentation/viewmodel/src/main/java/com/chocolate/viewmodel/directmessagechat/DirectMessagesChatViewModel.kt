@@ -5,8 +5,8 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.chocolate.entities.Message
-import com.chocolate.entities.utils.Empty
+import com.chocolate.entities.entity.Message
+import com.chocolate.entities.util.Empty
 import com.chocolate.usecases.directmessage.ManageDirectMessageUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
 import com.chocolate.usecases.message.ManageTopicMessagesUseCase
@@ -50,8 +50,7 @@ class DirectMessagesChatViewModel @Inject constructor(
                     groupId = dmChatArgs.groupId,
                 )
             ) { messages ->
-                Log.i("teeestere", messages.map { it.toUiState(false) }.reversed().toString())
-                _state.value.copy(messages = messages.map { it.toUiState(false) })
+                _state.value.copy(messages = messages.map { it.toUiState() })
             }
         }
     }
@@ -75,8 +74,6 @@ class DirectMessagesChatViewModel @Inject constructor(
         }, onSuccess = {
             onSendMessageSuccess(it)
         }, onError = { onError(it) })
-
-
         _state.update { it.copy(messageInput = String.Empty) }
     }
 

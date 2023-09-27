@@ -36,8 +36,8 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.SeparatorWithText
 import com.chocolate.presentation.composable.ShowErrorSnackBarLogic
 import com.chocolate.presentation.composable.TeamixButton
+import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.createmember.navigateToCreateMember
-import com.chocolate.presentation.screens.forgetpassword.navigateToForgetPassword
 import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.screens.login.composable.LoginComponents
 import com.chocolate.presentation.theme.SpacingExtraHuge
@@ -67,7 +67,6 @@ fun LoginScreen(
 
     CollectUiEffect(loginViewModel.effect) { effect ->
         when (effect) {
-            LoginUiEffect.NavigateToForgetPassword -> navController.navigateToForgetPassword()
             LoginUiEffect.NavigationToHome -> navController.navigateToHome()
             is LoginUiEffect.NavigateToCreateNewAccount -> navController.navigateToCreateMember(effect.role, null)
         }
@@ -88,101 +87,103 @@ fun LoginContent(
     val showErrorStateSnackBar = remember { mutableStateOf(false) }
     val context = LocalContext.current
     val rootView = LocalView.current
+    TeamixScaffold (statusBarColor = colors.background){
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = colors.background)
-            .padding(horizontal = SpacingXLarge)
-            .verticalScroll(scrollState),
-    ) {
-        Text(
-            modifier = Modifier.padding(top = SpacingSuperMassive),
-            text = stringResource(R.string.welcome_to),
-            style = MaterialTheme.typography.titleLarge,
-            color = colors.onBackground87
-        )
-        Text(
-            modifier = Modifier.padding(bottom = SpacingGigantic),
-            text = state.organizationName,
-            style = MaterialTheme.typography.titleLarge,
-            color = colors.primary
-        )
-
-        LoginComponents(
-            email = state.email,
-            password = state.password,
-            passwordVisibility = state.passwordVisibility,
-            onClickPasswordVisibility = { loginInteraction.onClickPasswordVisibility(it) },
-            onChangeEmail = { loginInteraction.onChangeEmail(it) },
-            onChangePassword = { loginInteraction.onChangePassword(it) }
-        )
-
-        Row(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = SpacingMedium, bottom = SpacingXXLarge, end = SpacingXLarge),
-            horizontalArrangement = Arrangement.End
+                .fillMaxSize()
+                .background(color = colors.background)
+                .padding(horizontal = SpacingXLarge)
+                .verticalScroll(scrollState),
         ) {
             Text(
-                stringResource(R.string.forget_password),
-                fontSize = 14.sp,
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.clickable { loginInteraction.onClickForgetPassword() },
-                color = colors.primary,
+                modifier = Modifier.padding(top = SpacingSuperMassive),
+                text = stringResource(R.string.welcome_to),
+                style = MaterialTheme.typography.titleLarge,
+                color = colors.onBackground87
             )
-        }
-        TeamixButton(
-            onClick = {
-                hideKeyboard(context, rootView)
-                if (state.email.isEmpty() || state.password.isEmpty()) {
-                    showEmailErrorSnackBar.value = true
-                } else
-                    loginInteraction.onClickSignIn(state.email, state.password)
-                showErrorStateSnackBar.value = state.error != null
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(SpacingUltraGigantic),
-            colors = colors,
-        ) {
-            AnimatedVisibility(visible = state.isLoading) {
-                CircularProgressIndicator(
-                    color = colors.card,
-                    modifier = Modifier
-                        .size(SpacingXXLarge)
-                        .align(Alignment.CenterVertically)
-                )
-            }
-            AnimatedVisibility(visible = !state.isLoading) {
+            Text(
+                modifier = Modifier.padding(bottom = SpacingGigantic),
+                text = state.organizationName,
+                style = MaterialTheme.typography.titleLarge,
+                color = colors.primary
+            )
+
+            LoginComponents(
+                email = state.email,
+                password = state.password,
+                passwordVisibility = state.passwordVisibility,
+                onClickPasswordVisibility = { loginInteraction.onClickPasswordVisibility(it) },
+                onChangeEmail = { loginInteraction.onChangeEmail(it) },
+                onChangePassword = { loginInteraction.onChangePassword(it) }
+            )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = SpacingMedium, bottom = SpacingXXLarge, end = SpacingXLarge),
+                horizontalArrangement = Arrangement.End
+            ) {
                 Text(
-                    text = stringResource(R.string.sign_in),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = colors.onPrimary
+                    stringResource(R.string.forget_password),
+                    fontSize = 14.sp,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.clickable { loginInteraction.onClickForgetPassword() },
+                    color = colors.primary,
                 )
             }
-        }
-        SeparatorWithText(
-            modifier = Modifier.padding(
-                bottom = SpacingXMedium,
-                top = SpacingExtraHuge
+            TeamixButton(
+                onClick = {
+                    hideKeyboard(context, rootView)
+                    if (state.email.isEmpty() || state.password.isEmpty()) {
+                        showEmailErrorSnackBar.value = true
+                    } else
+                        loginInteraction.onClickSignIn(state.email, state.password)
+                    showErrorStateSnackBar.value = state.error != null
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(SpacingUltraGigantic),
+                colors = colors,
+            ) {
+                AnimatedVisibility(visible = state.isLoading) {
+                    CircularProgressIndicator(
+                        color = colors.card,
+                        modifier = Modifier
+                            .size(SpacingXXLarge)
+                            .align(Alignment.CenterVertically)
+                    )
+                }
+                AnimatedVisibility(visible = !state.isLoading) {
+                    Text(
+                        text = stringResource(R.string.sign_in),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = colors.onPrimary
+                    )
+                }
+            }
+            SeparatorWithText(
+                modifier = Modifier.padding(
+                    bottom = SpacingXMedium,
+                    top = SpacingExtraHuge
+                )
             )
-        )
-        Text(
-            text = stringResource(R.string.create_new_account),
-            color = colors.primary,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .clickable(indication = null,
-                    interactionSource = remember { MutableInteractionSource() },
-                    onClick = { loginInteraction.onClickCreateNewAccount() })
-                .padding(bottom = SpacingXXLarge),
-            textAlign = TextAlign.Center
-        )
+            Text(
+                text = stringResource(R.string.create_new_account),
+                color = colors.primary,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .clickable(indication = null,
+                        interactionSource = remember { MutableInteractionSource() },
+                        onClick = { loginInteraction.onClickCreateNewAccount() })
+                    .padding(bottom = SpacingXXLarge),
+                textAlign = TextAlign.Center
+            )
+        }
+        ShowErrorSnackBarLogic(showEmailErrorSnackBar, errorMessage)
+        ShowErrorSnackBarLogic(showErrorStateSnackBar, state.error.toString())
     }
-    ShowErrorSnackBarLogic(showEmailErrorSnackBar, errorMessage)
-    ShowErrorSnackBarLogic(showErrorStateSnackBar, state.error.toString())
 }
 
 

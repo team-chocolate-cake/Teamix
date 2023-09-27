@@ -1,6 +1,6 @@
 package repositories
 
-import com.chocolate.entities.Member
+import com.chocolate.entities.entity.Member
 import kotlinx.coroutines.flow.Flow
 
 interface MemberRepository {

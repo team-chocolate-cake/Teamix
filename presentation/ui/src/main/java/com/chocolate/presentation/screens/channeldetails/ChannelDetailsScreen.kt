@@ -120,7 +120,7 @@ fun ChannelDetailsContent(
     }
 
     TeamixScaffold(
-        isDarkMode = isSystemInDarkTheme()
+        statusBarColor = MaterialTheme.customColors().card
     ) { padding ->
         Column(
             modifier = Modifier
@@ -161,7 +161,11 @@ fun ChannelDetailsContent(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = SpacingXLarge, end = SpacingXLarge, bottom = SpacingXMedium),
+                        .padding(
+                            start = SpacingXLarge,
+                            end = SpacingXLarge,
+                            bottom = SpacingXMedium
+                        ),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
@@ -182,7 +186,10 @@ fun ChannelDetailsContent(
                 }
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(SpacingXLarge),
-                    contentPadding = PaddingValues(horizontal = SpacingXLarge, vertical = SpacingXMedium)
+                    contentPadding = PaddingValues(
+                        horizontal = SpacingXLarge,
+                        vertical = SpacingXMedium
+                    )
                 ) {
                     items(channelDetailsUiState.memberUiState.size) {
                         Member(channelDetailsUiState.memberUiState[it])

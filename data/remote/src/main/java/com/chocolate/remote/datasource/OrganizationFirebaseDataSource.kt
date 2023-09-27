@@ -1,7 +1,7 @@
 package com.chocolate.remote.datasource
 
 import android.net.Uri
-import com.chocolate.entities.utils.getRandomId
+import com.chocolate.entities.util.getRandomId
 import com.chocolate.remote.util.Constants
 import com.chocolate.remote.util.Constants.ORGANIZATION_IMAGES_PATH
 import com.chocolate.remote.util.Constants.PROFILE_IMAGES_PATH

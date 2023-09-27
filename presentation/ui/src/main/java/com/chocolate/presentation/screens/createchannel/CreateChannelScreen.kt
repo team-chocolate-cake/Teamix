@@ -3,7 +3,6 @@ package com.chocolate.presentation.screens.createchannel
 import android.annotation.SuppressLint
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -76,7 +75,7 @@ private fun CreateChannelContent(
     val textStyle = MaterialTheme.typography
 
     TeamixScaffold(
-        isDarkMode = isSystemInDarkTheme(),
+        statusBarColor = colors.card,
         isLoading = state.isLoading,
         title = stringResource(id = R.string.create_channel),
         hasAppBar = true,

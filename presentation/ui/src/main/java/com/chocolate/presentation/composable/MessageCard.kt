@@ -2,14 +2,8 @@ package com.chocolate.presentation.composable
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -37,36 +31,24 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.SpacingMassive
 import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingTiny
-import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.topicmessages.MessageUiState
-import com.chocolate.viewmodel.topicmessages.ReactionUiState
 
-@OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ReplyMessage(
+fun MessageCard(
     modifier: Modifier = Modifier,
     messageUiState: MessageUiState,
-    onAddReactionToMessage: (Int) -> Unit,
     onSaveMessage: () -> Unit,
-    onGetNotification: () -> Unit,
-    onPinMessage: () -> Unit,
-    onOpenReactTile: () -> Unit,
-    onClickReact: (Boolean, ReactionUiState) -> Unit,
-
 ) {
     var showSheet by remember { mutableStateOf(false) }
     AnimatedVisibility(showSheet) {
         MessageOptionsBottomSheet(
-            onAddReactionToMessage = onAddReactionToMessage,
-            onGetNotification = onGetNotification,
-            onPinMessage = onPinMessage,
             onSaveMessage = onSaveMessage
         ) {
             showSheet = false
@@ -173,39 +155,6 @@ fun ReplyMessage(
                 )
             }
 
-        }
-
-        AnimatedVisibility(messageUiState.reactions.isNotEmpty()) {
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingXMedium),
-                modifier = Modifier.constrainAs(emojis) {
-                    start.linkTo(image.end)
-                    top.linkTo(messageCard.bottom)
-                }) {
-                messageUiState.reactions.forEach { reaction ->
-                    ReactionButton(reaction) { clicked, reaction ->
-                        onClickReact(clicked, reaction)
-                    }
-                }
-
-                Box(contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .padding(vertical = SpacingMedium)
-                        .clip(RoundedCornerShape(100.dp))
-                        .background(
-                            MaterialTheme.customColors().lightGray
-                        )
-                        .clickable {
-                            onOpenReactTile()
-                        }
-                        .padding(vertical = SpacingMedium, horizontal = SpacingXMedium)) {
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(R.drawable.add_reaction).build(),
-                        contentDescription = "Reaction",
-                        modifier = Modifier.size(SpacingXLarge)
-                    )
-                }
-            }
         }
     }
 

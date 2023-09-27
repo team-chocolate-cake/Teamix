@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.home
 
-import com.chocolate.entities.utils.Empty
+import com.chocolate.entities.util.Empty
 
 data class HomeUiState(
     val organizationTitle: String = String.Empty,

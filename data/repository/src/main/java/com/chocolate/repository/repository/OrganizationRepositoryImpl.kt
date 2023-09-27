@@ -1,8 +1,8 @@
 package com.chocolate.repository.repository
 
-import com.chocolate.entities.Organization
-import com.chocolate.entities.utils.EmptyOrganizationNameException
-import com.chocolate.entities.utils.InvalidOrganizationImageUrl
+import com.chocolate.entities.entity.Organization
+import com.chocolate.entities.util.EmptyOrganizationNameException
+import com.chocolate.entities.util.InvalidOrganizationImageUrl
 import com.chocolate.repository.datasource.local.PreferencesDataSource
 import com.chocolate.repository.datasource.remote.OrganizationDataSource
 import com.chocolate.repository.mappers.toEntity

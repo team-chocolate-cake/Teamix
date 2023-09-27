@@ -1,6 +1,6 @@
 package com.chocolate.remote.datasource
 
-import com.chocolate.entities.utils.FireBaseException
+import com.chocolate.entities.util.FireBaseException
 import com.chocolate.remote.util.Constants
 import com.chocolate.remote.util.tryToExecuteSuspendCall
 import com.chocolate.repository.datasource.remote.TopicDataSource

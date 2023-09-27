@@ -1,7 +1,8 @@
 package com.chocolate.viewmodel.createchannel
 
-import com.chocolate.entities.utils.InvalidChannelNameException
-import com.chocolate.entities.utils.NoConnectionException
+import android.util.Log
+import com.chocolate.entities.util.InvalidChannelNameException
+import com.chocolate.entities.util.NoConnectionException
 import com.chocolate.usecases.channel.ManageChannelUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
@@ -28,7 +29,7 @@ class CreateChannelViewModel @Inject constructor(
     }
 
     override fun onChannelDescriptionChange(channelDescription: String?) {
-        _state.update { it.copy(description = channelDescription) }
+        _state.update { it.copy(description = channelDescription.takeUnless { channelDescription.isNullOrEmpty() }) }
     }
 
     override fun onChannelStatusChange(newChannelStatus: ChannelStatus, isPrivate: Boolean) {
@@ -40,7 +41,7 @@ class CreateChannelViewModel @Inject constructor(
         sendUiEffect(
             effect = CreateChannelUiEffect.NavigationToChooseMembers(
                 channelName = _state.value.channelName,
-                description = _state.value.description ?: "",
+                description = _state.value.description ?: "Welcome to $channelName",
                 isPrivate = _state.value.isPrivate
             )
         )

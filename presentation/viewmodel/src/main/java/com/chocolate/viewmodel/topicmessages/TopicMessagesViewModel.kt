@@ -4,7 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.chocolate.entities.Message
+import com.chocolate.entities.entity.Message
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
 import com.chocolate.usecases.message.ManageTopicMessagesUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
@@ -103,7 +103,7 @@ class TopicMessagesViewModel @Inject constructor(
             messages.map {
                 _state.update {
                     it.copy(
-                        messages = messages.toUiState(false)
+                        messages = messages.toUiState()
                     )
                 }
             }

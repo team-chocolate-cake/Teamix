@@ -69,10 +69,9 @@ fun ChooseMemberContent(
     chooseMemberInteraction: ChooseMemberInteraction
 ) {
     val colors = MaterialTheme.customColors()
-    val navController = LocalNavController.current
     val searchQuery by state.searchQuery.collectAsState()
     TeamixScaffold(
-        isDarkMode = isSystemInDarkTheme(),
+        statusBarColor = colors.card,
         containerColorAppBar = colors.card,
         hasAppBar = true,
         hasBackArrow = true,

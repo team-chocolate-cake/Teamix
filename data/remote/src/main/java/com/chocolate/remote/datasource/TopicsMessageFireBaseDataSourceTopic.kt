@@ -1,6 +1,6 @@
 package com.chocolate.remote.datasource
 
-import com.chocolate.entities.utils.TeamixException
+import com.chocolate.entities.util.TeamixException
 import com.chocolate.remote.util.Constants
 import com.chocolate.remote.util.getRandomId
 import com.chocolate.remote.util.tryToExecuteSuspendCall

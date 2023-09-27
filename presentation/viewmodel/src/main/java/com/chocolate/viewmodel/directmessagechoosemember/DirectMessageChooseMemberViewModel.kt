@@ -1,8 +1,8 @@
 package com.chocolate.viewmodel.directmessagechoosemember
 
 import androidx.lifecycle.viewModelScope
-import com.chocolate.entities.Member
-import com.chocolate.entities.utils.NoConnectionException
+import com.chocolate.entities.entity.Member
+import com.chocolate.entities.util.NoConnectionException
 import com.chocolate.usecases.directmessage.ManageDirectMessageUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
 import com.chocolate.usecases.member.GetMembersExceptCurrentMemberUseCase

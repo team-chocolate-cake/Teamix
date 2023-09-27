@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.organizationname
 
-import com.chocolate.entities.utils.Empty
+import com.chocolate.entities.util.Empty
 
 data class OrganizationNameUiState(
     val organizationName: String = String.Empty,

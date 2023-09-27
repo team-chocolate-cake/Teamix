@@ -30,7 +30,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -77,12 +76,12 @@ fun SearchScreen(
 @Composable
 fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
     val colors = MaterialTheme.customColors()
-    val systemUiController = rememberSystemUiController()
     val query = state.query.collectAsState()
+    val systemUiController = rememberSystemUiController()
 
     TeamixScaffold(
         modifier = Modifier.fillMaxSize(),
-        isDarkMode = isSystemInDarkTheme(),
+        statusBarColor = colors.card,
         error = state.error,
         onError = {
             NoInternetLottie(
@@ -91,14 +90,13 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
                 isDarkMode = isSystemInDarkTheme()
             )
         },
-        onRetry = {searchInteraction.onClickRetry()},
+        onRetry = { searchInteraction.onClickRetry() },
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            systemUiController.setStatusBarColor(color = Color.White, darkIcons = !state.isDarkTheme)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -124,7 +122,9 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
                                 painter = painterResource(id = R.drawable.ic_delete),
                                 contentDescription = null,
                                 tint = MaterialTheme.customColors().onBackground87,
-                                modifier = Modifier.clip(CircleShape).clickable { searchInteraction.onClickDeleteQuery() }
+                                modifier = Modifier
+                                    .clip(CircleShape)
+                                    .clickable { searchInteraction.onClickDeleteQuery() }
                             )
                         }
                     }

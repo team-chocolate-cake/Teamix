@@ -1,7 +1,7 @@
 package com.chocolate.usecases.directmessage
 
-import com.chocolate.entities.Chat
-import com.chocolate.entities.Message
+import com.chocolate.entities.entity.Chat
+import com.chocolate.entities.entity.Message
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import repositories.DirectMessageRepository

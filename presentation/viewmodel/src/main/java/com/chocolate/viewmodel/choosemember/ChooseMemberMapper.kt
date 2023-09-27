@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.choosemember
 
-import com.chocolate.entities.Member
+import com.chocolate.entities.entity.Member
 
 @JvmName("membersToMembersUiState")
 fun List<Member>.toUiState(selectedMembersId: List<SelectedMemberItemUiState>): List<SelectedMemberItemUiState>{

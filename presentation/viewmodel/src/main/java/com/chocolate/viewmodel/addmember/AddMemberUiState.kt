@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.addmember
 
-import com.chocolate.entities.utils.Empty
+import com.chocolate.entities.util.Empty
 import com.chocolate.viewmodel.allMembers.MemberItemUiState
 import com.chocolate.viewmodel.base.BaseErrorUiState
 

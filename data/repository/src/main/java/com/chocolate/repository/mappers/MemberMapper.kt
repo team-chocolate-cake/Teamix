@@ -1,7 +1,7 @@
 package com.chocolate.repository.mappers
 
-import com.chocolate.entities.Member
-import com.chocolate.entities.UserRole
+import com.chocolate.entities.entity.Member
+import com.chocolate.entities.entity.UserRole
 import com.chocolate.repository.model.dto.member.MemberDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

@@ -1,12 +1,10 @@
 package com.chocolate.viewmodel.createmember
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import com.chocolate.entities.util.InvalidEmailException
 import com.chocolate.entities.util.InvalidUsernameException
 import com.chocolate.entities.util.MemberAlreadyExistException
-import com.chocolate.entities.util.MissingRequiredFieldsException
 import com.chocolate.entities.util.PasswordMismatchException
 import com.chocolate.usecases.member.AttemptMemberLoginUseCase
 import com.chocolate.usecases.member.CreateMemberUseCase
@@ -19,6 +17,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import android.util.Base64
 import com.chocolate.entities.entity.Organization
+import com.chocolate.entities.util.EmptyEmailException
+import com.chocolate.entities.util.EmptyFullNameException
+import com.chocolate.entities.util.EmptyImageUriException
+import com.chocolate.entities.util.EmptyPasswordException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,6 +34,11 @@ class CreateMemberViewModel @Inject constructor(
 ) : BaseViewModel<CreateMemberUiState, CreateMemberUiEffect>(CreateMemberUiState()),
     CreateMemberInteraction {
     private val createMemberArgs = CreateMemberArgs(savedStateHandle)
+
+    init {
+        _state.update { it.copy(isCreatingMember = createMemberArgs.role == "Member") }
+    }
+
     override fun onFullNameChange(name: String) {
         _state.update { it.copy(fullName = name) }
     }
@@ -42,6 +49,10 @@ class CreateMemberViewModel @Inject constructor(
 
     override fun onPasswordChange(password: String) {
         _state.update { it.copy(password = password) }
+    }
+
+    override fun onErrorDismiss() {
+        _state.update { it.copy(error = null) }
     }
 
     override fun onConfirmPasswordChange(password: String) {
@@ -96,16 +107,17 @@ class CreateMemberViewModel @Inject constructor(
 
     private fun onError(throwable: Throwable) {
         val errorMessage = when (throwable) {
-            is MissingRequiredFieldsException -> stringsResource.allFieldsAreRequired
+            is EmptyPasswordException -> stringsResource.emptyPassword
+            is EmptyFullNameException -> stringsResource.emptyFullNameMessage
+            is EmptyEmailException -> stringsResource.emptyEmailMessage
+            is EmptyImageUriException -> stringsResource.invalidImage
             is PasswordMismatchException -> stringsResource.passwordMismatch
             is MemberAlreadyExistException -> stringsResource.memberAlreadyExist
             is InvalidUsernameException -> stringsResource.invalidUsername
             is InvalidEmailException -> stringsResource.invalidEmail
             else -> stringsResource.globalMessageError
         }
-
         _state.update { it.copy(error = errorMessage, isLoading = false) }
-        Log.e("err", "onError: ${_state.value.error}")
     }
 
     override fun onSignInClick() {
@@ -115,5 +127,4 @@ class CreateMemberViewModel @Inject constructor(
     override fun onPersonalImageChange(newUri: Uri) {
         _state.update { it.copy(personalImageUri = newUri) }
     }
-
 }

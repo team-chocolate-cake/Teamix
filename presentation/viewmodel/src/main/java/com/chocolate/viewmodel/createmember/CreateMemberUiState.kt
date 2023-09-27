@@ -15,6 +15,7 @@ data class CreateMemberUiState(
     val confirmPassword: String = String.Empty,
     val confirmPasswordVisibility: Boolean = false,
     val organizationName: String = String.Empty,
+    val isCreatingMember: Boolean = true,
     val isLoading: Boolean = false,
     val error: String? = null
 )

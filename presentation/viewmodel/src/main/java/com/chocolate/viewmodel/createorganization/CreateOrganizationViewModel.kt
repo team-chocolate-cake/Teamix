@@ -24,7 +24,7 @@ class CreateOrganizationViewModel @Inject constructor(
     CreateOrganizationInteraction {
     override fun onOrganizationNameChange(organizationName: String) {
         _state.update {
-            it.copy(organizationName = organizationName.trim(), isLoading = false, error = null)
+            it.copy(organizationName = organizationName, isLoading = false, error = null)
         }
     }
 

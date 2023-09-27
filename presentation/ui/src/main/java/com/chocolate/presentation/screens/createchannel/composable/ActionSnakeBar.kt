@@ -31,10 +31,10 @@ fun ActionSnakeBar(
     contentMessage: String,
     modifier: Modifier = Modifier,
     isVisible: Boolean = false,
-    onDismiss: () -> Unit={},
-    onClick: () -> Unit={},
-    isToggleButtonVisible:Boolean=true,
-    actionTitle: String="",
+    onDismiss: () -> Unit = {},
+    onClick: () -> Unit = {},
+    isToggleButtonVisible: Boolean = true,
+    actionTitle: String = "",
 ) {
     val colors = MaterialTheme.customColors()
     val textStyle = MaterialTheme.typography
@@ -48,27 +48,37 @@ fun ActionSnakeBar(
             onClick()
             onDismiss()
             timeVisible = false
-        }else {
+        } else {
             timeVisible = false
         }
     }
 
     Box(
-        modifier = modifier.fillMaxSize().padding(SpacingXLarge)
+        modifier = modifier
+            .fillMaxSize()
+            .padding(SpacingXLarge)
     ) {
         AnimatedVisibility(
-            modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter),
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter),
             visible = timeVisible
         ) {
-            Snackbar(shape = RoundedCornerShape(Radius12),) {
+            Snackbar(shape = RoundedCornerShape(Radius12)) {
                 Row(
                     modifier = Modifier.padding(vertical = SpacingMedium),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(modifier = Modifier.weight(3f),text = contentMessage, style = textStyle.bodyMedium)
-                    AnimatedVisibility(isToggleButtonVisible){
+                    Text(
+                        modifier = Modifier.weight(3f),
+                        text = contentMessage,
+                        style = textStyle.bodyMedium
+                    )
+                    AnimatedVisibility(isToggleButtonVisible) {
                         ToggleButton(
-                            modifier = Modifier.height(ButtonSize32).weight(1f),
+                            modifier = Modifier
+                                .height(ButtonSize32)
+                                .weight(1f),
                             color = colors.primary,
                             isFilled = true,
                             onClick = { onClick() }) {
@@ -79,7 +89,6 @@ fun ActionSnakeBar(
                             )
                         }
                     }
-
                 }
             }
         }

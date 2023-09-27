@@ -3,11 +3,11 @@ package com.chocolate.usecases.member
 import com.chocolate.entities.util.EmptyImageUriException
 import com.chocolate.entities.util.EmptyPasswordException
 import com.chocolate.entities.util.InvalidEmailException
-import com.chocolate.entities.util.InvalidUsernameException
 import com.chocolate.entities.util.PasswordMismatchException
 import com.chocolate.entities.entity.Member
 import com.chocolate.entities.util.Empty
 import com.chocolate.entities.util.EmptyEmailException
+import com.chocolate.entities.util.EmptyFullNameException
 import repositories.MemberRepository
 import javax.inject.Inject
 
@@ -45,11 +45,8 @@ class CreateMemberUseCase @Inject constructor(
     }
 
     private fun isValidUsername(name: String) {
-        val pattern = Regex("^[a-zA-Z][a-zA-Z0-9_ ]{2,}$")
-        if (!pattern.matches(name))
-            throw InvalidUsernameException(String.Empty)
-        else if (name.isBlank())
-            throw InvalidUsernameException(null)
+        if (name.isBlank())
+            throw EmptyFullNameException
     }
 
     private fun validateEmail(email: String) {

@@ -62,6 +62,7 @@ fun CreateMemberScreen(
             CreateMemberUiEffect.NavigateToLogin -> {
                 navController.popBackStack()
             }
+
             CreateMemberUiEffect.NavigateToHome -> navController.navigateToHome()
         }
     }
@@ -113,18 +114,22 @@ private fun CreateMemberContent(
                 }
             }
         }
+
         item {
-            TextWithClickableAction(
-                text = stringResource(R.string.do_you_have_account),
-                clickableText = stringResource(id = R.string.sign_in),
-                onTextClick = { interaction.onSignInClick() }
-            )
+            AnimatedVisibility(visible = state.isCreatingMember) {
+                TextWithClickableAction(
+                    text = stringResource(R.string.do_you_have_account),
+                    clickableText = stringResource(id = R.string.sign_in),
+                    onTextClick = { interaction.onSignInClick() }
+                )
+            }
         }
     }
     ActionSnakeBar(
         contentMessage = state.error.toString(),
         isVisible = state.error != null,
-        isToggleButtonVisible = false
+        isToggleButtonVisible = false,
+        onDismiss = { interaction.onErrorDismiss() }
     )
 
 

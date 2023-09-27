@@ -3,6 +3,7 @@ package com.chocolate.viewmodel.base
 interface StringsResource {
     val emptyEmailMessage: String
     val emptyFullNameMessage: String
+    val emptyPassword: String
     val sameUserDataMessage: String
     val noConnectionMessage: String
     val globalMessageError: String

@@ -152,5 +152,8 @@
     <string name="enter_full_name">Ingrese su nombre</string>
     <string name="member_already_exist">El miembro con este correo electrónico ya existe.</string>
     <string name="invalid_channel_name">El nombre del canal no es válido.</string>
+    <string name="organization_name_already_exist">La organización con este nombre ya existe. Por favor cambie el nombre.</string>
+    <string name="organization_name_is_long">El nombre de la organización no puede exceder los 30 caracteres.</string>
+    <string name="invalid_image_uri">Imagen inválida.</string>
 
 </resources>

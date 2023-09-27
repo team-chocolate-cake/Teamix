@@ -7,9 +7,12 @@ interface StringsResource {
     val noConnectionMessage: String
     val globalMessageError: String
     val successMessage: String
+    val organizationNameAlreadyExist: String
+    val organizationNameIsSoLongException: String
     val enterValidEmailAddress: String
     val invalidEmailOrPassword: String
     val invalidChannelName: String
+    val invalidImage: String
     val cancel: String
     val createChannel: String
     val organizationNameNotFound: String

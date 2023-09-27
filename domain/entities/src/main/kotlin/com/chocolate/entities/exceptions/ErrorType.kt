@@ -18,6 +18,8 @@ class InvalidUsernameException(message: String?): ValidationException(message)
 class InvalidEmailException(message: String?): ValidationException(message)
 
 object OrganizationNotFoundException: TeamixException(null)
+object OrganizationAlreadyExistException: TeamixException(null)
+object OrganizationNameIsSoLongException: TeamixException(null)
 object EmptyOrganizationNameException: TeamixException(null)
 object InvalidOrganizationImageUrl: TeamixException(null)
 object InvalidChannelNameException: TeamixException(null)

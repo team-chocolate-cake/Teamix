@@ -23,6 +23,9 @@ class StringsResourceImpl @Inject constructor(
     override val globalMessageError: String = getString(R.string.globalMessageError)
 
     override val successMessage: String = getString(R.string.success)
+    override val organizationNameAlreadyExist: String = getString(R.string.organization_name_already_exist)
+    override val invalidImage: String = getString(R.string.invalid_image_uri)
+    override val organizationNameIsSoLongException: String = getString(R.string.organization_name_is_long)
 
     override val enterValidEmailAddress: String =
         getString(R.string.enter_a_valid_email_address)

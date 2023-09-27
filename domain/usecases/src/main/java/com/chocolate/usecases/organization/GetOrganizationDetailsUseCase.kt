@@ -15,7 +15,7 @@ class ManageOrganizationDetailsUseCase @Inject constructor(
     }
 
     suspend fun getOrganizationName(): String {
-        return organizationRepository.getOrganizationName()
+        return organizationRepository.getCurrentOrganizationName()
     }
 
     suspend fun getOrganizationImage(): String {

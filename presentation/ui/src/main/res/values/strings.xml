@@ -80,6 +80,7 @@
     <string name="leave_discription">This action cannot be undoneBy leaving the channel, you will no longer receive updates or messages from this channel</string>
     <string name="do_you_want_to_leave_channel">Do you want to leave channel</string>
     <string name="enter">Enter</string>
+    <string name="organization_name_already_exist">Organization with this name already exist. Please change the name.</string>
     <string name="default_error_message">A mistake happened, please attempt again at a later time.</string>
     <string name="error_organization_name_empty">Organization name cannot be empty!</string>
     <string name="error_try_again_later">A mistake occurred; please attempt again at a subsequent time.</string>
@@ -100,6 +101,7 @@
     <string name="organization_name_not_found">Organization name not found</string>
     <string name="organization_name_cannot_be_empty">Organization name cannot be empty</string>
     <string name="organization_name_or_image_cannot_be_empty">Organization name or image cannot be empty</string>
+    <string name="organization_name_is_long">Organization name can not exceed 30 characters.</string>
     <string name="get_stated">Get Stated</string>
     <string name="welcome_image">Welcome image</string>
     <string name="animatesize">animateSize</string>
@@ -164,4 +166,5 @@
     <string name="create">create</string>
     <string name="create_topic">create topic</string>
     <string name="have_organization">Have Organization</string>
+    <string name="invalid_image_uri">Invalid image.</string>
 </resources>

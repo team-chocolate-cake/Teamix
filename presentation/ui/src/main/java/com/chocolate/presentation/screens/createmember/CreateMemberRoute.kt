@@ -10,12 +10,15 @@ import com.chocolate.viewmodel.choosemember.CreateMemberArgs
 
 fun NavGraphBuilder.createMemberRoute() {
     composable(
-        route = "${Screen.CreateMember.route}/{${CreateMemberArgs.ROLE}}",
-        arguments = listOf(navArgument(CreateMemberArgs.ROLE) { NavType.StringType })
+        route = "${Screen.CreateMember.route}/{${CreateMemberArgs.ROLE}}/{${CreateMemberArgs.IMAGE_URI}}",
+        arguments = listOf(
+            navArgument(CreateMemberArgs.ROLE) { NavType.StringType },
+            navArgument(CreateMemberArgs.IMAGE_URI) { NavType.StringType }),
     ) {
         CreateMemberScreen()
     }
 }
-fun NavController.navigateToCreateMember(role: String){
-    navigate("${Screen.CreateMember.route}/$role")
+
+fun NavController.navigateToCreateMember(role: String, organizationImageUri: String?) {
+    navigate("${Screen.CreateMember.route}/$role/$organizationImageUri")
 }

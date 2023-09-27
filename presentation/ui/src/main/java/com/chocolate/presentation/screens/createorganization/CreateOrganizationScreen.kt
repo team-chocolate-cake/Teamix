@@ -21,7 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -66,7 +65,7 @@ fun CreateOrganizationScreen(
     CollectUiEffect(viewModel.effect) { effect ->
         when (effect) {
             is CreateOrganizationUiEffect.NavigateToCreateMemberScreen ->
-                navController.navigateToCreateMember(effect.role)
+                navController.navigateToCreateMember(effect.role, effect.organizationImageUri)
 
             CreateOrganizationUiEffect.NavigateToHaveOrganization ->
                 navController.popBackStack()
@@ -124,7 +123,7 @@ fun CreateOrganizationContent(
             TeamixButton(
                 onClick = {
                     hideKeyboard(context, rootView)
-                    createOrganizationInteraction.onClickNextButton(state.showSnakeBar)
+                    createOrganizationInteraction.onClickNextButton()
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -169,14 +168,12 @@ fun CreateOrganizationContent(
             )
             Spacer(modifier = Modifier.weight(1f))
             state.error?.let {
-                key(state.showSnakeBar) {
-                    ActionSnakeBar(
-                        contentMessage = state.error.toString(),
-                        isVisible = true,
-                        isToggleButtonVisible = false
-                    )
-                }
-
+                ActionSnakeBar(
+                    contentMessage = state.error.toString(),
+                    isVisible = true,
+                    isToggleButtonVisible = false,
+                    onDismiss = { createOrganizationInteraction.onSnackBarDismissed() }
+                )
             }
 
         }

@@ -93,7 +93,7 @@ private fun CreateMemberContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(SpacingUltraGigantic),
-                onClick = { interaction.onCreateAccountClick() },
+                onClick = { interaction.onCreateButtonClick() },
                 colors = colors,
             ) {
                 AnimatedVisibility(visible = state.isLoading) {

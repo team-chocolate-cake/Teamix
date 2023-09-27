@@ -152,5 +152,8 @@
     <string name="enter_full_name">输入你的名字</string>
     <string name="member_already_exist">使用此電子郵件的會員已經存在。</string>
     <string name="invalid_channel_name">頻道名稱無效</string>
+    <string name="organization_name_already_exist">同名的組織已存在。 請更改名稱。</string>
+    <string name="organization_name_is_long">組織名稱不能超過 30 個字符</string>
+    <string name="invalid_image_uri">圖片無效。</string>
 
 </resources>

@@ -10,7 +10,7 @@ interface CreateMemberInteraction {
     fun onPasswordVisibilityChange(newPasswordVisibility:Boolean)
     fun onConfirmPasswordVisibilityChange(newPasswordVisibility:Boolean)
 
-    fun onCreateAccountClick()
+    fun onCreateButtonClick()
     fun onSignInClick()
 
     fun onPersonalImageChange(newUri: Uri)

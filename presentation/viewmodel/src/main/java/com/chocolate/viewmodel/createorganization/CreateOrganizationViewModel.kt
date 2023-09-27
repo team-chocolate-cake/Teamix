@@ -1,11 +1,6 @@
 package com.chocolate.viewmodel.createorganization
 
 import android.net.Uri
-import com.chocolate.entities.exceptions.EmptyOrganizationNameException
-import com.chocolate.entities.exceptions.InvalidOrganizationImageUrl
-import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.entities.exceptions.OrganizationAlreadyExistException
-import com.chocolate.entities.exceptions.OrganizationNameIsSoLongException
 import com.chocolate.entities.utils.EmptyOrganizationNameException
 import com.chocolate.entities.utils.NoConnectionException
 import com.chocolate.usecases.organization.CreateOrganizationUseCase
@@ -15,6 +10,9 @@ import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import android.util.Base64
+import com.chocolate.entities.utils.InvalidOrganizationImageUrl
+import com.chocolate.entities.utils.OrganizationAlreadyExistException
+import com.chocolate.entities.utils.OrganizationNameIsSoLongException
 import javax.inject.Inject
 
 @HiltViewModel

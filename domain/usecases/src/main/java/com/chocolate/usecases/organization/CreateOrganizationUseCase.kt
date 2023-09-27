@@ -1,11 +1,11 @@
 package com.chocolate.usecases.organization
 
-import com.chocolate.entities.exceptions.EmptyOrganizationNameException
-import com.chocolate.entities.exceptions.InvalidOrganizationImageUrl
-import com.chocolate.entities.exceptions.OrganizationAlreadyExistException
-import com.chocolate.entities.exceptions.OrganizationNameIsSoLongException
-import com.chocolate.entities.member.Member
+import com.chocolate.entities.Member
 import com.chocolate.entities.Organization
+import com.chocolate.entities.utils.EmptyOrganizationNameException
+import com.chocolate.entities.utils.InvalidOrganizationImageUrl
+import com.chocolate.entities.utils.OrganizationAlreadyExistException
+import com.chocolate.entities.utils.OrganizationNameIsSoLongException
 import com.chocolate.usecases.member.CreateMemberUseCase
 import repositories.OrganizationRepository
 import javax.inject.Inject

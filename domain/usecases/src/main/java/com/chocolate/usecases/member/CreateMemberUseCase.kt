@@ -1,6 +1,5 @@
 package com.chocolate.usecases.member
 
-import com.chocolate.entities.exceptions.EmptyEmailException
 import com.chocolate.entities.utils.EmptyImageUriException
 import com.chocolate.entities.utils.EmptyPasswordException
 import com.chocolate.entities.utils.InvalidEmailException
@@ -8,6 +7,7 @@ import com.chocolate.entities.utils.InvalidUsernameException
 import com.chocolate.entities.utils.PasswordMismatchException
 import com.chocolate.entities.Member
 import com.chocolate.entities.utils.Empty
+import com.chocolate.entities.utils.EmptyEmailException
 import repositories.MemberRepository
 import javax.inject.Inject
 

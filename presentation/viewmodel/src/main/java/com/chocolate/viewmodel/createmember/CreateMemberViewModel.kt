@@ -8,7 +8,6 @@ import com.chocolate.entities.utils.InvalidUsernameException
 import com.chocolate.entities.utils.MemberAlreadyExistException
 import com.chocolate.entities.utils.MissingRequiredFieldsException
 import com.chocolate.entities.utils.PasswordMismatchException
-import com.chocolate.entities.organization.Organization
 import com.chocolate.usecases.member.AttemptMemberLoginUseCase
 import com.chocolate.usecases.member.CreateMemberUseCase
 import com.chocolate.usecases.organization.CreateOrganizationUseCase
@@ -19,6 +18,7 @@ import com.chocolate.viewmodel.choosemember.CreateMemberArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import android.util.Base64
+import com.chocolate.entities.Organization
 import javax.inject.Inject
 
 @HiltViewModel

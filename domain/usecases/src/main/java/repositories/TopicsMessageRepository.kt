@@ -1,8 +1,8 @@
 package repositories
 
-import com.chocolate.entities.Draft
-import com.chocolate.entities.Message
-import com.chocolate.entities.SavedLaterMessage
+import com.chocolate.entities.entity.Draft
+import com.chocolate.entities.entity.Message
+import com.chocolate.entities.entity.SavedLaterMessage
 import kotlinx.coroutines.flow.Flow
 
 interface TopicsMessageRepository {

@@ -1,7 +1,7 @@
 package com.chocolate.repository.mappers.messages
 
-import com.chocolate.entities.Member
-import com.chocolate.entities.SavedLaterMessage
+import com.chocolate.entities.entity.Member
+import com.chocolate.entities.entity.SavedLaterMessage
 import com.chocolate.repository.model.dto.message.SavedLaterMessageDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

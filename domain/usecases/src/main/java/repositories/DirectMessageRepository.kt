@@ -1,7 +1,7 @@
 package repositories
 
-import com.chocolate.entities.Chat
-import com.chocolate.entities.Message
+import com.chocolate.entities.entity.Chat
+import com.chocolate.entities.entity.Message
 import kotlinx.coroutines.flow.Flow
 
 interface DirectMessageRepository {

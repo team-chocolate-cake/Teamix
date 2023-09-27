@@ -3,18 +3,16 @@ package com.chocolate.presentation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.chocolate.presentation.screens.directmessagechat.dmChatRoute
 import com.chocolate.presentation.screens.channel.channelRoute
 import com.chocolate.presentation.screens.choosemember.chooseMemberRoute
-import com.chocolate.presentation.screens.createmember.createMemberRoute
-import com.chocolate.presentation.screens.createtopic.createTopicRoute
-import com.chocolate.presentation.screens.createaccount.createAccountWebViewRoute
 import com.chocolate.presentation.screens.createchannel.createChannelRoute
+import com.chocolate.presentation.screens.createmember.createMemberRoute
 import com.chocolate.presentation.screens.createorganization.createOrganizationRoute
+import com.chocolate.presentation.screens.createtopic.createTopicRoute
 import com.chocolate.presentation.screens.directmessage.directMessageRoute
+import com.chocolate.presentation.screens.directmessagechat.dmChatRoute
 import com.chocolate.presentation.screens.directmessagechoosemember.directMessageChooseMemberRoute
 import com.chocolate.presentation.screens.drafts.draftsRoute
-import com.chocolate.presentation.screens.forgetpassword.forgetPasswordWebViewRoute
 import com.chocolate.presentation.screens.home.homeRoute
 import com.chocolate.presentation.screens.login.loginRoute
 import com.chocolate.presentation.screens.onboarding.onboardingRoute
@@ -36,7 +34,6 @@ fun TeamixNavGraph(navController: NavHostController) {
         createOrganizationRoute()
         loginRoute()
         searchRoute()
-        forgetPasswordWebViewRoute()
         profileRoute()
         searchRoute()
         directMessageRoute()
@@ -47,7 +44,6 @@ fun TeamixNavGraph(navController: NavHostController) {
         saveLaterRoute()
         draftsRoute()
         channelRoute()
-        createAccountWebViewRoute()
         createMemberRoute()
         directMessageChooseMemberRoute()
         dmChatRoute()

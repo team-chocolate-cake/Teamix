@@ -3,7 +3,6 @@ package com.chocolate.presentation.screens.createorganization
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -39,8 +38,8 @@ import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixImagePicker
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
-import com.chocolate.presentation.screens.createmember.navigateToCreateMember
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
+import com.chocolate.presentation.screens.createmember.navigateToCreateMember
 import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.SpacingGigantic
 import com.chocolate.presentation.theme.SpacingUltimateGigantic
@@ -87,7 +86,7 @@ fun CreateOrganizationContent(
     val scrollState = rememberScrollState()
     val context = LocalContext.current
     val rootView = LocalView.current
-    TeamixScaffold(isDarkMode = isSystemInDarkTheme()) {
+    TeamixScaffold (statusBarColor = colors.background){
         Column(
             modifier = Modifier
                 .fillMaxSize()

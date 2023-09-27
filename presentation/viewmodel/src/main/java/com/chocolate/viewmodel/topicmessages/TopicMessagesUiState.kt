@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.topicmessages
 
-import com.chocolate.entities.utils.Empty
+import com.chocolate.entities.util.Empty
 
 data class TopicUiState(
     val photoAndVideo: List<PhotoOrVideoUiState> = emptyList(),
@@ -25,7 +25,6 @@ data class MessageUiState(
     val userImage: String = String.Empty,
     val messageImageUrl: String = String.Empty,
     val reactions: List<ReactionUiState> = emptyList(),
-    val isMyReplay: Boolean = false,
     val message: String = String.Empty,
 )
 

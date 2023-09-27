@@ -34,8 +34,8 @@ import com.chocolate.presentation.composable.LoadingDialog
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.SelectedMemberItem
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.screens.directmessagechat.navigateToDmChat
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
+import com.chocolate.presentation.screens.directmessagechat.navigateToDmChat
 import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
@@ -54,10 +54,10 @@ fun DirectMessageChooseMemberScreen(
 ) {
     val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
-    DirectMessageChooseMemberContent(state = state, viewModel , navController)
-    LaunchedEffect(key1 = viewModel.effect ){
+    DirectMessageChooseMemberContent(state = state, viewModel, navController)
+    LaunchedEffect(key1 = viewModel.effect) {
         viewModel.effect.collectLatest {
-            when(it){
+            when (it) {
                 is DirectMessageChooseMemberUiEffect.NavigateToDmChat -> {
                     navController.navigateToDmChat(
                         popBackStack = true,
@@ -81,14 +81,14 @@ fun DirectMessageChooseMemberContent(
     val colors = MaterialTheme.customColors()
     val context = LocalContext.current
     val text =
-        if (state.selectedMembersUiState ==null) stringResource(R.string.skip) else stringResource(
+        if (state.selectedMembersUiState == null) stringResource(R.string.skip) else stringResource(
             R.string.ok
         )
     AnimatedVisibility(state.isLoading) {
         LoadingDialog()
     }
     TeamixScaffold(
-        isDarkMode = isSystemInDarkTheme(),
+        statusBarColor = colors.card,
         containerColorAppBar = colors.card,
         hasAppBar = true,
         hasBackArrow = true,

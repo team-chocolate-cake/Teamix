@@ -1,6 +1,6 @@
 package repositories
 
-import com.chocolate.entities.Channel
+import com.chocolate.entities.entity.Channel
 import kotlinx.coroutines.flow.Flow
 
 interface ChannelRepository {

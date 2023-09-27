@@ -1,4 +1,4 @@
-package com.chocolate.entities
+package com.chocolate.entities.entity
 
 data class Member (
     val id: String,

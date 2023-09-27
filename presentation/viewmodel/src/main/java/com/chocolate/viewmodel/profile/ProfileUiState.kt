@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.profile
 
-import com.chocolate.entities.utils.Empty
+import com.chocolate.entities.util.Empty
 
 data class ProfileUiState(
     val id: Int = 0,

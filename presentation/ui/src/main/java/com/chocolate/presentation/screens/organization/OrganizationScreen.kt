@@ -5,7 +5,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -93,7 +92,7 @@ fun OrganizationContent(
     val scrollState = rememberScrollState()
     val context = LocalContext.current
     val rootView = LocalView.current
-    TeamixScaffold(isDarkMode = isSystemInDarkTheme()) {
+    TeamixScaffold (statusBarColor = colors.background){
         Column(
             modifier = Modifier
                 .fillMaxSize()

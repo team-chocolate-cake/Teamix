@@ -1,10 +1,10 @@
 package com.chocolate.viewmodel.home
 
-import com.chocolate.entities.Channel
-import com.chocolate.entities.utils.EmptyMemberIdException
-import com.chocolate.entities.utils.EmptyOrganizationNameException
-import com.chocolate.entities.utils.NoConnectionException
-import com.chocolate.entities.Member
+import com.chocolate.entities.entity.Channel
+import com.chocolate.entities.util.EmptyMemberIdException
+import com.chocolate.entities.util.EmptyOrganizationNameException
+import com.chocolate.entities.util.NoConnectionException
+import com.chocolate.entities.entity.Member
 import com.chocolate.usecases.channel.ManageChannelUseCase
 import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase

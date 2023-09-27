@@ -1,8 +1,8 @@
 package com.chocolate.viewmodel.createorganization
 
 import android.net.Uri
-import com.chocolate.entities.utils.EmptyOrganizationNameException
-import com.chocolate.entities.utils.NoConnectionException
+import com.chocolate.entities.util.EmptyOrganizationNameException
+import com.chocolate.entities.util.NoConnectionException
 import com.chocolate.usecases.organization.CreateOrganizationUseCase
 import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel

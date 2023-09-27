@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.createchannel
 
-import com.chocolate.entities.utils.Empty
+import com.chocolate.entities.util.Empty
 
 data class CreateChannelUiState(
     val channelName: String = String.Empty,

@@ -1,7 +1,7 @@
 package com.chocolate.usecases.search
 
-import com.chocolate.entities.Channel
-import com.chocolate.entities.utils.BlankSearchQueryException
+import com.chocolate.entities.entity.Channel
+import com.chocolate.entities.util.BlankSearchQueryException
 import com.chocolate.usecases.channel.ManageChannelUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

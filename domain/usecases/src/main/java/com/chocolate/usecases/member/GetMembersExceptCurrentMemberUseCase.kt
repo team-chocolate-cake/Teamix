@@ -1,6 +1,6 @@
 package com.chocolate.usecases.member
 
-import com.chocolate.entities.Member
+import com.chocolate.entities.entity.Member
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

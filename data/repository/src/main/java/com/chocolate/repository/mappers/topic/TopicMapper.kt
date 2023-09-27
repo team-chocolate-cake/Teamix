@@ -2,7 +2,7 @@ package com.chocolate.repository.mappers.topic
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.chocolate.entities.Topic
+import com.chocolate.entities.entity.Topic
 import com.chocolate.repository.model.dto.topic.TopicDto
 import com.chocolate.repository.utils.getCurrentTime
 import java.util.Date

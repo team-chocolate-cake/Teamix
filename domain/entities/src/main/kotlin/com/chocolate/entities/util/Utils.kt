@@ -1,4 +1,4 @@
-package com.chocolate.entities.utils
+package com.chocolate.entities.util
 
 import java.text.SimpleDateFormat
 import java.util.Date

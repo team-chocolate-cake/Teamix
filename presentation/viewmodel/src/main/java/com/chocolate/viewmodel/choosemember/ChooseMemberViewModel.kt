@@ -2,8 +2,8 @@ package com.chocolate.viewmodel.choosemember
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.chocolate.entities.utils.EmptyOrganizationNameException
-import com.chocolate.entities.utils.NoConnectionException
+import com.chocolate.entities.util.EmptyOrganizationNameException
+import com.chocolate.entities.util.NoConnectionException
 import com.chocolate.usecases.channel.ManageChannelUseCase
 import com.chocolate.usecases.member.GetMembersInOrganizationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel

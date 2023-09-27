@@ -4,11 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
-import com.chocolate.entities.utils.NoConnectionException
-import com.chocolate.entities.utils.NullDataException
-import com.chocolate.entities.utils.TeamixException
-import com.chocolate.entities.utils.ValidationException
-import com.chocolate.entities.Member
+import com.chocolate.entities.util.NoConnectionException
+import com.chocolate.entities.util.NullDataException
+import com.chocolate.entities.util.TeamixException
+import com.chocolate.entities.util.ValidationException
+import com.chocolate.entities.entity.Member
 import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
 import com.chocolate.usecases.member.AttemptMemberLogoutUseCase

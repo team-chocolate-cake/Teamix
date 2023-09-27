@@ -1,8 +1,8 @@
 package com.chocolate.viewmodel.createorganization
 
 import android.net.Uri
-import com.chocolate.entities.Organization
-import com.chocolate.entities.utils.Empty
+import com.chocolate.entities.entity.Organization
+import com.chocolate.entities.util.Empty
 
 
 data class CreateOrganizationUiState(

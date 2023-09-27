@@ -36,7 +36,6 @@ import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.onboarding.OnboardingInteraction
 import com.chocolate.viewmodel.onboarding.OnboardingUiEffect
 import com.chocolate.viewmodel.onboarding.OnboardingViewModel
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
 
 @Composable
@@ -71,16 +70,7 @@ fun OnboardingContent(
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
     val colors = MaterialTheme.customColors()
-    val systemUiController = rememberSystemUiController()
-
-    systemUiController.setStatusBarColor(color = colors.background, darkIcons = true)
-
-
-
-
-    TeamixScaffold(
-        isDarkMode = false
-    ) {
+    TeamixScaffold(statusBarColor = colors.background) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()

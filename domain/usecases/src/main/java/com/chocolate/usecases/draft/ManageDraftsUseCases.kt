@@ -1,6 +1,6 @@
 package com.chocolate.usecases.draft
 
-import com.chocolate.entities.Draft
+import com.chocolate.entities.entity.Draft
 import repositories.TopicsMessageRepository
 import javax.inject.Inject
 

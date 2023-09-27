@@ -2,7 +2,6 @@ package com.chocolate.presentation.screens.topicmessages
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -11,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -19,8 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.chocolate.presentation.composable.MyReplyMessage
-import com.chocolate.presentation.composable.ReplyMessage
+import com.chocolate.presentation.composable.MessageCard
 import com.chocolate.presentation.composable.StartNewMessage
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.theme.*
@@ -28,8 +27,8 @@ import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.topicmessages.TopicMessagesEffect
 import com.chocolate.viewmodel.topicmessages.TopicMessagesInteraction
-import com.chocolate.viewmodel.topicmessages.TopicUiState
 import com.chocolate.viewmodel.topicmessages.TopicMessagesViewModel
+import com.chocolate.viewmodel.topicmessages.TopicUiState
 
 @Composable
 fun TopicScreen(
@@ -55,20 +54,10 @@ fun TopicContent(
     topicInteraction: TopicMessagesInteraction,
     scrollState: LazyListState
 ) {
-    LaunchedEffect(key1 = topicUiState.messages.size) {
-        topicUiState.messages.takeIf { messages ->
-            messages.isNotEmpty()
-        }?.let {
-            val lastIndex = it.size - 1
-            val scrollToIndex = lastIndex.coerceAtLeast(0)
-            scrollState.animateScrollToItem(0)
-        }
-
-    }
 
     TeamixScaffold(
         title = topicUiState.topicName,
-        isDarkMode = isSystemInDarkTheme(),
+        statusBarColor = MaterialTheme.customColors().card,
         hasAppBar = true,
         hasBackArrow = true,
         bottomBar = {
@@ -76,9 +65,9 @@ fun TopicContent(
                 openEmojisTile = { },
                 onMessageInputChanged = { topicInteraction.onMessageInputChanged(it) },
                 onSendMessage = { topicInteraction.onSendMessage(topicUiState.messageInput) },
-                onStartVoiceRecording = {  },
+                onStartVoiceRecording = { },
                 onClickCamera = { },
-                onClickPhotoOrVideo = {  },
+                onClickPhotoOrVideo = { },
                 photoOrVideoList = topicUiState.photoAndVideo,
                 modifier = Modifier,
                 messageInput = topicUiState.messageInput,
@@ -97,36 +86,19 @@ fun TopicContent(
                     .fillMaxHeight()
                     .constrainAs(messages) { bottom.linkTo(parent.bottom) },
                 reverseLayout = true,
-                verticalArrangement = Arrangement.spacedBy(SpacingXLarge),
+                verticalArrangement = Arrangement.Bottom,
                 contentPadding = PaddingValues(bottom = SpacingXLarge, top = SpacingXLarge)
             ) {
                 items(topicUiState.messages.size, key = {
                     topicUiState.messages[it].id
                 }) {
-                    if (topicUiState.messages[it].isMyReplay)
-                        MyReplyMessage(
-                            modifier = Modifier.animateItemPlacement(),
-                            messageUiState = topicUiState.messages[it],
-                            onAddReactionToMessage = {  },
-                            onGetNotification = {  },
-                            onPinMessage = { },
-                            onSaveMessage = { topicInteraction.onSaveMessage(topicUiState.messages[it]) },
-                            onClickReact = { positive, state ->
-                            }
-                        )
-                    else
-                        ReplyMessage(
-                            modifier = Modifier.animateItemPlacement(),
-                            messageUiState = topicUiState.messages[it],
-                            onAddReactionToMessage = { },
-                            onGetNotification = {  },
-                            onPinMessage = {  },
-                            onSaveMessage = { topicInteraction.onSaveMessage(topicUiState.messages[it]) },
-                            onOpenReactTile = { },
-                            onClickReact = { positive, state ->
-
-                            }
-                        )
+                    MessageCard(
+                        modifier = Modifier
+                            .animateItemPlacement()
+                            .padding(top = SpacingLarge),
+                        messageUiState = topicUiState.messages[it],
+                        onSaveMessage = { topicInteraction.onSaveMessage(topicUiState.messages[it]) },
+                    )
                 }
             }
         }

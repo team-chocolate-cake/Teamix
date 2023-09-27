@@ -88,16 +88,19 @@ fun HomeScreen(
                 effect.id,
                 effect.name
             )
+
             HomeUiEffect.NavigateToOrganizationName -> navController.navigateToOrganizationName {
                 popUpTo(Screen.Home.route) {
                     inclusive = true
                 }
             }
+
             HomeUiEffect.NavigationToDrafts -> navController.navigateToDrafts()
             HomeUiEffect.NavigationToSavedLater -> navController.navigateToSaveLater()
             is HomeUiEffect.NavigateToTopic -> navController.navigateToTopic(
-                effect.channelId,effect.topicId,effect.topicName
+                effect.channelId, effect.topicId, effect.topicName
             )
+
             HomeUiEffect.NavigateToCreateChannel -> navController.navigateToCreateChannel()
         }
     }
@@ -118,8 +121,8 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
         ManageChannelBottomSheet(onDismissBottomSheet = { isShowSheet = false }, colors = colors)
     }
     TeamixScaffold(
+        statusBarColor = colors.primary,
         modifier = Modifier.fillMaxSize(),
-        isDarkMode = state.isDarkTheme,
         containerColorAppBar = MaterialTheme.customColors().primary,
         onRetry = homeInteraction::onClickRetryButton,
         error = if (state.isLogged && state.showNoInternetLottie) stringResource(R.string.no_internet) else null,
@@ -129,10 +132,7 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
         titleColor = OnLightPrimary,
         hasAppBar = true,
     ) { paddingValue ->
-        systemUiController.setStatusBarColor(
-            color = LightPrimary,
-            darkIcons = false
-        )
+        systemUiController.setStatusBarColor(LightPrimary, darkIcons = false)
         systemUiController.setNavigationBarColor(Color.Black)
         LazyColumn(
             modifier = Modifier
@@ -207,8 +207,8 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                     colors = colors,
                     onClickItemChannel = { id, name ->
                         homeInteraction.onClickChannel(id, name)
-                    }, onClickTopic = {channelId,topicId, name ->
-                        homeInteraction.onClickTopic(channelId,topicId,name)
+                    }, onClickTopic = { channelId, topicId, name ->
+                        homeInteraction.onClickTopic(channelId, topicId, name)
                     },
                     modifier = Modifier
                         .padding(horizontal = SpacingXLarge)

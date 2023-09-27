@@ -1,6 +1,6 @@
 package com.chocolate.repository.repository
 
-import com.chocolate.entities.Channel
+import com.chocolate.entities.entity.Channel
 import com.chocolate.repository.datasource.remote.ChannelDataSource
 import com.chocolate.repository.mappers.channel.toEntity
 import com.chocolate.repository.mappers.channel.toRemote

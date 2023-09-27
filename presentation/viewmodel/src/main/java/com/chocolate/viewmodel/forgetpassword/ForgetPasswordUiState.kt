@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.forgetpassword
 
-import com.chocolate.entities.utils.Empty
+import com.chocolate.entities.util.Empty
 
 data class ForgetPasswordUiState(
     val organizationsName: String = String.Empty,

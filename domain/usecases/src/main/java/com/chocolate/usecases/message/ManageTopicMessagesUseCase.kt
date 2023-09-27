@@ -1,7 +1,7 @@
 package com.chocolate.usecases.message
 
-import com.chocolate.entities.Message
-import com.chocolate.entities.SavedLaterMessage
+import com.chocolate.entities.entity.Message
+import com.chocolate.entities.entity.SavedLaterMessage
 import kotlinx.coroutines.flow.Flow
 import repositories.TopicsMessageRepository
 import javax.inject.Inject

@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.login
 
-import com.chocolate.entities.utils.Empty
+import com.chocolate.entities.util.Empty
 
 data class LoginUiState(
     val email : String = String.Empty,

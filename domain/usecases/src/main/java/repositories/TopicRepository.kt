@@ -1,6 +1,6 @@
 package repositories
 
-import com.chocolate.entities.Topic
+import com.chocolate.entities.entity.Topic
 import kotlinx.coroutines.flow.Flow
 
 interface TopicRepository {

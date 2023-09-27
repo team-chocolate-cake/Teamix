@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.onboarding
 
-import com.chocolate.entities.utils.Empty
+import com.chocolate.entities.util.Empty
 
 data class OnboardingUiState(
     val image: Int = 0,

@@ -1,7 +1,6 @@
 package com.chocolate.presentation.screens.channel
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -70,7 +69,7 @@ fun ChannelContent(
     TeamixScaffold(
         hasBackArrow = true,
         title = state.channelName,
-        isDarkMode = isSystemInDarkTheme(),
+        statusBarColor = MaterialTheme.customColors().card,
         hasAppBar = true,
         floatingActionButton = {
             FloatingActionButton(

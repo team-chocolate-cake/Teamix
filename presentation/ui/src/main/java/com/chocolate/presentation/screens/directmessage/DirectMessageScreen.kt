@@ -2,7 +2,6 @@ package com.chocolate.presentation.screens.directmessage
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -66,7 +65,7 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
         darkIcons = false
     )
     TeamixScaffold(
-        isDarkMode = isSystemInDarkTheme(),
+        statusBarColor = colors.background ,
         floatingActionButton = {
             FloatingActionButton(
                 containerColor = colors.primary,
@@ -112,8 +111,11 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
                     DirectMessageChat(
                         state = state.chats[it],
                         modifier = Modifier.clickable {
-                            interactions.onClickChat(id = state.chats[it].id , name =state.chats[it].name )
-                    })
+                            interactions.onClickChat(
+                                id = state.chats[it].id,
+                                name = state.chats[it].name
+                            )
+                        })
                 }
             }
         }

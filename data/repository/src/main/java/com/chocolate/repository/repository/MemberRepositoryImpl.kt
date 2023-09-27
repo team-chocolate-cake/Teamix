@@ -1,12 +1,12 @@
 package com.chocolate.repository.repository
 
-import com.chocolate.entities.exceptions.EmptyMemberIdException
-import com.chocolate.entities.exceptions.EmptyOrganizationNameException
-import com.chocolate.entities.exceptions.MemberAlreadyExistException
-import com.chocolate.entities.exceptions.MemberNotFoundException
-import com.chocolate.entities.exceptions.WrongEmailException
-import com.chocolate.entities.exceptions.WrongEmailOrPasswordException
-import com.chocolate.entities.member.Member
+import com.chocolate.entities.utils.EmptyMemberIdException
+import com.chocolate.entities.utils.EmptyOrganizationNameException
+import com.chocolate.entities.utils.MemberAlreadyExistException
+import com.chocolate.entities.utils.MemberNotFoundException
+import com.chocolate.entities.utils.WrongEmailException
+import com.chocolate.entities.utils.WrongEmailOrPasswordException
+import com.chocolate.entities.Member
 import com.chocolate.repository.datasource.local.PreferencesDataSource
 import com.chocolate.repository.datasource.remote.ChannelDataSource
 import com.chocolate.repository.datasource.remote.MemberDataSource

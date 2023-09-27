@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.choosemember
 
-import com.chocolate.entities.uills.Empty
+import com.chocolate.entities.utils.Empty
 import kotlinx.coroutines.flow.MutableStateFlow
 
 data class ChooseMemberUiState(

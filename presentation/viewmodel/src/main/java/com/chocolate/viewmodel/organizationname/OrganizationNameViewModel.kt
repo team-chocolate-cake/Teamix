@@ -1,8 +1,8 @@
 package com.chocolate.viewmodel.organizationname
 
-import com.chocolate.entities.exceptions.EmptyOrganizationNameException
-import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.entities.exceptions.OrganizationNotFoundException
+import com.chocolate.entities.utils.EmptyOrganizationNameException
+import com.chocolate.entities.utils.NoConnectionException
+import com.chocolate.entities.utils.OrganizationNotFoundException
 import com.chocolate.usecases.onboarding.ManageUserUsedAppUseCase
 import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel

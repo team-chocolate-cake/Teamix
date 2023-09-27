@@ -1,9 +1,9 @@
 package com.chocolate.viewmodel.directmessagechoosemember
 
 import androidx.lifecycle.viewModelScope
-import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.entities.member.Member
-import com.chocolate.usecases.directmessage.CreateNewChatUseCase
+import com.chocolate.entities.Member
+import com.chocolate.entities.utils.NoConnectionException
+import com.chocolate.usecases.directmessage.ManageDirectMessageUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
 import com.chocolate.usecases.member.GetMembersExceptCurrentMemberUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class DirectMessageChooseMemberViewModel @Inject constructor(
     private val getMembersExceptCurrentMemberUseCase: GetMembersExceptCurrentMemberUseCase,
     private val stringsResource: StringsResource,
-    private val createNewChatUseCase: CreateNewChatUseCase,
+    private val manageDirectMessageUseCase: ManageDirectMessageUseCase,
     private val getCurrentMemberUseCase: GetCurrentMemberUseCase,
 ) : BaseViewModel<DirectMessageChooseMemberUiState, DirectMessageChooseMemberUiEffect>(
     DirectMessageChooseMemberUiState()
@@ -97,7 +97,7 @@ class DirectMessageChooseMemberViewModel @Inject constructor(
             val users: ArrayList<String> = ArrayList()
             users.add(getCurrentMemberUseCase().id)
             users.add(state.value.selectedMembersUiState!!.userId)
-            val groupId = createNewChatUseCase(
+            val groupId = manageDirectMessageUseCase.createNewChat(
                 users.toList(),
             )
             sendUiEffect(DirectMessageChooseMemberUiEffect.NavigateToDmChat(groupId))

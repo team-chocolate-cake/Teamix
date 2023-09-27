@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.home
 
-import com.chocolate.entities.channel.Channel
+import com.chocolate.entities.Channel
 
 @JvmName("channelToChannelUiState")
 fun Channel.toUiState(): ChannelUiState =

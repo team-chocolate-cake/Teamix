@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.profile
 
-import com.chocolate.entities.member.Member
+import com.chocolate.entities.Member
 
 fun Member.toOwnerUserUiState(): ProfileUiState{
     val roleEnum = this.role

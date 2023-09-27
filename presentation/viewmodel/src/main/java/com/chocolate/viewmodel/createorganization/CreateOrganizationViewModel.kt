@@ -6,6 +6,8 @@ import com.chocolate.entities.exceptions.InvalidOrganizationImageUrl
 import com.chocolate.entities.exceptions.NoConnectionException
 import com.chocolate.entities.exceptions.OrganizationAlreadyExistException
 import com.chocolate.entities.exceptions.OrganizationNameIsSoLongException
+import com.chocolate.entities.utils.EmptyOrganizationNameException
+import com.chocolate.entities.utils.NoConnectionException
 import com.chocolate.usecases.organization.CreateOrganizationUseCase
 import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel

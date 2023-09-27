@@ -2,9 +2,9 @@ package com.chocolate.viewmodel.choosemember
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.chocolate.entities.exceptions.EmptyOrganizationNameException
-import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.usecases.channel.CreateChannelUseCase
+import com.chocolate.entities.utils.EmptyOrganizationNameException
+import com.chocolate.entities.utils.NoConnectionException
+import com.chocolate.usecases.channel.ManageChannelUseCase
 import com.chocolate.usecases.member.GetMembersInOrganizationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class ChooseMemberViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getMembersInOrganizationUseCase: GetMembersInOrganizationUseCase,
-    private val createChannelUseCase: CreateChannelUseCase,
+    private val createChannelUseCase: ManageChannelUseCase,
     private val stringsResource: StringsResource,
 ) : BaseViewModel<ChooseMemberUiState, ChooseMemberUiEffect>(ChooseMemberUiState()),
     ChooseMemberInteraction {
@@ -75,7 +75,7 @@ class ChooseMemberViewModel @Inject constructor(
         } else {
             tryToExecute(
                 {
-                    createChannelUseCase(
+                    createChannelUseCase.createChannel(
                         createChannelArgs.channelName,
                         _state.value.selectedMembers.map { it.memberId },
                         createChannelArgs.description,
@@ -91,7 +91,7 @@ class ChooseMemberViewModel @Inject constructor(
         val selectedMembers = _state.value.selectedMembers.toMutableList()
         val isMemberSelected = selectedMembers.any { it.memberId == memberItemUiState.memberId }
         if (isMemberSelected) {
-            selectedMembers.removeIf {memberItemUiState.memberId == it.memberId}
+            selectedMembers.removeIf { memberItemUiState.memberId == it.memberId }
         } else {
             selectedMembers.add(memberItemUiState)
         }

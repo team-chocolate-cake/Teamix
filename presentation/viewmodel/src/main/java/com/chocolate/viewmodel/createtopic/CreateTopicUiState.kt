@@ -1,8 +1,8 @@
 package com.chocolate.viewmodel.createtopic
 
-import com.chocolate.entities.member.Member
-import com.chocolate.entities.topic.Topic
-import com.chocolate.entities.uills.Empty
+import com.chocolate.entities.Member
+import com.chocolate.entities.Topic
+import com.chocolate.entities.utils.Empty
 import java.util.Date
 
 data class CreateTopicUiState(

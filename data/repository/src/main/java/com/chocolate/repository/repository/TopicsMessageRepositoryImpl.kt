@@ -2,12 +2,12 @@ package com.chocolate.repository.repository
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.chocolate.entities.draft.Draft
-import com.chocolate.entities.exceptions.EmptyMemberIdException
-import com.chocolate.entities.exceptions.EmptyOrganizationNameException
-import com.chocolate.entities.member.Member
-import com.chocolate.entities.messages.Message
-import com.chocolate.entities.messages.SavedLaterMessage
+import com.chocolate.entities.Draft
+import com.chocolate.entities.utils.EmptyMemberIdException
+import com.chocolate.entities.utils.EmptyOrganizationNameException
+import com.chocolate.entities.Member
+import com.chocolate.entities.Message
+import com.chocolate.entities.SavedLaterMessage
 import com.chocolate.repository.datasource.local.PreferencesDataSource
 import com.chocolate.repository.datasource.remote.MemberDataSource
 import com.chocolate.repository.datasource.remote.TopicMessagesDataSource

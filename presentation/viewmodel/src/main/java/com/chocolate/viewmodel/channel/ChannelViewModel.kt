@@ -1,8 +1,8 @@
 package com.chocolate.viewmodel.channel
 
 import androidx.lifecycle.SavedStateHandle
-import com.chocolate.entities.topic.Topic
-import com.chocolate.usecases.channel.ManageTopicsUseCase
+import com.chocolate.entities.Topic
+import com.chocolate.usecases.topic.ManageTopicUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ChannelViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val manageTopicsUseCase: ManageTopicsUseCase
+    private val manageTopicUseCase: ManageTopicUseCase
 ) : BaseViewModel<ChannelScreenUiState, ChannelUiEffect>(ChannelScreenUiState()),
     ChannelInteraction {
     private val channelArgs = ChannelArgs(savedStateHandle)
@@ -30,7 +30,7 @@ class ChannelViewModel @Inject constructor(
     private fun getTopics() {
         _state.update { it.copy(isLoading = true) }
         tryToExecuteFlow(
-            flowBlock = { manageTopicsUseCase.getTopicsInChannel(channelArgs.channelId.toString()) },
+            flowBlock = { manageTopicUseCase.getTopicsInChannel(channelArgs.channelId.toString()) },
             onSuccess = ::onGetTopicsSuccess,
             onError = {}
         )

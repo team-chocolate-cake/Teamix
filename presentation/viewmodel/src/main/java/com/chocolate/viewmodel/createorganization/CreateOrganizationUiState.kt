@@ -1,7 +1,7 @@
 package com.chocolate.viewmodel.createorganization
 
-import com.chocolate.entities.organization.Organization
-import com.chocolate.entities.uills.Empty
+import com.chocolate.entities.Organization
+import com.chocolate.entities.utils.Empty
 
 
 data class CreateOrganizationUiState(

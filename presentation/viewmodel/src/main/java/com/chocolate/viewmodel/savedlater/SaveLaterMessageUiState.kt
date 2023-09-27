@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.savedlater
 
-import com.chocolate.entities.messages.SavedLaterMessage
+import com.chocolate.entities.SavedLaterMessage
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

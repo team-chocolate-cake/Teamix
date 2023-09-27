@@ -1,11 +1,11 @@
-package com.chocolate.usecases.channel
+package com.chocolate.usecases.topic
 
-import com.chocolate.entities.topic.Topic
+import com.chocolate.entities.Topic
 import repositories.TopicRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class ManageTopicsUseCase @Inject constructor(
+class ManageTopicUseCase @Inject constructor(
     private val topicRepository: TopicRepository,
 ) {
 

@@ -1,7 +1,7 @@
 package com.chocolate.usecases.organization
 
-import com.chocolate.entities.exceptions.EmptyOrganizationNameException
-import com.chocolate.entities.exceptions.OrganizationNotFoundException
+import com.chocolate.entities.utils.EmptyOrganizationNameException
+import com.chocolate.entities.utils.OrganizationNotFoundException
 import repositories.OrganizationRepository
 import javax.inject.Inject
 
@@ -28,5 +28,4 @@ class ManageOrganizationDetailsUseCase @Inject constructor(
             ?: throw OrganizationNotFoundException
         return organization.name
     }
-
 }

@@ -5,7 +5,7 @@ import com.chocolate.entities.exceptions.InvalidOrganizationImageUrl
 import com.chocolate.entities.exceptions.OrganizationAlreadyExistException
 import com.chocolate.entities.exceptions.OrganizationNameIsSoLongException
 import com.chocolate.entities.member.Member
-import com.chocolate.entities.organization.Organization
+import com.chocolate.entities.Organization
 import com.chocolate.usecases.member.CreateMemberUseCase
 import repositories.OrganizationRepository
 import javax.inject.Inject

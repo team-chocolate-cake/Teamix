@@ -1,4 +1,4 @@
-package com.chocolate.entities.directmessage
+package com.chocolate.entities
 
 import java.util.Date
 

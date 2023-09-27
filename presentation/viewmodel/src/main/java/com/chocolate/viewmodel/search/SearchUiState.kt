@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.search
 
-import com.chocolate.entities.uills.Empty
+import com.chocolate.entities.utils.Empty
 import kotlinx.coroutines.flow.MutableStateFlow
 
 data class SearchUiState(

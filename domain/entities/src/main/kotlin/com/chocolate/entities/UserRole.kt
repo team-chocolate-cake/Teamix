@@ -1,4 +1,4 @@
-package com.chocolate.entities.member
+package com.chocolate.entities
 
 enum class UserRole(val value: String) {
     OWNER("Owner"),

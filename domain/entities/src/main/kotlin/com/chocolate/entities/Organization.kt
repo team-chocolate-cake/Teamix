@@ -1,4 +1,4 @@
-package com.chocolate.entities.organization
+package com.chocolate.entities
 
 data class Organization(
     val name: String,

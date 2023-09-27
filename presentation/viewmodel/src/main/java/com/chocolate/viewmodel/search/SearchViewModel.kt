@@ -2,11 +2,11 @@ package com.chocolate.viewmodel.search
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.chocolate.entities.channel.Channel
-import com.chocolate.entities.exceptions.BlankSearchQueryException
-import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.entities.uills.Empty
-import com.chocolate.usecases.channel.SearchForChannelUseCase
+import com.chocolate.entities.Channel
+import com.chocolate.entities.utils.BlankSearchQueryException
+import com.chocolate.entities.utils.NoConnectionException
+import com.chocolate.entities.utils.Empty
+import com.chocolate.usecases.search.SearchForChannelUseCase
 import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

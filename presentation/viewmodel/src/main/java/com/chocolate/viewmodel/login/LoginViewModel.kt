@@ -2,10 +2,10 @@ package com.chocolate.viewmodel.login
 
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
-import com.chocolate.entities.exceptions.NetworkException
-import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.entities.exceptions.NullDataException
-import com.chocolate.entities.exceptions.ValidationException
+import com.chocolate.entities.utils.NetworkException
+import com.chocolate.entities.utils.NoConnectionException
+import com.chocolate.entities.utils.NullDataException
+import com.chocolate.entities.utils.ValidationException
 import com.chocolate.usecases.member.AttemptMemberLoginUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource

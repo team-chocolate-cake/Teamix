@@ -2,7 +2,7 @@ package com.chocolate.viewmodel.createtopic
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.chocolate.usecases.channel.ManageTopicsUseCase
+import com.chocolate.usecases.topic.ManageTopicUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateTopicViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val manageTopicsUseCase: ManageTopicsUseCase,
+    private val manageTopicUseCase: ManageTopicUseCase,
     private val getCurrentMemberUseCase: GetCurrentMemberUseCase
 ) :
     BaseViewModel<CreateTopicUiState, CreateTopicEffect>(CreateTopicUiState()),
@@ -33,7 +33,7 @@ class CreateTopicViewModel @Inject constructor(
         viewModelScope.launch {
             tryToExecute(
                 {
-                    manageTopicsUseCase.createTopic(
+                    manageTopicUseCase.createTopic(
                         channelId = topicArgs.channelId,
                         topic = state.value.toTopic(getCurrentMemberUseCase())
                     )

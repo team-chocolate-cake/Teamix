@@ -1,13 +1,13 @@
 package com.chocolate.viewmodel.topicmessages
 
 import android.annotation.SuppressLint
-import com.chocolate.entities.member.Member
-import com.chocolate.entities.member.UserRole
-import com.chocolate.entities.messages.Message
-import com.chocolate.entities.messages.SavedLaterMessage
-import com.chocolate.entities.topic.Topic
-import com.chocolate.entities.uills.Empty
-import com.chocolate.entities.uills.toStringDate
+import com.chocolate.entities.Member
+import com.chocolate.entities.UserRole
+import com.chocolate.entities.Message
+import com.chocolate.entities.SavedLaterMessage
+import com.chocolate.entities.Topic
+import com.chocolate.entities.utils.Empty
+import com.chocolate.entities.utils.toStringDate
 import com.chocolate.viewmodel.home.TopicUiState
 import java.util.Date
 

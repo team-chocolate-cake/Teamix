@@ -1,9 +1,8 @@
 package com.chocolate.viewmodel.createorganization
 
 import android.net.Uri
-import android.util.Log
-import com.chocolate.entities.exceptions.EmptyOrganizationNameException
-import com.chocolate.entities.exceptions.NoConnectionException
+import com.chocolate.entities.utils.EmptyOrganizationNameException
+import com.chocolate.entities.utils.NoConnectionException
 import com.chocolate.usecases.organization.CreateOrganizationUseCase
 import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
@@ -34,7 +33,7 @@ class CreateOrganizationViewModel @Inject constructor(
         sendUiEffect(CreateOrganizationUiEffect.NavigateToHaveOrganization)
     }
 
-    override fun onClickNextButton(snakeBar:Boolean) {
+    override fun onClickNextButton(snakeBar: Boolean) {
         _state.update { it.copy(isLoading = true, showSnakeBar = !snakeBar) }
         tryToExecute(
             { createOrganizationUseCase.invoke(state.value.toEntity()) },

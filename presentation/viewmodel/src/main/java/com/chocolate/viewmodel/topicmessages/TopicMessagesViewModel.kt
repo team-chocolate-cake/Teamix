@@ -4,9 +4,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.chocolate.entities.messages.Message
+import com.chocolate.entities.Message
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
-import com.chocolate.usecases.message.ManageSaveLaterMessageUseCase
 import com.chocolate.usecases.message.ManageTopicMessagesUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,9 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class TopicMessagesViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val manageTopicMessagesUseCase: ManageTopicMessagesUseCase,
     private val getCurrentMemberUseCase: GetCurrentMemberUseCase,
-    private val manageSaveLaterMessageUseCase: ManageSaveLaterMessageUseCase,
+    private val manageSaveLaterMessageUseCase: ManageTopicMessagesUseCase,
 ) : BaseViewModel<TopicUiState, TopicMessagesEffect>(TopicUiState()), TopicMessagesInteraction {
 
     private val topicArgs = TopicMessagesArgs(savedStateHandle)
@@ -53,7 +51,7 @@ class TopicMessagesViewModel @Inject constructor(
     override fun onSendMessage(text: String) {
         tryToExecute(
             call = {
-                manageTopicMessagesUseCase.sendMessage(
+                manageSaveLaterMessageUseCase.sendMessage(
                     message = getMessageDetails(text),
                     channelId = topicArgs.channelId.toString(),
                     topicId = topicArgs.topicId
@@ -74,7 +72,7 @@ class TopicMessagesViewModel @Inject constructor(
         viewModelScope.launch {
             tryToExecuteFlow(
                 flowBlock = {
-                    manageTopicMessagesUseCase.getMessages(
+                    manageSaveLaterMessageUseCase.getMessages(
                         topicArgs.topicId,
                         topicArgs.channelId.toString()
                     )

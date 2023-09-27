@@ -1,4 +1,4 @@
-package com.chocolate.entities.channel
+package com.chocolate.entities
 
 data class Channel(
     val id: String,

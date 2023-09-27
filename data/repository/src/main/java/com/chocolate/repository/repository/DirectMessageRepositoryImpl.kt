@@ -2,9 +2,9 @@ package com.chocolate.repository.repository
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.chocolate.entities.directmessage.Chat
-import com.chocolate.entities.exceptions.EmptyOrganizationNameException
-import com.chocolate.entities.messages.Message
+import com.chocolate.entities.Chat
+import com.chocolate.entities.utils.EmptyOrganizationNameException
+import com.chocolate.entities.Message
 import com.chocolate.repository.datasource.local.PreferencesDataSource
 import com.chocolate.repository.datasource.remote.DirectMessageDataSource
 import com.chocolate.repository.datasource.remote.MemberDataSource

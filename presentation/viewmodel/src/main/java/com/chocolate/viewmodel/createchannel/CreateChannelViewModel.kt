@@ -1,8 +1,8 @@
 package com.chocolate.viewmodel.createchannel
 
-import com.chocolate.entities.exceptions.InvalidChannelNameException
-import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.usecases.channel.ValidateChannelNameUseCase
+import com.chocolate.entities.utils.InvalidChannelNameException
+import com.chocolate.entities.utils.NoConnectionException
+import com.chocolate.usecases.channel.ManageChannelUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,13 +11,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreateChannelViewModel @Inject constructor(
-    private val validateChannelNameUseCase: ValidateChannelNameUseCase,
+    private val manageChannelUseCase: ManageChannelUseCase,
     private val stringsResource: StringsResource
 ) : BaseViewModel<CreateChannelUiState, CreateChannelUiEffect>(CreateChannelUiState()),
     CreateChannelInteraction {
     override fun onNextClicked() {
         tryToExecute(
-            { validateChannelNameUseCase(state.value.channelName) },
+            { manageChannelUseCase.validateChannelName(state.value.channelName) },
             ::onValidateNameSuccess,
             ::onError
         )

@@ -1,6 +1,6 @@
 package repositories
 
-import com.chocolate.entities.organization.Organization
+import com.chocolate.entities.Organization
 
 interface OrganizationRepository {
     suspend fun getOrganizationByName(organizationName: String): Organization?

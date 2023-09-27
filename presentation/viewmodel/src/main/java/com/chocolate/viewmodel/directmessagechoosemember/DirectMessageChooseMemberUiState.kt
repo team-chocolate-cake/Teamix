@@ -1,7 +1,7 @@
 package com.chocolate.viewmodel.directmessagechoosemember
 
-import com.chocolate.entities.member.Member
-import com.chocolate.entities.uills.Empty
+import com.chocolate.entities.Member
+import com.chocolate.entities.utils.Empty
 
 data class DirectMessageChooseMemberUiState(
     val selectedMembersUiState: DMChooseMembersUiState? = null,

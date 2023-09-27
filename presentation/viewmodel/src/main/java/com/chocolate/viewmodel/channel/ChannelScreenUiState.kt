@@ -1,8 +1,8 @@
 package com.chocolate.viewmodel.channel
 
-import com.chocolate.entities.topic.Topic
-import com.chocolate.entities.uills.Empty
-import com.chocolate.entities.uills.toStringDate
+import com.chocolate.entities.Topic
+import com.chocolate.entities.utils.Empty
+import com.chocolate.entities.utils.toStringDate
 
 data class ChannelScreenUiState(
     val channelName: String = String.Empty,

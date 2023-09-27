@@ -1,10 +1,10 @@
 package com.chocolate.viewmodel.createmember
 
 import android.net.Uri
-import com.chocolate.entities.member.Member
-import com.chocolate.entities.member.UserRole
-import com.chocolate.entities.uills.Empty
-import com.chocolate.entities.uills.getRandomId
+import com.chocolate.entities.Member
+import com.chocolate.entities.UserRole
+import com.chocolate.entities.utils.Empty
+import com.chocolate.entities.utils.getRandomId
 
 data class CreateMemberUiState(
     val personalImageUri: Uri? = null,

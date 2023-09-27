@@ -1,8 +1,8 @@
 package com.chocolate.usecases.member
 
-import com.chocolate.entities.exceptions.NullDataException
-import com.chocolate.entities.exceptions.TeamixException
-import com.chocolate.entities.uills.Empty
+import com.chocolate.entities.utils.NullDataException
+import com.chocolate.entities.utils.TeamixException
+import com.chocolate.entities.utils.Empty
 import kotlinx.coroutines.flow.Flow
 import repositories.AppSettingsRepository
 import javax.inject.Inject

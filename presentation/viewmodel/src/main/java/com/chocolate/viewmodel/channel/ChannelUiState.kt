@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.channel
 
-import com.chocolate.entities.uills.Empty
+import com.chocolate.entities.utils.Empty
 import com.chocolate.viewmodel.topicmessages.ReactionUiState
 
 data class ChannelUiState(

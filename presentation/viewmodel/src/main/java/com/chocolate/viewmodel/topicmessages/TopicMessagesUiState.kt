@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.topicmessages
 
-import com.chocolate.entities.uills.Empty
+import com.chocolate.entities.utils.Empty
 
 data class TopicUiState(
     val photoAndVideo: List<PhotoOrVideoUiState> = emptyList(),

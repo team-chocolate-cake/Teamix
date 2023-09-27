@@ -3,11 +3,11 @@ package com.chocolate.viewmodel.createmember
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
-import com.chocolate.entities.exceptions.InvalidEmailException
-import com.chocolate.entities.exceptions.InvalidUsernameException
-import com.chocolate.entities.exceptions.MemberAlreadyExistException
-import com.chocolate.entities.exceptions.MissingRequiredFieldsException
-import com.chocolate.entities.exceptions.PasswordMismatchException
+import com.chocolate.entities.utils.InvalidEmailException
+import com.chocolate.entities.utils.InvalidUsernameException
+import com.chocolate.entities.utils.MemberAlreadyExistException
+import com.chocolate.entities.utils.MissingRequiredFieldsException
+import com.chocolate.entities.utils.PasswordMismatchException
 import com.chocolate.usecases.member.AttemptMemberLoginUseCase
 import com.chocolate.usecases.member.CreateMemberUseCase
 import com.chocolate.viewmodel.base.BaseViewModel

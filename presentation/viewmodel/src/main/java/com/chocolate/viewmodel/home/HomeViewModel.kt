@@ -1,15 +1,15 @@
 package com.chocolate.viewmodel.home
 
-import com.chocolate.entities.channel.Channel
-import com.chocolate.entities.exceptions.EmptyMemberIdException
-import com.chocolate.entities.exceptions.EmptyOrganizationNameException
-import com.chocolate.entities.exceptions.NoConnectionException
-import com.chocolate.entities.member.Member
-import com.chocolate.usecases.channel.GetChannelsForCurrentMemberUseCase
-import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
+import com.chocolate.entities.Channel
+import com.chocolate.entities.utils.EmptyMemberIdException
+import com.chocolate.entities.utils.EmptyOrganizationNameException
+import com.chocolate.entities.utils.NoConnectionException
+import com.chocolate.entities.Member
+import com.chocolate.usecases.channel.ManageChannelUseCase
 import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
 import com.chocolate.usecases.member.IsMemberLoggedInUseCase
+import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.profile.toOwnerUserUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val isMemberLoggedInUseCase: IsMemberLoggedInUseCase,
-    private val getChannelsForCurrentMemberUseCase: GetChannelsForCurrentMemberUseCase,
+    private val manageChannelUseCase: ManageChannelUseCase,
     private val manageOrganizationDetails: ManageOrganizationDetailsUseCase,
     private val getCurrentMemberUseCase: GetCurrentMemberUseCase,
     private val customizeProfileSettings: CustomizeProfileSettingsUseCase,
@@ -129,7 +129,7 @@ class HomeViewModel @Inject constructor(
     private fun getChannels() {
         _state.update { it.copy(isLoading = true) }
         tryToExecuteFlow(
-            { getChannelsForCurrentMemberUseCase() },
+            { manageChannelUseCase.getChannelsForCurrentMember() },
             ::onGettingChannelsSuccess,
             ::onError
         )

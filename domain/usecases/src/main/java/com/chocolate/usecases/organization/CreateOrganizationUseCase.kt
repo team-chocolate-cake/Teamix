@@ -1,6 +1,6 @@
 package com.chocolate.usecases.organization
 
-import com.chocolate.entities.organization.Organization
+import com.chocolate.entities.Organization
 import repositories.OrganizationRepository
 import javax.inject.Inject
 

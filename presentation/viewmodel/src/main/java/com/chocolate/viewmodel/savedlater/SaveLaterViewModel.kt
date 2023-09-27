@@ -1,7 +1,7 @@
 package com.chocolate.viewmodel.savedlater
 
 import androidx.lifecycle.viewModelScope
-import com.chocolate.usecases.message.ManageSaveLaterMessageUseCase
+import com.chocolate.usecases.message.ManageTopicMessagesUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SaveLaterViewModel @Inject constructor(
-    private val manageSaveLaterMessageUseCase: ManageSaveLaterMessageUseCase,
+    private val manageSaveLaterMessageUseCase: ManageTopicMessagesUseCase,
     private val stringsResource: StringsResource
 ) : BaseViewModel<SaveLaterMessageUiState, SaveLaterEffect>(SaveLaterMessageUiState()),
     SaveLaterInteraction {

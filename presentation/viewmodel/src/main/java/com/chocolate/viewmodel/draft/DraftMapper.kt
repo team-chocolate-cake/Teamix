@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.draft
 
-import com.chocolate.entities.draft.Draft
+import com.chocolate.entities.Draft
 
 
 @JvmName("toDraftItemUiState")

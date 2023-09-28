@@ -108,6 +108,7 @@
     <string name="next">Siguiente</string>
     <string name="lets_start">Empecemos</string>
     <string name="email_and_password_cannot_be_empty">El correo electrónico y la contraseña no pueden estar vacíos</string>
+    <string name="password_cannot_be_empty">La contraseña no puede estar vacía.</string>
     <string name="onboarding_image">Imagen de incorporación</string>
     <string name="channel_description">Descripción del canal</string>
     <string name="status">Estado</string>

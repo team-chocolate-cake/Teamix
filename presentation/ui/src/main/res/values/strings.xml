@@ -96,7 +96,7 @@
     <string name="globalMessageError">mistake occurred; please attempt again at a subsequent time.</string>
     <string name="success">success</string>
     <string name="enter_a_valid_email_address">Enter a valid email address</string>
-    <string name="invalid_email_or_password">Invalid email or password.</string>
+    <string name="invalid_email_or_password">Wrong email or password.</string>
     <string name="invalid_channel_name">Invalid channel name.</string>
     <string name="organization_name_not_found">Organization name not found</string>
     <string name="organization_name_cannot_be_empty">Organization name cannot be empty</string>
@@ -111,6 +111,7 @@
     <string name="next">Next</string>
     <string name="lets_start">Lets start</string>
     <string name="email_and_password_cannot_be_empty">Email and Password cannot be empty</string>
+    <string name="password_cannot_be_empty">Password cannot be empty.</string>
     <string name="onboarding_image">Onboarding image</string>
     <string name="channel_description">Channel Description</string>
     <string name="status">Status</string>

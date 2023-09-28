@@ -16,20 +16,17 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object PreferenceModule {
-    private const val DATASTORE_FILE_NAME = "dataStoreFileName"
-
-    @Provides
     @Singleton
+    @Provides
     fun provideDataStore(
         @ApplicationContext applicationContext: Context,
-        @Named(DATASTORE_FILE_NAME) dataStoreFileName: String
+        dataStoreFileName: String
     ): DataStore<Preferences> {
         return PreferenceDataStoreFactory.create {
             applicationContext.preferencesDataStoreFile(dataStoreFileName)
         }
     }
 
-    @Named(DATASTORE_FILE_NAME)
     @Provides
     @Singleton
     fun provideDataStoreFileName(): String = "AppPrefStorage"

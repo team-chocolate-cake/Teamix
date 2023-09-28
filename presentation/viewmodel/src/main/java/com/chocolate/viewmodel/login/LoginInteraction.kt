@@ -5,7 +5,7 @@ interface LoginInteraction {
     fun onChangePassword(password: String)
     fun onClickSignIn(email: String, password: String)
     fun onClickRetry()
+    fun onSnackBarDismissed()
     fun onClickPasswordVisibility(passwordVisibility:Boolean)
-    fun onClickForgetPassword()
     fun onClickCreateNewAccount()
 }

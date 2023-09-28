@@ -24,6 +24,7 @@ import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.directmessagechat.navigateToDmChat
 import com.chocolate.presentation.screens.directmessagechoosemember.navigateToDMChooseMember
+import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.LocalNavController
@@ -60,6 +61,8 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
     val colors = MaterialTheme.customColors()
     val systemUiController = rememberSystemUiController()
     val searchQuery by state.searchInput.collectAsState()
+    val isDarkIcons = MaterialTheme.customColors().card == LightCard
+
     TeamixScaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -74,7 +77,7 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
             }
         }
     ) {
-        systemUiController.setStatusBarColor(color = MaterialTheme.customColors().background, darkIcons = false)
+        systemUiController.setStatusBarColor(color = MaterialTheme.customColors().background, darkIcons = isDarkIcons)
         Column() {
             TeamixTextField(
                 modifier = Modifier.padding(SpacingXLarge),

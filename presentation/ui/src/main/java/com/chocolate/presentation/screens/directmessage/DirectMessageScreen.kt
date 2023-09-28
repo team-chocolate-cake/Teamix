@@ -3,16 +3,19 @@ package com.chocolate.presentation.screens.directmessage
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -27,28 +30,26 @@ import com.chocolate.presentation.screens.directmessagechoosemember.navigateToDM
 import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
 import com.chocolate.viewmodel.directmessage.DirectMessageInteractions
 import com.chocolate.viewmodel.directmessage.DirectMessageUiEffect
 import com.chocolate.viewmodel.directmessage.DirectMessageUiState
 import com.chocolate.viewmodel.directmessage.DirectMessageViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun DirectMessageScreen(dmViewModel: DirectMessageViewModel = hiltViewModel()) {
     val navController = LocalNavController.current
     val state by dmViewModel.state.collectAsState()
-    LaunchedEffect(key1 = dmViewModel.effect) {
-        dmViewModel.effect.collectLatest {
-            when (it) {
-                DirectMessageUiEffect.NavigateToChooseMember -> navController.navigateToDMChooseMember()
-                is DirectMessageUiEffect.NavigateToChat -> {
-                    navController.navigateToDmChat(
-                        groupId = it.groupId,
-                        memberName = it.name,
-                    )
-                }
+    CollectUiEffect(dmViewModel.effect) {
+        when (it) {
+            DirectMessageUiEffect.NavigateToChooseMember -> navController.navigateToDMChooseMember()
+            is DirectMessageUiEffect.NavigateToChat -> {
+                navController.navigateToDmChat(
+                    groupId = it.groupId,
+                    memberName = it.name,
+                )
             }
         }
     }
@@ -75,9 +76,18 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
                     tint = colors.onPrimary
                 )
             }
+        },
+        isLoading = state.isLoading,
+        onLoading =  {
+            Box(modifier = Modifier.fillMaxSize()) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            }
         }
     ) {
-        systemUiController.setStatusBarColor(color = MaterialTheme.customColors().background, darkIcons = isDarkIcons)
+        systemUiController.setStatusBarColor(
+            color = MaterialTheme.customColors().background,
+            darkIcons = isDarkIcons
+        )
         Column() {
             TeamixTextField(
                 modifier = Modifier.padding(SpacingXLarge),

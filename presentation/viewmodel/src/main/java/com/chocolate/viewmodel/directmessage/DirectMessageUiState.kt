@@ -8,7 +8,7 @@ data class DirectMessageUiState(
     val searchInput: MutableStateFlow<String> = MutableStateFlow(""),
     val chats: List<ChatUiState> = emptyList(),
     val error: String = "",
-    val isLoading: Boolean = false
+    val isLoading: Boolean = true
 )
 
 data class ChatUiState(

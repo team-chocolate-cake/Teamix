@@ -16,7 +16,6 @@ class DirectMessageViewModel @Inject constructor(
     private val getCurrentMemberUseCase: GetCurrentMemberUseCase,
 ) : BaseViewModel<DirectMessageUiState, DirectMessageUiEffect>(DirectMessageUiState()),
     DirectMessageInteractions {
-
     init {
         viewModelScope.launch {
             val currentMemberId = getCurrentMemberUseCase().id
@@ -25,7 +24,7 @@ class DirectMessageViewModel @Inject constructor(
                     manageDirectMessageUseCase.searchInDirectMessageChats(chats, searchQuery)
                 }.collect {
                     _state.update { uiState ->
-                        uiState.copy(chats = it.toUiState())
+                        uiState.copy(chats = it.toUiState(), isLoading = false)
                     }
                 }
         }

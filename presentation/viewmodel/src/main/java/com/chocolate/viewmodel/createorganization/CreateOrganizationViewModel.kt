@@ -9,8 +9,11 @@ import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
+import android.util.Base64
+import com.chocolate.entities.util.InvalidOrganizationImageUrl
+import com.chocolate.entities.util.OrganizationAlreadyExistException
+import com.chocolate.entities.util.OrganizationNameIsSoLongException
 import javax.inject.Inject
-
 
 @HiltViewModel
 class CreateOrganizationViewModel @Inject constructor(
@@ -21,11 +24,7 @@ class CreateOrganizationViewModel @Inject constructor(
     CreateOrganizationInteraction {
     override fun onOrganizationNameChange(organizationName: String) {
         _state.update {
-            it.copy(
-                organizationName = organizationName.trim(),
-                isLoading = false,
-                error = null,
-            )
+            it.copy(organizationName = organizationName, isLoading = false, error = null)
         }
     }
 
@@ -33,21 +32,29 @@ class CreateOrganizationViewModel @Inject constructor(
         sendUiEffect(CreateOrganizationUiEffect.NavigateToHaveOrganization)
     }
 
-    override fun onClickNextButton(snakeBar: Boolean) {
-        _state.update { it.copy(isLoading = true, showSnakeBar = !snakeBar) }
+    override fun onClickNextButton() {
+        _state.update { it.copy(isLoading = true) }
         tryToExecute(
-            { createOrganizationUseCase.invoke(state.value.toEntity()) },
-            ::onCreateOrganizationSignInSuccess,
+            {
+                createOrganizationUseCase.validateOrganizationData(
+                    state.value.organizationName,
+                    state.value.organizationImageUri
+                )
+            },
+            ::onOrganizationDataValidationSuccess,
             ::onError
         )
     }
 
-    override fun onOrganizationImageChange(imageUri: Uri) {
-        _state.update { it.copy(organizationImageUri = imageUri) }
+    override fun onSnackBarDismissed() {
+        _state.update { it.copy(error = null) }
     }
 
+    override fun onOrganizationImageChange(imageUri: Uri) {
+        _state.update { it.copy(organizationImageUri = imageUri.toString()) }
+    }
 
-    private fun onCreateOrganizationSignInSuccess(unit: Unit) {
+    private fun onOrganizationDataValidationSuccess(unit: Unit) {
         tryToExecute(
             { manageOrganizationDetailsUseCase.saveOrganizationName(state.value.organizationName) },
             ::onSavingOrganizationNameSuccess,
@@ -58,19 +65,24 @@ class CreateOrganizationViewModel @Inject constructor(
     private fun onSavingOrganizationNameSuccess(isSaved: Boolean) {
         if (isSaved) {
             _state.update { it.copy(isLoading = false, error = null) }
-            sendUiEffect(CreateOrganizationUiEffect.NavigateToCreateMemberScreen("Owner"))
+            sendUiEffect(
+                CreateOrganizationUiEffect.NavigateToCreateMemberScreen(
+                    "Owner",
+                    Base64.encodeToString(state.value.organizationImageUri.toByteArray(), Base64.DEFAULT)
+                )
+            )
         }
     }
 
     private fun onError(throwable: Throwable) {
         val errorMessage = when (throwable) {
             is NoConnectionException -> stringsResource.noConnectionMessage
-            is EmptyOrganizationNameException -> stringsResource.organizationNameOrImageCannotBeEmpty
+            is EmptyOrganizationNameException -> stringsResource.organizationNameCannotBeEmpty
+            is OrganizationAlreadyExistException -> stringsResource.organizationNameAlreadyExist
+            is OrganizationNameIsSoLongException -> stringsResource.organizationNameIsSoLongException
+            is InvalidOrganizationImageUrl -> stringsResource.invalidImage
             else -> stringsResource.organizationNameOrImageCannotBeEmpty
         }
         _state.update { it.copy(isLoading = false, error = errorMessage) }
     }
 }
-
-
-

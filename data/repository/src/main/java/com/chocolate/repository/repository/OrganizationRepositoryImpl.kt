@@ -22,12 +22,12 @@ class OrganizationRepositoryImpl @Inject constructor(
         preferencesDataSource.setCurrentOrganizationName(nameOrganizations)
     }
 
-    override suspend fun getOrganizationName(): String {
+    override suspend fun getCurrentOrganizationName(): String {
         return preferencesDataSource.getCurrentOrganizationName() ?: throw EmptyOrganizationNameException
     }
 
     override suspend fun getOrganizationImage(): String {
-        return organizationDataSource.getOrganizationByName(getOrganizationName())?.imageUrl
+        return organizationDataSource.getOrganizationByName(getCurrentOrganizationName())?.imageUrl
             ?: throw InvalidOrganizationImageUrl
     }
 

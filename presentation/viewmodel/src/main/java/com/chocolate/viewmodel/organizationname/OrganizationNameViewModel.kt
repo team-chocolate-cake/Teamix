@@ -18,7 +18,6 @@ class OrganizationNameViewModel @Inject constructor(
     private val manageUserUsedApp: ManageUserUsedAppUseCase,
 ) : BaseViewModel<OrganizationNameUiState, OrganizationNameUiEffect>(OrganizationNameUiState()),
     OrganizationNameInteraction {
-
     init {
         getOnboardingStatus()
     }
@@ -51,7 +50,7 @@ class OrganizationNameViewModel @Inject constructor(
     override fun onOrganizationNameChange(organizationName: String) {
         _state.update {
             it.copy(
-                organizationName = organizationName.trim(),
+                organizationName = organizationName,
                 isLoading = false,
                 error = null
             )

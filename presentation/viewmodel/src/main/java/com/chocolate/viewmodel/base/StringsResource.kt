@@ -3,13 +3,17 @@ package com.chocolate.viewmodel.base
 interface StringsResource {
     val emptyEmailMessage: String
     val emptyFullNameMessage: String
+    val emptyPassword: String
     val sameUserDataMessage: String
     val noConnectionMessage: String
     val globalMessageError: String
     val successMessage: String
+    val organizationNameAlreadyExist: String
+    val organizationNameIsSoLongException: String
     val enterValidEmailAddress: String
     val invalidEmailOrPassword: String
     val invalidChannelName: String
+    val invalidImage: String
     val cancel: String
     val createChannel: String
     val organizationNameNotFound: String

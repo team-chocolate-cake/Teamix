@@ -14,6 +14,8 @@ class StringsResourceImpl @Inject constructor(
     override val emptyEmailMessage: String = getString(R.string.email_can_t_be_empty)
 
     override val emptyFullNameMessage: String = getString(R.string.full_name_can_t_be_empty)
+    override val emptyPassword: String
+        get() = getString(R.string.the_full_name_shouldn_t_be_empty)
 
     override val sameUserDataMessage: String =
         getString(R.string.user_information_can_t_be_the_same)
@@ -23,6 +25,9 @@ class StringsResourceImpl @Inject constructor(
     override val globalMessageError: String = getString(R.string.globalMessageError)
 
     override val successMessage: String = getString(R.string.success)
+    override val organizationNameAlreadyExist: String = getString(R.string.organization_name_already_exist)
+    override val invalidImage: String = getString(R.string.invalid_image_uri)
+    override val organizationNameIsSoLongException: String = getString(R.string.organization_name_is_long)
 
     override val enterValidEmailAddress: String =
         getString(R.string.enter_a_valid_email_address)

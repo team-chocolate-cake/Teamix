@@ -7,7 +7,7 @@ interface OrganizationRepository {
 
     suspend fun saveOrganizationName(nameOrganizations: String)
 
-    suspend fun getOrganizationName(): String
+    suspend fun getCurrentOrganizationName(): String
 
     suspend fun getOrganizationImage(): String
 

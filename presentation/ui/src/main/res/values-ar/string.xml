@@ -108,6 +108,7 @@
     <string name="next">التالي</string>
     <string name="lets_start">لنبدأ</string>
     <string name="email_and_password_cannot_be_empty">لا يمكن أن تكون كلمة المرور والبريد الإلكتروني فارغين</string>
+    <string name="password_cannot_be_empty">لا يمكن أن تكون كلمة المرور فارغة.</string>
     <string name="onboarding_image">صورة التوجيه</string>
     <string name="channel_description">وصف القناة</string>
     <string name="status">الحالة</string>

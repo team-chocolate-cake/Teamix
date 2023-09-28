@@ -44,9 +44,9 @@ class ManageDirectMessageUseCase @Inject constructor(
     fun searchInDirectMessageChats(chats: List<Chat>, searchQuery: String): List<Chat> {
         return if (chats.isNotEmpty() && searchQuery.isNotBlank()) {
             chats.filter {
-                it.name.contains(searchQuery, false) || it.lastMessage.contains(
+                it.name.contains(searchQuery, true) || it.lastMessage.contains(
                     searchQuery,
-                    false
+                    true
                 )
             }
         } else chats

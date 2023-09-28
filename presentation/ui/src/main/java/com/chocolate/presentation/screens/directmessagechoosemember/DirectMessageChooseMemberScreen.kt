@@ -1,6 +1,5 @@
 package com.chocolate.presentation.screens.directmessagechoosemember
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -27,7 +26,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.DMMemberItem
-import com.chocolate.presentation.composable.LoadingDialog
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
@@ -84,9 +82,6 @@ fun DirectMessageChooseMemberContent(
         if (state.selectedMembersUiState == null) stringResource(R.string.skip) else stringResource(
             R.string.ok
         )
-    AnimatedVisibility(state.isLoading) {
-        LoadingDialog()
-    }
     TeamixScaffold(
         containerColorAppBar = colors.card,
         hasAppBar = true,
@@ -110,10 +105,12 @@ fun DirectMessageChooseMemberContent(
         title = stringResource(R.string.choose_members),
         isLoading = state.isLoading,
         onLoading = {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) { CircularProgressIndicator(color = colors.primary) }
+            Box(modifier = Modifier.fillMaxSize()) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                    color = colors.primary
+                )
+            }
         },
         error = state.error,
         onRetry = interaction::onClickRetry,

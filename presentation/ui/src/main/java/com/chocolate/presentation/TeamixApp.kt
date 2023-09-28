@@ -29,10 +29,16 @@ fun TeamixApp(isDarkMode:Boolean) {
         -> true
         else -> false
     }
+    val shouldChangeStatusBarColor =when (currentRoute(navController)) {
+        BottomNavigationItem.Home.screenRoute,
+        BottomNavigationItem.Search.screenRoute,-> false
+        else -> true
+    }
 
     TeamixScaffold(
         bottomBar = { if (shouldShowBottomNavigation) BottomNavigation(navController = navController) }
     ) { innerPadding ->
+        if(shouldChangeStatusBarColor)
         systemUiController.setStatusBarColor(MaterialTheme.customColors().background, darkIcons = !isDarkMode)
         systemUiController.setNavigationBarColor(Color.Black)
         Box(modifier = Modifier.padding(innerPadding)) {

@@ -41,9 +41,8 @@ fun TeamixScaffold(
     content: @Composable (PaddingValues) -> Unit
 ) {
     val colors = MaterialTheme.customColors()
-
-
     val isDarkMode = MaterialTheme.customColors().background == LightBackground
+
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {

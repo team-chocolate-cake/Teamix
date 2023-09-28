@@ -133,7 +133,6 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
     ) { paddingValue ->
         val systemUiController = rememberSystemUiController()
         systemUiController.setStatusBarColor(colors.primary, darkIcons = false)
-        systemUiController.setNavigationBarColor(Color.Black)
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()

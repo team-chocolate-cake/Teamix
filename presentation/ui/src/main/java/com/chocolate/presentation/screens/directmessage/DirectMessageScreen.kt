@@ -60,10 +60,6 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
     val colors = MaterialTheme.customColors()
     val systemUiController = rememberSystemUiController()
     val searchQuery by state.searchInput.collectAsState()
-    systemUiController.setStatusBarColor(
-        color = MaterialTheme.customColors().primary,
-        darkIcons = false
-    )
     TeamixScaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -78,6 +74,7 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
             }
         }
     ) {
+        systemUiController.setStatusBarColor(color = MaterialTheme.customColors().background, darkIcons = false)
         Column() {
             TeamixTextField(
                 modifier = Modifier.padding(SpacingXLarge),

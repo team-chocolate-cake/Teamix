@@ -91,7 +91,6 @@ fun ChannelContent(
         }
     ) { padding ->
         systemUiController.setStatusBarColor(MaterialTheme.customColors().card, darkIcons = isDarkIcons)
-        systemUiController.setNavigationBarColor(Color.Black)
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()

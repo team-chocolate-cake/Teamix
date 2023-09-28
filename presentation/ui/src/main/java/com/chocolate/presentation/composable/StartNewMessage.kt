@@ -5,9 +5,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -17,11 +17,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
-import com.chocolate.presentation.theme.SpacingGigantic
 import com.chocolate.presentation.theme.SpacingMedium
-import com.chocolate.presentation.theme.SpacingUltraGigantic
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.SpacingXXLarge
@@ -51,14 +48,12 @@ fun StartNewMessage(
         ) {
 
             TeamixTextField(
-                singleLine = true,
-                modifier = Modifier
-                    .height(SpacingUltraGigantic)
+                modifier = Modifier.wrapContentHeight()
                     .fillMaxWidth(0.9f)
-                    .padding(end = 8.dp),
+                    .padding(horizontal =SpacingMedium),
                 value = messageInput,
                 onValueChange = { onMessageInputChanged(it) },
-                containerColor = MaterialTheme.customColors().background
+                containerColor = MaterialTheme.customColors().background,
             )
             Surface(
                 modifier = Modifier

@@ -51,6 +51,8 @@ class StringsResourceImpl @Inject constructor(
     override val channelNameValidation: String =
         getString(R.string.channel_name_validation)
 
+    override val invalidTopicName: String=  getString(R.string.topic_name_validation)
+
     override val nullOrEmptyNewLanguage: String =
         getString(R.string.an_error_occurred_due_to_null_or_empty_new_language_string_value)
 

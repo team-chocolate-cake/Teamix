@@ -61,7 +61,7 @@ private fun getFakeMember(id: String) = Member(
 )
 
 @JvmName("topicToTopicUiState")
-fun Topic.toUiState(): TopicUiState = TopicUiState(topicId, content, 5)
+fun Topic.toUiState(): TopicUiState = TopicUiState(topicId, name, 5)
 
 @JvmName("topicsToTopicsUiState")
 fun List<Topic>.toUiState(): List<TopicUiState> = this.map { it.toUiState() }

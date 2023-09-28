@@ -18,6 +18,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,6 +37,7 @@ import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
+import com.chocolate.presentation.util.hideKeyboard
 import com.chocolate.viewmodel.createtopic.CreateTopicEffect
 import com.chocolate.viewmodel.createtopic.CreateTopicInteraction
 import com.chocolate.viewmodel.createtopic.CreateTopicUiState
@@ -73,9 +76,12 @@ fun CreateChannelContent(
     state: CreateTopicUiState,
     createTopicInteraction: CreateTopicInteraction,
 ) {
+    val context = LocalContext.current
+    val rootView = LocalView.current
     val colors = MaterialTheme.customColors()
     val systemUiController = rememberSystemUiController()
     val isDarkIcons = MaterialTheme.customColors().card == LightCard
+
 
     TeamixScaffold(
         hasBackArrow = true,
@@ -84,7 +90,10 @@ fun CreateChannelContent(
         containerColorAppBar = colors.card,
         titleColor = colors.onBackground87,
     ) { padding ->
-        systemUiController.setStatusBarColor(MaterialTheme.customColors().card, darkIcons = isDarkIcons)
+        systemUiController.setStatusBarColor(
+            MaterialTheme.customColors().card,
+            darkIcons = isDarkIcons
+        )
 
         Column(
             Modifier
@@ -114,7 +123,10 @@ fun CreateChannelContent(
                 )
 
             TeamixButton(
-                onClick = createTopicInteraction::onCreateClick,
+                onClick = {
+                    createTopicInteraction.onCreateClick()
+                    hideKeyboard(context, rootView)
+                },
                 colors = colors,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -135,16 +147,14 @@ fun CreateChannelContent(
                         color = colors.onPrimary
                     )
                 }
-
-
             }
             Spacer(modifier = Modifier.weight(1f))
-            state.message?.let {
+            state.error?.let {
                 ActionSnakeBar(
                     isVisible = true,
                     contentMessage = it,
                     onClick = createTopicInteraction::onErrorDismiss,
-                    actionTitle = stringResource(id = R.string.dismiss)
+                    isToggleButtonVisible = false
                 )
             }
         }

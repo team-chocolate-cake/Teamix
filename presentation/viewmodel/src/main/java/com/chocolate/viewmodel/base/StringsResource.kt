@@ -13,6 +13,7 @@ interface StringsResource {
     val enterValidEmailAddress: String
     val invalidEmailOrPassword: String
     val invalidChannelName: String
+    val invalidTopicName: String
     val invalidImage: String
     val cancel: String
     val createChannel: String

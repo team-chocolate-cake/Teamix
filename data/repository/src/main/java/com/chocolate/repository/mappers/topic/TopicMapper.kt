@@ -10,7 +10,7 @@ import java.util.Date
 fun TopicDto.toTopic(): Topic {
     return Topic(
         topicId = topicId ?: "",
-        content = content ?: "",
+        name = name ?: "",
         senderName = senderName ?: "",
         senderImage = senderImage ?: "",
         sentTIme = sentTIme ?: Date(),
@@ -23,7 +23,7 @@ fun List<TopicDto>?.toTopic(): List<Topic> = this?.map { it.toTopic() }.orEmpty(
 @RequiresApi(Build.VERSION_CODES.O)
 fun Topic.toTopicDto() = TopicDto(
     topicId = topicId,
-    content = content,
+    name = name,
     senderName = senderName,
     senderImage = senderImage,
     sentTIme = getCurrentTime(),

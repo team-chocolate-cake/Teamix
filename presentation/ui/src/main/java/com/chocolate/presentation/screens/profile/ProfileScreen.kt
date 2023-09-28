@@ -177,6 +177,7 @@ fun ProfileContent(
             color = MaterialTheme.customColors().background,
             darkIcons = !state.isDarkTheme
         )
+        systemUiController.setNavigationBarColor(Color.Black)
         Column(
             modifier = Modifier
                 .fillMaxSize()

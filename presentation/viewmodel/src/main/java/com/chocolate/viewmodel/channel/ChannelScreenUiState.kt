@@ -29,7 +29,7 @@ fun List<Topic>.toUiState(): List<TopicState> =
             creatorName = it.senderName,
             creatorImage = it.senderImage,
             topicCreationDate = it.sentTIme.toString().take(10),
-            topicContent = it.content,
+            topicContent = it.name,
             sentTime = it.sentTIme.toStringDate()
         )
     }

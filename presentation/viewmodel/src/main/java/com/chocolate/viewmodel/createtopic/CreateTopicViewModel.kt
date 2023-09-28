@@ -1,22 +1,23 @@
 package com.chocolate.viewmodel.createtopic
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
-import com.chocolate.usecases.topic.ManageTopicUseCase
+import com.chocolate.entities.util.InvalidTopicNameException
+import com.chocolate.entities.util.NoConnectionException
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
+import com.chocolate.usecases.topic.ManageTopicUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
+import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CreateTopicViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val manageTopicUseCase: ManageTopicUseCase,
-    private val getCurrentMemberUseCase: GetCurrentMemberUseCase
-) :
-    BaseViewModel<CreateTopicUiState, CreateTopicEffect>(CreateTopicUiState()),
+    private val getCurrentMemberUseCase: GetCurrentMemberUseCase,
+    private val stringsResource: StringsResource
+) : BaseViewModel<CreateTopicUiState, CreateTopicEffect>(CreateTopicUiState()),
     CreateTopicInteraction {
 
     private val topicArgs = CreateTopicArgs(savedStateHandle)
@@ -30,20 +31,27 @@ class CreateTopicViewModel @Inject constructor(
     }
 
     override fun onCreateClick() {
-        viewModelScope.launch {
-            tryToExecute(
-                {
-                    manageTopicUseCase.createTopic(
-                        channelId = topicArgs.channelId,
-                        topic = state.value.toTopic(getCurrentMemberUseCase())
-                    )
-                },
-                ::onCreateTopicSuccess,
-                ::onCreateTopicError
-            )
-        }
+        tryToExecute(
+            {
+                manageTopicUseCase.validateTopicName(state.value.name)
+            },
+            ::onValidateNameSuccess,
+            ::onCreateTopicError
+        )
+    }
 
+    private fun onValidateNameSuccess(unit: Unit) {
 
+        tryToExecute(
+            {
+                manageTopicUseCase.createTopic(
+                    channelId = topicArgs.channelId,
+                    topic = state.value.toTopic(getCurrentMemberUseCase())
+                )
+            },
+            ::onCreateTopicSuccess,
+            ::onCreateTopicError
+        )
     }
 
     private fun onCreateTopicSuccess(topicId: String) {
@@ -57,10 +65,15 @@ class CreateTopicViewModel @Inject constructor(
     }
 
     private fun onCreateTopicError(e: Throwable) {
-        _state.update { it.copy(message = e.message) }
+        val errorMessage = when (e) {
+            is InvalidTopicNameException -> stringsResource.invalidTopicName
+            is NoConnectionException -> stringsResource.noConnectionMessage
+            else -> stringsResource.globalMessageError
+        }
+        _state.update { it.copy(error = errorMessage) }
     }
 
     override fun onErrorDismiss() {
-        _state.update { it.copy(message = null) }
+        _state.update { it.copy(error = null) }
     }
 }

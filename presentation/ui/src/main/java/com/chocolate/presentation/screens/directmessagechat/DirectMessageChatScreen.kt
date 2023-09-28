@@ -19,12 +19,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.composable.MessageCard
 import com.chocolate.presentation.composable.StartNewMessage
 import com.chocolate.presentation.composable.TeamixScaffold
+import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingLarge
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.directmessagechat.DirectMessagesChatViewModel
 import com.chocolate.viewmodel.topicmessages.TopicMessagesInteraction
 import com.chocolate.viewmodel.topicmessages.TopicUiState
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun DirectMessageChatScreen(viewModel: DirectMessagesChatViewModel = hiltViewModel()) {
@@ -36,6 +38,9 @@ fun DirectMessageChatScreen(viewModel: DirectMessagesChatViewModel = hiltViewMod
 @Composable
 fun DirectMessageChatContent(state: TopicUiState, interaction: TopicMessagesInteraction) {
     val scrollState = rememberLazyListState()
+    val systemUiController = rememberSystemUiController()
+    val isDarkIcons = MaterialTheme.customColors().card == LightCard
+
     LaunchedEffect(key1 = state.messages.size) {
         state.messages.takeIf { messages ->
             messages.isNotEmpty()
@@ -46,7 +51,6 @@ fun DirectMessageChatContent(state: TopicUiState, interaction: TopicMessagesInte
     }
     TeamixScaffold(
         title = state.topicName,
-        statusBarColor = MaterialTheme.customColors().card,
         hasAppBar = true,
         hasBackArrow = true,
         bottomBar = {
@@ -63,6 +67,8 @@ fun DirectMessageChatContent(state: TopicUiState, interaction: TopicMessagesInte
             )
         }
     ) { padding ->
+        systemUiController.setStatusBarColor(MaterialTheme.customColors().card, darkIcons = isDarkIcons)
+
         ConstraintLayout(
             modifier = Modifier
                 .padding(padding)

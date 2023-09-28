@@ -1,5 +1,6 @@
 package com.chocolate.presentation
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -23,6 +24,9 @@ import com.chocolate.presentation.screens.search.searchRoute
 import com.chocolate.presentation.screens.taskorganization.taskOrganizationRoute
 import com.chocolate.presentation.screens.topicmessages.topicRoute
 import com.chocolate.presentation.screens.welcome.welcomeRoute
+import com.chocolate.presentation.theme.LightCard
+import com.chocolate.presentation.theme.customColors
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun TeamixNavGraph(navController: NavHostController) {

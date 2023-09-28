@@ -29,6 +29,7 @@ import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.topicmessages.navigateToTopic
+import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
@@ -38,6 +39,7 @@ import com.chocolate.viewmodel.createtopic.CreateTopicEffect
 import com.chocolate.viewmodel.createtopic.CreateTopicInteraction
 import com.chocolate.viewmodel.createtopic.CreateTopicUiState
 import com.chocolate.viewmodel.createtopic.CreateTopicViewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun CreateTopicScreen(
@@ -72,15 +74,17 @@ fun CreateChannelContent(
     createTopicInteraction: CreateTopicInteraction,
 ) {
     val colors = MaterialTheme.customColors()
+    val systemUiController = rememberSystemUiController()
+    val isDarkIcons = MaterialTheme.customColors().card == LightCard
 
     TeamixScaffold(
         hasBackArrow = true,
         title = stringResource(id = R.string.create_topic),
-        statusBarColor = colors.card,
         hasAppBar = true,
         containerColorAppBar = colors.card,
         titleColor = colors.onBackground87,
     ) { padding ->
+        systemUiController.setStatusBarColor(MaterialTheme.customColors().card, darkIcons = isDarkIcons)
 
         Column(
             Modifier

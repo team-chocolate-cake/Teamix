@@ -32,6 +32,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -120,9 +121,11 @@ fun ProfileContent(
     pageState: PagerState,
     scrollState: ScrollState,
 ) {
+
     val color = MaterialTheme.customColors()
     val context = LocalContext.current
     val typography = MaterialTheme.typography
+    val systemUiController = rememberSystemUiController()
 
     LaunchedEffect(state.pagerNumber) {
         pageState.scrollToPage(state.pagerNumber)
@@ -169,7 +172,12 @@ fun ProfileContent(
         }
     }
 
-    TeamixScaffold(statusBarColor = color.background) {
+    TeamixScaffold {
+        systemUiController.setSystemBarsColor(
+            color = MaterialTheme.customColors().background,
+            darkIcons = !state.isDarkTheme
+        )
+        systemUiController.setNavigationBarColor(Color.Black)
         Column(
             modifier = Modifier
                 .fillMaxSize()

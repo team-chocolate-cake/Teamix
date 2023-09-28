@@ -48,7 +48,7 @@ fun WelcomeContent(
     navigateToOnBoarding: () -> Unit,
 ) {
     val colors = MaterialTheme.customColors()
-    TeamixScaffold (statusBarColor = MaterialTheme.colorScheme.background){
+    TeamixScaffold{
         Column(
             modifier = Modifier
                 .fillMaxSize()

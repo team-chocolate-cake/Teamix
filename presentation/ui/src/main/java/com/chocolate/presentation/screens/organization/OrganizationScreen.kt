@@ -92,7 +92,7 @@ fun OrganizationContent(
     val scrollState = rememberScrollState()
     val context = LocalContext.current
     val rootView = LocalView.current
-    TeamixScaffold (statusBarColor = colors.background){
+    TeamixScaffold {
         Column(
             modifier = Modifier
                 .fillMaxSize()

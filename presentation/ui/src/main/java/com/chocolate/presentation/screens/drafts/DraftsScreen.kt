@@ -24,12 +24,14 @@ import com.chocolate.presentation.composable.EmptyDataWithBoxLottie
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.SwipeCard
 import com.chocolate.presentation.composable.TeamixScaffold
+import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.draft.DraftInteraction
 import com.chocolate.viewmodel.draft.DraftViewModel
 import com.chocolate.viewmodel.draft.DraftsUiState
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun DraftsScreen(
@@ -43,8 +45,10 @@ fun DraftsScreen(
 @Composable
 fun DraftsContent(state: DraftsUiState, draftInteraction: DraftInteraction) {
     val colors = MaterialTheme.customColors()
+    val systemUiController = rememberSystemUiController()
+    val isDarkIcons = MaterialTheme.customColors().card == LightCard
+
     TeamixScaffold(
-        statusBarColor = colors.card,
         hasAppBar = true,
         hasBackArrow = true,
         containerColorAppBar = colors.card,
@@ -59,6 +63,8 @@ fun DraftsContent(state: DraftsUiState, draftInteraction: DraftInteraction) {
             )
         }
     ) { padding ->
+        systemUiController.setStatusBarColor(MaterialTheme.customColors().card, darkIcons = isDarkIcons)
+
         LazyColumn(
             modifier = Modifier.padding(padding),
             contentPadding = PaddingValues(SpacingXLarge),

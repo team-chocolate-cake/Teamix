@@ -22,7 +22,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,6 +36,7 @@ import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.directmessagechat.navigateToDmChat
 import com.chocolate.presentation.screens.home.navigateToHome
+import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.TeamixTheme
@@ -46,6 +46,7 @@ import com.chocolate.viewmodel.directmessagechoosemember.DirectMessageChooseMemb
 import com.chocolate.viewmodel.directmessagechoosemember.DirectMessageChooseMemberUiEffect
 import com.chocolate.viewmodel.directmessagechoosemember.DirectMessageChooseMemberUiState
 import com.chocolate.viewmodel.directmessagechoosemember.DirectMessageChooseMemberViewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -79,7 +80,9 @@ fun DirectMessageChooseMemberContent(
     navController: NavController
 ) {
     val colors = MaterialTheme.customColors()
-    val context = LocalContext.current
+    val systemUiController = rememberSystemUiController()
+    val isDarkIcons = MaterialTheme.customColors().card == LightCard
+
     val text =
         if (state.selectedMembersUiState == null) stringResource(R.string.skip) else stringResource(
             R.string.ok
@@ -88,7 +91,6 @@ fun DirectMessageChooseMemberContent(
         LoadingDialog()
     }
     TeamixScaffold(
-        statusBarColor = colors.card,
         containerColorAppBar = colors.card,
         hasAppBar = true,
         hasBackArrow = true,
@@ -126,9 +128,9 @@ fun DirectMessageChooseMemberContent(
             )
         }
     ) { paddingValues ->
+        systemUiController.setStatusBarColor(MaterialTheme.customColors().card, darkIcons = isDarkIcons)
+
         Box {
-
-
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()

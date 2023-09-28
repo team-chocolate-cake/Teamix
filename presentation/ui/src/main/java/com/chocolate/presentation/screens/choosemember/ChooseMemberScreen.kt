@@ -34,6 +34,7 @@ import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.home.navigateToHome
+import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.TeamixTheme
@@ -44,6 +45,7 @@ import com.chocolate.viewmodel.choosemember.ChooseMemberInteraction
 import com.chocolate.viewmodel.choosemember.ChooseMemberUiEffect
 import com.chocolate.viewmodel.choosemember.ChooseMemberUiState
 import com.chocolate.viewmodel.choosemember.ChooseMemberViewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun ChooseMemberScreen(
@@ -70,8 +72,9 @@ fun ChooseMemberContent(
 ) {
     val colors = MaterialTheme.customColors()
     val searchQuery by state.searchQuery.collectAsState()
+    val systemUiController = rememberSystemUiController()
+    val isDarkIcons = MaterialTheme.customColors().card == LightCard
     TeamixScaffold(
-        statusBarColor = colors.card,
         containerColorAppBar = colors.card,
         hasAppBar = true,
         hasBackArrow = true,
@@ -105,6 +108,7 @@ fun ChooseMemberContent(
             )
         }
     ) { paddingValues ->
+        systemUiController.setStatusBarColor(MaterialTheme.customColors().card, darkIcons = isDarkIcons)
         Box {
             LazyColumn(
                 modifier = Modifier

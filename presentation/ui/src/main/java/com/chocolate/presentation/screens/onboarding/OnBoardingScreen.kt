@@ -70,7 +70,7 @@ fun OnboardingContent(
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
     val colors = MaterialTheme.customColors()
-    TeamixScaffold(statusBarColor = colors.background) {
+    TeamixScaffold{
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()

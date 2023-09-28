@@ -89,8 +89,7 @@ fun LoginContent(
     val showErrorStateSnackBar = remember { mutableStateOf(false) }
     val context = LocalContext.current
     val rootView = LocalView.current
-    TeamixScaffold (statusBarColor = colors.background){
-
+    TeamixScaffold {
         Column(
             modifier = Modifier
                 .fillMaxSize()

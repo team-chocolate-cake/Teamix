@@ -25,12 +25,14 @@ import com.chocolate.presentation.composable.SaveLaterCard
 import com.chocolate.presentation.composable.SwipeCard
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
+import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.savedlater.SaveLaterInteraction
 import com.chocolate.viewmodel.savedlater.SaveLaterMessageUiState
 import com.chocolate.viewmodel.savedlater.SaveLaterViewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun SaveLaterScreen(
@@ -44,14 +46,18 @@ fun SaveLaterScreen(
 @Composable
 fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInteraction) {
     val colors = MaterialTheme.customColors()
+    val systemUiController = rememberSystemUiController()
+    val isDarkIcons = MaterialTheme.customColors().card == LightCard
+
     TeamixScaffold(
-        statusBarColor = colors.card,
         hasAppBar = true,
         hasBackArrow = true,
         containerColorAppBar = colors.card,
         title = stringResource(id = R.string.savedlater),
         isLoading = state.isLoading,
     ) { padding ->
+        systemUiController.setStatusBarColor(MaterialTheme.customColors().card, darkIcons = isDarkIcons)
+
         LazyColumn(
             modifier = Modifier.padding(padding),
             contentPadding = PaddingValues(SpacingXLarge),

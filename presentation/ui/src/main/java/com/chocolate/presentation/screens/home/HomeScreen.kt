@@ -114,14 +114,13 @@ fun HomeScreen(
 @Composable
 fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
     val colors = MaterialTheme.customColors()
-    val systemUiController = rememberSystemUiController()
+
 
     var isShowSheet by remember { mutableStateOf(false) }
     AnimatedVisibility(isShowSheet) {
         ManageChannelBottomSheet(onDismissBottomSheet = { isShowSheet = false }, colors = colors)
     }
     TeamixScaffold(
-        statusBarColor = colors.primary,
         modifier = Modifier.fillMaxSize(),
         containerColorAppBar = MaterialTheme.customColors().primary,
         onRetry = homeInteraction::onClickRetryButton,
@@ -132,7 +131,8 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
         titleColor = OnLightPrimary,
         hasAppBar = true,
     ) { paddingValue ->
-        systemUiController.setStatusBarColor(LightPrimary, darkIcons = false)
+        val systemUiController = rememberSystemUiController()
+        systemUiController.setStatusBarColor(colors.primary, darkIcons = false)
         systemUiController.setNavigationBarColor(Color.Black)
         LazyColumn(
             modifier = Modifier

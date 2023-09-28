@@ -2,7 +2,6 @@ package com.chocolate.presentation.screens.channeldetails
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,6 +44,7 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.Member
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.channeldetails.composable.ChannelAction
+import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingUltraGigantic
@@ -54,6 +54,7 @@ import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.channeldetails.ChannelDetailsUiState
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun ChannelDetailsScreen() {
@@ -80,7 +81,8 @@ fun ChannelDetailsContent(
     onNavigateToPin: () -> Unit,
     onMuteChannel: (Boolean) -> Unit,
 ) {
-
+    val systemUiController = rememberSystemUiController()
+    val isDarkIcons= MaterialTheme.customColors().card== LightCard
     var showDialog by remember {
         mutableStateOf(false)
     }
@@ -119,9 +121,8 @@ fun ChannelDetailsContent(
         )
     }
 
-    TeamixScaffold(
-        statusBarColor = MaterialTheme.customColors().card
-    ) { padding ->
+    TeamixScaffold { padding ->
+        systemUiController.setStatusBarColor(MaterialTheme.customColors().card, darkIcons = isDarkIcons)
         Column(
             modifier = Modifier
                 .fillMaxHeight()

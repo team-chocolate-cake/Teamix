@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -29,6 +28,7 @@ import com.chocolate.viewmodel.topicmessages.TopicMessagesEffect
 import com.chocolate.viewmodel.topicmessages.TopicMessagesInteraction
 import com.chocolate.viewmodel.topicmessages.TopicMessagesViewModel
 import com.chocolate.viewmodel.topicmessages.TopicUiState
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun TopicScreen(
@@ -54,10 +54,11 @@ fun TopicContent(
     topicInteraction: TopicMessagesInteraction,
     scrollState: LazyListState
 ) {
+    val systemUiController = rememberSystemUiController()
+    val isDarkIcons = MaterialTheme.customColors().card == LightCard
 
     TeamixScaffold(
         title = topicUiState.topicName,
-        statusBarColor = MaterialTheme.customColors().card,
         hasAppBar = true,
         hasBackArrow = true,
         bottomBar = {
@@ -74,6 +75,8 @@ fun TopicContent(
             )
         }
     ) { padding ->
+        systemUiController.setStatusBarColor(MaterialTheme.customColors().card, darkIcons = isDarkIcons)
+
         ConstraintLayout(
             modifier = Modifier
                 .padding(padding)

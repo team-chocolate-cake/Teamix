@@ -65,7 +65,6 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
         darkIcons = false
     )
     TeamixScaffold(
-        statusBarColor = colors.background ,
         floatingActionButton = {
             FloatingActionButton(
                 containerColor = colors.primary,

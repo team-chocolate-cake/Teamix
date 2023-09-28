@@ -16,15 +16,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.LightBackground
-import com.chocolate.presentation.theme.LightPrimary
 import com.chocolate.presentation.theme.customColors
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun TeamixScaffold(
     modifier: Modifier = Modifier,
-    statusBarColor: Color= LightPrimary,
     isLoading: Boolean = false,
     error: String? = null,
     title: String = "",
@@ -44,7 +41,7 @@ fun TeamixScaffold(
     content: @Composable (PaddingValues) -> Unit
 ) {
     val colors = MaterialTheme.customColors()
-    val systemUiController = rememberSystemUiController()
+
 
     val isDarkMode = MaterialTheme.customColors().background == LightBackground
     Scaffold(
@@ -68,8 +65,7 @@ fun TeamixScaffold(
         floatingActionButton = { floatingActionButton() },
         bottomBar = { bottomBar() }
     ) { paddingValues ->
-        systemUiController.setStatusBarColor(statusBarColor, darkIcons = isDarkMode)
-        systemUiController.setNavigationBarColor(Color.Black)
+
         AnimatedVisibility(visible = isLoading) { onLoading() }
         AnimatedVisibility(visible = error != null) {
             ErrorHandler(

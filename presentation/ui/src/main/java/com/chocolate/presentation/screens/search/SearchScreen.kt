@@ -43,6 +43,7 @@ import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.channel.navigateToChannel
 import com.chocolate.presentation.screens.search.composable.ChannelSearchItem
 import com.chocolate.presentation.screens.search.composable.SearchLottie
+import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
@@ -78,10 +79,10 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
     val colors = MaterialTheme.customColors()
     val query = state.query.collectAsState()
     val systemUiController = rememberSystemUiController()
+    val isDarkIcons = MaterialTheme.customColors().card == LightCard
 
     TeamixScaffold(
         modifier = Modifier.fillMaxSize(),
-        statusBarColor = colors.card,
         error = state.error,
         onError = {
             NoInternetLottie(
@@ -92,6 +93,8 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
         },
         onRetry = { searchInteraction.onClickRetry() },
     ) { paddingValues ->
+        systemUiController.setStatusBarColor(MaterialTheme.customColors().card, darkIcons = isDarkIcons)
+
         Column(
             modifier = Modifier
                 .fillMaxSize()

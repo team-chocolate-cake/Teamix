@@ -23,7 +23,7 @@ fun TaskOrganizationScreen(viewModel: TaskOrganizationViewModel = hiltViewModel(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun TaskOrganizationContent(state: TaskOrganizationUiState) {
-    TeamixScaffold(statusBarColor = MaterialTheme.colorScheme.background) {
+    TeamixScaffold {
         val colors = MaterialTheme.customColors()
 
         ActionSnakeBar(

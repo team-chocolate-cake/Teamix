@@ -24,7 +24,6 @@ fun TeamixApp(isDarkMode:Boolean) {
         BottomNavigationItem.Home.screenRoute,
         BottomNavigationItem.Profile.screenRoute,
         BottomNavigationItem.DMs.screenRoute,
-        BottomNavigationItem.TasksOrganization.screenRoute,
         BottomNavigationItem.Search.screenRoute,
         -> true
         else -> false

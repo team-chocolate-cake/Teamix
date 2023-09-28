@@ -27,9 +27,7 @@ import javax.inject.Singleton
 abstract class DataSourceModule {
     @Singleton
     @Binds
-    abstract fun bindPreferencesDataSource(
-        dataStoreDataSource: DataStoreDataSource
-    ): PreferencesDataSource
+    abstract fun bindPreferencesDataSource(dataStoreDataSource: DataStoreDataSource): PreferencesDataSource
 
     @Singleton
     @Binds

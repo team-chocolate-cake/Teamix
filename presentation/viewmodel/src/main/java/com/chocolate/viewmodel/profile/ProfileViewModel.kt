@@ -3,6 +3,7 @@ package com.chocolate.viewmodel.profile
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.util.NoConnectionException
 import com.chocolate.entities.util.NullDataException
@@ -126,10 +127,9 @@ class ProfileViewModel @Inject constructor(
 
     }
 
-
     override fun onLogoutButtonClicked() {
         tryToExecute(
-            call = logout::invoke,
+            call = { logout() },
             onSuccess = ::onLogoutSuccess,
             onError = ::onLogoutFail
         )

@@ -11,13 +11,11 @@ import com.chocolate.viewmodel.createchannel.CreateChannelArgs
 fun NavGraphBuilder.chooseMemberRoute() {
     composable(
         route = Screen.ChooseMembers.route +
-                "/{${CreateChannelArgs.IS_PRIVATE}}" +
                 "/{${CreateChannelArgs.CHANNEL_NAME}}" +
                 "/{${CreateChannelArgs.DESCRIPTION}}",
         arguments = listOf(
-            navArgument(CreateChannelArgs.IS_PRIVATE) { NavType.BoolType },
             navArgument(CreateChannelArgs.CHANNEL_NAME) { NavType.StringType },
-            navArgument(CreateChannelArgs.DESCRIPTION) { NavType.StringType },
+            navArgument(CreateChannelArgs.DESCRIPTION) { NavType.StringType }
         )
     ) {
         ChooseMemberScreen()
@@ -26,8 +24,7 @@ fun NavGraphBuilder.chooseMemberRoute() {
 
 fun NavController.navigateToChooseMember(
     channelName: String,
-    description: String,
-    isPrivate: Boolean
+    description: String?,
 ) {
-    navigate("${Screen.ChooseMembers.route}/$isPrivate/$channelName/$description")
+    navigate("${Screen.ChooseMembers.route}/$channelName/$description")
 }

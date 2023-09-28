@@ -1,6 +1,6 @@
 package com.chocolate.viewmodel.createchannel
 
-import android.util.Log
+import com.chocolate.entities.util.ChannelAlreadyExistException
 import com.chocolate.entities.util.InvalidChannelNameException
 import com.chocolate.entities.util.NoConnectionException
 import com.chocolate.usecases.channel.ManageChannelUseCase
@@ -28,12 +28,12 @@ class CreateChannelViewModel @Inject constructor(
         _state.update { it.copy(channelName = channelName) }
     }
 
-    override fun onChannelDescriptionChange(channelDescription: String?) {
-        _state.update { it.copy(description = channelDescription.takeUnless { channelDescription.isNullOrEmpty() }) }
+    override fun onChannelDescriptionChange(channelDescription: String) {
+        _state.update { it.copy(description = channelDescription) }
     }
 
-    override fun onChannelStatusChange(newChannelStatus: ChannelStatus, isPrivate: Boolean) {
-        _state.update { it.copy(status = newChannelStatus, isPrivate = isPrivate) }
+    override fun onSnackBarDismiss() {
+        _state.update { it.copy(errorMessage = null) }
     }
 
     private fun onValidateNameSuccess(channelName: String) {
@@ -41,19 +41,18 @@ class CreateChannelViewModel @Inject constructor(
         sendUiEffect(
             effect = CreateChannelUiEffect.NavigationToChooseMembers(
                 channelName = _state.value.channelName,
-                description = _state.value.description ?: "Welcome to $channelName",
-                isPrivate = _state.value.isPrivate
+                description = _state.value.description,
             )
         )
     }
 
     private fun onError(throwable: Throwable) {
         val errorMessage = when (throwable) {
+            is ChannelAlreadyExistException -> stringsResource.channelAlreadyExist
             is InvalidChannelNameException -> stringsResource.invalidChannelName
             is NoConnectionException -> stringsResource.noConnectionMessage
             else -> stringsResource.globalMessageError
         }
-        _state.update { it.copy(message = errorMessage, isError = true, isLoading = false) }
+        _state.update { it.copy(errorMessage = errorMessage, isLoading = false) }
     }
-
 }

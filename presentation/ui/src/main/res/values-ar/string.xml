@@ -110,7 +110,7 @@
     <string name="email_and_password_cannot_be_empty">لا يمكن أن تكون كلمة المرور والبريد الإلكتروني فارغين</string>
     <string name="password_cannot_be_empty">لا يمكن أن تكون كلمة المرور فارغة.</string>
     <string name="onboarding_image">صورة التوجيه</string>
-    <string name="channel_description">وصف القناة</string>
+    <string name="channel_description">وصف القناة(اختياري)</string>
     <string name="status">الحالة</string>
     <string name="skip">تخطي</string>
     <string name="ok">موافق</string>
@@ -159,4 +159,5 @@
     <string name="organization_name_already_exist">المنظمة بهذا الاسم موجودة بالفعل. يرجى تغيير الاسم.</string>
     <string name="organization_name_is_long">لا يمكن أن يتجاوز اسم المؤسسة 30 حرفًا</string>
     <string name="invalid_image_uri">صورة غير صالحة.</string>
+    <string name="channel_Already_Exist">القناة بهذا الاسم موجودة بالفعل.</string>
 </resources>

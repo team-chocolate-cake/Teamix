@@ -30,7 +30,6 @@ fun BottomNavigation(navController: NavController) {
     val items = listOf(
         BottomNavigationItem.Home,
         BottomNavigationItem.Search,
-        BottomNavigationItem.TasksOrganization,
         BottomNavigationItem.DMs,
         BottomNavigationItem.Profile
     )

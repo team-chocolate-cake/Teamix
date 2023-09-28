@@ -1,6 +1,7 @@
 package com.chocolate.usecases.channel
 
 import com.chocolate.entities.entity.Channel
+import com.chocolate.entities.util.ChannelAlreadyExistException
 import com.chocolate.entities.util.InvalidChannelNameException
 import com.chocolate.entities.util.getRandomId
 import com.chocolate.usecases.member.GetIdOfCurrentMemberUseCase
@@ -26,7 +27,7 @@ class ManageChannelUseCase @Inject constructor(
             id = getRandomId().toString(),
             name = channelName,
             membersId = usersId,
-            description = description ?: "",
+            description = description ?: "Welcome to $channelName.",
         )
         channelRepository.createChannelInOrganization(
             organizationName = currentOrganizationName,
@@ -45,12 +46,11 @@ class ManageChannelUseCase @Inject constructor(
     }
 
     suspend fun validateChannelName(channelName: String): String {
-        return if (channelName.isBlank() || channelName.length > 60 || isChannelAlreadyExists(
-                channelName
-            )
-        ) {
+        return if (channelName.isBlank() || channelName.length > 60)
+            throw ChannelAlreadyExistException
+        else if (isChannelAlreadyExists(channelName))
             throw InvalidChannelNameException
-        } else {
+        else {
             channelName
         }
     }

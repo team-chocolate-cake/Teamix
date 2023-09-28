@@ -14,6 +14,7 @@ interface StringsResource {
     val invalidEmailOrPassword: String
     val invalidChannelName: String
     val invalidTopicName: String
+    val channelAlreadyExist: String
     val invalidImage: String
     val cancel: String
     val createChannel: String

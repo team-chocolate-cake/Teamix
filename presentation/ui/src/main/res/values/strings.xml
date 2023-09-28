@@ -98,6 +98,7 @@
     <string name="enter_a_valid_email_address">Enter a valid email address</string>
     <string name="invalid_email_or_password">Wrong email or password.</string>
     <string name="invalid_channel_name">Invalid channel name.</string>
+    <string name="channel_Already_Exist">Channel with this name is already exist.</string>
     <string name="organization_name_not_found">Organization name not found</string>
     <string name="organization_name_cannot_be_empty">Organization name cannot be empty</string>
     <string name="organization_name_or_image_cannot_be_empty">Organization name or image cannot be empty</string>
@@ -113,7 +114,7 @@
     <string name="email_and_password_cannot_be_empty">Email and Password cannot be empty</string>
     <string name="password_cannot_be_empty">Password cannot be empty.</string>
     <string name="onboarding_image">Onboarding image</string>
-    <string name="channel_description">Channel Description</string>
+    <string name="channel_description">Channel Description (optional)</string>
     <string name="status">Status</string>
     <string name="skip">Skip</string>
     <string name="ok">Ok</string>

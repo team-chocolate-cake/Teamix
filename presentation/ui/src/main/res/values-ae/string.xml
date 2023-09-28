@@ -110,7 +110,7 @@
     <string name="email_and_password_cannot_be_empty">电子邮件和密码不能为空</string>
     <string name="password_cannot_be_empty">密碼不能為空。</string>
     <string name="onboarding_image">引导图片</string>
-    <string name="channel_description">频道描述</string>
+    <string name="channel_description">频道描述（圖）</string>
     <string name="status">状态</string>
     <string name="skip">跳过</string>
     <string name="ok">确定</string>
@@ -157,5 +157,6 @@
     <string name="organization_name_already_exist">同名的組織已存在。 請更改名稱。</string>
     <string name="organization_name_is_long">組織名稱不能超過 30 個字符</string>
     <string name="invalid_image_uri">圖片無效。</string>
+    <string name="channel_Already_Exist">同名的頻道已存在。</string>
 
 </resources>

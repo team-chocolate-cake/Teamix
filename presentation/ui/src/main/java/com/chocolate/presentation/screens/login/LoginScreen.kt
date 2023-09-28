@@ -6,9 +6,7 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -30,7 +28,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.SeparatorWithText
@@ -42,7 +39,6 @@ import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.screens.login.composable.LoginComponents
 import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.SpacingGigantic
-import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingSuperMassive
 import com.chocolate.presentation.theme.SpacingUltraGigantic
 import com.chocolate.presentation.theme.SpacingXLarge
@@ -118,20 +114,6 @@ fun LoginContent(
                 onChangePassword = { loginInteraction.onChangePassword(it) }
             )
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = SpacingMedium, bottom = SpacingXXLarge, end = SpacingXLarge),
-                horizontalArrangement = Arrangement.End
-            ) {
-                Text(
-                    stringResource(R.string.forget_password),
-                    fontSize = 14.sp,
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.clickable { loginInteraction.onClickForgetPassword() },
-                    color = colors.primary,
-                )
-            }
             TeamixButton(
                 onClick = {
                     hideKeyboard(context, rootView)
@@ -143,6 +125,7 @@ fun LoginContent(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(top = SpacingXXLarge)
                     .height(SpacingUltraGigantic),
                 colors = colors,
             ) {

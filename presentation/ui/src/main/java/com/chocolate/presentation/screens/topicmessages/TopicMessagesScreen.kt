@@ -63,19 +63,17 @@ fun TopicContent(
         hasBackArrow = true,
         bottomBar = {
             StartNewMessage(
-                openEmojisTile = { },
                 onMessageInputChanged = { topicInteraction.onMessageInputChanged(it) },
                 onSendMessage = { topicInteraction.onSendMessage(topicUiState.messageInput) },
-                onStartVoiceRecording = { },
-                onClickCamera = { },
-                onClickPhotoOrVideo = { },
-                photoOrVideoList = topicUiState.photoAndVideo,
                 modifier = Modifier,
                 messageInput = topicUiState.messageInput,
             )
         }
     ) { padding ->
-        systemUiController.setStatusBarColor(MaterialTheme.customColors().card, darkIcons = isDarkIcons)
+        systemUiController.setStatusBarColor(
+            MaterialTheme.customColors().card,
+            darkIcons = isDarkIcons
+        )
 
         ConstraintLayout(
             modifier = Modifier

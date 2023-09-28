@@ -41,33 +41,31 @@ fun DirectMessageChatContent(state: TopicUiState, interaction: TopicMessagesInte
     val systemUiController = rememberSystemUiController()
     val isDarkIcons = MaterialTheme.customColors().card == LightCard
 
-    LaunchedEffect(key1 = state.messages.size) {
-        state.messages.takeIf { messages ->
-            messages.isNotEmpty()
-        }?.let {
-            scrollState.animateScrollToItem(0)
-        }
-
-    }
+//    LaunchedEffect(key1 = state.messages.size) {
+//        state.messages.takeIf { messages ->
+//            messages.isNotEmpty()
+//        }?.let {
+//            scrollState.animateScrollToItem(0)
+//        }
+//
+//    }
     TeamixScaffold(
         title = state.topicName,
         hasAppBar = true,
         hasBackArrow = true,
         bottomBar = {
             StartNewMessage(
-                openEmojisTile = {},
                 onMessageInputChanged = { interaction.onMessageInputChanged(it) },
                 onSendMessage = { interaction.onSendMessage(state.messageInput) },
-                onStartVoiceRecording = { },
-                onClickCamera = { },
-                onClickPhotoOrVideo = { },
-                photoOrVideoList = state.photoAndVideo,
                 modifier = Modifier,
                 messageInput = state.messageInput,
             )
         }
     ) { padding ->
-        systemUiController.setStatusBarColor(MaterialTheme.customColors().card, darkIcons = isDarkIcons)
+        systemUiController.setStatusBarColor(
+            MaterialTheme.customColors().card,
+            darkIcons = isDarkIcons
+        )
 
         ConstraintLayout(
             modifier = Modifier

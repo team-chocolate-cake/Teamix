@@ -8,10 +8,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -31,7 +29,6 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.DMMemberItem
 import com.chocolate.presentation.composable.LoadingDialog
 import com.chocolate.presentation.composable.NoInternetLottie
-import com.chocolate.presentation.composable.SelectedMemberItem
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.directmessagechat.navigateToDmChat
@@ -138,26 +135,6 @@ fun DirectMessageChooseMemberContent(
                 contentPadding = PaddingValues(vertical = SpacingXLarge),
                 verticalArrangement = Arrangement.spacedBy(SpacingXLarge)
             ) {
-                item {
-                    AnimatedVisibility(visible = state.selectedMembersUiState != null) {
-                        LazyRow(
-                            Modifier.fillMaxWidth(),
-                            contentPadding = PaddingValues(horizontal = SpacingXLarge),
-                            horizontalArrangement = Arrangement.spacedBy(SpacingXMedium)
-                        ) {
-                            item {
-                                SelectedMemberItem(
-                                    modifier = Modifier.animateItemPlacement(),
-                                    painter = painterResource(id = R.drawable.ic_cancel),
-                                    imageUrl = state.selectedMembersUiState!!.imageUrl,
-                                    username = state.selectedMembersUiState!!.name,
-                                    userId = state.selectedMembersUiState!!.userId,
-                                    onClickIcon = interaction::onRemoveSelectedItem
-                                )
-                            }
-                        }
-                    }
-                }
                 items(state.membersUiState) { membersUiState ->
                     DMMemberItem(
                         modifier = Modifier.animateItemPlacement(),

@@ -74,10 +74,6 @@ class DirectMessageChooseMemberViewModel @Inject constructor(
         getMembers()
     }
 
-    override fun onRemoveSelectedItem(item: String) {
-        _state.update { it.copy(selectedMembersUiState = null) }
-    }
-
     override fun onClickMemberItem(memberId: String) {
         _state.update {
             val updatedMember = it.membersUiState.map {

@@ -47,9 +47,9 @@ class ManageChannelUseCase @Inject constructor(
 
     suspend fun validateChannelName(channelName: String): String {
         return if (channelName.isBlank() || channelName.length > 60)
-            throw ChannelAlreadyExistException
-        else if (isChannelAlreadyExists(channelName))
             throw InvalidChannelNameException
+        else if (isChannelAlreadyExists(channelName))
+            throw ChannelAlreadyExistException
         else {
             channelName
         }

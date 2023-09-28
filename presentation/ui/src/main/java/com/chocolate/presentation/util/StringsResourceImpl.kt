@@ -35,6 +35,8 @@ class StringsResourceImpl @Inject constructor(
     override val invalidEmailOrPassword: String = getString(R.string.invalid_email_or_password)
     override val invalidChannelName: String
         get() = getString(R.string.invalid_channel_name)
+    override val channelAlreadyExist: String
+        get() = getString(R.string.channel_Already_Exist)
 
     override val cancel: String = getString(R.string.cancel)
 

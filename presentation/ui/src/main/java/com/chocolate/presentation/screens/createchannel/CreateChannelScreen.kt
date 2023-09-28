@@ -5,7 +5,6 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -54,7 +53,6 @@ fun CreateChannelScreen(
                 navController.navigateToChooseMember(
                     effect.channelName,
                     effect.description,
-                    effect.isPrivate
                 )
         }
     }
@@ -76,7 +74,7 @@ private fun CreateChannelContent(
     val colors = MaterialTheme.customColors()
     val textStyle = MaterialTheme.typography
     val systemUiController = rememberSystemUiController()
-    val isDarkIcons= MaterialTheme.customColors().card== LightCard
+    val isDarkIcons = MaterialTheme.customColors().card == LightCard
 
     TeamixScaffold(
         isLoading = state.isLoading,
@@ -91,8 +89,11 @@ private fun CreateChannelContent(
             ) { CircularProgressIndicator(color = colors.primary) }
         },
     ) { paddingValues ->
-        systemUiController.setStatusBarColor(MaterialTheme.customColors().card, darkIcons = isDarkIcons)
-        
+        systemUiController.setStatusBarColor(
+            MaterialTheme.customColors().card,
+            darkIcons = isDarkIcons
+        )
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -129,8 +130,6 @@ private fun CreateChannelContent(
                 onValueChange = { createChannelInteraction.onChannelDescriptionChange(it) }
             )
 
-            Spacer(modifier = Modifier.weight(1f))
-
             ToggleButton(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -150,12 +149,13 @@ private fun CreateChannelContent(
             }
 
         }
-
-        ActionSnakeBar(
-            contentMessage = state.message.toString(),
-            isVisible = state.isError,
-            isToggleButtonVisible = false,
-        )
-
+        state.errorMessage?.let {
+            ActionSnakeBar(
+                contentMessage = it,
+                isVisible = true,
+                isToggleButtonVisible = false,
+                onDismiss = { createChannelInteraction.onSnackBarDismiss() }
+            )
+        }
     }
 }

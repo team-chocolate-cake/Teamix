@@ -110,7 +110,7 @@
     <string name="email_and_password_cannot_be_empty">El correo electrónico y la contraseña no pueden estar vacíos</string>
     <string name="password_cannot_be_empty">La contraseña no puede estar vacía.</string>
     <string name="onboarding_image">Imagen de incorporación</string>
-    <string name="channel_description">Descripción del canal</string>
+    <string name="channel_description">Descripción del canal(mi elección)</string>
     <string name="status">Estado</string>
     <string name="skip">Saltar</string>
     <string name="ok">Aceptar</string>
@@ -156,5 +156,6 @@
     <string name="organization_name_already_exist">La organización con este nombre ya existe. Por favor cambie el nombre.</string>
     <string name="organization_name_is_long">El nombre de la organización no puede exceder los 30 caracteres.</string>
     <string name="invalid_image_uri">Imagen inválida.</string>
+    <string name="channel_Already_Exist">El canal con este nombre ya existe.</string>
 
 </resources>

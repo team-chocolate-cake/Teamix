@@ -78,9 +78,12 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
             }
         },
         isLoading = state.isLoading,
-        onLoading =  {
+        onLoading = {
             Box(modifier = Modifier.fillMaxSize()) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                    color = colors.primary
+                )
             }
         }
     ) {

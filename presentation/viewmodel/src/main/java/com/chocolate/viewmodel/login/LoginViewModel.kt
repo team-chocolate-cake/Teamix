@@ -1,11 +1,14 @@
 package com.chocolate.viewmodel.login
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
+import com.chocolate.entities.util.EmptyEmailException
+import com.chocolate.entities.util.EmptyPasswordException
 import com.chocolate.entities.util.NetworkException
 import com.chocolate.entities.util.NoConnectionException
 import com.chocolate.entities.util.NullDataException
 import com.chocolate.entities.util.ValidationException
+import com.chocolate.entities.util.WrongEmailException
+import com.chocolate.entities.util.WrongEmailOrPasswordException
 import com.chocolate.usecases.member.AttemptMemberLoginUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
@@ -20,21 +23,14 @@ class LoginViewModel @Inject constructor(
     private val stringsResource: StringsResource,
 ) : BaseViewModel<LoginUiState, LoginUiEffect>(LoginUiState()), LoginInteraction {
     private val loginArgs: LoginArgs = LoginArgs(savedStateHandle)
-
-    init {
-        getOrganizationName()
-    }
-
-    override fun onClickForgetPassword() {
-        sendUiEffect(LoginUiEffect.NavigateToForgetPassword)
-    }
+    init { getOrganizationName() }
 
     override fun onClickCreateNewAccount() {
         sendUiEffect(LoginUiEffect.NavigateToCreateNewAccount("Member"))
     }
 
     override fun onChangeEmail(email: String) {
-        _state.update { it.copy(email = email.trim()) }
+        _state.update { it.copy(email = email) }
     }
 
     override fun onChangePassword(password: String) {
@@ -48,6 +44,10 @@ class LoginViewModel @Inject constructor(
 
     override fun onClickRetry() {
         onClickSignIn(_state.value.email, _state.value.password)
+    }
+
+    override fun onSnackBarDismissed() {
+        _state.update { it.copy(error = null) }
     }
 
     override fun onClickPasswordVisibility(passwordVisibility: Boolean) {
@@ -69,11 +69,12 @@ class LoginViewModel @Inject constructor(
             is NetworkException -> stringsResource.enterValidEmailAddress
             is ValidationException -> stringsResource.invalidEmailOrPassword
             is NullDataException -> stringsResource.organizationNameNotFound
+            is EmptyEmailException -> stringsResource.emptyEmailMessage
+            is EmptyPasswordException -> stringsResource.emptyPassword
+            is WrongEmailException -> stringsResource.invalidEmailOrPassword
+            is WrongEmailOrPasswordException -> stringsResource.invalidEmailOrPassword
             else -> stringsResource.globalMessageError
         }
-        Log.e("onError: ", throwable.toString())
-        _state.update {
-            it.copy(isLoading = false, error = errorMessage)
-        }
+        _state.update { it.copy(isLoading = false, error = errorMessage) }
     }
 }

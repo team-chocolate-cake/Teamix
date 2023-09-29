@@ -19,12 +19,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.chocolate.presentation.theme.CardHeight56
+import com.chocolate.presentation.theme.Height56
 import com.chocolate.presentation.theme.Radius12
+import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.TeamixTheme
-import com.chocolate.presentation.theme.TextFieldHeight48
+import com.chocolate.presentation.theme.TextSize16
 import com.chocolate.presentation.theme.customColors
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,12 +47,12 @@ fun TeamixTextField(
     TextField(
         modifier = modifier
             .fillMaxWidth()
-            .height(CardHeight56),
+            .height(Height56),
         value = value,
-        onValueChange = {onValueChange(it)},
+        onValueChange = { onValueChange(it) },
         textStyle = remember {
             TextStyle(
-                fontSize = 16.sp, // Adjust the font size as needed
+                fontSize = TextSize16, // Adjust the font size as needed
                 color = textColor // Set the text color here
             )
         },
@@ -90,7 +89,7 @@ fun TeamixTextField(
 fun TeamixTextPreview() {
     TeamixTheme {
         TeamixTextField(modifier = Modifier
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = SpacingXLarge)
             .background(Color.Cyan), value = "a", hint = "", onValueChange = {})
     }
 }

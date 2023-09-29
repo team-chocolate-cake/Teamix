@@ -12,8 +12,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.theme.CustomColorsPalette
+import com.chocolate.presentation.theme.Float12
+import com.chocolate.presentation.theme.SpacingHuge
+import com.chocolate.presentation.theme.SpacingXXMedium
 
 @Composable
 fun TeamixButton(
@@ -27,7 +29,7 @@ fun TeamixButton(
         onClick = onClick,
         modifier = modifier,
         color = if (enabled) colors.primary else colors.onSecondary38,
-        shape = RoundedCornerShape(12f)
+        shape = RoundedCornerShape(Float12)
     ) {
         Row(
             Modifier
@@ -37,8 +39,8 @@ fun TeamixButton(
                 )
                 .padding(
                     PaddingValues(
-                        vertical = 12.dp,
-                        horizontal = 24.dp
+                        vertical = SpacingXXMedium,
+                        horizontal = SpacingHuge
                     )
                 ),
             horizontalArrangement = Arrangement.Center,

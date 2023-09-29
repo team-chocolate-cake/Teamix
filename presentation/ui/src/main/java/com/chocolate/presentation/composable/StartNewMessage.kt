@@ -18,10 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.R
-import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXXSmall
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXMedium
-import com.chocolate.presentation.theme.SpacingXXLarge
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingHuge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 
@@ -42,7 +42,7 @@ fun StartNewMessage(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = SpacingXMedium),
+                .padding(top = SpacingMedium),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -50,21 +50,21 @@ fun StartNewMessage(
             TeamixTextField(
                 modifier = Modifier.wrapContentHeight()
                     .fillMaxWidth(0.9f)
-                    .padding(horizontal =SpacingMedium),
+                    .padding(horizontal =SpacingXXSmall),
                 value = messageInput,
                 onValueChange = { onMessageInputChanged(it) },
                 containerColor = MaterialTheme.customColors().background,
             )
             Surface(
                 modifier = Modifier
-                    .padding(end = SpacingMedium)
-                    .size(SpacingXXLarge)
+                    .padding(end = SpacingXXSmall)
+                    .size(SpacingHuge)
             ) {
                 IconButton(
                     onClick = { onSendMessage().takeIf { messageInput.isNotEmpty() } },
                     modifier = Modifier
                         .background(MaterialTheme.customColors().card)
-                        .size(SpacingXXLarge),
+                        .size(SpacingHuge),
                 ) {
                     Icon(
                         painter = painterResource(

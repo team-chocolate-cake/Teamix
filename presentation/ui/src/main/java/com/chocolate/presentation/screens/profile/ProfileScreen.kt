@@ -46,15 +46,15 @@ import com.chocolate.presentation.screens.organization.navigateToOrganizationNam
 import com.chocolate.presentation.screens.profile.composable.ProfileDialog
 import com.chocolate.presentation.screens.profile.composable.ProfileHorizontalPager
 import com.chocolate.presentation.screens.profile.composable.ProfileImage
-import com.chocolate.presentation.theme.BoxHeight440
+import com.chocolate.presentation.theme.Height440
 import com.chocolate.presentation.theme.ButtonSize110
 import com.chocolate.presentation.theme.Radius16
 import com.chocolate.presentation.theme.Radius24
-import com.chocolate.presentation.theme.RowWidth250
+import com.chocolate.presentation.theme.Width250
 import com.chocolate.presentation.theme.SpacingGigantic
-import com.chocolate.presentation.theme.SpacingHuge
+import com.chocolate.presentation.theme.SpacingXHuge
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
@@ -181,7 +181,7 @@ fun ProfileContent(
             modifier = Modifier
                 .fillMaxSize()
                 .background(color.background)
-                .padding(top = SpacingHuge)
+                .padding(top = SpacingXHuge)
                 .verticalScroll(scrollState), horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -210,7 +210,7 @@ fun ProfileContent(
                     .padding(bottom = SpacingXLarge, top = SpacingGigantic)
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(Radius16))
-                    .height(BoxHeight440)
+                    .height(Height440)
                     .background(color.card)
             ) {
                 Column(
@@ -221,7 +221,7 @@ fun ProfileContent(
                 ) {
                     Row(
                         modifier = Modifier
-                            .width(RowWidth250)
+                            .width(Width250)
                             .clip(RoundedCornerShape(Radius24))
                             .background(color.background),
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -230,7 +230,7 @@ fun ProfileContent(
                         Button(
                             onClick = { profileInteraction.onClickProfileButton() },
                             modifier = Modifier
-                                .padding(start = SpacingXMedium)
+                                .padding(start = SpacingMedium)
                                 .width(ButtonSize110),
                             colors = ButtonDefaults.buttonColors(
                                 if (pageState.currentPage == 0) color.primary.copy(alpha = 1f) else
@@ -245,7 +245,7 @@ fun ProfileContent(
                         Button(
                             onClick = profileInteraction::onClickSettingsButton,
                             modifier = Modifier
-                                .padding(end = SpacingXMedium)
+                                .padding(end = SpacingMedium)
                                 .width(ButtonSize110),
                             colors = ButtonDefaults.buttonColors(
                                 if (pageState.currentPage == 1) color.primary.copy(alpha = 1f) else

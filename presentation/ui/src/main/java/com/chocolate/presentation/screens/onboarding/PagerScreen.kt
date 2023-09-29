@@ -11,12 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.FitImage
 import com.chocolate.presentation.theme.SpacingExtraHuge
+import com.chocolate.presentation.theme.SpacingHuge
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.customColors
 
 
@@ -27,19 +26,19 @@ fun PagerScreen(
     Column(Modifier.fillMaxSize()) {
         FitImage(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = SpacingXLarge)
                 .fillMaxWidth(),
             image = painterResource(id = onBoardingPage.imageResource),
             contentDescription = contentDescription
         )
         Text(
-            modifier = Modifier.padding(top = SpacingExtraHuge, start = SpacingXXLarge, end = SpacingXXLarge),
+            modifier = Modifier.padding(top = SpacingExtraHuge, start = SpacingHuge, end = SpacingHuge),
             text = onBoardingPage.title,
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.customColors().onBackground87
         )
         Text(
-            modifier = Modifier.padding(top = SpacingXLarge, start = SpacingXXLarge, end = SpacingXXLarge),
+            modifier = Modifier.padding(top = SpacingXLarge, start = SpacingHuge, end = SpacingHuge),
             text = onBoardingPage.description,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.customColors().onBackground60

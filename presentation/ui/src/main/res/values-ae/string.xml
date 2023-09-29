@@ -99,6 +99,8 @@
     <string name="organization_name_not_found">组织名称未找到</string>
     <string name="organization_name_cannot_be_empty">组织名称不能为空</string>
     <string name="organization_name_or_image_cannot_be_empty">组织名称或图片不能为空</string>
+    <string name="empty_title_topic">没有要显示的内容</string>
+    <string name="empty_sub_title_topic">开始创建主题，然后在这里找到它</string>
     <string name="get_stated">开始</string>
     <string name="welcome_image">欢迎图片</string>
     <string name="animatesize">动画尺寸</string>
@@ -172,4 +174,6 @@
     <string name="have_organization">有组织</string>
     <string name="saved_topics">已保存的主题</string>
     <string name="confirm_password">確認密碼</string>
+    <string name="or">或者</string>
+
 </resources>

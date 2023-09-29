@@ -28,12 +28,15 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.chocolate.presentation.theme.Height76
 import com.chocolate.presentation.theme.ImageSize40
 import com.chocolate.presentation.theme.Radius12
 import com.chocolate.presentation.theme.SpacingMedium
-import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingXXLarge
+import com.chocolate.presentation.theme.SpacingXXSmall
+import com.chocolate.presentation.theme.Width85
+import com.chocolate.presentation.theme.Width90
 import com.chocolate.presentation.theme.customColors
 
 @Composable
@@ -48,17 +51,17 @@ fun SelectedMemberItem(
 ) {
     val colors = MaterialTheme.customColors()
     Box(modifier = modifier
-        .width(90.dp)
-        .height(76.dp)) {
+        .width(Width90)
+        .height(Height76)) {
         Card(
             colors = CardDefaults.cardColors(colors.card),
             shape = RoundedCornerShape(Radius12),
             modifier = Modifier
-                .width(85.dp)
+                .width(Width85)
                 .wrapContentHeight()
                 .align(Alignment.Center)
         ) {
-            Spacer(modifier = Modifier.height(SpacingXMedium))
+            Spacer(modifier = Modifier.height(SpacingMedium))
             Image(
                 painter = rememberAsyncImagePainter(model = imageUrl),
                 contentDescription = contentDescription,
@@ -73,8 +76,8 @@ fun SelectedMemberItem(
                 style = MaterialTheme.typography.labelSmall,
                 color = colors.onBackground87,
                 modifier = Modifier
-                    .padding(horizontal = SpacingXMedium)
-                    .padding(top = SpacingMedium, bottom = SpacingXMedium)
+                    .padding(horizontal = SpacingMedium)
+                    .padding(top = SpacingXXSmall, bottom = SpacingMedium)
                     .align(Alignment.CenterHorizontally),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -88,7 +91,7 @@ fun SelectedMemberItem(
         ) {
             Box(
                 modifier = Modifier
-                    .size(18.dp)
+                    .size(SpacingXXLarge)
                     .clip(CircleShape)
                     .background(colors.red60)
                     .clickable { onClickIcon(userId) },

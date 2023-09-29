@@ -1,12 +1,11 @@
 package com.chocolate.viewmodel.createorganization
 
-import com.chocolate.entities.entity.Organization
 import com.chocolate.entities.util.Empty
 
 
 data class CreateOrganizationUiState(
-     val organizationName: String = String.Empty,
-     val organizationImageUri: String = String.Empty,
-     val isLoading: Boolean = false,
-     val error: String? = null,
+    val organizationName: String = String.Empty,
+    val organizationImageUri: String = String.Empty,
+    val isLoading: Boolean = false,
+    val error: String? = null,
 )

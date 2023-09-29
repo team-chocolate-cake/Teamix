@@ -29,7 +29,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.SeparatorWithText
@@ -39,12 +38,13 @@ import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.createmember.navigateToCreateMember
+import com.chocolate.presentation.theme.Float1
 import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.SpacingGigantic
+import com.chocolate.presentation.theme.SpacingHuge
+import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingUltimateGigantic
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXMedium
-import com.chocolate.presentation.theme.SpacingXXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
@@ -99,7 +99,7 @@ fun CreateOrganizationContent(
             )
             Text(
                 modifier = Modifier
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = SpacingXLarge)
                     .padding(top = SpacingUltimateGigantic),
                 text = stringResource(R.string.enter_your_name_organization),
                 style = MaterialTheme.typography.labelMedium,
@@ -108,9 +108,9 @@ fun CreateOrganizationContent(
             TeamixTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(bottom = 24.dp)
-                    .padding(top = SpacingXMedium),
+                    .padding(horizontal = SpacingXLarge)
+                    .padding(bottom = SpacingHuge)
+                    .padding(top = SpacingMedium),
                 value = state.organizationName,
                 onValueChange = { nameOrganization ->
                     createOrganizationInteraction.onOrganizationNameChange(nameOrganization)
@@ -134,7 +134,7 @@ fun CreateOrganizationContent(
                     CircularProgressIndicator(
                         color = colors.card,
                         modifier = Modifier
-                            .size(SpacingXXLarge)
+                            .size(SpacingHuge)
                             .align(Alignment.CenterVertically)
                     )
                 }
@@ -147,7 +147,7 @@ fun CreateOrganizationContent(
                 }
             }
             SeparatorWithText(
-                modifier = Modifier.padding(bottom = SpacingXMedium, top = SpacingExtraHuge)
+                modifier = Modifier.padding(bottom = SpacingMedium, top = SpacingExtraHuge)
             )
             Text(
                 text = stringResource(R.string.have_organization),
@@ -162,10 +162,10 @@ fun CreateOrganizationContent(
                             createOrganizationInteraction.onClickHaveOrganization()
                         }
                     )
-                    .padding(bottom = SpacingXXLarge),
+                    .padding(bottom = SpacingHuge),
                 textAlign = TextAlign.Center
             )
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(Float1))
             state.error?.let {
                 ActionSnakeBar(
                     contentMessage = state.error.toString(),

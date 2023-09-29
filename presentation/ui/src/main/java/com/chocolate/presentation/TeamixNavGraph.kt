@@ -18,9 +18,9 @@ import com.chocolate.presentation.screens.login.loginRoute
 import com.chocolate.presentation.screens.onboarding.onboardingRoute
 import com.chocolate.presentation.screens.organization.organizationNameRoute
 import com.chocolate.presentation.screens.profile.profileRoute
-import com.chocolate.presentation.screens.savedmessages.SavedMessageRoute
+import com.chocolate.presentation.screens.savedmessages.savedMessageRoute
 import com.chocolate.presentation.screens.search.searchRoute
-import com.chocolate.presentation.screens.topicmessages.topicRoute
+import com.chocolate.presentation.screens.topicmessages.topicMessageRoute
 import com.chocolate.presentation.screens.welcome.welcomeRoute
 
 @Composable
@@ -36,10 +36,10 @@ fun TeamixNavGraph(navController: NavHostController) {
         profileRoute()
         searchRoute()
         directMessageRoute()
-        topicRoute()
+        topicMessageRoute()
         chooseMemberRoute()
         createChannelRoute()
-        SavedMessageRoute()
+        savedMessageRoute()
         savedTopicsRoute()
         channelRoute()
         createMemberRoute()

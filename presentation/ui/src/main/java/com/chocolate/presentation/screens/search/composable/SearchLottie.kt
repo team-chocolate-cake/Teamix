@@ -24,10 +24,9 @@ import com.chocolate.presentation.theme.customColors
 fun SearchLottie(
     modifier: Modifier = Modifier,
     isShow: Boolean,
-    isDarkMode: Boolean,
     isPlaying: Boolean = true,
     backgroundColor: Color = MaterialTheme.customColors().background
-    ) {
+) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.search))
     animateLottieCompositionAsState(composition = composition, isPlaying = isPlaying)
     AnimatedVisibility(visible = isShow) {
@@ -36,7 +35,9 @@ fun SearchLottie(
             verticalArrangement = Arrangement.Center
         ) {
             LottieAnimation(
-                modifier = Modifier.fillMaxWidth().height(350.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(350.dp),
                 composition = composition,
                 isPlaying = isPlaying,
                 alignment = Alignment.Center

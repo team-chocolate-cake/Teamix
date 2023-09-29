@@ -18,9 +18,9 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
-import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXExtraHuge
 import com.chocolate.presentation.theme.customColors
 
 @Composable
@@ -31,7 +31,7 @@ fun PageIndicator(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(SpacingXMedium),
+        horizontalArrangement = Arrangement.spacedBy(SpacingMedium),
         modifier = modifier,
     ) {
         (0 until numberOfPages).forEach { pageNumber ->
@@ -59,9 +59,9 @@ private fun PageIndicatorItem(
     )
     val width: Dp by animateDpAsState(
         targetValue = if (isSelected) {
-            36.dp
+            SpacingXExtraHuge
         } else {
-            8.dp
+            SpacingMedium
         },
         animationSpec = tween(
             durationMillis = 300,
@@ -69,18 +69,18 @@ private fun PageIndicatorItem(
     )
 
     Canvas(
-        modifier = modifier.size(width = width, height = SpacingXMedium),
+        modifier = modifier.size(width = width, height = SpacingMedium),
     ) {
         drawRoundRect(
             color = color,
             topLeft = Offset.Zero,
             size = Size(
                 width = width.toPx(),
-                height = 8.dp.toPx(),
+                height = SpacingMedium.toPx(),
             ),
             cornerRadius = CornerRadius(
-                x = 8.dp.toPx(),
-                y = 8.dp.toPx(),
+                x = SpacingMedium.toPx(),
+                y = SpacingMedium.toPx(),
             ),
         )
     }

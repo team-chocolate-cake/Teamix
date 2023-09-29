@@ -24,12 +24,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.Border2
+import com.chocolate.presentation.theme.ButtonSize130
 import com.chocolate.presentation.theme.IconSize24
 import com.chocolate.presentation.theme.IconSize30
+import com.chocolate.presentation.theme.ImageSize110
 import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.SpacingSmall
 import com.chocolate.presentation.theme.customColors
@@ -63,7 +64,7 @@ fun TeamixImagePicker(
             Box(
                 modifier = Modifier
                     .padding(top = SpacingExtraHuge)
-                    .size(130.dp)
+                    .size(ButtonSize130)
                     .clip(CircleShape)
                     .border(Border2, colors.primary, CircleShape),
                 contentAlignment = Alignment.Center
@@ -71,7 +72,7 @@ fun TeamixImagePicker(
 
                 Image(
                     modifier = Modifier
-                        .size(110.dp)
+                        .size(ImageSize110)
                         .clip(CircleShape),
                     painter = painter,
                     contentScale = ContentScale.Crop,

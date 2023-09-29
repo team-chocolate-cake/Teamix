@@ -40,7 +40,7 @@ import com.chocolate.presentation.theme.SpacingSmall
 import com.chocolate.presentation.theme.SpacingTiny
 import com.chocolate.presentation.theme.SpacingUltraGigantic
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.choosemember.SelectedMemberItemUiState
 
@@ -78,7 +78,7 @@ fun MemberItem(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(SpacingXMedium),
+                .padding(SpacingMedium),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
@@ -92,7 +92,7 @@ fun MemberItem(
             Column(
                 modifier = Modifier
                     .wrapContentSize()
-                    .padding(start = SpacingXMedium),
+                    .padding(start = SpacingMedium),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(

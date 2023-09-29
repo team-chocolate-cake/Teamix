@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.customColors
 
 @Composable
@@ -30,7 +30,7 @@ fun BottomSheetItem(
         Icon(
             painter = icon,
             contentDescription = contentDescription,
-            modifier = Modifier.padding(end = SpacingXMedium),
+            modifier = Modifier.padding(end = SpacingMedium),
             tint = MaterialTheme.customColors().onBackground87
         )
         Text(

@@ -20,11 +20,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.chocolate.presentation.theme.Radius12
 import com.chocolate.presentation.theme.SpacingGigantic
+import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingSmall
-import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.SpacingXSmall
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.savedTopics.SavedTopicsItemUiState
@@ -36,9 +36,9 @@ fun SavedTopicsCard(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(Radius12))
             .background(color = MaterialTheme.customColors().card)
-            .padding(SpacingXMedium),
+            .padding(SpacingMedium),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
@@ -47,7 +47,7 @@ fun SavedTopicsCard(
                 painter = rememberAsyncImagePainter(model = topic.creatorImage),
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(horizontal = SpacingXMedium, vertical = SpacingXMedium)
+                    .padding(horizontal = SpacingMedium, vertical = SpacingMedium)
                     .size(SpacingGigantic)
                     .clip(CircleShape)
                     .align(Alignment.CenterVertically),
@@ -63,7 +63,7 @@ fun SavedTopicsCard(
                         fontWeight = FontWeight.SemiBold
                     )
                     Text(
-                        modifier = Modifier.padding(start = SpacingXMedium),
+                        modifier = Modifier.padding(start = SpacingMedium),
                         text = topic.sentTime,
                         color = MaterialTheme.customColors().onBackground87,
                         style = MaterialTheme.typography.bodySmall,
@@ -78,7 +78,8 @@ fun SavedTopicsCard(
                     ),
                     text = topic.topicContent,
                     color = MaterialTheme.customColors().onBackground87,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines=2
                 )
             }
 

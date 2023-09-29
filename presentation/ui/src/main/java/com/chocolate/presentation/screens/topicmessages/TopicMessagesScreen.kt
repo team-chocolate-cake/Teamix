@@ -32,7 +32,7 @@ import com.chocolate.viewmodel.topicmessages.TopicUiState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
-fun TopicScreen(
+fun TopicMessageScreen(
     viewModel: TopicMessagesViewModel = hiltViewModel()
 ) {
     val navController = LocalNavController.current
@@ -43,14 +43,14 @@ fun TopicScreen(
             TopicMessagesEffect.NavigationBack -> navController.popBackStack()
         }
     }
-    TopicContent(topicUiState = state, viewModel, scrollState)
+    TopicMessageContent(topicUiState = state, viewModel, scrollState)
 }
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun TopicContent(
+fun TopicMessageContent(
     topicUiState: TopicUiState,
     topicInteraction: TopicMessagesInteraction,
     scrollState: LazyListState
@@ -97,7 +97,7 @@ fun TopicContent(
                     MessageCard(
                         modifier = Modifier
                             .animateItemPlacement()
-                            .padding(top = SpacingLarge),
+                            .padding(top = SpacingXXMedium),
                         messageUiState = topicUiState.messages[it],
                         onSaveMessage = { topicInteraction.onSaveMessage(topicUiState.messages[it]) },
                         messageMaxLines = 2,
@@ -113,6 +113,6 @@ fun TopicContent(
 @Preview(showSystemUi = true)
 fun TopicPreview() {
     TeamixTheme() {
-        TopicScreen()
+        TopicMessageScreen()
     }
 }

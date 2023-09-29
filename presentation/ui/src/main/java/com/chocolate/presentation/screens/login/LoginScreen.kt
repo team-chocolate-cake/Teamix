@@ -41,8 +41,8 @@ import com.chocolate.presentation.theme.SpacingGigantic
 import com.chocolate.presentation.theme.SpacingSuperMassive
 import com.chocolate.presentation.theme.SpacingUltraGigantic
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXMedium
-import com.chocolate.presentation.theme.SpacingXXLarge
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingHuge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
@@ -119,7 +119,7 @@ fun LoginContent(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = SpacingXXLarge)
+                    .padding(top = SpacingHuge)
                     .height(SpacingUltraGigantic),
                 colors = colors,
             ) {
@@ -127,7 +127,7 @@ fun LoginContent(
                     CircularProgressIndicator(
                         color = colors.card,
                         modifier = Modifier
-                            .size(SpacingXXLarge)
+                            .size(SpacingHuge)
                             .align(Alignment.CenterVertically)
                     )
                 }
@@ -141,7 +141,7 @@ fun LoginContent(
             }
             SeparatorWithText(
                 modifier = Modifier.padding(
-                    bottom = SpacingXMedium,
+                    bottom = SpacingMedium,
                     top = SpacingExtraHuge
                 )
             )
@@ -154,7 +154,7 @@ fun LoginContent(
                     .clickable(indication = null,
                         interactionSource = remember { MutableInteractionSource() },
                         onClick = { loginInteraction.onClickCreateNewAccount() })
-                    .padding(bottom = SpacingXXLarge),
+                    .padding(bottom = SpacingHuge),
                 textAlign = TextAlign.Center
             )
         }

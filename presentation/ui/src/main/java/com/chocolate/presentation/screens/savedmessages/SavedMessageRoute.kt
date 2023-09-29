@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.chocolate.presentation.Screen
 
-fun NavGraphBuilder.SavedMessageRoute(){
+fun NavGraphBuilder.savedMessageRoute(){
     composable(Screen.SavedMessage.route){
         SaveLaterScreen()
     }

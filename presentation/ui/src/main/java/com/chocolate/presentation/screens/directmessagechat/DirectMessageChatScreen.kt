@@ -19,7 +19,7 @@ import com.chocolate.presentation.composable.MessageCard
 import com.chocolate.presentation.composable.StartNewMessage
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.theme.LightCard
-import com.chocolate.presentation.theme.SpacingLarge
+import com.chocolate.presentation.theme.SpacingXXMedium
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.directmessagechat.DirectMessagesChatViewModel
@@ -77,7 +77,7 @@ fun DirectMessageChatContent(state: TopicUiState, interaction: TopicMessagesInte
                     MessageCard(
                         modifier = Modifier
                             .animateItemPlacement()
-                            .padding(top = SpacingLarge),
+                            .padding(top = SpacingXXMedium),
                         messageUiState = state.messages[it],
                         onSaveMessage = { interaction.onSaveMessage(state.messages[it]) },
                     )

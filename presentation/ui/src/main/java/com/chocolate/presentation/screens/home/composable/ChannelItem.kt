@@ -30,12 +30,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Float1
+import com.chocolate.presentation.theme.Radius12
+import com.chocolate.presentation.theme.Radius8
+import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.viewmodel.home.ChannelUiState
 
 @SuppressLint("RememberReturnType")
@@ -45,8 +46,8 @@ fun ChannelItem(
     state: ChannelUiState,
     colors: CustomColorsPalette,
     contentDescription: String = "",
-    onClickTopic: (String,String,String) -> Unit,
-    onClickItemChannel: (String , String) -> Unit
+    onClickTopic: (String, String, String) -> Unit,
+    onClickItemChannel: (String, String) -> Unit
 ) {
     var isExpanded by remember { mutableStateOf(false) }
     val animateIcon by animateFloatAsState(targetValue = if (isExpanded) 180f else 0f, label = "")
@@ -55,7 +56,7 @@ fun ChannelItem(
             .fillMaxWidth()
             .wrapContentHeight()
             .animateContentSize(animationSpec = tween(durationMillis = 300))
-            .clip(RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(Radius12))
             .clickable { onClickItemChannel(state.channelId, state.name) }
             .background(color = colors.card)
             .padding(SpacingXLarge), verticalArrangement = Arrangement.Center
@@ -69,7 +70,7 @@ fun ChannelItem(
                 painter = painterResource(id = R.drawable.ic_hashtag),
                 contentDescription = contentDescription,
                 tint = colors.primary,
-                modifier = Modifier.padding(end = SpacingXMedium)
+                modifier = Modifier.padding(end = SpacingMedium)
             )
             Text(
                 text = state.name,
@@ -77,7 +78,7 @@ fun ChannelItem(
                 color = colors.onBackground87,
                 modifier = Modifier.weight(Float1)
             )
-             if (state.topics.isNotEmpty()) {
+            if (state.topics.isNotEmpty()) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_down),
                     contentDescription = contentDescription,
@@ -99,17 +100,21 @@ fun ChannelItem(
                         },
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Divider(modifier = Modifier.padding(SpacingXMedium), color = colors.border)
+                    Divider(modifier = Modifier.padding(SpacingMedium), color = colors.border)
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentHeight()
                             .pointerInput(Unit) {
                                 detectTapGestures(onPress = {
-                                    onClickTopic(state.channelId,topicUIState.id,topicUIState.name)
+                                    onClickTopic(
+                                        state.channelId,
+                                        topicUIState.id,
+                                        topicUIState.name
+                                    )
                                 })
                             }
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = Radius8),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {

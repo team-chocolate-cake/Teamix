@@ -29,9 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.chocolate.presentation.theme.ButtonSize48
 import com.chocolate.presentation.theme.RadioButtonsHeight350
-import com.chocolate.presentation.theme.RadioButtonsWidth300
-import com.chocolate.presentation.theme.SpacingLarge
-import com.chocolate.presentation.theme.SpacingXHuge
+import com.chocolate.presentation.theme.Width300
+import com.chocolate.presentation.theme.SpacingXXMedium
+import com.chocolate.presentation.theme.SpacingXXHuge
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.customColors
 
@@ -49,8 +49,8 @@ fun MultiChoiceDialog(
     ) {
         Box(
             modifier = Modifier
-                .clip(RoundedCornerShape(SpacingXHuge))
-                .size(width = RadioButtonsWidth300, height = RadioButtonsHeight350)
+                .clip(RoundedCornerShape(SpacingXXHuge))
+                .size(width = Width300, height = RadioButtonsHeight350)
                 .background(color.card)
                 .padding(24.dp)
         ) {
@@ -88,7 +88,7 @@ fun MultiChoiceDialog(
                         .padding(top=16.dp)
                         .height(ButtonSize48)
                         .align(Alignment.End),
-                    shape = RoundedCornerShape(SpacingLarge),
+                    shape = RoundedCornerShape(SpacingXXMedium),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = color.primary,
                         contentColor = color.onPrimary

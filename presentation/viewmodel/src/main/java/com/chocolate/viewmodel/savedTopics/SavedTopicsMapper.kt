@@ -6,7 +6,7 @@ import com.chocolate.entities.util.toStringDate
 
 fun Topic.toSavedTopicsItemUiState(): SavedTopicsItemUiState = SavedTopicsItemUiState(
     id = topicId,
-    creatorName = name,
+    creatorName = senderName,
     creatorImage = senderImage,
     topicContent = name,
     sentTime = sentTime.toStringDate()

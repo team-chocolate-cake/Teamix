@@ -39,8 +39,8 @@ import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.theme.SpacingSmall
 import com.chocolate.presentation.theme.SpacingUltraGigantic
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXMedium
-import com.chocolate.presentation.theme.SpacingXXLarge
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingHuge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
@@ -85,7 +85,7 @@ private fun CreateMemberContent(
             .fillMaxSize()
             .background(color = colors.background),
         contentPadding = PaddingValues(SpacingXLarge),
-        verticalArrangement = Arrangement.spacedBy(SpacingXXLarge),
+        verticalArrangement = Arrangement.spacedBy(SpacingHuge),
     ) {
         item { TeamixImagePicker(interaction::onPersonalImageChange) }
         item { UserInformationInputsSection(interaction = interaction, state = state) }
@@ -101,7 +101,7 @@ private fun CreateMemberContent(
                     CircularProgressIndicator(
                         color = colors.card,
                         modifier = Modifier
-                            .size(SpacingXXLarge)
+                            .size(SpacingHuge)
                             .align(Alignment.CenterVertically)
                     )
                 }
@@ -194,7 +194,7 @@ private fun InputFieldWithLabel(
         TeamixTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = SpacingXMedium),
+                .padding(top = SpacingMedium),
             value = inputFieldValue,
             onValueChange = { onInputChange(it) },
             trailingIcon = {
@@ -209,7 +209,7 @@ private fun InputFieldWithLabel(
         TeamixTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = SpacingXMedium),
+                .padding(top = SpacingMedium),
             value = inputFieldValue,
             onValueChange = { onInputChange(it) },
         )

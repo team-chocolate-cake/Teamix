@@ -19,7 +19,7 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixOutLinedTextField
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.profile.ProfileInteraction
 import com.chocolate.viewmodel.profile.ProfileUiState
@@ -34,7 +34,7 @@ fun ProfileHorizontalPager(
 ) {
     val color = MaterialTheme.customColors()
     HorizontalPager(
-        modifier = Modifier.padding(top = SpacingXMedium),
+        modifier = Modifier.padding(top = SpacingMedium),
         state = pageState,
         pageCount = 2,
         userScrollEnabled = false

@@ -29,8 +29,8 @@ import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBa
 import com.chocolate.presentation.screens.createchannel.composable.ToggleButton
 import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXMedium
-import com.chocolate.presentation.theme.SpacingXXLarge
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingHuge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
@@ -103,7 +103,7 @@ private fun CreateChannelContent(
                 .padding(SpacingXLarge)
         ) {
             Text(
-                modifier = Modifier.padding(bottom = SpacingXMedium),
+                modifier = Modifier.padding(bottom = SpacingMedium),
                 text = stringResource(id = R.string.channel_name),
                 style = textStyle.labelMedium,
                 color = colors.onBackground87,
@@ -116,7 +116,7 @@ private fun CreateChannelContent(
             )
 
             Text(
-                modifier = Modifier.padding(bottom = SpacingXMedium, top = SpacingXLarge),
+                modifier = Modifier.padding(bottom = SpacingMedium, top = SpacingXLarge),
                 text = stringResource(id = R.string.channel_description),
                 style = textStyle.labelMedium,
                 color = colors.onBackground87,
@@ -133,14 +133,14 @@ private fun CreateChannelContent(
             ToggleButton(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = SpacingXXLarge)
+                    .padding(top = SpacingHuge)
                     .align(alignment = Alignment.End),
                 color = colors.primary,
                 isFilled = true,
                 onClick = { createChannelInteraction.onNextClicked() }
             ) {
                 Text(
-                    modifier = Modifier.padding(bottom = SpacingXMedium, top = SpacingXLarge),
+                    modifier = Modifier.padding(bottom = SpacingMedium, top = SpacingXLarge),
                     text = stringResource(id = R.string.next),
                     style = textStyle.bodyLarge,
                     color = colors.white,

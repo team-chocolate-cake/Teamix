@@ -99,6 +99,8 @@
     <string name="organization_name_not_found">اسم المنظمة غير موجود</string>
     <string name="organization_name_cannot_be_empty">لا يمكن أن يكون اسم المنظمة فارغًا</string>
     <string name="organization_name_or_image_cannot_be_empty">لا يمكن أن يكون اسم المنظمة أو صورتها فارغًا</string>
+    <string name="empty_title_topic">لا يوجد شيء لعرضه</string>
+    <string name="empty_sub_title_topic">ابدأ بإنشاء موضوع وابحث عنه هنا</string>
     <string name="get_stated">بدء</string>
     <string name="welcome_image">صورة الترحيب</string>
     <string name="animatesize">حجم متحرك</string>
@@ -174,5 +176,6 @@
     <string name="have_organization">لديك منظمة</string>
     <string name="saved_topics">الموضوعات المحفوظة</string>
     <string name="confirm_password">تأكيد كلمة المرور</string>
+    <string name="or">او</string>
 
 </resources>

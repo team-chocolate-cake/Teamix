@@ -36,7 +36,7 @@ import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBa
 import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
@@ -84,7 +84,7 @@ fun ChooseMemberContent(
                 style = MaterialTheme.typography.bodyMedium,
                 color = colors.primary,
                 modifier = Modifier
-                    .padding(end = SpacingXMedium)
+                    .padding(end = SpacingMedium)
                     .clickable {
                         chooseMemberInteraction.onActionBarTextClick()
                     }
@@ -135,7 +135,7 @@ fun ChooseMemberContent(
                         LazyRow(
                             Modifier.fillMaxWidth(),
                             contentPadding = PaddingValues(horizontal = SpacingXLarge),
-                            horizontalArrangement = Arrangement.spacedBy(SpacingXMedium)
+                            horizontalArrangement = Arrangement.spacedBy(SpacingMedium)
                         ) {
                             items(
                                 state.selectedMembers,

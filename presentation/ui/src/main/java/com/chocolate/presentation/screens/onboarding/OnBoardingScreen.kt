@@ -28,7 +28,7 @@ import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.organization.navigateToOrganizationName
 import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.SpacingMegaGigantic
-import com.chocolate.presentation.theme.SpacingXXLarge
+import com.chocolate.presentation.theme.SpacingHuge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
@@ -100,7 +100,7 @@ fun OnboardingContent(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = SpacingXXLarge, vertical = SpacingExtraHuge),
+                        .padding(horizontal = SpacingHuge, vertical = SpacingExtraHuge),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {

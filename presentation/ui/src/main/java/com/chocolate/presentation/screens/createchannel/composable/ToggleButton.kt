@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.theme.Border1
 import com.chocolate.presentation.theme.ButtonSize48
 import com.chocolate.presentation.theme.Radius8
-import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXXSmall
 
 @Composable
 fun ToggleButton(
@@ -29,7 +29,7 @@ fun ToggleButton(
         modifier = modifier
             .height(ButtonSize48),
         onClick = onClick,
-        contentPadding = PaddingValues(bottom = SpacingMedium),
+        contentPadding = PaddingValues(bottom = SpacingXXSmall),
         shape = RoundedCornerShape(Radius8),
         colors = if(isFilled) ButtonDefaults.buttonColors(containerColor = color) else ButtonDefaults.buttonColors(containerColor = Color.Transparent),
         border = BorderStroke(width = Border1, color = color)

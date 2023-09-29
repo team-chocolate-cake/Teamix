@@ -41,7 +41,7 @@ import com.chocolate.presentation.theme.SpacingSmall
 import com.chocolate.presentation.theme.SpacingTiny
 import com.chocolate.presentation.theme.SpacingUltraGigantic
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.directmessagechoosemember.DMChooseMembersUiState
 
@@ -79,7 +79,7 @@ fun DMMemberItem(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(SpacingXMedium),
+                .padding(SpacingMedium),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
@@ -93,7 +93,7 @@ fun DMMemberItem(
             Column(
                 modifier = Modifier
                     .wrapContentSize()
-                    .padding(start = SpacingXMedium),
+                    .padding(start = SpacingMedium),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(

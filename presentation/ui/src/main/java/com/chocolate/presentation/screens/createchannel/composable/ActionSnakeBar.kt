@@ -20,9 +20,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.chocolate.presentation.theme.ButtonSize32
+import com.chocolate.presentation.theme.Float3
 import com.chocolate.presentation.theme.Radius12
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXXSmall
 import com.chocolate.presentation.theme.customColors
 import kotlinx.coroutines.delay
 
@@ -66,11 +67,11 @@ fun ActionSnakeBar(
         ) {
             Snackbar(shape = RoundedCornerShape(Radius12)) {
                 Row(
-                    modifier = Modifier.padding(vertical = SpacingMedium),
+                    modifier = Modifier.padding(vertical = SpacingXXSmall),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        modifier = Modifier.weight(3f),
+                        modifier = Modifier.weight(Float3),
                         text = contentMessage,
                         style = textStyle.bodyMedium
                     )

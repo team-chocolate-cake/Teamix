@@ -25,7 +25,6 @@ fun NotFoundResultLottie(
     modifier: Modifier = Modifier,
     isPlaying: Boolean = true,
     isShow: Boolean,
-    isDarkMode: Boolean,
     backgroundColor: Color = MaterialTheme.customColors().background
 )  {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.search_not_found))

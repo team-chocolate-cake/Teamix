@@ -33,7 +33,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.NoInternetLottie
@@ -44,8 +43,9 @@ import com.chocolate.presentation.screens.channel.navigateToChannel
 import com.chocolate.presentation.screens.search.composable.ChannelSearchItem
 import com.chocolate.presentation.screens.search.composable.SearchLottie
 import com.chocolate.presentation.theme.LightCard
+import com.chocolate.presentation.theme.SpacingExtraHuge
+import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
@@ -93,7 +93,10 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
         },
         onRetry = { searchInteraction.onClickRetry() },
     ) { paddingValues ->
-        systemUiController.setStatusBarColor(MaterialTheme.customColors().card, darkIcons = isDarkIcons)
+        systemUiController.setStatusBarColor(
+            MaterialTheme.customColors().card,
+            darkIcons = isDarkIcons
+        )
 
         Column(
             modifier = Modifier
@@ -142,14 +145,14 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
                 ) {
                     CircularProgressIndicator(
                         color = colors.primary,
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.size(SpacingExtraHuge)
                     )
                 }
             }
             LazyColumn(
                 modifier = Modifier.wrapContentSize(),
                 contentPadding = PaddingValues(SpacingXLarge),
-                verticalArrangement = Arrangement.spacedBy(SpacingXMedium)
+                verticalArrangement = Arrangement.spacedBy(SpacingMedium)
             ) {
                 items(state.channelsUiState, key = { item ->
                     item.id
@@ -171,7 +174,6 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
                     .fillMaxWidth()
                     .align(Alignment.CenterHorizontally),
                 isShow = query.value.isEmpty() && !state.showNoInternetLottie,
-                isDarkMode = isSystemInDarkTheme(),
             )
             ShowNotFoundResultLottie(
                 isShow = state.isChannelsEmpty &&
@@ -189,7 +191,6 @@ private fun ShowNotFoundResultLottie(isShow: Boolean) {
                 .fillMaxWidth()
                 .align(Alignment.CenterHorizontally),
             isShow = isShow,
-            isDarkMode = isSystemInDarkTheme(),
         )
     }
 }

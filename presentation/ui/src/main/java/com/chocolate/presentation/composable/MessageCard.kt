@@ -33,10 +33,10 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.chocolate.presentation.theme.SpacingMassive
-import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXXSmall
 import com.chocolate.presentation.theme.SpacingTiny
-import com.chocolate.presentation.theme.SpacingXMedium
-import com.chocolate.presentation.theme.SpacingXXLarge
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingHuge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.topicmessages.MessageUiState
 
@@ -61,10 +61,10 @@ fun MessageCard(
         modifier = modifier
             .fillMaxWidth()
             .padding(
-                end = SpacingXXLarge,
+                end = SpacingHuge,
                 start = SpacingTiny
             )
-            .padding(horizontal = SpacingXMedium)
+            .padding(horizontal = SpacingMedium)
     ) {
         val (image, messageCard, emojis) = createRefs()
 
@@ -72,7 +72,7 @@ fun MessageCard(
             model = ImageRequest.Builder(LocalContext.current).data(messageUiState.userImage)
                 .build(),
             modifier = Modifier
-                .padding(end = SpacingXMedium)
+                .padding(end = SpacingMedium)
                 .clip(CircleShape)
                 .size(SpacingMassive)
                 .constrainAs(image) {
@@ -91,7 +91,7 @@ fun MessageCard(
                 .fillMaxWidth()
                 .wrapContentSize(align = Alignment.CenterStart)
                 .padding(
-                    end = SpacingXXLarge
+                    end = SpacingHuge
                 )
                 .constrainAs(messageCard) {
                     start.linkTo(image.end)
@@ -115,7 +115,7 @@ fun MessageCard(
             )
         ) {
             Column(
-                modifier = Modifier.padding(SpacingXMedium)
+                modifier = Modifier.padding(SpacingMedium)
             ) {
                 Row {
                     Text(
@@ -127,7 +127,7 @@ fun MessageCard(
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(start = SpacingXMedium),
+                            .padding(start = SpacingMedium),
                         textAlign = TextAlign.Start,
                         text = messageUiState.replayDate,
                         style = MaterialTheme.typography.bodySmall,
@@ -144,10 +144,10 @@ fun MessageCard(
                             .data(messageUiState.messageImageUrl)
                             .build(),
                         modifier = Modifier
-                            .padding(bottom = SpacingMedium)
+                            .padding(bottom = SpacingXXSmall)
                             .fillMaxWidth()
                             .height(150.dp)
-                            .clip(RoundedCornerShape(SpacingXMedium)),
+                            .clip(RoundedCornerShape(SpacingMedium)),
                         contentDescription = "",
                         contentScale = ContentScale.FillWidth
                     )

@@ -27,7 +27,7 @@ import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBa
 import com.chocolate.presentation.screens.savedmessages.composable.SaveLaterCard
 import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.savedmessage.SavedMessageInteraction
 import com.chocolate.viewmodel.savedmessage.SaveMessageUiState
@@ -65,7 +65,7 @@ fun SaveLaterContent(state: SaveMessageUiState, interaction: SavedMessageInterac
         LazyColumn(
             modifier = Modifier.padding(padding),
             contentPadding = PaddingValues(SpacingXLarge),
-            verticalArrangement = Arrangement.spacedBy(SpacingXMedium)
+            verticalArrangement = Arrangement.spacedBy(SpacingMedium)
         ) {
             items(state.messages, key = { it.id }) { message ->
                 SwipeCard(

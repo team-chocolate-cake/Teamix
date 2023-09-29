@@ -13,9 +13,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.chocolate.presentation.R
+import com.chocolate.presentation.theme.Float1
+import com.chocolate.presentation.theme.Radius4
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingSmall
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXMedium
 
 @Composable
 fun SeparatorWithText(modifier: Modifier = Modifier) {
@@ -28,24 +32,24 @@ fun SeparatorWithText(modifier: Modifier = Modifier) {
     ) {
         Box(
             modifier = Modifier
-                .weight(1f)
-                .height(1.dp)
+                .weight(Float1)
+                .height(SpacingSmall)
                 .background(Color.Gray)
-                .padding(horizontal = SpacingXMedium)
+                .padding(horizontal = SpacingMedium)
         )
         Text(
-            text = "OR",
+            text = stringResource(id = R.string.or),
             color = Color.Gray,
             modifier = Modifier
-                .background(Color.Transparent, shape = RoundedCornerShape(4.dp))
-                .padding(horizontal = SpacingXMedium)
+                .background(Color.Transparent, shape = RoundedCornerShape(Radius4))
+                .padding(horizontal = SpacingMedium)
         )
         Box(
             modifier = Modifier
-                .weight(1f)
-                .height(1.dp)
+                .weight(Float1)
+                .height(SpacingSmall)
                 .background(Color.Gray)
-                .padding(horizontal = SpacingXMedium)
+                .padding(horizontal = SpacingMedium)
         )
     }
 }

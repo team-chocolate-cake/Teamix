@@ -8,7 +8,7 @@ import androidx.navigation.navArgument
 import com.chocolate.presentation.Screen
 import com.chocolate.viewmodel.topicmessages.TopicMessagesArgs
 
-fun NavGraphBuilder.topicRoute(){
+fun NavGraphBuilder.topicMessageRoute(){
     composable(
         route = "${Screen.Topic.route}/{${TopicMessagesArgs.CHANNEL_ID}}/{${TopicMessagesArgs.TOPIC_ID}}/{${TopicMessagesArgs.TOPIC_NAME}}",
         arguments = listOf(
@@ -17,10 +17,10 @@ fun NavGraphBuilder.topicRoute(){
             navArgument(TopicMessagesArgs.TOPIC_NAME) { NavType.StringType }
         )
     ){
-        TopicScreen()
+        TopicMessageScreen()
     }
 }
 
-fun NavController.navigateToTopic(channelId:Int,topicId:String,topicName: String){
+fun NavController.navigateToTopicMessage(channelId:Int, topicId:String, topicName: String){
     navigate("${Screen.Topic.route}/$channelId/$topicId/$topicName")
 }

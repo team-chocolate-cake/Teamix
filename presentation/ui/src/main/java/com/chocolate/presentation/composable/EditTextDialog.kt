@@ -19,9 +19,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.chocolate.presentation.R
+import com.chocolate.presentation.theme.Radius24
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXXSmall
 import com.chocolate.presentation.theme.customColors
 
 @Composable
@@ -44,12 +47,12 @@ fun EditTextDialog(
     Dialog(onDismiss) {
         Surface(shape = MaterialTheme.shapes.medium) {
             Column {
-                Column(Modifier.padding(24.dp)) {
+                Column(Modifier.padding(Radius24)) {
                     Text(
                         text = title,
                         style = MaterialTheme.typography.bodyLarge,
                     )
-                    Spacer(Modifier.size(16.dp))
+                    Spacer(Modifier.size(SpacingXLarge))
                     TeamixOutLinedTextField(
                         text = text,
                         onValueChange = {
@@ -61,12 +64,12 @@ fun EditTextDialog(
                         error = error
                     )
                 }
-                Spacer(Modifier.size(4.dp))
+                Spacer(Modifier.size(SpacingXXSmall))
                 Row(
                     Modifier
-                        .padding(8.dp)
+                        .padding(SpacingMedium)
                         .fillMaxWidth(),
-                    Arrangement.spacedBy(8.dp, Alignment.End),
+                    Arrangement.spacedBy(SpacingMedium, Alignment.End),
                 ) {
                     TextButton(
                         onClick = dismissButton,

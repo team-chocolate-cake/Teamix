@@ -1,7 +1,6 @@
 package com.chocolate.presentation.screens.profile.composable
 
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -16,7 +15,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,14 +41,11 @@ import com.chocolate.viewmodel.profile.ProfileUiState
 fun ProfileImage(state: ProfileUiState, onImageChangeClick: (newUri: Uri) -> Unit) {
     val context = LocalContext.current
     val color = MaterialTheme.customColors()
-    LaunchedEffect(key1 = state.imageUrl, ){
-        Log.i("IMAGE",state.imageUrl)
-    }
+
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
-    ){ uri: Uri? ->
+    ) { uri: Uri? ->
         uri?.let {
-
             onImageChangeClick(it)
         }
     }

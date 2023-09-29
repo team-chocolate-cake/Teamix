@@ -19,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.DirectMessageChat
@@ -28,6 +27,7 @@ import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.directmessagechat.navigateToDmChat
 import com.chocolate.presentation.screens.directmessagechoosemember.navigateToDMChooseMember
 import com.chocolate.presentation.theme.LightCard
+import com.chocolate.presentation.theme.Radius8
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
@@ -117,7 +117,7 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
             )
             LazyColumn(
                 modifier = Modifier.padding(horizontal = SpacingXLarge),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(Radius8)
             ) {
                 items(state.chats.size) {
                     DirectMessageChat(

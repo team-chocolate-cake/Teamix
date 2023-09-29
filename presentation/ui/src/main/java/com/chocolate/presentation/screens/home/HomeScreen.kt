@@ -2,7 +2,6 @@ package com.chocolate.presentation.screens.home
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -31,9 +30,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,28 +38,30 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.Screen
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.channel.navigateToChannel
 import com.chocolate.presentation.screens.createchannel.navigateToCreateChannel
-import com.chocolate.presentation.screens.savedtopics.navigateToSavedTopics
 import com.chocolate.presentation.screens.home.composable.BadgeHome
 import com.chocolate.presentation.screens.home.composable.ChannelItem
-import com.chocolate.presentation.screens.home.composable.ManageChannelBottomSheet
 import com.chocolate.presentation.screens.organization.navigateToOrganizationName
 import com.chocolate.presentation.screens.savedmessages.navigateToSavedMessage
-import com.chocolate.presentation.screens.topicmessages.navigateToTopic
+import com.chocolate.presentation.screens.savedtopics.navigateToSavedTopics
+import com.chocolate.presentation.screens.topicmessages.navigateToTopicMessage
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Float1
+import com.chocolate.presentation.theme.Height96
 import com.chocolate.presentation.theme.OnLightPrimary
-import com.chocolate.presentation.theme.SpacingLarge
+import com.chocolate.presentation.theme.Radius12
 import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXHuge
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingXXMedium
+import com.chocolate.presentation.theme.SpacingXXSmall
 import com.chocolate.presentation.theme.TeamixTheme
+import com.chocolate.presentation.theme.Width140
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
@@ -95,7 +93,7 @@ fun HomeScreen(
 
             HomeUiEffect.NavigationToDrafts -> navController.navigateToSavedTopics()
             HomeUiEffect.NavigationToSavedLater -> navController.navigateToSavedMessage()
-            is HomeUiEffect.NavigateToTopic -> navController.navigateToTopic(
+            is HomeUiEffect.NavigateToTopic -> navController.navigateToTopicMessage(
                 effect.channelId, effect.topicId, effect.topicName
             )
 
@@ -113,11 +111,6 @@ fun HomeScreen(
 fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
     val colors = MaterialTheme.customColors()
 
-
-    var isShowSheet by remember { mutableStateOf(false) }
-    AnimatedVisibility(isShowSheet) {
-        ManageChannelBottomSheet(onDismissBottomSheet = { isShowSheet = false }, colors = colors)
-    }
     TeamixScaffold(
         modifier = Modifier.fillMaxSize(),
         containerColorAppBar = MaterialTheme.customColors().primary,
@@ -136,13 +129,13 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                 .fillMaxSize()
                 .padding(paddingValue),
             contentPadding = PaddingValues(vertical = SpacingXLarge),
-            verticalArrangement = Arrangement.spacedBy(SpacingXMedium),
+            verticalArrangement = Arrangement.spacedBy(SpacingMedium),
         ) {
             item {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = SpacingLarge)
+                        .padding(horizontal = SpacingXXMedium)
                         .wrapContentHeight(),
                     horizontalArrangement = Arrangement.SpaceAround,
                 ) {
@@ -153,7 +146,7 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                         colors = colors,
                         onClickItemCard = { homeInteraction.onClickDrafts() },
                         modifier = Modifier
-                            .padding(horizontal = SpacingMedium)
+                            .padding(horizontal = SpacingXXSmall)
                             .weight(Float1)
                     )
 
@@ -164,7 +157,7 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                         colors = colors,
                         onClickItemCard = { homeInteraction.onClickSavedLater() },
                         modifier = Modifier
-                            .padding(horizontal = SpacingMedium)
+                            .padding(horizontal = SpacingXXSmall)
                             .weight(Float1)
                     )
                 }
@@ -179,7 +172,7 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                         style = MaterialTheme.typography.bodyLarge,
                         color = colors.onBackground87,
                         modifier = Modifier
-                            .padding(top = SpacingXMedium)
+                            .padding(top = SpacingMedium)
                             .padding(horizontal = SpacingXLarge)
                             .weight(Float1)
                     )
@@ -213,8 +206,6 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                 )
             }
         }
-
-        Log.d("123123123", "HomeContent: ${state.isLoading}")
         AnimatedVisibility(visible = state.isLoading) {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -235,9 +226,9 @@ private fun CardItem(
 ) {
     Box(
         modifier = modifier
-            .width(140.dp)
-            .height(96.dp)
-            .clip(RoundedCornerShape(12.dp))
+            .width(Width140)
+            .height(Height96)
+            .clip(RoundedCornerShape(Radius12))
             .background(colors.card)
             .clickable { onClickItemCard() },
         contentAlignment = Alignment.Center
@@ -250,14 +241,14 @@ private fun CardItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.End)
-                    .padding(end = SpacingMedium, top = SpacingMedium)
+                    .padding(end = SpacingXXSmall, top = SpacingXXSmall)
             )
             Icon(
                 painter = painter,
                 contentDescription = "icons",
                 modifier = Modifier
                     .wrapContentSize()
-                    .padding(bottom = SpacingXMedium)
+                    .padding(bottom = SpacingMedium)
                     .align(Alignment.CenterHorizontally),
                 tint = colors.onBackground60,
             )
@@ -267,7 +258,7 @@ private fun CardItem(
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 26.dp),
+                    .padding(horizontal = SpacingXHuge),
                 textAlign = TextAlign.Center
             )
         }

@@ -27,8 +27,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.Radius12
 import com.chocolate.presentation.theme.SpacingMassive
+import com.chocolate.presentation.theme.SpacingXXSmall
 import com.chocolate.presentation.theme.SpacingMedium
-import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.savedmessage.MessageItemUiState
 
@@ -47,8 +47,8 @@ fun SaveLaterCard(item: MessageItemUiState, painter: Painter) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(SpacingXMedium),
-            horizontalArrangement = Arrangement.spacedBy(SpacingXMedium)
+                .padding(SpacingMedium),
+            horizontalArrangement = Arrangement.spacedBy(SpacingMedium)
         ) {
             Image(
                 painter = painter,
@@ -59,7 +59,7 @@ fun SaveLaterCard(item: MessageItemUiState, painter: Painter) {
                     .align(Alignment.CenterVertically),
                 contentScale = ContentScale.Crop
             )
-            Column(verticalArrangement = Arrangement.spacedBy(SpacingMedium)) {
+            Column(verticalArrangement = Arrangement.spacedBy(SpacingXXSmall)) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
@@ -94,7 +94,7 @@ private fun Preview() {
         item = MessageItemUiState(
             id = "50",
             imageUrl = "https://i.pinimg.com/originals/bf/31/9c/bf319cbf55fa59d5e7516506900a3144.jpg",
-            messageContent = "hmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+            messageContent = "content",
             time = "13:40",
             username = "kareem"
         ),

@@ -13,8 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -23,7 +23,7 @@ import com.chocolate.presentation.composable.EmptyDataWithBoxLottie
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.channel.composable.TopicCard
 import com.chocolate.presentation.screens.createtopic.navigateToCreateTopic
-import com.chocolate.presentation.screens.topicmessages.navigateToTopic
+import com.chocolate.presentation.screens.topicmessages.navigateToTopicMessage
 import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.TeamixTheme
@@ -44,7 +44,7 @@ fun ChannelScreen(
     val state by channelViewModel.state.collectAsState()
     CollectUiEffect(channelViewModel.effect) { channelUiEffect ->
         when (channelUiEffect) {
-            is ChannelUiEffect.NavigateToTopicDetails -> navController.navigateToTopic(
+            is ChannelUiEffect.NavigateToTopicDetails -> navController.navigateToTopicMessage(
                 channelUiEffect.channelId,
                 channelUiEffect.topicId,
                 channelUiEffect.topicName
@@ -83,7 +83,7 @@ fun ChannelContent(
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.add),
-                    tint = Color.White,
+                    tint = MaterialTheme.customColors().onPrimary,
                     contentDescription = ""
                 )
             }
@@ -109,8 +109,8 @@ fun ChannelContent(
                     modifier = Modifier.padding(padding),
                     isPlaying = true,
                     isShow = state.topics.isEmpty() && !state.isLoading,
-                    title = "there is nothing to show",
-                    subTitle = "Start Create topic and  find it here"
+                    title = stringResource(id = R.string.empty_title_topic),
+                    subTitle = stringResource(id = R.string.empty_sub_title_topic)
                 )
             }
 

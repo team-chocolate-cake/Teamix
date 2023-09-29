@@ -16,7 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.customColors
 
 @Composable
@@ -36,7 +36,7 @@ fun BottomNavigation(navController: NavController) {
     val color = MaterialTheme.customColors()
     Box( modifier = Modifier
         .background(color.card)
-        .padding(horizontal = SpacingXMedium)) {
+        .padding(horizontal = SpacingMedium)) {
         NavigationBar(
             containerColor = color.card,
         ) {

@@ -33,7 +33,7 @@ import com.chocolate.presentation.screens.directmessagechat.navigateToDmChat
 import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.LocalNavController
@@ -92,7 +92,7 @@ fun DirectMessageChooseMemberContent(
                 style = MaterialTheme.typography.bodyMedium,
                 color = colors.primary,
                 modifier = Modifier
-                    .padding(end = SpacingXMedium)
+                    .padding(end = SpacingMedium)
                     .clickable {
                         if (state.selectedMembersUiState != null) {
                             interaction.onClickOk()

@@ -30,9 +30,12 @@ import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
-import com.chocolate.presentation.screens.topicmessages.navigateToTopic
+import com.chocolate.presentation.screens.topicmessages.navigateToTopicMessage
+import com.chocolate.presentation.theme.Float1
 import com.chocolate.presentation.theme.LightCard
-import com.chocolate.presentation.theme.SpacingXXLarge
+import com.chocolate.presentation.theme.SpacingHuge
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
@@ -55,7 +58,7 @@ fun CreateTopicScreen(
         when (createTopicEffect) {
             is CreateTopicEffect.NavigateToTopicScreen -> {
                 navController.popBackStack()
-                navController.navigateToTopic(
+                navController.navigateToTopicMessage(
                     channelId = createTopicEffect.channelId.toInt(),
                     topicId = createTopicEffect.topicId,
                     topicName = createTopicEffect.topicName,
@@ -106,7 +109,7 @@ fun CreateChannelContent(
             TextInputField(
                 modifier = Modifier
                     .wrapContentSize()
-                    .padding(16.dp, 16.dp, 16.dp, 16.dp),
+                    .padding(SpacingXLarge),
                 textInputLabel = stringResource(R.string.topic_name),
                 onValueChange = createTopicInteraction::onTopicNameChange,
                 value = state.name
@@ -115,7 +118,7 @@ fun CreateChannelContent(
             TextInputField(
                 modifier = Modifier
                     .wrapContentSize()
-                    .padding(start = 16.dp, end = 8.dp, bottom = 24.dp),
+                    .padding(start = SpacingXLarge, end = SpacingMedium, bottom = SpacingHuge),
                 textInputLabel = stringResource(R.string.topic_content),
                 onValueChange = createTopicInteraction::onTopicContentChange,
                 value = state.content,
@@ -130,13 +133,13 @@ fun CreateChannelContent(
                 colors = colors,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = SpacingXLarge)
             ) {
                 AnimatedVisibility(visible = state.isLoading) {
                     CircularProgressIndicator(
                         color = colors.card,
                         modifier = Modifier
-                            .size(SpacingXXLarge)
+                            .size(SpacingHuge)
                             .align(Alignment.CenterVertically)
                     )
                 }
@@ -148,7 +151,7 @@ fun CreateChannelContent(
                     )
                 }
             }
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(Float1))
             state.error?.let {
                 ActionSnakeBar(
                     isVisible = true,

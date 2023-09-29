@@ -20,13 +20,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.EmptyDataWithBoxLottie
-import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.SwipeCard
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.savedtopics.composable.SavedTopicsCard
 import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.savedTopics.SavedTopicsInteraction
 import com.chocolate.viewmodel.savedTopics.SavedTopicsUiState
@@ -62,7 +61,7 @@ fun SavedTopicsContent(state: SavedTopicsUiState, savedTopicsInteraction: SavedT
         LazyColumn(
             modifier = Modifier.padding(padding),
             contentPadding = PaddingValues(SpacingXLarge),
-            verticalArrangement = Arrangement.spacedBy(SpacingXMedium)
+            verticalArrangement = Arrangement.spacedBy(SpacingMedium)
         ) {
             items(state.topics) { savedTopicsItem ->
                 SwipeCard(

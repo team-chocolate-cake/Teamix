@@ -29,13 +29,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.chocolate.presentation.R
-import com.chocolate.presentation.theme.CardHeight56
+import com.chocolate.presentation.theme.Height56
 import com.chocolate.presentation.theme.CustomColorsPalette
-import com.chocolate.presentation.theme.SpacingLarge
+import com.chocolate.presentation.theme.SpacingXXMedium
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingXMedium
+import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.Thickness2
-import com.chocolate.viewmodel.main.MainViewModel
 import com.chocolate.viewmodel.profile.ProfileInteraction
 import kotlinx.coroutines.launch
 
@@ -54,8 +53,8 @@ fun ProfileSettingsPage(
             Box(
                 Modifier
                     .fillMaxWidth()
-                    .padding(top = SpacingXMedium)
-                    .clip(RoundedCornerShape(SpacingLarge))
+                    .padding(top = SpacingMedium)
+                    .clip(RoundedCornerShape(SpacingXXMedium))
                     .wrapContentHeight()
                     .background(color.card)
             ) {
@@ -72,14 +71,14 @@ fun ProfileSettingsPage(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(CardHeight56)
+                            .height(Height56)
                             .padding(horizontal = SpacingXLarge),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.dark_mode_icon),
                             contentDescription = null,
-                            modifier = Modifier.padding(end = SpacingXMedium),
+                            modifier = Modifier.padding(end = SpacingMedium),
                             tint = color.onBackground60
                         )
                         Text(

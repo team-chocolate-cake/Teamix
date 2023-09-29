@@ -1,5 +1,6 @@
 package com.chocolate.presentation
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -16,6 +17,7 @@ import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.LocalNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun TeamixApp(isDarkMode:Boolean) {
     val navController = rememberNavController()

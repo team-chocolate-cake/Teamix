@@ -25,9 +25,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.R
+import com.chocolate.presentation.theme.SpacingExtraHuge
+import com.chocolate.presentation.theme.SpacingXXMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.LocalNavController
 
@@ -48,7 +49,7 @@ fun TeamixAppBar(
     val navController = LocalNavController.current
     TopAppBar(
         modifier = modifier,
-        actions = {actions()},
+        actions = { actions() },
         title = {
             Row(
                 modifier = Modifier
@@ -61,8 +62,8 @@ fun TeamixAppBar(
                         painter = rememberAsyncImagePainter(model = imageUrl),
                         contentDescription = stringResource(R.string.image_stream),
                         modifier = Modifier
-                            .padding(end = 12.dp)
-                            .size(32.dp)
+                            .padding(end = SpacingXXMedium)
+                            .size(SpacingExtraHuge)
                             .clip(CircleShape),
                         contentScale = ContentScale.FillBounds
                     )

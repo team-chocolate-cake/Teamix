@@ -3,15 +3,16 @@ package com.chocolate.presentation.screens.onboarding
 import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,8 +27,8 @@ import com.chocolate.presentation.Screen
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.organization.navigateToOrganizationName
+import com.chocolate.presentation.theme.Float1
 import com.chocolate.presentation.theme.SpacingExtraHuge
-import com.chocolate.presentation.theme.SpacingMegaGigantic
 import com.chocolate.presentation.theme.SpacingHuge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
@@ -70,66 +71,56 @@ fun OnboardingContent(
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
     val colors = MaterialTheme.customColors()
-    TeamixScaffold{
-        LazyColumn(
+    TeamixScaffold {
+        Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(it)
+                .fillMaxSize().verticalScroll(rememberScrollState())
         ) {
-            item {
-                HorizontalPager(
-                    modifier = Modifier,
-                    pageCount = onboardingPages.size,
-                    state = pagerState,
-                    verticalAlignment = Alignment.Top
-                ) { position ->
-                    PagerScreen(
-                        onBoardingPage = onboardingPages[position],
-                        stringResource(R.string.onboarding_image)
-                    )
-                }
-            }
-            item {
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(SpacingMegaGigantic)
+            HorizontalPager(
+                modifier = Modifier,
+                pageCount = onboardingPages.size,
+                state = pagerState,
+                verticalAlignment = Alignment.Top
+            ) { position ->
+                PagerScreen(
+                    onBoardingPage = onboardingPages[position],
+                    stringResource(R.string.onboarding_image)
                 )
             }
-            item {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = SpacingHuge, vertical = SpacingExtraHuge),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    PageIndicator(
-                        numberOfPages = onboardingPages.size,
-                        selectedPage = pagerState.currentPage
-                    )
-                    TeamixButton(
-                        onClick = {
-                            if (pagerState.currentPage != 2) {
-                                coroutineScope.launch {
-                                    pagerState.scrollToPage(pagerState.currentPage + 1)
-                                }
-                            } else {
-                                onboardingInteraction.onClickLetsStart()
+            Spacer(
+                modifier = Modifier.weight(Float1)
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = SpacingHuge, vertical = SpacingExtraHuge),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                PageIndicator(
+                    numberOfPages = onboardingPages.size,
+                    selectedPage = pagerState.currentPage
+                )
+                TeamixButton(
+                    onClick = {
+                        if (pagerState.currentPage != 2) {
+                            coroutineScope.launch {
+                                pagerState.scrollToPage(pagerState.currentPage + 1)
                             }
-                        },
-                        colors = colors
-                    ) {
-                        Text(
-                            text = if (pagerState.currentPage != 2) stringResource(R.string.next) else stringResource(
-                                R.string.lets_start
-                            ),
-                            style = MaterialTheme.typography.titleMedium,
-                            color = colors.onPrimary
-                        )
-                    }
+                        } else {
+                            onboardingInteraction.onClickLetsStart()
+                        }
+                    },
+                    colors = colors
+                ) {
+                    Text(
+                        text = if (pagerState.currentPage != 2) stringResource(R.string.next) else stringResource(
+                            R.string.lets_start
+                        ),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = colors.onPrimary
+                    )
                 }
-
             }
         }
     }

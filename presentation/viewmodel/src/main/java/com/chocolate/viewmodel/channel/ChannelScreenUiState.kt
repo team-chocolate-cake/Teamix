@@ -25,7 +25,7 @@ fun List<Topic>.toUiState(): List<TopicState> {
     return map {
         TopicState(
             id = it.topicId,
-            creatorName = it.senderName,
+            creatorName = if (it.senderName.length < 13) it.senderName else "${it.senderName.take(12)}...",
             creatorImage = it.senderImage,
             topicContent = it.name,
             sentTime = it.sentTime.toStringDate()

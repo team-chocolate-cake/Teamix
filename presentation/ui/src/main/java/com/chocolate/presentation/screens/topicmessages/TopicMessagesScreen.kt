@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -99,6 +100,8 @@ fun TopicContent(
                             .padding(top = SpacingLarge),
                         messageUiState = topicUiState.messages[it],
                         onSaveMessage = { topicInteraction.onSaveMessage(topicUiState.messages[it]) },
+                        messageMaxLines = 2,
+                        messageOverflow = TextOverflow.Ellipsis,
                     )
                 }
             }

@@ -78,7 +78,6 @@ fun ProfileScreen(
     val pageState = rememberPagerState(initialPage = 0)
     val scrollState = rememberScrollState()
 
-
     CollectUiEffect(viewModel.effect) { effect ->
         when (effect) {
             ProfileEffect.NavigateToOrganizationScreen -> {

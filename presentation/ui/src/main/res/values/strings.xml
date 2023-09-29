@@ -65,7 +65,7 @@
     <string name="permissions_roles"><![CDATA[Permissions & Roles]]></string>
     <string name="edit_organization_image">Edit Organization Image</string>
     <string name="edit_organization_name">Edit Organization Name</string>
-    <string name="invites_user">" Invites User"</string>
+    <string name="invites_user">Invites User</string>
     <string name="delete_channel">Delete Channel</string>
     <string name="create_channel">Create Channel</string>
     <string name="public_text">Public</string>
@@ -117,7 +117,7 @@
     <string name="channel_description">Channel Description (optional)</string>
     <string name="status">Status</string>
     <string name="skip">Skip</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="choose_members">Choose Members</string>
     <string name="recent_search">Recent Search</string>
     <string name="members">Members</string>

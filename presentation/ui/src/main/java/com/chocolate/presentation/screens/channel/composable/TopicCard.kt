@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.ContentOptionsBottomSheet
-import com.chocolate.presentation.theme.SpacingGigantic
+import com.chocolate.presentation.theme.SpacingMassive
 import com.chocolate.presentation.theme.SpacingSmall
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.SpacingXSmall
@@ -68,15 +68,15 @@ fun TopicCard(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Row {
+        Row(Modifier.weight(1f)) {
             Image(
                 painter = rememberAsyncImagePainter(model = topic.creatorImage),
                 contentDescription = null,
                 modifier = Modifier
                     .padding(horizontal = SpacingXMedium, vertical = SpacingXMedium)
-                    .size(SpacingGigantic)
+                    .size(SpacingMassive)
                     .clip(CircleShape)
-                    .align(Alignment.CenterVertically),
+                    .align(Alignment.Top),
                 contentScale = ContentScale.Crop
             )
             Column {
@@ -85,7 +85,8 @@ fun TopicCard(
                         text = topic.creatorName,
                         color = MaterialTheme.customColors().primary,
                         style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.SemiBold
+                        fontWeight = FontWeight.SemiBold,
+
                     )
                     Text(
                         modifier = Modifier.padding(start = SpacingXMedium),
@@ -108,7 +109,6 @@ fun TopicCard(
             }
 
         }
-
 
         Icon(
             tint = MaterialTheme.customColors().onBackground87,

@@ -1,11 +1,10 @@
 package com.chocolate.viewmodel.topicmessages
 
-import android.annotation.SuppressLint
 import com.chocolate.entities.entity.Member
-import com.chocolate.entities.entity.UserRole
 import com.chocolate.entities.entity.Message
 import com.chocolate.entities.entity.SavedMessage
 import com.chocolate.entities.entity.Topic
+import com.chocolate.entities.entity.UserRole
 import com.chocolate.entities.util.Empty
 import com.chocolate.entities.util.toStringDate
 import com.chocolate.viewmodel.home.TopicUiState
@@ -16,7 +15,7 @@ fun Message.toUiState(): MessageUiState =
     MessageUiState(
         replayDate = timestamp.toStringDate(),
         id = id.toInt(),
-        userId=senderId,
+        userId = senderId,
         message = messageContent,
         username = senderFullName,
         userImage = senderAvatarUrl
@@ -25,19 +24,6 @@ fun Message.toUiState(): MessageUiState =
 @JvmName("MessagesToMessagesUiState")
 fun List<Message>.toUiState(): List<MessageUiState> =
     this.map { it.toUiState() }
-
-@SuppressLint("SimpleDateFormat")
-@JvmName("MessageUiStateToMessage")
-fun MessageUiState.toMessage(): Message {
-    return Message(
-        id = id.toString(),
-        senderId=userId,
-        messageContent = message,
-        senderFullName = username,
-        senderAvatarUrl = userImage,
-        timestamp= Date(),
-    )
-}
 
 @JvmName("MessageUiStateToSavedLaterMessage")
 fun MessageUiState.toEntity(): SavedMessage {

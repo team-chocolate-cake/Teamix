@@ -8,7 +8,6 @@ import com.chocolate.entities.entity.Message
 import com.chocolate.entities.util.Empty
 import com.chocolate.usecases.directmessage.ManageDirectMessageUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
-import com.chocolate.usecases.message.ManageTopicMessagesUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.topicmessages.MessageUiState
 import com.chocolate.viewmodel.topicmessages.TopicMessagesInteraction

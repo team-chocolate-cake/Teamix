@@ -1,15 +1,15 @@
 package com.chocolate.viewmodel.home
 
 import com.chocolate.entities.entity.Channel
+import com.chocolate.entities.entity.Member
 import com.chocolate.entities.util.EmptyMemberIdException
 import com.chocolate.entities.util.EmptyOrganizationNameException
 import com.chocolate.entities.util.NoConnectionException
-import com.chocolate.entities.entity.Member
 import com.chocolate.usecases.channel.ManageChannelUseCase
 import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
 import com.chocolate.usecases.member.IsMemberLoggedInUseCase
-import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
+import com.chocolate.usecases.organization.ManageOrganizationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.profile.toOwnerUserUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,10 +19,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val isMemberLoggedInUseCase: IsMemberLoggedInUseCase,
     private val manageChannelUseCase: ManageChannelUseCase,
-    private val manageOrganizationDetails: ManageOrganizationDetailsUseCase,
+    private val manageOrganizationUseCase: ManageOrganizationUseCase,
     private val getCurrentMemberUseCase: GetCurrentMemberUseCase,
+    private val isMemberLoggedInUseCase: IsMemberLoggedInUseCase,
     private val customizeProfileSettings: CustomizeProfileSettingsUseCase,
 ) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()), HomeInteraction {
     init {
@@ -89,7 +89,7 @@ class HomeViewModel @Inject constructor(
     private fun getOrganizationImage() {
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
-            manageOrganizationDetails::getOrganizationImage,
+            manageOrganizationUseCase::getOrganizationImage,
             ::onGettingOrganizationImageSuccess,
             ::onError
         )
@@ -109,7 +109,7 @@ class HomeViewModel @Inject constructor(
     private fun getOrganizationName() {
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
-            manageOrganizationDetails::getOrganizationName,
+            manageOrganizationUseCase::getOrganizationName,
             ::onGettingOrganizationNameSuccess,
             ::onError
         )

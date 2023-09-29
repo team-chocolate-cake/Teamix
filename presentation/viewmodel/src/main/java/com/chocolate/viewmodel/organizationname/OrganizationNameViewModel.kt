@@ -4,7 +4,7 @@ import com.chocolate.entities.util.EmptyOrganizationNameException
 import com.chocolate.entities.util.NoConnectionException
 import com.chocolate.entities.util.OrganizationNotFoundException
 import com.chocolate.usecases.onboarding.ManageUserUsedAppUseCase
-import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
+import com.chocolate.usecases.organization.ManageOrganizationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OrganizationNameViewModel @Inject constructor(
-    private val manageOrganizationDetails: ManageOrganizationDetailsUseCase,
+    private val manageOrganizationUseCase: ManageOrganizationUseCase,
     private val stringsResource: StringsResource,
     private val manageUserUsedApp: ManageUserUsedAppUseCase,
 ) : BaseViewModel<OrganizationNameUiState, OrganizationNameUiEffect>(OrganizationNameUiState()),
@@ -29,7 +29,7 @@ class OrganizationNameViewModel @Inject constructor(
     override fun onEnterButtonClick(organizationName: String) {
         _state.update { it.copy(isLoading = true) }
         tryToExecute(
-            { manageOrganizationDetails.organizationSignIn(organizationName) },
+            { manageOrganizationUseCase.organizationSignIn(organizationName) },
             ::onOrganizationSignInSuccess,
             ::onError
         )
@@ -41,7 +41,7 @@ class OrganizationNameViewModel @Inject constructor(
 
     private fun onOrganizationSignInSuccess(organizationName: String) {
         tryToExecute(
-            { manageOrganizationDetails.saveOrganizationName(organizationName) },
+            { manageOrganizationUseCase.saveOrganizationName(organizationName) },
             ::onSavingOrganizationNameSuccess,
             ::onError
         )

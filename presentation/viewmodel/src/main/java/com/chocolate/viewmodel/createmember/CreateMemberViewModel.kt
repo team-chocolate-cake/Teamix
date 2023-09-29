@@ -1,26 +1,25 @@
 package com.chocolate.viewmodel.createmember
 
 import android.net.Uri
+import android.util.Base64
 import androidx.lifecycle.SavedStateHandle
+import com.chocolate.entities.entity.Organization
+import com.chocolate.entities.util.EmptyEmailException
+import com.chocolate.entities.util.EmptyFullNameException
+import com.chocolate.entities.util.EmptyImageUriException
+import com.chocolate.entities.util.EmptyPasswordException
 import com.chocolate.entities.util.InvalidEmailException
 import com.chocolate.entities.util.InvalidUsernameException
 import com.chocolate.entities.util.MemberAlreadyExistException
 import com.chocolate.entities.util.PasswordMismatchException
 import com.chocolate.usecases.member.AttemptMemberLoginUseCase
 import com.chocolate.usecases.member.CreateMemberUseCase
-import com.chocolate.usecases.organization.CreateOrganizationUseCase
-import com.chocolate.usecases.organization.ManageOrganizationDetailsUseCase
+import com.chocolate.usecases.organization.ManageOrganizationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import com.chocolate.viewmodel.choosemember.CreateMemberArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
-import android.util.Base64
-import com.chocolate.entities.entity.Organization
-import com.chocolate.entities.util.EmptyEmailException
-import com.chocolate.entities.util.EmptyFullNameException
-import com.chocolate.entities.util.EmptyImageUriException
-import com.chocolate.entities.util.EmptyPasswordException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,8 +27,7 @@ class CreateMemberViewModel @Inject constructor(
     private val createMember: CreateMemberUseCase,
     private val stringsResource: StringsResource,
     private val attemptMemberLoginUseCase: AttemptMemberLoginUseCase,
-    private val createOrganizationUseCase: CreateOrganizationUseCase,
-    private val manageOrganizationDetailsUseCase: ManageOrganizationDetailsUseCase,
+    private val manageOrganizationUseCase: ManageOrganizationUseCase,
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<CreateMemberUiState, CreateMemberUiEffect>(CreateMemberUiState()),
     CreateMemberInteraction {
@@ -77,9 +75,9 @@ class CreateMemberViewModel @Inject constructor(
                         state.value.confirmPassword
                     )
                 else
-                    createOrganizationUseCase.createOrganizationAndOwner(
+                    manageOrganizationUseCase.createOrganizationAndOwner(
                         Organization(
-                            manageOrganizationDetailsUseCase.getOrganizationName(),
+                            manageOrganizationUseCase.getOrganizationName(),
                             String(Base64.decode(createMemberArgs.imageUri!!, Base64.DEFAULT)),
                             ""
                         ),

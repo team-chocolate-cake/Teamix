@@ -107,7 +107,7 @@ class TopicMessagesViewModel @Inject constructor(
     }
 
     private fun onError(throwable: Throwable) {
-        Log.i("sdsds",throwable.message.toString())
+        Log.i("sdsds", throwable.message.toString())
         val error = when (throwable) {
             is NoConnectionException -> stringsResource.noConnectionMessage
             else -> stringsResource.globalMessageError

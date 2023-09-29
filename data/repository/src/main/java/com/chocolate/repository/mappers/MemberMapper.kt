@@ -37,6 +37,3 @@ fun Member.toRemote(): MemberDto =
         role = role.value,
         status = status,
     )
-
-@JvmName("membersToMembersDto")
-fun List<Member>.toRemote(): List<MemberDto> = this.map { it.toRemote() }

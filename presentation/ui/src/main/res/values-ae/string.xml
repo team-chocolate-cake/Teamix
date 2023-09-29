@@ -120,8 +120,8 @@
     <string name="recent_search">最近搜索</string>
     <string name="members">成员</string>
     <string name="retry">重试</string>
-    <string name="savedtopics">Saved Topics</string>
-    <string name="savedmessages">Saved Messages</string>
+    <string name="savedtopics">已儲存的主題</string>
+    <string name="savedmessages">已儲存的訊息</string>
     <string name="add_fab">添加 FAB</string>
     <string name="photo_videos"><![CDATA[照片和视频]]></string>
     <string name="record_a_video">录制视频</string>
@@ -171,4 +171,5 @@
     <string name="create_topic">创建主题</string>
     <string name="have_organization">有组织</string>
     <string name="saved_topics">已保存的主题</string>
+    <string name="confirm_password">確認密碼</string>
 </resources>

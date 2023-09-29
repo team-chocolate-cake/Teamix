@@ -118,8 +118,8 @@
     <string name="recent_search">Búsqueda reciente</string>
     <string name="members">Miembros</string>
     <string name="retry">Reintentar</string>
-    <string name="savedtopics">Saved Topics</string>
-    <string name="savedmessages">Saved Messages</string>
+    <string name="savedtopics">Temas guardados</string>
+    <string name="savedmessages">Mensajes guardados</string>
     <string name="add_fab">Agregar FAB</string>
     <string name="photo_videos"><![CDATA[Foto y videos]]></string>
     <string name="record_a_video">Grabar un video</string>
@@ -171,4 +171,5 @@
     <string name="create_topic">Crear tema</string>
     <string name="have_organization">Tener una organización</string>
     <string name="saved_topics">Temas guardados</string>
+    <string name="confirm_password">confirmar Contraseña</string>
 </resources>

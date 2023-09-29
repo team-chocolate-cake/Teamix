@@ -19,7 +19,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
-fun TeamixApp(isDarkMode:Boolean) {
+fun TeamixApp(isDarkMode: Boolean, isLoggedIn: Boolean) {
     val navController = rememberNavController()
     val systemUiController = rememberSystemUiController()
     val shouldShowBottomNavigation = when (currentRoute(navController)) {
@@ -28,19 +28,22 @@ fun TeamixApp(isDarkMode:Boolean) {
         BottomNavigationItem.DMs.screenRoute,
         BottomNavigationItem.Search.screenRoute,
         -> true
+
         else -> false
     }
-    val shouldChangeStatusBarColor =when (currentRoute(navController)) {
+    val shouldChangeStatusBarColor = when (currentRoute(navController)) {
         BottomNavigationItem.Home.screenRoute,
-        BottomNavigationItem.Search.screenRoute,-> false
+        BottomNavigationItem.Search.screenRoute,
+        -> false
+
         else -> true
     }
 
     TeamixScaffold(
-        bottomBar = { if (shouldShowBottomNavigation) BottomNavigation(navController = navController) }
+        bottomBar = { if (shouldShowBottomNavigation && isLoggedIn) BottomNavigation(navController = navController) }
     ) { innerPadding ->
-        if(shouldChangeStatusBarColor)
-        systemUiController.setStatusBarColor(MaterialTheme.customColors().background, darkIcons = !isDarkMode)
+        if (shouldChangeStatusBarColor)
+            systemUiController.setStatusBarColor(MaterialTheme.customColors().background, darkIcons = !isDarkMode)
         systemUiController.setNavigationBarColor(Color.Black)
         Box(modifier = Modifier.padding(innerPadding)) {
             CompositionLocalProvider(LocalNavController provides navController) {

@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.drafts
+package com.chocolate.presentation.screens.savedtopics
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -19,31 +19,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
-import com.chocolate.presentation.composable.DraftCard
 import com.chocolate.presentation.composable.EmptyDataWithBoxLottie
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.SwipeCard
 import com.chocolate.presentation.composable.TeamixScaffold
+import com.chocolate.presentation.screens.savedtopics.composable.SavedTopicsCard
 import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.viewmodel.draft.DraftInteraction
-import com.chocolate.viewmodel.draft.DraftViewModel
-import com.chocolate.viewmodel.draft.DraftsUiState
+import com.chocolate.viewmodel.savedTopics.SavedTopicsInteraction
+import com.chocolate.viewmodel.savedTopics.SavedTopicsUiState
+import com.chocolate.viewmodel.savedTopics.SavedTopicsViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
-fun DraftsScreen(
-    viewModel: DraftViewModel = hiltViewModel()
+fun SavedTopicsScreen(
+    viewModel: SavedTopicsViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    DraftsContent(state, viewModel)
+    SavedTopicsContent(state, viewModel)
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun DraftsContent(state: DraftsUiState, draftInteraction: DraftInteraction) {
+fun SavedTopicsContent(state: SavedTopicsUiState, savedTopicsInteraction: SavedTopicsInteraction) {
     val colors = MaterialTheme.customColors()
     val systemUiController = rememberSystemUiController()
     val isDarkIcons = MaterialTheme.customColors().card == LightCard
@@ -52,49 +52,28 @@ fun DraftsContent(state: DraftsUiState, draftInteraction: DraftInteraction) {
         hasAppBar = true,
         hasBackArrow = true,
         containerColorAppBar = colors.card,
-        title = stringResource(id = R.string.drafts),
-        error = state.error,
-        onRetry = { draftInteraction.onClickRetry() },
-        onError = {
-            NoInternetLottie(
-                text = stringResource(id = R.string.no_internet_connection),
-                isShow = state.error != null,
-                isDarkMode = state.isDarkModel,
-            )
-        }
+        title = stringResource(R.string.saved_topics)
     ) { padding ->
-        systemUiController.setStatusBarColor(MaterialTheme.customColors().card, darkIcons = isDarkIcons)
+        systemUiController.setStatusBarColor(
+            MaterialTheme.customColors().card,
+            darkIcons = isDarkIcons
+        )
 
         LazyColumn(
             modifier = Modifier.padding(padding),
             contentPadding = PaddingValues(SpacingXLarge),
             verticalArrangement = Arrangement.spacedBy(SpacingXMedium)
         ) {
-            items(state.draftItems, key = { it.id }) {
+            items(state.topics) { savedTopicsItem ->
                 SwipeCard(
                     modifier = Modifier.animateItemPlacement(),
-                    messageId = it.id.toString(),
+                    itemId = savedTopicsItem.id,
                     cardItem = {
-                        DraftCard(
-                            id = it.id,
-                            time = it.formattedTime,
-                            messageContent = it.messageContent,
-                            topicName = it.topicName,
-                            isInStream = it.isInStream,
-                            onClickMessage = {}
-                        )
+                        SavedTopicsCard(topic = savedTopicsItem)
                     },
-                    onClickDismiss = { draftInteraction.deleteDraft(it.toInt()) })
+                    onClickDismiss = { savedTopicsInteraction.onDismissTopic(it) })
             }
         }
-        EmptyDataWithBoxLottie(
-            modifier = Modifier.padding(padding),
-            isPlaying = true,
-            isShow = state.draftItems.isEmpty() && !state.isLoading,
-            title = stringResource(R.string.draft_messages_to_send_when_you_re_ready),
-            subTitle = stringResource(R.string.sub_title_empty_data)
-        )
-
 
         AnimatedVisibility(visible = state.isLoading, modifier = Modifier.padding(padding)) {
             Box(
@@ -102,5 +81,13 @@ fun DraftsContent(state: DraftsUiState, draftInteraction: DraftInteraction) {
                 contentAlignment = Alignment.Center
             ) { CircularProgressIndicator(color = colors.primary) }
         }
+
+        EmptyDataWithBoxLottie(
+            isShow = state.topics.isEmpty() && !state.isLoading,
+            modifier = Modifier.padding(padding),
+            isPlaying = true,
+            title = "empty",
+            subTitle = "save one"
+        )
     }
 }

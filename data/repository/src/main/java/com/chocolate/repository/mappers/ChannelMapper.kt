@@ -1,4 +1,4 @@
-package com.chocolate.repository.mappers.channel
+package com.chocolate.repository.mappers
 
 import com.chocolate.entities.entity.Channel
 import com.chocolate.repository.model.dto.channel.ChannelDto
@@ -26,5 +26,3 @@ fun Channel.toRemote() = ChannelDto(
     membersId = membersId,
 )
 
-@JvmName("channelsToChannelsDto")
-fun List<Channel>?.toRemote(): List<ChannelDto> = this?.map { it.toRemote() } ?: emptyList()

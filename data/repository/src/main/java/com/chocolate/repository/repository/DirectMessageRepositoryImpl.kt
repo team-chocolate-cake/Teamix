@@ -8,8 +8,8 @@ import com.chocolate.entities.entity.Message
 import com.chocolate.repository.datasource.local.PreferencesDataSource
 import com.chocolate.repository.datasource.remote.DirectMessageDataSource
 import com.chocolate.repository.datasource.remote.MemberDataSource
-import com.chocolate.repository.mappers.messages.toMessage
-import com.chocolate.repository.mappers.messages.toMessageDto
+import com.chocolate.repository.mappers.toMessage
+import com.chocolate.repository.mappers.toMessageDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import repositories.DirectMessageRepository

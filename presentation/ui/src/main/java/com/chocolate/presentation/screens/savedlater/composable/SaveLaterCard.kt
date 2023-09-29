@@ -1,4 +1,4 @@
-package com.chocolate.presentation.composable
+package com.chocolate.presentation.screens.savedlater.composable
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

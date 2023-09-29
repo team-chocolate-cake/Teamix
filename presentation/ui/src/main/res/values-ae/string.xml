@@ -120,8 +120,8 @@
     <string name="recent_search">最近搜索</string>
     <string name="members">成员</string>
     <string name="retry">重试</string>
-    <string name="drafts">草稿</string>
-    <string name="savedlater">稍后保存</string>
+    <string name="savedtopics">Saved Topics</string>
+    <string name="savedmessages">Saved Messages</string>
     <string name="add_fab">添加 FAB</string>
     <string name="photo_videos"><![CDATA[照片和视频]]></string>
     <string name="record_a_video">录制视频</string>
@@ -158,5 +158,17 @@
     <string name="organization_name_is_long">組織名稱不能超過 30 個字符</string>
     <string name="invalid_image_uri">圖片無效。</string>
     <string name="channel_Already_Exist">同名的頻道已存在。</string>
-
+    <string name="full_name">全名</string>
+    <string name="invites_username">无效的用户名：不允许特殊字符、以数字开头或少于3个字符。</string>
+    <string name="create_account">创建帐户</string>
+    <string name="do_you_have_account">您已有帐户吗？</string>
+    <string name="invalid_email">请输入有效的电子邮件地址。</string>
+    <string name="password_mismatch">请确保两个密码匹配。</string>
+    <string name="all_field_required">请填写所有必填字段。</string>
+    <string name="topic_content">主题内容</string>
+    <string name="topic_name">主题名称</string>
+    <string name="create">创建</string>
+    <string name="create_topic">创建主题</string>
+    <string name="have_organization">有组织</string>
+    <string name="saved_topics">已保存的主题</string>
 </resources>

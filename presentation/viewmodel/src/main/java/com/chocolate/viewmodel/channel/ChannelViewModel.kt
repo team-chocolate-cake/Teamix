@@ -1,12 +1,14 @@
 package com.chocolate.viewmodel.channel
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.entity.Topic
 import com.chocolate.usecases.topic.ManageTopicUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -57,4 +59,9 @@ class ChannelViewModel @Inject constructor(
         sendUiEffect(ChannelUiEffect.NavigateToCreateTopic(channelArgs.channelId.toString()))
     }
 
+    override fun onSaveTopic(topic: TopicState) {
+        viewModelScope.launch {
+            manageTopicUseCase.addSavedTopic(topic.toTopic())
+        }
+    }
 }

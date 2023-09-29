@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun SwipeCard(
     modifier: Modifier = Modifier,
-    messageId: String,
+    itemId: String,
     onClickDismiss: (messageId: String) -> Unit,
     cardItem: @Composable () -> Unit,
 ) {
@@ -23,7 +23,7 @@ fun SwipeCard(
                 DismissValue.Default -> false
                 DismissValue.DismissedToEnd -> false
                 DismissValue.DismissedToStart -> {
-                    onClickDismiss(messageId)
+                    onClickDismiss(itemId)
                     true
                 }
             }
@@ -43,5 +43,5 @@ fun SwipeCard(
 @Preview
 @Composable
 private fun Preview() {
-    SwipeCard(cardItem = {  }, onClickDismiss = {}, messageId = "")
+    SwipeCard(cardItem = {  }, onClickDismiss = {}, itemId = "")
 }

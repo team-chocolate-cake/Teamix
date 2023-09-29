@@ -3,16 +3,15 @@ package com.chocolate.viewmodel.profile
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.chocolate.entities.entity.Member
 import com.chocolate.entities.util.NoConnectionException
 import com.chocolate.entities.util.NullDataException
 import com.chocolate.entities.util.TeamixException
 import com.chocolate.entities.util.ValidationException
-import com.chocolate.entities.entity.Member
+import com.chocolate.usecases.member.AttemptMemberLogoutUseCase
 import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
-import com.chocolate.usecases.member.AttemptMemberLogoutUseCase
 import com.chocolate.usecases.member.UpdateMemberImageUseCase
 import com.chocolate.usecases.member.UpdateMemberInformationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
@@ -65,7 +64,7 @@ class ProfileViewModel @Inject constructor(
 
     override fun onUserInformationFocusChange() {
         /* val memberInformationSettingsState = Member(
-             name = _state.value.name,
+             com.chocolate.viewmodel.savedTopics.getName = _state.value.com.chocolate.viewmodel.savedTopics.getName,
              email = _state.value.email,
              role = UserRole.fromValue(0),
              imageUrl = String.Empty,

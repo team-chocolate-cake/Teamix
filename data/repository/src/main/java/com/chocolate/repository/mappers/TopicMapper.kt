@@ -1,11 +1,17 @@
-package com.chocolate.repository.mappers.topic
+package com.chocolate.repository.mappers
 
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.chocolate.entities.entity.Topic
 import com.chocolate.repository.model.dto.topic.TopicDto
 import com.chocolate.repository.utils.getCurrentTime
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.util.Date
+
+fun Flow<List<TopicDto>>.toEntity(): Flow<List<Topic>> {
+    return this.map { it.map { savedTopicDto -> savedTopicDto.toTopic() } }
+}
 
 fun TopicDto.toTopic(): Topic {
     return Topic(
@@ -13,7 +19,7 @@ fun TopicDto.toTopic(): Topic {
         name = name ?: "",
         senderName = senderName ?: "",
         senderImage = senderImage ?: "",
-        sentTIme = sentTIme ?: Date(),
+        sentTime = sentTIme ?: Date(),
     )
 }
 
@@ -29,6 +35,3 @@ fun Topic.toTopicDto() = TopicDto(
     sentTIme = getCurrentTime(),
 )
 
-@RequiresApi(Build.VERSION_CODES.O)
-@JvmName("MessageDto")
-fun List<Topic>?.toTopicDto(): List<TopicDto> = this?.map { it.toTopicDto() }.orEmpty()

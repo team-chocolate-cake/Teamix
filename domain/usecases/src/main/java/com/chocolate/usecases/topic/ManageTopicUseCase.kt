@@ -26,4 +26,14 @@ class ManageTopicUseCase @Inject constructor(
             topicName
         }
     }
+
+    suspend fun addSavedTopic(topic: Topic) =
+        topicRepository.saveTopic(topic)
+
+    suspend fun getSavedTopics(): Flow<List<Topic>> =
+        topicRepository.getSavedTopics()
+
+    suspend fun deleteTopicById(topicId: String) =
+        topicRepository.deleteSavedTopicById(topicId)
+
 }

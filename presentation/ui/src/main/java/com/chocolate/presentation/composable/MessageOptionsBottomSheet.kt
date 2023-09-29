@@ -13,8 +13,8 @@ import com.chocolate.presentation.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MessageOptionsBottomSheet(
-    onSaveMessage: () -> Unit,
+fun ContentOptionsBottomSheet(
+    onSave: () -> Unit,
     onDismiss: () -> Unit,
 ) {
     ModalBottomSheet(
@@ -25,7 +25,7 @@ fun MessageOptionsBottomSheet(
                 icon = painterResource(id = R.drawable.bookmark),
                 text = stringResource(R.string.add_to_saved_items),
                 onClickItem = {
-                    onSaveMessage()
+                    onSave()
                     onDismiss()
                 }
             )

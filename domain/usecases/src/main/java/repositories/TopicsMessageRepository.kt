@@ -1,22 +1,10 @@
 package repositories
 
-import com.chocolate.entities.entity.Draft
 import com.chocolate.entities.entity.Message
 import com.chocolate.entities.entity.SavedLaterMessage
 import kotlinx.coroutines.flow.Flow
 
 interface TopicsMessageRepository {
-    suspend fun getDrafts(): List<Draft>
-
-    suspend fun createDraft(
-        type: String,
-        recipients: Int,
-        topic: String,
-        content: String
-    ): List<Int>
-
-
-    suspend fun deleteDraft(id: Int)
 
     suspend fun sendMessageInTopic(
         message: Message,

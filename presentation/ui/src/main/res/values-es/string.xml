@@ -118,8 +118,8 @@
     <string name="recent_search">Búsqueda reciente</string>
     <string name="members">Miembros</string>
     <string name="retry">Reintentar</string>
-    <string name="drafts">Borradores</string>
-    <string name="savedlater">Guardar para más tarde</string>
+    <string name="savedtopics">Saved Topics</string>
+    <string name="savedmessages">Saved Messages</string>
     <string name="add_fab">Agregar FAB</string>
     <string name="photo_videos"><![CDATA[Foto y videos]]></string>
     <string name="record_a_video">Grabar un video</string>
@@ -158,5 +158,17 @@
     <string name="organization_name_is_long">El nombre de la organización no puede exceder los 30 caracteres.</string>
     <string name="invalid_image_uri">Imagen inválida.</string>
     <string name="channel_Already_Exist">El canal con este nombre ya existe.</string>
-
+    <string name="full_name">Nombre completo</string>
+    <string name="invites_username">Nombre de usuario no válido: no se permiten caracteres especiales, números al principio o menos de 3 caracteres.</string>
+    <string name="create_account">Crear cuenta</string>
+    <string name="do_you_have_account">¿Ya tienes una cuenta?</string>
+    <string name="invalid_email">Por favor, ingresa una dirección de correo electrónico válida.</string>
+    <string name="password_mismatch">Por favor, asegúrate de que ambas contraseñas coincidan.</string>
+    <string name="all_field_required">Por favor, completa todos los campos requeridos.</string>
+    <string name="topic_content">Contenido del tema</string>
+    <string name="topic_name">Nombre del tema</string>
+    <string name="create">Crear</string>
+    <string name="create_topic">Crear tema</string>
+    <string name="have_organization">Tener una organización</string>
+    <string name="saved_topics">Temas guardados</string>
 </resources>

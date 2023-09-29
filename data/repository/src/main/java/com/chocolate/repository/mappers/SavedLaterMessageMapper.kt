@@ -1,4 +1,4 @@
-package com.chocolate.repository.mappers.messages
+package com.chocolate.repository.mappers
 
 import com.chocolate.entities.entity.Member
 import com.chocolate.entities.entity.SavedLaterMessage

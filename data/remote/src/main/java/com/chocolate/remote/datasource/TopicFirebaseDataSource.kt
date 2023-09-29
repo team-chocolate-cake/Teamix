@@ -4,8 +4,10 @@ import com.chocolate.entities.util.FireBaseException
 import com.chocolate.remote.util.Constants
 import com.chocolate.remote.util.tryToExecuteSuspendCall
 import com.chocolate.repository.datasource.remote.TopicDataSource
+import com.chocolate.repository.model.dto.message.SavedLaterMessageDto
 import com.chocolate.repository.model.dto.topic.TopicDto
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -57,6 +59,64 @@ class TopicFirebaseDataSource @Inject constructor(
                     }
                 }
             awaitClose { topics.remove() }
+        }
+    }
+
+    override suspend fun addSavedTopic(
+        organizationName: String,
+        topic: TopicDto,
+        memberId: String,
+    ) {
+        tryToExecuteSuspendCall {
+            firebaseFirestore
+                .collection(Constants.BASE)
+                .document(organizationName)
+                .collection(Constants.MEMBERS)
+                .document(memberId)
+                .collection(Constants.SAVED_TOPICS)
+                .document(topic.topicId!!)
+                .set(topic)
+                .await()
+        }
+    }
+
+    override suspend fun getSavedTopics(
+        organizationName: String,
+        memberId: String
+    ): Flow<List<TopicDto>> {
+        return callbackFlow {
+            val listener = firebaseFirestore
+                .collection(Constants.BASE)
+                .document(organizationName)
+                .collection(Constants.MEMBERS)
+                .document(memberId)
+                .collection(Constants.SAVED_TOPICS)
+                .addSnapshotListener { savedTopicsSnapShot, error ->
+                    error?.let { close(it) }
+                    val savedTopics = savedTopicsSnapShot?.documents?.mapNotNull {
+                        it.toObject<TopicDto>()
+                    }
+                    savedTopics?.let { trySend(it) }
+                }
+            awaitClose { listener.remove() }
+        }
+    }
+
+    override suspend fun deleteSavedTopicById(
+        organizationName: String,
+        memberId: String,
+        topicId: String
+    ) {
+        tryToExecuteSuspendCall {
+            firebaseFirestore
+                .collection(Constants.BASE)
+                .document(organizationName)
+                .collection(Constants.MEMBERS)
+                .document(memberId)
+                .collection(Constants.SAVED_TOPICS)
+                .document(topicId)
+                .delete()
+                .await()
         }
     }
 }

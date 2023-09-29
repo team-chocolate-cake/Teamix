@@ -7,5 +7,5 @@ data class Topic(
     val name: String,
     val senderName: String,
     val senderImage: String,
-    val sentTIme: Date
+    val sentTime: Date
 )

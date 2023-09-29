@@ -19,6 +19,6 @@ fun CreateTopicUiState.toTopic(member: Member): Topic {
         topicId = "",
         senderName = member.name,
         senderImage = member.imageUrl,
-        sentTIme = Date()
+        sentTime = Date()
     )
 }

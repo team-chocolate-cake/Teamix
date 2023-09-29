@@ -1,8 +1,10 @@
 package com.chocolate.presentation.screens.channel.composable
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,10 +12,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,8 +29,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.R
+import com.chocolate.presentation.composable.ContentOptionsBottomSheet
 import com.chocolate.presentation.theme.SpacingGigantic
 import com.chocolate.presentation.theme.SpacingSmall
 import com.chocolate.presentation.theme.SpacingXMedium
@@ -33,21 +42,28 @@ import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.channel.TopicState
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Topic(
+fun TopicCard(
     topic: TopicState,
     channelId: Int,
     onSeeAll: (Int, String, String) -> Unit,
+    onSavedTopic: (TopicState) -> Unit = {}
 ) {
-    String
+    var showSheet by remember { mutableStateOf(false) }
+    AnimatedVisibility(showSheet) {
+        ContentOptionsBottomSheet(onSave = { onSavedTopic(topic) }){
+            showSheet = false
+        }
+    }
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(
-                color = MaterialTheme.customColors().card,
-                shape = MaterialTheme.shapes.medium
-            )
-            .clickable { onSeeAll(channelId, topic.id, topic.topicContent) }
+            .clip(RoundedCornerShape(12.dp))
+            .combinedClickable(
+                onClick = { onSeeAll(channelId, topic.id, topic.topicContent) },
+                onLongClick = { showSheet = true })
+            .background(color = MaterialTheme.customColors().card)
             .padding(SpacingXMedium),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -109,11 +125,11 @@ fun Topic(
 @Preview(showSystemUi = true, backgroundColor = 0x80000000, showBackground = true)
 fun TopicReview() {
     TeamixTheme {
-//        Topic(
-//            topicName = "Test Topic Name",
-//            topicId = 343,
-//            onSeeAll = { channelId,topicId, name ->
-//            }
-//        )
+        TopicCard(
+            topic = TopicState(),
+            channelId = 0,
+            onSeeAll = { channelId, topicId, topicName ->
+            }
+        )
     }
 }

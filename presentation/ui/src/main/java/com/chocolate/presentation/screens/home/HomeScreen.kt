@@ -37,7 +37,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -50,7 +49,7 @@ import com.chocolate.presentation.Screen
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.channel.navigateToChannel
 import com.chocolate.presentation.screens.createchannel.navigateToCreateChannel
-import com.chocolate.presentation.screens.drafts.navigateToDrafts
+import com.chocolate.presentation.screens.savedtopics.navigateToSavedTopics
 import com.chocolate.presentation.screens.home.composable.BadgeHome
 import com.chocolate.presentation.screens.home.composable.ChannelItem
 import com.chocolate.presentation.screens.home.composable.ManageChannelBottomSheet
@@ -59,7 +58,6 @@ import com.chocolate.presentation.screens.savedlater.navigateToSaveLater
 import com.chocolate.presentation.screens.topicmessages.navigateToTopic
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Float1
-import com.chocolate.presentation.theme.LightPrimary
 import com.chocolate.presentation.theme.OnLightPrimary
 import com.chocolate.presentation.theme.SpacingLarge
 import com.chocolate.presentation.theme.SpacingMedium
@@ -95,7 +93,7 @@ fun HomeScreen(
                 }
             }
 
-            HomeUiEffect.NavigationToDrafts -> navController.navigateToDrafts()
+            HomeUiEffect.NavigationToDrafts -> navController.navigateToSavedTopics()
             HomeUiEffect.NavigationToSavedLater -> navController.navigateToSaveLater()
             is HomeUiEffect.NavigateToTopic -> navController.navigateToTopic(
                 effect.channelId, effect.topicId, effect.topicName
@@ -151,7 +149,7 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                     CardItem(
                         badge = state.badgeCountsUiState.drafts,
                         painter = painterResource(R.drawable.ic_drafts),
-                        title = stringResource(R.string.drafts),
+                        title = stringResource(R.string.savedtopics),
                         colors = colors,
                         onClickItemCard = { homeInteraction.onClickDrafts() },
                         modifier = Modifier
@@ -162,7 +160,7 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
                     CardItem(
                         badge = state.badgeCountsUiState.drafts,
                         painter = painterResource(R.drawable.ic_saved_later),
-                        title = stringResource(R.string.savedlater),
+                        title = stringResource(R.string.savedmessages),
                         colors = colors,
                         onClickItemCard = { homeInteraction.onClickSavedLater() },
                         modifier = Modifier

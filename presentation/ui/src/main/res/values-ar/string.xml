@@ -124,8 +124,8 @@
     <string name="recent_search">البحث الأخير</string>
     <string name="members">الأعضاء</string>
     <string name="retry">إعادة المحاولة</string>
-    <string name="drafts">المسودات</string>
-    <string name="savedlater">للحفظ لاحقًا</string>
+    <string name="savedtopics">Saved Topics</string>
+    <string name="savedmessages">Saved Messages</string>
     <string name="add_fab">إضافة FAB</string>
     <string name="photo_videos"><![CDATA[الصور والفيديوهات]]></string>
     <string name="record_a_video">تسجيل فيديو</string>
@@ -160,4 +160,18 @@
     <string name="organization_name_is_long">لا يمكن أن يتجاوز اسم المؤسسة 30 حرفًا</string>
     <string name="invalid_image_uri">صورة غير صالحة.</string>
     <string name="channel_Already_Exist">القناة بهذا الاسم موجودة بالفعل.</string>
+    <string name="full_name">الاسم الكامل</string>
+    <string name="invites_username">اسم المستخدم غير صالح: الأحرف الخاصة، والأرقام في البداية، أو أقل من 3 أحرف غير مسموح بها.</string>
+    <string name="create_account">إنشاء حساب</string>
+    <string name="do_you_have_account">هل لديك حساب؟</string>
+    <string name="invalid_email">الرجاء إدخال عنوان بريد إلكتروني صالح.</string>
+    <string name="password_mismatch">الرجاء التأكد من تطابق كلمتي المرور.</string>
+    <string name="all_field_required">الرجاء ملء جميع الحقول المطلوبة.</string>
+    <string name="topic_content">محتوى الموضوع</string>
+    <string name="topic_name">اسم الموضوع</string>
+    <string name="create">إنشاء</string>
+    <string name="create_topic">إنشاء موضوع</string>
+    <string name="have_organization">لديك منظمة</string>
+    <string name="saved_topics">الموضوعات المحفوظة</string>
+
 </resources>

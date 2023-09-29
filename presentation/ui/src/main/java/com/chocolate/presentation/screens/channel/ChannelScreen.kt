@@ -21,11 +21,10 @@ import androidx.navigation.NavController
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.EmptyDataWithBoxLottie
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.screens.channel.composable.Topic
+import com.chocolate.presentation.screens.channel.composable.TopicCard
 import com.chocolate.presentation.screens.createtopic.navigateToCreateTopic
 import com.chocolate.presentation.screens.topicmessages.navigateToTopic
 import com.chocolate.presentation.theme.LightCard
-import com.chocolate.presentation.theme.LightPrimary
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
@@ -70,7 +69,7 @@ fun ChannelContent(
     channelInteraction: ChannelInteraction
 ) {
     val systemUiController = rememberSystemUiController()
-    val isDarkIcons=MaterialTheme.customColors().card== LightCard
+    val isDarkIcons = MaterialTheme.customColors().card == LightCard
     TeamixScaffold(
         hasBackArrow = true,
         title = state.channelName,
@@ -90,13 +89,20 @@ fun ChannelContent(
             }
         }
     ) { padding ->
-        systemUiController.setStatusBarColor(MaterialTheme.customColors().card, darkIcons = isDarkIcons)
+        systemUiController.setStatusBarColor(
+            MaterialTheme.customColors().card,
+            darkIcons = isDarkIcons
+        )
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding),
             verticalArrangement = Arrangement.spacedBy(SpacingXLarge),
-            contentPadding = PaddingValues(SpacingXLarge)
+            contentPadding = PaddingValues(
+                start = SpacingXLarge,
+                end = SpacingXLarge,
+                bottom = SpacingXLarge
+            )
         ) {
             item {
                 EmptyDataWithBoxLottie(
@@ -110,10 +116,11 @@ fun ChannelContent(
 
             items(state.topics.size) {
                 val topic = state.topics[it]
-                Topic(
+                TopicCard(
                     topic = topic,
                     channelId = state.channelId.toInt(),
                     onSeeAll = channelInteraction::onClickSeeAll,
+                    onSavedTopic = channelInteraction::onSaveTopic
                 )
             }
         }

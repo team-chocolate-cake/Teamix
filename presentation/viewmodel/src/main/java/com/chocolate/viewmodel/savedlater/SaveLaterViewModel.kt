@@ -21,6 +21,7 @@ class SaveLaterViewModel @Inject constructor(
     }
 
     private fun getSavedLaterMessages() {
+        _state.update { it.copy(error =null, isLoading = true) }
         viewModelScope.launch {
             collectFlow(manageSaveLaterMessageUseCase.getSavedMessages()) {
                 this.copy(messages = it.toMessagesUiState(), error = null, isLoading = false,)

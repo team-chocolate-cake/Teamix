@@ -48,8 +48,8 @@ fun MessageCard(
 ) {
     var showSheet by remember { mutableStateOf(false) }
     AnimatedVisibility(showSheet) {
-        MessageOptionsBottomSheet(
-            onSaveMessage = onSaveMessage
+        ContentOptionsBottomSheet(
+            onSave = onSaveMessage
         ) {
             showSheet = false
         }

@@ -1,4 +1,4 @@
-package com.chocolate.repository.mappers.messages
+package com.chocolate.repository.mappers
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -29,7 +29,3 @@ fun Message.toMessageDto() = MessageDto(
     senderImage = senderAvatarUrl,
     timestamp = getCurrentTime()
 )
-
-@RequiresApi(Build.VERSION_CODES.O)
-@JvmName("MessageDto")
-fun List<Message>?.toMessageDto(): List<MessageDto> = this?.map { it.toMessageDto() }.orEmpty()

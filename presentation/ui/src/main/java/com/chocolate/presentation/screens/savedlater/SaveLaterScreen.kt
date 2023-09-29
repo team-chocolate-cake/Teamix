@@ -21,10 +21,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.EmptyDataWithBoxLottie
-import com.chocolate.presentation.composable.SaveLaterCard
 import com.chocolate.presentation.composable.SwipeCard
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
+import com.chocolate.presentation.screens.savedlater.composable.SaveLaterCard
 import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
@@ -48,15 +48,19 @@ fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInter
     val colors = MaterialTheme.customColors()
     val systemUiController = rememberSystemUiController()
     val isDarkIcons = MaterialTheme.customColors().card == LightCard
+    val deleteMessage = state.deleteStateMessage
+    val error = state.error
 
     TeamixScaffold(
         hasAppBar = true,
         hasBackArrow = true,
         containerColorAppBar = colors.card,
         title = stringResource(id = R.string.savedlater),
-        isLoading = state.isLoading,
     ) { padding ->
-        systemUiController.setStatusBarColor(MaterialTheme.customColors().card, darkIcons = isDarkIcons)
+        systemUiController.setStatusBarColor(
+            MaterialTheme.customColors().card,
+            darkIcons = isDarkIcons
+        )
 
         LazyColumn(
             modifier = Modifier.padding(padding),
@@ -66,7 +70,7 @@ fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInter
             items(state.messages, key = { it.id }) { message ->
                 SwipeCard(
                     modifier = Modifier.animateItemPlacement(),
-                    messageId = message.id,
+                    itemId = message.id,
                     cardItem = {
                         SaveLaterCard(
                             item = message,
@@ -75,17 +79,16 @@ fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInter
                     },
                     onClickDismiss = { interaction.onDismissMessage(it) }
                 )
-
             }
         }
-        AnimatedVisibility(visible = state.isLoading) {
+
+        AnimatedVisibility(visible = state.isLoading, modifier = Modifier) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator(color = colors.primary)
-            }
+            ) { CircularProgressIndicator(color = colors.primary) }
         }
+
         EmptyDataWithBoxLottie(
             modifier = Modifier.padding(padding),
             isShow = state.messages.isEmpty() && !state.isLoading,
@@ -93,8 +96,7 @@ fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInter
             title = stringResource(id = R.string.no_saved_items),
             subTitle = stringResource(id = R.string.no_saved_items_body)
         )
-        val deleteMessage = state.deleteStateMessage
-        val error = state.error
+
         if (deleteMessage != null && error == null) {
             ActionSnakeBar(
                 isVisible = true,
@@ -113,4 +115,5 @@ fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInter
             )
         }
     }
+
 }

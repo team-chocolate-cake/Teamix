@@ -122,8 +122,8 @@
     <string name="recent_search">Recent Search</string>
     <string name="members">Members</string>
     <string name="retry">Retry</string>
-    <string name="drafts">Drafts</string>
-    <string name="savedlater">SavedLater</string>
+    <string name="savedtopics">Saved Topics</string>
+    <string name="savedmessages">Saved Messages</string>
     <string name="add_fab">Add FAB</string>
     <string name="photo_videos"><![CDATA[Photo & videos]]></string>
     <string name="record_a_video">Record a video</string>
@@ -169,5 +169,7 @@
     <string name="create">create</string>
     <string name="create_topic">create topic</string>
     <string name="have_organization">Have Organization</string>
+    <string name="saved_topics">Saved Topics</string>
     <string name="invalid_image_uri">Invalid image.</string>
+
 </resources>

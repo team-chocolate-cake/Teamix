@@ -28,7 +28,6 @@ class DirectMessagesChatViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getCurrentMemberUseCase: GetCurrentMemberUseCase,
     private val manageDirectMessageUseCase: ManageDirectMessageUseCase,
-    private val manageSaveLaterMessageUseCase: ManageTopicMessagesUseCase
 ) : BaseViewModel<TopicUiState, Unit>(TopicUiState()), TopicMessagesInteraction {
 
     private val dmChatArgs = DirectMessageChatArgs(savedStateHandle)
@@ -74,7 +73,7 @@ class DirectMessagesChatViewModel @Inject constructor(
 
     override fun onSaveMessage(message: MessageUiState) {
         tryToExecute(
-            call = { manageSaveLaterMessageUseCase.addSavedLaterMessage(message.toEntity()) },
+            call = { manageDirectMessageUseCase.addSavedLaterMessage(message.toEntity()) },
             onSuccess = { _state.update { it.copy(error = null) } },
             onError = { onError(it) }
         )

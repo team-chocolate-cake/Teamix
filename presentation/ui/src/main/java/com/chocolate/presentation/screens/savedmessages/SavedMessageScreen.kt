@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.savedlater
+package com.chocolate.presentation.screens.savedmessages
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -24,19 +24,19 @@ import com.chocolate.presentation.composable.EmptyDataWithBoxLottie
 import com.chocolate.presentation.composable.SwipeCard
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
-import com.chocolate.presentation.screens.savedlater.composable.SaveLaterCard
+import com.chocolate.presentation.screens.savedmessages.composable.SaveLaterCard
 import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.viewmodel.savedlater.SaveLaterInteraction
-import com.chocolate.viewmodel.savedlater.SaveLaterMessageUiState
-import com.chocolate.viewmodel.savedlater.SaveLaterViewModel
+import com.chocolate.viewmodel.savedmessage.SavedMessageInteraction
+import com.chocolate.viewmodel.savedmessage.SaveMessageUiState
+import com.chocolate.viewmodel.savedmessage.SavedMessageViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun SaveLaterScreen(
-    viewModel: SaveLaterViewModel = hiltViewModel()
+    viewModel: SavedMessageViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
     SaveLaterContent(state, viewModel)
@@ -44,7 +44,7 @@ fun SaveLaterScreen(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInteraction) {
+fun SaveLaterContent(state: SaveMessageUiState, interaction: SavedMessageInteraction) {
     val colors = MaterialTheme.customColors()
     val systemUiController = rememberSystemUiController()
     val isDarkIcons = MaterialTheme.customColors().card == LightCard

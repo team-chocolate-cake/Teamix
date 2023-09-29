@@ -11,7 +11,7 @@ sealed class Screen(val route: String) {
     object ChooseMembers: Screen("choose_members")
     object Topic: Screen("Topic")
     object CreateChannel: Screen("create_channel")
-    object SaveLater: Screen("save_later")
+    object SavedMessage: Screen("saved_message")
     object SavedTopics: Screen("saved_topics")
     object Channel: Screen("channel")
     object CreateMember: Screen("Create_member")

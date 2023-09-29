@@ -1,11 +1,11 @@
-package com.chocolate.viewmodel.savedlater
+package com.chocolate.viewmodel.savedmessage
 
-import com.chocolate.entities.entity.SavedLaterMessage
+import com.chocolate.entities.entity.SavedMessage
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-data class SaveLaterMessageUiState(
+data class SaveMessageUiState(
     val messages: List<MessageItemUiState> = emptyList(),
     val isLoading: Boolean = true,
     val error: String? = null,
@@ -20,7 +20,7 @@ data class MessageItemUiState(
     val time: String = ""
 )
 
-fun SavedLaterMessage.toMessageUiState(): MessageItemUiState {
+fun SavedMessage.toMessageUiState(): MessageItemUiState {
     return MessageItemUiState(
         id = id,
         username = sender.name,
@@ -30,7 +30,7 @@ fun SavedLaterMessage.toMessageUiState(): MessageItemUiState {
     )
 }
 
-fun List<SavedLaterMessage>.toMessagesUiState(): List<MessageItemUiState> {
+fun List<SavedMessage>.toMessagesUiState(): List<MessageItemUiState> {
     return this.map { it.toMessageUiState() }
 }
 

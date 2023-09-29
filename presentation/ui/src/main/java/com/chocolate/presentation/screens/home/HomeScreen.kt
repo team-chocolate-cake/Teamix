@@ -54,7 +54,7 @@ import com.chocolate.presentation.screens.home.composable.BadgeHome
 import com.chocolate.presentation.screens.home.composable.ChannelItem
 import com.chocolate.presentation.screens.home.composable.ManageChannelBottomSheet
 import com.chocolate.presentation.screens.organization.navigateToOrganizationName
-import com.chocolate.presentation.screens.savedlater.navigateToSaveLater
+import com.chocolate.presentation.screens.savedmessages.navigateToSavedMessage
 import com.chocolate.presentation.screens.topicmessages.navigateToTopic
 import com.chocolate.presentation.theme.CustomColorsPalette
 import com.chocolate.presentation.theme.Float1
@@ -94,7 +94,7 @@ fun HomeScreen(
             }
 
             HomeUiEffect.NavigationToDrafts -> navController.navigateToSavedTopics()
-            HomeUiEffect.NavigationToSavedLater -> navController.navigateToSaveLater()
+            HomeUiEffect.NavigationToSavedLater -> navController.navigateToSavedMessage()
             is HomeUiEffect.NavigateToTopic -> navController.navigateToTopic(
                 effect.channelId, effect.topicId, effect.topicName
             )

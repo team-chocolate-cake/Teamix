@@ -1,4 +1,4 @@
-package com.chocolate.presentation.screens.savedlater.composable
+package com.chocolate.presentation.screens.savedmessages.composable
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -30,7 +30,7 @@ import com.chocolate.presentation.theme.SpacingMassive
 import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
-import com.chocolate.viewmodel.savedlater.MessageItemUiState
+import com.chocolate.viewmodel.savedmessage.MessageItemUiState
 
 @Composable
 fun SaveLaterCard(item: MessageItemUiState, painter: Painter) {

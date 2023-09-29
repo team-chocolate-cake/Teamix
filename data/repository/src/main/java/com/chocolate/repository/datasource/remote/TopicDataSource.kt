@@ -10,21 +10,4 @@ interface TopicDataSource {
         channelId: String,
         organizationName: String
     ): Flow<List<TopicDto>>
-
-    suspend fun addSavedTopic(
-        organizationName: String,
-        topic: TopicDto,
-        memberId: String,
-    )
-
-    suspend fun getSavedTopics(
-        organizationName: String,
-        memberId: String
-    ): Flow<List<TopicDto>>
-
-    suspend fun deleteSavedTopicById(
-        organizationName: String,
-        memberId: String,
-        topicId: String
-    )
 }

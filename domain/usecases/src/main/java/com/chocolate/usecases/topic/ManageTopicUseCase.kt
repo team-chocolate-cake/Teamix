@@ -3,11 +3,13 @@ package com.chocolate.usecases.topic
 import com.chocolate.entities.entity.Topic
 import com.chocolate.entities.util.InvalidTopicNameException
 import kotlinx.coroutines.flow.Flow
+import repositories.SavedLaterRepository
 import repositories.TopicRepository
 import javax.inject.Inject
 
 class ManageTopicUseCase @Inject constructor(
     private val topicRepository: TopicRepository,
+    private val savedLaterRepository: SavedLaterRepository
 ) {
 
     suspend fun createTopic(channelId: String, topic: Topic): String {
@@ -28,12 +30,12 @@ class ManageTopicUseCase @Inject constructor(
     }
 
     suspend fun addSavedTopic(topic: Topic) =
-        topicRepository.saveTopic(topic)
+        savedLaterRepository.saveTopic(topic)
 
     suspend fun getSavedTopics(): Flow<List<Topic>> =
-        topicRepository.getSavedTopics()
+        savedLaterRepository.getSavedTopics()
 
     suspend fun deleteTopicById(topicId: String) =
-        topicRepository.deleteSavedTopicById(topicId)
+        savedLaterRepository.deleteSavedTopicById(topicId)
 
 }

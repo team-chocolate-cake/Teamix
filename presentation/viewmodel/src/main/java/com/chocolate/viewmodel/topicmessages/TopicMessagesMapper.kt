@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import com.chocolate.entities.entity.Member
 import com.chocolate.entities.entity.UserRole
 import com.chocolate.entities.entity.Message
-import com.chocolate.entities.entity.SavedLaterMessage
+import com.chocolate.entities.entity.SavedMessage
 import com.chocolate.entities.entity.Topic
 import com.chocolate.entities.util.Empty
 import com.chocolate.entities.util.toStringDate
@@ -40,8 +40,8 @@ fun MessageUiState.toMessage(): Message {
 }
 
 @JvmName("MessageUiStateToSavedLaterMessage")
-fun MessageUiState.toEntity(): SavedLaterMessage {
-    return SavedLaterMessage(
+fun MessageUiState.toEntity(): SavedMessage {
+    return SavedMessage(
         id = id.toString(),
         sender = getFakeMember(userId),
         messageContent = message,

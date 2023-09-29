@@ -1,7 +1,7 @@
-package com.chocolate.viewmodel.savedlater
+package com.chocolate.viewmodel.savedmessage
 
 import androidx.lifecycle.viewModelScope
-import com.chocolate.usecases.message.ManageTopicMessagesUseCase
+import com.chocolate.usecases.directmessage.ManageDirectMessageUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,28 +10,28 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SaveLaterViewModel @Inject constructor(
-    private val manageSaveLaterMessageUseCase: ManageTopicMessagesUseCase,
+class SavedMessageViewModel @Inject constructor(
+    private val manageDirectMessageUseCase: ManageDirectMessageUseCase,
     private val stringsResource: StringsResource
-) : BaseViewModel<SaveLaterMessageUiState, SaveLaterEffect>(SaveLaterMessageUiState()),
-    SaveLaterInteraction {
+) : BaseViewModel<SaveMessageUiState, SavedMessageEffect>(SaveMessageUiState()),
+    SavedMessageInteraction {
 
     init {
         getSavedLaterMessages()
     }
 
     private fun getSavedLaterMessages() {
-        _state.update { it.copy(error =null, isLoading = true) }
+        _state.update { it.copy(error = null, isLoading = true) }
         viewModelScope.launch {
-            collectFlow(manageSaveLaterMessageUseCase.getSavedMessages()) {
-                this.copy(messages = it.toMessagesUiState(), error = null, isLoading = false,)
+            collectFlow(manageDirectMessageUseCase.getSavedMessages()) {
+                this.copy(messages = it.toMessagesUiState(), error = null, isLoading = false)
             }
         }
     }
 
     override fun onDismissMessage(savedLaterMessageId: String) {
         tryToExecute(
-            { manageSaveLaterMessageUseCase.deleteSavedMessageById(savedLaterMessageId) },
+            { manageDirectMessageUseCase.deleteSavedMessageById(savedLaterMessageId) },
             ::onDeleteMessageSuccess,
             ::onError
         )

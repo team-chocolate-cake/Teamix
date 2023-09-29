@@ -2,17 +2,20 @@ package com.chocolate.usecases.directmessage
 
 import com.chocolate.entities.entity.Chat
 import com.chocolate.entities.entity.Message
+import com.chocolate.entities.entity.SavedMessage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import repositories.DirectMessageRepository
+import repositories.SavedLaterRepository
 import javax.inject.Inject
 
 
 /**
- * made by marwan mahmoud
+ * made by marwan
 */
 class ManageDirectMessageUseCase @Inject constructor(
-    private val directMessageRepository: DirectMessageRepository
+    private val directMessageRepository: DirectMessageRepository,
+    private val savedLaterRepository: SavedLaterRepository
 ) {
 
     suspend fun createNewChat(
@@ -51,4 +54,13 @@ class ManageDirectMessageUseCase @Inject constructor(
             }
         } else chats
     }
+
+    suspend fun addSavedLaterMessage(message: SavedMessage) =
+        savedLaterRepository.saveMessage(message)
+
+    suspend fun getSavedMessages(): Flow<List<SavedMessage>> =
+        savedLaterRepository.getSavedLaterMessages()
+
+    suspend fun deleteSavedMessageById(savedLaterMessageId: String) =
+        savedLaterRepository.deleteSavedLaterMessageById(savedLaterMessageId)
 }

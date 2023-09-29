@@ -1,7 +1,6 @@
 package com.chocolate.viewmodel.directmessagechat
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -55,11 +54,6 @@ class DirectMessagesChatViewModel @Inject constructor(
         }
     }
 
-    override fun onClickBackButton() {
-        TODO("Not yet implemented")
-    }
-
-
     override fun onMessageInputChanged(text: String) {
         _state.update { it.copy(messageInput = text) }
     }
@@ -79,9 +73,11 @@ class DirectMessagesChatViewModel @Inject constructor(
 
 
     override fun onSaveMessage(message: MessageUiState) {
-        viewModelScope.launch {
-            manageSaveLaterMessageUseCase.addSavedLaterMessage(message.toEntity())
-        }
+        tryToExecute(
+            call = { manageSaveLaterMessageUseCase.addSavedLaterMessage(message.toEntity()) },
+            onSuccess = { _state.update { it.copy(error = null) } },
+            onError = { onError(it) }
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

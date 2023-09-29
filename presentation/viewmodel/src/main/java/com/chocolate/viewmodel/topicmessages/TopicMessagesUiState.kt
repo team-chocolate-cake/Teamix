@@ -3,18 +3,10 @@ package com.chocolate.viewmodel.topicmessages
 import com.chocolate.entities.util.Empty
 
 data class TopicUiState(
-    val photoAndVideo: List<PhotoOrVideoUiState> = emptyList(),
     val messages: List<MessageUiState> = emptyList(),
     val topicName: String = String.Empty,
     val messageInput: String = String.Empty,
     val error: String? = null,
-)
-
-data class PhotoOrVideoUiState(
-    val isSelected: Boolean = false,
-    val file: String = String.Empty,
-    val isLoading:Boolean = false,
-    val error : String? = null
 )
 
 data class MessageUiState(

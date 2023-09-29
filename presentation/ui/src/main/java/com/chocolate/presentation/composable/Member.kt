@@ -56,7 +56,6 @@ fun Member(
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.customColors().onBackground87
             )
-
         }
     }
 }

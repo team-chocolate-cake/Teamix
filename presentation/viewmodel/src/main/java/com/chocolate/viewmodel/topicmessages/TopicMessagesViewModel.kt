@@ -1,13 +1,16 @@
 package com.chocolate.viewmodel.topicmessages
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.entity.Message
+import com.chocolate.entities.util.NoConnectionException
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
 import com.chocolate.usecases.message.ManageTopicMessagesUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
+import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -23,6 +26,7 @@ class TopicMessagesViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getCurrentMemberUseCase: GetCurrentMemberUseCase,
     private val manageSaveLaterMessageUseCase: ManageTopicMessagesUseCase,
+    private val stringsResource: StringsResource
 ) : BaseViewModel<TopicUiState, TopicMessagesEffect>(TopicUiState()), TopicMessagesInteraction {
 
     private val topicArgs = TopicMessagesArgs(savedStateHandle)
@@ -32,19 +36,15 @@ class TopicMessagesViewModel @Inject constructor(
         getAllMessages()
     }
 
-    override fun onClickBackButton() {
-        sendUiEffect(TopicMessagesEffect.NavigationBack)
-    }
-
-
     override fun onMessageInputChanged(text: String) {
         _state.update { it.copy(messageInput = text) }
     }
 
     override fun onSaveMessage(message: MessageUiState) {
-        viewModelScope.launch {
-            manageSaveLaterMessageUseCase.addSavedLaterMessage(message.toEntity())
-        }
+        tryToExecute(call = { manageSaveLaterMessageUseCase.addSavedLaterMessage(message.toEntity()) },
+            onSuccess = { _state.update { it.copy(error = null) } },
+            onError = { onError(it) }
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -57,16 +57,12 @@ class TopicMessagesViewModel @Inject constructor(
                     topicId = topicArgs.topicId
                 )
             },
-            onSuccess = ::onSendMessageSuccess,
-            onError = ::onError
+            onSuccess = { _state.update { it.copy(error = null) } },
+            onError = { onError(it) }
         )
         _state.update { it.copy(messageInput = "") }
     }
 
-
-    private fun onSendMessageSuccess(unit: Unit) {
-        _state.update { it.copy(error = null) }
-    }
 
     private fun getAllMessages() {
         viewModelScope.launch {
@@ -111,6 +107,11 @@ class TopicMessagesViewModel @Inject constructor(
     }
 
     private fun onError(throwable: Throwable) {
-        _state.update { it.copy(error = throwable.message) }
+        Log.i("sdsds",throwable.message.toString())
+        val error = when (throwable) {
+            is NoConnectionException -> stringsResource.noConnectionMessage
+            else -> stringsResource.globalMessageError
+        }
+        _state.update { it.copy(error = error) }
     }
 }

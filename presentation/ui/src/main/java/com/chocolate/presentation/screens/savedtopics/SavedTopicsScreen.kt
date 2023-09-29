@@ -86,8 +86,8 @@ fun SavedTopicsContent(state: SavedTopicsUiState, savedTopicsInteraction: SavedT
             isShow = state.topics.isEmpty() && !state.isLoading,
             modifier = Modifier.padding(padding),
             isPlaying = true,
-            title = "empty",
-            subTitle = "save one"
+            title = stringResource(id = R.string.no_saved_items),
+            subTitle = stringResource(id = R.string.no_saved_items_body)
         )
     }
 }

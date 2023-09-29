@@ -55,7 +55,7 @@ fun SaveLaterContent(state: SaveLaterMessageUiState, interaction: SaveLaterInter
         hasAppBar = true,
         hasBackArrow = true,
         containerColorAppBar = colors.card,
-        title = stringResource(id = R.string.savedlater),
+        title = stringResource(id = R.string.savedmessages),
     ) { padding ->
         systemUiController.setStatusBarColor(
             MaterialTheme.customColors().card,

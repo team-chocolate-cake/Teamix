@@ -15,10 +15,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.chocolate.presentation.theme.SpacingMassive
 import com.chocolate.presentation.theme.SpacingXMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.directmessage.ChatUiState
@@ -45,7 +48,8 @@ fun DirectMessageChat(state: ChatUiState , modifier: Modifier){
                     .data(state.image).build(),
                 modifier = Modifier
                     .clip(CircleShape)
-                    .size(40.dp),
+                    .size(SpacingMassive),
+                contentScale = ContentScale.Crop,
                 contentDescription = ""
             )
             Column(
@@ -61,7 +65,9 @@ fun DirectMessageChat(state: ChatUiState , modifier: Modifier){
                 Text(
                     text = state.lastMessage,
                     style = MaterialTheme.typography.labelSmall,
-                    color = colors.onBackground60
+                    color = colors.onBackground60,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
             Text(

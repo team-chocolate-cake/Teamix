@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
@@ -45,6 +46,8 @@ fun MessageCard(
     modifier: Modifier = Modifier,
     messageUiState: MessageUiState,
     onSaveMessage: () -> Unit,
+    messageMaxLines: Int = Int.MAX_VALUE,
+    messageOverflow: TextOverflow = TextOverflow.Clip
 ) {
     var showSheet by remember { mutableStateOf(false) }
     AnimatedVisibility(showSheet) {
@@ -77,6 +80,7 @@ fun MessageCard(
                     if (messageUiState.reactions.isNotEmpty()) bottom.linkTo(emojis.top)
                     else bottom.linkTo(parent.bottom)
                 },
+            contentScale = ContentScale.Crop,
             contentDescription = ""
         )
 
@@ -127,7 +131,9 @@ fun MessageCard(
                         textAlign = TextAlign.Start,
                         text = messageUiState.replayDate,
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.customColors().onBackground87
+                        color = MaterialTheme.customColors().onBackground87,
+                        overflow = messageOverflow,
+                        maxLines = messageMaxLines
                     )
 
                 }

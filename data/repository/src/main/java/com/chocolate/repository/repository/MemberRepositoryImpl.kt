@@ -63,7 +63,7 @@ class MemberRepositoryImpl @Inject constructor(
             } ?: throw WrongEmailException
     }
 
-    override suspend fun isMemberLoggedIn(): Boolean {
+    override suspend fun isMemberLoggedIn(): Flow<Boolean> {
         return preferencesDataSource.isMemberLoggedIn()
     }
 

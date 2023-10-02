@@ -14,6 +14,7 @@ import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.profile.toOwnerUserUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
@@ -148,15 +149,18 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getUserLoginState() {
-        tryToExecute({ isMemberLoggedInUseCase() }, ::onGettingMemberLoginState, ::onError)
+        tryToExecuteFlow({ isMemberLoggedInUseCase() }, ::onGettingMemberLoginState, ::onError)
     }
 
-    private fun onGettingMemberLoginState(isLoggedIn: Boolean) {
-        if (isLoggedIn) {
-            _state.update { it.copy(isLogged = true, error = null, isLoading = false) }
-        } else {
-            sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
+    private suspend fun onGettingMemberLoginState(isLoggedIn: Flow<Boolean>) {
+        isLoggedIn.collectLatest {result->
+            if (result) {
+                _state.update { it.copy(isLogged = true, error = null, isLoading = false) }
+            } else {
+                sendUiEffect(HomeUiEffect.NavigateToOrganizationName)
+            }
         }
+
     }
 
     private fun onError(throwable: Throwable) {

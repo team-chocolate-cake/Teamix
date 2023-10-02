@@ -2,6 +2,7 @@ package com.chocolate.presentation.screens.home
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
 import com.chocolate.presentation.Screen
 
@@ -11,11 +12,7 @@ fun NavGraphBuilder.homeRoute() {
     }
 }
 
-fun NavController.navigateToHome() {
+fun NavController.navigateToHome(builder: NavOptionsBuilder.() -> Unit = {}) {
     popBackStack()
-    navigate(Screen.Home.route){
-        popUpTo(Screen.OrganizationName.route){
-            inclusive = true
-        }
-    }
+    navigate(Screen.Home.route, builder = builder)
 }

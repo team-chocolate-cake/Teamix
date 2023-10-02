@@ -5,6 +5,7 @@ import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
 import com.chocolate.usecases.member.IsMemberLoggedInUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,13 +18,17 @@ class MainViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            _state.update {
-                it.copy(
-                    isDark = customizeProfileSettings.isDarkThemeEnabled(),
-                    isLoggedIn = isMemberLoggedInUseCase()
-                )
+            isMemberLoggedInUseCase().collectLatest {result->
+                _state.update {
+                    it.copy(
+                        isDark = customizeProfileSettings.isDarkThemeEnabled(),
+                        isLoggedIn = result
+                    )
+                }
             }
+
         }
+
     }
 
     fun getLastSelectedAppLanguage() =

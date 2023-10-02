@@ -29,7 +29,7 @@ import com.chocolate.presentation.composable.DMMemberItem
 import com.chocolate.presentation.composable.NoInternetLottie
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
-import com.chocolate.presentation.screens.directmessagechat.navigateToDmChat
+import com.chocolate.presentation.screens.directmessagechat.navigateToDirectMessageChat
 import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingXLarge
@@ -55,7 +55,7 @@ fun DirectMessageChooseMemberScreen(
         viewModel.effect.collectLatest {
             when (it) {
                 is DirectMessageChooseMemberUiEffect.NavigateToDmChat -> {
-                    navController.navigateToDmChat(
+                    navController.navigateToDirectMessageChat(
                         popBackStack = true,
                         groupId = it.groupId,
                         memberName = state.selectedMembersUiState!!.name,

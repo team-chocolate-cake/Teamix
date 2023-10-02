@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
@@ -32,6 +33,7 @@ import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.topicmessages.navigateToTopicMessage
 import com.chocolate.presentation.theme.Float1
+import com.chocolate.presentation.theme.Height56
 import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingHuge
 import com.chocolate.presentation.theme.SpacingMedium
@@ -188,6 +190,7 @@ private fun TextInputField(
             color = MaterialTheme.customColors().onBackground87
         )
         TeamixTextField(
+            modifier = Modifier.fillMaxWidth().height(Height56),
             value = value,
             onValueChange = { onValueChange(it) },
             singleLine = true

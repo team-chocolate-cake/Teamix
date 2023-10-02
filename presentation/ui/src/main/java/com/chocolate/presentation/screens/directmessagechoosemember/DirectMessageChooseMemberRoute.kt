@@ -13,6 +13,6 @@ fun NavGraphBuilder.directMessageChooseMemberRoute(){
     }
 }
 
-fun NavController.navigateToDMChooseMember(){
+fun NavController.navigateToDirectMessageChooseMember(){
     navigate(Screen.DirectMessageChooseMember.route)
 }

@@ -28,14 +28,12 @@ fun TeamixApp(isDarkMode: Boolean, isLoggedIn: Boolean) {
         BottomNavigationItem.DMs.screenRoute,
         BottomNavigationItem.Search.screenRoute,
         -> true
-
         else -> false
     }
     val shouldChangeStatusBarColor = when (currentRoute(navController)) {
         BottomNavigationItem.Home.screenRoute,
         BottomNavigationItem.Search.screenRoute,
         -> false
-
         else -> true
     }
 

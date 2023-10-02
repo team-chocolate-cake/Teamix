@@ -32,11 +32,11 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.chocolate.presentation.theme.SpacingMassive
-import com.chocolate.presentation.theme.SpacingXXSmall
-import com.chocolate.presentation.theme.SpacingTiny
-import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingHuge
+import com.chocolate.presentation.theme.SpacingMassive
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingTiny
+import com.chocolate.presentation.theme.SpacingXXSmall
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.topicmessages.MessageUiState
 
@@ -135,7 +135,6 @@ fun MessageCard(
                         overflow = messageOverflow,
                         maxLines = messageMaxLines
                     )
-
                 }
 
                 AnimatedVisibility(messageUiState.messageImageUrl.isNotEmpty()) {
@@ -160,8 +159,6 @@ fun MessageCard(
                     color = MaterialTheme.customColors().onBackground87
                 )
             }
-
         }
     }
-
 }

@@ -140,12 +140,11 @@
     <string name="topic_name_validation">El nombre del tema no puede estar vacío y debe tener menos de 60 caracteres.</string>
     <string name="tasksOrganization">Tareas</string>
     <string name="home">Canales</string>
-    <string name="dms">Mensajes</string>
+    <string name="direct_messages">Mensajes</string>
     <string name="message_deleted_successfully">El mensaje se eliminó con éxito</string>
     <string name="cancle">Cancelar</string>
     <string name="no_saved_items">No hay elementos guardados</string>
     <string name="no_saved_items_body">Los elementos guardados aparecerán aquí para un acceso y referencia fáciles.</string>
-    <string name="draft_messages_to_send_when_you_re_ready">Mensajes en borrador para enviar cuando estés listo</string>
     <string name="sub_title_empty_data">Comienza a escribir un mensaje en cualquier lugar y encuéntralo aquí. ¡Relee, revisa y envía cuando lo desees!</string>
     <string name="no_internet">Sin conexión a internet</string>
     <string name="search_for_channels">Buscar canales</string>

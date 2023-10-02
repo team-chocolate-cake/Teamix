@@ -41,6 +41,7 @@ import com.chocolate.presentation.screens.createorganization.navigateToCreateOrg
 import com.chocolate.presentation.screens.login.navigateToLogin
 import com.chocolate.presentation.screens.welcome.navigateToWelcome
 import com.chocolate.presentation.theme.Float1
+import com.chocolate.presentation.theme.Height56
 import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.SpacingGigantic
 import com.chocolate.presentation.theme.SpacingHuge
@@ -116,10 +117,11 @@ fun OrganizationContent(
             )
             TeamixTextField(
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(horizontal = SpacingXLarge)
                     .padding(bottom = SpacingHuge)
-                    .padding(top = SpacingMedium),
+                    .padding(top = SpacingMedium)
+                    .fillMaxWidth()
+                    .height(Height56),
                 value = state.organizationName,
                 onValueChange = { nameOrganization ->
                     organizationNameInteraction.onOrganizationNameChange(nameOrganization)

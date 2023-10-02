@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -34,9 +35,10 @@ import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.home.navigateToHome
+import com.chocolate.presentation.theme.Height56
 import com.chocolate.presentation.theme.LightCard
-import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
@@ -108,7 +110,10 @@ fun ChooseMemberContent(
             )
         }
     ) { paddingValues ->
-        systemUiController.setStatusBarColor(MaterialTheme.customColors().card, darkIcons = isDarkIcons)
+        systemUiController.setStatusBarColor(
+            MaterialTheme.customColors().card,
+            darkIcons = isDarkIcons
+        )
         Box {
             LazyColumn(
                 modifier = Modifier
@@ -120,7 +125,10 @@ fun ChooseMemberContent(
                 item {
                     TeamixTextField(
                         value = searchQuery,
-                        modifier = Modifier.padding(horizontal = SpacingXLarge),
+                        modifier = Modifier
+                            .padding(horizontal = SpacingXLarge)
+                            .fillMaxWidth()
+                            .height(Height56),
                         hint = stringResource(id = R.string.search),
                         onValueChange = { chooseMemberInteraction.onChangeSearchQuery(it) },
                         leadingIcon = {

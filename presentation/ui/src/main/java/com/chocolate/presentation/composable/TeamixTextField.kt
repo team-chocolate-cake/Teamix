@@ -1,8 +1,6 @@
 package com.chocolate.presentation.composable
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -19,7 +17,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import com.chocolate.presentation.theme.Height56
 import com.chocolate.presentation.theme.Radius12
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.TeamixTheme
@@ -45,9 +42,7 @@ fun TeamixTextField(
     val colors = MaterialTheme.customColors()
 
     TextField(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(Height56),
+        modifier = modifier,
         value = value,
         onValueChange = { onValueChange(it) },
         textStyle = remember {

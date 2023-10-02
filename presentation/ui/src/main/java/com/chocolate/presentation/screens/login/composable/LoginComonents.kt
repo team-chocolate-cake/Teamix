@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.login.composable
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
@@ -16,6 +17,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixTextField
+import com.chocolate.presentation.theme.Height56
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.customColors
@@ -38,8 +40,9 @@ fun LoginComponents(
     )
     TeamixTextField(
         modifier = Modifier
+            .padding(top = SpacingMedium)
             .fillMaxWidth()
-            .padding(top = SpacingMedium),
+            .height(Height56),
         value = email,
         onValueChange = { onChangeEmail(it) },)
 
@@ -53,8 +56,9 @@ fun LoginComponents(
         if (passwordVisibility) R.drawable.ic_eye else R.drawable.ic_eye_closed
     TeamixTextField(
         modifier = Modifier
+            .padding(top = SpacingMedium)
             .fillMaxWidth()
-            .padding(top = SpacingMedium),
+            .height(Height56),
         value = password,
         onValueChange = { onChangePassword(it) },
         trailingIcon = {

@@ -14,7 +14,7 @@ interface MemberRepository {
 
     suspend fun loginMember(email: String, password: String)
 
-    suspend fun isMemberLoggedIn(): Boolean
+    suspend fun isMemberLoggedIn(): Flow<Boolean>
 
     suspend fun logoutMember()
 

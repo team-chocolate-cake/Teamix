@@ -41,6 +41,8 @@ import com.chocolate.presentation.screens.createorganization.navigateToCreateOrg
 import com.chocolate.presentation.screens.login.navigateToLogin
 import com.chocolate.presentation.screens.welcome.navigateToWelcome
 import com.chocolate.presentation.theme.Float1
+import com.chocolate.presentation.theme.Height56
+import com.chocolate.presentation.theme.LightBackground
 import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.SpacingGigantic
 import com.chocolate.presentation.theme.SpacingHuge
@@ -55,6 +57,7 @@ import com.chocolate.viewmodel.organizationname.OrganizationNameInteraction
 import com.chocolate.viewmodel.organizationname.OrganizationNameUiEffect
 import com.chocolate.viewmodel.organizationname.OrganizationNameUiState
 import com.chocolate.viewmodel.organizationname.OrganizationNameViewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun OrganizationScreen(
@@ -93,12 +96,15 @@ fun OrganizationContent(
     val scrollState = rememberScrollState()
     val context = LocalContext.current
     val rootView = LocalView.current
+    val isDarkIcons = MaterialTheme.customColors().background == LightBackground
     TeamixScaffold {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(scrollState)
-        ) {
+        ){
+            val systemUiController = rememberSystemUiController()
+            systemUiController.setStatusBarColor(colors.background, darkIcons = isDarkIcons)
             Image(
                 painter = painterResource(id = R.drawable.img_start_organization),
                 contentDescription = null,
@@ -116,10 +122,11 @@ fun OrganizationContent(
             )
             TeamixTextField(
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(horizontal = SpacingXLarge)
                     .padding(bottom = SpacingHuge)
-                    .padding(top = SpacingMedium),
+                    .padding(top = SpacingMedium)
+                    .fillMaxWidth()
+                    .height(Height56),
                 value = state.organizationName,
                 onValueChange = { nameOrganization ->
                     organizationNameInteraction.onOrganizationNameChange(nameOrganization)

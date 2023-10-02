@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
+import com.chocolate.presentation.Screen
 import com.chocolate.presentation.composable.SeparatorWithText
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixScaffold
@@ -62,7 +63,11 @@ fun LoginScreen(
 
     CollectUiEffect(loginViewModel.effect) { effect ->
         when (effect) {
-            LoginUiEffect.NavigationToHome -> navController.navigateToHome()
+            LoginUiEffect.NavigationToHome -> navController.navigateToHome{
+                popUpTo(Screen.OrganizationName.route){
+                    inclusive = true
+                }
+            }
             is LoginUiEffect.NavigateToCreateNewAccount -> navController.navigateToCreateMember(
                 effect.role,
                 null

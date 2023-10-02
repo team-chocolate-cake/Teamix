@@ -10,7 +10,7 @@ import com.chocolate.presentation.screens.createmember.createMemberRoute
 import com.chocolate.presentation.screens.createorganization.createOrganizationRoute
 import com.chocolate.presentation.screens.createtopic.createTopicRoute
 import com.chocolate.presentation.screens.directmessage.directMessageRoute
-import com.chocolate.presentation.screens.directmessagechat.dmChatRoute
+import com.chocolate.presentation.screens.directmessagechat.directMessageChatRoute
 import com.chocolate.presentation.screens.directmessagechoosemember.directMessageChooseMemberRoute
 import com.chocolate.presentation.screens.savedtopics.savedTopicsRoute
 import com.chocolate.presentation.screens.home.homeRoute
@@ -44,7 +44,7 @@ fun TeamixNavGraph(navController: NavHostController) {
         channelRoute()
         createMemberRoute()
         directMessageChooseMemberRoute()
-        dmChatRoute()
+        directMessageChatRoute()
         createTopicRoute()
     }
 }

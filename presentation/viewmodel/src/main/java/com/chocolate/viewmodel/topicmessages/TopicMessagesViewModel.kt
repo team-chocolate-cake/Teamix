@@ -1,10 +1,8 @@
 package com.chocolate.viewmodel.topicmessages
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.entity.Message
 import com.chocolate.entities.util.NoConnectionException
 import com.chocolate.usecases.member.GetCurrentMemberUseCase
@@ -13,9 +11,7 @@ import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Date
@@ -65,18 +61,16 @@ class TopicMessagesViewModel @Inject constructor(
 
 
     private fun getAllMessages() {
-        viewModelScope.launch {
-            tryToExecuteFlow(
-                flowBlock = {
-                    manageSaveLaterMessageUseCase.getMessages(
-                        topicArgs.topicId,
-                        topicArgs.channelId.toString()
-                    )
-                },
-                onSuccess = ::onSuccessGetMessage,
-                onError = ::onError
-            )
-        }
+        tryToExecuteFlow(
+            flowBlock = {
+                manageSaveLaterMessageUseCase.getMessages(
+                    topicArgs.topicId,
+                    topicArgs.channelId.toString()
+                )
+            },
+            onSuccess = ::onSuccessGetMessage,
+            onError = ::onError
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -94,20 +88,13 @@ class TopicMessagesViewModel @Inject constructor(
         )
     }
 
-    private suspend fun onSuccessGetMessage(flow: Flow<List<Message>>) {
-        flow.collectLatest { messages ->
-            messages.map {
-                _state.update {
-                    it.copy(
-                        messages = messages.toUiState()
-                    )
-                }
-            }
+    private fun onSuccessGetMessage(flow: Flow<List<Message>>) {
+        collectFlow(flow) { messages ->
+            this.copy(messages = messages.toUiState())
         }
     }
 
     private fun onError(throwable: Throwable) {
-        Log.i("sdsds", throwable.message.toString())
         val error = when (throwable) {
             is NoConnectionException -> stringsResource.noConnectionMessage
             else -> stringsResource.globalMessageError

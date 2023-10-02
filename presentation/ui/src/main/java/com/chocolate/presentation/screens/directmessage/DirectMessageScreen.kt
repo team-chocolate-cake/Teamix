@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
@@ -24,8 +26,9 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.DirectMessageChat
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
-import com.chocolate.presentation.screens.directmessagechat.navigateToDmChat
-import com.chocolate.presentation.screens.directmessagechoosemember.navigateToDMChooseMember
+import com.chocolate.presentation.screens.directmessagechat.navigateToDirectMessageChat
+import com.chocolate.presentation.screens.directmessagechoosemember.navigateToDirectMessageChooseMember
+import com.chocolate.presentation.theme.Height56
 import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.Radius8
 import com.chocolate.presentation.theme.SpacingXLarge
@@ -44,9 +47,9 @@ fun DirectMessageScreen(dmViewModel: DirectMessageViewModel = hiltViewModel()) {
     val state by dmViewModel.state.collectAsState()
     CollectUiEffect(dmViewModel.effect) {
         when (it) {
-            DirectMessageUiEffect.NavigateToChooseMember -> navController.navigateToDMChooseMember()
+            DirectMessageUiEffect.NavigateToChooseMember -> navController.navigateToDirectMessageChooseMember()
             is DirectMessageUiEffect.NavigateToChat -> {
-                navController.navigateToDmChat(
+                navController.navigateToDirectMessageChat(
                     groupId = it.groupId,
                     memberName = it.name,
                 )
@@ -93,7 +96,10 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
         )
         Column() {
             TeamixTextField(
-                modifier = Modifier.padding(SpacingXLarge),
+                modifier = Modifier
+                    .padding(SpacingXLarge)
+                    .fillMaxWidth()
+                    .height(Height56),
                 value = searchQuery,
                 singleLine = true,
                 onValueChange = { interactions.onChangeSearchQuery(it) },

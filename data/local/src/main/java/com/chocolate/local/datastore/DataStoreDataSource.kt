@@ -35,10 +35,10 @@ class DataStoreDataSource @Inject constructor(
         }
     }
 
-    override suspend fun isMemberLoggedIn(): Boolean {
+    override suspend fun isMemberLoggedIn(): Flow<Boolean> {
         return dataStore.data.mapLatest {
             it[LOGIN_STATE] ?: false
-        }.first()
+        }
     }
 
     override suspend fun setMemberLoggedIn() {

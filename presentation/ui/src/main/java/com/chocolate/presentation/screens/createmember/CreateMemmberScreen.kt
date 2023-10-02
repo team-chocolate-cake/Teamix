@@ -36,6 +36,7 @@ import com.chocolate.presentation.composable.TeamixImagePicker
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.home.navigateToHome
+import com.chocolate.presentation.theme.Height56
 import com.chocolate.presentation.theme.SpacingSmall
 import com.chocolate.presentation.theme.SpacingUltraGigantic
 import com.chocolate.presentation.theme.SpacingXLarge
@@ -193,8 +194,9 @@ private fun InputFieldWithLabel(
     if (isPasswordStyle) {
         TeamixTextField(
             modifier = Modifier
+                .padding(top = SpacingMedium)
                 .fillMaxWidth()
-                .padding(top = SpacingMedium),
+                .height(Height56),
             value = inputFieldValue,
             onValueChange = { onInputChange(it) },
             trailingIcon = {
@@ -208,8 +210,9 @@ private fun InputFieldWithLabel(
     } else {
         TeamixTextField(
             modifier = Modifier
+                .padding(top = SpacingMedium)
                 .fillMaxWidth()
-                .padding(top = SpacingMedium),
+                .height(Height56),
             value = inputFieldValue,
             onValueChange = { onInputChange(it) },
         )

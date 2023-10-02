@@ -12,7 +12,7 @@ interface PreferencesDataSource {
 
     fun isUserUsedAppOrNot(): Flow<Boolean>
 
-    suspend fun isMemberLoggedIn(): Boolean
+    suspend fun isMemberLoggedIn(): Flow<Boolean>
 
     suspend fun setMemberLoggedIn()
 

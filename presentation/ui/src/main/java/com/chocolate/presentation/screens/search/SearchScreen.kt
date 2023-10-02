@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -42,6 +43,7 @@ import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.channel.navigateToChannel
 import com.chocolate.presentation.screens.search.composable.ChannelSearchItem
 import com.chocolate.presentation.screens.search.composable.SearchLottie
+import com.chocolate.presentation.theme.Height56
 import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.SpacingMedium
@@ -110,7 +112,7 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
                     .background(colors.card)
             ) {
                 TeamixTextField(
-                    modifier = Modifier.padding(SpacingXLarge),
+                    modifier =  Modifier.padding(SpacingXLarge).fillMaxWidth().height(Height56),
                     value = query.value,
                     singleLine = true,
                     onValueChange = { searchInteraction.onChangeSearchQuery(it) },

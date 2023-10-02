@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -37,13 +36,12 @@ fun TopicMessageScreen(
 ) {
     val navController = LocalNavController.current
     val state by viewModel.state.collectAsState()
-    val scrollState = rememberLazyListState()
     CollectUiEffect(viewModel.effect) { effect ->
         when (effect) {
             TopicMessagesEffect.NavigationBack -> navController.popBackStack()
         }
     }
-    TopicMessageContent(topicUiState = state, viewModel, scrollState)
+    TopicMessageContent(topicUiState = state, viewModel)
 }
 
 
@@ -53,11 +51,10 @@ fun TopicMessageScreen(
 fun TopicMessageContent(
     topicUiState: TopicUiState,
     topicInteraction: TopicMessagesInteraction,
-    scrollState: LazyListState
 ) {
     val systemUiController = rememberSystemUiController()
     val isDarkIcons = MaterialTheme.customColors().card == LightCard
-
+    val scrollState = rememberLazyListState()
     TeamixScaffold(
         title = topicUiState.topicName,
         hasAppBar = true,
@@ -91,9 +88,7 @@ fun TopicMessageContent(
                 verticalArrangement = Arrangement.Bottom,
                 contentPadding = PaddingValues(bottom = SpacingXLarge, top = SpacingXLarge)
             ) {
-                items(topicUiState.messages.size, key = {
-                    topicUiState.messages[it].id
-                }) {
+                items(topicUiState.messages.size) {
                     MessageCard(
                         modifier = Modifier
                             .animateItemPlacement()

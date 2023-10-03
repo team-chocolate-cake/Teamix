@@ -65,11 +65,15 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
     val colors = MaterialTheme.customColors()
     val systemUiController = rememberSystemUiController()
     val searchQuery by state.searchInput.collectAsState()
-    val isDarkIcons = MaterialTheme.customColors().card == LightCard
-
     TeamixScaffold(
+        modifier = Modifier.fillMaxSize(),
+        containerColorAppBar = MaterialTheme.customColors().primary,
+        title = stringResource(id = R.string.direct_messages_text),
+        titleColor = LightCard,
+        hasAppBar = true,
         floatingActionButton = {
             FloatingActionButton(
+                modifier = Modifier,
                 containerColor = colors.primary,
                 onClick = interactions::onClickNewChat
             ) {
@@ -89,12 +93,11 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
                 )
             }
         }
-    ) {
-        systemUiController.setStatusBarColor(
-            color = MaterialTheme.customColors().background,
-            darkIcons = isDarkIcons
-        )
-        Column() {
+    ) { padding ->
+        systemUiController.setStatusBarColor(colors.transparent, darkIcons = false)
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(padding)) {
             TeamixTextField(
                 modifier = Modifier
                     .padding(SpacingXLarge)

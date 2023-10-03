@@ -32,7 +32,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,15 +45,15 @@ import com.chocolate.presentation.screens.organization.navigateToOrganizationNam
 import com.chocolate.presentation.screens.profile.composable.ProfileDialog
 import com.chocolate.presentation.screens.profile.composable.ProfileHorizontalPager
 import com.chocolate.presentation.screens.profile.composable.ProfileImage
-import com.chocolate.presentation.theme.Height440
 import com.chocolate.presentation.theme.ButtonSize110
+import com.chocolate.presentation.theme.Height440
 import com.chocolate.presentation.theme.Radius16
 import com.chocolate.presentation.theme.Radius24
-import com.chocolate.presentation.theme.Width250
 import com.chocolate.presentation.theme.SpacingGigantic
+import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingXHuge
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.Width250
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
@@ -172,11 +171,8 @@ fun ProfileContent(
     }
 
     TeamixScaffold {
-        systemUiController.setSystemBarsColor(
-            color = MaterialTheme.customColors().background,
-            darkIcons = !state.isDarkTheme
-        )
-        systemUiController.setNavigationBarColor(Color.Black)
+        systemUiController.setSystemBarsColor(color = color.transparent, darkIcons = !state.isDarkTheme)
+        systemUiController.setNavigationBarColor(color.black)
         Column(
             modifier = Modifier
                 .fillMaxSize()

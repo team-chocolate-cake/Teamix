@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -18,14 +17,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.composable.MessageCard
 import com.chocolate.presentation.composable.StartNewMessage
 import com.chocolate.presentation.composable.TeamixScaffold
-import com.chocolate.presentation.theme.LightCard
-import com.chocolate.presentation.theme.SpacingXXMedium
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.customColors
+import com.chocolate.presentation.theme.SpacingXXMedium
 import com.chocolate.viewmodel.directmessagechat.DirectMessagesChatViewModel
 import com.chocolate.viewmodel.topicmessages.TopicMessagesInteraction
 import com.chocolate.viewmodel.topicmessages.TopicUiState
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun DirectMessageChatScreen(viewModel: DirectMessagesChatViewModel = hiltViewModel()) {
@@ -37,9 +33,6 @@ fun DirectMessageChatScreen(viewModel: DirectMessagesChatViewModel = hiltViewMod
 @Composable
 fun DirectMessageChatContent(state: TopicUiState, interaction: TopicMessagesInteraction) {
     val scrollState = rememberLazyListState()
-    val systemUiController = rememberSystemUiController()
-    val isDarkIcons = MaterialTheme.customColors().card == LightCard
-
     TeamixScaffold(
         title = state.topicName,
         hasAppBar = true,
@@ -53,11 +46,6 @@ fun DirectMessageChatContent(state: TopicUiState, interaction: TopicMessagesInte
             )
         }
     ) { padding ->
-        systemUiController.setStatusBarColor(
-            MaterialTheme.customColors().card,
-            darkIcons = isDarkIcons
-        )
-
         ConstraintLayout(
             modifier = Modifier
                 .padding(padding)

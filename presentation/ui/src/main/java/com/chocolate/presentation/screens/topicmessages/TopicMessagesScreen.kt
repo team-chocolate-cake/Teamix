@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -28,7 +27,6 @@ import com.chocolate.viewmodel.topicmessages.TopicMessagesEffect
 import com.chocolate.viewmodel.topicmessages.TopicMessagesInteraction
 import com.chocolate.viewmodel.topicmessages.TopicMessagesViewModel
 import com.chocolate.viewmodel.topicmessages.TopicUiState
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun TopicMessageScreen(
@@ -52,8 +50,6 @@ fun TopicMessageContent(
     topicUiState: TopicUiState,
     topicInteraction: TopicMessagesInteraction,
 ) {
-    val systemUiController = rememberSystemUiController()
-    val isDarkIcons = MaterialTheme.customColors().card == LightCard
     val scrollState = rememberLazyListState()
     TeamixScaffold(
         title = topicUiState.topicName,
@@ -68,11 +64,6 @@ fun TopicMessageContent(
             )
         }
     ) { padding ->
-        systemUiController.setStatusBarColor(
-            MaterialTheme.customColors().card,
-            darkIcons = isDarkIcons
-        )
-
         ConstraintLayout(
             modifier = Modifier
                 .padding(padding)

@@ -110,7 +110,7 @@ fun HomeScreen(
 @Composable
 fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
     val colors = MaterialTheme.customColors()
-
+    val systemUiController = rememberSystemUiController()
     TeamixScaffold(
         modifier = Modifier.fillMaxSize(),
         containerColorAppBar = MaterialTheme.customColors().primary,
@@ -122,8 +122,7 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
         titleColor = OnLightPrimary,
         hasAppBar = true,
     ) { paddingValue ->
-        val systemUiController = rememberSystemUiController()
-        systemUiController.setStatusBarColor(colors.primary, darkIcons = false)
+        systemUiController.setStatusBarColor(colors.transparent, darkIcons = false)
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()

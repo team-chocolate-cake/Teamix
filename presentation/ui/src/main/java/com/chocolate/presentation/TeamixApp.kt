@@ -7,7 +7,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.bottomnavigation.BottomNavigation
@@ -20,6 +19,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @SuppressLint("SuspiciousIndentation")
 @Composable
 fun TeamixApp(isDarkMode: Boolean, isLoggedIn: Boolean) {
+    val colors = MaterialTheme.customColors()
     val navController = rememberNavController()
     val systemUiController = rememberSystemUiController()
     val shouldShowBottomNavigation = when (currentRoute(navController)) {
@@ -30,19 +30,12 @@ fun TeamixApp(isDarkMode: Boolean, isLoggedIn: Boolean) {
         -> true
         else -> false
     }
-    val shouldChangeStatusBarColor = when (currentRoute(navController)) {
-        BottomNavigationItem.Home.screenRoute,
-        BottomNavigationItem.Search.screenRoute,
-        -> false
-        else -> true
-    }
 
     TeamixScaffold(
-        bottomBar = { if (shouldShowBottomNavigation && isLoggedIn) BottomNavigation(navController = navController) }
+        bottomBar = { if (shouldShowBottomNavigation && isLoggedIn) BottomNavigation(navController = navController) },
     ) { innerPadding ->
-        if (shouldChangeStatusBarColor)
-            systemUiController.setStatusBarColor(MaterialTheme.customColors().background, darkIcons = !isDarkMode)
-        systemUiController.setNavigationBarColor(Color.Black)
+        systemUiController.setStatusBarColor(colors.transparent, darkIcons = !isDarkMode)
+        systemUiController.setNavigationBarColor(colors.black)
         Box(modifier = Modifier.padding(innerPadding)) {
             CompositionLocalProvider(LocalNavController provides navController) {
                 TeamixNavGraph(navController = navController)

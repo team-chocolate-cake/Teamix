@@ -16,6 +16,7 @@ val Orange = Color(0xFFEF882A)
 val Gray = Color(0xFFBEBEBE)
 val LightGray = Color(0xFFEFEFEF)
 val DarkGray = Color(0xAB4D4D4D)
+val Transparent = Color(0x00000000)
 
 val LightPrimary = Color(0xFF3558C2)
 val OnLightPrimary = Color(0xFFFFFFFF)
@@ -79,5 +80,6 @@ data class CustomColorsPalette(
     val white: Color = Color.Unspecified,
     val black: Color = Color.Unspecified,
     val red: Color = Color.Unspecified,
-    val red60: Color = Color.Unspecified
+    val red60: Color = Color.Unspecified,
+    val transparent: Color = Color.Unspecified
 )

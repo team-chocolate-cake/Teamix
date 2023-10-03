@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -33,6 +34,13 @@ fun DirectMessageChatScreen(viewModel: DirectMessagesChatViewModel = hiltViewMod
 @Composable
 fun DirectMessageChatContent(state: TopicUiState, interaction: TopicMessagesInteraction) {
     val scrollState = rememberLazyListState()
+    LaunchedEffect(key1 = state.messages.size) {
+        state.messages.takeIf { messages ->
+            messages.isNotEmpty()
+        }?.let {
+            scrollState.animateScrollToItem(0)
+        }
+    }
     TeamixScaffold(
         title = state.topicName,
         hasAppBar = true,

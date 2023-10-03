@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -44,7 +46,8 @@ fun TeamixScaffold(
     val isDarkMode = MaterialTheme.customColors().background == LightBackground
 
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize().navigationBarsPadding(),
+        contentWindowInsets = WindowInsets(0,0,0,0),
         topBar = {
             AnimatedVisibility(visible = hasAppBar) {
                 TeamixAppBar(

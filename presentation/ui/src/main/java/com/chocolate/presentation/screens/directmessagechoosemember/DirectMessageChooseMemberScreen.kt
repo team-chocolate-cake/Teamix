@@ -31,9 +31,8 @@ import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.directmessagechat.navigateToDirectMessageChat
 import com.chocolate.presentation.screens.home.navigateToHome
-import com.chocolate.presentation.theme.LightCard
-import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.LocalNavController
@@ -41,7 +40,6 @@ import com.chocolate.viewmodel.directmessagechoosemember.DirectMessageChooseMemb
 import com.chocolate.viewmodel.directmessagechoosemember.DirectMessageChooseMemberUiEffect
 import com.chocolate.viewmodel.directmessagechoosemember.DirectMessageChooseMemberUiState
 import com.chocolate.viewmodel.directmessagechoosemember.DirectMessageChooseMemberViewModel
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -75,9 +73,6 @@ fun DirectMessageChooseMemberContent(
     navController: NavController
 ) {
     val colors = MaterialTheme.customColors()
-    val systemUiController = rememberSystemUiController()
-    val isDarkIcons = MaterialTheme.customColors().card == LightCard
-
     val text =
         if (state.selectedMembersUiState == null) stringResource(R.string.skip) else stringResource(
             R.string.ok
@@ -122,8 +117,6 @@ fun DirectMessageChooseMemberContent(
             )
         }
     ) { paddingValues ->
-        systemUiController.setStatusBarColor(MaterialTheme.customColors().card, darkIcons = isDarkIcons)
-
         Box {
             LazyColumn(
                 modifier = Modifier

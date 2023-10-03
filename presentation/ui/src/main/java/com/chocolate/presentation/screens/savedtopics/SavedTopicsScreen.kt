@@ -23,14 +23,12 @@ import com.chocolate.presentation.composable.EmptyDataWithBoxLottie
 import com.chocolate.presentation.composable.SwipeCard
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.savedtopics.composable.SavedTopicsCard
-import com.chocolate.presentation.theme.LightCard
-import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.savedTopics.SavedTopicsInteraction
 import com.chocolate.viewmodel.savedTopics.SavedTopicsUiState
 import com.chocolate.viewmodel.savedTopics.SavedTopicsViewModel
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun SavedTopicsScreen(
@@ -44,20 +42,12 @@ fun SavedTopicsScreen(
 @Composable
 fun SavedTopicsContent(state: SavedTopicsUiState, savedTopicsInteraction: SavedTopicsInteraction) {
     val colors = MaterialTheme.customColors()
-    val systemUiController = rememberSystemUiController()
-    val isDarkIcons = MaterialTheme.customColors().card == LightCard
-
     TeamixScaffold(
         hasAppBar = true,
         hasBackArrow = true,
         containerColorAppBar = colors.card,
         title = stringResource(R.string.saved_topics)
     ) { padding ->
-        systemUiController.setStatusBarColor(
-            MaterialTheme.customColors().card,
-            darkIcons = isDarkIcons
-        )
-
         LazyColumn(
             modifier = Modifier.padding(padding),
             contentPadding = PaddingValues(SpacingXLarge),

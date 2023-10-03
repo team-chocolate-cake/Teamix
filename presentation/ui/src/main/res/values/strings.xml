@@ -145,6 +145,7 @@
     <string name="home">Home</string>
     <string name="tasksOrganization">Tasks</string>
     <string name="direct_messages">DMs</string>
+    <string name="direct_messages_text">Direct Messages</string>
     <string name="sub_title_empty_data">Start typing a message anywhere, then find it here. Re-read, revise, and send whenever you’d like.</string>
     <string name="no_internet">No internet</string>
     <string name="search_for_channels">Search for channels</string>

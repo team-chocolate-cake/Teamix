@@ -44,7 +44,6 @@ import com.chocolate.presentation.screens.channel.navigateToChannel
 import com.chocolate.presentation.screens.search.composable.ChannelSearchItem
 import com.chocolate.presentation.screens.search.composable.SearchLottie
 import com.chocolate.presentation.theme.Height56
-import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingExtraHuge
 import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingXLarge
@@ -55,7 +54,6 @@ import com.chocolate.viewmodel.search.SearchEffect
 import com.chocolate.viewmodel.search.SearchInteraction
 import com.chocolate.viewmodel.search.SearchUiState
 import com.chocolate.viewmodel.search.SearchViewModel
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun SearchScreen(
@@ -80,9 +78,6 @@ fun SearchScreen(
 fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
     val colors = MaterialTheme.customColors()
     val query = state.query.collectAsState()
-    val systemUiController = rememberSystemUiController()
-    val isDarkIcons = MaterialTheme.customColors().card == LightCard
-
     TeamixScaffold(
         modifier = Modifier.fillMaxSize(),
         error = state.error,
@@ -95,11 +90,6 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
         },
         onRetry = { searchInteraction.onClickRetry() },
     ) { paddingValues ->
-        systemUiController.setStatusBarColor(
-            MaterialTheme.customColors().card,
-            darkIcons = isDarkIcons
-        )
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -112,7 +102,11 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
                     .background(colors.card)
             ) {
                 TeamixTextField(
-                    modifier =  Modifier.padding(SpacingXLarge).fillMaxWidth().height(Height56),
+                    modifier = Modifier
+                        .padding(SpacingXLarge)
+                        .padding(top = SpacingExtraHuge)
+                        .fillMaxWidth()
+                        .height(Height56),
                     value = query.value,
                     singleLine = true,
                     onValueChange = { searchInteraction.onChangeSearchQuery(it) },

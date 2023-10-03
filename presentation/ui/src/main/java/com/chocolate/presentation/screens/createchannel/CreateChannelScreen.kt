@@ -29,10 +29,9 @@ import com.chocolate.presentation.screens.choosemember.navigateToChooseMember
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.createchannel.composable.ToggleButton
 import com.chocolate.presentation.theme.Height56
-import com.chocolate.presentation.theme.LightCard
-import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingHuge
+import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
@@ -40,7 +39,6 @@ import com.chocolate.viewmodel.createchannel.CreateChannelInteraction
 import com.chocolate.viewmodel.createchannel.CreateChannelUiEffect
 import com.chocolate.viewmodel.createchannel.CreateChannelUiState
 import com.chocolate.viewmodel.createchannel.CreateChannelViewModel
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun CreateChannelScreen(
@@ -75,9 +73,6 @@ private fun CreateChannelContent(
 ) {
     val colors = MaterialTheme.customColors()
     val textStyle = MaterialTheme.typography
-    val systemUiController = rememberSystemUiController()
-    val isDarkIcons = MaterialTheme.customColors().card == LightCard
-
     TeamixScaffold(
         isLoading = state.isLoading,
         title = stringResource(id = R.string.create_channel),
@@ -91,11 +86,6 @@ private fun CreateChannelContent(
             ) { CircularProgressIndicator(color = colors.primary) }
         },
     ) { paddingValues ->
-        systemUiController.setStatusBarColor(
-            MaterialTheme.customColors().card,
-            darkIcons = isDarkIcons
-        )
-
         Column(
             modifier = Modifier
                 .fillMaxSize()

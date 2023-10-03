@@ -143,6 +143,7 @@
     <string name="tasksOrganization">任务</string>
     <string name="home">频道</string>
     <string name="direct_messages">私信</string>
+    <string name="direct_messages_text">直接消息</string>
     <string name="sub_title_empty_data">在任何地方开始输入一条消息，然后在这里找到它。在需要时重新阅读、修改并发送。</string>
     <string name="no_internet">无网络连接</string>
     <string name="search_for_channels">搜索频道</string>

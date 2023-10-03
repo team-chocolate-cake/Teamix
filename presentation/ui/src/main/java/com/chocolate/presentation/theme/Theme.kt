@@ -60,7 +60,8 @@ val onLightCustomColorsPalette = CustomColorsPalette(
     white = White,
     black = Black,
     red60 = LightRed60,
-    red = LightRed
+    red = LightRed,
+    transparent = Transparent
 )
 
 val onDarkCustomColorsPalette = CustomColorsPalette(
@@ -88,7 +89,8 @@ val onDarkCustomColorsPalette = CustomColorsPalette(
     white = White,
     black = Black,
     red60 = DarkRed60,
-    red = DarkRed
+    red = DarkRed,
+    transparent = Transparent
 )
 
 @SuppressLint("CompositionLocalNaming")
@@ -118,7 +120,8 @@ fun TeamixTheme(
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = isInDarkTheme.value
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars =
+                isInDarkTheme.value
         }
     }
     val customColorsPalette =

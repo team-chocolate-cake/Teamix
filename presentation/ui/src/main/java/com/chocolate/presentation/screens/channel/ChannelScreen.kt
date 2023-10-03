@@ -24,7 +24,6 @@ import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.channel.composable.TopicCard
 import com.chocolate.presentation.screens.createtopic.navigateToCreateTopic
 import com.chocolate.presentation.screens.topicmessages.navigateToTopicMessage
-import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
@@ -34,7 +33,6 @@ import com.chocolate.viewmodel.channel.ChannelInteraction
 import com.chocolate.viewmodel.channel.ChannelScreenUiState
 import com.chocolate.viewmodel.channel.ChannelUiEffect
 import com.chocolate.viewmodel.channel.ChannelViewModel
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun ChannelScreen(
@@ -68,9 +66,8 @@ fun ChannelContent(
     state: ChannelScreenUiState,
     channelInteraction: ChannelInteraction
 ) {
-    val systemUiController = rememberSystemUiController()
-    val isDarkIcons = MaterialTheme.customColors().card == LightCard
     TeamixScaffold(
+        modifier = Modifier,
         hasBackArrow = true,
         title = state.channelName,
         hasAppBar = true,
@@ -89,10 +86,6 @@ fun ChannelContent(
             }
         }
     ) { padding ->
-        systemUiController.setStatusBarColor(
-            MaterialTheme.customColors().card,
-            darkIcons = isDarkIcons
-        )
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()

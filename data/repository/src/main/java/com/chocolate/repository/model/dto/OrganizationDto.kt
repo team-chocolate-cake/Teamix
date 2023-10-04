@@ -1,4 +1,4 @@
-package com.chocolate.repository.model.dto.organization
+package com.chocolate.repository.model.dto
 
 data class OrganizationDto(
     val name: String? = null,

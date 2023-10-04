@@ -1,4 +1,4 @@
-package com.chocolate.repository.model.dto.directmessage
+package com.chocolate.repository.model.dto
 
 import java.util.Date
 

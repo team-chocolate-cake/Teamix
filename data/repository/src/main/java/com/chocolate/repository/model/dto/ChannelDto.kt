@@ -1,4 +1,4 @@
-package com.chocolate.repository.model.dto.channel
+package com.chocolate.repository.model.dto
 
 data class ChannelDto(
     val id: String? = null,

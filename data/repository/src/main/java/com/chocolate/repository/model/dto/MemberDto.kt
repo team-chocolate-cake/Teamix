@@ -1,4 +1,4 @@
-package com.chocolate.repository.model.dto.member
+package com.chocolate.repository.model.dto
 
 data class MemberDto(
     val id: String? = null,

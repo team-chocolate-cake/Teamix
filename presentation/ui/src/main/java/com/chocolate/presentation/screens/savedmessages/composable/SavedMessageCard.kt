@@ -22,18 +22,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.chocolate.presentation.R
 import com.chocolate.presentation.theme.Radius12
 import com.chocolate.presentation.theme.SpacingMassive
-import com.chocolate.presentation.theme.SpacingXXSmall
 import com.chocolate.presentation.theme.SpacingMedium
+import com.chocolate.presentation.theme.SpacingXXSmall
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.savedmessage.MessageItemUiState
 
 @Composable
-fun SaveLaterCard(item: MessageItemUiState, painter: Painter) {
+fun SavedMessagesCard(item: MessageItemUiState, painter: Painter) {
     val colors = MaterialTheme.customColors()
     Card(
         modifier = Modifier
@@ -42,8 +41,6 @@ fun SaveLaterCard(item: MessageItemUiState, painter: Painter) {
             .clip(RoundedCornerShape(Radius12)),
         colors = CardDefaults.cardColors(containerColor = colors.card)
     ) {
-
-
         Row(
             modifier = Modifier
                 .fillMaxSize()
@@ -61,7 +58,7 @@ fun SaveLaterCard(item: MessageItemUiState, painter: Painter) {
             )
             Column(verticalArrangement = Arrangement.spacedBy(SpacingXXSmall)) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxSize(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
@@ -77,8 +74,6 @@ fun SaveLaterCard(item: MessageItemUiState, painter: Painter) {
                 }
                 Text(
                     text = item.messageContent,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
                     color = colors.onBackground60,
                     style = MaterialTheme.typography.labelMedium
                 )
@@ -90,7 +85,7 @@ fun SaveLaterCard(item: MessageItemUiState, painter: Painter) {
 @Preview
 @Composable
 private fun Preview() {
-    SaveLaterCard(
+    SavedMessagesCard(
         item = MessageItemUiState(
             id = "50",
             imageUrl = "https://i.pinimg.com/originals/bf/31/9c/bf319cbf55fa59d5e7516506900a3144.jpg",

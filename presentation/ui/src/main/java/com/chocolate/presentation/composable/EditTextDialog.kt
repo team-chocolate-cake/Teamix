@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
 import com.chocolate.presentation.R
-import com.chocolate.presentation.theme.Radius24
+import com.chocolate.presentation.theme.SpacingHuge
 import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXXSmall
@@ -35,19 +35,15 @@ fun EditTextDialog(
     confirmButton: (String) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    var text by rememberSaveable {
-        mutableStateOf(value)
-    }
-    var error by rememberSaveable {
-        mutableStateOf("")
-    }
+    var text by rememberSaveable { mutableStateOf(value) }
+    var error by rememberSaveable { mutableStateOf("") }
     val errorMessage = stringResource(id = R.string.full_name_can_t_be_empty)
     val color = MaterialTheme.customColors()
 
     Dialog(onDismiss) {
         Surface(shape = MaterialTheme.shapes.medium) {
             Column {
-                Column(Modifier.padding(Radius24)) {
+                Column(Modifier.padding(SpacingHuge)) {
                     Text(
                         text = title,
                         style = MaterialTheme.typography.bodyLarge,

@@ -24,7 +24,7 @@ import com.chocolate.presentation.composable.EmptyDataWithBoxLottie
 import com.chocolate.presentation.composable.SwipeCard
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
-import com.chocolate.presentation.screens.savedmessages.composable.SaveLaterCard
+import com.chocolate.presentation.screens.savedmessages.composable.SavedMessagesCard
 import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.customColors
@@ -62,7 +62,7 @@ fun SaveLaterContent(state: SaveMessageUiState, interaction: SavedMessageInterac
                     modifier = Modifier.animateItemPlacement(),
                     itemId = message.id,
                     cardItem = {
-                        SaveLaterCard(
+                        SavedMessagesCard(
                             item = message,
                             painter = rememberAsyncImagePainter(model = message.imageUrl)
                         )
@@ -105,5 +105,4 @@ fun SaveLaterContent(state: SaveMessageUiState, interaction: SavedMessageInterac
             )
         }
     }
-
 }

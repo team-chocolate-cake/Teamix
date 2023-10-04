@@ -3,7 +3,7 @@ package com.chocolate.repository.mappers
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.chocolate.entities.entity.Topic
-import com.chocolate.repository.model.dto.topic.TopicDto
+import com.chocolate.repository.model.dto.TopicDto
 import com.chocolate.repository.utils.getCurrentTime
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

@@ -1,8 +1,8 @@
 package com.chocolate.viewmodel.main
 
 import androidx.lifecycle.viewModelScope
-import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
-import com.chocolate.usecases.member.IsMemberLoggedInUseCase
+import com.chocolate.usecases.usecase.member.CustomizeProfileSettingsUseCase
+import com.chocolate.usecases.usecase.member.IsMemberLoggedInUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest

@@ -22,19 +22,24 @@ fun TeamixApp(isDarkMode: Boolean, isLoggedIn: Boolean) {
     val colors = MaterialTheme.customColors()
     val navController = rememberNavController()
     val systemUiController = rememberSystemUiController()
-    val shouldShowBottomNavigation = when (currentRoute(navController)) {
+    val shouldShowBottomNavigation = (currentRoute(navController)) in listOf(
         BottomNavigationItem.Home.screenRoute,
         BottomNavigationItem.Profile.screenRoute,
         BottomNavigationItem.DMs.screenRoute,
         BottomNavigationItem.Search.screenRoute,
-        -> true
-        else -> false
-    }
+    )
+    val shouldUseLightStatusBarIcons = (currentRoute(navController)) in listOf(
+        BottomNavigationItem.Home.screenRoute,
+        BottomNavigationItem.DMs.screenRoute,
+    )
 
     TeamixScaffold(
         bottomBar = { if (shouldShowBottomNavigation && isLoggedIn) BottomNavigation(navController = navController) },
     ) { innerPadding ->
-        systemUiController.setStatusBarColor(colors.transparent, darkIcons = !isDarkMode)
+        systemUiController.setStatusBarColor(
+            color = colors.transparent,
+            darkIcons = if (shouldUseLightStatusBarIcons) false else !isDarkMode
+        )
         systemUiController.setNavigationBarColor(colors.black)
         Box(modifier = Modifier.padding(innerPadding)) {
             CompositionLocalProvider(LocalNavController provides navController) {

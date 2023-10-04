@@ -5,11 +5,11 @@ import com.chocolate.entities.entity.Member
 import com.chocolate.entities.util.EmptyMemberIdException
 import com.chocolate.entities.util.EmptyOrganizationNameException
 import com.chocolate.entities.util.NoConnectionException
-import com.chocolate.usecases.channel.ManageChannelUseCase
-import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
-import com.chocolate.usecases.member.GetCurrentMemberUseCase
-import com.chocolate.usecases.member.IsMemberLoggedInUseCase
-import com.chocolate.usecases.organization.ManageOrganizationUseCase
+import com.chocolate.usecases.usecase.channel.ManageChannelUseCase
+import com.chocolate.usecases.usecase.member.CustomizeProfileSettingsUseCase
+import com.chocolate.usecases.usecase.member.GetCurrentMemberUseCase
+import com.chocolate.usecases.usecase.member.IsMemberLoggedInUseCase
+import com.chocolate.usecases.usecase.organization.ManageOrganizationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.profile.toOwnerUserUiState
 import dagger.hilt.android.lifecycle.HiltViewModel

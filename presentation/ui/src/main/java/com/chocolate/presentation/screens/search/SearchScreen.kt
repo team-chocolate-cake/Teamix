@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -31,6 +32,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,6 +53,7 @@ import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
+import com.chocolate.presentation.util.hideKeyboard
 import com.chocolate.viewmodel.search.SearchEffect
 import com.chocolate.viewmodel.search.SearchInteraction
 import com.chocolate.viewmodel.search.SearchUiState
@@ -78,6 +82,8 @@ fun SearchScreen(
 fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
     val colors = MaterialTheme.customColors()
     val query = state.query.collectAsState()
+    val context = LocalContext.current
+    val rootView = LocalView.current
     TeamixScaffold(
         modifier = Modifier.fillMaxSize(),
         error = state.error,
@@ -108,6 +114,7 @@ fun SearchContent(state: SearchUiState, searchInteraction: SearchInteraction) {
                         .fillMaxWidth()
                         .height(Height56),
                     value = query.value,
+                    keyboardActions = KeyboardActions(onDone = { hideKeyboard(context, rootView) }),
                     singleLine = true,
                     onValueChange = { searchInteraction.onChangeSearchQuery(it) },
                     containerColor = colors.background,

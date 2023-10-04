@@ -28,7 +28,7 @@ object ProjectDependencies {
     private const val MATERIAL3_VERSION = "1.1.0-beta01"
     private const val COMPOSE_FOUNDATION_VERSION = "1.4.3"
     private const val ACCOMPANIST = "0.31.0-alpha"
-    private const val APP_COMPAT = "1.6.1"
+    private const val MONITOR_VERSION = "1.6.1"
     private const val SYSTEM_UI_CONTROLLER_VERSION = "0.31.0-alpha"
     private const val ENCRYPTED_SHARED_PREF_VERSION = "1.1.0-alpha06"
 
@@ -37,7 +37,8 @@ object ProjectDependencies {
         "androidx.constraintlayout:constraintlayout-compose:$CONSTRAINT_LAYOUT_VERSION"
     const val kotlinBom = "org.jetbrains.kotlin:kotlin-bom:$KOTLIN_BOM"
     const val junit = "junit:junit:$JUNIT_VERSION"
-    const val junitExtension = "androidx.test.ext:junit:$JUNIT_KTS_VERSION"
+    const val junitExtension = "androidx.test.ext:junit-ktx:$JUNIT_KTS_VERSION"
+    const val monitor = "androidx.test:monitor:$MONITOR_VERSION"
 
     const val hilt = "com.google.dagger:hilt-android:$HILT_VERSION"
     const val hiltCompiler = "com.google.dagger:hilt-compiler:$HILT_VERSION"

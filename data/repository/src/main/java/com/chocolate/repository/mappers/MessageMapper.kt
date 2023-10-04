@@ -3,8 +3,10 @@ package com.chocolate.repository.mappers
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.chocolate.entities.entity.Message
-import com.chocolate.repository.model.dto.message.MessageDto
+import com.chocolate.repository.model.dto.MessageDto
 import com.chocolate.repository.utils.getCurrentTime
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.util.Date
 
 @JvmName("messageDtoToMessage")
@@ -29,3 +31,7 @@ fun Message.toMessageDto() = MessageDto(
     senderImage = senderAvatarUrl,
     timestamp = getCurrentTime()
 )
+
+fun Flow<List<MessageDto>>.toMessage(): Flow<List<Message>> {
+    return this.map { it.map { messageDto -> messageDto.toMessage() } }
+}

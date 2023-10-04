@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -23,6 +24,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,6 +45,7 @@ import com.chocolate.presentation.theme.TeamixTheme
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
+import com.chocolate.presentation.util.hideKeyboard
 import com.chocolate.viewmodel.choosemember.ChooseMemberInteraction
 import com.chocolate.viewmodel.choosemember.ChooseMemberUiEffect
 import com.chocolate.viewmodel.choosemember.ChooseMemberUiState
@@ -72,6 +76,8 @@ fun ChooseMemberContent(
 ) {
     val colors = MaterialTheme.customColors()
     val searchQuery by state.searchQuery.collectAsState()
+    val context = LocalContext.current
+    val rootView = LocalView.current
     TeamixScaffold(
         containerColorAppBar = colors.card,
         hasAppBar = true,
@@ -128,7 +134,10 @@ fun ChooseMemberContent(
                                 painter = painterResource(id = R.drawable.search),
                                 contentDescription = null
                             )
-                        })
+                        },
+                        keyboardActions = KeyboardActions(onDone = { hideKeyboard(context, rootView) }),
+                        singleLine = true,
+                    )
                 }
                 item {
                     AnimatedVisibility(visible = !state.hasNoSelectedMember) {

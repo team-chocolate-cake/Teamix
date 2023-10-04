@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -67,7 +68,7 @@ fun CreateTopicScreen(
         }
     }
 
-    CreateChannelContent(
+    CreateTopicContent(
         state,
         createTopicViewModel,
     )
@@ -75,7 +76,7 @@ fun CreateTopicScreen(
 }
 
 @Composable
-fun CreateChannelContent(
+fun CreateTopicContent(
     state: CreateTopicUiState,
     createTopicInteraction: CreateTopicInteraction,
 ) {
@@ -157,7 +158,7 @@ fun CreateChannelContent(
 
 @Preview
 @Composable
-fun CreateChannelContentPreview() {
+fun CreateTopicContentPreview() {
     TeamixTheme {
         CreateTopicScreen()
     }
@@ -170,7 +171,8 @@ private fun TextInputField(
     onValueChange: (String) -> Unit,
     value: String
 ) {
-
+    val context = LocalContext.current
+    val rootView = LocalView.current
     Column(modifier) {
         Text(
             text = textInputLabel,
@@ -182,7 +184,8 @@ private fun TextInputField(
             modifier = Modifier.fillMaxWidth().height(Height56),
             value = value,
             onValueChange = { onValueChange(it) },
-            singleLine = true
+            keyboardActions = KeyboardActions(onDone = { hideKeyboard(context, rootView) }),
+            singleLine = true,
         )
     }
 }

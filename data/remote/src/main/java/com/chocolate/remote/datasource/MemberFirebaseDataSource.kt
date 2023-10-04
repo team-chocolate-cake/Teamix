@@ -5,8 +5,8 @@ import com.chocolate.remote.util.Constants
 import com.chocolate.remote.util.Constants.PROFILE_IMAGES_PATH
 import com.chocolate.remote.util.tryToExecuteSuspendCall
 import com.chocolate.repository.datasource.remote.MemberDataSource
-import com.chocolate.repository.model.dto.channel.ChannelDto
-import com.chocolate.repository.model.dto.member.MemberDto
+import com.chocolate.repository.model.dto.ChannelDto
+import com.chocolate.repository.model.dto.MemberDto
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage

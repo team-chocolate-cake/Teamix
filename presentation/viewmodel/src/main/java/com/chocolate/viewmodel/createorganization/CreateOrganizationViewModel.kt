@@ -7,7 +7,7 @@ import com.chocolate.entities.util.InvalidOrganizationImageUrl
 import com.chocolate.entities.util.NoConnectionException
 import com.chocolate.entities.util.OrganizationAlreadyExistException
 import com.chocolate.entities.util.OrganizationNameIsSoLongException
-import com.chocolate.usecases.organization.ManageOrganizationUseCase
+import com.chocolate.usecases.usecase.organization.ManageOrganizationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel

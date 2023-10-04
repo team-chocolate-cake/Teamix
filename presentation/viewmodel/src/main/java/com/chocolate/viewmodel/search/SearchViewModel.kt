@@ -4,10 +4,10 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.entity.Channel
 import com.chocolate.entities.util.BlankSearchQueryException
-import com.chocolate.entities.util.NoConnectionException
 import com.chocolate.entities.util.Empty
-import com.chocolate.usecases.search.SearchForChannelUseCase
-import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
+import com.chocolate.entities.util.NoConnectionException
+import com.chocolate.usecases.usecase.member.CustomizeProfileSettingsUseCase
+import com.chocolate.usecases.usecase.search.SearchForChannelUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow

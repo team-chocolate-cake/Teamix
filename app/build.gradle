@@ -73,7 +73,6 @@ dependencies {
     implementation (ProjectDependencies.roomRuntime)
     kapt (ProjectDependencies.roomCompiler)
     implementation(ProjectDependencies.dataStore)
-    implementation(ProjectDependencies.firebase_auth)
 
     implementation(ProjectDependencies.coroutinePlayServices)
     implementation (ProjectDependencies.firebase_firestore)

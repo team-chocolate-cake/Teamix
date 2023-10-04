@@ -3,10 +3,10 @@ package com.chocolate.remote.datasource
 import com.chocolate.entities.util.TeamixException
 import com.chocolate.remote.util.Constants
 import com.chocolate.remote.util.getRandomId
-import com.chocolate.repository.model.dto.message.MessageDto
+import com.chocolate.repository.model.dto.MessageDto
 import com.chocolate.repository.datasource.remote.DirectMessageDataSource
-import com.chocolate.repository.model.dto.directmessage.ChatDto
-import com.chocolate.repository.model.dto.directmessage.NewChat
+import com.chocolate.repository.model.dto.ChatDto
+import com.chocolate.repository.model.dto.NewChat
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.channels.awaitClose

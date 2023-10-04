@@ -1,6 +1,6 @@
 package com.chocolate.repository.datasource.remote
 
-import com.chocolate.repository.model.dto.channel.ChannelDto
+import com.chocolate.repository.model.dto.ChannelDto
 import kotlinx.coroutines.flow.Flow
 
 interface ChannelDataSource {

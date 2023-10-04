@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -19,6 +20,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -35,6 +38,7 @@ import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
+import com.chocolate.presentation.util.hideKeyboard
 import com.chocolate.viewmodel.createchannel.CreateChannelInteraction
 import com.chocolate.viewmodel.createchannel.CreateChannelUiEffect
 import com.chocolate.viewmodel.createchannel.CreateChannelUiState
@@ -73,6 +77,8 @@ private fun CreateChannelContent(
 ) {
     val colors = MaterialTheme.customColors()
     val textStyle = MaterialTheme.typography
+    val context = LocalContext.current
+    val rootView = LocalView.current
     TeamixScaffold(
         isLoading = state.isLoading,
         title = stringResource(id = R.string.create_channel),
@@ -103,9 +109,13 @@ private fun CreateChannelContent(
             )
 
             TeamixTextField(
-                modifier =  Modifier.fillMaxWidth().height(Height56),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(Height56),
                 value = state.channelName,
-                onValueChange = { createChannelInteraction.onChannelNameTextChange(it) }
+                onValueChange = { createChannelInteraction.onChannelNameTextChange(it) },
+                keyboardActions = KeyboardActions(onDone = { hideKeyboard(context, rootView) }),
+                singleLine = true,
             )
 
             Text(
@@ -117,11 +127,14 @@ private fun CreateChannelContent(
             )
 
             TeamixTextField(
-                modifier =  Modifier.fillMaxWidth().height(Height56),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(Height56),
                 value = state.description ?: "",
-                singleLine = true,
                 minLines = 3,
-                onValueChange = { createChannelInteraction.onChannelDescriptionChange(it) }
+                onValueChange = { createChannelInteraction.onChannelDescriptionChange(it) },
+                keyboardActions = KeyboardActions(onDone = { hideKeyboard(context, rootView) }),
+                singleLine = true,
             )
 
             ToggleButton(
@@ -131,7 +144,10 @@ private fun CreateChannelContent(
                     .align(alignment = Alignment.End),
                 color = colors.primary,
                 isFilled = true,
-                onClick = { createChannelInteraction.onNextClicked() }
+                onClick = {
+                    createChannelInteraction.onNextClicked()
+                    hideKeyboard(context, rootView)
+                }
             ) {
                 Text(
                     modifier = Modifier.padding(bottom = SpacingMedium, top = SpacingXLarge),

@@ -9,7 +9,7 @@ import com.chocolate.entities.util.NullDataException
 import com.chocolate.entities.util.ValidationException
 import com.chocolate.entities.util.WrongEmailException
 import com.chocolate.entities.util.WrongEmailOrPasswordException
-import com.chocolate.usecases.member.AttemptMemberLoginUseCase
+import com.chocolate.usecases.usecase.member.AttemptMemberLoginUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel

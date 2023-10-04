@@ -3,8 +3,8 @@ package com.chocolate.viewmodel.organizationname
 import com.chocolate.entities.util.EmptyOrganizationNameException
 import com.chocolate.entities.util.NoConnectionException
 import com.chocolate.entities.util.OrganizationNotFoundException
-import com.chocolate.usecases.onboarding.ManageUserUsedAppUseCase
-import com.chocolate.usecases.organization.ManageOrganizationUseCase
+import com.chocolate.usecases.usecase.onboarding.ManageUserUsedAppUseCase
+import com.chocolate.usecases.usecase.organization.ManageOrganizationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel

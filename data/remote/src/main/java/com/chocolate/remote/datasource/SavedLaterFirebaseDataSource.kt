@@ -3,8 +3,8 @@ package com.chocolate.remote.datasource
 import com.chocolate.remote.util.Constants
 import com.chocolate.remote.util.tryToExecuteSuspendCall
 import com.chocolate.repository.datasource.remote.SavedLaterDataSource
-import com.chocolate.repository.model.dto.message.SavedLaterMessageDto
-import com.chocolate.repository.model.dto.topic.TopicDto
+import com.chocolate.repository.model.dto.MessageDto
+import com.chocolate.repository.model.dto.TopicDto
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.channels.awaitClose
@@ -18,17 +18,17 @@ class SavedLaterFirebaseDataSource @Inject constructor(
 ) : SavedLaterDataSource {
     override suspend fun addSavedLaterMessage(
         organizationName: String,
-        savedLaterMessage: SavedLaterMessageDto
+        messageDto: MessageDto
     ) {
         tryToExecuteSuspendCall {
             firestore
                 .collection(Constants.BASE)
                 .document(organizationName)
                 .collection(Constants.MEMBERS)
-                .document(savedLaterMessage.senderId!!)
+                .document(messageDto.userId!!)
                 .collection(Constants.SAVED_LATER)
-                .document(savedLaterMessage.id!!)
-                .set(savedLaterMessage)
+                .document(messageDto.id!!)
+                .set(messageDto)
                 .await()
         }
     }
@@ -36,7 +36,7 @@ class SavedLaterFirebaseDataSource @Inject constructor(
     override suspend fun getSavedLaterMessages(
         organizationName: String,
         memberId: String
-    ): Flow<List<SavedLaterMessageDto>> {
+    ): Flow<List<MessageDto>> {
         return callbackFlow {
             val listener = firestore
                 .collection(Constants.BASE)
@@ -47,7 +47,7 @@ class SavedLaterFirebaseDataSource @Inject constructor(
                 .addSnapshotListener { savedLaterMessagesSnapShot, error ->
                     error?.let { close(it) }
                     val savedLaterMessage = savedLaterMessagesSnapShot?.documents?.mapNotNull {
-                        it.toObject<SavedLaterMessageDto>()
+                        it.toObject<MessageDto>()
                     }
                     savedLaterMessage?.let { trySend(it) }
                 }

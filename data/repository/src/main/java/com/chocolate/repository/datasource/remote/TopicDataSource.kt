@@ -1,6 +1,6 @@
 package com.chocolate.repository.datasource.remote
 
-import com.chocolate.repository.model.dto.topic.TopicDto
+import com.chocolate.repository.model.dto.TopicDto
 import kotlinx.coroutines.flow.Flow
 
 interface TopicDataSource {

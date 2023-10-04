@@ -69,7 +69,6 @@ import com.chocolate.viewmodel.home.HomeInteraction
 import com.chocolate.viewmodel.home.HomeUiEffect
 import com.chocolate.viewmodel.home.HomeUiState
 import com.chocolate.viewmodel.home.HomeViewModel
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -110,7 +109,6 @@ fun HomeScreen(
 @Composable
 fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
     val colors = MaterialTheme.customColors()
-    val systemUiController = rememberSystemUiController()
     TeamixScaffold(
         modifier = Modifier.fillMaxSize(),
         containerColorAppBar = MaterialTheme.customColors().primary,
@@ -122,7 +120,6 @@ fun HomeContent(state: HomeUiState, homeInteraction: HomeInteraction) {
         titleColor = OnLightPrimary,
         hasAppBar = true,
     ) { paddingValue ->
-        systemUiController.setStatusBarColor(colors.transparent, darkIcons = false)
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()

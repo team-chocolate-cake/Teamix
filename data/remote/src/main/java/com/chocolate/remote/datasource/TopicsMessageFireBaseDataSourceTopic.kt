@@ -4,7 +4,7 @@ import com.chocolate.entities.util.TeamixException
 import com.chocolate.remote.util.Constants
 import com.chocolate.remote.util.getRandomId
 import com.chocolate.remote.util.tryToExecuteSuspendCall
-import com.chocolate.repository.model.dto.message.MessageDto
+import com.chocolate.repository.model.dto.MessageDto
 import com.chocolate.repository.datasource.remote.TopicMessagesDataSource
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObjects

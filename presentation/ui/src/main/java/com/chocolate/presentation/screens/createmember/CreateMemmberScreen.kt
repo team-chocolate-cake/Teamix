@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -23,6 +24,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -33,22 +36,26 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.TeamixButton
 import com.chocolate.presentation.composable.TeamixImagePicker
+import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.composable.TeamixTextField
 import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.home.navigateToHome
 import com.chocolate.presentation.theme.Height56
+import com.chocolate.presentation.theme.LightCard
+import com.chocolate.presentation.theme.SpacingHuge
+import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingSmall
 import com.chocolate.presentation.theme.SpacingUltraGigantic
 import com.chocolate.presentation.theme.SpacingXLarge
-import com.chocolate.presentation.theme.SpacingMedium
-import com.chocolate.presentation.theme.SpacingHuge
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
+import com.chocolate.presentation.util.hideKeyboard
 import com.chocolate.viewmodel.createmember.CreateMemberInteraction
 import com.chocolate.viewmodel.createmember.CreateMemberUiEffect
 import com.chocolate.viewmodel.createmember.CreateMemberUiState
 import com.chocolate.viewmodel.createmember.CreateMemberViewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun CreateMemberScreen(
@@ -80,59 +87,62 @@ private fun CreateMemberContent(
     state: CreateMemberUiState
 ) {
     val colors = MaterialTheme.customColors()
-
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = colors.background),
-        contentPadding = PaddingValues(SpacingXLarge),
-        verticalArrangement = Arrangement.spacedBy(SpacingHuge),
-    ) {
-        item { TeamixImagePicker(interaction::onPersonalImageChange) }
-        item { UserInformationInputsSection(interaction = interaction, state = state) }
-        item {
-            TeamixButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(SpacingUltraGigantic),
-                onClick = { interaction.onCreateButtonClick() },
-                colors = colors,
-            ) {
-                AnimatedVisibility(visible = state.isLoading) {
-                    CircularProgressIndicator(
-                        color = colors.card,
-                        modifier = Modifier
-                            .size(SpacingHuge)
-                            .align(Alignment.CenterVertically)
-                    )
+    val isDarkIcons = colors.card == LightCard
+    val systemUiController = rememberSystemUiController()
+    TeamixScaffold {
+        systemUiController.setStatusBarColor(colors.transparent, darkIcons = isDarkIcons)
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = colors.background),
+            contentPadding = PaddingValues(SpacingXLarge),
+            verticalArrangement = Arrangement.spacedBy(SpacingHuge),
+        ) {
+            item { TeamixImagePicker(interaction::onPersonalImageChange) }
+            item { UserInformationInputsSection(interaction = interaction, state = state) }
+            item {
+                TeamixButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(SpacingUltraGigantic),
+                    onClick = { interaction.onCreateButtonClick() },
+                    colors = colors,
+                ) {
+                    AnimatedVisibility(visible = state.isLoading) {
+                        CircularProgressIndicator(
+                            color = colors.card,
+                            modifier = Modifier
+                                .size(SpacingHuge)
+                                .align(Alignment.CenterVertically)
+                        )
+                    }
+                    AnimatedVisibility(visible = !state.isLoading) {
+                        Text(
+                            text = stringResource(R.string.create_account),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = colors.onPrimary
+                        )
+                    }
                 }
-                AnimatedVisibility(visible = !state.isLoading) {
-                    Text(
-                        text = stringResource(R.string.create_account),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = colors.onPrimary
+            }
+
+            item {
+                AnimatedVisibility(visible = state.isCreatingMember) {
+                    TextWithClickableAction(
+                        text = stringResource(R.string.do_you_have_account),
+                        clickableText = stringResource(id = R.string.sign_in),
+                        onTextClick = { interaction.onSignInClick() }
                     )
                 }
             }
         }
-
-        item {
-            AnimatedVisibility(visible = state.isCreatingMember) {
-                TextWithClickableAction(
-                    text = stringResource(R.string.do_you_have_account),
-                    clickableText = stringResource(id = R.string.sign_in),
-                    onTextClick = { interaction.onSignInClick() }
-                )
-            }
-        }
+        ActionSnakeBar(
+            contentMessage = state.error.toString(),
+            isVisible = state.error != null,
+            isToggleButtonVisible = false,
+            onDismiss = { interaction.onErrorDismiss() }
+        )
     }
-    ActionSnakeBar(
-        contentMessage = state.error.toString(),
-        isVisible = state.error != null,
-        isToggleButtonVisible = false,
-        onDismiss = { interaction.onErrorDismiss() }
-    )
-
 
 }
 
@@ -183,7 +193,8 @@ private fun InputFieldWithLabel(
 ) {
     val colors = MaterialTheme.customColors()
     val passwordIcon = if (passwordVisibility) R.drawable.ic_eye else R.drawable.ic_eye_closed
-
+    val context = LocalContext.current
+    val rootView = LocalView.current
     Text(
         modifier = Modifier.padding(top = SpacingXLarge),
         text = label,
@@ -206,6 +217,8 @@ private fun InputFieldWithLabel(
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+            keyboardActions = KeyboardActions(onDone = { hideKeyboard(context, rootView) }),
+            singleLine = true,
         )
     } else {
         TeamixTextField(
@@ -215,6 +228,8 @@ private fun InputFieldWithLabel(
                 .height(Height56),
             value = inputFieldValue,
             onValueChange = { onInputChange(it) },
+            keyboardActions = KeyboardActions(onDone = { hideKeyboard(context, rootView) }),
+            singleLine = true,
         )
     }
 

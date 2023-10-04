@@ -3,8 +3,8 @@ package com.chocolate.viewmodel.createtopic
 import androidx.lifecycle.SavedStateHandle
 import com.chocolate.entities.util.InvalidTopicNameException
 import com.chocolate.entities.util.NoConnectionException
-import com.chocolate.usecases.member.GetCurrentMemberUseCase
-import com.chocolate.usecases.topic.ManageTopicUseCase
+import com.chocolate.usecases.usecase.member.GetCurrentMemberUseCase
+import com.chocolate.usecases.usecase.topic.ManageTopicUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel

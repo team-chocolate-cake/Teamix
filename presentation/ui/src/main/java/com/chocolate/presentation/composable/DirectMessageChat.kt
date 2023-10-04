@@ -4,11 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,7 +22,6 @@ import com.chocolate.presentation.theme.SpacingLarge
 import com.chocolate.presentation.theme.SpacingMassive
 import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingXMedium
-import com.chocolate.presentation.theme.SpacingXXMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.viewmodel.directmessage.ChatUiState
 
@@ -34,8 +31,6 @@ fun DirectMessageChat(state: ChatUiState , modifier: Modifier){
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(SpacingXXMedium))
             .background(colors.card)
             .padding(
                 top = SpacingLarge,
@@ -44,7 +39,7 @@ fun DirectMessageChat(state: ChatUiState , modifier: Modifier){
                 start = SpacingMedium
             )
     ) {
-        Row() {
+        Row {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(state.image).build(),

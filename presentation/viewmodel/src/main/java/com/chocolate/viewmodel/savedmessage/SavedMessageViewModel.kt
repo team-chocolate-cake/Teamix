@@ -1,7 +1,7 @@
 package com.chocolate.viewmodel.savedmessage
 
 import androidx.lifecycle.viewModelScope
-import com.chocolate.usecases.directmessage.ManageDirectMessageUseCase
+import com.chocolate.usecases.usecase.message.ManageDirectMessageUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +24,7 @@ class SavedMessageViewModel @Inject constructor(
         _state.update { it.copy(error = null, isLoading = true) }
         viewModelScope.launch {
             collectFlow(manageDirectMessageUseCase.getSavedMessages()) {
-                this.copy(messages = it.toMessagesUiState(), error = null, isLoading = false)
+                this.copy(messages = it.toSavedMessagesUiState(), error = null, isLoading = false)
             }
         }
     }

@@ -20,7 +20,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.chocolate.presentation.theme.ButtonSize32
+import com.chocolate.presentation.theme.DarkCard
 import com.chocolate.presentation.theme.Float3
+import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.Radius12
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXXSmall
@@ -65,7 +67,7 @@ fun ActionSnakeBar(
                 .align(Alignment.BottomCenter),
             visible = timeVisible
         ) {
-            Snackbar(shape = RoundedCornerShape(Radius12)) {
+            Snackbar(shape = RoundedCornerShape(Radius12), containerColor = DarkCard) {
                 Row(
                     modifier = Modifier.padding(vertical = SpacingXXSmall),
                     verticalAlignment = Alignment.CenterVertically
@@ -73,7 +75,8 @@ fun ActionSnakeBar(
                     Text(
                         modifier = Modifier.weight(Float3),
                         text = contentMessage,
-                        style = textStyle.bodyMedium
+                        style = textStyle.bodyMedium,
+                        color = LightCard
                     )
                     AnimatedVisibility(isToggleButtonVisible) {
                         ToggleButton(
@@ -86,7 +89,7 @@ fun ActionSnakeBar(
                             Text(
                                 text = actionTitle,
                                 style = textStyle.bodyMedium,
-                                color = colors.card
+                                color = LightCard
                             )
                         }
                     }

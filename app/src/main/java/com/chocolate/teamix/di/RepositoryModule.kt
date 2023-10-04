@@ -12,14 +12,14 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import repositories.AppSettingsRepository
-import repositories.ChannelRepository
-import repositories.DirectMessageRepository
-import repositories.TopicsMessageRepository
-import repositories.OrganizationRepository
-import repositories.MemberRepository
-import repositories.SavedLaterRepository
-import repositories.TopicRepository
+import com.chocolate.usecases.repositories.AppSettingsRepository
+import com.chocolate.usecases.repositories.ChannelRepository
+import com.chocolate.usecases.repositories.DirectMessageRepository
+import com.chocolate.usecases.repositories.TopicsMessageRepository
+import com.chocolate.usecases.repositories.OrganizationRepository
+import com.chocolate.usecases.repositories.MemberRepository
+import com.chocolate.usecases.repositories.SavedLaterRepository
+import com.chocolate.usecases.repositories.TopicRepository
 import javax.inject.Singleton
 
 @Module
@@ -43,7 +43,7 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindsTopicRepository(topicRepositoryImpl: TopicRepositoryImpl):TopicRepository
+    abstract fun bindsTopicRepository(topicRepositoryImpl: TopicRepositoryImpl): TopicRepository
 
     @Binds
     @Singleton

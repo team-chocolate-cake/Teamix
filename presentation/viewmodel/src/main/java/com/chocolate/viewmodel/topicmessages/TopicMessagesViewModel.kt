@@ -5,8 +5,8 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import com.chocolate.entities.entity.Message
 import com.chocolate.entities.util.NoConnectionException
-import com.chocolate.usecases.member.GetCurrentMemberUseCase
-import com.chocolate.usecases.message.ManageTopicMessagesUseCase
+import com.chocolate.usecases.usecase.member.GetCurrentMemberUseCase
+import com.chocolate.usecases.usecase.message.ManageTopicMessagesUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel

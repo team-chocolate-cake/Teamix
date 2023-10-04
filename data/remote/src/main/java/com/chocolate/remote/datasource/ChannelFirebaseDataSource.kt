@@ -3,7 +3,7 @@ package com.chocolate.remote.datasource
 import com.chocolate.remote.util.Constants
 import com.chocolate.remote.util.tryToExecuteSuspendCall
 import com.chocolate.repository.datasource.remote.ChannelDataSource
-import com.chocolate.repository.model.dto.channel.ChannelDto
+import com.chocolate.repository.model.dto.ChannelDto
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects

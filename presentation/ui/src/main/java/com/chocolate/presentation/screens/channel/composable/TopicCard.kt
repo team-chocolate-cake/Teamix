@@ -109,7 +109,6 @@ fun TopicCard(
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
-
         }
 
         Icon(

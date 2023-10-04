@@ -1,22 +1,22 @@
 package com.chocolate.viewmodel.savedmessage
 
-import com.chocolate.entities.entity.SavedMessage
+import com.chocolate.entities.entity.Message
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-fun SavedMessage.toMessageUiState(): MessageItemUiState {
+fun Message.toSavedMessageUiState(): MessageItemUiState {
     return MessageItemUiState(
         id = id,
-        username = sender.name,
-        imageUrl = sender.imageUrl,
+        username = senderFullName,
+        imageUrl = senderAvatarUrl,
         messageContent = messageContent,
-        time = formatDate(date),
+        time = formatDate(timestamp),
     )
 }
 
-fun List<SavedMessage>.toMessagesUiState(): List<MessageItemUiState> {
-    return this.map { it.toMessageUiState() }
+fun List<Message>.toSavedMessagesUiState(): List<MessageItemUiState> {
+    return this.map { it.toSavedMessageUiState() }
 }
 
 private fun formatDate(date: Date): String {

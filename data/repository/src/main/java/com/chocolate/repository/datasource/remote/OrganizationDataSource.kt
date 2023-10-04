@@ -1,7 +1,7 @@
 package com.chocolate.repository.datasource.remote
 
-import com.chocolate.repository.model.dto.member.MemberDto
-import com.chocolate.repository.model.dto.organization.OrganizationDto
+import com.chocolate.repository.model.dto.MemberDto
+import com.chocolate.repository.model.dto.OrganizationDto
 
 interface OrganizationDataSource {
     suspend fun getOrganizationByName(organizationName: String): OrganizationDto?

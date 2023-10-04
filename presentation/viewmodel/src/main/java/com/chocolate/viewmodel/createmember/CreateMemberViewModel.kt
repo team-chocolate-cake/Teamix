@@ -12,9 +12,9 @@ import com.chocolate.entities.util.InvalidEmailException
 import com.chocolate.entities.util.InvalidUsernameException
 import com.chocolate.entities.util.MemberAlreadyExistException
 import com.chocolate.entities.util.PasswordMismatchException
-import com.chocolate.usecases.member.AttemptMemberLoginUseCase
-import com.chocolate.usecases.member.CreateMemberUseCase
-import com.chocolate.usecases.organization.ManageOrganizationUseCase
+import com.chocolate.usecases.usecase.member.AttemptMemberLoginUseCase
+import com.chocolate.usecases.usecase.member.CreateMemberUseCase
+import com.chocolate.usecases.usecase.organization.ManageOrganizationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import com.chocolate.viewmodel.choosemember.CreateMemberArgs

@@ -5,7 +5,7 @@ import com.chocolate.repository.datasource.remote.ChannelDataSource
 import com.chocolate.repository.mappers.toEntity
 import com.chocolate.repository.mappers.toRemote
 import kotlinx.coroutines.flow.Flow
-import repositories.ChannelRepository
+import com.chocolate.usecases.repositories.ChannelRepository
 import javax.inject.Inject
 
 class ChannelRepositoryImpl @Inject constructor(

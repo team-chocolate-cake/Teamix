@@ -1,11 +1,7 @@
 package com.chocolate.viewmodel.topicmessages
 
-import com.chocolate.entities.entity.Member
 import com.chocolate.entities.entity.Message
-import com.chocolate.entities.entity.SavedMessage
 import com.chocolate.entities.entity.Topic
-import com.chocolate.entities.entity.UserRole
-import com.chocolate.entities.util.Empty
 import com.chocolate.entities.util.toStringDate
 import com.chocolate.viewmodel.home.TopicUiState
 import java.util.Date
@@ -26,25 +22,16 @@ fun List<Message>.toUiState(): List<MessageUiState> =
     this.map { it.toUiState() }
 
 @JvmName("MessageUiStateToSavedLaterMessage")
-fun MessageUiState.toEntity(): SavedMessage {
-    return SavedMessage(
+fun MessageUiState.toEntity(): Message {
+    return Message(
         id = id.toString(),
-        sender = getFakeMember(userId),
+        senderId = userId,
+        senderFullName=username,
+        senderAvatarUrl = userImage,
         messageContent = message,
-        date = Date(),
+        timestamp = Date(),
     )
 }
-
-private fun getFakeMember(id: String) = Member(
-    id = id,
-    name = String.Empty,
-    email = String.Empty,
-    password = String.Empty,
-    imageUrl = String.Empty,
-    isActive = true,
-    role = UserRole.MEMBER,
-    status = String.Empty,
-)
 
 @JvmName("topicToTopicUiState")
 fun Topic.toUiState(): TopicUiState = TopicUiState(topicId, name, 5)

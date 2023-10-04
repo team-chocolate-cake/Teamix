@@ -2,7 +2,7 @@ package com.chocolate.repository.repository
 
 import com.chocolate.repository.datasource.local.PreferencesDataSource
 import kotlinx.coroutines.flow.Flow
-import repositories.AppSettingsRepository
+import com.chocolate.usecases.repositories.AppSettingsRepository
 import javax.inject.Inject
 
 class AppSettingsRepositoryImpl @Inject constructor(

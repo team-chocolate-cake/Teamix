@@ -2,7 +2,7 @@ package com.chocolate.viewmodel.channel
 
 import androidx.lifecycle.SavedStateHandle
 import com.chocolate.entities.entity.Topic
-import com.chocolate.usecases.topic.ManageTopicUseCase
+import com.chocolate.usecases.usecase.topic.ManageTopicUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow

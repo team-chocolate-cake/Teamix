@@ -3,8 +3,8 @@ package com.chocolate.viewmodel.directmessage
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.entity.Chat
 import com.chocolate.entities.util.NoConnectionException
-import com.chocolate.usecases.directmessage.ManageDirectMessageUseCase
-import com.chocolate.usecases.member.GetCurrentMemberUseCase
+import com.chocolate.usecases.usecase.message.ManageDirectMessageUseCase
+import com.chocolate.usecases.usecase.member.GetCurrentMemberUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel

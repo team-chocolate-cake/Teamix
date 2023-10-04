@@ -1,6 +1,6 @@
 package com.chocolate.repository.datasource.remote
 
-import com.chocolate.repository.model.dto.member.MemberDto
+import com.chocolate.repository.model.dto.MemberDto
 import kotlinx.coroutines.flow.Flow
 
 interface MemberDataSource {

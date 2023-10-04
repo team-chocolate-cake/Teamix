@@ -1,19 +1,19 @@
 package com.chocolate.repository.datasource.remote
 
-import com.chocolate.repository.model.dto.message.SavedLaterMessageDto
-import com.chocolate.repository.model.dto.topic.TopicDto
+import com.chocolate.repository.model.dto.MessageDto
+import com.chocolate.repository.model.dto.TopicDto
 import kotlinx.coroutines.flow.Flow
 
 interface SavedLaterDataSource {
     suspend fun addSavedLaterMessage(
         organizationName: String,
-        savedLaterMessage: SavedLaterMessageDto
+        messageDto: MessageDto
     )
 
     suspend fun getSavedLaterMessages(
         organizationName: String,
         memberId: String
-    ): Flow<List<SavedLaterMessageDto>>
+    ): Flow<List<MessageDto>>
 
     suspend fun deleteSavedLaterMessageById(
         organizationName: String,

@@ -12,7 +12,7 @@ import com.chocolate.repository.mappers.toMessage
 import com.chocolate.repository.mappers.toMessageDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import repositories.DirectMessageRepository
+import com.chocolate.usecases.repositories.DirectMessageRepository
 import java.util.Date
 import javax.inject.Inject
 

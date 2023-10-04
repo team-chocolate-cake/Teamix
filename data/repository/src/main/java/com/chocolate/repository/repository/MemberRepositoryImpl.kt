@@ -13,9 +13,9 @@ import com.chocolate.repository.datasource.remote.MemberDataSource
 import com.chocolate.repository.datasource.remote.OrganizationDataSource
 import com.chocolate.repository.mappers.toEntity
 import com.chocolate.repository.mappers.toRemote
-import com.chocolate.repository.model.dto.channel.ChannelDto
+import com.chocolate.repository.model.dto.ChannelDto
 import kotlinx.coroutines.flow.Flow
-import repositories.MemberRepository
+import com.chocolate.usecases.repositories.MemberRepository
 import javax.inject.Inject
 
 class MemberRepositoryImpl @Inject constructor(

@@ -9,7 +9,7 @@ import com.chocolate.repository.mappers.toTopic
 import com.chocolate.repository.mappers.toTopicDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import repositories.TopicRepository
+import com.chocolate.usecases.repositories.TopicRepository
 import javax.inject.Inject
 
 class TopicRepositoryImpl @Inject constructor(

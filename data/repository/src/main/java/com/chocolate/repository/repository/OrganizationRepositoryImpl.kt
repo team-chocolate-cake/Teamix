@@ -7,7 +7,7 @@ import com.chocolate.repository.datasource.local.PreferencesDataSource
 import com.chocolate.repository.datasource.remote.OrganizationDataSource
 import com.chocolate.repository.mappers.toEntity
 import com.chocolate.repository.mappers.toRemote
-import repositories.OrganizationRepository
+import com.chocolate.usecases.repositories.OrganizationRepository
 import javax.inject.Inject
 
 class OrganizationRepositoryImpl @Inject constructor(

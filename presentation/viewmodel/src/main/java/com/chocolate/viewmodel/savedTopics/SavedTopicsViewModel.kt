@@ -2,7 +2,7 @@ package com.chocolate.viewmodel.savedTopics
 
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.util.NoConnectionException
-import com.chocolate.usecases.topic.ManageTopicUseCase
+import com.chocolate.usecases.usecase.topic.ManageTopicUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel

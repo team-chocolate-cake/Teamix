@@ -4,8 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.chocolate.entities.util.EmptyOrganizationNameException
 import com.chocolate.entities.util.NoConnectionException
-import com.chocolate.usecases.channel.ManageChannelUseCase
-import com.chocolate.usecases.member.GetMembersInOrganizationUseCase
+import com.chocolate.usecases.usecase.channel.ManageChannelUseCase
+import com.chocolate.usecases.usecase.member.GetMembersInOrganizationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import com.chocolate.viewmodel.createchannel.CreateChannelArgs

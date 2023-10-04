@@ -4,7 +4,7 @@ import com.chocolate.entities.util.FireBaseException
 import com.chocolate.remote.util.Constants
 import com.chocolate.remote.util.tryToExecuteSuspendCall
 import com.chocolate.repository.datasource.remote.TopicDataSource
-import com.chocolate.repository.model.dto.topic.TopicDto
+import com.chocolate.repository.model.dto.TopicDto
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.channels.awaitClose

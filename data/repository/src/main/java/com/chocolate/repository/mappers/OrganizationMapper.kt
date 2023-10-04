@@ -1,7 +1,7 @@
 package com.chocolate.repository.mappers
 
 import com.chocolate.entities.entity.Organization
-import com.chocolate.repository.model.dto.organization.OrganizationDto
+import com.chocolate.repository.model.dto.OrganizationDto
 
 @JvmName("organizationDtoToOrganization")
 fun OrganizationDto.toEntity(): Organization = Organization(

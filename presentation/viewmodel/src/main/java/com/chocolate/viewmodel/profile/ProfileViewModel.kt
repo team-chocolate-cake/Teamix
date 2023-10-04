@@ -9,11 +9,11 @@ import com.chocolate.entities.util.NoConnectionException
 import com.chocolate.entities.util.NullDataException
 import com.chocolate.entities.util.TeamixException
 import com.chocolate.entities.util.ValidationException
-import com.chocolate.usecases.member.AttemptMemberLogoutUseCase
-import com.chocolate.usecases.member.CustomizeProfileSettingsUseCase
-import com.chocolate.usecases.member.GetCurrentMemberUseCase
-import com.chocolate.usecases.member.UpdateMemberImageUseCase
-import com.chocolate.usecases.member.UpdateMemberInformationUseCase
+import com.chocolate.usecases.usecase.member.AttemptMemberLogoutUseCase
+import com.chocolate.usecases.usecase.member.CustomizeProfileSettingsUseCase
+import com.chocolate.usecases.usecase.member.GetCurrentMemberUseCase
+import com.chocolate.usecases.usecase.member.UpdateMemberImageUseCase
+import com.chocolate.usecases.usecase.member.UpdateMemberInformationUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel

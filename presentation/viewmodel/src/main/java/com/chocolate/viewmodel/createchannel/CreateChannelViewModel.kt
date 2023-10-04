@@ -3,7 +3,7 @@ package com.chocolate.viewmodel.createchannel
 import com.chocolate.entities.util.ChannelAlreadyExistException
 import com.chocolate.entities.util.InvalidChannelNameException
 import com.chocolate.entities.util.NoConnectionException
-import com.chocolate.usecases.channel.ManageChannelUseCase
+import com.chocolate.usecases.usecase.channel.ManageChannelUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
 import com.chocolate.viewmodel.base.StringsResource
 import dagger.hilt.android.lifecycle.HiltViewModel

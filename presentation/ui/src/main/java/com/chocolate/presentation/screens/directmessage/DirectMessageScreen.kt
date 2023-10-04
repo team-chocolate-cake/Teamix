@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
@@ -20,6 +21,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
@@ -35,6 +37,7 @@ import com.chocolate.presentation.theme.Height56
 import com.chocolate.presentation.theme.LightCard
 import com.chocolate.presentation.theme.Radius8
 import com.chocolate.presentation.theme.SpacingXLarge
+import com.chocolate.presentation.theme.SpacingXXMedium
 import com.chocolate.presentation.theme.customColors
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
@@ -137,12 +140,16 @@ fun DirectMessageContent(state: DirectMessageUiState, interactions: DirectMessag
                 items(state.chats.size) {
                     DirectMessageChat(
                         state = state.chats[it],
-                        modifier = Modifier.clickable {
-                            interactions.onClickChat(
-                                id = state.chats[it].id,
-                                name = state.chats[it].name
-                            )
-                        })
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(SpacingXXMedium))
+                            .clickable {
+                                interactions.onClickChat(
+                                    id = state.chats[it].id,
+                                    name = state.chats[it].name
+                                )
+                            }
+                    )
                 }
             }
         }

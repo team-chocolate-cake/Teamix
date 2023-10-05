@@ -22,10 +22,13 @@ With Teamix, you can create organizations, engage in discussions through channel
 ### 8. Saved Later:
 - Members can add topics and messages to the saved later.
 ## Architecture
-Teamix follows the clean architecture approach for scalability and maintainability. The app consists of 5 Modules which are app, buildScr, data, domain and presentation.
+Teamix follows the clean architecture approach for scalability and maintainability.
+The app consists of 5 Modules which are app, buildScr, data, domain and presentation.
 **I. Presentation:** It contains 2 modules which are viewmodel and ui.
-  - **1. ui:** It contains the composables, routes and the UI built in compose. It is responsible for showing data.
-  - **2. viewModel:** It contains the ViewModels, UiStates, screen interactions, and effects and mappers. It is responsible for state management.
+  - **1. ui:** It contains the composables, routes and the UI built in compose.
+  -  It is responsible for showing data.
+  - **2. viewModel:** It contains the ViewModels, UiStates, screen interactions, and effects and mappers.
+  -  It is responsible for state management.
 **II. Domain:** It contains 2 modules which are entities and usecases.
   - **1. entities:** It contains the domain models.
   - **2. usecases:** It contains the business logic of the application.
@@ -36,7 +39,8 @@ Teamix follows the clean architecture approach for scalability and maintainabili
 **IV. buildScr:** It contains the libraries and configurations that will be called in gradle files.
 **V. app:** It contains the app and the dependency injection.
 Finally, this exceptional app applies the MVVM (Model-View-ViewModel), leveraging Hilt Dagger for dependency injection.
-Additionally, it utilizes Firebase Cloud Firestore as the robust backend infrastructure, Jetpack Compose for creating stunning user interfaces, and Kotlin Coroutines for efficient concurrency handling.
+Additionally, it utilizes Firebase Cloud Firestore as the robust backend infrastructure,
+Jetpack Compose for creating stunning user interfaces, and Kotlin Coroutines for efficient concurrency handling.
 ## Getting Started
 To get started with this project, follow these steps:
 

@@ -82,7 +82,7 @@ fun TeamixTextField(
     )
 }
 
-@Preview(showSystemUi = true)
+@Preview(showSystemUi = false)
 @Composable
 fun TeamixTextPreview() {
     TeamixTheme {

@@ -52,6 +52,9 @@ dependencies {
     implementation(ProjectDependencies.lifecycleViewModel)
     implementation(ProjectDependencies.lifecycleLiveData)
 
+    // Stream Video Compose SDK
+    implementation("io.getstream:stream-video-android-compose:0.3.2")
+
     implementation(ProjectDependencies.hilt)
     kapt(ProjectDependencies.hiltCompiler)
 

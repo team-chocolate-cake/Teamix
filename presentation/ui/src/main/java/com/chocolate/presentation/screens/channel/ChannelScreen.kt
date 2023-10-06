@@ -1,6 +1,7 @@
 package com.chocolate.presentation.screens.channel
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -71,6 +72,16 @@ fun ChannelContent(
         hasBackArrow = true,
         title = state.channelName,
         hasAppBar = true,
+        actionsAppbar = {
+            Icon(
+                modifier = Modifier.clickable {
+                    openMeeting()
+                },
+                painter = painterResource(id = R.drawable.video_record),
+                tint = MaterialTheme.customColors().onPrimary,
+                contentDescription = ""
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(
                 containerColor = MaterialTheme.customColors().primary,
@@ -118,6 +129,10 @@ fun ChannelContent(
             }
         }
     }
+}
+
+fun openMeeting() {
+
 }
 
 @Composable

@@ -19,7 +19,10 @@ class ChannelViewModel @Inject constructor(
 
     init {
         _state.update {
-            it.copy(channelName = channelArgs.channelName, channelId = channelArgs.channelId.toString())
+            it.copy(
+                channelName = channelArgs.channelName,
+                channelId = channelArgs.channelId.toString()
+            )
         }
         getTopics()
     }
@@ -54,11 +57,16 @@ class ChannelViewModel @Inject constructor(
     }
 
     override fun onSaveTopic(topic: TopicState) {
-        tryToExecute(call = {  manageTopicUseCase.addSavedTopic(topic.toTopic()) },
+        tryToExecute(call = { manageTopicUseCase.addSavedTopic(topic.toTopic()) },
             onSuccess = { _state.update { it.copy(error = null) } },
             onError = { onError(it) }
         )
     }
+
+    override fun onClickMeetingIcon() {
+        sendUiEffect(ChannelUiEffect.NavigateToMeeting)
+    }
+
     private fun onError(throwable: Throwable) {
         _state.update { it.copy(error = throwable.message) }
     }

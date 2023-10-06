@@ -12,13 +12,14 @@ import com.chocolate.presentation.screens.createtopic.createTopicRoute
 import com.chocolate.presentation.screens.directmessage.directMessageRoute
 import com.chocolate.presentation.screens.directmessagechat.directMessageChatRoute
 import com.chocolate.presentation.screens.directmessagechoosemember.directMessageChooseMemberRoute
-import com.chocolate.presentation.screens.savedtopics.savedTopicsRoute
 import com.chocolate.presentation.screens.home.homeRoute
 import com.chocolate.presentation.screens.login.loginRoute
+import com.chocolate.presentation.screens.meeting.meetingRoute
 import com.chocolate.presentation.screens.onboarding.onboardingRoute
 import com.chocolate.presentation.screens.organization.organizationNameRoute
 import com.chocolate.presentation.screens.profile.profileRoute
 import com.chocolate.presentation.screens.savedmessages.savedMessageRoute
+import com.chocolate.presentation.screens.savedtopics.savedTopicsRoute
 import com.chocolate.presentation.screens.search.searchRoute
 import com.chocolate.presentation.screens.topicmessages.topicMessageRoute
 import com.chocolate.presentation.screens.welcome.welcomeRoute
@@ -42,6 +43,7 @@ fun TeamixNavGraph(navController: NavHostController) {
         savedMessageRoute()
         savedTopicsRoute()
         channelRoute()
+        meetingRoute()
         createMemberRoute()
         directMessageChooseMemberRoute()
         directMessageChatRoute()

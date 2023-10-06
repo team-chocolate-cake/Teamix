@@ -24,6 +24,7 @@ import com.chocolate.presentation.composable.EmptyDataWithBoxLottie
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.channel.composable.TopicCard
 import com.chocolate.presentation.screens.createtopic.navigateToCreateTopic
+import com.chocolate.presentation.screens.meeting.navigateToMeetingScreen
 import com.chocolate.presentation.screens.topicmessages.navigateToTopicMessage
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.TeamixTheme
@@ -43,6 +44,7 @@ fun ChannelScreen(
     val state by channelViewModel.state.collectAsState()
     CollectUiEffect(channelViewModel.effect) { channelUiEffect ->
         when (channelUiEffect) {
+            is ChannelUiEffect.NavigateToMeeting -> navController.navigateToMeetingScreen()
             is ChannelUiEffect.NavigateToTopicDetails -> navController.navigateToTopicMessage(
                 channelUiEffect.channelId,
                 channelUiEffect.topicId,
@@ -75,7 +77,7 @@ fun ChannelContent(
         actionsAppbar = {
             Icon(
                 modifier = Modifier.clickable {
-                    openMeeting()
+                    channelInteraction.onClickMeetingIcon()
                 },
                 painter = painterResource(id = R.drawable.video_record),
                 tint = MaterialTheme.customColors().onPrimary,
@@ -129,10 +131,6 @@ fun ChannelContent(
             }
         }
     }
-}
-
-fun openMeeting() {
-
 }
 
 @Composable

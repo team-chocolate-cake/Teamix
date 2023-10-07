@@ -3,18 +3,6 @@
 
 Teamix is a messaging and collaboration platform designed for teams and organizations to streamline communication and collaboration.
 With Teamix, you can create organizations, engage in discussions through channels and topics, and enjoy a range of features to enhance teamwork.
-## Videos
-**Getting Started with Teamix:**
-
-![part1]
-- https://github.com/team-chocolate-cake/Teamix/assets/83548062/2aad66bd-a734-498e-a5f1-0d7f823802e9
-
-![part2]
-https://github.com/team-chocolate-cake/Teamix/assets/83548062/9beea265-e05d-4be0-9bc0-0fef7e5dc55b
-
-
-![part3]
-https://github.com/team-chocolate-cake/Teamix/assets/83548062/8b4ce223-5f70-47ac-83e7-f8982f32bba6
 
 ## Key Features
 ### 1. Organization Management:

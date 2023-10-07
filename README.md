@@ -5,9 +5,16 @@ Teamix is a messaging and collaboration platform designed for teams and organiza
 With Teamix, you can create organizations, engage in discussions through channels and topics, and enjoy a range of features to enhance teamwork.
 ## Videos
 **Getting Started with Teamix:**
-![part1](https://github.com/team-chocolate-cake/Teamix/assets/83548062/4592baa9-b6ff-40ae-b6dc-697b4b073e8d)
-![part2](https://github.com/team-chocolate-cake/Teamix/assets/83548062/a3ed77ac-7f1e-4a2d-9a72-6746c65ac2e7)
-![part3](https://github.com/team-chocolate-cake/Teamix/assets/83548062/e0f08f74-5f0f-4a5d-ab6d-6c09d37b5979)
+
+![part1]
+- https://github.com/team-chocolate-cake/Teamix/assets/83548062/2aad66bd-a734-498e-a5f1-0d7f823802e9
+
+![part2]
+https://github.com/team-chocolate-cake/Teamix/assets/83548062/9beea265-e05d-4be0-9bc0-0fef7e5dc55b
+
+
+![part3]
+https://github.com/team-chocolate-cake/Teamix/assets/83548062/8b4ce223-5f70-47ac-83e7-f8982f32bba6
 
 ## Key Features
 ### 1. Organization Management:
@@ -73,11 +80,6 @@ To get started with this project, follow these steps:
 </a>
 <br>
 <br>
-
-## Download the App
-You can download the latest version of our app here:
-
-- [Download the App](https://chocolate.com/teamix/app/release/app-release.apk)
   
 ## License
 Teamix is open source and released under the [MIT License](LICENSE).

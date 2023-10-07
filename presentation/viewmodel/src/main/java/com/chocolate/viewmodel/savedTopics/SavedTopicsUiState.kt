@@ -6,7 +6,9 @@ data class SavedTopicsUiState(
     val channelName: String = String.Empty,
     val channelId: String = String.Empty,
     val topics: List<SavedTopicsItemUiState> = emptyList(),
+    val deleteStateTopic: String? = null,
     val isLoading: Boolean = false,
+    val savedTopicState:String? = null,
     val error: String? = null
 )
 

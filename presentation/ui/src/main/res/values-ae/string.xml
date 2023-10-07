@@ -175,5 +175,9 @@
     <string name="saved_topics">已保存的主题</string>
     <string name="confirm_password">確認密碼</string>
     <string name="or">或者</string>
+    <string name="saved_for_later">已保存以供以后使用</string>
+    <string name="topic_deleted_successfully">主题删除成功</string>
+
+
 
 </resources>

@@ -6,11 +6,12 @@ data class TopicUiState(
     val messages: List<MessageUiState> = emptyList(),
     val topicName: String = String.Empty,
     val messageInput: String = String.Empty,
+    val savedMessageState: String? = null,
     val error: String? = null,
 )
 
 data class MessageUiState(
-    val id:Int=0,
+    val id: Int = 0,
     val username: String = String.Empty,
     val userId: String = String.Empty,
     val replayDate: String = String.Empty,
@@ -23,5 +24,5 @@ data class MessageUiState(
 data class ReactionUiState(
     val reaction: Int = -1,
     val count: Int = 0,
-    val clicked:Boolean = false
+    val clicked: Boolean = false
 )

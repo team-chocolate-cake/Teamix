@@ -80,7 +80,9 @@ fun SaveLaterContent(state: SaveMessageUiState, interaction: SavedMessageInterac
         }
 
         EmptyDataWithBoxLottie(
-            modifier = Modifier.padding(padding),
+            modifier = Modifier
+                .padding(padding)
+                .padding(horizontal = SpacingXLarge),
             isShow = state.messages.isEmpty() && !state.isLoading,
             isPlaying = true,
             title = stringResource(id = R.string.no_saved_items),

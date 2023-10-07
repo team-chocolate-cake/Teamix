@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SavedTopicsViewModel @Inject constructor(
     private val manageTopicUseCase: ManageTopicUseCase,
-    private val stringsResource: StringsResource
+    private val stringsResource: StringsResource,
 ) : BaseViewModel<SavedTopicsUiState, Unit>(SavedTopicsUiState()), SavedTopicsInteraction {
 
     init {
@@ -32,13 +32,13 @@ class SavedTopicsViewModel @Inject constructor(
     override fun onDismissTopic(savedTopicId: String) {
         tryToExecute(
             { manageTopicUseCase.deleteTopicById(savedTopicId) },
-            ::onDeleteMessageSuccess,
+            ::onDeleteTopicSuccess,
             ::onError
         )
     }
 
-    private fun onDeleteMessageSuccess(unit: Unit) {
-        _state.update { it.copy(error = null, isLoading = false) }
+    private fun onDeleteTopicSuccess(unit: Unit) {
+        _state.update { it.copy(error = null, isLoading = false, deleteStateTopic = "Topic deleted successfully") }
     }
 
     private fun onError(throwable: Throwable) {

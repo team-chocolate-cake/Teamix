@@ -9,6 +9,7 @@ import com.chocolate.entities.util.Empty
 import com.chocolate.usecases.usecase.member.GetCurrentMemberUseCase
 import com.chocolate.usecases.usecase.message.ManageDirectMessageUseCase
 import com.chocolate.viewmodel.base.BaseViewModel
+import com.chocolate.viewmodel.base.StringsResource
 import com.chocolate.viewmodel.topicmessages.MessageUiState
 import com.chocolate.viewmodel.topicmessages.TopicMessagesInteraction
 import com.chocolate.viewmodel.topicmessages.TopicUiState
@@ -27,6 +28,7 @@ class DirectMessagesChatViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getCurrentMemberUseCase: GetCurrentMemberUseCase,
     private val manageDirectMessageUseCase: ManageDirectMessageUseCase,
+    private val stringsResource: StringsResource
 ) : BaseViewModel<TopicUiState, Unit>(TopicUiState()), TopicMessagesInteraction {
 
     private val dmChatArgs = DirectMessageChatArgs(savedStateHandle)
@@ -47,7 +49,7 @@ class DirectMessagesChatViewModel @Inject constructor(
                     groupId = dmChatArgs.groupId,
                 )
             ) { messages ->
-                _state.value.copy(messages = messages.map { it.toUiState() })
+                _state.value.copy(messages = messages.reversed().map { it.toUiState() })
             }
         }
     }
@@ -69,13 +71,20 @@ class DirectMessagesChatViewModel @Inject constructor(
         _state.update { it.copy(messageInput = String.Empty) }
     }
 
+    override fun onSnackBarDismiss() {
+        _state.update { it.copy(savedMessageState = null) }
+    }
 
     override fun onSaveMessage(message: MessageUiState) {
         tryToExecute(
             call = { manageDirectMessageUseCase.addSavedLaterMessage(message.toEntity()) },
-            onSuccess = { _state.update { it.copy(error = null) } },
+            onSuccess = { onSavedMessageSuccess()},
             onError = { onError(it) }
         )
+    }
+
+    private fun onSavedMessageSuccess(){
+        _state.update { it.copy(error = null, savedMessageState = stringsResource.savedForLater) }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

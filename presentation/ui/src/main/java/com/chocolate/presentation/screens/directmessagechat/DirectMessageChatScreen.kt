@@ -13,11 +13,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.MessageCard
 import com.chocolate.presentation.composable.StartNewMessage
 import com.chocolate.presentation.composable.TeamixScaffold
+import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
 import com.chocolate.presentation.theme.SpacingXLarge
 import com.chocolate.presentation.theme.SpacingXXMedium
 import com.chocolate.viewmodel.directmessagechat.DirectMessagesChatViewModel
@@ -78,6 +81,15 @@ fun DirectMessageChatContent(state: TopicUiState, interaction: TopicMessagesInte
                         onSaveMessage = { interaction.onSaveMessage(state.messages[it]) },
                     )
                 }
+            }
+            if (state.error == null && state.savedMessageState != null) {
+                ActionSnakeBar(
+                    isVisible = true,
+                    contentMessage = state.savedMessageState.toString(),
+                    isToggleButtonVisible = false,
+                    actionTitle = stringResource(id = R.string.dismiss),
+                    onDismiss = { interaction.onSnackBarDismiss() }
+                )
             }
         }
     }

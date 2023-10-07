@@ -175,4 +175,7 @@
     <string name="saved_topics">Temas guardados</string>
     <string name="confirm_password">confirmar Contraseña</string>
     <string name="or">O</string>
+    <string name="saved_for_later">guardado para más tarde</string>
+    <string name="topic_deleted_successfully">Tema eliminado exitosamente</string>
+
 </resources>

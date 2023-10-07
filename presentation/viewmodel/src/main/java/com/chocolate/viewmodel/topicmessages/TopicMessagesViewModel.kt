@@ -36,11 +36,19 @@ class TopicMessagesViewModel @Inject constructor(
         _state.update { it.copy(messageInput = text) }
     }
 
+    override fun onSnackBarDismiss() {
+        _state.update { it.copy(savedMessageState = null) }
+    }
+
     override fun onSaveMessage(message: MessageUiState) {
         tryToExecute(call = { manageSaveLaterMessageUseCase.addSavedLaterMessage(message.toEntity()) },
-            onSuccess = { _state.update { it.copy(error = null) } },
+            onSuccess = { onSavedMessageSuccess() },
             onError = { onError(it) }
         )
+    }
+
+    private fun onSavedMessageSuccess() {
+        _state.update { it.copy(error = null, savedMessageState = stringsResource.savedForLater) }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -90,7 +98,7 @@ class TopicMessagesViewModel @Inject constructor(
 
     private fun onSuccessGetMessage(flow: Flow<List<Message>>) {
         collectFlow(flow) { messages ->
-            this.copy(messages = messages.toUiState())
+            this.copy(messages = messages.reversed().toUiState())
         }
     }
 

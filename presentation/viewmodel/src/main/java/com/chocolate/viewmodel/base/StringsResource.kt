@@ -20,7 +20,7 @@ interface StringsResource {
     val createChannel: String
     val organizationNameNotFound: String
     val organizationNameCannotBeEmpty: String
-    val organizationNameOrImageCannotBeEmpty:String
+    val organizationNameOrImageCannotBeEmpty: String
     val channelNameValidation: String
     val nullOrEmptyNewLanguage: String
     val failedSaveSelectedLanguage: String
@@ -33,4 +33,6 @@ interface StringsResource {
     val passwordMismatch: String
     val memberAlreadyExist: String
     val allFieldsAreRequired: String
+    val savedForLater: String
+    val topicDeletedSuccessfully: String
 }

@@ -174,5 +174,7 @@
     <string name="saved_topics">Saved Topics</string>
     <string name="invalid_image_uri">Invalid image.</string>
     <string name="or">OR</string>
+    <string name="saved_for_later">saved for later</string>
+    <string name="topic_deleted_successfully">Topic deleted successfully</string>
 
 </resources>

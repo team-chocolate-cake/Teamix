@@ -76,6 +76,8 @@ class StringsResourceImpl @Inject constructor(
     override val passwordMismatch: String = getString(R.string.password_mismatch)
     override val memberAlreadyExist: String = getString(R.string.member_already_exist)
     override val allFieldsAreRequired: String = getString(R.string.all_field_required)
+    override val savedForLater:String = getString(R.string.saved_for_later)
+    override val topicDeletedSuccessfully :String = getString(R.string.topic_deleted_successfully)
 
     private fun getString(@androidx.annotation.StringRes stringsRes: Int): String {
         return context.getString(stringsRes)

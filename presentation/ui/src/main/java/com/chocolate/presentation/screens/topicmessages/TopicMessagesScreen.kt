@@ -14,13 +14,16 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.MessageCard
 import com.chocolate.presentation.composable.StartNewMessage
 import com.chocolate.presentation.composable.TeamixScaffold
+import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
 import com.chocolate.presentation.theme.*
 import com.chocolate.presentation.util.CollectUiEffect
 import com.chocolate.presentation.util.LocalNavController
@@ -66,7 +69,7 @@ fun TopicMessageContent(
         bottomBar = {
             StartNewMessage(
                 onMessageInputChanged = { topicInteraction.onMessageInputChanged(it) },
-                onSendMessage = { topicInteraction.onSendMessage(topicUiState.messageInput) },
+                onSendMessage = { topicInteraction.onSendMessage(topicUiState.messageInput).takeIf { topicUiState.messageInput.isNotEmpty() } },
                 modifier = Modifier,
                 messageInput = topicUiState.messageInput,
             )
@@ -98,6 +101,15 @@ fun TopicMessageContent(
                         messageOverflow = TextOverflow.Ellipsis,
                     )
                 }
+            }
+            if (topicUiState.error == null && topicUiState.savedMessageState != null) {
+                ActionSnakeBar(
+                    isVisible = true,
+                    contentMessage = topicUiState.savedMessageState.toString(),
+                    isToggleButtonVisible = false,
+                    actionTitle = stringResource(id = R.string.dismiss),
+                    onDismiss = { topicInteraction.onSnackBarDismiss() }
+                )
             }
         }
     }

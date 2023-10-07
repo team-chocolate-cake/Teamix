@@ -7,6 +7,7 @@ data class ChannelScreenUiState(
     val channelId: String = String.Empty,
     val topics: List<TopicState> = emptyList(),
     val isLoading: Boolean = false,
+    val savedTopicState: String? = null,
     val error: String? = null
 )
 

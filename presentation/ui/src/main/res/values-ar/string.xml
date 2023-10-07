@@ -177,5 +177,8 @@
     <string name="saved_topics">الموضوعات المحفوظة</string>
     <string name="confirm_password">تأكيد كلمة المرور</string>
     <string name="or">او</string>
+    <string name="saved_for_later">حفظ لاحقًا</string>
+    <string name="topic_deleted_successfully">تم حذف الموضوع بنجاح</string>
+
 
 </resources>

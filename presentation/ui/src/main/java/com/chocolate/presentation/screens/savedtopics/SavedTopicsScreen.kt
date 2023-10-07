@@ -22,6 +22,7 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.EmptyDataWithBoxLottie
 import com.chocolate.presentation.composable.SwipeCard
 import com.chocolate.presentation.composable.TeamixScaffold
+import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.savedtopics.composable.SavedTopicsCard
 import com.chocolate.presentation.theme.SpacingMedium
 import com.chocolate.presentation.theme.SpacingXLarge
@@ -73,10 +74,32 @@ fun SavedTopicsContent(state: SavedTopicsUiState, savedTopicsInteraction: SavedT
 
         EmptyDataWithBoxLottie(
             isShow = state.topics.isEmpty() && !state.isLoading,
-            modifier = Modifier.padding(padding),
+            modifier = Modifier
+                .padding(padding)
+                .padding(horizontal = SpacingXLarge),
             isPlaying = true,
             title = stringResource(id = R.string.no_saved_items),
             subTitle = stringResource(id = R.string.no_saved_items_body)
         )
+
+        if (state.error != null && state.deleteStateTopic == null) {
+            ActionSnakeBar(
+                isVisible = true,
+                contentMessage = state.error.toString(),
+                isToggleButtonVisible = false,
+                actionTitle = stringResource(id = R.string.dismiss)
+            )
+        }
+
+        if (state.error == null && state.deleteStateTopic != null) {
+            ActionSnakeBar(
+                isVisible = true,
+                contentMessage = state.deleteStateTopic.toString(),
+                isToggleButtonVisible = false,
+                actionTitle = stringResource(id = R.string.dismiss)
+            )
+        }
+
+
     }
 }

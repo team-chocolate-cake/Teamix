@@ -22,6 +22,7 @@ import com.chocolate.presentation.R
 import com.chocolate.presentation.composable.EmptyDataWithBoxLottie
 import com.chocolate.presentation.composable.TeamixScaffold
 import com.chocolate.presentation.screens.channel.composable.TopicCard
+import com.chocolate.presentation.screens.createchannel.composable.ActionSnakeBar
 import com.chocolate.presentation.screens.createtopic.navigateToCreateTopic
 import com.chocolate.presentation.screens.topicmessages.navigateToTopicMessage
 import com.chocolate.presentation.theme.SpacingXLarge
@@ -116,6 +117,15 @@ fun ChannelContent(
                     onSavedTopic = channelInteraction::onSaveTopic
                 )
             }
+        }
+        if (state.error == null && state.savedTopicState != null) {
+            ActionSnakeBar(
+                isVisible = true,
+                contentMessage = state.savedTopicState.toString(),
+                isToggleButtonVisible = false,
+                actionTitle = stringResource(id = R.string.dismiss),
+                onDismiss = { channelInteraction.onSnackBarDismiss() }
+            )
         }
     }
 }

@@ -23,9 +23,7 @@ With Teamix, you can create organizations, engage in discussions through channel
 - Support for English, Arabic, Chinese, and more.
 ### 8. Saved Later:
 - Members can add topics and messages to the saved later.
-## Architecture
-Teamix follows the clean architecture approach for scalability and maintainability.
-The app consists of 5 Modules which are app, buildScr, data, domain and presentation.
+
 ## Videos
 **Getting Started with Teamix:**
 
@@ -34,6 +32,10 @@ https://github.com/team-chocolate-cake/Teamix/assets/83548062/aaac91af-1e1a-4c98
 https://github.com/team-chocolate-cake/Teamix/assets/83548062/0f7a862c-af87-4f7b-999b-0180bca02159
 
 https://github.com/team-chocolate-cake/Teamix/assets/83548062/1ea06670-de3c-4ebc-90b4-47a9a112e027
+
+## Architecture
+Teamix follows the clean architecture approach for scalability and maintainability.
+The app consists of 5 Modules which are app, buildScr, data, domain and presentation.
 
 **I. Presentation:** It contains 2 modules which are viewmodel and ui.
   - **1. ui:** It contains the composables, routes and the UI built in compose.
@@ -79,7 +81,6 @@ To get started with this project, follow these steps:
 
 ## Download the App
 You can download the latest version of our app here:
-
 - [Download the App](https://github.com/team-chocolate-cake/Teamix/releases/tag/v1.0.0)
   
 ## License
